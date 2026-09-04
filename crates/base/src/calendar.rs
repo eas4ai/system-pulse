@@ -127,9 +127,7 @@ impl Matcher {
             Self::Interval(v) => {
                 v.before.is_some_and(|x| date < &x) || v.after.is_some_and(|x| date > &x)
             }
-            Self::Range(v) => {
-                !v.from.is_some_and(|x| date < &x) && !v.to.is_some_and(|x| date > &x)
-            }
+            Self::Range(v) => v.from.is_none_or(|x| date >= &x) && v.to.is_none_or(|x| date <= &x),
             Self::Custom(f) => f(date),
         }
     }
