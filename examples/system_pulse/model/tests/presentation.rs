@@ -109,3 +109,37 @@ fn older_fields_default_to_expanded_and_dimensions_are_validated() {
     workspace.panel_mut("cpu").expanded_size.width = 0.0;
     assert!(workspace.validate().is_err());
 }
+
+#[test]
+fn sensor_order_overflow_compacts_existing_rows_before_appending() {
+    let mut workspace = Workspace::new(json!({}));
+    let panel = workspace.panel_mut("cpu");
+    panel.sensor_mut("z");
+    panel.sensor_mut("z").collapsed = true;
+    panel.sensor_mut("a");
+    panel.sensor_mut("z").order = u32::MAX;
+    panel.sensor_mut("a").order = u32::MAX - 1;
+    panel.sensor_mut("a").visible = false;
+    panel.sensor_mut("a").meter = Meter::Bar;
+
+    panel.sensor_mut("new");
+
+    assert_eq!(panel.sensors["a"].order, 0);
+    assert_eq!(panel.sensors["z"].order, 1);
+    assert_eq!(panel.sensors["new"].order, 2);
+    assert!(!panel.sensors["a"].visible);
+    assert_eq!(panel.sensors["a"].meter, Meter::Bar);
+    assert!(panel.sensors["z"].collapsed);
+}
+
+#[test]
+fn expanded_dimensions_accept_limit_and_reject_values_above_it() {
+    let mut workspace = Workspace::new(json!({}));
+    workspace.panel_mut("cpu").expanded_size = ExpandedSize {
+        width: 16_384.0,
+        height: 16_384.0,
+    };
+    assert!(workspace.validate().is_ok());
+    workspace.panel_mut("cpu").expanded_size.width = 16_384.1;
+    assert!(workspace.validate().is_err());
+}

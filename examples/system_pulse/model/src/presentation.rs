@@ -71,12 +71,33 @@ impl Default for PanelState {
 
 impl PanelState {
     pub fn sensor_mut(&mut self, id: &str) -> &mut SensorState {
-        let order = self
-            .sensors
-            .values()
-            .map(|sensor| sensor.order)
-            .max()
-            .map_or(0, |order| order.saturating_add(1));
+        if self.sensors.contains_key(id) {
+            return self.sensors.get_mut(id).expect("sensor exists");
+        }
+
+        let order = self.sensors.values().map(|sensor| sensor.order).max();
+        let order = match order {
+            Some(order) => match order.checked_add(1) {
+                Some(next) => next,
+                None => {
+                    let mut ids: Vec<_> = self.sensors.keys().cloned().collect();
+                    ids.sort_by(|id_a, id_b| {
+                        self.sensors[id_a]
+                            .order
+                            .cmp(&self.sensors[id_b].order)
+                            .then_with(|| id_a.cmp(id_b))
+                    });
+                    for (order, sensor_id) in ids.iter().enumerate() {
+                        self.sensors
+                            .get_mut(sensor_id)
+                            .expect("sensor exists")
+                            .order = order as u32;
+                    }
+                    self.sensors.len() as u32
+                }
+            },
+            None => 0,
+        };
         self.sensors
             .entry(id.to_owned())
             .or_insert_with(|| SensorState {
@@ -96,6 +117,9 @@ impl PanelState {
         rows
     }
 }
+
+/// Largest accepted width or height for a persisted expanded panel size.
+pub const MAX_EXPANDED_DIMENSION: f32 = 16_384.0;
 
 fn schema_version() -> u32 {
     1
@@ -135,7 +159,7 @@ impl Workspace {
                 return Err("Empty monitor identity".into());
             }
             for value in [panel.expanded_size.width, panel.expanded_size.height] {
-                if !value.is_finite() || value <= 0.0 || value > 16384.0 {
+                if !value.is_finite() || value <= 0.0 || value > MAX_EXPANDED_DIMENSION {
                     return Err(format!("Invalid preferred expanded size for {id}"));
                 }
             }
