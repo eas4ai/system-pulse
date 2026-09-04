@@ -174,6 +174,7 @@ mod dock_placement;
 mod drag;
 pub mod layout;
 mod panel;
+mod policy;
 mod registry;
 mod state;
 mod state_convert;
@@ -194,6 +195,7 @@ pub use layout::{
     TilePanel,
 };
 pub use panel::{Panel, PanelEvent, PanelView};
+pub use policy::PanelPolicy;
 pub use registry::{PanelBuildContext, PanelRegistry, register_panel};
 pub use state::{DockAreaState, DockPlacement, DockState, PanelInfo, PanelState, TileMeta};
 /// Both halves of the persistence seam. `PaneTree::to_state` reads panel

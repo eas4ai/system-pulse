@@ -53,9 +53,9 @@ pub use gpui_base::dock::{
     DockLayout, DockPlacement, DockSizing, DockState, DragPanel, DropIndicator,
     DropPlaceholderBounds, DropTarget, EditResult, HANDLE_SIZE, InsertTarget, NodeId, PaneNode,
     PaneRef, PaneTree, PanelBuildContext, PanelBuilder, PanelEvent, PanelId, PanelInfo,
-    PanelRegistry, PanelSource, PanelState, ResizeSide, RootKind, TabGroup, TabGroupConstraints,
-    TabGroupContext, TabGroupEvent, TabGroupRenderer, TileContext, TileMeta, TilePanel, TilesEvent,
-    TilesRenderer, TilesState, register_panel,
+    PanelPolicy, PanelRegistry, PanelSource, PanelState, ResizeSide, RootKind, TabGroup,
+    TabGroupConstraints, TabGroupContext, TabGroupEvent, TabGroupRenderer, TileContext, TileMeta,
+    TilePanel, TilesEvent, TilesRenderer, TilesState, register_panel,
 };
 pub use panel::*;
 pub use tab_panel::DragPanelPreview;
