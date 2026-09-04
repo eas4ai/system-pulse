@@ -33,6 +33,7 @@ use crate::scroll::ScrollbarMode;
 /// alongside [`Panel`]. Exported under this name because `Panel` in this
 /// module is the presentation half that extends it.
 pub use gpui_base::dock::Panel as BasePanel;
+pub use gpui_base::dock::PanelExtent;
 /// The object-safe counterpart of [`BasePanel`], for the same reason.
 pub use gpui_base::dock::PanelView as BasePanelView;
 /// Everything [`gpui_base::dock`] exports, so a consumer never has to depend

@@ -4,6 +4,8 @@ use gpui::{
     Along, App, Axis, Bounds, Context, ElementId, EventEmitter, IsZero, Pixels, Window, px,
 };
 
+#[cfg(test)]
+mod constraints_tests;
 mod panel;
 mod resize_handle;
 pub use panel::*;
@@ -33,6 +35,7 @@ pub fn resizable_panel() -> ResizablePanel {
 pub struct ResizableState {
     /// The `axis` will sync to actual axis of the ResizablePanelGroup in use.
     axis: Axis,
+    preserve_constraints: bool,
     panels: Vec<ResizablePanelState>,
     sizes: Vec<Pixels>,
     resizing_panel_ix: Option<usize>,
@@ -43,6 +46,7 @@ impl Default for ResizableState {
     fn default() -> Self {
         Self {
             axis: Axis::Horizontal,
+            preserve_constraints: false,
             panels: vec![],
             sizes: vec![],
             resizing_panel_ix: None,
@@ -74,6 +78,13 @@ impl ResizableState {
         cx: &mut Context<Self>,
     ) {
         if ix >= self.sizes.len() {
+            return;
+        }
+        if self.preserve_constraints {
+            if self.panels[ix].visible {
+                self.resize_constrained_panel(ix, size, cx);
+                self.done_resizing(cx);
+            }
             return;
         }
         if ix + 1 < self.sizes.len() {
@@ -208,6 +219,18 @@ impl ResizableState {
         // This check is only necessary to stop the very first panel from resizing on its own
         // it needs to be passed when the panel is freshly created so we get the initial size,
         // but its also fine when it sometimes passes later.
+        if self.preserve_constraints {
+            let panel = &mut self.panels[panel_ix];
+            let changed = self.sizes[panel_ix] != size || panel.bounds != bounds;
+            self.sizes[panel_ix] = size;
+            panel.size = Some(size);
+            panel.bounds = bounds;
+            panel.size_range = size_range;
+            if changed {
+                cx.notify();
+            }
+            return;
+        }
         if self.sizes[panel_ix].as_f32() == PANEL_MIN_SIZE.as_f32() {
             self.sizes[panel_ix] = size;
             self.panels[panel_ix].size = Some(size);
@@ -282,6 +305,10 @@ impl ResizableState {
         _: &mut Window,
         cx: &mut Context<Self>,
     ) {
+        if self.preserve_constraints {
+            self.resize_constrained_panel(ix, size, cx);
+            return;
+        }
         let old_sizes = self.sizes.clone();
 
         let mut ix = ix;
@@ -347,11 +374,57 @@ impl ResizableState {
         cx.notify();
     }
 
+    /// Transfer space only to visible siblings with capacity in the requested
+    /// direction. A fixed-height header can never absorb released body space.
+    fn resize_constrained_panel(&mut self, ix: usize, size: Pixels, cx: &mut Context<Self>) {
+        if !self.panels.get(ix).is_some_and(|panel| panel.visible) {
+            return;
+        }
+        let range = self.panel_size_range(ix);
+        let requested = size.clamp(range.start, range.end) - self.sizes[ix];
+        let mut remaining = requested.abs();
+        let partners: Vec<_> = if self.panels[ix + 1..].iter().any(|panel| panel.visible) {
+            (ix + 1..self.panels.len()).collect()
+        } else {
+            (0..ix).rev().collect()
+        };
+        for partner in partners {
+            if !self.panels[partner].visible {
+                continue;
+            }
+            let range = self.panel_size_range(partner);
+            let capacity = if requested > px(0.) {
+                self.sizes[partner] - range.start
+            } else {
+                range.end - self.sizes[partner]
+            };
+            let transfer = remaining.min(capacity.max(px(0.)));
+            if requested > px(0.) {
+                self.sizes[partner] -= transfer;
+                self.sizes[ix] += transfer;
+            } else {
+                self.sizes[partner] += transfer;
+                self.sizes[ix] -= transfer;
+            }
+            remaining -= transfer;
+            if remaining.is_zero() {
+                break;
+            }
+        }
+        for (panel, size) in self.panels.iter_mut().zip(&self.sizes) {
+            panel.size = Some(*size);
+        }
+        cx.notify();
+    }
+
     /// Adjust panel sizes according to the container size.
     ///
     /// When the container size changes, the panels should take up the same percentage as they did before.
     fn adjust_to_container_size(&mut self, cx: &mut Context<Self>) {
-        if self.container_size().is_zero() {
+        // Constraint-aware owners use flex to allocate the remainder. Scaling
+        // their explicit bases would undo fixed sizes and collapsed limits.
+        // Each panel reports its resolved bounds back into the cache.
+        if self.preserve_constraints || self.container_size().is_zero() {
             return;
         }
 
@@ -392,6 +465,7 @@ pub(crate) struct ResizablePanelState {
     pub size: Option<Pixels>,
     pub size_range: Range<Pixels>,
     bounds: Bounds<Pixels>,
+    visible: bool,
 }
 
 #[cfg(test)]

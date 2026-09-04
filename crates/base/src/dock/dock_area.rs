@@ -1639,6 +1639,12 @@ impl DockArea {
 impl DockArea {
     /// Lower one container to an element.
     fn render_node(&self, node: &PaneNode, window: &mut Window, cx: &mut App) -> AnyElement {
+        if self.panel_policy == super::PanelPolicy::Separate {
+            return match self.measure_geometry(node, cx, true) {
+                Some(measured) => self.render_geometry_node(node, &measured, window, cx),
+                None => Empty.into_any_element(),
+            };
+        }
         match node.kind() {
             PaneRef::Split {
                 axis,
@@ -4716,3 +4722,342 @@ mod tests {
 #[cfg(test)]
 #[path = "separate_panels_tests.rs"]
 mod separate_panels_tests;
+
+impl DockArea {
+    /// The size needed by this separate-panel center, before viewport growth.
+    /// Applications put the area in a scroll container of at least this size.
+    pub fn content_extent(&self, cx: &App) -> gpui::Size<Pixels> {
+        if self.panel_policy != super::PanelPolicy::Separate {
+            return self.bounds.size;
+        }
+        self.measure_geometry(self.center.root(), cx, true)
+            .map(|node| node.extent.preferred())
+            .unwrap_or_else(|| gpui::size(px(0.), px(0.)))
+    }
+
+    fn measure_geometry(
+        &self,
+        node: &PaneNode,
+        cx: &App,
+        honor_sizes: bool,
+    ) -> Option<super::geometry::MeasuredNode> {
+        super::geometry::measure_node(
+            node,
+            &|id| {
+                let panel = self.panels.get(&id)?;
+                if !panel.visible(cx) {
+                    return None;
+                }
+                Some(panel.dock_extent(cx).unwrap_or_else(|| {
+                    super::PanelExtent::new(
+                        gpui::size(PANEL_MIN_SIZE, PANEL_MIN_SIZE),
+                        gpui::size(px(400.), px(280.)),
+                    )
+                }))
+            },
+            honor_sizes,
+        )
+    }
+
+    /// Apply an explicit presentation change. Before calling, the application
+    /// captures measured sizes of expanded panels into its presentation model.
+    /// Ordinary divider drags do not call this: their cache/tree sizes prevail.
+    pub fn refresh_geometry(&mut self, _window: &mut Window, cx: &mut Context<Self>) {
+        if self.panel_policy != super::PanelPolicy::Separate {
+            return;
+        }
+        let mut updates = Vec::new();
+        for placement in [
+            DockPlacement::Center,
+            DockPlacement::Left,
+            DockPlacement::Right,
+            DockPlacement::Bottom,
+        ] {
+            let Some(tree) = self.layout(placement) else {
+                continue;
+            };
+            let measured = self.measure_geometry(tree.root(), cx, false);
+            tree.root().walk(&mut |node| {
+                let PaneRef::Split { axis, children, .. } = node.kind() else {
+                    return;
+                };
+                let sizes = children
+                    .iter()
+                    .map(|child| {
+                        let value = measured.as_ref().and_then(|root| root.find(child.id()));
+                        Some(
+                            value
+                                .map(|child| match axis {
+                                    Axis::Horizontal => child.extent.preferred().width,
+                                    Axis::Vertical => child.extent.preferred().height,
+                                })
+                                .unwrap_or(px(0.)),
+                        )
+                    })
+                    .collect::<Vec<_>>();
+                updates.push((placement, node.id(), axis, sizes));
+            });
+        }
+        let mut changed = false;
+        for (placement, node, axis, sizes) in updates {
+            if let Some(tree) = self.tree_mut(placement) {
+                changed |= tree.set_sizes(node, sizes.clone()).changed();
+            }
+            if let Some(cached) = self.splits.get(&node) {
+                cached.entity.update(cx, |state, cx| {
+                    state.sync_panels_count(axis, sizes.len(), cx);
+                    state.adopt_sizes(&sizes, cx);
+                });
+            }
+        }
+        if changed {
+            cx.emit(DockEvent::LayoutChanged);
+        }
+        cx.notify();
+    }
+
+    fn render_geometry_node(
+        &self,
+        node: &PaneNode,
+        measured: &super::geometry::MeasuredNode,
+        window: &mut Window,
+        cx: &mut App,
+    ) -> AnyElement {
+        match node.kind() {
+            PaneRef::Split { axis, children, .. } => {
+                let grows = children.iter().rposition(|child| {
+                    measured.find(child.id()).is_some_and(|child| {
+                        axis == Axis::Horizontal || child.extent.height_limit().is_none()
+                    })
+                });
+                let mut panels = Vec::with_capacity(children.len());
+                for (ix, child) in children.iter().enumerate() {
+                    let Some(child_geometry) = measured.find(child.id()) else {
+                        panels.push(resizable_panel().visible(false));
+                        continue;
+                    };
+                    let extent = child_geometry.extent;
+                    let (minimum, preferred, maximum) = match axis {
+                        Axis::Horizontal => (
+                            extent.minimum().width,
+                            extent.preferred().width,
+                            Pixels::MAX,
+                        ),
+                        Axis::Vertical => (
+                            extent.minimum().height,
+                            extent.preferred().height,
+                            extent.height_limit().unwrap_or(Pixels::MAX),
+                        ),
+                    };
+                    panels.push(
+                        resizable_panel()
+                            .size(preferred)
+                            .size_range(minimum..maximum)
+                            .when(Some(ix) != grows, |panel| panel.flex_none())
+                            .child(self.render_geometry_node(child, child_geometry, window, cx)),
+                    );
+                }
+                let group = match axis {
+                    Axis::Horizontal => h_resizable(("dock-split", node.id().as_u64())),
+                    Axis::Vertical => v_resizable(("dock-split", node.id().as_u64())),
+                }
+                .preserve_constraints()
+                .when_some(self.splits.get(&node.id()), |group, cached| {
+                    group.with_state(&cached.entity)
+                })
+                .with_handle_appearance({
+                    let renderer = self.renderer.clone();
+                    Rc::new(move |handle, window, cx| {
+                        renderer.render_split_handle(handle, window, cx)
+                    })
+                })
+                .children(panels);
+                self.renderer
+                    .split_frame(node.id(), axis, window, cx)
+                    .size_full()
+                    .min_w(measured.extent.minimum().width)
+                    .min_h(measured.extent.minimum().height)
+                    .when_some(measured.extent.height_limit(), |frame, height| {
+                        frame.h(height).max_h(height)
+                    })
+                    .overflow_hidden()
+                    .child(group)
+                    .into_any_element()
+            }
+            PaneRef::Tabs { .. } => {
+                let Some(group) = self.groups.get(&node.id()) else {
+                    return Empty.into_any_element();
+                };
+                div()
+                    .w_full()
+                    .h_full()
+                    .min_w(measured.extent.minimum().width)
+                    .min_h(measured.extent.minimum().height)
+                    .when_some(measured.extent.height_limit(), |frame, height| {
+                        frame.h(height).max_h(height)
+                    })
+                    .child(group.entity.clone())
+                    .into_any_element()
+            }
+            PaneRef::Tiles { .. } => Empty.into_any_element(),
+        }
+    }
+}
+
+#[cfg(test)]
+mod geometry_runtime_tests {
+    use super::*;
+    use crate::dock::{Panel, PanelEvent, PanelExtent, PanelPolicy};
+    use gpui::{FocusHandle, Focusable, TestAppContext, VisualTestContext, size};
+
+    struct GeometryPanel {
+        focus: FocusHandle,
+        preferred: gpui::Size<Pixels>,
+        collapsed: bool,
+        visible: bool,
+        name: &'static str,
+    }
+
+    impl Panel for GeometryPanel {
+        fn panel_name(&self) -> &'static str {
+            self.name
+        }
+        fn visible(&self, _: &App) -> bool {
+            self.visible
+        }
+        fn dock_extent(&self, _: &App) -> Option<PanelExtent> {
+            let extent = PanelExtent::new(size(px(320.), px(220.)), self.preferred);
+            Some(if self.collapsed {
+                extent.collapsed(px(36.))
+            } else {
+                extent
+            })
+        }
+    }
+    impl EventEmitter<PanelEvent> for GeometryPanel {}
+    impl Focusable for GeometryPanel {
+        fn focus_handle(&self, _: &App) -> FocusHandle {
+            self.focus.clone()
+        }
+    }
+    impl Render for GeometryPanel {
+        fn render(&mut self, _: &mut Window, _: &mut Context<Self>) -> impl IntoElement {
+            let name = self.name;
+            div().size_full().debug_selector(move || name.into())
+        }
+    }
+
+    fn draw(cx: &mut VisualTestContext) {
+        for _ in 0..3 {
+            cx.update(|window, cx| window.draw(cx).clear(cx));
+        }
+    }
+
+    #[gpui::test]
+    fn refresh_repeatedly_restores_expanded_preferences_and_keeps_hidden_identity(
+        cx: &mut TestAppContext,
+    ) {
+        cx.update(|cx| {
+            let _ = crate::Theme::global_mut(cx);
+        });
+        let (area, cx) =
+            cx.add_window_view(|window, cx| DockArea::new("geometry", Some(1), window, cx));
+        let (alpha, beta, split) = cx.update(|window, cx| {
+            let panels: Vec<_> = ["geometry-alpha", "geometry-beta"]
+                .into_iter()
+                .map(|name| {
+                    cx.new(|cx| GeometryPanel {
+                        focus: cx.focus_handle(),
+                        preferred: size(px(420.), px(280.)),
+                        collapsed: false,
+                        visible: true,
+                        name,
+                    })
+                })
+                .collect();
+            let split = area.update(cx, |area, cx| {
+                area.set_panel_policy(PanelPolicy::Separate, window, cx)
+                    .unwrap();
+                area.set_center(
+                    DockLayout::v_split()
+                        .child(DockLayout::tabs().panel(panels[0].clone()), Some(px(280.)))
+                        .child(DockLayout::tabs().panel(panels[1].clone()), Some(px(280.))),
+                    window,
+                    cx,
+                );
+                area.refresh_geometry(window, cx);
+                area.center.root().id()
+            });
+            (panels[0].clone(), panels[1].clone(), split)
+        });
+        draw(cx);
+        let containers = area.read_with(cx, |area, _| area.container_entity_ids());
+        // A real resize updates the tree through the existing Resized subscription.
+        cx.update(|window, cx| {
+            let state = area.read(cx).splits[&split].entity.clone();
+            state.update(cx, |state, cx| state.resize_panel(0, px(350.), window, cx));
+        });
+        draw(cx);
+        let retained = cx.debug_bounds("geometry-alpha").unwrap().size;
+        assert_eq!(retained.height, px(350.));
+        // The application captures every expanded panel's measured preference.
+        let beta_retained = cx.debug_bounds("geometry-beta").unwrap().size;
+        cx.update(|_, cx| {
+            alpha.update(cx, |panel, _| panel.preferred = retained);
+            beta.update(cx, |panel, _| panel.preferred = beta_retained);
+        });
+        for _ in 0..3 {
+            cx.update(|window, cx| {
+                alpha.update(cx, |panel, cx| {
+                    panel.collapsed = true;
+                    cx.notify();
+                });
+                area.update(cx, |area, cx| area.refresh_geometry(window, cx));
+                let dock = area.read(cx);
+                assert_eq!(dock.splits[&split].entity.read(cx).sizes()[0], px(36.));
+                assert_eq!(
+                    dock.content_extent(cx).height,
+                    px(36.) + beta_retained.height
+                );
+            });
+            draw(cx);
+            assert_eq!(
+                cx.debug_bounds("geometry-alpha").unwrap().size.height,
+                px(36.)
+            );
+            cx.update(|window, cx| {
+                alpha.update(cx, |panel, cx| {
+                    panel.collapsed = false;
+                    cx.notify();
+                });
+                area.update(cx, |area, cx| area.refresh_geometry(window, cx));
+                assert_eq!(
+                    area.read(cx).splits[&split].entity.read(cx).sizes()[0],
+                    retained.height
+                );
+            });
+            draw(cx);
+            assert_eq!(
+                cx.debug_bounds("geometry-alpha").unwrap().size.height,
+                retained.height
+            );
+        }
+        cx.update(|window, cx| {
+            alpha.update(cx, |panel, cx| {
+                panel.visible = false;
+                cx.notify();
+            });
+            area.update(cx, |area, cx| area.refresh_geometry(window, cx));
+        });
+        draw(cx);
+        area.read_with(cx, |area, cx| {
+            assert_eq!(area.splits[&split].entity.read(cx).sizes()[0], px(0.));
+            assert_eq!(area.container_entity_ids(), containers);
+            assert!(
+                area.center
+                    .find_panel_node(PanelId::from(alpha.entity_id()))
+                    .is_some()
+            );
+        });
+    }
+}

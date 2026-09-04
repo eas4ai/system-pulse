@@ -32,6 +32,7 @@ pub struct ResizablePanelGroup {
     id: ElementId,
     state: Option<Entity<ResizableState>>,
     axis: Axis,
+    preserve_constraints: bool,
     size: Option<Pixels>,
     children: Vec<ResizablePanel>,
     on_resize: Rc<dyn Fn(&Entity<ResizableState>, &mut Window, &mut App)>,
@@ -44,6 +45,7 @@ impl ResizablePanelGroup {
         Self {
             id: id.into(),
             axis: Axis::Horizontal,
+            preserve_constraints: false,
             children: vec![],
             state: None,
             size: None,
@@ -66,6 +68,14 @@ impl ResizablePanelGroup {
     /// If not provided, it will handle its own state internally.
     pub fn with_state(mut self, state: &Entity<ResizableState>) -> Self {
         self.state = Some(state.clone());
+        self
+    }
+
+    /// Let flex honor fixed bases and size limits, and cache resolved sizes.
+    /// The separate dock renderer opts in; existing groups keep proportional
+    /// container resizing.
+    pub(crate) fn preserve_constraints(mut self) -> Self {
+        self.preserve_constraints = true;
         self
     }
 
@@ -148,7 +158,27 @@ impl RenderOnce for ResizablePanelGroup {
         // Sync panels to the state
         let panels_count = self.children.len();
         state.update(cx, |state, cx| {
+            state.preserve_constraints = self.preserve_constraints;
             state.sync_panels_count(self.axis, panels_count, cx);
+            if self.preserve_constraints {
+                for (ix, panel) in self.children.iter().enumerate() {
+                    let slot = &mut state.panels[ix];
+                    if !panel.visible {
+                        slot.bounds = Bounds::default();
+                        slot.size = Some(gpui::px(0.));
+                        state.sizes[ix] = gpui::px(0.);
+                    } else if !slot.visible || slot.size.is_none() {
+                        let size = panel
+                            .initial_size
+                            .unwrap_or(panel.size_range.start)
+                            .clamp(panel.size_range.start, panel.size_range.end);
+                        slot.size = Some(size);
+                        state.sizes[ix] = size;
+                    }
+                    slot.visible = panel.visible;
+                    slot.size_range = panel.size_range.clone();
+                }
+            }
         });
 
         container
@@ -301,6 +331,14 @@ impl RenderOnce for ResizablePanel {
             .get(self.panel_ix)
             .expect("BUG: The `index` of ResizablePanel should be one of in `state`.");
         let size_range = self.size_range.clone();
+        let preserve_constraints = state.read(cx).preserve_constraints;
+        let handle_ix = if preserve_constraints {
+            state.read(cx).panels[..self.panel_ix]
+                .iter()
+                .rposition(|panel| panel.visible)
+        } else {
+            self.panel_ix.checked_sub(1)
+        };
 
         div()
             .id(("resizable-panel", self.panel_ix))
@@ -330,7 +368,7 @@ impl RenderOnce for ResizablePanel {
                 // The `self.size` is None, that mean the initial size for the panel,
                 // so we need set `flex_shrink_0` To let it keep the initial size.
                 this.when(
-                    panel_state.size.is_none() && !initial_size.is_zero(),
+                    !preserve_constraints && panel_state.size.is_none() && !initial_size.is_zero(),
                     |this| this.flex_none(),
                 )
                 .flex_basis(initial_size)
@@ -348,8 +386,7 @@ impl RenderOnce for ResizablePanel {
                 }
             })
             .children(self.children)
-            .when(self.panel_ix > 0, |this| {
-                let ix = self.panel_ix - 1;
+            .when_some(handle_ix, |this, ix| {
                 this.child(
                     resize_handle(("resizable-handle", ix), self.axis)
                         .when_some(self.handle_appearance.clone(), |handle, appearance| {

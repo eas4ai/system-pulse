@@ -22,6 +22,11 @@ pub trait Panel: EventEmitter<PanelEvent> + Render + Focusable {
     /// Identifies the panel in persisted layouts. Once chosen, never change it.
     fn panel_name(&self) -> &'static str;
 
+    /// Optional geometry for a separate-panel workspace.
+    fn dock_extent(&self, _cx: &App) -> Option<super::PanelExtent> {
+        None
+    }
+
     /// Whether the panel is drawn at all. A hidden panel keeps its place in
     /// the layout tree and its tab, and reappears when this turns back on;
     /// a container whose panels are all hidden gives up its slot.
@@ -98,6 +103,9 @@ pub trait Panel: EventEmitter<PanelEvent> + Render + Focusable {
 pub trait PanelView: 'static + Send + Sync {
     fn panel_name(&self, cx: &App) -> &'static str;
     fn panel_id(&self, cx: &App) -> PanelId;
+    fn dock_extent(&self, _cx: &App) -> Option<super::PanelExtent> {
+        None
+    }
     fn closable(&self, cx: &App) -> bool;
     fn zoomable(&self, cx: &App) -> bool;
     fn visible(&self, cx: &App) -> bool;
@@ -132,6 +140,10 @@ pub trait PanelView: 'static + Send + Sync {
 }
 
 impl<T: Panel> PanelView for Entity<T> {
+    fn dock_extent(&self, cx: &App) -> Option<super::PanelExtent> {
+        self.read(cx).dock_extent(cx)
+    }
+
     fn panel_name(&self, cx: &App) -> &'static str {
         self.read(cx).panel_name()
     }

@@ -243,6 +243,10 @@ impl std::ops::Deref for PanelHandle {
 }
 
 impl gpui_base::dock::PanelView for PanelHandle {
+    fn dock_extent(&self, cx: &App) -> Option<gpui_base::dock::PanelExtent> {
+        self.0.dock_extent(cx)
+    }
+
     fn panel_name(&self, cx: &App) -> &'static str {
         self.0.panel_name(cx)
     }
@@ -345,6 +349,16 @@ mod tests {
     }
 
     impl gpui_base::dock::Panel for Probe {
+        fn dock_extent(&self, _: &App) -> Option<gpui_base::dock::PanelExtent> {
+            Some(
+                gpui_base::dock::PanelExtent::new(
+                    size(px(320.), px(220.)),
+                    size(px(420.), px(280.)),
+                )
+                .collapsed(px(36.)),
+            )
+        }
+
         fn panel_name(&self) -> &'static str {
             "Probe"
         }
@@ -368,6 +382,17 @@ mod tests {
         fn render(&mut self, _: &mut Window, _: &mut Context<Self>) -> impl IntoElement {
             Empty
         }
+    }
+
+    #[gpui::test]
+    fn panel_handle_forwards_geometry_through_the_base_trait(cx: &mut TestAppContext) {
+        cx.update(|cx| {
+            let panel = Probe::new("Geometry", cx);
+            let expected = gpui_base::dock::PanelView::dock_extent(&panel, cx).unwrap();
+            let handle = panel_handle(panel);
+            assert_eq!(handle.dock_extent(cx), Some(expected));
+            assert_eq!(expected.height_limit(), Some(px(36.)));
+        });
     }
 
     /// A read the skin took later, out of a handle it kept.
