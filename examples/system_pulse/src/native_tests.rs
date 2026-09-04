@@ -615,3 +615,74 @@ fn accepting_recovered_layout_preserves_keyboard_reachability(cx: &mut TestAppCo
         "Tab must retain the workspace keyboard path after recovery"
     );
 }
+
+#[gpui::test]
+fn revisiting_offscreen_focus_reveals_both_axes_without_pinning_user_scroll(
+    cx: &mut TestAppContext,
+) {
+    let (view, cx) = harness(cx);
+    let dock = cx.read(|cx| view.read(cx).dock.clone());
+    let nodes =
+        cx.read(|cx| leaf_nodes(dock.read(cx).layout(DockPlacement::Center).unwrap().root()));
+    cx.update(|window, cx| {
+        dock.update(cx, |dock, cx| {
+            dock.try_move_panel(
+                nodes[1].1,
+                InsertTarget::Split {
+                    node: nodes[0].0,
+                    placement: Placement::Left,
+                    size: Some(px(2400.)),
+                },
+                window,
+                cx,
+            )
+            .unwrap()
+        })
+    });
+    draw(cx);
+    let cpu = panel(&view, "cpu", cx);
+    let settings = panel(&view, "settings", cx);
+    for _ in 0..3 {
+        cx.update(|window, cx| {
+            cpu.read(cx).controls["collapse"]
+                .handle
+                .clone()
+                .focus(window, cx)
+        });
+        draw(cx);
+        let viewport = cx.debug_bounds("workspace-viewport").unwrap();
+        let target = cx.debug_bounds("cpu:collapse").unwrap();
+        assert!(
+            target.left() >= viewport.left() && target.right() <= viewport.right(),
+            "CPU focus must reveal horizontally: target={target:?}, viewport={viewport:?}"
+        );
+        assert!(
+            target.top() >= viewport.top() && target.bottom() <= viewport.bottom(),
+            "CPU focus must reveal vertically: target={target:?}, viewport={viewport:?}"
+        );
+        command(&view, Command::Scroll(100000., -100000.), cx);
+        let away = cx.read(|cx| view.read(cx).shared.borrow().scroll.offset());
+        let offscreen = cx.debug_bounds("cpu:collapse").unwrap();
+        assert!(
+            offscreen.left() >= viewport.right(),
+            "test must scroll CPU offscreen horizontally"
+        );
+        assert!(
+            offscreen.bottom() <= viewport.top(),
+            "test must scroll CPU offscreen vertically"
+        );
+        command(&view, Command::Tick, cx);
+        assert_eq!(
+            cx.read(|cx| view.read(cx).shared.borrow().scroll.offset()),
+            away,
+            "an unchanged focused control must not pin user scrolling"
+        );
+        cx.update(|window, cx| {
+            settings.read(cx).controls["collapse"]
+                .handle
+                .clone()
+                .focus(window, cx)
+        });
+        draw(cx);
+    }
+}

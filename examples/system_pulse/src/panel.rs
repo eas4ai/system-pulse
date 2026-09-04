@@ -300,7 +300,7 @@ impl MonitorPanel {
                 this.selected = next;
                 this.table_scroll.scroll_to_item(next, ScrollStrategy::Top);
                 controls::reveal(
-                    this.table_scroll.base_handle().bounds(),
+                    this.table_scroll.base_handle().bounds().dilate(px(1.)),
                     &this.shared.borrow().scroll,
                 );
                 window.refresh();
@@ -309,7 +309,8 @@ impl MonitorPanel {
             }))
             .on_prepaint(move |bounds, window, _| {
                 if focus.entered(window) {
-                    controls::reveal(bounds, &outer);
+                    // Include the table viewport's one-pixel focus border.
+                    controls::reveal(bounds.dilate(px(1.)), &outer);
                     window.refresh();
                 }
             })

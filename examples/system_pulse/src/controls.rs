@@ -112,6 +112,9 @@ pub(crate) fn button(
         .debug_selector(move || id.clone().into())
         .on_prepaint(move |mut bounds, window, _| {
             if focus.entered(window) {
+                // The measurement canvas sits inside the one-pixel control border.
+                // Reveal the border box so the visible focus boundary is not clipped.
+                bounds = bounds.dilate(px(1.));
                 if let Some(inner) = &inner {
                     bounds.origin += reveal(bounds, inner);
                 }
