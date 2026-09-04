@@ -2,9 +2,9 @@
 
 ## Status and purpose
 
-Research for the Superpowers spec and planning workflow. Findings below come from source inspection and a browser preview; reference applications were not built or tested. Proposed implementation boundaries are recommendations, not an approved implementation plan.
+Research for the Superpowers spec and planning workflow. Findings below come from source inspection and a browser preview; reference applications were not built or tested. The user approved the focused workspace spec. Broader product boundaries below remain proposals.
 
-The repository contains product/design documents and five source snapshots, plus TMOG screenshots. It has no application crate or commits. The initial documents inside `docs/files.zip` matched their extracted copies before the correction below; the archive remains historical input.
+The repository contains product/design documents and five source snapshots, plus TMOG screenshots. It has no application crate; the commits added during this work contain documentation. The initial documents inside `docs/files.zip` matched their extracted copies before the correction below; the archive remains historical input.
 
 ## Confirmed correction: no tabs
 
@@ -12,7 +12,7 @@ The user clarified on 2026-09-04 that tabbed panels were a model drafting mistak
 
 The user further clarified that scrolling is preferable to hiding panels behind a click. Every enabled panel stays in the workspace at a readable size; panels outside the viewport are reached by scrolling. Window resizing must not automatically change panel visibility. The feature spec now includes workspace overflow behavior and an acceptance scenario that also covers nested process-table scrolling.
 
-The user then approved explicit collapse at both levels: panel headers retain compact current summaries, and sensor rows retain labels and current values while detailed meters fold away. Content starts expanded, expands in place, and remembers choices with the layout. This interaction direction is captured in the [workspace spec](../specs/2026-09-04-workspace-visibility-design.md), ready for written review.
+The user then approved explicit collapse at both levels: panel headers retain compact current summaries, and sensor rows retain labels and current values while detailed meters fold away. Content starts expanded, expands in place, and remembers choices with the layout. The user reviewed and approved the resulting [workspace spec](../specs/2026-09-04-workspace-visibility-design.md) on 2026-09-04.
 
 The default arrangement is CPU above GPU on the left, Memory above Processes on the right. When no GPU is available, CPU fills the left region. This correction is applied to the [feature spec](../../feature-spec-dockable-system-monitor.md) and [design prompt](../../claude-design-prompt.md).
 
@@ -35,7 +35,7 @@ Reference roots: [TuxManager](../../../reference/TuxManager-1.0.7/), [neohtop](.
 
 ## Framework evidence
 
-The `eas4ai/gpui-component` fork was inspected at commit `ba3433f0740ee5ba2b1db459af49229caf0c1bcc`. These are research anchors, not an approved dependency lock.
+The `eas4ai/gpui-component` fork was inspected at commit `ba3433f0740ee5ba2b1db459af49229caf0c1bcc`. The workspace plans use this source baseline; it is not a production dependency lock.
 
 - The [workspace manifest](https://github.com/eas4ai/gpui-component/blob/ba3433f0740ee5ba2b1db459af49229caf0c1bcc/Cargo.toml) contains `gpui-base`, `gpui-component`, and `examples/system_monitor`. The existing example is a useful integration reference, not the requested product.
 - The [dock presentation module](https://github.com/eas4ai/gpui-component/blob/ba3433f0740ee5ba2b1db459af49229caf0c1bcc/crates/ui/src/dock/mod.rs) supplies `DockSkin::dock_area`, re-exports behavior types, and exposes the presentation layer. Styled panels also implement the base behavior trait and use `panel_handle` at the presentation boundary.
@@ -59,9 +59,9 @@ The implementation plan must include an enforceable policy that allows splits an
 
 Use its density, hierarchy, numeric typography, and panel separation as visual input. The example data mixes Apple/unified-memory labels with a discrete Radeon and Linux process names; those labels are not a platform contract. The requested light theme and additional screens still need acceptance coverage.
 
-## Contracts to settle before executable plans
+## Contracts for the remaining product specs
 
-1. **Repository placement.** The source spec says a crate in `eas4ai/gpui-component`; the current directory is a separate repository. This changes manifests, paths, dependency strategy, and test commands.
+1. **Repository placement.** The workspace implementation plan follows the source spec: a new application crate in `eas4ai/gpui-component`. This separate repository retains the design inputs and plans.
 2. **Platform delivery.** Distinguish cross-platform architecture from which platforms and hardware must pass acceptance in the first implementation cycle. Linux-first is a proposal, not an approved scope reduction.
 3. **Metric semantics.** Specify canonical units, process CPU normalization, memory composition, first samples, actual elapsed-time rate calculation, and counter reset rules. The Mac references disagree about CPU time conversion; validate against native API documentation and controlled measurements.
 4. **Capability and freshness.** Distinguish measured zero from warming up, unsupported, permission denied, stale, disconnected, and failed. History should show gaps rather than fabricated measurements.
@@ -87,7 +87,7 @@ Use its density, hierarchy, numeric typography, and panel separation as visual i
 
 ## Proposed spec and plan sequence
 
-Each approved spec should have a matching executable plan under `docs/superpowers/plans/`. These are proposed boundaries, not files claimed to exist.
+The approved workspace spec now has a [four-part implementation plan](../plans/2026-09-04-workspace-visibility.md). It first proves separate docking, scrolling, collapse, and restoration with fixtures. The following boundaries address the remaining product work; each approved spec should receive its own plan under `docs/superpowers/plans/`.
 
 1. **Foundation and first working slice:** repository/dependency setup, metric types, clock/fixture seams, live CPU and Memory, separate split panels, basic history, minimal versioned restoration, and integration proof that tab merging is disabled.
 2. **Process table and actions:** stable row identity, sorting/filtering, virtual rendering, selection continuity, safe process commands, and observable outcomes.
@@ -103,8 +103,10 @@ The first slice is not a redefinition of iteration 001. The full feature set rem
 - [x] Record and verify the user's no-tabs correction and preference for scrolling to overflow panels.
 - [x] Assess visual companion: current questions concern architecture and scope; use text for this stage.
 - [x] Write and audit the focused workspace visibility/collapse spec after the user confirmed that interaction direction.
-- [ ] **In progress:** review the written workspace spec with the user.
-- [ ] Clarify repository placement and first acceptance scope before defining implementation paths.
+- [x] Obtain user approval of the written workspace spec.
+- [x] Map the approved workspace requirements to four executable plans and verified framework APIs.
+- [x] Audit the plans for requirement coverage, API consistency, patch composition, and documentation checks.
+- [ ] Confirm the first release's platform acceptance scope during the remaining product-spec discussions. Planning follows the original feature spec's application-crate placement in the gpui-component workspace unless the user corrects it.
 - [ ] Review approaches and the proposed design boundaries with the user.
 - [ ] Write the agreed design specs and audit consistency, scope, and acceptance criteria.
 - [ ] Obtain review of written specs, then write and verify executable implementation plans.

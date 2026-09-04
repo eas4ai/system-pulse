@@ -1,7 +1,7 @@
 # Workspace Visibility and Collapse
 
 Date: 2026-09-04
-Status: Written spec for review. The user has confirmed the interaction direction; implementation has not started.
+Status: Approved by the user on 2026-09-04. Implementation planning is authorized; implementation has not started.
 
 ## Purpose
 
