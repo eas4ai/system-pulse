@@ -1,7 +1,7 @@
 # Workspace Visibility and Collapse
 
 Date: 2026-09-04
-Status: Approved by the user on 2026-09-04. Implementation planning is authorized; implementation has not started.
+Status: Approved by the user on 2026-09-04. Implementation is authorized and in progress; see the [execution record](../execution/2026-09-04-workspace-visibility.md).
 
 ## Purpose
 
@@ -83,4 +83,4 @@ The application-shell plan must include an integration proof and, if needed, a f
 | WV-11 | Save/reload and save/recall a preset with mixed collapse states; reorder device discovery; temporarily remove a sensor. | Placement and presentation choices remain associated with the correct identities. Missing fields restore expanded. |
 | WV-12 | Load state containing a multi-panel group. | No tabs appear. Original input remains recoverable and a valid split arrangement opens with an error. |
 
-Use deterministic state-transition and fixture tests for presentation state, identity, and history continuity. Use native interaction tests for dragging, scrolling, focus, and restored geometry. Screenshots supplement those checks; they do not prove interaction behavior. No implementation or runtime acceptance checks have run yet.
+Use deterministic state-transition and fixture tests for presentation state, identity, and history continuity. Use native interaction tests for dragging, scrolling, focus, and restored geometry. Screenshots supplement those checks; they do not prove interaction behavior. Implementation checks and native acceptance results are tracked in the [execution record](../execution/2026-09-04-workspace-visibility.md).
