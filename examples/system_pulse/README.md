@@ -17,7 +17,7 @@ Alt+PageUp/PageDown scrolls the workspace vertically; Alt+Left/Right scrolls hor
 
 ## Native acceptance record
 
-Record platform, checkout commit, command, result, and artifact path for each scenario below. The application has passed its GPUI test-runtime suite, package formatting, strict all-target Clippy, and a native binary build. Display-level acceptance is being recorded independently; these tests do not establish native platform acceptance.
+Linux native acceptance passed on 2026-09-04 at source commit `88343d5e`. The final combined checks passed 275 tests, package formatting, strict all-target Clippy, and the locked native build. The [dated acceptance record](NATIVE_ACCEPTANCE.md) distinguishes automated checks from display-level interactions and identifies the retained evidence. Use the scenarios below when repeating acceptance on another build or platform.
 
 The repository-local [AT-SPI adapter patch](../../vendor/accesskit_atspi_common/PATCH.md) preserves expanded/expandable state without changing dependency versions. Linux native checks verified all 15 disclosure controls and their expanded-state change signals.
 
