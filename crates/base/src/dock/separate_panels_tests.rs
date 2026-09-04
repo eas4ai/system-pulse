@@ -417,3 +417,47 @@ fn separate_invalid_new_dock_size_leaves_workspace_unchanged(cx: &mut TestAppCon
         });
     });
 }
+
+#[gpui::test]
+fn separate_policy_rejects_existing_nonfinite_dock_size(cx: &mut TestAppContext) {
+    let (area, cx) = setup(cx);
+    cx.update(|window, cx| {
+        let alpha = TestPanel::new("Alpha", cx);
+        area.update(cx, |area, cx| {
+            area.add_panel(alpha, DockPlacement::Left, None, window, cx);
+            area.set_dock_size(DockPlacement::Left, px(f32::INFINITY), window, cx);
+            let before = area.dump(cx);
+            assert!(PanelPolicy::Separate.validate_state(&before).is_err());
+            assert!(
+                area.set_panel_policy(PanelPolicy::Separate, window, cx)
+                    .is_err()
+            );
+            assert_eq!(area.panel_policy(), PanelPolicy::Tabbed);
+            assert_eq!(area.dump(cx), before);
+        });
+    });
+}
+
+#[gpui::test]
+fn separate_nonfinite_dock_resize_preserves_live_state(cx: &mut TestAppContext) {
+    let (area, cx) = setup(cx);
+    cx.update(|window, cx| {
+        let alpha = TestPanel::new("Alpha", cx);
+        area.update(cx, |area, cx| {
+            area.set_panel_policy(PanelPolicy::Separate, window, cx)
+                .unwrap();
+            area.add_panel(alpha, DockPlacement::Left, Some(px(240.)), window, cx);
+            let before = area.dump(cx);
+            let entities = area.container_entity_ids();
+            for size in [px(f32::INFINITY), px(f32::NEG_INFINITY), px(f32::NAN)] {
+                area.set_dock_size(DockPlacement::Left, size, window, cx);
+                assert_eq!(area.panel_policy(), PanelPolicy::Separate);
+                assert_eq!(area.dump(cx), before);
+                assert_eq!(area.container_entity_ids(), entities);
+                PanelPolicy::Separate
+                    .validate_state(&area.dump(cx))
+                    .unwrap();
+            }
+        });
+    });
+}

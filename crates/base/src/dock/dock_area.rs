@@ -243,6 +243,10 @@ impl DockArea {
         for pane in self.docks.values() {
             policy.validate_tree(&pane.tree)?;
             if policy == PanelPolicy::Separate {
+                ensure!(
+                    f32::from(pane.dock.size()).is_finite() && pane.dock.size() > px(0.),
+                    "invalid dock size"
+                );
                 for panel in pane.tree.panels() {
                     ensure!(ids.insert(panel), "panel occupies more than one region");
                 }
@@ -452,6 +456,8 @@ impl DockArea {
         self.docks.get(&placement).map(|pane| pane.dock.size())
     }
 
+    /// Resize a dock, clamping finite values to its minimum size.
+    /// Separate-panel layouts reject nonfinite sizes without changing the dock.
     pub fn set_dock_size(
         &mut self,
         placement: DockPlacement,
@@ -459,6 +465,10 @@ impl DockArea {
         _window: &mut Window,
         cx: &mut Context<Self>,
     ) {
+        if self.panel_policy == PanelPolicy::Separate && !f32::from(size).is_finite() {
+            tracing::warn!("dock resize rejected: invalid size");
+            return;
+        }
         if let Some(pane) = self.docks.get_mut(&placement) {
             let previous = pane.dock.size();
             pane.dock.set_size(size);
