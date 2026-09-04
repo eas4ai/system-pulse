@@ -31,6 +31,7 @@ members = [
     "crates/shell",
     "crates/component-shell",
 ]
+exclude = ["vendor/accesskit_atspi_common"]
 resolver = "2"
 
 [workspace.package]
@@ -155,3 +156,7 @@ consts = "consts"
 
 [workspace.metadata.cargo-machete]
 ignored = ["log", "anyhow", "serde"]
+
+# Preserve the pinned adapter while fixing native expansion state exposure.
+[patch.crates-io]
+accesskit_atspi_common = { path = "vendor/accesskit_atspi_common" }
