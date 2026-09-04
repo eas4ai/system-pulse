@@ -147,6 +147,16 @@ impl ResizableState {
     /// whatever they had.
     pub(crate) fn adopt_sizes(&mut self, sizes: &[Option<Pixels>], cx: &mut Context<Self>) {
         let mut changed = false;
+        // An explicit dock refresh may hide this entire group, skipping its
+        // renderer. A zero-size source must cancel its drag here as well.
+        if self.preserve_constraints
+            && self
+                .resizing_panel_ix
+                .is_some_and(|ix| sizes.get(ix) == Some(&Some(px(0.))))
+        {
+            self.resizing_panel_ix = None;
+            changed = true;
+        }
         for (ix, size) in sizes.iter().enumerate() {
             // The preference is mirrored exactly, `None` included. That is the
             // load-bearing half: `insert_panel` resolves every existing

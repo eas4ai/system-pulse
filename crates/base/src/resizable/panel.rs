@@ -161,6 +161,15 @@ impl RenderOnce for ResizablePanelGroup {
             state.preserve_constraints = self.preserve_constraints;
             state.sync_panels_count(self.axis, panels_count, cx);
             if self.preserve_constraints {
+                // Hiding the source ends the gesture without reporting a resize.
+                // Re-showing it before mouse-up must not resume the old drag.
+                if state
+                    .resizing_panel_ix
+                    .is_some_and(|ix| !self.children.get(ix).is_some_and(|panel| panel.visible))
+                {
+                    state.resizing_panel_ix = None;
+                    cx.notify();
+                }
                 for (ix, panel) in self.children.iter().enumerate() {
                     let slot = &mut state.panels[ix];
                     if !panel.visible {
