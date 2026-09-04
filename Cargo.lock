@@ -9362,6 +9362,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "system-pulse"
+version = "0.1.0"
+dependencies = [
+ "gpui",
+ "gpui-base",
+ "gpui-component",
+ "gpui_platform",
+ "serde_json",
+ "smol",
+ "system-pulse-model",
+]
+
+[[package]]
 name = "system-pulse-model"
 version = "0.1.0"
 dependencies = [
