@@ -141,6 +141,38 @@ fn separate_merge_rejection_preserves_both_regions_and_source_handle(cx: &mut Te
                 )
                 .is_err()
             );
+            for size in [px(0.), px(-1.), px(f32::NAN), px(f32::INFINITY)] {
+                assert!(
+                    area.try_move_panel(
+                        alpha_id,
+                        InsertTarget::Split {
+                            node: target,
+                            placement: Placement::Bottom,
+                            size: Some(size),
+                        },
+                        window,
+                        cx,
+                    )
+                    .is_err()
+                );
+            }
+            area.move_panel(
+                alpha_id,
+                InsertTarget::Tabs {
+                    node: target,
+                    ix: None,
+                    activate: true,
+                },
+                window,
+                cx,
+            );
+            area.split_at(
+                NodeId::from_u64(u64::MAX),
+                alpha_id,
+                Placement::Top,
+                window,
+                cx,
+            );
             assert_eq!(area.dump(cx), before);
             assert_eq!(area.container_entity_ids(), entities);
             assert_eq!(
@@ -213,6 +245,13 @@ fn separate_edge_moves_and_reinsertion_keep_every_panel_in_its_own_region(cx: &m
             )
             .unwrap();
             assert!(area.center.contains_panel(gamma_id));
+            let before = area.dump(cx);
+            area.add_panel(alpha.clone(), DockPlacement::Left, None, window, cx);
+            assert_eq!(
+                area.dump(cx),
+                before,
+                "re-adding must not relocate a live panel"
+            );
             area.remove_panel(alpha.clone(), window, cx);
             area.add_panel(alpha, DockPlacement::Center, None, window, cx);
             assert_eq!(area.center.panels().count(), 3);
@@ -296,6 +335,85 @@ fn separate_checked_move_rejects_wrong_node_kind_even_in_default_mode(cx: &mut T
             );
             assert_eq!(area.dump(cx), before);
             assert!(area.panel(alpha_id).is_some());
+        });
+    });
+}
+
+#[gpui::test]
+fn separate_cross_region_edge_move_preserves_panel_lifecycle(cx: &mut TestAppContext) {
+    let (area, cx) = setup(cx);
+    let log = log_of();
+    cx.update(|window, cx| {
+        let alpha = TestPanel::logging("Alpha", &log, cx);
+        let beta = TestPanel::new("Beta", cx);
+        let alpha_id = PanelId::from(alpha.entity_id());
+        let beta_id = PanelId::from(beta.entity_id());
+        area.update(cx, |area, cx| {
+            area.set_panel_policy(PanelPolicy::Separate, window, cx)
+                .unwrap();
+            area.add_panel(alpha.clone(), DockPlacement::Center, None, window, cx);
+            area.add_panel(beta, DockPlacement::Left, None, window, cx);
+            let node = area
+                .layout(DockPlacement::Left)
+                .unwrap()
+                .find_panel_node(beta_id)
+                .unwrap();
+            drain(&log);
+            area.try_move_panel(
+                alpha_id,
+                InsertTarget::Split {
+                    node,
+                    placement: Placement::Bottom,
+                    size: None,
+                },
+                window,
+                cx,
+            )
+            .unwrap();
+            assert!(!area.center.contains_panel(alpha_id));
+            assert!(
+                area.layout(DockPlacement::Left)
+                    .unwrap()
+                    .contains_panel(alpha_id)
+            );
+            assert_eq!(
+                area.panel(alpha_id)
+                    .unwrap()
+                    .as_any()
+                    .downcast_ref::<Entity<TestPanel>>()
+                    .unwrap(),
+                &alpha
+            );
+            assert!(
+                !drain(&log).contains(&("Alpha", crate::dock::test_support::PanelSignal::Removed))
+            );
+            assert_singletons(area);
+            assert!(
+                area.groups.values().all(|cached| !cached
+                    .entity
+                    .read(cx)
+                    .context(cx)
+                    .allows_merging())
+            );
+        });
+    });
+}
+
+#[gpui::test]
+fn separate_invalid_new_dock_size_leaves_workspace_unchanged(cx: &mut TestAppContext) {
+    let (area, cx) = setup(cx);
+    cx.update(|window, cx| {
+        let alpha = TestPanel::new("Alpha", cx);
+        let id = PanelId::from(alpha.entity_id());
+        area.update(cx, |area, cx| {
+            area.set_panel_policy(PanelPolicy::Separate, window, cx)
+                .unwrap();
+            let before = area.dump(cx);
+            for size in [px(f32::INFINITY), px(f32::NAN), px(0.), px(-1.)] {
+                area.add_panel(alpha.clone(), DockPlacement::Left, Some(size), window, cx);
+                assert_eq!(area.dump(cx), before);
+                assert!(area.panel(id).is_none());
+            }
         });
     });
 }

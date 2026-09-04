@@ -225,11 +225,13 @@ impl DockArea {
         self.panels.get(&panel)
     }
 
+    /// The layout rules used by this area. Defaults to [`PanelPolicy::Tabbed`].
     pub fn panel_policy(&self) -> PanelPolicy {
         self.panel_policy
     }
 
-    /// Opt in before installing or loading the application's layout.
+    /// Change layout rules after validating every existing region.
+    /// On rejection, the policy and live layout remain unchanged.
     pub fn set_panel_policy(
         &mut self,
         policy: PanelPolicy,
@@ -310,6 +312,8 @@ impl DockArea {
         }
     }
 
+    /// Replace the center only if its layout satisfies the current policy.
+    /// A rejected layout leaves live panels and their registrations unchanged.
     pub fn try_set_center(
         &mut self,
         layout: DockLayout,
@@ -343,6 +347,8 @@ impl DockArea {
         }
     }
 
+    /// Replace or create a region only if its layout satisfies the current policy.
+    /// `Center` delegates to [`Self::try_set_center`].
     pub fn try_set_dock(
         &mut self,
         placement: DockPlacement,
@@ -567,6 +573,10 @@ impl DockArea {
             if self.panels.contains_key(&id) {
                 return;
             }
+            if size.is_some_and(|size| !f32::from(size).is_finite() || size <= px(0.)) {
+                tracing::warn!("panel insertion rejected: invalid size");
+                return;
+            }
             let result = if let Some(tree) = self.layout(placement) {
                 let node = first_tab_group(tree.root()).unwrap_or(tree.root().id());
                 self.add_panel_split_view(panel, node, Placement::Bottom, size, window, cx)
@@ -750,6 +760,8 @@ impl DockArea {
     }
 
     /// Validate a move on a candidate tree before changing either live region.
+    /// Rejection preserves the source panel, layout, and lifecycle in both policies.
+    /// The legacy [`Self::move_panel`] keeps its original behavior in tabbed mode.
     pub fn try_move_panel(
         &mut self,
         panel: PanelId,
@@ -1265,7 +1277,11 @@ impl DockArea {
                         // Every group must be told this. A group nobody has
                         // constrained stays `sealed()` and silently declines
                         // drags, drops and closes.
-                        group.set_constraints(constraints, window, cx);
+                        group.set_constraints(
+                            constraints.allow_merging(self.panel_policy.allows_merging()),
+                            window,
+                            cx,
+                        );
                         group.sync_from_tree(views, active_ix, window, cx);
                     });
                 }

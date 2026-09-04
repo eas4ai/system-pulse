@@ -439,7 +439,7 @@ impl TabGroupSkin {
         let is_bottom_dock = bottom_button.is_some();
         let collapsed = group.is_collapsed();
 
-        let droppable = group.is_droppable();
+        let droppable = group.allows_merging();
         let tabs_count = group.panels().len();
         let active_ix = group.active_ix();
         let displayed = group.active_panel().map(|panel| panel.panel_id(cx));

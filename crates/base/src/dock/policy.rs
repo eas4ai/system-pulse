@@ -5,6 +5,7 @@ use std::collections::HashSet;
 
 use super::{DockAreaState, DockPlacement, PaneRef, PaneTree, PanelInfo, PanelState};
 
+/// Layout rules enforced by a dock area when installing, moving, or restoring panels.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub enum PanelPolicy {
     /// Preserve the framework's tab groups and tiles.
@@ -15,6 +16,7 @@ pub enum PanelPolicy {
 }
 
 impl PanelPolicy {
+    /// Whether panels may share tab groups. Enabled by default.
     pub fn allows_merging(self) -> bool {
         self == Self::Tabbed
     }
@@ -93,12 +95,9 @@ impl PanelPolicy {
             return Ok(());
         }
         let mut ids = HashSet::new();
-        for node in tree.node_ids() {
-            match tree
-                .find_node(node)
-                .expect("node came from this tree")
-                .kind()
-            {
+        let mut pending = vec![tree.root()];
+        while let Some(node) = pending.pop() {
+            match node.kind() {
                 PaneRef::Tabs { panels, .. } => {
                     ensure!(
                         panels.len() <= 1,
@@ -112,6 +111,7 @@ impl PanelPolicy {
                 PaneRef::Split {
                     children, sizes, ..
                 } => {
+                    pending.extend(children);
                     ensure!(
                         children.len() == sizes.len(),
                         "split size count does not match children"

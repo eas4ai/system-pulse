@@ -62,6 +62,7 @@ pub enum TabGroupEvent {
 pub struct TabGroupConstraints {
     alone: bool,
     dock_locked: bool,
+    allow_merging: bool,
     collapsed: bool,
     closable: bool,
 }
@@ -73,6 +74,7 @@ impl TabGroupConstraints {
         Self {
             alone: true,
             dock_locked: true,
+            allow_merging: false,
             collapsed: false,
             closable: false,
         }
@@ -85,6 +87,7 @@ impl TabGroupConstraints {
         Self {
             alone,
             dock_locked: false,
+            allow_merging: true,
             collapsed: false,
             closable: true,
         }
@@ -93,6 +96,12 @@ impl TabGroupConstraints {
     /// Whether the dock as a whole forbids rearranging.
     pub fn dock_locked(mut self, dock_locked: bool) -> Self {
         self.dock_locked = dock_locked;
+        self
+    }
+
+    /// Allow header and center drops to merge panels, independently of edge drops.
+    pub fn allow_merging(mut self, allow: bool) -> Self {
+        self.allow_merging = allow;
         self
     }
 
@@ -283,6 +292,7 @@ impl TabGroup {
             locked: self.is_locked(),
             draggable: self.draggable(cx),
             droppable: self.droppable(),
+            allow_merging: self.constraints.allow_merging,
             // A stale indicator would otherwise outlive a drag that was
             // cancelled while hovering this group.
             drop_indicator: cx
@@ -568,6 +578,10 @@ impl TabGroup {
         source: DropPlaceholderBounds,
         cx: &mut Context<Self>,
     ) {
+        if !self.droppable() || (placement.is_none() && !self.constraints.allow_merging) {
+            self.clear_drop_indicator(cx);
+            return;
+        }
         let to = DropPlaceholderBounds::for_placement(bounds, placement);
 
         let restart = self.drop_indicator.is_none_or(|indicator| {
@@ -611,6 +625,10 @@ impl TabGroup {
         placement: Option<Placement>,
         cx: &mut Context<Self>,
     ) {
+        if !self.droppable() || (placement.is_none() && !self.constraints.allow_merging) {
+            self.clear_drop_indicator(cx);
+            return;
+        }
         self.drop_indicator = None;
         cx.emit(TabGroupEvent::DragDrop {
             item: item.clone(),
@@ -640,6 +658,13 @@ impl TabGroup {
             Some(_) => None,
             None => indicator.and_then(|indicator| indicator.placement()),
         };
+
+        // No indicator is also a merge request, so clearing a denied preview
+        // must not accidentally turn it into an accepted center drop.
+        if !self.droppable() || (placement.is_none() && !self.constraints.allow_merging) {
+            cx.notify();
+            return;
+        }
 
         // Dropping a panel back onto its own group is a move only when it
         // splits out of a group holding more than itself, or when it lands on
@@ -783,6 +808,7 @@ pub struct TabGroupContext {
     locked: bool,
     draggable: bool,
     droppable: bool,
+    allow_merging: bool,
     closable: bool,
     drop_indicator: Option<DropIndicator>,
     on_select_tab: SelectTabHandler,
@@ -843,6 +869,11 @@ impl TabGroupContext {
 
     pub fn is_droppable(&self) -> bool {
         self.droppable
+    }
+
+    /// Whether a title/tab drop may merge another panel into this group.
+    pub fn allows_merging(&self) -> bool {
+        self.droppable && self.allow_merging
     }
 
     pub fn select_tab(&self, ix: usize, window: &mut Window, cx: &mut App) {
@@ -1810,5 +1841,91 @@ mod tests {
             events.borrow()
         );
         assert!(cx.update(|_, cx| group.read(cx).drop_indicator.is_none()));
+    }
+
+    #[gpui::test]
+    fn separate_groups_reject_center_and_header_drops_without_disabling_edges(
+        cx: &mut TestAppContext,
+    ) {
+        let log = log_of();
+        let (group, _panels, cx) = build_group(&log, &["a"], cx);
+        let events = record_events(&group, cx);
+        let drag = DragPanel::new(PanelId::from_u64(99), elsewhere());
+        cx.update(|window, cx| {
+            group.update(cx, |group, cx| {
+                group.set_constraints(
+                    TabGroupConstraints::in_split(false).allow_merging(false),
+                    window,
+                    cx,
+                );
+                let context = group.context(cx);
+                assert!(context.is_draggable());
+                assert!(context.is_droppable());
+                assert!(!context.allows_merging());
+                group.sync_drop_placeholder(
+                    content_bounds(),
+                    None,
+                    drag.drag_session_id(),
+                    DropPlaceholderBounds::for_placement(content_bounds(), None),
+                    cx,
+                );
+                assert!(group.drop_indicator.is_none());
+                group.on_drop(&drag, None, true, cx);
+                group.sync_drop_placeholder(
+                    content_bounds(),
+                    Some(Placement::Right),
+                    drag.drag_session_id(),
+                    DropPlaceholderBounds::for_placement(content_bounds(), None),
+                    cx,
+                );
+                group.on_drop(&drag, Some(0), true, cx);
+                group.emit_drag_drop(&AnyDrag::new("fixture"), None, cx);
+            });
+        });
+        cx.run_until_parked();
+        assert!(events.borrow().is_empty());
+    }
+
+    #[gpui::test]
+    fn separate_groups_still_emit_all_four_edge_moves(cx: &mut TestAppContext) {
+        let log = log_of();
+        let (group, _panels, cx) = build_group(&log, &["a"], cx);
+        let events = record_events(&group, cx);
+        let drag = DragPanel::new(PanelId::from_u64(99), elsewhere());
+        cx.update(|window, cx| {
+            group.update(cx, |group, cx| {
+                group.set_constraints(
+                    TabGroupConstraints::in_split(false).allow_merging(false),
+                    window,
+                    cx,
+                );
+                for placement in [
+                    Placement::Left,
+                    Placement::Right,
+                    Placement::Top,
+                    Placement::Bottom,
+                ] {
+                    group.sync_drop_placeholder(
+                        content_bounds(),
+                        Some(placement),
+                        drag.drag_session_id(),
+                        DropPlaceholderBounds::for_placement(content_bounds(), None),
+                        cx,
+                    );
+                    assert_eq!(group.drop_indicator.unwrap().placement(), Some(placement));
+                    group.on_drop(&drag, None, true, cx);
+                }
+            });
+        });
+        cx.run_until_parked();
+        assert_eq!(
+            *events.borrow(),
+            vec![
+                "drop panel 99 from 7 split 1 Left",
+                "drop panel 99 from 7 split 1 Right",
+                "drop panel 99 from 7 split 1 Top",
+                "drop panel 99 from 7 split 1 Bottom",
+            ]
+        );
     }
 }
