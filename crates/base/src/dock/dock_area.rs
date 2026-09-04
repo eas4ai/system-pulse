@@ -7,7 +7,7 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::Result;
+use anyhow::{Result, ensure};
 use gpui::{
     AnyElement, AnyView, App, AppContext as _, Axis, Bounds, Context, Div, Empty, Entity,
     EventEmitter, FocusHandle, Focusable, InteractiveElement as _, IntoElement, ParentElement,
@@ -28,6 +28,7 @@ use super::{
         PanelId, RootKind,
     },
     panel::{LivePanels, Panel, PanelEvent, PanelView},
+    policy::PanelPolicy,
     registry::{PanelBuildContext, PanelRegistry},
     state::{DockAreaState, DockPlacement, DockState, PanelInfo, PanelState, TileMeta},
     state_convert::{PanelBuilder, PanelSource as _},
@@ -133,6 +134,7 @@ pub struct DockArea {
     panels: HashMap<PanelId, Arc<dyn PanelView>>,
 
     locked: bool,
+    panel_policy: PanelPolicy,
     zoomed: Option<Zoomed>,
     focus_handle: FocusHandle,
     renderer: Rc<dyn DockAreaRenderer>,
@@ -166,6 +168,7 @@ impl DockArea {
             tiles: HashMap::new(),
             panels: HashMap::new(),
             locked: false,
+            panel_policy: PanelPolicy::default(),
             zoomed: None,
             focus_handle: cx.focus_handle(),
             renderer: Rc::new(BareDockArea),
@@ -222,6 +225,54 @@ impl DockArea {
         self.panels.get(&panel)
     }
 
+    pub fn panel_policy(&self) -> PanelPolicy {
+        self.panel_policy
+    }
+
+    /// Opt in before installing or loading the application's layout.
+    pub fn set_panel_policy(
+        &mut self,
+        policy: PanelPolicy,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<()> {
+        policy.validate_tree(&self.center)?;
+        let mut ids: HashSet<PanelId> = self.center.panels().collect();
+        for pane in self.docks.values() {
+            policy.validate_tree(&pane.tree)?;
+            if policy == PanelPolicy::Separate {
+                for panel in pane.tree.panels() {
+                    ensure!(ids.insert(panel), "panel occupies more than one region");
+                }
+            }
+        }
+        self.panel_policy = policy;
+        self.reconcile(window, cx);
+        Ok(())
+    }
+
+    fn validate_install(&self, tree: &PaneTree, placement: DockPlacement) -> Result<()> {
+        self.panel_policy.validate_tree(tree)?;
+        if self.panel_policy == PanelPolicy::Separate {
+            let incoming: HashSet<_> = tree.panels().collect();
+            if placement != DockPlacement::Center {
+                ensure!(
+                    !self.center.panels().any(|id| incoming.contains(&id)),
+                    "panel already belongs to center"
+                );
+            }
+            for (other, pane) in &self.docks {
+                if *other != placement {
+                    ensure!(
+                        !pane.tree.panels().any(|id| incoming.contains(&id)),
+                        "panel already belongs to another dock"
+                    );
+                }
+            }
+        }
+        Ok(())
+    }
+
     pub fn is_locked(&self) -> bool {
         self.locked
     }
@@ -254,11 +305,24 @@ impl DockArea {
     /// Replace the center region with a described layout. Whatever was there
     /// leaves the dock, so its panels are told [`Panel::on_removed`].
     pub fn set_center(&mut self, layout: DockLayout, window: &mut Window, cx: &mut Context<Self>) {
+        if let Err(error) = self.try_set_center(layout, window, cx) {
+            tracing::warn!(%error, "dock layout rejected");
+        }
+    }
+
+    pub fn try_set_center(
+        &mut self,
+        layout: DockLayout,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<()> {
         let (tree, panels) = PaneTree::from_layout(layout, RootKind::Split);
+        self.validate_install(&tree, DockPlacement::Center)?;
         self.center = tree;
         self.panels.extend(panels);
         self.reconcile(window, cx);
         cx.emit(DockEvent::LayoutChanged);
+        Ok(())
     }
 
     /// Replace one dock with a described layout, creating the dock if the area
@@ -274,11 +338,23 @@ impl DockArea {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) {
-        if placement == DockPlacement::Center {
-            return self.set_center(layout, window, cx);
+        if let Err(error) = self.try_set_dock(placement, layout, window, cx) {
+            tracing::warn!(%error, "dock layout rejected");
         }
+    }
 
+    pub fn try_set_dock(
+        &mut self,
+        placement: DockPlacement,
+        layout: DockLayout,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<()> {
+        if placement == DockPlacement::Center {
+            return self.try_set_center(layout, window, cx);
+        }
         let (tree, panels) = PaneTree::from_layout(layout, RootKind::Any);
+        self.validate_install(&tree, placement)?;
         let dock = self
             .docks
             .get(&placement)
@@ -288,6 +364,7 @@ impl DockArea {
         self.panels.extend(panels);
         self.reconcile(window, cx);
         cx.emit(DockEvent::LayoutChanged);
+        Ok(())
     }
 
     /// Take a dock away entirely, panels and all. Distinct from
@@ -482,6 +559,33 @@ impl DockArea {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) {
+        if self.panel_policy == PanelPolicy::Separate {
+            let Added::Anywhere(size) = added else {
+                return;
+            };
+            // Re-adding a live panel must not duplicate or relocate it.
+            if self.panels.contains_key(&id) {
+                return;
+            }
+            let result = if let Some(tree) = self.layout(placement) {
+                let node = first_tab_group(tree.root()).unwrap_or(tree.root().id());
+                self.add_panel_split_view(panel, node, Placement::Bottom, size, window, cx)
+            } else {
+                let layout = DockLayout::tabs().panel_view(panel, cx);
+                let result = self.try_set_dock(placement, layout, window, cx);
+                if result.is_ok() {
+                    if let Some(size) = size {
+                        self.set_dock_size(placement, size, window, cx);
+                    }
+                }
+                result
+            };
+            if let Err(error) = result {
+                tracing::warn!(%error, "panel insertion rejected");
+            }
+            return;
+        }
+
         // The registration is written before the target is resolved, because
         // both want `&mut self`, so an add that finds nowhere to put the panel
         // has to undo it. *Undo*, not remove: adding a panel the dock already
@@ -565,6 +669,51 @@ impl DockArea {
         self.commit(result, window, cx);
     }
 
+    /// Register a new panel directly in a singleton region beside `node`.
+    /// Rejection leaves both registration and the live layout unchanged.
+    pub fn add_panel_split_view(
+        &mut self,
+        panel: Arc<dyn PanelView>,
+        node: NodeId,
+        placement: Placement,
+        size: Option<Pixels>,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<()> {
+        let id = panel.panel_id(cx);
+        ensure!(
+            !self.panels.contains_key(&id),
+            "panel already belongs to this dock area"
+        );
+        ensure!(
+            size.is_none_or(|size| f32::from(size).is_finite() && size > px(0.)),
+            "invalid split size"
+        );
+        let region = self
+            .placement_of_node(node)
+            .ok_or_else(|| anyhow::anyhow!("split target no longer exists"))?;
+        let target = InsertTarget::Split {
+            node,
+            placement,
+            size,
+        };
+        let mut candidate = self.layout(region).expect("target region exists").clone();
+        ensure!(
+            candidate.insert_panel(id, target).changed(),
+            "split insertion was not accepted"
+        );
+        self.validate_install(&candidate, region)?;
+
+        self.adopt_measured_sizes(region, cx);
+        self.panels.insert(id, panel);
+        let result = self
+            .tree_mut(region)
+            .expect("target region exists")
+            .insert_panel(id, target);
+        self.commit(result, window, cx);
+        Ok(())
+    }
+
     /// Put the view map back the way an add found it, for one that placed
     /// nothing. `previous` is what [`HashMap::insert`] handed back.
     fn restore_registration(&mut self, id: PanelId, previous: Option<Arc<dyn PanelView>>) {
@@ -587,6 +736,68 @@ impl DockArea {
     /// Move a panel to a new home. The panel never leaves the dock, so it is
     /// never told it was removed.
     pub fn move_panel(
+        &mut self,
+        panel: PanelId,
+        target: InsertTarget,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        if self.panel_policy == PanelPolicy::Tabbed {
+            self.move_panel_unchecked(panel, target, window, cx);
+        } else if let Err(error) = self.try_move_panel(panel, target, window, cx) {
+            tracing::debug!(%error, "panel move rejected");
+        }
+    }
+
+    /// Validate a move on a candidate tree before changing either live region.
+    pub fn try_move_panel(
+        &mut self,
+        panel: PanelId,
+        target: InsertTarget,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) -> Result<()> {
+        ensure!(self.panels.contains_key(&panel), "panel is not registered");
+        let source = self
+            .placement_of_panel(panel)
+            .ok_or_else(|| anyhow::anyhow!("source panel no longer exists"))?;
+        let destination = self
+            .placement_of_node(target_node(&target))
+            .ok_or_else(|| anyhow::anyhow!("drop target no longer exists"))?;
+        if self.panel_policy == PanelPolicy::Separate {
+            ensure!(
+                matches!(target, InsertTarget::Split { .. }),
+                "merging panels is disabled"
+            );
+        }
+        if let InsertTarget::Split {
+            size: Some(size), ..
+        } = target
+        {
+            ensure!(
+                f32::from(size).is_finite() && size > px(0.),
+                "invalid split size"
+            );
+        }
+        let mut candidate = self
+            .layout(destination)
+            .expect("destination exists")
+            .clone();
+        let changed = if source == destination {
+            candidate.move_panel(panel, target).changed()
+        } else {
+            candidate.insert_panel(panel, target).changed()
+        };
+        ensure!(
+            changed && candidate.contains_panel(panel),
+            "drop target cannot accept this panel"
+        );
+        self.panel_policy.validate_tree(&candidate)?;
+        self.move_panel_unchecked(panel, target, window, cx);
+        Ok(())
+    }
+
+    fn move_panel_unchecked(
         &mut self,
         panel: PanelId,
         target: InsertTarget,
@@ -665,15 +876,28 @@ impl DockArea {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) {
-        let Some(region) = self.placement_of_node(node) else {
-            return;
-        };
-        self.adopt_measured_sizes(region, cx);
-        let Some(tree) = self.tree_mut(region) else {
-            return;
-        };
-        let result = tree.split(node, panel, placement, None);
-        self.commit(result, window, cx);
+        if self.panel_policy == PanelPolicy::Tabbed {
+            let Some(region) = self.placement_of_node(node) else {
+                return;
+            };
+            self.adopt_measured_sizes(region, cx);
+            let Some(tree) = self.tree_mut(region) else {
+                return;
+            };
+            let result = tree.split(node, panel, placement, None);
+            self.commit(result, window, cx);
+        } else {
+            self.move_panel(
+                panel,
+                InsertTarget::Split {
+                    node,
+                    placement,
+                    size: None,
+                },
+                window,
+                cx,
+            );
+        }
     }
 
     fn remove_panel_id(&mut self, panel: PanelId, window: &mut Window, cx: &mut Context<Self>) {
@@ -818,6 +1042,7 @@ impl DockArea {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) -> Result<()> {
+        self.panel_policy.validate_state(&state)?;
         self.version = state.version;
         self.zoomed = None;
         // Nothing in the old layout survives a load, so the caches are
@@ -4461,3 +4686,7 @@ mod tests {
         );
     }
 }
+
+#[cfg(test)]
+#[path = "separate_panels_tests.rs"]
+mod separate_panels_tests;
