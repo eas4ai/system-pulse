@@ -621,6 +621,9 @@ impl WorkspaceView {
                         return;
                     }
                 }
+                // The recovery button disappears after acceptance. Keep the
+                // keyboard dispatch path in the retained workspace before removal.
+                self.focus.focus(window, cx);
                 self.shared.borrow_mut().session.accept_recovery();
                 self.notice.clear();
             }

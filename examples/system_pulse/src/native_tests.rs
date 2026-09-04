@@ -568,3 +568,50 @@ fn toolbar_focus_stays_with_monitor_identity_when_discovery_order_reverses(
         assert!(data.session.workspace.panels["settings"].visible);
     });
 }
+
+#[gpui::test]
+fn accepting_recovered_layout_preserves_keyboard_reachability(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    command(&view, Command::SavePreset, cx);
+    let mut invalid = default_dock();
+    let second = invalid.center.children[1].children[0].clone();
+    invalid.center.children[0].children.push(second);
+    let raw = serde_json::json!({ "dock": invalid }).to_string();
+    cx.update(|window, cx| view.update(cx, |this, cx| this.restore(&raw, window, cx)));
+    draw(cx);
+    command(&view, Command::PanelCollapse("cpu".into()), cx);
+    command(&view, Command::Save, cx);
+    command(&view, Command::RecallPreset, cx);
+    let recover = cx.debug_bounds("workspace:recover").unwrap();
+    cx.simulate_click(recover.center(), Modifiers::none());
+    draw(cx);
+    assert!(cx.debug_bounds("workspace:recover").is_none());
+    assert!(cx.read(|cx| view.read(cx).shared.borrow().session.rejected.is_none()));
+    let before = cx.read(|cx| view.read(cx).shared.borrow().scroll.offset());
+    native_key("alt-pagedown", cx);
+    draw(cx);
+    assert!(
+        cx.read(|cx| view.read(cx).shared.borrow().scroll.offset())
+            .y
+            < before.y,
+        "recovery must keep workspace shortcuts reachable after its button disappears"
+    );
+    let focus_before_tab = cx.update(|window, cx| window.focused(cx));
+    native_key("tab", cx);
+    draw(cx);
+    let focus_after_tab = cx.update(|window, cx| window.focused(cx));
+    assert!(focus_after_tab.is_some());
+    assert_ne!(
+        focus_before_tab, focus_after_tab,
+        "Tab must move focus after recovery"
+    );
+    let after_tab = cx.read(|cx| view.read(cx).shared.borrow().scroll.offset());
+    native_key("alt-pagedown", cx);
+    draw(cx);
+    assert!(
+        cx.read(|cx| view.read(cx).shared.borrow().scroll.offset())
+            .y
+            < after_tab.y,
+        "Tab must retain the workspace keyboard path after recovery"
+    );
+}

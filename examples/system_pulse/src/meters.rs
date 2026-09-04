@@ -5,7 +5,13 @@ use system_pulse_model::{Meter, ReadingStatus, Sample};
 pub(crate) fn value(sample: Option<&Sample>) -> String {
     match sample {
         None => "Waiting for fixture".into(),
-        Some(s) if s.status == ReadingStatus::Unavailable => "Unavailable".into(),
+        Some(s) if s.status == ReadingStatus::Unavailable => {
+            if s.unit.is_empty() {
+                "Unavailable".into()
+            } else {
+                format!("Unavailable · {}", s.unit)
+            }
+        }
         Some(s) => format!(
             "{} {}{}",
             s.text,
@@ -104,8 +110,11 @@ mod tests {
     fn compact_status_does_not_turn_unavailable_into_zero() {
         assert_eq!(
             value(Some(&crate::fixture::sample("cpu", "overall", 8))),
-            "Unavailable"
+            "Unavailable · %"
         );
+        let mut unitless = crate::fixture::sample("cpu", "overall", 8);
+        unitless.unit.clear();
+        assert_eq!(value(Some(&unitless)), "Unavailable");
         assert!(value(Some(&crate::fixture::sample("cpu", "overall", 9))).ends_with("Stale"));
         assert_eq!(value(None), "Waiting for fixture");
     }
