@@ -1,0 +1,174 @@
+[
+  {
+    "name": "base-dock",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "gpui-base",
+      "--lib",
+      "dock::"
+    ],
+    "exit_code": 0,
+    "seconds": 0.5,
+    "results": [
+      "test result: ok. 205 passed; 0 failed; 0 ignored; 0 measured; 557 filtered out; finished in 0.02s"
+    ]
+  },
+  {
+    "name": "base-resizable",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "gpui-base",
+      "--lib",
+      "resizable::"
+    ],
+    "exit_code": 0,
+    "seconds": 0.4,
+    "results": [
+      "test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 749 filtered out; finished in 0.01s"
+    ]
+  },
+  {
+    "name": "ui-dock",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "gpui-component",
+      "--lib",
+      "dock::"
+    ],
+    "exit_code": 0,
+    "seconds": 0.39,
+    "results": [
+      "test result: ok. 19 passed; 0 failed; 0 ignored; 0 measured; 395 filtered out; finished in 0.03s"
+    ]
+  },
+  {
+    "name": "model",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "system-pulse-model"
+    ],
+    "exit_code": 0,
+    "seconds": 0.33,
+    "results": [
+      "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+      "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+    ]
+  },
+  {
+    "name": "application",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "system-pulse",
+      "--lib"
+    ],
+    "exit_code": 0,
+    "seconds": 0.69,
+    "results": [
+      "test result: ok. 21 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.31s"
+    ]
+  },
+  {
+    "name": "atspi",
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "-p",
+      "accesskit_atspi_common",
+      "--lib"
+    ],
+    "exit_code": 0,
+    "seconds": 0.42,
+    "results": [
+      "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+    ]
+  },
+  {
+    "name": "format",
+    "command": [
+      "cargo",
+      "fmt",
+      "-p",
+      "gpui-base",
+      "-p",
+      "gpui-component",
+      "-p",
+      "system-pulse-model",
+      "-p",
+      "system-pulse",
+      "--",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 1.56,
+    "results": []
+  },
+  {
+    "name": "clippy",
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "-p",
+      "gpui-base",
+      "-p",
+      "gpui-component",
+      "-p",
+      "system-pulse-model",
+      "-p",
+      "system-pulse",
+      "-p",
+      "accesskit_atspi_common",
+      "--all-targets",
+      "--no-deps",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "exit_code": 0,
+    "seconds": 4.34,
+    "results": []
+  },
+  {
+    "name": "native-build",
+    "command": [
+      "cargo",
+      "build",
+      "--locked",
+      "-p",
+      "system-pulse"
+    ],
+    "exit_code": 0,
+    "seconds": 0.44,
+    "results": []
+  },
+  {
+    "name": "diff",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 0.01,
+    "results": []
+  }
+]

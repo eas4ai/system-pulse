@@ -1,0 +1,35 @@
+{
+  "source_commit": "88343d5ed3be72865e52fc3d51a860649d8def83",
+  "binary_sha256": "162facf9d5402761aa0ca3e39ee2c834903d0eee1008d9b024cd43cf90e67cf2",
+  "result": "PASS",
+  "window_sizes": [
+    [
+      1440,
+      1000
+    ],
+    [
+      960,
+      640
+    ],
+    [
+      1440,
+      1000
+    ]
+  ],
+  "saved_state_identical_across_resize_and_restart": true,
+  "native_panel_order_and_disclosure_choices_identical_across_resize_and_restart": true,
+  "cpu_expanded": true,
+  "cpu_overall_collapsed": true,
+  "gpu_a_collapsed": true,
+  "gpu_b_expanded": true,
+  "cpu_restart_measured_bounds": [
+    1112,
+    178,
+    320,
+    280
+  ],
+  "exit_codes": [
+    0,
+    0
+  ]
+}

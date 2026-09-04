@@ -1,0 +1,1973 @@
+{
+  "role": "desktop frame",
+  "name": "main",
+  "states": [],
+  "bounds": [
+    0,
+    0,
+    1024,
+    768
+  ],
+  "children": [
+    {
+      "role": "application",
+      "name": "xdg-desktop-portal-gtk",
+      "states": [],
+      "children": []
+    },
+    {
+      "role": "application",
+      "name": "system-pulse",
+      "states": [],
+      "children": [
+        {
+          "role": "frame",
+          "name": "System Pulse \u2014 Fixture mode",
+          "states": [
+            "active",
+            "enabled",
+            "sensitive",
+            "showing",
+            "visible"
+          ],
+          "bounds": [
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "children": [
+            {
+              "role": "button",
+              "name": "Hide CPU",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                76,
+                78,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide GPU A",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                90,
+                76,
+                91,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide GPU B",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                185,
+                76,
+                91,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide Memory",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                280,
+                76,
+                102,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide Home volume",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                386,
+                76,
+                138,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide LAN",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                528,
+                76,
+                77,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide Processes",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                609,
+                76,
+                115,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Hide Settings",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                728,
+                76,
+                102,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Advance fixture",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                834,
+                76,
+                116,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Save",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                954,
+                76,
+                48,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Save preset",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                1006,
+                76,
+                92,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Recall preset",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                1102,
+                76,
+                101,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Reverse discovery",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                1207,
+                76,
+                132,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "button",
+              "name": "Connect/disconnect GPU A",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                108,
+                188,
+                28
+              ],
+              "actions": [
+                "click"
+              ],
+              "children": []
+            },
+            {
+              "role": "panel",
+              "name": "gpu:fixture-a",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                175,
+                1104,
+                36
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Expand GPU A",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "focusable",
+                    "focused",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    178,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide GPU A",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1085,
+                    178,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "cpu",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                1112,
+                175,
+                320,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse CPU",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1112,
+                    178,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide CPU",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    178,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Expand Overall utilization",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1120,
+                    219,
+                    138,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Overall utilization",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1397,
+                    219,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Meter: Line",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1120,
+                    251,
+                    304,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Collapse Core 0 utilization",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1120,
+                    295,
+                    135,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Core 0 utilization",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1397,
+                    295,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Meter: Number",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1120,
+                    327,
+                    304,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "gpu:fixture-b",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                455,
+                1424,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse GPU B",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    458,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide GPU B",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    458,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Collapse Utilization",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    499,
+                    92,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Utilization",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1397,
+                    499,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Meter: Number",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    531,
+                    1408,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "memory",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                735,
+                1424,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse Memory",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    738,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Memory",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    738,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Collapse RAM used / total",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    779,
+                    133,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide RAM used / total",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1397,
+                    779,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Meter: Number",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    811,
+                    1408,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "volume:fixture-home",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                1015,
+                1424,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse Home volume",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    1018,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Home volume",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    1018,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Collapse Capacity used / total",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    1059,
+                    158,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Capacity used / total",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1397,
+                    1059,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Meter: Number",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    1091,
+                    1408,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "interface:fixture-lan",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                1295,
+                1424,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse LAN",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    1298,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide LAN",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    1298,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Collapse RX / TX throughput",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    1339,
+                    148,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide RX / TX throughput",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1397,
+                    1339,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Meter: Number",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    16,
+                    1371,
+                    1408,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "processes",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                1575,
+                1424,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse Processes",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    1578,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Processes",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    1578,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "table",
+                  "name": "Fixture processes; arrows navigate; Tab leaves table",
+                  "states": [
+                    "enabled",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    9,
+                    1612,
+                    1422,
+                    242
+                  ],
+                  "children": [
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "selected",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1612,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1612,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1612,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1612,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1640,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1640,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1640,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1640,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1668,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1668,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1668,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1668,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1696,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1696,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1696,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1696,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1724,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1724,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1724,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1724,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1752,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1752,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1752,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1752,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1780,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1780,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1780,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1780,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1808,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1808,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1808,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1808,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1836,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1836,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1836,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1836,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    },
+                    {
+                      "role": "table row",
+                      "name": "",
+                      "states": [
+                        "enabled",
+                        "selectable",
+                        "sensitive",
+                        "showing",
+                        "visible"
+                      ],
+                      "bounds": [
+                        9,
+                        1864,
+                        512,
+                        28
+                      ],
+                      "children": [
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            9,
+                            1864,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            105,
+                            1864,
+                            320,
+                            28
+                          ],
+                          "children": []
+                        },
+                        {
+                          "role": "table cell",
+                          "name": "",
+                          "states": [
+                            "enabled",
+                            "sensitive",
+                            "showing",
+                            "visible"
+                          ],
+                          "bounds": [
+                            425,
+                            1864,
+                            96,
+                            28
+                          ],
+                          "children": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "panel",
+              "name": "settings",
+              "states": [
+                "enabled",
+                "focusable",
+                "sensitive",
+                "showing",
+                "visible"
+              ],
+              "bounds": [
+                8,
+                1855,
+                1424,
+                280
+              ],
+              "children": [
+                {
+                  "role": "button",
+                  "name": "Collapse Settings",
+                  "states": [
+                    "enabled",
+                    "expandable",
+                    "expanded",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    8,
+                    1858,
+                    26,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                },
+                {
+                  "role": "button",
+                  "name": "Hide Settings",
+                  "states": [
+                    "enabled",
+                    "focusable",
+                    "sensitive",
+                    "showing",
+                    "visible"
+                  ],
+                  "bounds": [
+                    1405,
+                    1858,
+                    27,
+                    28
+                  ],
+                  "actions": [
+                    "click"
+                  ],
+                  "children": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "application",
+      "name": "xdg-desktop-portal-kde",
+      "states": [
+        "enabled",
+        "sensitive",
+        "showing",
+        "visible"
+      ],
+      "children": []
+    },
+    {
+      "role": "application",
+      "name": "ksecretd",
+      "states": [
+        "enabled",
+        "sensitive",
+        "showing",
+        "visible"
+      ],
+      "children": []
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+[
+  {
+    "file": "cycle-00.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      ">\u00bb CPU- 22% - Stale",
+      "y Collapse CPU crate"
+    ]
+  },
+  {
+    "file": "cycle-01.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-29%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-02.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-36%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-03.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-43%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-04.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-50%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-05.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-57%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-06.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-64%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-07.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-71%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-08.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-78%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-09.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-85%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-10.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU-12%",
+      "y Collapse CPU"
+    ]
+  },
+  {
+    "file": "cycle-11.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      "> CPU- Unavailable",
+      "y Collapse CPU stable"
+    ]
+  },
+  {
+    "file": "cycle-12.png",
+    "CPU": [
+      "HideCPU  HideGPUA HideGPUB HideMemory HideHomevolume HideLAN Hide Processes Hide Settings Advance fixture Save Savepreset Recallpreset Reverse discovery",
+      ">\u00bb CPU- 26 % - Stale",
+      "y Collapse CPU crate"
+    ]
+  }
+]

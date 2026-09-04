@@ -1,0 +1,44 @@
+{
+  "source_commit": "88343d5ed3be72865e52fc3d51a860649d8def83",
+  "binary_sha256": "162facf9d5402761aa0ca3e39ee2c834903d0eee1008d9b024cd43cf90e67cf2",
+  "result": "PASS",
+  "focus_bounds": {
+    "initial-focus-revealed.json": [
+      8,
+      178,
+      26,
+      28
+    ],
+    "two-axis-manual-away.json": [
+      1112,
+      -422,
+      26,
+      28
+    ],
+    "two-axis-manual-stable.json": [
+      1112,
+      -422,
+      26,
+      28
+    ],
+    "two-axis-repeat.json": [
+      926,
+      178,
+      26,
+      28
+    ]
+  },
+  "vertical_revisit_y": 178,
+  "manual_scroll_y_before_and_after_tick": -1245,
+  "minimum_window": [
+    960,
+    640
+  ],
+  "workspace_visible_bounds": [
+    8,
+    178,
+    944,
+    454
+  ],
+  "same_frame_diagnostic": "Two focus requests without a rendered intermediate frame are coalesced by GPUI. That artificial sequence is excluded; settled native repeated focus and the strict three-cycle GPUI regression passed."
+}

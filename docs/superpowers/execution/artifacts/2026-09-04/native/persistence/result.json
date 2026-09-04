@@ -1,0 +1,26 @@
+{
+  "app_commit": "444b7de346403b1d9855d5478be4a687d59d1999",
+  "binary_sha256": "b64303eb3bcbff47dfed609f7461fffd842106add8e58f77d1d69b1dbf15d682",
+  "immediate_quit": {
+    "before_cpu_height": 280,
+    "after_drag_quit_saved_height": 332,
+    "restart_measured_height": 332,
+    "collapsed_height": 36,
+    "expanded_again_height": 332,
+    "save_clicked": false,
+    "exit_code": 0
+  },
+  "invalid_recovery": {
+    "original_bytes": 9647,
+    "unchanged_after": [
+      "collapse",
+      "Save",
+      "Recall preset"
+    ],
+    "archive_absent_before_accept": true,
+    "accept_action": "Accept recovered layout",
+    "archive_matches_original": true,
+    "valid_unique_singleton_regions": 8,
+    "recalled_preset_height": 332
+  }
+}

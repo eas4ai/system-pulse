@@ -1,0 +1,173 @@
+{
+  "verified_source_commit": "88343d5ed3be72865e52fc3d51a860649d8def83",
+  "files": {
+    "README.md": {
+      "bytes": 3183,
+      "sha256": "d8ac210ccf6e129192e3132a6d1c25afdf8cbd906af594d4241d1f993e47dd6a"
+    },
+    "checks/application.log.gz": {
+      "bytes": 891,
+      "sha256": "2f94334b8213c2476c8b47d4a14f4445edddb7610a0569212fe057d527896827"
+    },
+    "checks/atspi.log.gz": {
+      "bytes": 295,
+      "sha256": "7fbd75d9ae12bc25265159943ad8d65c763f183ac6fab428b4b5511fb7058ff1"
+    },
+    "checks/base-dock.log.gz": {
+      "bytes": 4428,
+      "sha256": "42b713e74f2a5a8f50c4ab9f60781fcbd476d4941d15502708088c258cdee264"
+    },
+    "checks/base-resizable.log.gz": {
+      "bytes": 627,
+      "sha256": "259acc526fc293bca7b49b5e18341ce6be9650b902345e0d8f67de982a4e4618"
+    },
+    "checks/clippy.log.gz": {
+      "bytes": 240,
+      "sha256": "dc3f65237ae011ad473f8a3df6bae80ff21fcb8b9225dea7b1f10f1b555c2f09"
+    },
+    "checks/diff.log.gz": {
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "checks/format.log.gz": {
+      "bytes": 20,
+      "sha256": "9ceffb7310338057cfe71a4ae1e2c98d2c485d81cdef906532a801f457a38d64"
+    },
+    "checks/model.log.gz": {
+      "bytes": 804,
+      "sha256": "ff591d9afa24f1eb6724111948cedba6910c8d0ffffc68b922facd886dc7d242"
+    },
+    "checks/native-build.log.gz": {
+      "bytes": 91,
+      "sha256": "54961ce36198294232c7e60ef19beaaff2ac2511e9e707a9b1bc25894a92f71e"
+    },
+    "checks/results.json": {
+      "bytes": 3482,
+      "sha256": "ed82bf72ffbb3612098a4c25c3977e4c37acdf7fa3eb6fda52ed3cb51daf1fc0"
+    },
+    "checks/ui-dock.log.gz": {
+      "bytes": 694,
+      "sha256": "961634e0d4c5120b357dbc0835d50dcf4f141b69bc4b70a2dcd51857019be28e"
+    },
+    "native/compact/minimum-width-320.png": {
+      "bytes": 60973,
+      "sha256": "21d1763c6aa439ef8fd205f1581f02f0aec74a58030cb17ff8e439bfc5dc1843"
+    },
+    "native/compact/panel-cycle-ocr.json": {
+      "bytes": 3441,
+      "sha256": "e1a5ef92d13b0a614df65d4adf055bf61b28f625574a0d4af68a32f8d1279870"
+    },
+    "native/compact/panel-unavailable.png": {
+      "bytes": 59844,
+      "sha256": "d576dd1da5fc9902a623a2981081e847a4e1441efbf81d6e12bdcf4e0b3e5bfe"
+    },
+    "native/compact/unavailable-unit.png": {
+      "bytes": 66315,
+      "sha256": "b663e246953f356b8d731ea550a3371abfd163d1c547521d676fac79ef139722"
+    },
+    "native/compact/unit-ocr.json": {
+      "bytes": 228,
+      "sha256": "449846285fe4cd1d33db37580bd4e0ad8ca9fda3ff1e8cff04c8a4090da87e13"
+    },
+    "native/disclosures/result.json": {
+      "bytes": 3479,
+      "sha256": "76a6cbbe4bd3c622234bbc7514e0e478b7657b776d79ac20295bab74c2029111"
+    },
+    "native/disclosures/run-metadata.json": {
+      "bytes": 190,
+      "sha256": "046bf90ef3c291fe5c9b73c93e8c4c197981dfa2a62d5101c97f5a255510df77"
+    },
+    "native/disclosures/tree.json": {
+      "bytes": 59086,
+      "sha256": "0cb66d075cfde0f083c35b81350db8ea5cc8c2f2f27af65643c856a107016314"
+    },
+    "native/focus/manual-away.json": {
+      "bytes": 59130,
+      "sha256": "eabfa6f08df5d0357fce7c5a2776054fb5d0ce772854ee837fcf02a1de2b0ae7"
+    },
+    "native/focus/manual-stable.json": {
+      "bytes": 59130,
+      "sha256": "eabfa6f08df5d0357fce7c5a2776054fb5d0ce772854ee837fcf02a1de2b0ae7"
+    },
+    "native/focus/result.json": {
+      "bytes": 951,
+      "sha256": "0d9e9b51dada70b0d907303c7c4d111f166883402a1cd2a7cddf3f9bc97a207a"
+    },
+    "native/focus/revealed.json": {
+      "bytes": 59242,
+      "sha256": "5a9b14b77ef4c9fd0b5c24c94a92916163d10e32a4112201f3b40e22faf8fa9b"
+    },
+    "native/focus/revealed.png": {
+      "bytes": 39890,
+      "sha256": "2196d7721db8f497fdb82a680b106ec01476e8b53fda2cf971244daa20801ce6"
+    },
+    "native/focus/run-metadata.json": {
+      "bytes": 194,
+      "sha256": "06a21603859a478fad466773027671c41d612499d0e29e461ecac8a27c929d7a"
+    },
+    "native/identity-roundtrip.json": {
+      "bytes": 6336,
+      "sha256": "b40bc231ef8681110f07570dd87e0abddbcdb5464b65fecd0648cc44cd55c205"
+    },
+    "native/mixed/before-resize.json": {
+      "bytes": 57221,
+      "sha256": "359cdc13983d1381b9373b3edbff6a994ca569dd4fde4b90a1fa20ff345d69ad"
+    },
+    "native/mixed/before-state.json": {
+      "bytes": 6753,
+      "sha256": "85859468c6049d4fa1137c464ded017548f9ea53774d53c6205de899e2673aa0"
+    },
+    "native/mixed/grown.json": {
+      "bytes": 57221,
+      "sha256": "359cdc13983d1381b9373b3edbff6a994ca569dd4fde4b90a1fa20ff345d69ad"
+    },
+    "native/mixed/restarted-state.json": {
+      "bytes": 6753,
+      "sha256": "85859468c6049d4fa1137c464ded017548f9ea53774d53c6205de899e2673aa0"
+    },
+    "native/mixed/restarted.json": {
+      "bytes": 57238,
+      "sha256": "201383894d97b9e53ddcfa68883ed4c0c61dca57b7984f6a9b012b91edf7bd60"
+    },
+    "native/mixed/restarted.png": {
+      "bytes": 70327,
+      "sha256": "246b403a77a5e2e083aaeada8b2b81177663112ec1051cadcf229cb389593aec"
+    },
+    "native/mixed/result.json": {
+      "bytes": 672,
+      "sha256": "16cdb1b78ae93f0a3ec4c53b9c2e357226ef8962fb9b5a127d2c85e0cbf09e16"
+    },
+    "native/mixed/run-metadata.json": {
+      "bytes": 195,
+      "sha256": "bab0635d772f3b66abb9209c33755019db5105366046143c473bc8467877665f"
+    },
+    "native/mixed/small.json": {
+      "bytes": 57221,
+      "sha256": "0e18786782afab2731715e42b0658dd53a1a725c68ce44c15e1c64c4739fe61d"
+    },
+    "native/persistence/invalid-fallback.png": {
+      "bytes": 68401,
+      "sha256": "d51cd664b895eada74525913c9dff81a57a32903af6c15f34fd60fe8c10e0804"
+    },
+    "native/persistence/invalid-original.json.gz": {
+      "bytes": 598,
+      "sha256": "7e13bbab45f78a27051e201fe9d50b69be424fdd58281f36f6210ec18d5d145f"
+    },
+    "native/persistence/result.json": {
+      "bytes": 737,
+      "sha256": "16cbaa44be0e85324fe452a07b5d0053c70319986df0e9f213373cd18def2944"
+    },
+    "native/recovery-keyboard-restored.png": {
+      "bytes": 63608,
+      "sha256": "b2069341f1548b15064b368e32a3f0df9d7e13be2c279ad7b981256e763dcf84"
+    },
+    "native/table-edge-parent-wheel.png": {
+      "bytes": 91946,
+      "sha256": "6ec4720ee0e84fcf09203ed32dd33319c458367a39499e2b920a9847f2d6a144"
+    },
+    "native_driver.py": {
+      "bytes": 7532,
+      "sha256": "0b98620add6db0d48077a4c9b0f1c9544cef0e12c0edac31444b407ec9b8736e"
+    }
+  }
+}

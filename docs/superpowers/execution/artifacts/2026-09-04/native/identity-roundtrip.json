@@ -1,0 +1,300 @@
+{
+  "schema_version": 1,
+  "dock": {
+    "version": 1,
+    "center": {
+      "panel_name": "StackPanel",
+      "children": [
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "cpu"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "gpu:fixture-a"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "gpu:fixture-b"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "memory"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "volume:fixture-home"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "interface:fixture-lan"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "processes"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "settings"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        }
+      ],
+      "info": {
+        "stack": {
+          "sizes": [
+            280.0,
+            36.0,
+            280.0,
+            280.0,
+            280.0,
+            280.0,
+            280.0,
+            280.0
+          ],
+          "axis": 1
+        }
+      }
+    }
+  },
+  "panels": {
+    "cpu": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {
+        "core0": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "overall": {
+          "visible": true,
+          "collapsed": true,
+          "order": 0,
+          "meter": "line"
+        }
+      }
+    },
+    "gpu:fixture-a": {
+      "visible": true,
+      "collapsed": true,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {
+        "utilization": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "gpu:fixture-b": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {
+        "utilization": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "interface:fixture-lan": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {
+        "traffic": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "memory": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {
+        "capacity": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "processes": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {}
+    },
+    "settings": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {}
+    },
+    "volume:fixture-home": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 944.0,
+        "height": 280.0
+      },
+      "sensors": {
+        "capacity": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    }
+  }
+}

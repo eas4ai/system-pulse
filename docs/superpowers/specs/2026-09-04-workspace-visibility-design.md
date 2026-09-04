@@ -1,7 +1,7 @@
 # Workspace Visibility and Collapse
 
 Date: 2026-09-04
-Status: Approved by the user on 2026-09-04. Implementation is authorized and in progress; see the [execution record](../execution/2026-09-04-workspace-visibility.md).
+Status: Approved by the user on 2026-09-04. The native fixture implementation is complete and verified on Linux; see the [execution record](../execution/2026-09-04-workspace-visibility.md) for scope and evidence. Live system collection remains separate work.
 
 ## Purpose
 

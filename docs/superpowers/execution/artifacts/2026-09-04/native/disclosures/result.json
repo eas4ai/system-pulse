@@ -1,0 +1,156 @@
+{
+  "disclosures": 15,
+  "events": [
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand CPU",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse CPU",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand GPU A",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse GPU A",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand GPU B",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse GPU B",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Memory",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Memory",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Home volume",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Home volume",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand LAN",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse LAN",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Processes",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Processes",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Settings",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Settings",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Overall utilization",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Overall utilization",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Core 0 utilization",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Core 0 utilization",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand RAM used / total",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse RAM used / total",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Capacity used / total",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Capacity used / total",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand RX / TX throughput",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse RX / TX throughput",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Utilization",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Utilization",
+      "value": 1
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Expand Utilization",
+      "value": 0
+    },
+    {
+      "type": "object:state-changed:expanded",
+      "name": "Collapse Utilization",
+      "value": 1
+    }
+  ],
+  "result": "PASS"
+}
