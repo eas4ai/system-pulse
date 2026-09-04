@@ -380,6 +380,13 @@ impl TabGroup {
         // active-state contract counts as no panel being displayed.
         let collapse_changed = self.constraints.is_collapsed() != constraints.is_collapsed();
         self.constraints = constraints;
+        if !constraints.allow_merging
+            && self
+                .drop_indicator
+                .is_some_and(|indicator| indicator.placement().is_none())
+        {
+            self.drop_indicator = None;
+        }
         if collapse_changed {
             self.schedule_active_sync(window, cx);
         }
@@ -1927,5 +1934,55 @@ mod tests {
                 "drop panel 99 from 7 split 1 Bottom",
             ]
         );
+    }
+
+    #[gpui::test]
+    fn separate_policy_clears_merge_preview_and_preserves_edge_previews(cx: &mut TestAppContext) {
+        use crate::dock::{DockArea, DockLayout, PanelPolicy, test_support::TestPanel};
+
+        cx.update(|cx| {
+            let _ = crate::Theme::global_mut(cx);
+        });
+        let (area, cx) =
+            cx.add_window_view(|window, cx| DockArea::new("preview-policy", None, window, cx));
+        cx.update(|window, cx| {
+            let panel = TestPanel::new("Alpha", cx);
+            area.update(cx, |area, cx| {
+                area.set_center(DockLayout::tabs().panel(panel.clone()), window, cx);
+            });
+            let group = panel.read(cx).group.as_ref().unwrap().upgrade().unwrap();
+            for placement in [
+                None,
+                Some(Placement::Left),
+                Some(Placement::Right),
+                Some(Placement::Top),
+                Some(Placement::Bottom),
+            ] {
+                area.update(cx, |area, cx| {
+                    area.set_panel_policy(PanelPolicy::Tabbed, window, cx)
+                        .unwrap();
+                });
+                group.update(cx, |group, cx| {
+                    group.sync_drop_placeholder(
+                        content_bounds(),
+                        placement,
+                        1,
+                        DropPlaceholderBounds::for_placement(content_bounds(), placement),
+                        cx,
+                    );
+                    assert!(group.drop_indicator.is_some());
+                });
+                area.update(cx, |area, cx| {
+                    area.set_panel_policy(PanelPolicy::Separate, window, cx)
+                        .unwrap();
+                });
+                let group = group.read(cx);
+                assert!(!group.context(cx).allows_merging());
+                match placement {
+                    None => assert!(group.drop_indicator.is_none()),
+                    Some(edge) => assert_eq!(group.drop_indicator.unwrap().placement(), Some(edge)),
+                }
+            }
+        });
     }
 }
