@@ -280,8 +280,11 @@ class Native:
         )
         self.interval_ms = milliseconds
 
-    def wheel(self, point, down):
+    def wheel(self, point, down, *, deadline=None):
         self.journal("wheel", point=point, down=down, count=1)
+        if deadline is not None:
+            # Include synchronous journal work in the recovery input budget.
+            require(time.monotonic() < deadline, "navigation reveal deadline expired")
         xtest.fake_input(self.d, X.MotionNotify, x=int(point[0]), y=int(point[1]))
         xtest.fake_input(self.d, X.ButtonPress, 5 if down else 4)
         xtest.fake_input(self.d, X.ButtonRelease, 5 if down else 4)
@@ -1231,7 +1234,7 @@ class Native:
                         deadline=deadline,
                         action="nonselecting vertical wheel",
                     )
-                    self.wheel(point, down=down)
+                    self.wheel(point, down=down, deadline=deadline)
                     recovery_started = True
                     recovery_proof = False
                     return None

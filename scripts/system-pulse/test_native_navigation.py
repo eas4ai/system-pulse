@@ -170,7 +170,7 @@ class NavigationTests(unittest.TestCase):
         self.native.wheel = Mock(side_effect=self.reveal_wheel)
         self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
 
-    def reveal_wheel(self, point, down):
+    def reveal_wheel(self, point, down, *, deadline=None):
         self.events.append(("reveal-wheel", {"point": point, "down": down}))
         self.visible_ids = self.ids[2:6]
 
@@ -183,13 +183,120 @@ class NavigationTests(unittest.TestCase):
             endpoint_index=original_index,
         )
 
+    def physical_wheel(self, on_input=None):
+        """Run the real wheel method with only the XTest transport replaced."""
+        self.native.__dict__.pop("wheel", None)
+        self.native.d = Mock()
+        self.physical_inputs = []
+
+        def fake_input(display, event, *args, **kwargs):
+            self.assertIs(display, self.native.d)
+            self.physical_inputs.append((event, args, kwargs, self.clock.now))
+            if on_input:
+                on_input(event)
+
+        self.native.wheel.__globals__.update(
+            X=SimpleNamespace(
+                MotionNotify="motion", ButtonPress="press", ButtonRelease="release"
+            ),
+            xtest=SimpleNamespace(fake_input=fake_input),
+        )
+
+    def test_reveal_slow_journal_prevents_physical_dispatch(self):
+        for event in ("navigation-endpoint-reveal", "wheel"):
+            for delay in (7.75, 8):
+                with self.subTest(event=event, delay=delay):
+                    self.setUp()
+                    self.displaced_endpoint()
+                    self.physical_wheel()
+
+                    def slow_journal(name, **fields):
+                        self.journal(name, **fields)
+                        if name == event:
+                            self.clock.now += delay
+
+                    self.native.journal = slow_journal
+                    with self.assertRaises((TimeoutError, AssertionError)):
+                        self.observe_displaced()
+                    self.assertTrue(any(e[0] == event for e in self.events))
+                    self.assertEqual(self.physical_inputs, [])
+                    self.native.d.sync.assert_not_called()
+
+    def test_reveal_physical_dispatch_under_deadline_finishes_fresh_proof(self):
+        self.displaced_endpoint()
+        self.physical_wheel(
+            lambda event: self.reveal_wheel([400, 360], False)
+            if event == "release"
+            else None
+        )
+
+        def slow_journal(event, **fields):
+            self.journal(event, **fields)
+            if event in ("navigation-endpoint-reveal", "wheel"):
+                self.clock.now += 3
+
+        self.native.journal = slow_journal
+        self.assertEqual(self.observe_displaced()[0][0], self.endpoint)
+        self.assertEqual(
+            self.physical_inputs,
+            [
+                ("motion", (), {"x": 400, "y": 360}, 6.25),
+                ("press", (4,), {}, 6.25),
+                ("release", (4,), {}, 6.25),
+            ],
+        )
+        self.native.d.sync.assert_called_once_with()
+        self.assertEqual(self.selection, [self.endpoint])
+        self.assertEqual(self.native.navigation_panel.call_count, 2)
+        self.assertTrue(
+            any(e[0] == "navigation-endpoint-reveal-proof" for e in self.events)
+        )
+        self.assertLess(self.clock.now, 8)
+
+    def test_reveal_releases_pressed_wheel_if_dispatch_consumes_deadline(self):
+        self.displaced_endpoint()
+        self.physical_wheel(
+            lambda event: setattr(self.clock, "now", self.clock.now + 8)
+            if event == "press"
+            else None
+        )
+        with self.assertRaises(TimeoutError):
+            self.observe_displaced()
+        self.assertEqual(
+            [item[0] for item in self.physical_inputs], ["motion", "press", "release"]
+        )
+        self.assertLess(self.physical_inputs[1][3], 8)
+        self.assertGreaterEqual(self.physical_inputs[2][3], 8)
+        self.native.d.sync.assert_called_once_with()
+
+    def test_generic_wheel_keeps_unbounded_dispatch_and_release(self):
+        for down, button in ((False, 4), (True, 5)):
+            with self.subTest(down=down):
+                self.setUp()
+                self.physical_wheel()
+                self.clock.now = 200
+                self.native.wheel([12.9, 34.8], down)
+                self.assertEqual(
+                    self.physical_inputs,
+                    [
+                        ("motion", (), {"x": 12, "y": 34}, 200),
+                        ("press", (button,), {}, 200),
+                        ("release", (button,), {}, 200),
+                    ],
+                )
+                self.assertEqual(
+                    self.events,
+                    [("wheel", {"point": [12.9, 34.8], "down": down, "count": 1}, 200)],
+                )
+                self.native.d.sync.assert_called_once_with()
+
     def test_displaced_endpoint_reveal_preserves_identity_and_fresh_unique_proof(self):
         self.displaced_endpoint()
         result, _, _ = self.observe_displaced()
         self.assertEqual(result[0], self.endpoint)
         self.assertEqual(self.selection, [self.endpoint])
         self.assertFalse(any(event[0] == "key" for event in self.events))
-        self.native.wheel.assert_called_once_with([400, 360], down=False)
+        self.native.wheel.assert_called_once_with([400, 360], down=False, deadline=8)
         self.assertEqual(self.native.navigation_panel.call_count, 2)
         self.assertTrue(
             all(
@@ -320,7 +427,7 @@ class NavigationTests(unittest.TestCase):
         self.displaced_endpoint()
         steps = 0
 
-        def fractional(point, down):
+        def fractional(point, down, *, deadline):
             nonlocal steps
             steps += 1
             self.visible_ids = self.ids[
@@ -342,7 +449,7 @@ class NavigationTests(unittest.TestCase):
                 self.setUp()
                 self.displaced_endpoint()
 
-                def changed(point, down):
+                def changed(point, down, *, deadline):
                     self.reveal_wheel(point, down)
                     if invalid == "selection":
                         self.selection = [self.visible_ids[0], self.visible_ids[1]]
@@ -372,7 +479,7 @@ class NavigationTests(unittest.TestCase):
                 self.sequence += 1
 
         self.native.key = moved
-        self.native.wheel.side_effect = lambda point, down: setattr(
+        self.native.wheel.side_effect = lambda point, down, *, deadline: setattr(
             self, "visible_ids", list(self.ids)
         )
         self.assertEqual(self.navigate()[0], self.target)
@@ -459,8 +566,10 @@ class NavigationTests(unittest.TestCase):
                     return original(node)
 
                 self.native.bounds.side_effect = replaced
-                self.native.wheel.side_effect = lambda point, down: setattr(
-                    self, "visible_ids", list(self.ids)
+                self.native.wheel.side_effect = (
+                    lambda point, down, *, deadline: setattr(
+                        self, "visible_ids", list(self.ids)
+                    )
                 )
                 with self.assertRaises(TimeoutError):
                     self.observe_displaced()
@@ -492,11 +601,11 @@ class NavigationTests(unittest.TestCase):
         self.ids.remove(self.endpoint)
         self.ids.insert(10, self.endpoint)
         self.visible_ids = self.ids[4:7]
-        self.native.wheel.side_effect = lambda point, down: setattr(
+        self.native.wheel.side_effect = lambda point, down, *, deadline: setattr(
             self, "visible_ids", self.ids[9:12]
         )
         self.assertEqual(self.observe_displaced()[0][0], self.endpoint)
-        self.native.wheel.assert_called_once_with([400, 360], down=True)
+        self.native.wheel.assert_called_once_with([400, 360], down=True, deadline=8)
 
     def test_pacing_frame_retries_reuse_valid_panel_without_discovery_cost(self):
         self.selection = [aid(2)]

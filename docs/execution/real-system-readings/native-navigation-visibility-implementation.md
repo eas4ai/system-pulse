@@ -77,3 +77,28 @@ test verifies that intended reuse.
 After this correction, 68 navigation, 163 focused native, and 267 full Python
 tests pass. Scoped Ruff lint/format and `git diff --check` pass. No live run or
 build was performed.
+
+## QUALITY correction: include journals in the dispatch deadline
+
+The independent QUALITY probe delayed either `navigation-endpoint-reveal` or
+`wheel` journaling by eight seconds. The last observation guard preceded both
+synchronous writes, so the real wheel method still emitted motion, press, and
+release at 8.25 seconds despite the original deadline of eight seconds. RED
+reproduced both delayed writes, including dispatch exactly at eight seconds.
+
+Recovery now passes its original absolute deadline into `wheel`. An optional
+keyword-only guard runs after wheel journaling, immediately before the first
+XTest input. Both writes therefore count against the original budget. Generic
+wheel callers retain their existing behavior. Once a permitted dispatch presses
+the button, release and sync still complete if time expires. The existing
+eight-second batch and 180-second navigation bounds, immutable recovery record,
+multi-step reuse, unique final panel proof, and independent metric checks remain.
+
+GREEN blocks every XTest event in both delayed-journal cases. Additional checks
+cover successful dispatch and fresh proof after both writes consume time,
+release cleanup after a slow press, and generic wheel input in both directions.
+The 72 navigation, 167 focused native, and 271 full Python tests pass with
+`/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14 -B` and
+`TMPDIR=/home/shawn/workspace2/task-manager-artifacts/tmp`. Scoped Ruff lint,
+Ruff format checking, and `git diff --check` pass. No live capture, build, or
+Cairn check was run for this correction.
