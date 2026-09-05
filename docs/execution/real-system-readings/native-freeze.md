@@ -1,6 +1,6 @@
 # Native process navigation freeze
 
-Status: root cause reproduced; a focused fix and eight native regressions pass. Source commit `88d92e6c8a77c3a3f2ff1879831f662fdaf22e8c` awaits independent spec and quality reviews. Final native acceptance remains pending.
+Status: root cause reproduced; a focused fix and eight native regressions pass. Source commit `88d92e6c8a77c3a3f2ff1879831f662fdaf22e8c` has passed independent spec review; quality review is running. Final native acceptance remains pending.
 
 ## Candidate and evidence
 
@@ -32,7 +32,7 @@ Full read-only report: `/tmp/system-pulse-freeze-investigation/REPORT.md`. Ordin
 
 ## Candidate repaint correction
 
-The app implementer has a narrow pending-frame correction in `panel.rs` and `workspace.rs`, with burst regressions in `native_tests.rs`. Three new regressions failed on the prior implementation; the candidate passed 44 app tests, 24 model tests, scoped formatting/strict Clippy and native build. Candidate binary SHA256: `c419281e6618155e31abfd5b1f4492698848ffa3bdec5e3f505b5604091dc76f`. Source is committed as `88d92e6c8a77c3a3f2ff1879831f662fdaf22e8c`; independent reviews are pending.
+The app implementer has a narrow pending-frame correction in `panel.rs` and `workspace.rs`, with burst regressions in `native_tests.rs`. Three new regressions failed on the prior implementation; the candidate passed 44 app tests, 24 model tests, scoped formatting/strict Clippy and native build. Candidate binary SHA256: `c419281e6618155e31abfd5b1f4492698848ffa3bdec5e3f505b5604091dc76f`. Production source is committed as `88d92e6c8a77c3a3f2ff1879831f662fdaf22e8c`; test-only follow-up `5d38680e6b9404283397ebacd1a1139f143bb3f3` closes the spec assertion gap. Quality review is pending.
 
 The original-size 1440×1000 native held-Up replay passed: 3.000521-second hold at unchanged 25 Hz, 69 independent freshness observations, maximum accepted age 1.358890228 seconds, sequences 231→235. Selection changed and Processes panel bounds remained `[8,250,1424,280]`. A stable native/diagnostic summary comparison completed in 57.214 ms at sequence 235/revision 234. Root inspected `/tmp/system-pulse-repaint-fix/native-held2/original-size-after-up.png`; the header is visible while the inner table remains horizontally scrolled from earlier checks. This is not an all-fields process or final accuracy proof. Exact case data: `/tmp/system-pulse-repaint-fix/native-original/held-up.json`.
 
@@ -42,6 +42,10 @@ The bounded burst also passed: exactly 64 Up keys in 1.587819 seconds, then no a
 
 ## Completed focused replay
 
-All eight final cases passed on the same binary: original-size held Up, exactly 64 Up taps, held Left/Right, and held Alt+Left/Right/PageUp/PageDown. Maximum accepted age across those passing cases was 1.530683060 seconds, below the declared two seconds. Horizontal cases retained native PID/start `1:31`; outer vertical cases observed signed 15,900-pixel panel motion and explicitly did not observe offscreen selected rows. The deterministic outer test proves no selection mutation. Failed boundary/setup and offscreen-row lookup attempts remain separate and were not counted as passes.
+All eight final cases passed on the same binary: original-size held Up, exactly 64 Up taps, held Left/Right, and held Alt+Left/Right/PageUp/PageDown. Maximum accepted age across those passing cases was 1.530683060 seconds, below the declared two seconds. Horizontal cases retained native PID/start `1:31`; outer vertical cases observed signed 15,900-pixel panel motion and explicitly did not observe offscreen selected rows. The initial verification report claimed the deterministic outer test proves no selection mutation. Spec review found that it lacked a direct selected-identity assertion; that P2 assertion gap is being fixed before sign-off. Failed boundary/setup and offscreen-row lookup attempts remain separate and were not counted as passes.
 
 Normal WM_DELETE_WINDOW shutdown returned zero in 0.402581 seconds; parent confirmation and cleanup recorded the private app, driver and DBus PIDs absent. Final evidence: `/tmp/system-pulse-repaint-fix/native-final-results.json`, `verification.md`, and `native-held2/shutdown.json`. Root read the final results and verification report. The source change adds two per-view pending flags and next-frame helpers; the remaining additions are focused regression coverage. Both independent reviews must pass before Task 3 source work begins.
+
+Spec reviewer independently reran all 44 app tests, inspected production changes, native scripts/results/raw freshness journals, binary identity and shutdown evidence. Production behavior matched Task 2b. The only open finding is the missing direct nonempty selected-identity assertion in the outer burst test, after each key and frame. This is an evidence correction; source review has not identified an outer selection mutation.
+
+The selected-identity assertion gap is closed in test-only commit `5d38680e6b9404283397ebacd1a1139f143bb3f3`. It establishes a nonempty identity and checks it after every Alt key, callback and repaint. The worker reran all 44 app tests, scoped formatting and strict Clippy; the spec reviewer independently passed the focused regression and confirmed the unchanged production binary hash. Spec review is PASS. Quality review follows. Artifact hashes are recorded in [the manifest](repaint-artifact-manifest.json); external files remain supporting evidence rather than final Cairn acceptance receipts.
