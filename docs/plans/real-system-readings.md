@@ -293,9 +293,11 @@ controlled target remained present. See the judged decision
   Validate fresh frames between batches without forcing a new collector
   sequence each time. Preserve the total and batch deadlines.
 - [ ] Reconcile an exited selection against current native selection and
-  snapshot membership. If cleared, reestablish Home/End physically within
-  the same deadline. Reject target loss, PID reuse, ambiguous selection,
-  stale frames, and incomplete native observations.
+  snapshot membership. Retry transient retention of the exited identity;
+  once cleared, reestablish Home/End physically within the same deadline.
+  Reject any unexplained transfer to a different selected identity, target
+  loss, PID reuse, ambiguous selection, stale frames, and incomplete native
+  observations.
 - [ ] Test lifecycle, unchanged-sequence, freshness, acknowledgement ordering,
   and deadline cases; run focused/full checks and independent reviews.
 - [ ] Run fresh untraced native and full committed acceptance. Earlier
