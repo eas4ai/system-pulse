@@ -1,5 +1,7 @@
 # Navigate live processes independently of collection cadence
 
+Superseded by: recover-native-navigation-without-claiming-model-selection-evidence
+
 Level: Judged
 Decided by: agent
 Rests on: LIVE-003 and LIVE-010 require real process navigation during collection. The retained diagnostic performed 176 two-key batches; newer-snapshot waits consumed 116.612 seconds, and an exited selected identity caused an unchecked list.index failure with the controlled target still present.

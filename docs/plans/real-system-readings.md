@@ -354,3 +354,20 @@ the failed capture and avoid attributing its cause without evidence.
   64-key burst count and expected endpoint acknowledgement. Test failures
   as well as ordering and finish independent SPEC then QUALITY review.
 - [ ] Run fresh untraced native and full committed acceptance.
+
+### Prove selection state at the correct boundary
+
+The virtualized native tree cannot prove automatic model clearing. The
+superseding decision `recover-native-navigation-without-claiming-model-selection-evidence`
+keeps explicit Home/End recovery and all existing rejection/budget rules.
+
+- [ ] Correct reconciliation comments to state the actual visible-row
+  observation. Add a GPUI integration regression through accept_snapshot
+  proving selection remains on identity through reordering and clears on
+  removal and PID reuse before further input.
+- [ ] Make the selected-child exit check reject another instantiated
+  selected identity during its existing strict current-tree proof, before
+  further input and within the original five-second deadline. Test this
+  rejection without treating unrendered rows as observed.
+- [ ] Run relevant Python/Rust checks and independent SPEC then QUALITY
+  review, then fresh untraced native and full committed acceptance.
