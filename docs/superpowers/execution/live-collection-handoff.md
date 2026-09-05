@@ -410,3 +410,47 @@ Artifacts: `/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rst
 Source records: `native-cell-discovery-failure.md/json`. Cairn correctly
 recorded three passes and ten unverified results and names implement LIVE-001.
 Final acceptance, review, and Done remain outstanding.
+
+
+## 2026-09-05: native cell lookup candidate
+
+Independent diagnosis found the direct process-cell visibility lookup ignored
+its five-second deadline and fell back to a 15-second full application walk.
+The app advanced sixteen fresh snapshots during that lookup. Root recorded
+judged decision `scope-process-cell-discovery-to-its-native-row` and its plan
+at source `542a4beb`; root owns the build-decision marker.
+
+Candidate `7f7c515c` extracts shared row-scoped cell lookup, preserves full
+PID/start identity and uniqueness, and carries one deadline through lookup
+and horizontal movement. Generic discovery and strict exit traversal remain
+unchanged. All 151 Python tests, including 21 new regressions, passed; the
+47-test native harness subset, Ruff, formatting and diff checks also passed.
+Independent SPEC review is underway, followed by QUALITY. Root will run
+focused process acceptance and the full committed aggregate after reviews.
+
+
+## 2026-09-05: lookup reviews pass; diagnostic publication investigation
+
+Candidates `0d4e6445` and `98558445` closed independent row and panel cache
+membership findings. Both reviewers passed the final correction; 158 Python
+tests and 54 native harness tests passed. Full native timing remains unverified.
+The first focused run exhausted /tmp inodes. Root hash-verified and relocated
+four owned artifact roots to workspace-disk storage, preserving original paths
+as symlinks. Further runs use workspace TMPDIR.
+
+Focused run `/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-mblpk8q9/native`
+passed initial cases but failed the two-second freshness gate during process
+navigation, before the corrected lookup ran. Independent diagnosis found a
+complete newer snapshot in the temporary diagnostic file: collection/delivery
+were timely, but atomic publication was delayed. A bounded fsync/rename trace
+is being prepared; no cause-specific fix or relaxed bound is authorized by
+this observation. Source records: native-navigation-stale-frame.md/json and
+native-tmp-inode-exhaustion.md.
+
+Cairn production advanced to `1ea0cf7`; older Realized by records were migrated
+to include actual Git subjects and one current section. Source HEAD902170ff,
+no in-progress marker, wake run LIVE-001. Final acceptance and review remain.
+
+The developer also requested `[features.context_management]` with
+`experimental_mode = true` in ~/.codex/config.toml. Root added it at line416,
+parsed the TOML, and verified every existing setting remained identical.
