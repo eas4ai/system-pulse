@@ -351,3 +351,62 @@ worker; UI checks latest slot every 100 ms; GPUI schedules drawing. No explicit
 keeping collection at 500–1,000 ms. Root agrees but did not infer authorization to
 change frame scheduling. Read-only findings, including GPUI X11 monitor-change
 caveat, are in source `docs/execution/real-system-readings/ui-frame-pacing.md`.
+
+
+## 2026-09-05: developer-requested lld build configuration
+
+The developer requested adopting Suprnova's `.cargo/config.toml`. Root added
+Linux `-C link-arg=-fuse-ld=lld` to the Rust worktree, retained its existing
+Windows stack flag, and retained the machine's native library search path
+because target rustflags override CARGO_BUILD_RUSTFLAGS. The exact resulting
+config passed an isolated offline Cargo build and executable smoke check;
+`ld.lld` is available through swiftly (LLVM17). Source evidence note:
+`docs/execution/real-system-readings/cargo-linker-config.md`.
+
+The mechanism now declares `.cargo/config.toml` as an input. Full System Pulse
+rebuild is pending; no timing improvement was measured. Root owns these config,
+mechanism and documentation edits, while the sole code worker continues the
+approved process-exit policy. Latest worker report: 123 Python tests pass;
+malformed-evidence checks, formatting and independent reviews remain.
+
+
+## 2026-09-05: process policy candidate and first review correction
+
+Implementation `37bc9c37` added the approved classification, mandatory controlled
+coverage, bounded ordinary-disappearance terminal observations, and read-only
+aggregate replay. Initial 126 Python tests passed. Root build configuration
+commit `6e6963b3` preserved Windows stack and native search flags while selecting
+lld. Both binaries built successfully with the locked graph; Cargo reported
+59.87 seconds, with no speedup comparison claimed. Binary hashes and source are
+in source `docs/execution/real-system-readings/cargo-linker-build.json`.
+
+Independent SPEC ran 61 focused tests but found two false acceptances: aggregate
+replay skipped some retained child obligations, and a reversed terminal window
+could prove exit. Root recorded these findings before correction, alongside the
+original four mechanism findings. Correction `9e12415c` shares child appearance
+and exit validation between capture and replay and validates integer ordered
+query/stat/io windows. Full 130 and focused 61 Python tests passed, with Ruff.
+SPEC re-review is now in progress; QUALITY and fresh aggregate remain pending.
+The root-owned implement LIVE-013 marker remains. Before final check, resolve
+mechanism findings after both reviews and add the exact LIVE-013 reviewed digest.
+Keep a separate open final commitment-review item until all requirements pass
+and the final adversarial review is actually complete; the mechanism review is
+not final acceptance.
+
+
+## 2026-09-05: lld and host verified; native cell discovery failed
+
+Process policy correction `9e12415c` passed independent SPEC and QUALITY
+re-review. Root recorded the reviews and reviewed LIVE-013 digest at
+`098d2b2e`, closing six mechanism findings while leaving final review open.
+The fresh aggregate passed all 481 tests, formatting, Clippy, builds, and
+independent host verification (43,004 brackets; no missing or unverified gaps).
+The adopted lld configuration is included in this evidence.
+
+Native launch, metrics, collapse, charts, and inner scrolling passed, then
+process cell discovery exceeded its accessibility-tree traversal deadline.
+Read-only independent diagnosis is underway; no cause or native pass claimed.
+Artifacts: `/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg`.
+Source records: `native-cell-discovery-failure.md/json`. Cairn correctly
+recorded three passes and ten unverified results and names implement LIVE-001.
+Final acceptance, review, and Done remain outstanding.
