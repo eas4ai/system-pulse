@@ -904,6 +904,35 @@ impl WorkspaceView {
     }
 }
 
+/// Keep scroll clipping bounds in the native accessibility ancestry.
+pub(crate) fn scroll_viewport(id: &'static str, native_id: String) -> Stateful<Div> {
+    div()
+        .id(id)
+        .role(Role::ScrollView)
+        .accessibility_id(native_id)
+}
+
+#[cfg(test)]
+mod viewport_accessibility_tests {
+    use super::*;
+
+    #[::core::prelude::v1::test]
+    fn scroll_viewports_expose_stable_native_geometry_nodes() {
+        for (internal, native) in [
+            ("workspace-scroll", "workspace:viewport"),
+            ("process-table-viewport", "processes:viewport"),
+            ("sensor-scroll", "cpu:host:viewport"),
+            ("process-row-clip", "processes:rows-viewport"),
+        ] {
+            let element = scroll_viewport(internal, native.into());
+            assert_eq!(element.a11y_role(), Some(Role::ScrollView));
+            let mut node = gpui::accesskit::Node::new(Role::ScrollView);
+            element.write_a11y_info(&mut node);
+            assert_eq!(node.author_id(), Some(native));
+        }
+    }
+}
+
 impl Render for WorkspaceView {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let data = self.shared.borrow();
@@ -991,7 +1020,7 @@ impl Render for WorkspaceView {
                 .child(Scrollbar::vertical(&self.visibility_scroll).mode(ScrollbarMode::Always)))
             .child(message)
             .child(div().flex_1().min_h_0().min_w_0().relative()
-                .child(div().id("workspace-scroll").size_full().overflow_scroll().track_scroll(&scroll)
+                .child(scroll_viewport("workspace-scroll", "workspace:viewport".into()).size_full().overflow_scroll().track_scroll(&scroll)
                     .debug_selector(|| "workspace-viewport".into())
                     .child(div().w(extent.width).h(extent.height).min_w_full().child(self.dock.clone())))
                 .child(Scrollbar::new(&scroll).mode(ScrollbarMode::Always)))

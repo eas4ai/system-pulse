@@ -277,12 +277,14 @@ impl MonitorPanel {
             .size_full()
             .relative()
             .child(
-                div()
-                    .id("sensor-scroll")
-                    .size_full()
-                    .overflow_y_scroll()
-                    .track_scroll(&self.body_scroll)
-                    .child(div().flex().flex_col().children(rows)),
+                crate::workspace::scroll_viewport(
+                    "sensor-scroll",
+                    format!("{}:viewport", self.monitor.id),
+                )
+                .size_full()
+                .overflow_y_scroll()
+                .track_scroll(&self.body_scroll)
+                .child(div().flex().flex_col().children(rows)),
             )
             .child(ScrollableMask::new(Axis::Vertical, &self.body_scroll))
             .child(Scrollbar::vertical(&self.body_scroll).mode(ScrollbarMode::Always))
@@ -329,7 +331,7 @@ impl MonitorPanel {
         let outer = self.shared.borrow().scroll.clone();
         let focus = self.controls["table"].clone();
         let horizontal = self.table_horizontal.clone();
-        div().id("process-table-viewport").size_full().relative().track_focus(&handle)
+        crate::workspace::scroll_viewport("process-table-viewport", "processes:viewport".into()).size_full().relative().track_focus(&handle)
             .border_1().border_color(cx.theme().border).focus_visible(move |style| style.border_color(ring))
             .debug_selector(|| "process-table".into())
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
@@ -365,7 +367,7 @@ impl MonitorPanel {
                             TableCell::new(("process-heading", column), column + 1).role(Role::ColumnHeader)
                                 .aria_label((*title).to_owned()).w(px(widths[column])).flex_none().child(*title)
                         })))
-                    .child(div().flex_1().min_h_0().child(list))))
+                    .child(crate::workspace::scroll_viewport("process-row-clip", "processes:rows-viewport".into()).flex_1().min_h_0().child(list))))
             .child(ScrollableMask::new(Axis::Vertical, self.table_scroll.base_handle()))
             .child(Scrollbar::vertical(&self.table_scroll).mode(ScrollbarMode::Always))
             .child(Scrollbar::horizontal(&horizontal).mode(ScrollbarMode::Always))
