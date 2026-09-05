@@ -34,6 +34,7 @@ from process_evidence import (
     controlled_requirements,
     declare_policy,
     validate_policy,
+    validate_window,
 )
 
 CPU_FIELDS = ("user", "nice", "system", "idle", "iowait", "irq", "softirq", "steal")
@@ -1005,6 +1006,14 @@ def verify_capture(observer, snapshots, child_info):
                 if not targets:
                     continue
                 start = observation.get("read_started_ns")
+                if sid.startswith("process:"):
+                    validate_window(
+                        (
+                            snapshot["capture_started_ns"] if start is None else start,
+                            observation["captured_ns"],
+                        ),
+                        "process raw query",
+                    )
                 window = map_window(
                     (
                         snapshot["capture_started_ns"] if start is None else start,
@@ -1062,6 +1071,10 @@ def verify_capture(observer, snapshots, child_info):
                             )
                         if not raw or raw["errno"] is not None:
                             continue
+                        if expected_identity is not None:
+                            validate_window(
+                                (raw["start"], raw["end"]), "process counter"
+                            )
                         value = raw["value"]
                         for p in projection:
                             value = value[p]
@@ -1199,6 +1212,98 @@ def read_four_and_stop(child, output, seconds=30):
     return observed
 
 
+def verify_controlled_child(before, after, identity, snapshots):
+    """The same owned-child obligations apply during capture and retained replay."""
+    pid = identity["pid"]
+    require(
+        type(pid) is int and type(identity["start_time_ticks"]) is int,
+        "invalid controlled child identity",
+    )
+    for endpoint in (before, after):
+        stat = endpoint["stat"]
+        validate_window((stat["start"], stat["end"]), "controlled child stat")
+        require(
+            stat["source"] == f"/proc/{pid}/stat"
+            and stat["errno"] is None
+            and isinstance(stat["value"], dict),
+            "controlled child independent stat unavailable",
+        )
+        value = stat["value"]
+        require(
+            type(value["pid"]) is int
+            and type(value["start_ticks"]) is int
+            and value["pid"] == pid
+            and value["start_ticks"] == identity["start_time_ticks"],
+            "real child identity changed",
+        )
+    require(
+        before["stat"]["end"] <= after["stat"]["start"],
+        "controlled child endpoint window order",
+    )
+    uid = before["uid"]
+    require(
+        uid["source"] == f"/proc/{pid}/status"
+        and uid["errno"] is None
+        and type(uid["value"]) is int,
+        "controlled child UID unavailable",
+    )
+    rows = []
+    for snapshot in snapshots:
+        validate_window(
+            (snapshot["capture_started_ns"], snapshot["capture_finished_ns"]),
+            "controlled snapshot",
+        )
+        matching = [row for row in snapshot["processes"] if row["identity"] == identity]
+        require(
+            len(matching) == 1, "real child snapshot appearance absent or duplicated"
+        )
+        row = matching[0]
+        rows.append(row)
+        require(
+            row["name"] == "pulse ) probe", "process parentheses parsed incorrectly"
+        )
+        for field, key, factor in (
+            ("memory_bytes", "rss_pages", os.sysconf("SC_PAGE_SIZE")),
+            ("threads", "threads", 1),
+        ):
+            require(
+                type(before["stat"]["value"][key]) is int
+                and type(after["stat"]["value"][key]) is int
+                and before["stat"]["value"][key] == after["stat"]["value"][key],
+                "controlled child gauge changed across independent endpoints",
+            )
+            require(
+                row[field]["availability"] == "Available"
+                and row[field]["value"] == before["stat"]["value"][key] * factor,
+                "controlled child independent stat gauge mismatch",
+            )
+        require(
+            row["user"] == pwd.getpwuid(uid["value"]).pw_name,
+            "real child user mismatch",
+        )
+    return rows
+
+
+def verify_controlled_exit(child, exited):
+    terminal = child["terminal_stat"]
+    validate_window(
+        (terminal["start"], terminal["end"]), "controlled child terminal stat"
+    )
+    require(
+        type(child["exit_code"]) is int
+        and terminal["source"] == f"/proc/{child['identity']['pid']}/stat"
+        and type(terminal["errno"]) is int
+        and terminal["errno"] in (errno.ENOENT, errno.ESRCH)
+        and terminal["value"] is None
+        and terminal["start"] >= child["after"]["stat"]["end"],
+        "controlled child terminal exit evidence missing",
+    )
+    require(
+        all(row["identity"] != child["identity"] for row in exited["processes"]),
+        "old real child identity remained after exit",
+    )
+
+
 def validate_retained_capture(directory, retained):
     """Read-only aggregate replay; retained FAILs are never reclassified."""
     require(retained["status"] == "PASS", "host acceptance failed")
@@ -1226,6 +1331,12 @@ def validate_retained_capture(directory, retained):
         for line in (directory / "snapshots.jsonl").read_text().splitlines()
     ]
     require(len(snapshots) == retained["snapshots"], "retained snapshot count mismatch")
+    rows = verify_controlled_child(child["before"], child["after"], identity, snapshots)
+    require(
+        json.dumps(rows, sort_keys=True)
+        == json.dumps(child["snapshot_rows"], sort_keys=True),
+        "retained controlled child snapshot rows mismatch",
+    )
     observer = SimpleNamespace(
         failure=None,
         anchors=evidence["anchors"],
@@ -1239,6 +1350,18 @@ def validate_retained_capture(directory, retained):
     )
     replay = verify_capture(observer, snapshots, child["before"])
     require(replay["status"] == "PASS", "retained host evidence replay failed")
+    require(
+        child["after"]["stat"]["start"]
+        >= max(
+            map_window(
+                (snapshot["capture_finished_ns"], snapshot["capture_finished_ns"]),
+                replay["collector_offset"],
+                replay["external_offset"],
+            )[1]
+            for snapshot in snapshots
+        ),
+        "controlled child after window predates capture completion",
+    )
     require(
         lifecycle["gate_opened_ns"]
         <= map_window(
@@ -1266,13 +1389,8 @@ def validate_retained_capture(directory, retained):
             == json.dumps(value, sort_keys=True),
             f"retained host {key} differs from independent replay",
         )
-    require(
-        retained["child_exit_verified"] is True
-        and all(
-            row["identity"] != identity for row in read("after-exit.jsonl")["processes"]
-        ),
-        "retained controlled exit missing",
-    )
+    require(retained["child_exit_verified"] is True, "retained controlled exit missing")
+    verify_controlled_exit(child, read("after-exit.jsonl"))
 
 
 def run(output, binary):
@@ -1380,36 +1498,7 @@ def run(output, binary):
             "pid": child.pid,
             "start_time_ticks": child_info["stat"]["value"]["start_ticks"],
         }
-        require(
-            child_after["stat"]["value"]["start_ticks"] == identity["start_time_ticks"],
-            "real child identity changed",
-        )
-        rows = [
-            next((r for r in s["processes"] if r["identity"] == identity), None)
-            for s in snapshots
-        ]
-        require(all(rows), "real child snapshot appearance absent")
-        for row in rows:
-            require(
-                row["name"] == "pulse ) probe", "process parentheses parsed incorrectly"
-            )
-            for field, key, factor in (
-                ("memory_bytes", "rss_pages", os.sysconf("SC_PAGE_SIZE")),
-                ("threads", "threads", 1),
-            ):
-                require(
-                    child_info["stat"]["value"][key]
-                    == child_after["stat"]["value"][key],
-                    "controlled child gauge changed across independent endpoints",
-                )
-                require(
-                    row[field]["value"] == child_info["stat"]["value"][key] * factor,
-                    "controlled child independent stat gauge mismatch",
-                )
-            uid = child_info["uid"]["value"]
-            require(
-                row["user"] == pwd.getpwuid(uid).pw_name, "real child user mismatch"
-            )
+        rows = verify_controlled_child(child_info, child_after, identity, snapshots)
         (output / "capabilities.json").write_text(
             json.dumps(
                 {
@@ -1424,17 +1513,13 @@ def run(output, binary):
         (output / "external-observations.json").write_text(
             json.dumps(observer.evidence())
         )
-        (output / "child.json").write_text(
-            json.dumps(
-                {
-                    "before": child_info,
-                    "after": child_after,
-                    "identity": identity,
-                    "snapshot_rows": rows,
-                },
-                indent=2,
-            )
-        )
+        child_evidence = {
+            "before": child_info,
+            "after": child_after,
+            "identity": identity,
+            "snapshot_rows": rows,
+        }
+        (output / "child.json").write_text(json.dumps(child_evidence, indent=2))
         final_inventory = Observer()
         observer.final_capabilities = final_inventory.capabilities
         (output / "final-inventory.json").write_text(
@@ -1465,6 +1550,10 @@ def run(output, binary):
             json.dumps(result.pop("process_coverage"), indent=2)
         )
         stop_child(child)
+        child_evidence.update(
+            exit_code=child.returncode, terminal_stat=process(child.pid)["stat"]
+        )
+        (output / "child.json").write_text(json.dumps(child_evidence, indent=2))
         with (output / "after-exit.jsonl").open("w") as out:
             p = subprocess.run(
                 ["rtk", "proxy", str(binary), "--count", "1"],
@@ -1474,10 +1563,7 @@ def run(output, binary):
             )
         require(p.returncode == 0, "post-exit collector failed")
         exited = json.loads((output / "after-exit.jsonl").read_text())
-        require(
-            all(r["identity"] != identity for r in exited["processes"]),
-            "old real child identity remained after exit",
-        )
+        verify_controlled_exit(child_evidence, exited)
         result.update(
             {
                 "snapshots": len(snapshots),

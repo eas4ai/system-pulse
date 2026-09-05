@@ -3,6 +3,8 @@
 import copy
 import errno
 import json
+import os
+import pwd
 import unittest
 
 import host_capture
@@ -14,6 +16,14 @@ def controlled_capture(with_exit=False):
     observer, snapshots = process_capture()
     child = copy.deepcopy(observer.samples[0]["processes"]["42"])
     child["stat"].update(start=-4, end=-3)
+    child["stat"]["value"].update(name="pulse ) probe", rss_pages=1, threads=1)
+    child["uid"] = dict(
+        source="/proc/42/status", start=-4, end=-3, errno=None, value=os.getuid()
+    )
+    for snapshot in snapshots:
+        snapshot["processes"][0].update(
+            name="pulse ) probe", user=pwd.getpwuid(os.getuid()).pw_name
+        )
     observer.process_policy = declare_policy(child, -2)
     if with_exit:
         for snapshot in snapshots:
@@ -48,6 +58,9 @@ def write_host_fixture(directory, with_exit=False):
     directory.mkdir(parents=True, exist_ok=True)
     observer, snapshots, child = controlled_capture(with_exit)
     result = host_capture.verify_capture(observer, snapshots, child)
+    child_after = copy.deepcopy(child)
+    for raw in child_after.values():
+        raw.update(start=35, end=36)
     artifacts = {
         "process-policy.json": observer.process_policy,
         "capabilities.json": dict(capabilities=observer.capabilities, scope_limits=[]),
@@ -59,7 +72,14 @@ def write_host_fixture(directory, with_exit=False):
             disks=[],
         ),
         "child.json": dict(
-            before=child, identity=observer.process_policy["controlled_identity"]
+            before=child,
+            after=child_after,
+            identity=observer.process_policy["controlled_identity"],
+            snapshot_rows=[snapshot["processes"][0] for snapshot in snapshots],
+            terminal_stat=dict(
+                source="/proc/42/stat", start=40, end=41, errno=errno.ENOENT, value=None
+            ),
+            exit_code=-15,
         ),
         "collector-lifecycle.json": dict(gate_opened_ns=-1),
     }
@@ -104,6 +124,24 @@ def exited_capture():
 
 
 class ExitPolicyTests(unittest.TestCase):
+    def test_exit_evidence_windows_require_ordered_integer_timestamps(self):
+        for source in ("stat", "io"):
+            for start, end in (
+                (131, 31),
+                (True, 31),
+                (30, False),
+                (30.0, 31),
+                (30, 31.0),
+            ):
+                with self.subTest(source=source, start=start, end=end):
+                    observer, snapshots = exited_capture()
+                    terminal = observer.supplemental[0]["processes"][0]["readings"][
+                        source
+                    ]
+                    terminal.update(start=start, end=end)
+                    with self.assertRaisesRegex(AssertionError, "window"):
+                        host_capture.verify_capture(observer, snapshots, None)
+
     def test_exit_gaps_remain_unverified_with_before_and_terminal_evidence(self):
         observer, snapshots = exited_capture()
         result = host_capture.verify_capture(observer, snapshots, None)

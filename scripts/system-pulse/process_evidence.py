@@ -14,8 +14,18 @@ CONTROLLED_FIELDS = {
 WARMUP_REASON = "Waiting for a second counter observation"
 
 
+def validate_window(window, context):
+    require(
+        len(window) == 2
+        and all(type(value) is int for value in window)
+        and window[0] <= window[1],
+        f"invalid ordered integer window: {context}",
+    )
+
+
 def declare_policy(child_info, declared_ns):
     stat = child_info["stat"]
+    validate_window((stat["start"], stat["end"]), "controlled declaration stat")
     require(stat["errno"] is None and stat["value"], "controlled child stat missing")
     identity = dict(
         pid=stat["value"]["pid"], start_time_ticks=stat["value"]["start_ticks"]
@@ -135,6 +145,14 @@ def classify_exit_gap(gap, controlled_identity):
     if identity is None or identity == controlled_identity:
         return False
     window = gap["query_window"]
+    validate_window(window, "process query")
+    for sample in gap["external_windows"]:
+        validate_window((sample["start"], sample["end"]), "process counter")
+    for attempt in gap["external_attempts"]:
+        for source in ("stat", "io", "process_enumeration"):
+            raw = attempt[source]
+            if raw is not None:
+                validate_window((raw["start"], raw["end"]), source)
     before = [s for s in gap["external_windows"] if s["end"] <= window[0]]
     after = [s for s in gap["external_windows"] if s["start"] >= window[1]]
     if not before or after:

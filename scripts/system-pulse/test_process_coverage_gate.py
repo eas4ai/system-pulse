@@ -1,6 +1,7 @@
 """Aggregate acceptance must independently reproduce retained process coverage."""
 
 import json
+import errno
 from pathlib import Path
 import tempfile
 import unittest
@@ -87,3 +88,69 @@ class ProcessCoverageGateTests(unittest.TestCase):
         with self.assertRaises(AssertionError):
             acceptance.validate_host(self.runner)
         self.assertEqual(path.read_bytes(), before)
+
+    def test_child_evidence_is_required_and_rechecked(self):
+        path = self.output / "host/child.json"
+        saved = path.read_text()
+        mutations = (
+            lambda d: d.pop("after"),
+            lambda d: d.pop("snapshot_rows"),
+            lambda d: d["after"]["stat"].update(errno=errno.EACCES, value=None),
+            lambda d: d["after"]["stat"]["value"].update(pid=99),
+            lambda d: d["after"]["stat"]["value"].update(start_ticks=999),
+            lambda d: d["after"]["stat"]["value"].update(rss_pages=2),
+            lambda d: d["after"]["stat"]["value"].update(threads=2),
+            lambda d: d["after"]["stat"].update(start=-2, end=-1),
+            lambda d: d["snapshot_rows"].clear(),
+            lambda d: d["snapshot_rows"][0].update(name="wrong"),
+            lambda d: d["snapshot_rows"][0].update(user="wrong"),
+            lambda d: d.pop("terminal_stat"),
+            lambda d: d["terminal_stat"].update(errno=errno.EACCES),
+            lambda d: d["terminal_stat"].update(start=141),
+            lambda d: d["terminal_stat"].update(source="/proc/99/stat"),
+            lambda d: d.update(exit_code=None),
+        )
+        for change in mutations:
+            with self.subTest(change=change):
+                path.write_text(saved)
+                self.mutate("child.json", change)
+                with self.assertRaises((AssertionError, KeyError)):
+                    acceptance.validate_host(self.runner)
+                path.write_text(saved)
+
+    def test_matching_but_wrong_retained_and_snapshot_child_rows_fail(self):
+        for key, value in (("name", "wrong"), ("user", "wrong")):
+            with self.subTest(key=key):
+                path = self.output / "host/snapshots.jsonl"
+                saved = path.read_text()
+                snapshots = [json.loads(line) for line in saved.splitlines()]
+                snapshots[0]["processes"][0][key] = value
+                path.write_text("".join(json.dumps(s) + "\n" for s in snapshots))
+                child_path = self.output / "host/child.json"
+                saved_child = child_path.read_text()
+                self.mutate(
+                    "child.json", lambda d: d["snapshot_rows"][0].update({key: value})
+                )
+                with self.assertRaisesRegex(AssertionError, "child|parentheses"):
+                    acceptance.validate_host(self.runner)
+                path.write_text(saved)
+                child_path.write_text(saved_child)
+
+    def test_reversed_terminal_window_cannot_pass_with_matching_gap_artifact(self):
+        def reverse_terminal(value):
+            if isinstance(value, dict):
+                if (
+                    value.get("source") == "/proc/99/stat"
+                    and value.get("errno") == errno.ENOENT
+                ):
+                    value["start"] = value["end"] + 100
+                for child in value.values():
+                    reverse_terminal(child)
+            elif isinstance(value, list):
+                for child in value:
+                    reverse_terminal(child)
+
+        for filename in ("external-observations.json", "unverified-exit-gaps.json"):
+            self.mutate(filename, reverse_terminal)
+        with self.assertRaisesRegex(AssertionError, "window"):
+            acceptance.validate_host(self.runner)

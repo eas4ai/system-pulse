@@ -20,19 +20,21 @@ The existing artifact manifest now also requires:
 
 `counter-brackets.json` contains only verified comparisons. `missing-brackets.json` retains unexplained failures. Aggregate acceptance reconstructs the observer from retained artifacts and runs the same `verify_capture` logic, then compares the retained summaries, classifications, coverage and bracket artifacts against that replay. This is read-only. A retained FAIL is rejected before replay and is never rewritten or promoted. Existing artifacts and all 13 requirement-reporting semantics remain required.
 
+Independent SPEC review found two gaps in the initial implementation: replay did not enforce all retained child obligations, and exit classification accepted reversed terminal windows. The correction shares the child identity, appearance, name, RSS, threads and user checks between capture and replay. `child.json` must contain the matching snapshot rows, accessible before/after identity evidence, the owned exit code, and an actual terminal stat observation. Replay also checks that the after observation follows capture completion. Census absence in the post-exit snapshot remains required alongside terminal proof. Process query, counter and attempt windows must contain ordered integer timestamps; booleans and floating-point timestamps fail.
+
 ## Verification
 
 The exact gate interpreter was `/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14`, always with `-B`. The original 108-test suite passed before implementation. RED runs demonstrated the missing exit classification, lower-bound enforcement, controlled availability coverage, ordinary-only terminal retention and aggregate artifact validation. Further RED/GREEN cases covered IO permission timing, early terminal evidence, conflicting retained identity and malformed policy types.
 
 Final executed checks:
 
-- Full Python discovery: 126 tests passed.
-- Focused exit-policy, coverage-gate, supplemental-observer and requirement-reporting suites: 57 tests passed.
-- Ruff check on the eight touched Python files: passed.
+- Full Python discovery after the SPEC correction: 130 tests passed.
+- Focused exit-policy, coverage-gate, supplemental-observer and requirement-reporting suites: 61 tests passed.
+- Ruff check: passed on the eight initially touched Python files and the four changed by the SPEC correction.
 - `git diff --check`: passed before commit.
 
 Synthetic dictionaries remain confined to verifier tests. No Rust build, live host capture, native run or Cairn mechanism was run for this implementation step. Existing child appearance, RSS, threads, user and disappearance checks remain in place. This implementation claims no new hardware accuracy and does not change any retained failed capture.
 
 ## Production self-audit
 
-Reviewed the change against all 14 production rules: the approved scope and evidence boundaries are preserved; the helper keeps policy and classification cohesive; capture resources remain bounded; aggregate input failures remain failures; original artifact requirements and reporting are preserved; and tests cover the permitted case and disallowed gaps. No known source defect remains from this self-audit. Independent review and committed-tree acceptance are still pending.
+Reviewed the correction against all 14 production rules: the approved scope and evidence boundaries are preserved; shared validators keep capture and replay consistent; capture resources remain bounded; aggregate input failures remain failures; original artifact requirements and reporting are preserved; and tests cover the permitted case and disallowed gaps. Both SPEC findings have reproducing RED/GREEN regressions. No known source defect remains from this self-audit. Independent re-review and committed-tree acceptance are still pending.
