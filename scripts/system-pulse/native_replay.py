@@ -543,6 +543,7 @@ def main():
             return
         progress("collapse", "RUNNING")
         initial = app.save_state()
+        app.save("collapse-baseline-state.json", initial)
         other = copy.deepcopy(initial["panels"]["memory:host"])
         cpu_before = app.bounds(app.panel("cpu:host"))
         row_disclose(True, "Return")
@@ -551,8 +552,10 @@ def main():
         app.metric("cpu:host:summary", "panel-compact")
         compact = app.bounds(app.panel("cpu:host"))
         require(compact[3] < cpu_before[3], "panel did not compact")
+        after_collapse = app.state()
+        app.save("collapse-after-state.json", after_collapse)
         require(
-            app.state()["panels"]["memory:host"] == other,
+            after_collapse["panels"]["memory:host"] == other,
             "independent Memory choices changed",
         )
         app.save("collapsed-sequences.json", app.sequences())
