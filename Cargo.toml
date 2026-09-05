@@ -19,6 +19,7 @@ members = [
     "examples/webview",
     "examples/system_monitor",
     "examples/system_pulse/model",
+    "examples/system_pulse/collectors",
     "examples/system_pulse",
     "examples/focus_trap",
     "examples/tooltip_top_edge",
