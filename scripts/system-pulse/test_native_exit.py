@@ -38,6 +38,9 @@ class Node:
     def clear_cache(self):
         pass
 
+    def clear_cache_single(self):
+        pass
+
     def get_state_set(self):
         return SimpleNamespace(contains=lambda state: self.defunct)
 
@@ -127,6 +130,7 @@ class NativeExitTests(unittest.TestCase):
         native, identity = native_class(self.clock)
         self.native = native.__new__(native)
         self.native.app = Mock()
+        self.native.app.pid = 500
         self.native.app.poll.return_value = None
         self.native.journal = Mock()
         self.stopped = False
@@ -141,6 +145,14 @@ class NativeExitTests(unittest.TestCase):
             children=lambda: [self.row] if self.clock.now < self.native_at else [],
         )
         self.root = Node(self.clock, role="application", children=lambda: [self.panel])
+        self.desktop = Node(self.clock, children=lambda: [self.root])
+        native.walk.__globals__["Atspi"].get_desktop = lambda index: self.desktop
+        native.walk.__globals__["Atspi"].StateType.SELECTED = "selected"
+        self.root.get_process_id = lambda: 500
+        self.root.get_parent = lambda: None
+        self.root.get_index_in_parent = lambda: -1
+        self.panel.get_parent = lambda: self.root
+        self.panel.get_index_in_parent = lambda: 0
         self.native.root = Mock(return_value=self.root)
         self.native.cache = {"__panel:processes": self.panel}
         self.native.frame = self.frame
@@ -175,6 +187,72 @@ class NativeExitTests(unittest.TestCase):
         self.assertLess(self.clock.now, 5)
         self.native.journal.assert_called_with(
             "ack", condition="child exit snapshot and native tree"
+        )
+
+    def test_detached_empty_cached_panel_cannot_hide_current_target(self):
+        self.native_at = 100
+        self.native.cache["__panel:processes"] = Node(self.clock, name="processes")
+        with self.assertRaises(TimeoutError):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_duplicate_current_panels_cannot_prove_exit(self):
+        self.native_at = 0
+        duplicate = Node(self.clock, name="processes")
+        self.root.children = lambda: [self.panel, duplicate]
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.run_exit()
+
+    def test_panel_replaced_after_exit_scan_cannot_prove_exit(self):
+        self.native_at = 0
+        replacement = Node(self.clock, name="processes", children=lambda: [self.row])
+        replacement.get_parent = lambda: self.root
+        replacement.get_index_in_parent = lambda: 0
+        walk = self.native.walk
+
+        def replaced(root=None, *args, **kwargs):
+            yield from walk(root, *args, **kwargs)
+            if root is self.panel and kwargs.get("strict"):
+                self.root.children = lambda: [replacement]
+
+        self.native.walk = replaced
+        with self.assertRaises(TimeoutError):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_incomplete_application_registration_cannot_prove_exit(self):
+        self.native_at = 0
+        self.desktop.children = lambda: [self.root, None]
+        with self.assertRaises(TimeoutError):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_foreign_selected_row_is_rejected_even_after_retained_target(self):
+        other = Node(self.clock, "process:99:456", role="table row")
+        other.get_state_set = lambda: SimpleNamespace(
+            contains=lambda state: state == "selected"
+        )
+        self.panel.children = lambda: [self.row, other]
+        with self.assertRaisesRegex(AssertionError, "selected after child exit"):
+            self.run_exit()
+
+    def test_foreign_selected_row_is_rejected_when_target_is_absent(self):
+        other = Node(self.clock, "process:99:456", role="table row")
+        other.get_state_set = lambda: SimpleNamespace(
+            contains=lambda state: state == "selected"
+        )
+        self.panel.children = lambda: [other]
+        with self.assertRaisesRegex(AssertionError, "selected after child exit"):
+            self.run_exit()
+
+    def test_every_exit_discovery_uses_original_deadline(self):
+        self.native_at = 100
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+        with self.assertRaises(TimeoutError):
+            self.run_exit()
+        self.assertGreater(self.native.navigation_panel.call_count, 1)
+        self.assertEqual(
+            {call.args for call in self.native.navigation_panel.call_args_list}, {(5,)}
         )
 
     def test_retained_identity_fails_at_original_deadline(self):
@@ -309,7 +387,7 @@ class NativeExitTests(unittest.TestCase):
         self.native.cache["__panel:processes"] = obsolete
         self.native_at = 0
         self.run_exit()
-        self.assertIs(self.native.cache["__panel:processes"], self.panel)
+        self.native.root.assert_called()
         self.assertEqual(self.clock.now, self.snapshot_at)
 
     def test_panel_vanishing_before_walk_is_not_vacuous_success(self):

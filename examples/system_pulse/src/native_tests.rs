@@ -779,6 +779,126 @@ fn live_snapshot_discovery_refreshes_controls_and_keeps_explicit_state(cx: &mut 
 }
 
 #[gpui::test]
+fn accepted_process_snapshots_preserve_identity_and_clear_removed_selection(
+    cx: &mut TestAppContext,
+) {
+    use system_pulse_collectors::{Availability, ProcessIdentity, ProcessRow, Reading, Snapshot};
+
+    let (view, cx) = harness(cx);
+    let row = |pid, start_time_ticks| {
+        let reading = Reading {
+            sensor_id: "controlled-process-reading".into(),
+            value: Some(1.),
+            total: None,
+            availability: Availability::Available,
+            reason: None,
+            observations: vec![],
+        };
+        ProcessRow {
+            identity: ProcessIdentity {
+                pid,
+                start_time_ticks,
+            },
+            name: "controlled process".into(),
+            user: Some("user".into()),
+            user_reason: None,
+            cpu_percent: reading.clone(),
+            memory_bytes: reading.clone(),
+            read_bytes_per_second: reading.clone(),
+            write_bytes_per_second: reading.clone(),
+            threads: reading,
+        }
+    };
+    let first = row(7, 9);
+    let survivor = row(8, 10);
+    let replacement = row(8, 11);
+    let mut snapshot = Snapshot {
+        sequence: 1,
+        capture_finished_ns: 20_000_000_000,
+        processes: vec![first.clone(), survivor.clone()],
+        ..Default::default()
+    };
+    let accept = |snapshot: Snapshot, cx: &mut VisualTestContext| {
+        let sequence = snapshot.sequence;
+        let expected: Vec<_> = snapshot
+            .processes
+            .iter()
+            .map(|row| row.identity.clone())
+            .collect();
+        cx.update(|window, cx| {
+            view.update(cx, |this, cx| this.accept_snapshot(snapshot, window, cx))
+        });
+        cx.read(|cx| {
+            let data = view.read(cx).shared.borrow();
+            assert_eq!(data.snapshot.as_ref().unwrap().sequence, sequence);
+            assert_eq!(
+                data.snapshot
+                    .as_ref()
+                    .unwrap()
+                    .processes
+                    .iter()
+                    .map(|row| row.identity.clone())
+                    .collect::<Vec<_>>(),
+                expected,
+            );
+            assert_eq!(
+                data.processes
+                    .iter()
+                    .map(|row| row.identity.clone())
+                    .collect::<Vec<_>>(),
+                expected
+            );
+        });
+    };
+    accept(snapshot.clone(), cx);
+    draw(cx);
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx)
+    });
+    native_key("home", cx);
+    draw(cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected.clone()),
+        Some(first.identity.clone())
+    );
+
+    snapshot.sequence += 1;
+    snapshot.capture_finished_ns += 1_000_000_000;
+    snapshot.processes.reverse();
+    accept(snapshot.clone(), cx);
+    // Inspect the actual model immediately after production acceptance, without
+    // another key that could replace or clear a stale selection.
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected.clone()),
+        Some(first.identity.clone())
+    );
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(1));
+
+    snapshot.sequence += 1;
+    snapshot.capture_finished_ns += 1_000_000_000;
+    snapshot.processes = vec![survivor.clone()];
+    accept(snapshot.clone(), cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected.clone()), None);
+
+    draw(cx);
+    native_key("home", cx);
+    draw(cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected.clone()),
+        Some(survivor.identity)
+    );
+    snapshot.sequence += 1;
+    snapshot.capture_finished_ns += 1_000_000_000;
+    snapshot.processes = vec![replacement, first];
+    accept(snapshot, cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected.clone()), None);
+}
+
+#[gpui::test]
 fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let rows: Vec<_> = (0..1205)

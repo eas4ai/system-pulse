@@ -851,20 +851,32 @@ class Native:
                 identity(row) == aid for row in snapshot["processes"]
             ):
                 return False
-            key = "__panel:processes"
-            panel = self.cache.get(key)
-            if not self.alive(panel):
-                panel = self.find(name="processes", role="panel", deadline=deadline)
-                self.cache[key] = panel
+            path = self.navigation_panel(deadline)
+            panel = path[0]
             saw_panel = False
+            saw_target = False
+            selected_others = []
             for node in self.walk(
                 panel, deadline=deadline, skip_cells=True, strict=True
             ):
                 saw_panel = saw_panel or node is panel
-                if (node.get_accessible_id() or "") == aid:
-                    return False
-            # A vanished panel or an incomplete/defunct tree cannot prove exit.
-            return saw_panel and self.alive(panel)
+                node_id = node.get_accessible_id() or ""
+                saw_target = saw_target or node_id == aid
+                if (
+                    node_id.startswith("process:")
+                    and ":cell:" not in node_id
+                    and node_id != aid
+                    and node.get_state_set().contains(Atspi.StateType.SELECTED)
+                ):
+                    selected_others.append(node_id)
+            if not self.navigation_panel_current(path, deadline):
+                return False
+            require(
+                not selected_others,
+                f"another process selected after child exit: {selected_others}",
+            )
+            # This proves absence in the current instantiated tree, not model state.
+            return saw_panel and not saw_target
 
         return self.wait(
             poll, message="child exit snapshot and native tree", deadline=deadline
@@ -1034,8 +1046,9 @@ class Native:
                     f"process selection transferred without input: {expected} -> {selected}",
                 )
                 if expected not in ids:
-                    # Publication may precede native reconciliation. Only a complete
-                    # observation of cleared selection permits a new boundary key.
+                    # A complete scan with no instantiated selected row permits
+                    # explicit boundary recovery; virtualization cannot prove model
+                    # selection cleared automatically.
                     return (None, after, path) if selected is None else None
             return (
                 (selected, after, path)
