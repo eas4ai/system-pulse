@@ -8,12 +8,14 @@ examined:
   - scripts/system-pulse/test_process_attribution.py
   - scripts/system-pulse/test_supplemental_processes.py
 findings:
-  - open: verify_capture fails all missing brackets and lacks independently proven exit classification retaining lower bounds and identity continuity.
-  - open: child_info is unused by verify_capture; controlled CPU and I/O endpoint coverage is not mandatory per snapshot or declared before capture.
-  - open: ordinary-only process identities can disappear without a retained terminal stat observation; census absence is insufficient.
-  - open: aggregate host validation does not validate controlled coverage, separate verified and unverified counts, or exit-gap evidence artifacts.
-  - open: cumulative SPEC review found aggregate replay accepts missing or malformed controlled child identity, metadata and terminal exit artifacts.
-  - open: cumulative SPEC review found the exit classifier accepts reversed terminal observation windows.
+  - closed: verify_capture fails all missing brackets and lacks independently proven exit classification retaining lower bounds and identity continuity.
+  - closed: child_info is unused by verify_capture; controlled CPU and I/O endpoint coverage is not mandatory per snapshot or declared before capture.
+  - closed: ordinary-only process identities can disappear without a retained terminal stat observation; census absence is insufficient.
+  - closed: aggregate host validation does not validate controlled coverage, separate verified and unverified counts, or exit-gap evidence artifacts.
+  - closed: cumulative SPEC review found aggregate replay accepts missing or malformed controlled child identity, metadata and terminal exit artifacts.
+  - closed: cumulative SPEC review found the exit classifier accepts reversed terminal observation windows.
+
+  - open: final adversarial commitment review remains pending until fresh host/native acceptance passes.
 
 ## Mechanism review for revised LIVE-013
 
@@ -26,3 +28,7 @@ Preserve exact arithmetic and check_counter. A permitted missing after compariso
 ## First correction review
 
 Candidate: `37bc9c37`, with build configuration `6e6963b3`. Independent SPEC review ran 61 focused tests successfully but reproduced both additional findings above: a child artifact lacking mandatory fields or containing permission failure/wrong rows was accepted; a terminal stat window with start after end was classified as proven exit. Corrective work is separate from this read-only review. QUALITY review has not started.
+
+## Correction verification
+
+Candidate `9e12415c` passed independent SPEC then QUALITY. SPEC ran 65 focused tests and original defect probes; QUALITY ran 59 focused plus 28 reporting tests and eight additional negative probes. All passed. The four mechanism mismatches and two initial SPEC findings are closed. See docs/execution/real-system-readings/process-exit-review.md. Final adversarial commitment review is still open and cannot be satisfied by this mechanism review.
