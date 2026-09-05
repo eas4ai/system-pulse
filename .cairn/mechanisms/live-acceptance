@@ -1,0 +1,25 @@
+command: rtk proxy python3 scripts/system-pulse/verify.py
+inputs:
+  - Cargo.toml
+  - Cargo.lock
+  - AGENTS.md
+  - examples/system_pulse/
+  - crates/base/src/dock/
+  - crates/base/src/resizable/
+  - crates/ui/src/dock/
+  - vendor/accesskit_atspi_common/
+  - scripts/system-pulse/
+requirements:
+  - LIVE-001
+  - LIVE-002
+  - LIVE-003
+  - LIVE-004
+  - LIVE-005
+  - LIVE-006
+  - LIVE-007
+  - LIVE-008
+  - LIVE-009
+  - LIVE-010
+  - LIVE-011
+  - LIVE-012
+  - LIVE-013

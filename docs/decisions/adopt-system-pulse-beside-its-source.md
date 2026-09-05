@@ -11,4 +11,4 @@ Keep the design and reference repository intact. Place the formal adoption speci
 
 ## Realized by
 
-822635ff044df53b60258ad645c7dbf01fc0287b
+- 822635ff044df53b60258ad645c7dbf01fc0287b
