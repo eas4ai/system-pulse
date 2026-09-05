@@ -8,4 +8,6 @@ pub use readings::{
     HistoryStore, PhysicalUnit, Quantity, ReadingStatus, Sample, chart_range, chart_x,
 };
 mod persistence;
-pub use persistence::{RejectedInput, Session};
+pub use persistence::{
+    MAX_CONFIGURATION_BYTES, RejectedInput, Session, validate_configuration_size,
+};

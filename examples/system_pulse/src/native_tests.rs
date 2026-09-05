@@ -838,3 +838,51 @@ fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppCon
     draw(cx);
     assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), None);
 }
+
+#[gpui::test]
+fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_reuse(
+    cx: &mut TestAppContext,
+) {
+    let (_, cx) = harness(cx);
+    cx.update(|window, cx| {
+        for (index, start) in [(0, 91), (1204, 91), (0, 92)] {
+            let process = crate::live::ProcessView {
+                identity: system_pulse_collectors::ProcessIdentity {
+                    pid: 53,
+                    start_time_ticks: start,
+                },
+                cells: vec![
+                    "53".into(),
+                    "process".into(),
+                    "42.0 %".into(),
+                    "4 KiB".into(),
+                    "1 KiB/s".into(),
+                    "2 KiB/s".into(),
+                    "2 count".into(),
+                    "user".into(),
+                ],
+            };
+            let row =
+                crate::panel::process_row(&process, index, true, &crate::live::PROCESS_WIDTHS, cx);
+            let mut node = gpui::accesskit::Node::new(gpui::Role::Row);
+            row.render(window, cx)
+                .into_element()
+                .write_a11y_info(&mut node);
+            assert_eq!(
+                node.author_id(),
+                Some(format!("process:53:{start}").as_str())
+            );
+            assert_eq!(node.row_index(), Some(index + 2));
+            let cell = crate::panel::process_cell(&process, 2, 200.);
+            let mut node = gpui::accesskit::Node::new(gpui::Role::Cell);
+            cell.render(window, cx)
+                .into_element()
+                .write_a11y_info(&mut node);
+            assert_eq!(
+                node.author_id(),
+                Some(format!("process:53:{start}:cell:2").as_str())
+            );
+            assert_eq!(node.label(), Some("42.0 %"));
+        }
+    });
+}

@@ -5,6 +5,7 @@ use std::{
     path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
+use system_pulse_model::{MAX_CONFIGURATION_BYTES, validate_configuration_size};
 
 #[derive(Clone, Default)]
 pub(crate) struct Storage(Arc<Mutex<BTreeMap<PathBuf, u64>>>);
@@ -33,12 +34,11 @@ pub(crate) fn read(path: &Path) -> Result<Option<String>, String> {
         Err(e) => return Err(format!("Read {}: {e}", path.display())),
     };
     let mut bytes = Vec::new();
-    file.take(1_048_577)
+    file.take(MAX_CONFIGURATION_BYTES as u64 + 1)
         .read_to_end(&mut bytes)
         .map_err(|e| e.to_string())?;
-    if bytes.len() > 1_048_576 {
-        return Err("Saved state exceeds 1 MiB".into());
-    }
+    validate_configuration_size(bytes.len())
+        .map_err(|error| format!("Read {}: {error}", path.display()))?;
     String::from_utf8(bytes)
         .map(Some)
         .map_err(|e| format!("State is not UTF-8: {e}"))
@@ -46,6 +46,23 @@ pub(crate) fn read(path: &Path) -> Result<Option<String>, String> {
 
 impl Storage {
     pub(crate) fn write(&self, path: &Path, revision: u64, data: &str) -> Result<(), String> {
+        validate_configuration_size(data.len())
+            .map_err(|error| format!("Save {}: {error}", path.display()))?;
+        self.atomic_write(path, revision, data)
+    }
+
+    /// Diagnostics retain one latest complete record, independent of configuration
+    /// byte limits. Only the diagnostic worker uses this entry point.
+    pub(crate) fn write_diagnostic(
+        &self,
+        path: &Path,
+        revision: u64,
+        data: &str,
+    ) -> Result<(), String> {
+        self.atomic_write(path, revision, data)
+    }
+
+    fn atomic_write(&self, path: &Path, revision: u64, data: &str) -> Result<(), String> {
         let mut versions = self.0.lock().map_err(|_| "Storage lock poisoned")?;
         if versions.get(path).is_some_and(|saved| *saved > revision) {
             return Ok(());
@@ -88,9 +105,9 @@ mod tests {
         let dir = std::env::temp_dir().join(format!("system-pulse-read-{}", std::process::id()));
         fs::create_dir_all(&dir).unwrap();
         let path = dir.join("state.json");
-        let bytes = vec![b'x'; 1_048_577];
+        let bytes = vec![b'x'; MAX_CONFIGURATION_BYTES + 1];
         fs::write(&path, &bytes).unwrap();
-        assert!(read(&path).unwrap_err().contains("1 MiB"));
+        assert!(read(&path).unwrap_err().contains("16 MiB"));
         assert_eq!(fs::read(&path).unwrap(), bytes);
         fs::write(&path, [255]).unwrap();
         assert!(read(&path).unwrap_err().contains("UTF-8"));
@@ -119,6 +136,110 @@ mod tests {
         );
         fs::remove_file(target.join("original")).unwrap();
         fs::remove_dir(target).unwrap();
+        fs::remove_dir(dir).unwrap();
+    }
+    fn retained_workspace() -> system_pulse_model::Workspace {
+        use system_pulse_model::{
+            Meter, MonitorDescriptor, PhysicalUnit, Quantity, SensorDescriptor,
+        };
+        let mut workspace = system_pulse_model::Workspace::new(serde_json::json!({}));
+        let mut children = Vec::new();
+        for index in 0..451 {
+            let id = format!(
+                "volume:uuid:retained-device-{index:04}:/:/retained-generation/{}/filesystem-{index:04}",
+                index / 151
+            );
+            let sensors: Vec<_> = (0..6)
+                .map(|sensor| SensorDescriptor {
+                    id: format!("{id}/physical-reading-{sensor}"),
+                    title: format!("Retained filesystem physical reading {sensor}"),
+                    quantity: Quantity::Capacity,
+                    unit: PhysicalUnit::Bytes,
+                })
+                .collect();
+            let panel = workspace.panel_mut(&id);
+            panel.collapsed = index % 3 == 0;
+            panel.visible = index % 5 != 0;
+            for sensor in &sensors {
+                panel.sensor_mut(&sensor.id).meter = Meter::Bar;
+            }
+            let monitor = MonitorDescriptor {
+                id: id.clone(),
+                title: format!("Retained filesystem {index}"),
+                summary: sensors[0].id.clone(),
+                sensors,
+            };
+            workspace.monitors.insert(id.clone(), monitor);
+            children.push(serde_json::json!({"panel_name":"TabPanel", "info":{"tabs":{"active_index":0}}, "children":[{"panel_name":"SystemPulseMonitor","info":{"panel":{"monitor_id":id}},"children":[]}]}));
+        }
+        workspace.dock = serde_json::json!({"version":1,"center":{"panel_name":"StackPanel","info":{"stack":{"axis":1,"sizes":vec![280.; children.len()]}},"children":children}});
+        workspace.validate().unwrap();
+        crate::workspace::validate_dock(&workspace.dock).unwrap();
+        workspace
+    }
+
+    #[test]
+    fn retained_451_panel_workspace_and_preset_roundtrip_without_losing_absent_choices() {
+        let workspace = retained_workspace();
+        let session = system_pulse_model::Session {
+            workspace: workspace.clone(),
+            rejected: None,
+        };
+        let raw = session.autosave_json().unwrap();
+        assert!(
+            raw.len() > 1_048_576,
+            "regression must exceed the original read bound"
+        );
+        let dir = std::env::temp_dir().join(format!("pulse-large-catalog-{}", std::process::id()));
+        let storage = Storage::default();
+        for name in ["workspace.json", "preset.json"] {
+            let path = dir.join(name);
+            storage.write(&path, 1, &raw).unwrap();
+            let loaded = read(&path).unwrap().unwrap();
+            assert_eq!(loaded, raw);
+            let restored = system_pulse_model::Session::restore(
+                &loaded,
+                system_pulse_model::Workspace::new(serde_json::json!({})),
+                crate::workspace::validate_dock,
+            );
+            assert!(restored.rejected.is_none());
+            assert_eq!(restored.workspace, workspace);
+            fs::remove_file(path).unwrap();
+        }
+        fs::remove_dir(dir).unwrap();
+    }
+
+    #[test]
+    fn over_limit_workspace_and_preset_saves_preserve_readable_prior_files() {
+        let dir = std::env::temp_dir().join(format!("pulse-save-bound-{}", std::process::id()));
+        let storage = Storage::default();
+        let mut workspace = retained_workspace();
+        let previous = serde_json::to_string(&workspace).unwrap();
+        workspace.monitors.values_mut().next().unwrap().title =
+            "x".repeat(MAX_CONFIGURATION_BYTES + 1);
+        let oversized = serde_json::to_string(&workspace).unwrap();
+        for name in ["workspace.json", "preset.json"] {
+            let path = dir.join(name);
+            storage.write(&path, 1, &previous).unwrap();
+            let result = storage.write(&path, 3, &oversized);
+            assert!(
+                result.is_err(),
+                "over-limit save must be rejected before replacing {name}"
+            );
+            let error = result.unwrap_err();
+            assert!(
+                error.contains("16 MiB") && error.contains(name),
+                "save error must identify the limit and target"
+            );
+            assert_eq!(read(&path).unwrap().as_deref(), Some(previous.as_str()));
+            assert_eq!(
+                fs::read_dir(&dir).unwrap().count(),
+                1,
+                "rejected save must not leave a temporary file"
+            );
+            storage.write(&path, 2, &previous).unwrap();
+            fs::remove_file(path).unwrap();
+        }
         fs::remove_dir(dir).unwrap();
     }
 }

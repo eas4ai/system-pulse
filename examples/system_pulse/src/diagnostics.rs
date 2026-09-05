@@ -130,7 +130,7 @@ impl Writer {
                 };
                 let json = serde_json::to_string(&serde_json::json!({ "schema_version": 1, "application_pid": std::process::id(), "accepted_unix_ns": record.accepted_unix_ns, "render_revision": record.render_revision, "rendered_at_collector_ms": record.rendered_at_collector_ms, "snapshot": record.snapshot.as_ref(), "rendered": record.rendered }));
                 let result = json.map_err(|e| format!("Serialize snapshot diagnostics: {e}"))
-                    .and_then(|json| storage.write(&path, record.render_revision, &json));
+                    .and_then(|json| storage.write_diagnostic(&path, record.render_revision, &json));
                 if let Err(error) = result {
                     eprintln!("{error}");
                     worker_shared.state.lock().unwrap_or_else(|p| p.into_inner()).error = Some(error);
@@ -234,6 +234,43 @@ mod tests {
         };
         assert!(error.contains("Save"));
         drop(writer);
+        std::fs::remove_dir(dir).unwrap();
+    }
+    #[test]
+    fn diagnostic_snapshot_size_is_independent_of_configuration_limit() {
+        let dir =
+            std::env::temp_dir().join(format!("pulse-large-diagnostic-{}", std::process::id()));
+        let path = dir.join("latest.json");
+        let writer = Writer::start(path.clone()).unwrap();
+        let title = "x".repeat(system_pulse_model::MAX_CONFIGURATION_BYTES + 1);
+        writer.submit(Record {
+            snapshot: Arc::new(Snapshot {
+                sequence: 1,
+                monitors: vec![system_pulse_collectors::MonitorDescriptor {
+                    id: "cpu:host".into(),
+                    title,
+                    kind: system_pulse_collectors::MonitorKind::Cpu,
+                    summary_sensor_id: "cpu:host/usage".into(),
+                }],
+                ..Snapshot::default()
+            }),
+            accepted_unix_ns: 1,
+            render_revision: 1,
+            rendered_at_collector_ms: 1,
+            rendered: vec![],
+        });
+        drop(writer);
+        let record: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+        assert_eq!(
+            record["snapshot"]["monitors"][0]["title"]
+                .as_str()
+                .unwrap()
+                .len(),
+            system_pulse_model::MAX_CONFIGURATION_BYTES + 1
+        );
+        assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 1);
+        std::fs::remove_file(path).unwrap();
         std::fs::remove_dir(dir).unwrap();
     }
 }

@@ -111,3 +111,57 @@ fn interval_and_absent_device_descriptors_roundtrip() {
     workspace.interval_ms = 7;
     assert!(workspace.validate().is_err());
 }
+
+#[test]
+fn over_limit_serialization_is_rejected_before_autosave_or_preset_can_use_it() {
+    let mut workspace = fallback();
+    workspace.monitors.insert(
+        "amdgpu:retained".into(),
+        system_pulse_model::MonitorDescriptor {
+            id: "amdgpu:retained".into(),
+            title: "x".repeat(system_pulse_model::MAX_CONFIGURATION_BYTES + 1),
+            summary: "".into(),
+            sensors: vec![],
+        },
+    );
+    workspace.validate().unwrap();
+    let session = Session {
+        workspace,
+        rejected: None,
+    };
+    assert!(
+        session.autosave_json().is_err(),
+        "unsupported serialized configuration must not be offered for autosave or preset saving"
+    );
+}
+
+#[test]
+fn over_limit_restore_preserves_original_and_blocks_autosave() {
+    let raw = format!(
+        "{{\"dock\":{{\"kind\":\"split\"}},\"unknown_padding\":\"{}\"}}",
+        "x".repeat(system_pulse_model::MAX_CONFIGURATION_BYTES)
+    );
+    let session = Session::restore(&raw, fallback(), validate_dock);
+    assert!(
+        session.rejected.is_some(),
+        "over-limit input must be rejected before parsing"
+    );
+    assert!(session.rejected.as_ref().unwrap().original == raw);
+    assert!(session.autosave_json().is_err());
+}
+
+#[test]
+fn configuration_byte_limit_includes_the_exact_boundary() {
+    assert!(
+        system_pulse_model::validate_configuration_size(
+            system_pulse_model::MAX_CONFIGURATION_BYTES
+        )
+        .is_ok()
+    );
+    assert!(
+        system_pulse_model::validate_configuration_size(
+            system_pulse_model::MAX_CONFIGURATION_BYTES + 1
+        )
+        .is_err()
+    );
+}

@@ -1297,3 +1297,44 @@ mod diagnostic_delivery_tests {
         std::fs::remove_dir(dir).unwrap();
     }
 }
+
+#[cfg(test)]
+mod preset_bound_tests {
+    use super::{Command, WorkspaceView};
+    use gpui::{AppContext, TestAppContext};
+
+    #[gpui::test]
+    fn oversized_preset_keeps_the_previous_slot_and_reports_the_save_error(
+        cx: &mut TestAppContext,
+    ) {
+        cx.update(gpui_component::init);
+        let mut view = None;
+        let (_, cx) = cx.add_window_view(|window, cx| {
+            let workspace = cx.new(|cx| WorkspaceView::new_fixture(window, cx));
+            view = Some(workspace.clone());
+            gpui_component::Root::new(workspace, window, cx)
+        });
+        let view = view.unwrap();
+        cx.update(|window, cx| {
+            view.update(cx, |this, cx| {
+                let previous = this.shared.borrow().session.autosave_json().unwrap();
+                this.preset = Some(previous.clone());
+                this.shared
+                    .borrow_mut()
+                    .session
+                    .workspace
+                    .monitors
+                    .values_mut()
+                    .next()
+                    .unwrap()
+                    .title = "x".repeat(system_pulse_model::MAX_CONFIGURATION_BYTES + 1);
+                this.command(Command::SavePreset, window, cx);
+                assert!(
+                    this.preset.as_deref() == Some(previous.as_str()),
+                    "rejected serialization must preserve the previous preset slot"
+                );
+                assert!(this.notice.contains("16 MiB"));
+            })
+        });
+    }
+}

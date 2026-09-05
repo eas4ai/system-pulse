@@ -299,29 +299,13 @@ impl MonitorPanel {
             range
                 .filter_map(|index| {
                     let process = data.processes.get(index)?;
-                    let identity = &process.identity;
-                    let stable_id =
-                        format!("process:{}:{}", identity.pid, identity.start_time_ticks);
-                    let selected = this.selected.as_ref() == Some(identity);
-                    Some(
-                        TableRow::new(SharedString::from(stable_id.clone()), index + 2)
-                            .flex()
-                            .h_7()
-                            .aria_selected(selected)
-                            .when(selected, |row| row.bg(cx.theme().muted))
-                            .debug_selector(move || format!("process-row:{index}").into())
-                            .children(process.cells.iter().enumerate().map(|(column, text)| {
-                                TableCell::new(
-                                    SharedString::from(format!("{stable_id}:cell:{column}")),
-                                    column + 1,
-                                )
-                                .aria_label(text.clone())
-                                .w(px(data.process_widths[column]))
-                                .flex_none()
-                                .overflow_hidden()
-                                .child(text.clone())
-                            })),
-                    )
+                    Some(process_row(
+                        process,
+                        index,
+                        this.selected.as_ref() == Some(&process.identity),
+                        &data.process_widths,
+                        cx,
+                    ))
                 })
                 .collect()
         })
@@ -371,6 +355,47 @@ impl MonitorPanel {
             .child(Scrollbar::horizontal(&horizontal).mode(ScrollbarMode::Always))
             .into_any_element()
     }
+}
+
+pub(crate) fn process_cell(process: &live::ProcessView, column: usize, width: f32) -> TableCell {
+    let cell_id = format!(
+        "process:{}:{}:cell:{column}",
+        process.identity.pid, process.identity.start_time_ticks
+    );
+    TableCell::new(SharedString::from(cell_id.clone()), column + 1)
+        .accessibility_id(cell_id)
+        .aria_label(process.cells[column].clone())
+        .w(px(width))
+        .flex_none()
+        .overflow_hidden()
+        .child(process.cells[column].clone())
+}
+
+pub(crate) fn process_row(
+    process: &live::ProcessView,
+    index: usize,
+    selected: bool,
+    widths: &[f32; 8],
+    cx: &App,
+) -> TableRow {
+    let stable_id = format!(
+        "process:{}:{}",
+        process.identity.pid, process.identity.start_time_ticks
+    );
+    TableRow::new(SharedString::from(stable_id.clone()), index + 2)
+        .accessibility_id(stable_id)
+        .flex()
+        .h_7()
+        .aria_selected(selected)
+        .when(selected, |row| row.bg(cx.theme().muted))
+        .debug_selector(move || format!("process-row:{index}").into())
+        .children(
+            process
+                .cells
+                .iter()
+                .enumerate()
+                .map(|(column, _)| process_cell(process, column, widths[column])),
+        )
 }
 
 impl Panel for MonitorPanel {

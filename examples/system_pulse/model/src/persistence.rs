@@ -1,6 +1,23 @@
 use crate::Workspace;
 use serde_json::Value;
 
+/// Shared byte limit for serialized workspace and preset configurations.
+/// The 451-panel retained-catalog regression is about 1.5 MiB; 16 MiB leaves
+/// headroom for multiple generations without capping or truncating devices.
+/// Diagnostic snapshots have a separate latest-record bound and do not use this.
+pub const MAX_CONFIGURATION_BYTES: usize = 16 * 1024 * 1024;
+
+pub fn validate_configuration_size(bytes: usize) -> Result<(), String> {
+    if bytes > MAX_CONFIGURATION_BYTES {
+        Err(format!(
+            "Saved state is {bytes} bytes and exceeds the {} MiB configuration limit",
+            MAX_CONFIGURATION_BYTES / (1024 * 1024)
+        ))
+    } else {
+        Ok(())
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RejectedInput {
     pub original: String,
@@ -20,8 +37,11 @@ impl Session {
         fallback: Workspace,
         validate_dock: impl Fn(&Value) -> Result<(), String>,
     ) -> Self {
-        let restored = serde_json::from_str::<Workspace>(raw)
-            .map_err(|error| format!("Cannot read saved workspace: {error}"))
+        let restored = validate_configuration_size(raw.len())
+            .and_then(|_| {
+                serde_json::from_str::<Workspace>(raw)
+                    .map_err(|error| format!("Cannot read saved workspace: {error}"))
+            })
             .and_then(|workspace| {
                 workspace.validate()?;
                 validate_dock(&workspace.dock)?;
@@ -49,7 +69,10 @@ impl Session {
             );
         }
         self.workspace.validate()?;
-        serde_json::to_string_pretty(&self.workspace).map_err(|error| error.to_string())
+        let json =
+            serde_json::to_string_pretty(&self.workspace).map_err(|error| error.to_string())?;
+        validate_configuration_size(json.len())?;
+        Ok(json)
     }
 
     /// Called only by the UI's explicit recovery action, never an autosave timer.
