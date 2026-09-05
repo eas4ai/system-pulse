@@ -84,10 +84,9 @@ class NativeCellTests(unittest.TestCase):
             dict(app=self.native, target=TARGET, time=self.clock, require=require)
         )
 
-    def test_row_lookup_skips_unrelated_cells_and_application_tree(self):
+    def test_row_lookup_skips_unrelated_cells(self):
         self.assertIs(self.lookup(), self.cells[0])
         self.other.get_child_count.assert_not_called()
-        self.native.root.assert_not_called()
 
     def test_defunct_cached_cell_and_row_reacquire_exact_identity(self):
         for aid in (TARGET, CELL):
@@ -136,6 +135,32 @@ class NativeCellTests(unittest.TestCase):
         self.assertIs(self.lookup(), self.cells[0])
         self.assertIs(self.native.cache["__panel:processes"], self.panel)
         self.other.get_child_count.assert_not_called()
+
+    def test_detached_live_cached_panel_cannot_supply_cell(self):
+        replacement = Node(self.clock, name="processes")
+        self.root.children = lambda: [replacement]
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.lookup()
+        self.assertEqual(self.clock.now, 5)
+        self.assertIs(self.native.cache["__panel:processes"], replacement)
+
+    def test_renamed_live_cached_panel_cannot_supply_cell(self):
+        self.panel.name = "unrelated"
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.lookup()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_wrong_role_live_cached_panel_cannot_supply_cell(self):
+        self.panel.role = "button"
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.lookup()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_duplicate_current_panels_fail_even_with_live_cached_match(self):
+        duplicate = Node(self.clock, name="processes")
+        self.root.children = lambda: [self.panel, duplicate]
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.lookup()
 
     def test_missing_panel_fails_with_original_deadline(self):
         self.native.cache.clear()
@@ -222,7 +247,6 @@ class NativeCellTests(unittest.TestCase):
     def test_replay_uses_scoped_discovery_and_keeps_all_metric_columns(self):
         self.replay()
         self.other.get_child_count.assert_not_called()
-        self.native.root.assert_not_called()
         self.assertEqual(
             [call.args for call in self.native.metric.call_args_list],
             [

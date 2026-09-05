@@ -606,19 +606,16 @@ class Native:
         row_id = aid.rsplit(":cell:", 1)[0]
 
         def attempt():
-            panel_key = "__panel:processes"
-            panel = self.cache.get(panel_key)
-            if not self.alive(panel):
-                panels = [
-                    node
-                    for node in self.walk(deadline=deadline, skip_cells=True)
-                    if node.get_name() == "processes"
-                    and node.get_role_name() == "panel"
-                ]
-                require(len(panels) <= 1, "nonunique native Processes panel")
-                if not panels:
-                    return None
-                panel = self.cache[panel_key] = panels[0]
+            # A cached panel cannot prove current application membership or uniqueness.
+            panels = [
+                node
+                for node in self.walk(deadline=deadline, skip_cells=True)
+                if node.get_name() == "processes" and node.get_role_name() == "panel"
+            ]
+            require(len(panels) <= 1, "nonunique native Processes panel")
+            if not panels:
+                return None
+            panel = self.cache["__panel:processes"] = panels[0]
             # The global cache cannot prove membership or uniqueness in this panel.
             rows = [
                 node
