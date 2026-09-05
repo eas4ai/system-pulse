@@ -99,7 +99,7 @@ receipt and its [diagnosis](../execution/real-system-readings/aggregate-attempt-
 
 The acceptance worker may refresh the census during long process sweeps on a
 prospective 20 ms schedule, immediately sample newly discovered PIDs, and retain
-repeated observations until the next full sweep takes over. Keep all ordinary PID
+repeated observations through disappearance, even after full sweeps also read the PID. Keep all ordinary PID
 reads and every supplemental observation with its identity, query window, census,
 and clock anchors. Use one thread and a predeclared 4,096 supplemental-observation
 limit alongside the existing capture limits. Exhaustion and missing brackets fail;
@@ -109,6 +109,21 @@ Test the between-census appearance, repeated observations, preservation of ordin
 reads, cadence, and limit failures before implementation. Recheck retained host08
 compatibility and one coordinated fresh focused capture. Commit the correction
 and complete independent SPEC then QUALITY review before rerunning Cairn.
+
+### Preserve supplemental reads through process exit
+
+The resumed aggregate at `204780f2` passed all 430 automated tests but missed
+four endpoints for PID/start `1322913:69430231`. Supplemental sampling retired
+that identity after the first full sweep. A later supplemental census still
+contained it after the collector query but did not read its counters.
+Retain the existing fast observations through a direct terminal read rather than
+retiring them at ordinary-sweep handoff. Preserve ordinary sampling, identity,
+query windows, actual errors and all existing limits. Census presence does not
+prove a counter value. Test handoff persistence, disappearance, PID reuse and
+budget failures before implementation; obtain SPEC then QUALITY review and a
+fresh committed full aggregate. See the judged decision
+`retain-supplemental-process-observation-until-exit` and retained
+`docs/execution/real-system-readings/resumed-host-exit-gap.json`.
 
 ### Missing-device specimen repair
 
