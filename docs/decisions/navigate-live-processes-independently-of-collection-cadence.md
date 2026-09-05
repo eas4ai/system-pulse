@@ -11,4 +11,4 @@ Retain two-key batches, exact native endpoint acknowledgements, and the original
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 0459aa6dc8464f0e378192eb4f4c345afe451127 fix(system-pulse): navigate across live process collection
