@@ -1,0 +1,11 @@
+requirement: LIVE-004
+mechanism: live-acceptance
+commit: 55087aa6
+inputs_digest: sha256:3e0871666a2b380b43f9e1b49a106f88561e2711e9667c5cb0c924a1c20dc4d4
+mechanism_digest: sha256:d103d7786a22512a681db2c5c80109d0bab7291f536274f2d784a6b9122adf19
+command: rtk proxy python3 scripts/system-pulse/verify.py
+cwd: .
+exit: 1
+output_digest: sha256:7daba5118334f9fad761b51c75b4bf1dc7cfbc65049decf0325279b3d748b20b
+result: fail
+recorded: 2026-09-05T00:30:24.294Z

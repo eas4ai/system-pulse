@@ -1,0 +1,35 @@
+# Live verification design
+
+These checks are specified before the live implementation is measured. They are not acceptance results.
+
+## Source, arithmetic, and rendered value
+
+Use three distinct checks. First, inspect backend source/identity and preserved raw observations. Second, independently recompute physical values from those observations. Third, compare the actual native metric text with the exact real snapshot accepted by the UI. A passing rendering check alone does not prove a trustworthy collector.
+
+CPU utilization uses the sum of the first eight `/proc/stat` counters, excluding guest and guest_nice (already included in user/nice); busy excludes idle and iowait. Compute utilization as 100 times delta busy divided by delta total. Process CPU uses its own utime/stime delta divided by clock ticks per second and measured elapsed seconds, with one logical core as denominator; values over 100% are valid. Do not include child CPU time implicitly.
+
+RAM used is MemTotal minus MemAvailable; kernel kB fields convert by 1024. Keep other composition labels faithful to their formulas. Network bytes and disk completed operations are unsigned counters. Disk sectors convert by 512, not the device's logical sector size. Throughput and IOPS divide by measured monotonic elapsed time; mean operation latency divides the read/write time delta by completed operations and is unavailable when no operation completed. First baseline, reset, failed read and zero elapsed do not become measured zero.
+
+Raw AMD temperatures convert from millidegrees Celsius, power from microwatts, and hwmon frequency remains Hz. NVIDIA power converts milliwatts to watts and clock MHz to Hz. Fan percent and RPM remain separate quantities; both intended-speed NVML fields retain that semantic label. Valid zero utilization and sleeping GPU clocks remain valid; valid negative Celsius remains valid.
+
+## Independent observations
+
+Preserve external proc/sysfs samples with Python monotonic timestamps. Compare stable identities, CPU count and stable total values exactly. At both endpoints, cumulative captured counters must lie between independently observed before/after counters for that identity, unless a reset is explicitly detected. Recompute derived values from exact captured endpoints, independent of UI formatting.
+
+Fast-changing gauges cannot be guaranteed equal at two different instants merely by allowing a percentage tolerance. Verify their parser, original raw value, unit conversion and source identity, then verify that the native view renders that exact collected value. External contemporaneous gauge samples provide supporting observations. Report any separately observed mismatch precisely; do not invent a tolerance after observing it. The collector's relative monotonic clock must not be confused with Python's absolute OS monotonic clock.
+
+Verifier regression inputs deliberately corrupt a unit factor, CPU denominator, elapsed interval, gauge conversion, and monotonic counter bracket. Each mutation must fail. Capability verification joins every required metric to actual source probes; an accessible omitted field fails. NVIDIA hardware absence is a distinct result from adapter test success.
+
+## Native capture
+
+Make each metric's accessible label describe its monitor, sensor, and exactly the value shown visually. The pinned GPUI supports `div().id(stable_id).role(Role::Label).aria_label(text)`; stable IDs must not include changing values. `TableCell` implements StatefulInteractiveElement, so its displayed field also needs an `aria_label` rather than relying on an unannotated string child. Compact summaries need equivalent semantic text. Duplicate GPU model names need a short distinguishing device identity. This improves the product's screen-reader behavior as well as verification; no testing controls belong in the normal toolbar.
+
+Use an opt-in bounded diagnostic capture of snapshots actually accepted by the UI, including sequence, physical source records and rendered sample strings. Run any serialization/file I/O outside the UI path. Capture errors fail diagnostic acceptance explicitly. The harness records a sequence before querying AT-SPI and another afterward; if they differ, retry within a predeclared deadline. Compare the complete accessible string, status and unit against the matching accepted snapshot. Save a screenshot of that visible region for visual review.
+
+At the default one-second interval, the initial bounds are a two-second accepted-snapshot age and a five-second unchanged-sequence query deadline. If host load prevents them, record the failure and investigate; do not silently relax them. Repeat after row and panel collapse and confirm accepted sample sequences keep advancing. Repeat keyboard navigation, both-axis overflow and persistence/recovery while collection is active.
+
+Use the existing isolated Xvfb/DBus/AT-SPI driver with a temporary state directory. It does not change the user's desktop settings. Launch and exit a harmless named child, verify its actual PID/start identity in diagnostic snapshots, navigate the native process table to it, and verify disappearance. Process fields denied by the OS remain visibly unavailable rather than replaced with zero.
+
+## Aggregate runner
+
+Cairn executes a shared mechanism once and records a receipt for each mapped requirement. Its command captures output, so the acceptance runner should persist full per-step logs in its bounded run directory and print concise status, test counts, artifact paths and hashes. Do not rely on a giant compiler log fitting the referee's output buffer. Every subprocess return code and required artifact is checked; missing native prerequisites or evidence fail the run. Keep a progress record for inspection during longer native replay.
