@@ -246,6 +246,7 @@ pub struct WorkspaceView {
     save_task: Option<Task<()>>,
     focus: FocusHandle,
     visibility_scroll: ScrollHandle,
+    keyboard_repaint_pending: bool,
     visibility_controls: BTreeMap<String, crate::controls::FocusEntry>,
 }
 
@@ -410,6 +411,7 @@ impl WorkspaceView {
             save_task: None,
             focus: cx.focus_handle(),
             visibility_scroll: ScrollHandle::default(),
+            keyboard_repaint_pending: false,
             visibility_controls: BTreeMap::new(),
         };
         #[cfg(test)]
@@ -679,6 +681,18 @@ impl WorkspaceView {
         self.notify_panels(cx);
     }
 
+    fn request_keyboard_repaint(&mut self, window: &mut Window, cx: &Context<Self>) {
+        if self.keyboard_repaint_pending {
+            return;
+        }
+        self.keyboard_repaint_pending = true;
+        // Keep queued Alt navigation from forcing a redraw for every key.
+        cx.on_next_frame(window, |this, _, cx| {
+            this.keyboard_repaint_pending = false;
+            cx.notify();
+        });
+    }
+
     pub(crate) fn command(
         &mut self,
         command: Command,
@@ -692,14 +706,14 @@ impl WorkspaceView {
                 return;
             }
             Command::Scroll(dx, dy) => {
-                let scroll = &self.shared.borrow().scroll;
+                let scroll = self.shared.borrow().scroll.clone();
                 let max = scroll.max_offset();
                 let old = scroll.offset();
                 scroll.set_offset(point(
                     (old.x + px(dx)).clamp(-max.x, px(0.)),
                     (old.y + px(dy)).clamp(-max.y, px(0.)),
                 ));
-                cx.notify();
+                self.request_keyboard_repaint(window, cx);
                 return;
             }
             Command::PanelCollapse(id) => {

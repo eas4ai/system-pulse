@@ -23,6 +23,7 @@ pub(crate) struct MonitorPanel {
     table_scroll: VirtualListScrollHandle,
     pub(crate) selected: Option<ProcessIdentity>,
     table_horizontal: ScrollHandle,
+    keyboard_repaint_pending: bool,
 }
 
 impl MonitorPanel {
@@ -47,6 +48,7 @@ impl MonitorPanel {
             table_scroll: VirtualListScrollHandle::new(),
             selected: None,
             table_horizontal: ScrollHandle::default(),
+            keyboard_repaint_pending: false,
         }
     }
 
@@ -287,6 +289,20 @@ impl MonitorPanel {
             .into_any_element()
     }
 
+    fn request_keyboard_repaint(&mut self, window: &mut Window, cx: &Context<Self>) {
+        if self.keyboard_repaint_pending {
+            return;
+        }
+        self.keyboard_repaint_pending = true;
+        // Dirtying this event makes GPUI redraw before the next queued key,
+        // which can starve live snapshot delivery during ordinary key repeat.
+        cx.on_next_frame(window, |this, window, cx| {
+            this.keyboard_repaint_pending = false;
+            window.refresh();
+            cx.notify();
+        });
+    }
+
     fn process_table(&mut self, window: &Window, cx: &mut Context<Self>) -> AnyElement {
         let handle = self.controls["table"].handle.clone();
         let ring = cx.theme().ring;
@@ -322,7 +338,7 @@ impl MonitorPanel {
                     let old = this.table_horizontal.offset();
                     let delta = if event.keystroke.key == "left" { 240. } else { -240. };
                     this.table_horizontal.set_offset(point((old.x + px(delta)).clamp(-this.table_horizontal.max_offset().x, px(0.)), old.y));
-                    window.refresh(); cx.stop_propagation(); return;
+                    this.request_keyboard_repaint(window, cx); cx.stop_propagation(); return;
                 }
                 let count = this.shared.borrow().processes.len();
                 if count == 0 { return; }
@@ -335,7 +351,7 @@ impl MonitorPanel {
                 this.selected = Some(this.shared.borrow().processes[next].identity.clone());
                 this.table_scroll.scroll_to_item(next, ScrollStrategy::Top);
                 controls::reveal(this.table_scroll.base_handle().bounds().dilate(px(1.)), &this.shared.borrow().scroll);
-                window.refresh(); cx.stop_propagation(); cx.notify();
+                this.request_keyboard_repaint(window, cx); cx.stop_propagation();
             }))
             .on_prepaint(move |bounds, window, _| {
                 if focus.entered(window) { controls::reveal(bounds.dilate(px(1.)), &outer); window.refresh(); }

@@ -23,7 +23,10 @@ fn harness(cx: &mut TestAppContext) -> (Entity<WorkspaceView>, &mut VisualTestCo
 }
 fn draw(cx: &mut VisualTestContext) {
     for _ in 0..3 {
-        cx.update(|window, cx| window.draw(cx).clear(cx));
+        cx.update(|window, cx| {
+            window.simulate_next_frame(cx);
+            window.draw(cx).clear(cx);
+        });
     }
 }
 fn command(view: &Entity<WorkspaceView>, cmd: Command, cx: &mut VisualTestContext) {
@@ -885,4 +888,166 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
             assert_eq!(node.label(), Some("42.0 %"));
         }
     });
+}
+
+#[gpui::test]
+fn process_navigation_burst_repaints_once_after_all_movements(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx);
+    });
+    draw(cx);
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+    assert!(cx.debug_bounds("process-row:0").is_some());
+
+    native_key("end", cx);
+    for _ in 0..80 {
+        native_key("up", cx);
+    }
+    for _ in 0..3 {
+        native_key("down", cx);
+    }
+    native_key("right", cx);
+    native_key("left", cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(422));
+    assert!(
+        cx.debug_bounds("process-row:0").is_some(),
+        "queued navigation must not redraw before the next frame"
+    );
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+    draw(cx);
+    assert!(cx.debug_bounds("process-row:422").is_some());
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+
+    for (key, expected) in [
+        ("home", 0),
+        ("up", 0),
+        ("down", 1),
+        ("end", 499),
+        ("down", 499),
+        ("up", 498),
+    ] {
+        native_key(key, cx);
+        assert_eq!(
+            cx.read(|cx| processes.read(cx).selected_index()),
+            Some(expected)
+        );
+    }
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(498));
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+    draw(cx);
+    assert!(cx.debug_bounds("process-row:498").is_some());
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+}
+
+#[gpui::test]
+fn process_horizontal_burst_accumulates_and_repaints_once(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    cx.update(|_, cx| {
+        view.update(cx, |this, cx| {
+            this.shared.borrow_mut().process_widths = [1000.; 8];
+            cx.notify();
+        });
+    });
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx);
+    });
+    draw(cx);
+    let original = cx.debug_bounds("process-row:0").unwrap();
+    for key in ["right", "right", "right", "left"] {
+        native_key(key, cx);
+    }
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+    draw(cx);
+    assert_eq!(
+        cx.debug_bounds("process-row:0").unwrap().left(),
+        original.left() - px(480.)
+    );
+    for _ in 0..5 {
+        native_key("left", cx);
+    }
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+    draw(cx);
+    assert_eq!(
+        cx.debug_bounds("process-row:0").unwrap().left(),
+        original.left()
+    );
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+}
+
+#[gpui::test]
+fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let dock = cx.read(|cx| view.read(cx).dock.clone());
+    let nodes =
+        cx.read(|cx| leaf_nodes(dock.read(cx).layout(DockPlacement::Center).unwrap().root()));
+    cx.update(|window, cx| {
+        dock.update(cx, |dock, cx| {
+            dock.try_move_panel(
+                nodes[1].1,
+                InsertTarget::Split {
+                    node: nodes[0].0,
+                    placement: Placement::Left,
+                    size: Some(px(2400.)),
+                },
+                window,
+                cx,
+            )
+            .unwrap();
+        });
+    });
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx);
+    });
+    draw(cx);
+    let scroll = cx.read(|cx| view.read(cx).shared.borrow().scroll.clone());
+    assert!(scroll.max_offset().x > px(600.));
+    assert!(scroll.max_offset().y > px(600.));
+    let notifications = std::rc::Rc::new(std::cell::Cell::new(0));
+    let observed = notifications.clone();
+    let _subscription =
+        cx.update(|_, cx| cx.observe(&view, move |_, _| observed.set(observed.get() + 1)));
+    for _ in 0..2 {
+        notifications.set(0);
+        let mut expected = scroll.offset();
+        for (key, dx, dy) in [
+            ("alt-pageup", 0., 300.),
+            ("alt-pageup", 0., 300.),
+            ("alt-pagedown", 0., -300.),
+            ("alt-right", -300., 0.),
+            ("alt-right", -300., 0.),
+            ("alt-left", 300., 0.),
+        ] {
+            expected.x = (expected.x + px(dx)).clamp(-scroll.max_offset().x, px(0.));
+            expected.y = (expected.y + px(dy)).clamp(-scroll.max_offset().y, px(0.));
+            native_key(key, cx);
+            assert_eq!(
+                scroll.offset(),
+                expected,
+                "every key mutates the offset immediately"
+            );
+        }
+        assert_eq!(
+            notifications.get(),
+            0,
+            "queued Alt navigation must not dirty the view"
+        );
+        assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+        assert_eq!(notifications.get(), 1);
+        draw(cx);
+        assert_eq!(scroll.offset(), expected);
+        assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+    }
 }
