@@ -18,7 +18,7 @@ from Xlib import X, XK, display, protocol
 from Xlib.ext import xtest
 
 from host_accuracy import require
-from native_contract import expected_label, contained
+from native_contract import expected_label, contained, check_transport_record
 
 BUDGETS = {
     "startup": 15,
@@ -64,24 +64,29 @@ def close_transport(output):
         return
     child = TRANSPORT
     TRANSPORT = None
-    if child.poll() is None:
-        child.terminate()
-        try:
+    errors = []
+    forced_kill = False
+    try:
+        if child.poll() is None:
+            child.terminate()
             child.wait(timeout=5)
-        except subprocess.TimeoutExpired:
+    except BaseException as error:
+        errors.append(str(error))
+        try:
+            forced_kill = True
             child.kill()
             child.wait(timeout=5)
-            raise AssertionError("private accessibility transport required forced kill")
-    Path(output, "transport-cleanup.json").write_text(
-        json.dumps(
-            {
-                "pid": child.pid,
-                "exit_code": child.returncode,
-                "proc_exists": Path(f"/proc/{child.pid}").exists(),
-            },
-            indent=2,
-        )
-    )
+        except BaseException as cleanup_error:
+            errors.append("forced cleanup: " + str(cleanup_error))
+    record = {
+        "pid": child.pid,
+        "exit_code": child.returncode,
+        "proc_exists": Path(f"/proc/{child.pid}").exists(),
+        "forced_kill": forced_kill,
+        "errors": errors,
+    }
+    Path(output, "transport-cleanup.json").write_text(json.dumps(record, indent=2))
+    check_transport_record(record)
 
 
 class Native:

@@ -45,7 +45,7 @@ def capture():
     ]:
         row[key] = reading("process:42:1/" + suffix, None, [])
     row["threads"] = reading(
-        "process:42:1/threads", 1, [obs("/proc/42/status", 20, dict(value=1))]
+        "process:42:1/threads", 1, [obs("/proc/42/stat", 20, dict(value=1))]
     )
     query = dict(read_started_ns=1, captured_ns=2, availability="Available")
     net = dict(

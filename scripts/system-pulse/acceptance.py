@@ -179,6 +179,8 @@ def source_guard():
         "test_acceptance.py",
         "test_capture_stream.py",
         "test_host_inventory.py",
+        "test_process_attribution.py",
+        "test_native_cleanup.py",
     ):
         require(
             (ROOT / "scripts/system-pulse" / name).is_file(),
@@ -347,6 +349,11 @@ def main():
             "native/missing-device-config.json",
         ]
         artifacts = [runner.artifact(output / p) for p in mandatory]
+        from native_contract import check_transport_record
+
+        check_transport_record(
+            json.loads((output / "native/transport-cleanup.json").read_text())
+        )
         for session in (
             "session-01",
             "session-02",

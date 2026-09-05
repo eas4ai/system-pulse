@@ -154,3 +154,13 @@ def contained(bounds, clips):
             for cx, cy, cw, ch in clips
         )
     )
+
+
+def check_transport_record(record):
+    require(
+        record["exit_code"] == 0
+        and record["proc_exists"] is False
+        and record["forced_kill"] is False
+        and record["errors"] == [],
+        f"private accessibility transport cleanup failed: {record}",
+    )

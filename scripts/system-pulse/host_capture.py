@@ -780,17 +780,38 @@ def verify_capture(observer, snapshots, child_info):
                 sensors[reading["sensor_id"]], reading
             )
         counts["connection_interfaces"] += connections(snapshot)
+        process_pids = set()
         for row in snapshot["processes"]:
-            for key, unit in [
-                ("cpu_percent", "Percent"),
-                ("memory_bytes", "Bytes"),
-                ("read_bytes_per_second", "BytesPerSecond"),
-                ("write_bytes_per_second", "BytesPerSecond"),
-                ("threads", "Count"),
+            pid, start_ticks = (
+                row["identity"]["pid"],
+                row["identity"]["start_time_ticks"],
+            )
+            require(
+                pid not in process_pids, f"duplicate process PID in snapshot: {pid}"
+            )
+            process_pids.add(pid)
+            for key, suffix, unit, filename in [
+                ("cpu_percent", "cpu", "Percent", "stat"),
+                ("memory_bytes", "memory", "Bytes", "stat"),
+                ("read_bytes_per_second", "read", "BytesPerSecond", "io"),
+                ("write_bytes_per_second", "write", "BytesPerSecond", "io"),
+                ("threads", "threads", "Count", "stat"),
             ]:
                 reading = row[key]
+                expected_id = f"process:{pid}:{start_ticks}/{suffix}"
+                expected_source = f"/proc/{pid}/{filename}"
+                require(
+                    reading["sensor_id"] == expected_id,
+                    f"process field identity does not match row: {reading['sensor_id']} != {expected_id}",
+                )
+                for observation in reading["observations"]:
+                    require(
+                        observation["source"] == expected_source,
+                        f"process raw source does not match row: {observation['source']} != {expected_source}",
+                    )
                 counts["exact_process_fields"] += check_reading(
-                    {"id": reading["sensor_id"], "unit": unit, "source": ""}, reading
+                    {"id": expected_id, "unit": unit, "source": expected_source},
+                    reading,
                 )
             for observation in row["cpu_percent"]["observations"]:
                 require(
