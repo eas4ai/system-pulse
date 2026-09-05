@@ -16,3 +16,18 @@ earlier missing-selection observations. The relationship between the
 sequence wait and observer completion is under read-only investigation.
 No navigation or controlled-child exit proof was reached. Owned application
 and private transport cleanup completed. [Artifacts and hashes](native-input-sequence-failure.json).
+
+## Recorded diagnosis
+
+Read-only review confirmed two evidence lists: Native.sequences observes
+three actual publications, while check_input_record counts only the watcher
+list. exercise discards the main-thread records and stops the watcher
+immediately. No synchronization saves the third main-thread publication.
+This identifies an evidence-recording race, not an observed collector or
+input failure. The original run remains FAIL.
+
+Retain age immediately after each existing sequences frame read, then append
+those actual sequence/age observations to the same saved list before
+shutdown. Preserve every watcher observation and error, the three distinct
+sequence requirement, existing reads, and the original wait deadline. Never
+compute earlier observations' ages at return time or infer a zero age.
