@@ -1,0 +1,363 @@
+{
+  "status": "diagnostic-only FAIL",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/native-end-selection-diagnostic/native",
+  "error": [
+    "native discovery deadline exceeded; incomplete tree"
+  ],
+  "probes": [
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711787805807715,
+      "stage": "before-key",
+      "entry": 1,
+      "snapshot": {
+        "sequence": 65,
+        "revision": 64,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711787803954620,
+      "observation_finished_ns": 711787805767535,
+      "keys": [
+        "Tab"
+      ]
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711787808075175,
+      "stage": "after-key",
+      "entry": 1,
+      "snapshot": {
+        "sequence": 65,
+        "revision": 64,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711787806064965,
+      "observation_finished_ns": 711787808048243,
+      "keys": [
+        "Tab"
+      ]
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711792946563652,
+      "stage": "before-key",
+      "entry": 2,
+      "snapshot": {
+        "sequence": 75,
+        "revision": 74,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": true,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711792944056693,
+      "observation_finished_ns": 711792946505261,
+      "keys": [
+        "Tab"
+      ]
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711792948976715,
+      "stage": "after-key",
+      "entry": 2,
+      "snapshot": {
+        "sequence": 75,
+        "revision": 74,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": true,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711792946889520,
+      "observation_finished_ns": 711792948928334,
+      "keys": [
+        "Tab"
+      ]
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711792978621167,
+      "stage": "before-key",
+      "entry": 2,
+      "snapshot": {
+        "sequence": 76,
+        "revision": 75,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": true,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711792976797707,
+      "observation_finished_ns": 711792978520772,
+      "keys": [
+        "End"
+      ]
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711792982064589,
+      "stage": "after-key",
+      "entry": 2,
+      "snapshot": {
+        "sequence": 76,
+        "revision": 75,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": true,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711792978958157,
+      "observation_finished_ns": 711792982004227,
+      "keys": [
+        "End"
+      ]
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711793062620987,
+      "stage": "existing-selection-poll",
+      "entry": 2,
+      "snapshot": {
+        "sequence": 76,
+        "revision": 75,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": "process:1:31",
+          "focused": false,
+          "selected": true,
+          "defunct": false
+        },
+        "last": {
+          "cached": false
+        }
+      },
+      "observation_started_ns": 711793061137184,
+      "observation_finished_ns": 711793062519652,
+      "selected": "process:1:31"
+    },
+    {
+      "op": "diagnostic-selection-probe",
+      "monotonic_ns": 711793604111228,
+      "stage": "acknowledgement-finished",
+      "entry": 2,
+      "snapshot": {
+        "sequence": 77,
+        "revision": 76,
+        "first": "process:1:31",
+        "last": "process:4186560:70974873"
+      },
+      "nodes": {
+        "close": {
+          "cached": true,
+          "id": "",
+          "focused": false,
+          "selected": false,
+          "defunct": false
+        },
+        "body": {
+          "cached": true,
+          "id": "processes:viewport",
+          "focused": true,
+          "selected": false,
+          "defunct": false
+        },
+        "first": {
+          "cached": true,
+          "id": null,
+          "focused": false,
+          "selected": false,
+          "defunct": true
+        },
+        "last": {
+          "cached": true,
+          "id": "process:4186560:70974873",
+          "focused": false,
+          "selected": true,
+          "defunct": false
+        }
+      },
+      "observation_started_ns": 711793602506323,
+      "observation_finished_ns": 711793604060718,
+      "expected": "process:4186560:70974873",
+      "deadline": 711800.982123915
+    }
+  ],
+  "hashes": {
+    "result.json": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+    "private-session.log": "df6492f72d8cd1182e76681051ced3100c20cf8591c7f2e8a1f79c21b5b764cb",
+    "session-01/journal.jsonl": "f7a9cc0e9a7d75d42789e213f273b7dc45d8c727e2cbbd6b60e06997cac61a7b",
+    "session-01/failure-frame.json": "ee2407e69c9404bf637ac8914519e721add59e95156041a93c03f58bbeda7375",
+    "session-01/failure.png": "fe9d7caa5a0a7224f24b4179f5a1c4419bc1c0f617f0662488551b1a70a60e8f",
+    "session-01/cleanup.json": "4e22a4765f50be3d356946279f35e41deb39c373c55f18b3f9f5c1922148cc8c",
+    "transport-cleanup.json": "00883080cb3ad369df6b636f574101a23184c01a14c736bbe015d041a7610246"
+  }
+}
