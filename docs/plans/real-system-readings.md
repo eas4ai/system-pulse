@@ -230,3 +230,22 @@ and [decision](../decisions/scope-process-cell-discovery-to-its-native-row.md).
   replay call boundary, then pass independent SPEC and QUALITY reviews.
 - [ ] Run focused native process acceptance and fresh committed aggregate
   acceptance. Preserve failed receipts; final review remains pending.
+
+
+### Publish transient diagnostics without a durability flush
+
+The focused native run retained a complete newer diagnostic temporary file
+while the published file became stale. A bounded trace did not reproduce
+the specific stall. Source confirms both diagnostic and durable workspace
+saves currently wait for sync_all before rename. See
+[the decision](../decisions/publish-transient-diagnostics-without-a-durability-flush.md)
+and [trace limits](../execution/real-system-readings/diagnostic-publication-trace.md).
+
+- [ ] Keep complete atomic diagnostic replacement, revision ordering,
+  errors, and cleanup while removing its durability-flush dependency.
+  Preserve durable workspace/preset writes and configuration bounds.
+- [ ] Verify publication policies, failed replacement, stale revisions,
+  and complete JSON; run scoped Rust checks/build, then independent
+  specification and quality review.
+- [ ] Run fresh untraced native and committed aggregate acceptance.
+  Do not claim the earlier stalled syscall has been identified.
