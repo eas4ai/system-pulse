@@ -626,6 +626,10 @@ mod tests {
         let mut s = Snapshot::default();
         c.collect_portable(&mut s);
         assert!(
+            s.network_attribution.is_none(),
+            "the common backend has no Linux TCP table evidence"
+        );
+        assert!(
             s.readings
                 .iter()
                 .any(|r| r.sensor_id == "memory:host/used" && r.total.is_some_and(|v| v > 0.0))

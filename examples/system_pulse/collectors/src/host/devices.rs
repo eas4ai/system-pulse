@@ -1,5 +1,4 @@
 use super::*;
-use std::net::{IpAddr, Ipv4Addr, Ipv6Addr};
 impl HostCollector {
     pub(super) fn collect_devices(&mut self, s: &mut Snapshot) {
         self.amd(s);
@@ -212,6 +211,9 @@ impl HostCollector {
         }
     }
     fn network(&mut self, s: &mut Snapshot) {
+        let attribution = self.capture_network_attribution();
+        let mut connections = super::network_attribution::connection_readings(&attribution);
+        s.network_attribution = Some(attribution);
         let names = match self.entries("/sys/class/net") {
             Ok(v) => v,
             Err(e) => {
@@ -219,23 +221,6 @@ impl HostCollector {
                 return;
             }
         };
-        if self.root == Path::new("/") {
-            self.networks.refresh(true);
-        }
-        let mut address_owners: BTreeMap<IpAddr, usize> = BTreeMap::new();
-        for (_, n) in &self.networks {
-            for ip in n.ip_networks() {
-                *address_owners.entry(ip.addr).or_default() += 1;
-            }
-        }
-        let connections = self
-            .read("/proc/net/tcp")
-            .and_then(|v4| self.read("/proc/net/tcp6").map(|v6| (v4, v6)))
-            .and_then(|(a, b)| {
-                let mut v = tcp_addresses(&a, false)?;
-                v.extend(tcp_addresses(&b, true)?);
-                Ok(v)
-            });
         for name in names {
             let base = format!("/sys/class/net/{name}");
             let physical = std::fs::canonicalize(self.path(&format!("{base}/device")))
@@ -293,30 +278,15 @@ impl HostCollector {
                 );
             }
             let sid = format!("{id}/connections");
-            let ips = self
-                .networks
-                .get(&name)
-                .map(|n| {
-                    n.ip_networks()
-                        .iter()
-                        .map(|ip| ip.addr)
-                        .filter(|ip| address_owners.get(ip) == Some(&1))
-                        .collect::<Vec<_>>()
-                })
-                .unwrap_or_default();
-            let r = if ips.is_empty() {
-                missing(&sid,Availability::Unavailable,"No uniquely attributable local interface address; wildcard sockets are excluded".into())
-            } else {
-                let result = connections
-                    .clone()
-                    .map(|addresses| addresses.iter().filter(|ip| ips.contains(ip)).count() as u64);
-                self.integer(
+            let mut r = connections.remove(&name).unwrap_or_else(|| {
+                missing(
                     &sid,
-                    "/proc/net/tcp + /proc/net/tcp6; sysinfo interface addresses",
-                    result,
-                    1.0,
+                    Availability::Unavailable,
+                    "No local interface address returned by sysinfo; wildcard sockets are excluded"
+                        .into(),
                 )
-            };
+            });
+            r.sensor_id = sid;
             sensor(
                 s,
                 &id,
@@ -584,66 +554,4 @@ fn unescape_mount(v: &str) -> String {
         .replace("\\011", "\t")
         .replace("\\012", "\n")
         .replace("\\134", "\\")
-}
-fn tcp_addresses(text: &str, ipv6: bool) -> Result<Vec<IpAddr>, String> {
-    let mut result = Vec::new();
-    for line in text.lines().skip(1) {
-        let fields = line.split_whitespace().collect::<Vec<_>>();
-        if fields.len() < 4 {
-            return Err("/proc/net/tcp: malformed socket record".into());
-        }
-        if fields[3] != "01" {
-            continue;
-        }
-        let hex = fields[1]
-            .split(':')
-            .next()
-            .ok_or("TCP local address missing")?;
-        let address = if ipv6 {
-            if hex.len() != 32 {
-                return Err("TCP6 address must contain 32 hex digits".into());
-            }
-            let mut bytes = [0u8; 16];
-            for i in 0..4 {
-                bytes[i * 4..i * 4 + 4].copy_from_slice(
-                    &u32::from_str_radix(&hex[i * 8..i * 8 + 8], 16)
-                        .map_err(|e| format!("TCP6 address: {e}"))?
-                        .to_ne_bytes(),
-                );
-            }
-            let address = Ipv6Addr::from(bytes);
-            address
-                .to_ipv4_mapped()
-                .map(IpAddr::V4)
-                .unwrap_or(IpAddr::V6(address))
-        } else {
-            IpAddr::V4(Ipv4Addr::from(
-                u32::from_str_radix(hex, 16)
-                    .map_err(|e| format!("TCP4 address: {e}"))?
-                    .to_ne_bytes(),
-            ))
-        };
-        if !address.is_unspecified() {
-            result.push(address);
-        }
-    }
-    Ok(result)
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-    #[test]
-    fn established_connections_exclude_wildcards_and_normalize_ipv4_mapped_ipv6() {
-        let v4 = "header\n0: 0100007F:1000 0100007F:2000 01\n1: 00000000:1000 00000000:0000 01\n2: 0100007F:1000 00000000:0000 0A\n";
-        assert_eq!(
-            tcp_addresses(v4, false).unwrap(),
-            vec![IpAddr::V4(Ipv4Addr::LOCALHOST)]
-        );
-        let v6 = "header\n0: 0000000000000000FFFF00000100007F:1000 00000000000000000000000000000000:2000 01\n";
-        assert_eq!(
-            tcp_addresses(v6, true).unwrap(),
-            vec![IpAddr::V4(Ipv4Addr::LOCALHOST)]
-        );
-    }
 }

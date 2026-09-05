@@ -13,6 +13,8 @@ pub struct Snapshot {
     pub readings: Vec<Reading>,
     pub processes: Vec<ProcessRow>,
     pub diagnostics: Vec<BackendDiagnostic>,
+    #[serde(default)]
+    pub network_attribution: Option<NetworkAttribution>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ClockAnchor {
@@ -122,4 +124,62 @@ pub struct BackendDiagnostic {
     pub backend: String,
     pub availability: Availability,
     pub reason: String,
+}
+
+/// Shared captured inputs for every per-interface established-TCP connection count.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct NetworkAttribution {
+    pub interface_addresses: InterfaceAddressObservation,
+    pub tcp_v4: TcpTableObservation,
+    pub tcp_v6: TcpTableObservation,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct SourceQuery {
+    pub source: String,
+    pub read_started_ns: u64,
+    pub captured_ns: u64,
+    pub availability: Availability,
+    pub errors: Vec<String>,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct InterfaceAddressObservation {
+    pub query: SourceQuery,
+    /// The names and addresses returned by sysinfo, before ownership deduplication.
+    pub interfaces: BTreeMap<String, Vec<String>>,
+}
+#[derive(Clone, Debug, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum IpVersion {
+    Ipv4,
+    Ipv6,
+}
+#[derive(Clone, Debug, Copy, PartialEq, Eq, Serialize, Deserialize)]
+pub enum WordByteOrder {
+    LittleEndian,
+    BigEndian,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct TcpTableObservation {
+    pub query: SourceQuery,
+    pub address_family: IpVersion,
+    /// Linux prints native-endian 32-bit address words in these procfs files.
+    pub word_byte_order: WordByteOrder,
+    pub rows: Vec<TcpLocalRow>,
+}
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TcpLocalRow {
+    pub line_number: u64,
+    pub local_address_hex: Option<String>,
+    pub state_hex: Option<String>,
+}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn snapshots_without_network_attribution_remain_compatible() {
+        let mut old = serde_json::to_value(Snapshot::default()).unwrap();
+        old.as_object_mut().unwrap().remove("network_attribution");
+        let restored: Snapshot = serde_json::from_value(old).unwrap();
+        assert!(restored.network_attribution.is_none());
+        assert!(Snapshot::default().network_attribution.is_none());
+    }
 }

@@ -8,6 +8,8 @@ use std::{
 };
 #[cfg(target_os = "linux")]
 mod devices;
+#[cfg(target_os = "linux")]
+mod network_attribution;
 mod portable;
 #[cfg(target_os = "linux")]
 mod proc;

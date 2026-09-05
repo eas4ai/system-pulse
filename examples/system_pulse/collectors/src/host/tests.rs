@@ -502,3 +502,26 @@ fn shared_mac_interfaces_keep_independent_rates_through_discovery_churn() {
         );
     }
 }
+
+#[test]
+fn linux_snapshot_contains_shared_network_query_evidence() {
+    let f = Fixture::new();
+    f.base();
+    f.put("sys/class/net/lo/address", "00:00:00:00:00:00");
+    f.put(
+        "proc/net/tcp",
+        "sl local_address rem_address st\n0: 0100007F:1234 00000000:0000 0A\n",
+    );
+    f.put("proc/net/tcp6", "sl local_address rem_address st\n");
+    let mut collector = HostCollector::rooted(f.0.clone());
+    let snapshot = collector.collect_at(10);
+    let evidence = snapshot.network_attribution.unwrap();
+    assert_eq!(evidence.tcp_v4.rows.len(), 1);
+    assert_eq!(evidence.tcp_v4.rows[0].state_hex.as_deref(), Some("0A"));
+    assert_eq!(evidence.tcp_v6.query.source, "/proc/net/tcp6");
+    fs::remove_file(f.0.join("proc/net/tcp")).unwrap();
+    let failed = collector.collect_at(20).network_attribution.unwrap();
+    assert_eq!(failed.tcp_v4.query.availability, Availability::Failed);
+    assert_eq!(failed.tcp_v6.query.availability, Availability::Available);
+    assert_eq!(failed.tcp_v6.query.captured_ns, 20);
+}
