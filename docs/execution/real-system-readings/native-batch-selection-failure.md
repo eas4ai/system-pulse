@@ -17,3 +17,21 @@ highlight. That is not proof of model selection clearing: this native
 table is virtualized. Process lifetimes and snapshot order are under
 read-only investigation. Preserve the FAIL outcome and original limits.
 [Artifacts and hashes](native-batch-selection-failure.json).
+
+## Retained chronology
+
+Independent read-only review found the final batch used sequence 137 and
+the failure frame sequence 145, revision 144. Origin, expected endpoint,
+and controlled target all remained present with their exact start ticks.
+Last-batch metadata implies origin index 1223 and expected index 1221;
+at failure they were 1218 and 1216. Target remained index 1143. The
+screenshot's first visible PID 2117428 maps to index 1221, five rows below
+the expected endpoint. This is consistent with viewport drift after
+collection, not proof of actual model selection loss.
+
+Navigation used about 52.66 seconds of its 180-second budget. The last
+batch acknowledgement exhausted its own eight seconds; no rejected
+observations were retained. A bounded diagnostic will record existing
+selection/frame/membership results and retry reasons in memory, without
+extra native queries, input, or changed deadlines. Its output is diagnostic
+only. A separate read-only trace checks the production viewport behavior.
