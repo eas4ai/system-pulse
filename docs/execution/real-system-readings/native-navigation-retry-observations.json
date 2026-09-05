@@ -1,0 +1,78 @@
+[
+  {
+    "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-u2yg8sw0/native",
+    "diagnostic_only": false,
+    "result": {
+      "status": "FAIL",
+      "errors": [
+        "native discovery deadline exceeded; incomplete tree"
+      ],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true
+      },
+      "focused_preparation": "process",
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "hashes": {
+      "result.json": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+      "session-01/journal.jsonl": "8dfea08e21ef1055e62e0557f02c6a2420ad2145b1ffa4e5c4f17821c7aa7e6a",
+      "session-01/cleanup.json": "a18fd5040a1487376ee6aa89c0b98d30154354dd7fd1a41ec5493a1e8a40b53a",
+      "transport-cleanup.json": "b2eaab3ada668007b63fa522de34efe22f979ef2470dba06fc76b929f4d362ba"
+    }
+  },
+  {
+    "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/native-navigation-coherence-diagnostic/native",
+    "diagnostic_only": true,
+    "result": {
+      "status": "FAIL",
+      "errors": [
+        "input movement held-up-25hz: original deadline expired; last transient='NoneType' object is not subscriptable"
+      ],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true
+      },
+      "focused_preparation": "process",
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "hashes": {
+      "result.json": "0d545ffdeb61c55250d6ca34acfd7f7b9be8328d02c00e17b1ad5c485ad907f3",
+      "session-01/journal.jsonl": "d0709cc718a1360b8c963b7fbda3890801e32ea043ad65db6c01f91ba1234954",
+      "session-01/cleanup.json": "d79418b289b34c8b16f617b12c1093e0e3b92750160936569011d1d519fcdeca",
+      "transport-cleanup.json": "c3c11c5a8413fe8b14110fe79ef8dacefaea7dfc03e5ee4c656c0286075369bc"
+    }
+  }
+]

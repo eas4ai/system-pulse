@@ -322,3 +322,19 @@ the same way causes repeated complete discovery until timeout.
   or incomplete registration, wrong PID, and deadline exhaustion. Pass
   focused/full checks and independent SPEC then QUALITY review.
 - [ ] Run fresh untraced native and committed aggregate acceptance.
+
+### Retain validated membership during pacing retries
+
+The [retry observations](../execution/real-system-readings/native-navigation-retry-observations.md)
+identify local membership discarded after otherwise valid scans when
+publication changes. Exact failure causation remains unmeasured because
+the diagnostic stopped at an earlier held-input failure.
+
+- [ ] Reproduce unnecessary discovery cost during frame/selected-node
+  retries, then retain only the validated panel path for intermediate
+  pacing. Repeat strict selection, identity, and fresh-frame observations.
+- [ ] Keep invalidation on broken links or incomplete/exceptional scans.
+  Preserve fresh full uniqueness on final proof retries; reject duplicate
+  panels, target loss, PID reuse, transfer, and deadline overruns.
+- [ ] Pass focused/full checks and independent reviews, then verify actual
+  untraced navigation and full committed acceptance.
