@@ -101,6 +101,34 @@ class NativeCellTests(unittest.TestCase):
         self.native.cache[CELL] = Node(self.clock, "process:42:124:cell:0")
         self.assertIs(self.lookup(), self.cells[0])
 
+    def test_detached_live_cached_row_cannot_supply_cell(self):
+        self.native.cache.update({TARGET: self.row, CELL: self.cells[0]})
+        self.panel.children = lambda: [self.other]
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.lookup()
+        self.assertEqual(self.clock.now, 5)
+        self.other.get_child_count.assert_not_called()
+
+    def test_duplicate_row_fails_even_with_live_cached_match(self):
+        self.native.cache[TARGET] = self.row
+        duplicate = Node(self.clock, TARGET, children=lambda: self.cells)
+        self.panel.children = lambda: [self.other, self.row, duplicate]
+        with self.assertRaisesRegex(AssertionError, "nonunique native process row"):
+            self.lookup()
+        self.other.get_child_count.assert_not_called()
+
+    def test_panel_reacquisition_ignores_foreign_row_cached_during_discovery(self):
+        self.native.cache.clear()
+        foreign_cell = Node(self.clock, CELL)
+        foreign_row = Node(self.clock, TARGET, children=lambda: [foreign_cell])
+        foreign_panel = Node(
+            self.clock, name="unrelated", children=lambda: [foreign_row]
+        )
+        self.root.children = lambda: [self.panel, foreign_panel]
+        self.assertIs(self.lookup(), self.cells[0])
+        self.assertIs(self.native.cache[TARGET], self.row)
+        self.other.get_child_count.assert_not_called()
+
     def test_defunct_panel_reacquisition_skips_unrelated_cells(self):
         stale = Node(self.clock, name="processes")
         stale.defunct = True

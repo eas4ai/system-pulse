@@ -609,7 +609,6 @@ class Native:
             panel_key = "__panel:processes"
             panel = self.cache.get(panel_key)
             if not self.alive(panel):
-                self.cache.pop(row_id, None)
                 panels = [
                     node
                     for node in self.walk(deadline=deadline, skip_cells=True)
@@ -620,17 +619,16 @@ class Native:
                 if not panels:
                     return None
                 panel = self.cache[panel_key] = panels[0]
-            row = self.cache.get(row_id)
-            if not self.alive(row) or row.get_accessible_id() != row_id:
-                rows = [
-                    node
-                    for node in self.walk(panel, deadline, skip_cells=True)
-                    if node.get_accessible_id() == row_id
-                ]
-                require(len(rows) <= 1, "nonunique native process row " + row_id)
-                if not rows:
-                    return None
-                row = rows[0]
+            # The global cache cannot prove membership or uniqueness in this panel.
+            rows = [
+                node
+                for node in self.walk(panel, deadline, skip_cells=True)
+                if node.get_accessible_id() == row_id
+            ]
+            require(len(rows) <= 1, "nonunique native process row " + row_id)
+            if not rows:
+                return None
+            row = rows[0]
             # Scan this row even when the cell is cached: a live cache entry alone
             # cannot establish membership or uniqueness after a native replacement.
             cells = [

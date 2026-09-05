@@ -35,7 +35,25 @@ wrong cached identity, PID reuse, missing rows/cells/panels, duplicate cells,
 node limits, slow and expired deadlines, replacement during movement, all eight
 visible metric calls, and metric reacquisition using the same shared helper.
 
-Self-audit against the production rules found no remaining implementation issue.
-No host capture or native session ran for this implementation. Independent spec
-and quality review, followed by fresh committed native and aggregate acceptance,
-remain required before claiming live acceptance.
+No host capture or native session ran for this implementation. Independent review
+and fresh committed native and aggregate acceptance remain required before
+claiming live acceptance.
+
+## Specification review correction
+
+Independent specification review found that a live cached row bypassed current
+Processes-panel membership and row uniqueness. Three regressions reproduced the
+finding before correction: a detached cached row supplied a cell, duplicate rows
+passed with a live cache match, and panel discovery cached a same-ID row from an
+unrelated panel and returned its cell.
+
+Every lookup now scans the current Processes panel for the unique exact row,
+skipping all process-cell descendants until that row is selected. It does not
+use the global row cache as evidence. The same deadline and node budget apply.
+This requires a row scan even when the cache contains a live match; native timing
+remains subject to the original acceptance budget.
+
+After correction, all 50 native harness tests passed, including 24 cell tests.
+The exact full Python command above passed 154 tests. Ruff lint, format checks,
+and `git diff --check` passed. Self-audit covered the three review cases and found
+no remaining known implementation issue. Independent re-review remains pending.
