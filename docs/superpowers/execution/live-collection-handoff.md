@@ -548,3 +548,67 @@ Root owns the build-decision marker. Tests, SPEC/QUALITY review, untraced
 acceptance, final commitment review, and Cairn Done remain pending.
 No evidence establishes that earlier intermittent focus, burst, or freshness
 failures are resolved.
+
+## 2026-09-05: navigation candidate awaits independent review
+
+Plan review caught a selection-transfer boundary: after an acknowledged
+process exits, an arbitrary new selected process cannot be accepted.
+The amended decision permits physical Home/End recovery only after a
+complete native observation establishes cleared selection; unexplained
+transfer remains a failure.
+
+Candidate `0459aa6d` retains two-key batches and original deadlines, removes
+forced collector advancement per batch, and validates local current
+ancestry during pacing. Full unique panel discovery remains at initial
+entry, invalidation, and final selected-target proof. Individual cache
+refreshes avoid invalidating entire descendant trees.
+
+All 204 Python tests passed, including 29 navigation regressions and
+100 focused native tests; Ruff lint/format and diff checks passed.
+The 355-row timing fixture passes within the original deadline, but
+actual native timing is unverified. SPEC review is underway, then QUALITY.
+Root owns the build-decision marker and pending review records. Fresh
+untraced focused/full acceptance and final review remain required.
+
+## 2026-09-05: navigation reviewed; collapse comparison lacks baseline
+
+Both independent reviews passed navigation candidate `0459aa6d`, each
+running 100 focused native tests and additional probes. Root recorded
+reviews/realization at `310d3402` and removed the navigation marker.
+The next untraced run passed launch and metrics, then failed the exact
+Memory panel dictionary comparison after CPU collapse. It did not reach
+navigation. Artifact root:
+`/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-8v3fvvt0/native`.
+
+The baseline returned by save_state was not retained, so the changed
+field is unknown. The final Memory panel has normal choices at
+1424 by 280; geometry capture and asynchronous save acknowledgement are
+hypotheses only. Root added complete before/after comparison artifacts
+without weakening equality, changing input, or adding state reads.
+Candidate `78ed8c68` passed 204 Python tests, Ruff and SPEC source review.
+QUALITY is pending. Root owns the LIVE-013 implement marker. Source
+record: `native-memory-state-failure.md/json`. No product fix is claimed.
+
+## 2026-09-05: actual application root registration boundary
+
+The state-artifact change passed both reviews, recorded at `2f3429c5`.
+Next untraced capture passed collapse but timed out during initial
+navigation panel discovery before sending Home/End. Two bounded diagnostic
+captures showed seven complete scans followed by rejected membership.
+Every ordinary link matched; the application root returned null Parent
+and index -1, matching pinned accesskit_unix 0.21.1. Desktop registration
+is separate through Socket.Embed.
+
+The validator and its initial fixture incorrectly treated that boundary
+as ordinary ancestry. Root recorded actual observations and the minimal
+correction plan at `197030de`; the sole worker now fixes only this boundary
+using bounded current desktop-child enumeration and exact identity/PID.
+Ordinary links, final unique-panel proof, and budgets stay intact.
+Root owns the LIVE-003 implement marker. Source record:
+`native-application-membership-failure.md/json`. Re-reviews and untraced
+acceptance remain; no successful live navigation or final Done is claimed.
+
+Application-root candidate `c2396a49` now passes 217 Python tests, including
+42 navigation and 113 focused native tests. Independent SPEC re-review
+passed those 113 tests and seven additional registration/deadline probes.
+QUALITY and actual native verification remain pending.
