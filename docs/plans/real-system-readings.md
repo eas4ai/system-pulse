@@ -298,7 +298,12 @@ controlled target remained present. See the judged decision
   Reject any unexplained transfer to a different selected identity, target
   loss, PID reuse, ambiguous selection, stale frames, and incomplete native
   observations.
+- [ ] If reusing a panel for intermediate input pacing, validate actual
+  current parent-child links before and after strict selection scans.
+  Rediscover the unique current panel at start, invalidation, and final
+  target proof. Keep final metric membership checks independent.
 - [ ] Test lifecycle, unchanged-sequence, freshness, acknowledgement ordering,
-  and deadline cases; run focused/full checks and independent reviews.
+  current membership, realistic lookup cost, and deadline cases; run
+  focused/full checks and independent reviews.
 - [ ] Run fresh untraced native and full committed acceptance. Earlier
   intermittent focus, burst, and freshness failures remain unproven.
