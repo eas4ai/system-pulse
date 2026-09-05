@@ -280,3 +280,23 @@ See [the observed failure](../execution/real-system-readings/native-cell-gesture
 - [x] Reproduce the three-step cost failure, test replacement and timeout
   behavior, run focused/full checks, and pass independent reviews.
 - [ ] Verify the native process case and full committed acceptance.
+
+### Navigate independently of collector cadence
+
+The [diagnostic capture](../execution/real-system-readings/native-navigation-exit-diagnostic.md)
+spent 116.612 seconds waiting for newer samples across 176 two-key batches,
+then indexed a selected identity absent from the next snapshot. The
+controlled target remained present. See the judged decision
+`navigate-live-processes-independently-of-collection-cadence`.
+
+- [ ] Keep two-key batches and exact native endpoint acknowledgement.
+  Validate fresh frames between batches without forcing a new collector
+  sequence each time. Preserve the total and batch deadlines.
+- [ ] Reconcile an exited selection against current native selection and
+  snapshot membership. If cleared, reestablish Home/End physically within
+  the same deadline. Reject target loss, PID reuse, ambiguous selection,
+  stale frames, and incomplete native observations.
+- [ ] Test lifecycle, unchanged-sequence, freshness, acknowledgement ordering,
+  and deadline cases; run focused/full checks and independent reviews.
+- [ ] Run fresh untraced native and full committed acceptance. Earlier
+  intermittent focus, burst, and freshness failures remain unproven.
