@@ -266,3 +266,17 @@ during panel discovery. See [observations](../execution/real-system-readings/nat
   and full Python checks, then independent SPEC and QUALITY reviews.
 - [ ] Verify fresh native timing and complete committed acceptance.
   Earlier intermittent freshness failures remain unexplained.
+
+
+### Avoid repeated full discovery within a cell scroll gesture
+
+The pruned lookup passed all initial cell comparisons but was repeated
+between every arrow movement, exhausting column five's original deadline.
+See [the observed failure](../execution/real-system-readings/native-cell-gesture-failure.md).
+
+- [ ] Retain the initially verified live cell during the gesture; reacquire
+  on replacement or identity change within the original deadline. Keep
+  the final metric call's fresh membership and comparison checks intact.
+- [ ] Reproduce the three-step cost failure, test replacement and timeout
+  behavior, run focused/full checks, and pass independent reviews.
+- [ ] Verify the native process case and full committed acceptance.
