@@ -524,3 +524,27 @@ retains hashes and cleanup evidence. Artifact root:
 `/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-7s12jgwh/native`.
 Root is preparing a bounded diagnostic step, with no changed deadlines
 or successful native acceptance claim. Final review and Cairn Done remain.
+
+## 2026-09-05: navigation cadence and exited selection
+
+Two bounded diagnostic runs did not reproduce the original End timeout.
+The first acknowledged End, then timed out after a 64-Up burst; retained
+rows do not prove the selected identity at that failure. The second logged
+existing selection calls (no added scans): all 128 logged calls completed
+within 63.059 ms. It passed held-input checks, then exposed an unchecked
+`ids.index(previous_selected)` when that process vanished between snapshots.
+The controlled child remained present. Source records:
+`native-end-selection-diagnostic.md/json` and
+`native-navigation-exit-diagnostic.md/json`. Both runs are diagnostic only.
+
+The second run spent 53.665 seconds acknowledging 176 two-key batches,
+plus 116.612 seconds waiting for newer collector snapshots. Root recorded
+judged decision `navigate-live-processes-independently-of-collection-cadence`
+and plan at `57bba7ff`. The sole source worker is implementing explicit
+selection reconciliation and removing only the forced newer-sequence wait.
+Two-key batches, native endpoint acknowledgements, identity/uniqueness,
+frame freshness, and the 180-second total/eight-second batch limits remain.
+Root owns the build-decision marker. Tests, SPEC/QUALITY review, untraced
+acceptance, final commitment review, and Cairn Done remain pending.
+No evidence establishes that earlier intermittent focus, burst, or freshness
+failures are resolved.
