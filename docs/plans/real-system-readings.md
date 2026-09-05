@@ -241,10 +241,10 @@ saves currently wait for sync_all before rename. See
 [the decision](../decisions/publish-transient-diagnostics-without-a-durability-flush.md)
 and [trace limits](../execution/real-system-readings/diagnostic-publication-trace.md).
 
-- [ ] Keep complete atomic diagnostic replacement, revision ordering,
+- [x] Keep complete atomic diagnostic replacement, revision ordering,
   errors, and cleanup while removing its durability-flush dependency.
   Preserve durable workspace/preset writes and configuration bounds.
-- [ ] Verify publication policies, failed replacement, stale revisions,
+- [x] Verify publication policies, failed replacement, stale revisions,
   and complete JSON; run scoped Rust checks/build, then independent
   specification and quality review.
 - [ ] Run fresh untraced native and committed aggregate acceptance.

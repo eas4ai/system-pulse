@@ -11,4 +11,4 @@ Give diagnostic snapshots atomic replacement after complete writing without requ
 
 ## Realized by
 
-(none yet: recorded, not built)
+- db08a65ca0462dd1070df82fd17a16f86cd3c28c fix: publish transient diagnostics without a durability flush
