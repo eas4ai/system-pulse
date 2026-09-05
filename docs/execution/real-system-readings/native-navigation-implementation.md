@@ -40,8 +40,8 @@ selected identity is a failure, including reuse of the old PID with different
 start ticks. The exact controlled target must remain present. Fresh indices
 come from the coherent snapshot, never from a vanished identity's old position.
 
-Final navigation success independently rediscovers the unique current panel and
-proves the exact target is selected. The replay's subsequent independent cell
+Final navigation success independently rediscovers the unique current panel on
+every proof attempt and proves the exact target is selected. The replay's subsequent independent cell
 metric proof is unchanged. Generic lookup/selection defaults, the separate
 strict exit traversal and its newer-snapshot requirement, replay, Rust, and all
 budget constants are unchanged.
@@ -109,3 +109,36 @@ correction: 42 navigation tests within 113 focused native tests, all 217 Python
 tests, Ruff lint/format, and `git diff --check` passed with the same Python 3.14
 and workspace TMPDIR commands above. No native run or build was performed for
 the correction; independent reviews precede the parent's next native proof.
+
+## Retain validated panel paths for pacing retries
+
+The next source inspection found an avoidable retry cost: a changed publication
+or replaced selected node discarded the panel path even after a complete strict
+selection scan and successful post-scan membership validation. The next poll
+therefore repeated full panel discovery. This is a demonstrated code-path cost,
+not an established cause of the latest native failure: the diagnostic attempt
+ended in the preceding held-input case and recorded no navigation observations.
+
+Intermediate pacing now retains that validated path on those two retry branches.
+It discards the rejected selection and snapshot indices, then repeats membership,
+strict selection, exact identity, and fresh-frame checks. Failed membership,
+incomplete scans, and exceptions still invalidate the path and require full
+reacquisition. Final proof uses an explicit `fresh_panel` mode that rediscovers
+the unique current panel on every retry, including a coherence rejection.
+The existing traversal and recursive cache-clearing behavior are unchanged;
+their contribution to native timing remains unmeasured.
+
+Seven regressions cover frame-change cost, selected-node replacement, original
+retry deadlines, failed post-scan membership, incomplete scans, transient
+post-scan frame errors, and a duplicate panel introduced after the first final
+proof's coherence rejection. RED reproduced three failures: five frame changes
+with one-second discoveries exhausted the eight-second deadline, two selected
+node replacements caused two unnecessary discoveries, and repeated coherence
+changes caused 31 discoveries before timeout. All now pass without accepting
+the rejected selection observations.
+
+Final verification: 49 navigation tests within 120 focused native tests passed
+in 3.815 s; all 224 Python tests passed in 9.525 s using the exact Python 3.14
+and TMPDIR commands above. Ruff lint/format and `git diff --check` passed. No
+native runs, builds, replay/Rust edits, or deadline changes were performed.
+Independent SPEC and QUALITY review precede fresh native verification.

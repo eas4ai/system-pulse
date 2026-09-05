@@ -983,7 +983,7 @@ class Native:
         return registered
 
     def navigation_selection(
-        self, expected, target, deadline, reconcile=False, path=None
+        self, expected, target, deadline, reconcile=False, path=None, fresh_panel=False
     ):
         """Observe exact selection in a complete tree within one fresh publication."""
 
@@ -995,8 +995,10 @@ class Native:
                 "navigation target absent: " + target,
             )
             retained, path = path, None
-            if retained is None or not self.navigation_panel_current(
-                retained, deadline
+            if (
+                fresh_panel
+                or retained is None
+                or not self.navigation_panel_current(retained, deadline)
             ):
                 retained = self.navigation_panel(deadline)
             if not self.navigation_panel_current(retained, deadline):
@@ -1012,6 +1014,9 @@ class Native:
                 and selected[1].get_accessible_id() == selected[0]
                 and selected[1].get_state_set().contains(Atspi.StateType.SELECTED)
             ):
+                # The complete scan and post-scan links still validate this panel
+                # for pacing, even though the selected row must be observed again.
+                path = retained if not fresh_panel else None
                 return None
             after = self.frame()
             ids = list(map(identity, after["snapshot"]["processes"]))
@@ -1020,6 +1025,7 @@ class Native:
                 after["snapshot"]["sequence"],
                 after["render_revision"],
             ):
+                path = retained if not fresh_panel else None
                 return None
             path = retained
             if reconcile:
@@ -1153,7 +1159,7 @@ class Native:
                 # Intermediate acknowledgements pace input. Success independently
                 # rediscovers the unique current panel and exact selected target.
                 selected, _, _ = self.navigation_selection(
-                    target, target, batch_deadline, reconcile=True
+                    target, target, batch_deadline, reconcile=True, fresh_panel=True
                 )
                 return selected
             delta = ids.index(target) - ids.index(selected[0])

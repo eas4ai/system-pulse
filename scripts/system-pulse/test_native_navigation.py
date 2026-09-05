@@ -130,6 +130,161 @@ class NavigationTests(unittest.TestCase):
     def application_membership(self, deadline=8):
         return self.native.navigation_panel_current([self.panel, self.root], deadline)
 
+    def pacing_observation(self):
+        return self.native.navigation_selection(
+            aid(2), self.target, 8, path=[self.panel, self.root]
+        )
+
+    def test_pacing_frame_retries_reuse_valid_panel_without_discovery_cost(self):
+        self.selection = [aid(2)]
+        selected = self.native.selected
+        scans = 0
+
+        def changing(*args, **kwargs):
+            nonlocal scans
+            result = selected(*args, **kwargs)
+            scans += 1
+            self.clock.now += 0.3
+            if scans <= 5:
+                self.sequence += 1
+            return result
+
+        discover = self.native.navigation_panel
+
+        def slow_discovery(deadline):
+            self.clock.now += 1
+            return discover(deadline)
+
+        self.native.selected = changing
+        self.native.navigation_panel = Mock(side_effect=slow_discovery)
+        result, frame, _ = self.pacing_observation()
+        self.assertEqual(result[0], aid(2))
+        self.assertEqual(frame["snapshot"]["sequence"], self.sequence)
+        self.assertEqual(scans, 6)
+        self.native.navigation_panel.assert_not_called()
+        self.assertLess(self.clock.now, 8)
+
+    def test_pacing_replaced_selected_nodes_do_not_invalidate_valid_panel(self):
+        self.selection = [aid(2)]
+        selected = self.native.selected
+        scans = 0
+
+        def replaced(*args, **kwargs):
+            nonlocal scans
+            result = selected(*args, **kwargs)
+            scans += 1
+            if scans <= 2:
+                result[1].defunct = True
+                self.nodes[aid(2)] = self.row(aid(2))
+            return result
+
+        self.native.selected = replaced
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+        result, _, _ = self.pacing_observation()
+        self.assertIs(result[1], self.nodes[aid(2)])
+        self.assertEqual(scans, 3)
+        self.native.navigation_panel.assert_not_called()
+
+    def test_final_proof_rediscovery_rejects_duplicate_after_coherence_retry(self):
+        selected = self.native.selected
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+        changed = False
+
+        def duplicate(*args, **kwargs):
+            nonlocal changed
+            result = selected(*args, **kwargs)
+            if (
+                result
+                and result[0] == self.target
+                and self.native.navigation_panel.call_count >= 2
+                and not changed
+            ):
+                changed = True
+                self.sequence += 1
+                extra = Node(self.clock, name="processes")
+                self.root.children = lambda: [self.panel, extra]
+            return result
+
+        self.native.selected = duplicate
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.navigate()
+        self.assertTrue(changed)
+
+    def test_incomplete_pacing_scan_requires_panel_reacquisition(self):
+        self.selection = [aid(2)]
+        selected = self.native.selected
+        child_at_index = self.panel.get_child_at_index
+        self.panel.get_child_at_index = lambda index: None
+
+        def incomplete(*args, **kwargs):
+            try:
+                return selected(*args, **kwargs)
+            finally:
+                self.panel.get_child_at_index = child_at_index
+
+        self.native.selected = incomplete
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+        self.assertEqual(self.pacing_observation()[0][0], aid(2))
+        self.native.navigation_panel.assert_called_once_with(8)
+
+    def test_exception_after_scan_requires_panel_reacquisition(self):
+        self.selection = [aid(2)]
+        original_frame = self.native.frame
+        reads = 0
+
+        def transient_frame():
+            nonlocal reads
+            reads += 1
+            if reads == 3:
+                raise FileNotFoundError("transient frame replacement")
+            return original_frame()
+
+        self.native.frame = transient_frame
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+        self.assertEqual(self.pacing_observation()[0][0], aid(2))
+        self.native.navigation_panel.assert_called_once_with(8)
+
+    def test_failed_post_scan_membership_requires_panel_reacquisition(self):
+        self.selection = [aid(2)]
+        selected = self.native.selected
+        discover = self.native.navigation_panel
+        scans = 0
+
+        def detach(*args, **kwargs):
+            nonlocal scans
+            result = selected(*args, **kwargs)
+            scans += 1
+            if scans == 1:
+                self.root.children = lambda: []
+            return result
+
+        def reattached(deadline):
+            self.root.children = lambda: [self.panel]
+            return discover(deadline)
+
+        self.native.selected = detach
+        self.native.navigation_panel = Mock(side_effect=reattached)
+        self.assertEqual(self.pacing_observation()[0][0], aid(2))
+        self.native.navigation_panel.assert_called_once_with(8)
+        self.assertEqual(scans, 2)
+
+    def test_pacing_coherence_retries_keep_original_deadline(self):
+        self.selection = [aid(2)]
+        selected = self.native.selected
+
+        def changing(*args, **kwargs):
+            result = selected(*args, **kwargs)
+            self.sequence += 1
+            return result
+
+        self.native.selected = changing
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+        with self.assertRaises(TimeoutError):
+            self.pacing_observation()
+        self.assertEqual(self.clock.now, 8)
+        self.native.navigation_panel.assert_not_called()
+        self.assertFalse(any(e[0] == "key" for e in self.events))
+
     def test_application_registration_does_not_require_parent_or_index(self):
         self.assertTrue(self.application_membership())
         self.assertEqual(self.navigate()[0], self.target)
