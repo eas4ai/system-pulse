@@ -1,0 +1,40 @@
+{
+  "diagnostic_only": true,
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/native-batch-selection-diagnostic/native",
+  "frozen_source_run": "pulse-process-lookup-74h7o_8f",
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.020s (limit 2.0s)"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "sha256": {
+    "result.json": "1d54f7f6bd951bf001ac68436153ef49413ba7c3b60a0315745d248f557af8b7",
+    "session-01/navigation-batch-observations.json": "a098b9dc75c2c259f78f568bd200576a57522101e54dfd42b818a8edc8dcd81b",
+    "session-01/journal.jsonl": "78a47c63a185cbf38624398e8cedf918d312431f4dbeecb8921963ef0d9063e0",
+    "session-01/cleanup.json": "9934796fc389d5b76eb80f0432f9e33dcd9c1486491e656c264f202080a7d1ca",
+    "transport-cleanup.json": "a6c15b53a8f7b914bd33b71f78ed526c888b4e8266f672bd32ab48406706e417"
+  }
+}
