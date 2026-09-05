@@ -364,8 +364,8 @@ def main():
         progress("missing-device", "RUNNING")
         app.shutdown()
         app.close()
-        saved = json.loads((state / "workspace.json").read_text())
-        saved["dock"] = copy.deepcopy(initial_dock)
+        # Dock geometry and panel preferences must come from the same capture.
+        saved = copy.deepcopy(missing_device_workspace)
         mid = hidden["id"]
         missing = mid + ":saved-absent"
         saved["panels"][missing] = copy.deepcopy(saved["panels"][mid])
@@ -443,7 +443,7 @@ def main():
         progress("launch", "RUNNING")
         app = Native(args.binary, output / "session-01", state)
         app.no_tabs("launch-no-tabs")
-        initial_dock = copy.deepcopy(app.state()["dock"])
+        missing_device_workspace = copy.deepcopy(app.state())
         done("launch")
         if args.focus == "missing-device":
             hidden = next(
@@ -806,6 +806,7 @@ def main():
         source = app.bounds(summary)
         target = app.bounds(app.panel("memory:host"))
         before = app.state()["dock"]
+        missing_device_workspace = copy.deepcopy(app.save_state())
         # No async action may be outstanding when arming a pointer drag.
         source = app.bounds(summary)
         target = app.bounds(app.panel("memory:host"))
