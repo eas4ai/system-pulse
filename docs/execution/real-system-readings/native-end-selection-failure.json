@@ -1,0 +1,18 @@
+{
+  "source_commit": "320c6d7e99223cc1be46300fa4cdc780a6e7647d",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-7s12jgwh/native",
+  "status": "FAIL",
+  "failed_condition": [
+    "selected process:4186560:70974873: original deadline expired; last transient=None"
+  ],
+  "files": {
+    "result.json": "715484739d540cf133404ffb47fcf7515e3b79b6091103bda93e6cc55af06b8f",
+    "session-01/metadata.json": "a45a0243c477bfd8abf0448abf67573e09599fab3599873c0b4227e70c214347",
+    "session-01/journal.jsonl": "5fa991c0ac5e5b78d83b78768a3a28bdb99b25ff5d2d60ac84a4999b7b882306",
+    "session-01/failure-frame.json": "26e4f3d07e8f90360ea642afc3ce639796432382e31fbbfc3565fcaf5f7bd06b",
+    "session-01/failure-panels.json": "e4bb11a4fe98addd25b7368cecfabb503c9e55ed75954c2b18dc6789be3100e5",
+    "session-01/failure.png": "d5ca133560b21ab7a2b619e324319e692f33b3e8f91066041903742dfc246f7c",
+    "session-01/cleanup.json": "29fe902049fef5dd64f47131e95f5bf0bd13a00ac3785c4af2ec446636036064",
+    "transport-cleanup.json": "4fd76355dd2b0869d36ecc6d9893a3a41ad5e853d86b549e32b91b091eab9b98"
+  }
+}
