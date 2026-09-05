@@ -31,3 +31,23 @@ untraced capture places the expected row five indices above the viewport.
 A narrowly gated nonselecting reveal is under contract review; no product
 change or cause-specific fix is claimed here.
 [Artifacts and hashes](native-batch-selection-diagnostic.json).
+
+## Freshness timing assessment
+
+Read-only assessment measured sequence 133/revision 132 at age
+2.019802319 seconds, about 64.5 ms after the last membership check. Saving
+its 10.3 MB stale-frame artifact then took about 793 ms. That save followed
+age calculation and did not cause the freshness failure.
+
+The later retained latest.json and failure-frame.json contain sequence
+135/revision 134, accepted 180.481 ms before the stale check. Its collection
+took 227.914 ms and capture completion to acceptance about 35.419 ms. Its
+retained file modification time is 820.667 ms after the stale check. These
+facts establish collection/acceptance progress but not when newer bytes
+became available through latest.json. No temporary file remains.
+
+Native.frame reads and parses, then checks age. It retains neither
+read-start time nor opened/current inode identities, so this capture
+cannot distinguish publication delay, read/parse latency, or an old-file
+read during atomic replacement. The read frame exceeded the bound; no
+particular stalled syscall or false verdict is established.
