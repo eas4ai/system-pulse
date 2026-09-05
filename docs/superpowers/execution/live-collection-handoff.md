@@ -325,3 +325,29 @@ strict arithmetic and all other brackets, and require predeclared controlled
 process coverage. This changes the acceptance boundary and is not yet approved
 or implemented. The agreed specification stands. Cairn's historical failure
 streak still requests escalation; no new reporting defect was found.
+
+
+## 2026-09-05: process-exit policy approved; implementation underway
+
+The developer approved the remaining proposal: “The rest is approved.” Root
+recorded `ok` on the all-LIVE escalation, revised LIVE-013 and its falsifier,
+and incorporated the process-exit observation policy into the agreement and plan.
+Cairn correctly requested a mechanism review for the changed requirement, digest
+`sha256:ca3fad2f6558d9d189fefaa74561f534b8fc04b3c8cab886496f044ea45919f4`.
+
+Read-only review found four gaps and root recorded them before code changes in
+`.cairn/reviews/real-system-readings.md`: universal rejection of proven exit gaps;
+unused child_info and no mandatory controlled counter coverage; no terminal read
+for some ordinary-only disappearances; and insufficient aggregate coverage
+artifact validation. Agreement/review commit: `87f40f22`. Root owns implement
+LIVE-013 marker. One worker owns the host/aggregate correction and tests; no
+fresh full acceptance has run. After correction: independent SPEC then QUALITY,
+resolve findings, add exact reviewed digest to mechanism, commit, then check.
+Final commitment review remains separate and pending.
+
+UI pacing discussion is separate: existing collection defaults to 1,000 ms on a
+worker; UI checks latest slot every 100 ms; GPUI schedules drawing. No explicit
+120 Hz ceiling exists. User favors up to 120 Hz/current display rate for UI while
+keeping collection at 500–1,000 ms. Root agrees but did not infer authorization to
+change frame scheduling. Read-only findings, including GPUI X11 monitor-change
+caveat, are in source `docs/execution/real-system-readings/ui-frame-pacing.md`.
