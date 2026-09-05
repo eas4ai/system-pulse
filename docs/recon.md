@@ -2,6 +2,8 @@
 
 Status: Observed. Inspected 2026-09-04 at implementation commit `9f2f3ad0382ce4c7ce0aadfc0c4ed88588ad95af`.
 
+This is a historical inspection of the fixture baseline. Source links identify what was inspected at that revision; current files have since changed. Reviewed live collectors, snapshot integration, attribution evidence and native repaint fixes now exist. The [current source overview](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/spec/overview.md) and [handoff](superpowers/execution/live-collection-handoff.md) track them. Full independent host/native acceptance and final Cairn evidence remain pending; the original findings below are preserved rather than rewritten as a new inspection.
+
 The session's work is already known: replace runtime simulation with readings from the user's machine. That direction was confirmed before the harness restart; it is recorded in the [handoff](superpowers/execution/live-collection-handoff.md:5). This report describes existing behavior, not approval to preserve every observed behavior.
 
 ## Repository boundary
