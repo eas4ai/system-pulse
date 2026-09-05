@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 import acceptance
 from native_replay import REQUIRED
+from test_process_exit_policy import write_host_fixture
 
 HOST_IDS = {4, 12, 13}
 PRIMARY_IDS = HOST_IDS | {1, 2, 3, 5, 8, 9, 11}
@@ -26,7 +27,8 @@ class RequirementVerdictTests(unittest.TestCase):
             "result.json capabilities.json final-inventory.json stable-totals.json "
             "external-observations.json snapshots.jsonl counter-brackets.json "
             "missing-brackets.json collector-lifecycle.json collector-start.json "
-            "collector-stopped.json cleanup.json child.json after-exit.jsonl"
+            "collector-stopped.json cleanup.json child.json after-exit.jsonl "
+            "process-policy.json process-coverage.json unverified-exit-gaps.json"
         ).split():
             self.artifact("host/" + name)
         for name in (
@@ -87,7 +89,7 @@ class RequirementVerdictTests(unittest.TestCase):
             "missing-device-specimen.json",
         ):
             self.artifact("native/session-missing-device/" + name)
-        self.write("host/result.json", {"status": "PASS"})
+        write_host_fixture(self.output / "host")
         self.write(
             "native/transport-cleanup.json",
             {

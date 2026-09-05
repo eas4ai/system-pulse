@@ -38,12 +38,15 @@ class CaptureStreamTests(unittest.TestCase):
         observer = capture.Observer.__new__(capture.Observer)
         observer.previous_pids = {10, 20}
         observer.supplemental_pids = set()
+        observer.observed_identities = {}
         observer.capture_deadline_ns = None
         called = []
 
         def read(pid):
             called.append(pid)
-            return {"stat": {"value": {"pid": pid, "start_ticks": pid + 100}}}
+            return {
+                "stat": {"errno": None, "value": {"pid": pid, "start_ticks": pid + 100}}
+            }
 
         with patch.object(capture, "process", read), patch.object(
             observer, "refresh_processes_if_due", return_value=None

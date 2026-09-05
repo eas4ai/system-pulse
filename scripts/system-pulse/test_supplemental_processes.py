@@ -19,6 +19,7 @@ class SupplementalProcessTests(unittest.TestCase):
         observer.supplemental_count = 0
         observer.supplemental_pids = set()
         observer.full_census_pids = set()
+        observer.observed_identities = {}
         observer.next_refresh_ns = 20_000_000
         observer.capture_deadline_ns = 35_000_000_000
         return observer
@@ -163,6 +164,34 @@ class SupplementalProcessTests(unittest.TestCase):
         self.assertNotIn(99, observer.supplemental_pids)
         self.assertEqual(len(self.supplemental_reads(observer)), count)
 
+    def test_ordinary_only_disappearance_enters_existing_terminal_path(self):
+        observer = self.setup_observer()
+        clock = [0]
+        self.run_sweep(observer, clock, pids=(1, 2, 3, 4, 99), exit_ns=1_000_000_000)
+        self.assertEqual(self.supplemental_reads(observer), [])
+        self.run_sweep(observer, clock)
+        reads = self.supplemental_reads(observer)
+        self.assertTrue(reads)
+        self.assertEqual(reads[-1]["stat"]["errno"], errno.ENOENT)
+        self.assertNotIn(99, observer.supplemental_pids)
+        retained = [
+            row
+            for refresh in observer.supplemental
+            for row in refresh["processes"]
+            if row["pid"] == 99
+        ]
+        self.assertEqual(
+            retained[-1]["prior_identity"], dict(pid=99, start_time_ticks=99)
+        )
+
+    def test_ordinary_only_disappearance_still_obeys_supplemental_cap(self):
+        observer = self.setup_observer()
+        clock = [0]
+        self.run_sweep(observer, clock, pids=(1, 2, 3, 4, 99), exit_ns=1_000_000_000)
+        observer.supplemental_count = 4096
+        with self.assertRaisesRegex(AssertionError, "4096 supplemental"):
+            self.run_sweep(observer, clock)
+
     def test_census_absence_and_nonterminal_stat_error_do_not_retire_candidate(self):
         observer = self.setup_observer()
         clock = [0]
@@ -286,9 +315,11 @@ class SupplementalProcessTests(unittest.TestCase):
             )
         ]
         result = host_capture.verify_capture(observer, snapshots, None)
-        self.assertEqual(result["status"], "FAIL")
-        self.assertTrue(result["missing_brackets"])
-        for missing in result["missing_brackets"]:
+        self.assertEqual(result["status"], "PASS")
+        self.assertFalse(result["missing_brackets"])
+        self.assertTrue(result["unverified_exit_gaps"])
+        for missing in result["unverified_exit_gaps"]:
+            self.assertNotIn("after", missing)
             self.assertTrue(missing["sensor_id"].startswith("process:42:1/"))
             self.assertEqual(
                 missing["external_attempts"][-1]["stat"]["errno"], errno.ENOENT

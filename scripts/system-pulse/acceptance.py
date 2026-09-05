@@ -211,6 +211,8 @@ def validate_automated_steps(runner):
 
 
 def validate_host(runner):
+    from host_capture import validate_retained_capture
+
     output = runner.output
     step = runner.steps["host"]
     require(step["exit_code"] == 0 and step["timed_out"] is False, "host step failed")
@@ -225,6 +227,9 @@ def validate_host(runner):
         "host/snapshots.jsonl",
         "host/counter-brackets.json",
         "host/missing-brackets.json",
+        "host/process-policy.json",
+        "host/process-coverage.json",
+        "host/unverified-exit-gaps.json",
         "host/collector-lifecycle.json",
         "host/collector-start.json",
         "host/collector-stopped.json",
@@ -232,7 +237,9 @@ def validate_host(runner):
         "host/child.json",
         "host/after-exit.jsonl",
     )
-    return [runner.artifact(output / path) for path in mandatory]
+    artifacts = [runner.artifact(output / path) for path in mandatory]
+    validate_retained_capture(output / "host", host)
+    return artifacts
 
 
 def read_native_result(runner):

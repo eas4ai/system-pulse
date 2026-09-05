@@ -15,6 +15,7 @@ import subprocess
 import sys
 import threading
 import time
+from types import SimpleNamespace
 
 from host_accuracy import (
     check_reading,
@@ -26,6 +27,13 @@ from host_accuracy import (
     require,
     connection_counts,
     normalized,
+)
+from process_evidence import (
+    classify_exit_gap,
+    comparison_coverage,
+    controlled_requirements,
+    declare_policy,
+    validate_policy,
 )
 
 CPU_FIELDS = ("user", "nice", "system", "idle", "iowait", "irq", "softirq", "steal")
@@ -162,6 +170,7 @@ class Observer:
         self.supplemental_count = 0
         self.supplemental_pids = set()
         self.full_census_pids = set()
+        self.observed_identities = {}
         self.capture_deadline_ns = None
         self.next_refresh_ns = None
         self.inventory_started_ns = time.monotonic_ns()
@@ -464,7 +473,14 @@ class Observer:
                 )
                 self.supplemental_count += 1
                 readings = process(pid)
-                refresh["processes"].append({"pid": pid, "readings": readings})
+                refresh["processes"].append(
+                    {
+                        "pid": pid,
+                        "readings": readings,
+                        "prior_identity": self.observed_identities.get(pid),
+                    }
+                )
+                self.remember_process(pid, readings)
                 if readings["stat"]["errno"] in (errno.ENOENT, errno.ESRCH):
                     self.supplemental_pids.discard(pid)
         except BaseException as error:
@@ -480,10 +496,21 @@ class Observer:
             refresh["next_scheduled_ns"] = self.next_refresh_ns
             refresh["skipped_slots"] = slots - 1
 
+    def remember_process(self, pid, readings):
+        stat = readings["stat"]
+        if stat["errno"] in (errno.ENOENT, errno.ESRCH):
+            self.observed_identities.pop(pid, None)
+        elif stat["errno"] is None and stat["value"]:
+            self.observed_identities[pid] = {
+                "pid": stat["value"]["pid"],
+                "start_time_ticks": stat["value"]["start_ticks"],
+            }
+
     def capture_processes(self, pids, result=None):
         # Births are most vulnerable to the collector outrunning the observer.
         # Every enumerated PID is still sampled and joined by actual start ticks.
         ordered = sorted(pids, key=lambda pid: pid in self.previous_pids)
+        self.supplemental_pids.update(set(self.observed_identities) - set(pids))
         self.full_census_pids = set(pids)
         # Keep supplemental candidates across sweeps until a retained stat read
         # observes exit. Census membership and io errors are not exit evidence.
@@ -491,6 +518,7 @@ class Observer:
         for pid in ordered:
             self.check_capture_deadline()
             result[str(pid)] = process(pid)
+            self.remember_process(pid, result[str(pid)])
             if pid in self.supplemental_pids and result[str(pid)]["stat"]["errno"] in (
                 errno.ENOENT,
                 errno.ESRCH,
@@ -572,6 +600,7 @@ class Observer:
             "anchors": self.anchors,
             "samples": self.samples,
             "supplemental": self.supplemental,
+            "disks": sorted(self.disks),
             "sampling_policy": {
                 "cadence_ns": 20_000_000,
                 "supplemental_limit": 4096,
@@ -809,6 +838,15 @@ def verify_stable_totals(observer, snapshot, collector, external):
 def verify_capture(observer, snapshots, child_info):
     require(len(snapshots) >= 3, "missing fresh snapshot sequence")
     require(observer.failure is None, f"external observer failed: {observer.failure}")
+    policy = getattr(observer, "process_policy", None)
+    controlled_identity = (
+        validate_policy(policy, child_info) if child_info is not None else None
+    )
+    require(
+        policy is None or child_info is not None,
+        "controlled child identity evidence missing",
+    )
+    required = controlled_requirements(policy, snapshots)
     external = clock_intersection(observer.anchors)
     collector = clock_intersection(
         [
@@ -829,6 +867,7 @@ def verify_capture(observer, snapshots, child_info):
                 {
                     "sources": {"/proc": refresh["census"]},
                     "processes": {pid: reading["readings"]},
+                    "prior_identity": reading.get("prior_identity"),
                 }
             )
     final_capabilities = getattr(observer, "final_capabilities", None)
@@ -847,6 +886,7 @@ def verify_capture(observer, snapshots, child_info):
         )
     brackets = []
     missing = []
+    unverified = []
     stable_totals = []
     expected = {c["id"]: c for c in observer.capabilities}
     for sid, capability in expected.items():
@@ -933,7 +973,7 @@ def verify_capture(observer, snapshots, child_info):
             for k in ("cpu_percent", "read_bytes_per_second", "write_bytes_per_second")
         ]:
             sid = reading["sensor_id"]
-            for observation in reading["observations"]:
+            for observation_index, observation in enumerate(reading["observations"]):
                 source = observation["source"]
                 values = observation["integers"]
                 targets = {}
@@ -994,6 +1034,7 @@ def verify_capture(observer, snapshots, child_info):
                             attempts.append(
                                 {
                                     "process_enumeration": captured["sources"]["/proc"],
+                                    "prior_identity": captured.get("prior_identity"),
                                     "stat": row["stat"] if row else None,
                                     "io": row["io"]
                                     if row and source.endswith("/io")
@@ -1003,11 +1044,16 @@ def verify_capture(observer, snapshots, child_info):
                             if (
                                 not row
                                 or not row["stat"]["value"]
+                                or row["stat"]["errno"] is not None
+                                or row["stat"]["source"] != f"/proc/{pid}/stat"
+                                or row["stat"]["value"]["pid"] != int(pid)
                                 or row["stat"]["value"]["start_ticks"]
                                 != int(start_ticks)
                             ):
                                 continue
                             raw = row["io" if source.endswith("/io") else "stat"]
+                            if raw["source"] != source:
+                                continue
                         else:
                             raw = captured["sources"].get(
                                 "/proc/stat"
@@ -1040,23 +1086,29 @@ def verify_capture(observer, snapshots, child_info):
                             raise AssertionError(
                                 f"{sid} {source} {key}: {error}"
                             ) from error
-                        missing.append(
-                            {
-                                "sensor_id": sid,
-                                "source": source,
-                                "key": key,
-                                "value": values[key],
-                                "query_window": window,
-                                "external_windows": samples,
-                                "external_attempts": attempts,
-                                "identity": expected_identity,
-                                "failure": str(error),
-                                "snapshot_sequence": snapshot["sequence"],
-                            }
-                        )
+                        gap = {
+                            "classification": "failed",
+                            "sensor_id": sid,
+                            "source": source,
+                            "key": key,
+                            "value": values[key],
+                            "query_window": window,
+                            "external_windows": samples,
+                            "external_attempts": attempts,
+                            "identity": expected_identity,
+                            "failure": str(error),
+                            "snapshot_sequence": snapshot["sequence"],
+                            "observation_index": observation_index,
+                            "raw_query": observation,
+                        }
+                        if classify_exit_gap(gap, controlled_identity):
+                            unverified.append(gap)
+                        else:
+                            missing.append(gap)
                         continue
                     brackets.append(
                         {
+                            "classification": "verified",
                             "sensor_id": sid,
                             "source": source,
                             "key": key,
@@ -1064,6 +1116,8 @@ def verify_capture(observer, snapshots, child_info):
                             "window": window,
                             "before": a,
                             "after": b,
+                            "snapshot_sequence": snapshot["sequence"],
+                            "observation_index": observation_index,
                         }
                     )
                     counts["counter_brackets"] += 1
@@ -1071,13 +1125,20 @@ def verify_capture(observer, snapshots, child_info):
         counts["counter_brackets"] > 0 and counts["exact_process_fields"] > 0,
         "empty comparison suite",
     )
+    counts["unverified_exit_gaps"] = len(unverified)
+    counts["failed_brackets"] = len(missing)
+    coverage = comparison_coverage(required, brackets, missing, unverified)
     return {
-        "status": "FAIL" if missing else "PASS",
+        "status": "FAIL"
+        if missing or (policy and not coverage["controlled_complete"])
+        else "PASS",
         "counts": dict(counts),
         "external_offset": external,
         "collector_offset": collector,
         "brackets": brackets,
         "missing_brackets": missing,
+        "unverified_exit_gaps": unverified,
+        "process_coverage": coverage,
         "stable_totals": stable_totals,
         "independent_stable_totals": len(stable_totals),
         "inventory_scope": "initial and final independent inventories"
@@ -1138,6 +1199,82 @@ def read_four_and_stop(child, output, seconds=30):
     return observed
 
 
+def validate_retained_capture(directory, retained):
+    """Read-only aggregate replay; retained FAILs are never reclassified."""
+    require(retained["status"] == "PASS", "host acceptance failed")
+
+    def read(filename):
+        return json.loads((directory / filename).read_text())
+
+    evidence = read("external-observations.json")
+    inventory = read("capabilities.json")
+    child = read("child.json")
+    policy = read("process-policy.json")
+    identity = validate_policy(policy, child["before"])
+    require(
+        child["identity"] == identity == retained["child_identity"],
+        "retained controlled identity mismatch",
+    )
+    lifecycle = read("collector-lifecycle.json")
+    require(
+        type(lifecycle["gate_opened_ns"]) is int
+        and policy["declared_ns"] < lifecycle["gate_opened_ns"],
+        "process policy was not declared before collector gate",
+    )
+    snapshots = [
+        json.loads(line)
+        for line in (directory / "snapshots.jsonl").read_text().splitlines()
+    ]
+    require(len(snapshots) == retained["snapshots"], "retained snapshot count mismatch")
+    observer = SimpleNamespace(
+        failure=None,
+        anchors=evidence["anchors"],
+        samples=evidence["samples"],
+        supplemental=evidence["supplemental"],
+        disks=set(evidence["disks"]),
+        capabilities=inventory["capabilities"],
+        errors=inventory["scope_limits"],
+        final_capabilities=read("final-inventory.json")["capabilities"],
+        process_policy=policy,
+    )
+    replay = verify_capture(observer, snapshots, child["before"])
+    require(replay["status"] == "PASS", "retained host evidence replay failed")
+    require(
+        lifecycle["gate_opened_ns"]
+        <= map_window(
+            (snapshots[0]["capture_started_ns"], snapshots[0]["capture_started_ns"]),
+            replay["collector_offset"],
+            replay["external_offset"],
+        )[0],
+        "collector capture predates declared gate",
+    )
+    for key, filename in (
+        ("brackets", "counter-brackets.json"),
+        ("missing_brackets", "missing-brackets.json"),
+        ("unverified_exit_gaps", "unverified-exit-gaps.json"),
+        ("process_coverage", "process-coverage.json"),
+        ("stable_totals", "stable-totals.json"),
+    ):
+        require(
+            json.dumps(replay.pop(key), sort_keys=True)
+            == json.dumps(read(filename), sort_keys=True),
+            f"retained {filename} differs from independent replay",
+        )
+    for key, value in replay.items():
+        require(
+            json.dumps(retained[key], sort_keys=True)
+            == json.dumps(value, sort_keys=True),
+            f"retained host {key} differs from independent replay",
+        )
+    require(
+        retained["child_exit_verified"] is True
+        and all(
+            row["identity"] != identity for row in read("after-exit.jsonl")["processes"]
+        ),
+        "retained controlled exit missing",
+    )
+
+
 def run(output, binary):
     output = Path(output)
     output.mkdir(parents=True, exist_ok=False)
@@ -1162,10 +1299,15 @@ def run(output, binary):
             (output / "collector-start.json").write_text(
                 json.dumps(lifecycle_before, indent=2)
             )
+            observer.process_policy = declare_policy(child_info, time.monotonic_ns())
+            (output / "process-policy.json").write_text(
+                json.dumps(observer.process_policy, indent=2)
+            )
             worker = threading.Thread(
                 target=observer.run, name="independent-proc-observer"
             )
             worker.start()
+            gate_opened_ns = time.monotonic_ns()
             gate.touch()
             stopped = read_four_and_stop(collector_process, out)
             (output / "collector-stopped.json").write_text(
@@ -1182,6 +1324,7 @@ def run(output, binary):
                 "after_final_independent_capture": lifecycle_after,
                 "binary": str(binary),
                 "declared_snapshots": 4,
+                "gate_opened_ns": gate_opened_ns,
                 "supervisor_termination": "SIGTERM then SIGCONT; expected -15, separate from native normal exit0",
             }
             (output / "collector-lifecycle.json").write_text(
@@ -1314,6 +1457,12 @@ def run(output, binary):
         )
         (output / "missing-brackets.json").write_text(
             json.dumps(result.pop("missing_brackets"), indent=2)
+        )
+        (output / "unverified-exit-gaps.json").write_text(
+            json.dumps(result.pop("unverified_exit_gaps"), indent=2)
+        )
+        (output / "process-coverage.json").write_text(
+            json.dumps(result.pop("process_coverage"), indent=2)
         )
         stop_child(child)
         with (output / "after-exit.jsonl").open("w") as out:
