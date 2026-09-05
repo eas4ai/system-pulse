@@ -181,6 +181,7 @@ def source_guard():
         "test_host_inventory.py",
         "test_process_attribution.py",
         "test_native_cleanup.py",
+        "test_supplemental_processes.py",
     ):
         require(
             (ROOT / "scripts/system-pulse" / name).is_file(),

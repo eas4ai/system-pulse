@@ -114,6 +114,10 @@ def process(pid):
     return {"stat": observation, "uid": status, "io": io}
 
 
+def proc_pids():
+    return [int(path.name) for path in Path("/proc").iterdir() if path.name.isdigit()]
+
+
 def start_child():
     code = "import ctypes,time; ctypes.CDLL(None).prctl(15,b'pulse ) probe',0,0,0); time.sleep(600)"
     child = subprocess.Popen([sys.executable, "-B", "-c", code])
@@ -154,6 +158,12 @@ class Observer:
         self.stop = threading.Event()
         self.failure = None
         self.previous_pids = set()
+        self.supplemental = []
+        self.supplemental_count = 0
+        self.supplemental_pids = set()
+        self.full_census_pids = set()
+        self.capture_deadline_ns = None
+        self.next_refresh_ns = None
         self.inventory_started_ns = time.monotonic_ns()
         self.enumerate()
         self.inventory_finished_ns = time.monotonic_ns()
@@ -412,26 +422,95 @@ class Observer:
                     observe(path, lambda p=path: Path(p).read_text()),
                 )
 
-    def capture_processes(self, pids):
+    def check_capture_deadline(self):
+        now = time.monotonic_ns()
+        if self.capture_deadline_ns is None:
+            self.capture_deadline_ns = now + 35_000_000_000
+            self.next_refresh_ns = now + 20_000_000
+        require(
+            now < self.capture_deadline_ns,
+            "independent observer 35-second capture deadline exceeded",
+        )
+        return now
+
+    def refresh_processes_if_due(self):
+        now = self.check_capture_deadline()
+        if now < self.next_refresh_ns:
+            return
+        scheduled = self.next_refresh_ns
+        before = anchor()
+        self.anchors.append(before)
+        refresh = {
+            "scheduled_ns": scheduled,
+            "check_ns": now,
+            "late_ns": now - scheduled,
+            "anchors": [before],
+            "processes": [],
+        }
+        self.supplemental.append(refresh)
+        try:
+            refresh["census"] = observe("/proc", proc_pids)
+            require(
+                refresh["census"]["errno"] is None, "supplemental process census failed"
+            )
+            self.supplemental_pids.update(
+                set(refresh["census"]["value"]) - self.full_census_pids
+            )
+            for pid in sorted(self.supplemental_pids):
+                self.check_capture_deadline()
+                require(
+                    self.supplemental_count < 4096,
+                    "4096 supplemental process observation limit exceeded",
+                )
+                self.supplemental_count += 1
+                refresh["processes"].append({"pid": pid, "readings": process(pid)})
+        except BaseException as error:
+            refresh["error"] = str(error)
+            raise
+        finally:
+            after = anchor()
+            self.anchors.append(after)
+            refresh["anchors"].append(after)
+            refresh["finished_ns"] = time.monotonic_ns()
+            slots = max(1, (refresh["finished_ns"] - scheduled) // 20_000_000 + 1)
+            self.next_refresh_ns = scheduled + slots * 20_000_000
+            refresh["next_scheduled_ns"] = self.next_refresh_ns
+            refresh["skipped_slots"] = slots - 1
+
+    def capture_processes(self, pids, result=None):
         # Births are most vulnerable to the collector outrunning the observer.
         # Every enumerated PID is still sampled and joined by actual start ticks.
         ordered = sorted(pids, key=lambda pid: pid in self.previous_pids)
-        result = {str(pid): process(pid) for pid in ordered}
+        self.full_census_pids = set(pids)
+        self.supplemental_pids.clear()
+        result = {} if result is None else result
+        for pid in ordered:
+            self.check_capture_deadline()
+            result[str(pid)] = process(pid)
+            self.refresh_processes_if_due()
         self.previous_pids = set(pids)
         return result
 
     def capture(self):
+        self.check_capture_deadline()
+        require(len(self.samples) < 2048, "2048 independent full sweep limit exceeded")
         self.anchors.append(anchor())
         rows = {}
+        sample = {"sources": rows, "processes": {}, "complete": False}
+        self.samples.append(sample)
 
-        def put(source, reader):
+        def put(source, reader, refresh=True):
             rows[source] = observe(source, reader)
+            if refresh:
+                self.refresh_processes_if_due()
 
         put(
             "/proc",
-            lambda: [int(p.name) for p in Path("/proc").iterdir() if p.name.isdigit()],
+            proc_pids,
+            refresh=False,
         )
-        processes = self.capture_processes(rows["/proc"]["value"])
+        require(rows["/proc"]["errno"] is None, "ordinary process census failed")
+        self.capture_processes(rows["/proc"]["value"], sample["processes"])
         put(
             "/proc/stat",
             lambda: {
@@ -465,6 +544,7 @@ class Observer:
         put("/proc/uptime", lambda: Path("/proc/uptime").read_text().strip())
         for path in self.scalars:
             rows[path] = scalar(path)
+            self.refresh_processes_if_due()
         for path in self.disks:
             put(
                 path,
@@ -476,16 +556,25 @@ class Observer:
         for mount in self.mounts:
             put(f"statvfs({mount})", lambda m=mount: list(os.statvfs(m)))
         self.anchors.append(anchor())
-        self.samples.append({"sources": rows, "processes": processes})
+        sample["complete"] = True
+
+    def evidence(self):
+        return {
+            "anchors": self.anchors,
+            "samples": self.samples,
+            "supplemental": self.supplemental,
+            "sampling_policy": {
+                "cadence_ns": 20_000_000,
+                "supplemental_limit": 4096,
+                "supplemental_count": self.supplemental_count,
+                "capture_deadline_ns": self.capture_deadline_ns,
+                "scope": "Prospective single-thread scheduling; actual delays retained, no counter comparison bound changed",
+            },
+        }
 
     def run(self):
         try:
-            deadline = time.monotonic() + 35
             while not self.stop.is_set():
-                require(
-                    time.monotonic() < deadline and len(self.samples) < 2048,
-                    "independent observer bounded capture exceeded",
-                )
                 self.capture()
         except BaseException as error:
             self.failure = error
@@ -723,6 +812,16 @@ def verify_capture(observer, snapshots, child_info):
         ]
     )
     counts = collections.Counter()
+    supplemental_by_pid = collections.defaultdict(list)
+    for refresh in getattr(observer, "supplemental", []):
+        for reading in refresh["processes"]:
+            pid = str(reading["pid"])
+            supplemental_by_pid[pid].append(
+                {
+                    "sources": {"/proc": refresh["census"]},
+                    "processes": {pid: reading["readings"]},
+                }
+            )
     final_capabilities = getattr(observer, "final_capabilities", None)
     if final_capabilities is not None:
 
@@ -869,7 +968,13 @@ def verify_capture(observer, snapshots, child_info):
                     samples = []
                     attempts = []
                     expected_identity = None
-                    for captured in observer.samples:
+                    captured_samples = observer.samples
+                    if sid.startswith("process:"):
+                        pid = sid.split("/")[0].split(":")[1]
+                        captured_samples = observer.samples + supplemental_by_pid.get(
+                            pid, []
+                        )
+                    for captured in captured_samples:
                         if sid.startswith("process:"):
                             _, pid, start_ticks = sid.split("/")[0].split(":")
                             expected_identity = {
@@ -1165,7 +1270,7 @@ def run(output, binary):
             )
         )
         (output / "external-observations.json").write_text(
-            json.dumps({"anchors": observer.anchors, "samples": observer.samples})
+            json.dumps(observer.evidence())
         )
         (output / "child.json").write_text(
             json.dumps(
@@ -1246,7 +1351,7 @@ def run(output, binary):
         if worker:
             worker.join(timeout=10)
         (output / "external-observations.json").write_text(
-            json.dumps({"anchors": observer.anchors, "samples": observer.samples})
+            json.dumps(observer.evidence())
         )
         (output / "capabilities.json").write_text(
             json.dumps(

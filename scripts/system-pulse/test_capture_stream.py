@@ -37,13 +37,17 @@ class CaptureStreamTests(unittest.TestCase):
         self.assertTrue(hasattr(capture.Observer, "capture_processes"))
         observer = capture.Observer.__new__(capture.Observer)
         observer.previous_pids = {10, 20}
+        observer.supplemental_pids = set()
+        observer.capture_deadline_ns = None
         called = []
 
         def read(pid):
             called.append(pid)
             return {"stat": {"value": {"pid": pid, "start_ticks": pid + 100}}}
 
-        with patch.object(capture, "process", read):
+        with patch.object(capture, "process", read), patch.object(
+            observer, "refresh_processes_if_due", return_value=None
+        ):
             result = observer.capture_processes([10, 30, 20, 40])
         self.assertEqual(called, [30, 40, 10, 20])
         self.assertEqual(set(result), {"10", "20", "30", "40"})
