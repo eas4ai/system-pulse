@@ -13,11 +13,13 @@ Read-only collector inventory by `prepare_live_acceptance`, against reviewed col
 
 Build expected capability sets from independent OS enumeration before joining descriptors. A readable attributable source without an implementation fails. Preserve actual read errno; existence alone does not prove availability. Independent host probes confirmed EACCES for process 1 IO and a sampled Docker overlay filesystem capacity. Empty interface addresses are an attribution limit; this host's enp11s0 and wlo1 have no addresses.
 
-## Connection evidence finding
+## Connection evidence finding and resolution
 
-Current connection observations retain only the derived count. This cannot prove exact captured-input attribution. Add one shared optional snapshot record containing the captured interface/local-address map and TCP4/TCP6 local-address/state rows, each with query windows and errors. Preserve wildcard and non-established rows so the Python verifier independently filters established state, normalizes mapped IPv6, excludes unspecified addresses, and requires distinct-interface ownership. Do not retain ports, remote endpoints or socket owners. Individual readings can retain the existing counts.
+The original reviewed connection observations retained only the derived count. This cannot prove exact captured-input attribution. Add one shared optional snapshot record containing the captured interface/local-address map and TCP4/TCP6 local-address/state rows, each with query windows and errors. Preserve wildcard and non-established rows so the Python verifier independently filters established state, normalizes mapped IPv6, excludes unspecified addresses, and requires distinct-interface ownership. Do not retain ports, remote endpoints or socket owners. Individual readings can retain the existing counts.
 
-Process raw observations already preserve PID/start ticks, but not original UID/passwd lookup results. Do not claim exact captured-input resolution for every arbitrary user string. The collector README also overstates passwd lookup failure preservation: a numeric UID fallback currently has no user_reason. Correct that documentation or implement the promised distinction.
+Process raw observations already preserve PID/start ticks, but not original UID/passwd lookup results. Do not claim exact captured-input resolution for every arbitrary user string. The original collector README overstated passwd lookup failure preservation: a numeric UID fallback has no user_reason. The follow-up corrected that documentation.
+
+The shared observation is implemented and independently spec/quality reviewed through `bbfc24905d5566d37e655be2412b105e9edab218`. See [attribution review](attribution-review.md). Structurally uncertain rows redact both retained tokens; malformed source content must not enter evidence errors. Independent Python recomputation passed 72 actual host count/status comparisons. Final acceptance must capture fresh inputs and retain this independent check.
 
 ## Adversarial cases
 
