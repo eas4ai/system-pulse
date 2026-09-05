@@ -15,4 +15,4 @@ Use the conservative three-group mapping in docs/execution/real-system-readings/
 
 ## Realized by
 
-- 5da24b21ddc6a9e8da69e39c9f22b6cc76de6bdd
+- 5da24b21ddc6a9e8da69e39c9f22b6cc76de6bdd test: reject malformed native cleanup evidence
