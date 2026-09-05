@@ -371,3 +371,18 @@ keeps explicit Home/End recovery and all existing rejection/budget rules.
   rejection without treating unrendered rows as observed.
 - [ ] Run relevant Python/Rust checks and independent SPEC then QUALITY
   review, then fresh untraced native and full committed acceptance.
+
+### Require current panel membership for native exit
+
+Independent review reproduced false success from a live detached cached
+panel while the current panel still contained the child. See the recorded
+`prove-process-exit-in-the-current-native-panel` decision.
+
+- [ ] Reproduce that false pass, replace cached-panel trust with fresh
+  navigation_panel discovery on each attempt, and validate its current
+  membership after complete strict scanning. Reuse established helpers.
+- [ ] Test detachment, replacement during scanning, duplicate panels, and
+  incomplete membership under the original five-second deadline. Preserve
+  newer child-free snapshots and visible-transfer rejection.
+- [ ] Pass focused/full checks and independent SPEC then QUALITY review,
+  then fresh untraced native and full committed acceptance.

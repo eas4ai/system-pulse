@@ -23,3 +23,17 @@ Independent SPEC re-review passed the cumulative candidate. All 22 focused tests
 Independent QUALITY review passed with no actionable findings. The reviewer ran all 22 focused tests using the exact gate interpreter, confirmed the reviewed Python files matched the candidate, and checked the cumulative implementation, error handling, identity, deadline, cache and test boundaries. The tests exercise actual driver and replay code with substituted transport and clock.
 
 Cumulative SPEC and QUALITY status is PASS for `d912b5066f80fb73cc4412a6df0e9f2665217e12`. Fresh native acceptance and final commitment review remain pending; the old capture remains FAIL.
+
+## Subsequent current-membership finding
+
+Status: open. Independent QUALITY review reproduced exit success at
+0.5 seconds from a live detached empty cached panel. The application's
+current replacement panel retained the exact child; root() was never read.
+The earlier strict traversal review did not challenge current membership.
+
+Use the reviewed navigation_panel and navigation_panel_current helpers
+for fresh unique discovery and post-scan membership under the original
+five-second deadline. Preserve strict complete traversal and the newer
+child-free snapshot prerequisite. Add detached-cache, replacement during
+scan, and duplicate-panel regressions. This correction is separate from
+the no-visible-selection-transfer evidence repair; both need re-review.
