@@ -12,3 +12,7 @@ Extract the existing metric process-row lookup into a shared helper. Use it for 
 ## Realized by
 
 (none yet: recorded, not built)
+
+## Realized by
+
+- 9855844578294950934a444f8e39e2e7c3457a3b — Verify current Processes panel membership before cell lookup

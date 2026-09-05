@@ -221,11 +221,11 @@ the caller's five-second deadline. The app continued accepting fresh samples.
 See [the diagnosis](../execution/real-system-readings/native-cell-discovery-failure.md)
 and [decision](../decisions/scope-process-cell-discovery-to-its-native-row.md).
 
-- [ ] Extract the existing metric process-row lookup for shared use by cell
+- [x] Extract the existing metric process-row lookup for shared use by cell
   visibility navigation. Carry the original absolute deadline through row
   reacquisition, cell discovery, and movement. Preserve identity, uniqueness,
   node bounds, generic lookup, strict exit traversal, and all comparisons.
-- [ ] Test stale cells and rows, unrelated branches, duplicate and missing
+- [x] Test stale cells and rows, unrelated branches, duplicate and missing
   cells, PID reuse, and exhaustion of the original deadline. Verify the actual
   replay call boundary, then pass independent SPEC and QUALITY reviews.
 - [ ] Run focused native process acceptance and fresh committed aggregate

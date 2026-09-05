@@ -1,0 +1,55 @@
+{
+  "candidate": "9855844578294950934a444f8e39e2e7c3457a3b",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-mblpk8q9/native",
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.014s (limit 2.0s)",
+      "failure evidence: accepted frame stale: 2.221s (limit 2.0s)"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "files": {
+    "result.json": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-mblpk8q9/native/result.json",
+      "sha256": "1ee3c53dc0ae4124d7916ad2c648d02b644944f254174de45a9d8864bfad877b",
+      "bytes": 728
+    },
+    "private-session.log": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-mblpk8q9/native/private-session.log",
+      "sha256": "8b56a84fbc6bd5b1d0a39c34935b9fc1fd503664cd0e6cddaa0c35024e90050e",
+      "bytes": 7391
+    },
+    "session-01/journal.jsonl": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-mblpk8q9/native/session-01/journal.jsonl",
+      "sha256": "4f8b131884c4617fb80d7cbc99b1b3e634e633c3ce177a75690e015a50629482",
+      "bytes": 51396
+    },
+    "session-01/application.log": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-mblpk8q9/native/session-01/application.log",
+      "sha256": "8739c1897dbde9b06174202e43b43a862e9055ebdbb115af8a6998db85d1de7d",
+      "bytes": 467
+    }
+  }
+}
