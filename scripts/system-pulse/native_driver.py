@@ -36,6 +36,10 @@ BUDGETS = {
 }
 
 
+class IncompleteNativeTree(RuntimeError):
+    """A changing accessibility subtree cannot prove a row is absent."""
+
+
 def spin(seconds=0.025):
     deadline = time.monotonic() + seconds
     context = GLib.MainContext.default()
@@ -219,6 +223,7 @@ class Native:
                     self.journal("ack", condition=message)
                     return value
             except (
+                IncompleteNativeTree,
                 GLib.Error,
                 FileNotFoundError,
                 json.JSONDecodeError,
@@ -300,7 +305,7 @@ class Native:
         node.clear_cache()
         return not node.get_state_set().contains(Atspi.StateType.DEFUNCT)
 
-    def walk(self, root=None, deadline=None, skip_cells=False):
+    def walk(self, root=None, deadline=None, skip_cells=False, strict=False):
         deadline = deadline or time.monotonic() + 15
         stack = [root if root is not None else self.root()]
         count = 0
@@ -311,6 +316,10 @@ class Native:
             )
             node = stack.pop()
             if not self.alive(node):
+                if strict:
+                    raise IncompleteNativeTree(
+                        "incomplete native tree: missing or defunct node"
+                    )
                 continue
             count += 1
             require(
@@ -322,10 +331,23 @@ class Native:
             yield node
             if skip_cells and aid.startswith("process:") and ":cell:" not in aid:
                 continue
-            for index in reversed(range(node.get_child_count())):
+            child_count = node.get_child_count()
+            if strict and child_count < 0:
+                raise IncompleteNativeTree(
+                    "incomplete native tree: negative child count"
+                )
+            for index in reversed(range(child_count)):
                 child = node.get_child_at_index(index)
+                if strict and child is None:
+                    raise IncompleteNativeTree(
+                        f"incomplete native tree: missing child at index {index}"
+                    )
                 if child is not None:
                     stack.append(child)
+            if strict and not self.alive(node):
+                raise IncompleteNativeTree(
+                    "incomplete native tree: node became defunct"
+                )
 
     def find(self, name=None, role=None, aid=None, root=None, deadline=None):
         deadline = deadline or time.monotonic() + 15
@@ -779,7 +801,9 @@ class Native:
                 panel = self.find(name="processes", role="panel", deadline=deadline)
                 self.cache[key] = panel
             saw_panel = False
-            for node in self.walk(panel, deadline=deadline, skip_cells=True):
+            for node in self.walk(
+                panel, deadline=deadline, skip_cells=True, strict=True
+            ):
                 saw_panel = saw_panel or node is panel
                 if (node.get_accessible_id() or "") == aid:
                     return False

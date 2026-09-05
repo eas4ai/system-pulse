@@ -21,7 +21,7 @@ methods. A missing or defunct cached panel uses an explicit bounded lookup,
 without calling the panel helper that could start a fifteen-second discovery.
 The scan must yield the panel itself and confirm it remains alive afterward.
 It skips process cells while checking exact PID/start row identities. Traversal
-errors and late completion still fail. Existing app-liveness and diagnostic
+limits and late completion still fail. Existing app-liveness and diagnostic
 freshness checks remain active. No application source or comparison bound changed.
 
 ## Verification
@@ -60,10 +60,32 @@ No native replay, host acceptance, build, or Cairn check ran for this repair.
 The original captured run remains FAIL. Independent SPEC then QUALITY review
 and a fresh committed shared acceptance run are still required.
 
+## SPEC review correction: incomplete child traversal
+
+Review of `b3f0160facab6b110d2e3a7b49a1c48478fdd4bf` found a gap in the first
+self-audit. The shared walker skipped a missing child even when its parent
+reported a positive child count. It also skipped defunct intermediate containers.
+Either could conceal a retained process identity and falsely acknowledge exit.
+
+The exit helper now opts into strict traversal. Missing children, negative child
+counts, defunct nodes, and nodes becoming defunct during child enumeration raise
+`IncompleteNativeTree`. The existing wait retries that specific exception within
+the same deadline and retains its message as the last transient failure. It does
+not catch `AssertionError`; node and time limits still fail immediately. Other
+walker callers keep the prior permissive behavior, and process-cell skipping is
+preserved.
+
+Eight additional tests cover these cases, transient recovery, permissive callers,
+cell skipping, and node bounds. Five tests failed on the reviewed implementation
+before the correction, including premature success at 0.5 seconds when removal
+was scheduled for 2 seconds. After the correction, the same focused command above
+passed 22 tests and full discovery passed 108 tests. Ruff lint/format and diff
+checks passed. No native replay, host acceptance, build, or Cairn check ran.
+
 ## Self-audit
 
 The change is limited to the native driver, the replay exit call, its focused
 regressions, and this record. It preserves process identity semantics, existing
 error handling, and all time limits. Review against the production coding rules
-found no known implementation defect. Actual AT-SPI timing and transport behavior
+after the SPEC correction found no further known implementation defect. Actual AT-SPI timing and transport behavior
 remain subject to the fresh native acceptance run.

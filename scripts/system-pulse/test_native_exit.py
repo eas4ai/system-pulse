@@ -65,7 +65,7 @@ def native_class(clock):
         node
         for node in ast.parse(source.read_text()).body
         if isinstance(node, (ast.ClassDef, ast.FunctionDef))
-        and node.name in ("Native", "identity")
+        and node.name in ("Native", "identity", "IncompleteNativeTree")
     ]
     context = dict(
         time=clock,
@@ -211,6 +211,72 @@ class NativeExitTests(unittest.TestCase):
         with self.assertRaises(TimeoutError):
             self.run_exit()
         self.assertEqual(self.clock.now, 5)
+
+    def test_missing_child_cannot_prove_exit(self):
+        self.native_at = 100
+        self.panel.get_child_at_index = lambda index: None
+        with self.assertRaisesRegex(
+            TimeoutError, "incomplete native tree.*missing child"
+        ):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_defunct_container_cannot_hide_retained_identity(self):
+        container = Node(self.clock, children=lambda: [self.row])
+        container.defunct = True
+        self.panel.children = lambda: [container]
+        with self.assertRaisesRegex(TimeoutError, "incomplete native tree.*defunct"):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_container_becoming_defunct_cannot_prove_exit(self):
+        container = Node(self.clock)
+
+        def vanished_children():
+            container.defunct = True
+            return []
+
+        container.children = vanished_children
+        self.panel.children = lambda: [container]
+        with self.assertRaisesRegex(TimeoutError, "incomplete native tree.*defunct"):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_negative_child_count_cannot_prove_exit(self):
+        self.panel.get_child_count = lambda: -1
+        with self.assertRaisesRegex(
+            TimeoutError, "incomplete native tree.*negative child count"
+        ):
+            self.run_exit()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_transient_missing_child_retries_until_complete_removal(self):
+        self.panel.get_child_at_index = lambda index: (
+            None if self.clock.now < 1 else self.row
+        )
+        self.run_exit()
+        self.assertEqual(self.clock.now, self.native_at)
+
+    def test_permissive_walk_still_skips_missing_and_defunct_children(self):
+        defunct = Node(self.clock, children=lambda: [self.row])
+        defunct.defunct = True
+        self.panel.children = lambda: [None, defunct]
+        self.assertEqual(list(self.native.walk(self.panel)), [self.panel])
+
+    def test_exit_scan_skips_known_process_cells(self):
+        self.row.aid = "process:42:124"
+        self.native_at = 100
+        self.row.get_child_count = Mock(
+            side_effect=AssertionError("read process cells")
+        )
+        self.run_exit()
+        self.row.get_child_count.assert_not_called()
+
+    def test_exit_scan_keeps_node_bound_failure(self):
+        self.native.walk.__func__.__globals__["BUDGETS"]["nodes"] = 1
+        self.panel.children = lambda: [Node(self.clock, "unrelated")]
+        with self.assertRaisesRegex(AssertionError, "native node bound exceeded"):
+            self.run_exit()
 
     def test_slow_tree_cannot_acknowledge_after_deadline(self):
         self.native_at = 0
