@@ -35,3 +35,26 @@ observations were retained. A bounded diagnostic will record existing
 selection/frame/membership results and retry reasons in memory, without
 extra native queries, input, or changed deadlines. Its output is diagnostic
 only. A separate read-only trace checks the production viewport behavior.
+
+## Source and contract boundary
+
+Independent source review confirms stable PID/start selection with a
+pixel-based viewport. accept_snapshot replaces process views and reconciles
+selection, but does not adjust scrolling. Arrow navigation requests reveal
+by numeric index; a later snapshot can move that identity outside the
+retained viewport. Virtual rows have no overscan above the visible range.
+See workspace.rs accept_snapshot, live.rs reconcile_selection, panel.rs
+navigate, and crates/base/src/virtual_list.rs prepaint.
+
+Independent contract review found no automatic identity-anchor requirement.
+LIVE-003 preserves identity, and LIVE-010 imports the approved reachability
+and keyboard-reveal behaviors while deliberate scrolling remains stable
+across ticks. Changing production anchoring merely for the verifier would
+exceed the existing recovery decision. If diagnostics confirm an offscreen
+endpoint, a bounded nonselecting scroll reveal can make it observable,
+followed by exact selected identity and current membership proof. An
+unselected endpoint or different selection must still fail. The original
+deadlines and held-input movement evidence must remain untouched.
+
+This is a diagnosis/contract recommendation, not an implemented correction
+or a native acceptance result.
