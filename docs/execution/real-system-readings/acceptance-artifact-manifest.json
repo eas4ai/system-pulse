@@ -1,6 +1,6 @@
 {
   "scope": "Preparation only. No final committed Cairn aggregate receipt; complete native21 remains FAIL.",
-  "source_candidate": "6a52d1a2",
+  "source_candidate": "322b05d9",
   "evidence": [
     {
       "run": "host-08",
@@ -36,6 +36,16 @@
       "run": "native-missing-02",
       "status": "PASS",
       "scope": "Focused same-function config specimen correction; fullbounds and truthful unavailable status, no simulated readings."
+    },
+    {
+      "run": "host08-process-reanalysis",
+      "status": "PASS",
+      "scope": "Retained capture with strict per-row process attribution and duplicate PID rejection; unchanged41744brackets and468stable totals; initial inventory only."
+    },
+    {
+      "run": "quality-correction-checks",
+      "status": "PASS",
+      "scope": "45 Python tests plus formatting/lint/diff; transport cleanup fault cases isolated without native launch. Final aggregate pending."
     }
   ],
   "artifacts": [
@@ -266,6 +276,36 @@
     },
     {
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/stable_totals.json",
+      "bytes": 250192,
+      "sha256": "3c0f48f3f85753e85e719163c232e4ea786dca13e69a412a7d02ebf9e736e1eb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/brackets.json",
+      "bytes": 17019031,
+      "sha256": "1713060fc906ab5b5306bf2311b251791898c2648ee23b9841eb5a1d7affc198"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/host_capture.py",
+      "bytes": 50817,
+      "sha256": "de73eedf8705f9caa4ae9a0fa387f1b8df473207e6ba7f128d2856afefa32fbe"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/missing_brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/result.json",
+      "bytes": 414,
+      "sha256": "ec713e9a7e496c01369f5a4a4cd0f83a2a79ea4e560a28fee4a3edc7dcc9a8ab"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/stable_totals.json",
       "bytes": 250192,
       "sha256": "3c0f48f3f85753e85e719163c232e4ea786dca13e69a412a7d02ebf9e736e1eb"
     },
@@ -1070,6 +1110,11 @@
       "sha256": "d9b14178c03d56d826eb9c7a14e35afa8b450574b5887f47de171f03acb64c3c"
     },
     {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-cleanup-red.log",
+      "bytes": 7018,
+      "sha256": "0d4330f5335368c293e7ccda80a7a5b6db95e95ddfd0ebaaa00c20ce18923731"
+    },
+    {
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-01/harness-manifest.json",
       "bytes": 995,
       "sha256": "0511af0d4cb2fcc78420830c031839afd038c652a4531d1e035106f22e0706f2"
@@ -1503,6 +1548,36 @@
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/transport-cleanup.json",
       "bytes": 62,
       "sha256": "ec9c43e481ea67f1c3c929370898aeb8fcfe061e6632c760554e2279324f79f0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/process-attribution-red.log",
+      "bytes": 24691,
+      "sha256": "d6d1c585dfcff1b8a69e7d144dd8d5400d758ef4c92ffa76de8ebfa1e27d993c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/quality-correction-checks/checks.json",
+      "bytes": 768,
+      "sha256": "c1e7227946a78e9907e6b602986964f4145c0e4a6d17902e31aaacb52b82e424"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/quality-correction-checks/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/quality-correction-checks/python-format.log",
+      "bytes": 27,
+      "sha256": "2afb1c293434bc55d84b35d54454a0bf9aa84e41cda426817a5c6693d432e37a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/quality-correction-checks/python-lint.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/quality-correction-checks/python-tests.log",
+      "bytes": 6372,
+      "sha256": "d20445a712c546176b9bbe8b7ed50388bb5730f7930dd46b6c86ba76209c2f97"
     },
     {
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/red.log",

@@ -2,9 +2,9 @@
 
 - In progress: independent SPEC/QUALITY review and any required corrections.
 - Verified preparation: executable aggregate and independent host/native harness;
-  37 Python regressions, retained host re-analysis, 13 full-run native cases and
+  45 Python regressions, retained host re-analysis, 13 full-run native cases and
   focused final missing-device correction. The complete native run remains FAIL.
-- Verified delivery preparation: documentation, self-audit and all 294 manifest
+- Verified delivery preparation: documentation, self-audit and all listed manifest
   artifact paths, sizes and SHA256 hashes.
 - Pending: independent SPEC/QUALITY approval and root's subsequent committed
   aggregate and Cairn receipt, including fresh host and complete native execution.
@@ -176,13 +176,35 @@ same-frame native equality and full ancestor containment, followed by normal exi
 and private transport cleanup. Its `missing-device-config.json` retains the exact
 stopped-app specimen. Root reviewed the unavailable header screenshot and bounds.
 
-The source is paused at `6a52d1a2` for independent review. Correction verification
+The first correction source was paused at `6a52d1a2` for independent review. Its verification
 is in `correction-checks/`: 37 Python tests passed, formatting passed, the first
 Ruff run reported one lambda-style issue, its correction passed Ruff, and the
 final diff check passed. No extra full replay was run after the focused correction;
 the root's mandatory Cairn aggregate must execute every case together and obtain
 normal status 0 for every native session. Preparation receipts never substitute
 for that committed aggregate.
+
+QUALITY review then demonstrated that process fields could name a different PID
+or raw `/proc` source from their enclosing row, and duplicate rows could pass.
+It also showed that an already-exited private accessibility transport with status
+42 could return normally and leave a misleading native PASS. Correction
+`322b05d9` binds all five process fields to the enclosing PID/start identity,
+expected field suffix and exact stat/IO path, including unavailable fields, and
+rejects duplicate PIDs. Transport cleanup now requires observed status 0 and no
+surviving process, records forced termination and errors before failing, and
+has its artifact content checked by the aggregate.
+
+Four process regression tests first produced 26 failing mutation subcases while
+the actual CPU/IO counter control passed. Four cleanup tests first produced four
+failures and two errors, retaining the normal-zero control. Both corrections then
+passed; all 45 Python tests, Ruff formatting/lint and diff checks passed in
+`quality-correction-checks/`. Cleanup tests isolate the actual Python function
+without launching native prerequisites. Retained host re-analysis in
+`host08-process-reanalysis/` passes the unchanged 41,744 counter brackets, 2,219
+sensor checks, 16,240 process fields, 96 interfaces and 468 stable totals, still
+limited to the original independent inventory. No new capture, build or native
+run was performed for these narrow verifier corrections. The source is paused
+at `322b05d9` for the final independent review follow-up.
 
 NVIDIA hardware accuracy remains UNVERIFIED. `DriverNotLoaded` is a separately
 recorded hardware boundary, not an accuracy pass. macOS/Windows native behavior
