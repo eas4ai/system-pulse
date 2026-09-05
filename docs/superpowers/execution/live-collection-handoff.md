@@ -726,3 +726,22 @@ final commitment review, and actual Cairn Done remain outstanding.
 
 The requested Codex context-management value remains true and the TOML parses.
 The developer reports restarting the harness. No runtime reload claim was made.
+
+
+## 2026-09-05: navigation reviews complete; freshness evidence in progress
+
+QUALITY found that synchronous journal writes could consume the navigation
+deadline before physical recovery input. Correction `bb733beb` checks the
+original deadline after wheel journaling and before XTest dispatch, while
+preserving release/sync cleanup and ordinary wheel behavior. The worker
+passed 271 Python tests. Independent SPEC passed 72 navigation tests and
+five additional probes; QUALITY passed 167 native tests and seven probes.
+Both findings are closed; source review/realization record is `6ab9ef9e`.
+No native acceptance pass or cause-specific timing fix is claimed.
+
+Cairn reconciled the completed navigation action. The next Judged decision,
+`retain-stale-frame-read-identity-and-timing`, is committed at `3c2cc78b`.
+The sole worker adds observation metadata with one content read and the
+existing fail-fast verdict unchanged. Root owns the build-decision marker.
+Independent reviews precede a fresh untraced focused process capture and
+full committed acceptance. Final commitment review and Cairn Done remain.
