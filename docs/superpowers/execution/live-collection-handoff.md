@@ -1,6 +1,6 @@
 # Resume: real system collection
 
-The user requested a harness restart during initial discovery. Resume the real-collection task; do not repeat the completed workspace implementation.
+The user restarted the harness and invoked `/existing-project`. Resume the real-collection task through the adoption drafts; do not repeat the completed workspace implementation.
 
 ## User direction
 
@@ -13,7 +13,8 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 - Design repository: `/home/shawn/workspace2/task-manager`.
 - Implementation worktree: `/home/shawn/workspace2/task-manager-worktrees/workspace-visibility`.
 - Implementation branch: `feat/system-pulse-workspace`.
-- Implementation HEAD: `9f2f3ad0382ce4c7ce0aadfc0c4ed88588ad95af` (acceptance documentation).
+- Verified fixture acceptance documentation: `9f2f3ad0382ce4c7ce0aadfc0c4ed88588ad95af`.
+- Adoption drafts begin at `822635ff044df53b60258ad645c7dbf01fc0287b`; inspect Git history for later documentation commits.
 - Latest source change: `88343d5ed3be72865e52fc3d51a860649d8def83`.
 - Backing framework clone: `/home/shawn/workspace2/gpui-component`.
 - Application: `examples/system_pulse`; pure model: `examples/system_pulse/model`.
@@ -23,20 +24,22 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-1. **In progress:** inspect collector requirements, existing code, references, and host capabilities.
-2. Pending: write the real-collection spec and implementation plan, consistent with the user's correction.
+1. Complete: inspect current application code, existing collector reference, documentation, and tooling. Host GPU capability probing remains part of collector design.
+2. **In progress:** confirm the adoption draft's real-collection requirements and falsifiers, then write the implementation plan.
 3. Pending: implement and independently review live collection integration.
 4. Pending: verify native readings against the host and document actual results.
 
-**No collector source code or real-collection spec/plan has been written yet.** No dependencies have changed. A read-only research agent (`dock_quality_review`) was started and interrupted for this restart before returning findings. Do not assume it completed discovery. Other agents from the fixture work are finished.
+**No collector source code or implementation plan has been written yet.** No dependencies have changed. The cited [recon](../../recon.md) is now written. Formal adoption documents live beside the source at `/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/spec/`; start with `overview.md` and `live-collection.md`. READ/VIEW/STATE sections are Observed; LIVE requirements are Draft pending confirmation of text and falsifiers. They are not yet a Cairn contract.
 
-The root agent read the existing root `AGENTS.md`, prior workspace plan, and Superpowers brainstorming/writing-plans skills. The full feature-spec output was truncated; read the missing collector/sensor sections before designing. The project is Rust/GPUI with Linux-primary development and cross-platform product intent. Do not invent another fixture-only completion boundary.
+The read-only collector agent completed a cited audit of `examples/system_monitor` and pinned sysinfo 0.37.2. It found reusable CPU/memory/process/disk APIs, but no network/GPU implementation in that example, and UI-thread collection, time-axis, warm-up, truncation, and zero-on-error weaknesses to avoid. The recon records its findings. The full relevant product sensor/data-layer sections have now been read. The project is Rust/GPUI with Linux-primary development and cross-platform product intent. Do not invent another fixture-only completion boundary.
+
+The user-invoked existing-project skill requires confirmation of the proposed requirement text and falsifiers before marking new sections Agreed. Their high-level approval of real readings and subagents already stands. Ask only for corrections/confirmation of the newly concrete acceptance bar, not whether to pursue real readings again. No active roadmap/commitment is created before this confirmation. `cairn wake` and `cairn check` currently return exit 3 because `docs/spec/roadmap.md` does not exist; this is not a passing or Done verdict.
 
 ## Next discovery work
 
-- Read `docs/feature-spec-dockable-system-monitor.md` for required metrics and collector architecture, plus the workspace visibility spec for preserved UI contracts.
-- Inspect the current app's fixture, meter, panel, process-table, shared-state, and timer seams. Find where real snapshots can replace synthetic data without changing docking behavior.
-- Inspect pinned dependencies and existing `examples/system_monitor`; consult local `reference/` source snapshots for collection techniques and license constraints.
+- Read the recon and adoption drafts before doing further discovery; they cite the inspected app, reference collector, tests, pinned dependencies, and preservation contracts.
+- Confirm the LIVE text/falsifiers through the existing-project workflow, then create the roadmap/current commitment and executable mechanisms in the implementation worktree.
+- Consult local `reference/` source snapshots for any collection technique used and preserve its license constraints.
 - Inspect actual host GPU/backend availability. Prefer existing pinned collector libraries. Clearly separate unsupported hardware metrics from missing implementation.
 - Define stable real monitor/sensor identities, cumulative counter deltas, sampling intervals, error/stale states, dynamic devices/processes, bounded histories, off-UI-thread work, and safe migration from fixture identities.
 - Keep simulation only in tests. Remove runtime fixture controls and labels when actual collectors are installed; report real source/availability where useful.
