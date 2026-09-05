@@ -1,9 +1,11 @@
 # Acceptance implementation work
 
-- In progress: acceptance documentation, manifest and final self-audit.
+- In progress: independent SPEC/QUALITY review and any required corrections.
 - Verified preparation: executable aggregate and independent host/native harness;
   37 Python regressions, retained host re-analysis, 13 full-run native cases and
   focused final missing-device correction. The complete native run remains FAIL.
+- Verified delivery preparation: documentation, self-audit and all 294 manifest
+  artifact paths, sizes and SHA256 hashes.
 - Pending: independent SPEC/QUALITY approval and root's subsequent committed
   aggregate and Cairn receipt, including fresh host and complete native execution.
 
