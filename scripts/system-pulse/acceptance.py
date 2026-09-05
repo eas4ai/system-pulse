@@ -178,6 +178,7 @@ def source_guard():
         "test_host_accuracy.py",
         "test_acceptance.py",
         "test_capture_stream.py",
+        "test_host_inventory.py",
     ):
         require(
             (ROOT / "scripts/system-pulse" / name).is_file(),
@@ -326,6 +327,8 @@ def main():
         mandatory = [
             "host/result.json",
             "host/capabilities.json",
+            "host/final-inventory.json",
+            "host/stable-totals.json",
             "host/external-observations.json",
             "host/snapshots.jsonl",
             "host/counter-brackets.json",
@@ -341,6 +344,7 @@ def main():
             "native/private-session.json",
             "native/harness-manifest.json",
             "native/transport-cleanup.json",
+            "native/missing-device-config.json",
         ]
         artifacts = [runner.artifact(output / p) for p in mandatory]
         for session in (

@@ -52,6 +52,7 @@ def main():
             "split",
             "restart",
             "recovery",
+            "missing-device",
         ),
     )
     args = parser.parse_args()
@@ -358,11 +359,102 @@ def main():
         if app.interval_ms != 1000:
             app.interval(1000)
 
+    def missing_device_case(hidden):
+        nonlocal app
+        progress("missing-device", "RUNNING")
+        app.shutdown()
+        app.close()
+        saved = json.loads((state / "workspace.json").read_text())
+        saved["dock"] = copy.deepcopy(initial_dock)
+        mid = hidden["id"]
+        missing = mid + ":saved-absent"
+        saved["panels"][missing] = copy.deepcopy(saved["panels"][mid])
+        saved["panels"][missing]["visible"] = True
+        saved["monitors"][missing] = copy.deepcopy(saved["monitors"][mid])
+        saved["monitors"][missing]["id"] = missing
+        saved["panels"][mid]["visible"] = False
+
+        def substitute_identity(node):
+            if isinstance(node, dict):
+                if node.get("monitor_id") == mid:
+                    node["monitor_id"] = missing
+                for value in node.values():
+                    substitute_identity(value)
+            elif isinstance(node, list):
+                for value in node:
+                    substitute_identity(value)
+
+        substitute_identity(saved["dock"])
+        # A stopped-app configuration specimen preserves actual device metadata; no measurements are supplied.
+        (output / "missing-device-config.json").write_text(json.dumps(saved, indent=2))
+        (state / "workspace.json").write_text(json.dumps(saved))
+        app = Native(args.binary, output / "session-missing-device", state)
+        app.sequences()
+        restored = app.save_state()
+        require(restored["dock"] == saved["dock"], "missing specimen dock changed")
+        require(
+            restored["panels"][missing]["sensors"]
+            == saved["panels"][missing]["sensors"],
+            "missing saved-device sensor preferences lost",
+        )
+        require(
+            restored["monitors"][missing] == saved["monitors"][missing],
+            "missing saved-device metadata lost",
+        )
+        require(
+            restored["panels"][missing]["collapsed"]
+            == saved["panels"][missing]["collapsed"],
+            "missing saved-device preference lost",
+        )
+        entry = next(
+            e
+            for e in app.frame()["rendered"]
+            if e["monitor_id"] == missing and e["element_id"].endswith(":summary")
+        )
+        require(
+            "Unavailable" in entry["label"],
+            "missing saved device presented measured data",
+        )
+        title = saved["monitors"][missing]["title"]
+        app.focus(
+            app.find(
+                ("Expand " if saved["panels"][missing]["collapsed"] else "Collapse ")
+                + title,
+                "button",
+                root=app.panel(missing),
+            )
+        )
+        app.missing_monitor(missing)
+        app.save(
+            "missing-device-specimen.json",
+            {
+                "metadata": saved["monitors"][missing],
+                "original_identity": mid,
+                "missing_identity": missing,
+                "dock": saved["dock"],
+                "preferences": saved["panels"][missing],
+                "rendered": entry,
+                "physical_removal": "UNVERIFIED: stopped-app config specimen used",
+            },
+        )
+        done("missing-device")
+
     try:
         progress("launch", "RUNNING")
         app = Native(args.binary, output / "session-01", state)
         app.no_tabs("launch-no-tabs")
+        initial_dock = copy.deepcopy(app.state()["dock"])
         done("launch")
+        if args.focus == "missing-device":
+            hidden = next(
+                m
+                for m in app.frame()["snapshot"]["monitors"]
+                if m["kind"] in ("Gpu", "Network")
+            )
+            missing_device_case(hidden)
+            app.shutdown()
+            completed = True
+            return
         if args.focus == "restart":
             saved = app.save_state()
             app.shutdown()
@@ -897,58 +989,7 @@ def main():
         app.interval(1000)
         for mode in ("schema", "json"):
             recovery_case(mode)
-        progress("missing-device", "RUNNING")
-        app.shutdown()
-        app.close()
-        saved = json.loads((state / "workspace.json").read_text())
-        mid = hidden["id"]
-        missing = mid + ":saved-absent"
-        saved["panels"][missing] = copy.deepcopy(saved["panels"][mid])
-        saved["panels"][missing]["visible"] = True
-        saved["monitors"][missing] = copy.deepcopy(saved["monitors"][mid])
-        saved["monitors"][missing]["id"] = missing
-        # A stopped-app configuration specimen preserves actual device metadata; no measurements are supplied.
-        (state / "workspace.json").write_text(json.dumps(saved))
-        app = Native(args.binary, output / "session-missing-device", state)
-        app.sequences()
-        restored = app.save_state()
-        require(
-            restored["monitors"][missing] == saved["monitors"][missing],
-            "missing saved-device metadata lost",
-        )
-        require(
-            restored["panels"][missing]["collapsed"]
-            == saved["panels"][missing]["collapsed"],
-            "missing saved-device preference lost",
-        )
-        entry = next(
-            e
-            for e in app.frame()["rendered"]
-            if e["monitor_id"] == missing and e["element_id"].endswith(":summary")
-        )
-        require(
-            "Unavailable" in entry["label"],
-            "missing saved device presented measured data",
-        )
-        title = saved["monitors"][missing]["title"]
-        app.focus(
-            app.find(
-                ("Expand " if saved["panels"][missing]["collapsed"] else "Collapse ")
-                + title,
-                "button",
-                root=app.panel(missing),
-            )
-        )
-        app.missing_monitor(missing)
-        app.save(
-            "missing-device-specimen.json",
-            {
-                "metadata": saved["monitors"][missing],
-                "rendered": entry,
-                "physical_removal": "UNVERIFIED: stopped-app config specimen used",
-            },
-        )
-        done("missing-device")
+        missing_device_case(hidden)
         app.shutdown()
         completed = True
     except BaseException as error:

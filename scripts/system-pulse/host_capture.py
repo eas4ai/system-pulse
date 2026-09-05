@@ -154,7 +154,9 @@ class Observer:
         self.stop = threading.Event()
         self.failure = None
         self.previous_pids = set()
+        self.inventory_started_ns = time.monotonic_ns()
         self.enumerate()
+        self.inventory_finished_ns = time.monotonic_ns()
 
     def add(self, sid, source, unit, probe):
         self.capabilities.append(
@@ -555,6 +557,157 @@ def connections(snapshot):
     return len(counts)
 
 
+def monitor_identity(sensor_id):
+    if sensor_id.startswith("cpu:host/"):
+        return "cpu:host", "Cpu"
+    if sensor_id.startswith("memory:host/"):
+        return "memory:host", "Memory"
+    for prefix, kind in (
+        ("amdgpu:", "Gpu"),
+        ("network:", "Network"),
+        ("volume:", "Volume"),
+    ):
+        if sensor_id.startswith(prefix):
+            return sensor_id.rsplit("/", 1)[0], kind
+    raise AssertionError(f"independent monitor identity unsupported: {sensor_id}")
+
+
+def verify_inventory(capabilities, snapshot):
+    expected = {c["id"]: c for c in capabilities}
+    require(len(expected) == len(capabilities), "duplicate independent sensor identity")
+    sensors = {s["id"]: s for s in snapshot["sensors"]}
+    readings = {r["sensor_id"]: r for r in snapshot["readings"]}
+    require(
+        len(sensors) == len(snapshot["sensors"]), "duplicate collector sensor identity"
+    )
+    require(
+        len(readings) == len(snapshot["readings"]),
+        "duplicate collector reading identity",
+    )
+    require(
+        set(sensors) == set(readings) == set(expected),
+        f"unverified capture-window sensor discovery: extra={sorted(set(sensors) - set(expected))}, missing={sorted(set(expected) - set(sensors))}, reading_difference={sorted(set(readings) ^ set(sensors))}",
+    )
+    expected_monitors = dict(monitor_identity(sid) for sid in expected)
+    monitors = {m["id"]: m["kind"] for m in snapshot["monitors"]}
+    require(
+        len(monitors) == len(snapshot["monitors"]),
+        "duplicate collector monitor identity",
+    )
+    require(
+        monitors == expected_monitors,
+        f"unverified capture-window monitor discovery: extra={sorted(set(monitors) - set(expected_monitors))}, missing={sorted(set(expected_monitors) - set(monitors))}, wrong_kinds={[mid for mid in monitors.keys() & expected_monitors.keys() if monitors[mid] != expected_monitors[mid]]}",
+    )
+    aliases = {
+        "/proc/meminfo": {"/proc/meminfo", "/proc/meminfo (kB = 1024 bytes)"},
+        "/proc/loadavg: fourth field total": {
+            "/proc/loadavg: total scheduling entities"
+        },
+        "/proc": {"/proc numeric directories"},
+        "/proc/net/tcp; /proc/net/tcp6; sysinfo::NetworkData::ip_networks": {
+            "Snapshot.network_attribution"
+        },
+    }
+    for sid, capability in expected.items():
+        sensor = sensors[sid]
+        require(
+            sensor["monitor_id"] == monitor_identity(sid)[0],
+            f"wrong monitor attribution: {sid}",
+        )
+        require(
+            sensor["source"] == capability["source"]
+            and sensor["unit"] == capability["unit"],
+            f"wrong OS source/unit: {sid}",
+        )
+        allowed = aliases.get(capability["source"], {capability["source"]})
+        for observation in readings[sid]["observations"]:
+            require(
+                observation["source"] in allowed,
+                f"wrong raw source attribution: {sid}: {observation['source']}",
+            )
+
+
+def verify_stable_totals(observer, snapshot, collector, external):
+    evidence = []
+    for reading in snapshot["readings"]:
+        for observation in reading["observations"]:
+            source, values = observation["source"], observation["integers"]
+            totals = []
+            if source.startswith("/proc/meminfo"):
+                totals = [
+                    ("/proc/meminfo", key, values[key], lambda value, k=key: value[k])
+                    for key in ("MemTotal", "SwapTotal")
+                    if key in values
+                ]
+            elif source.startswith("statvfs("):
+                totals = [
+                    (
+                        source,
+                        "capacity_bytes",
+                        values["blocks"] * values["fragment_size"],
+                        lambda value: value[1] * value[2],
+                    )
+                ]
+            elif reading["sensor_id"].startswith("amdgpu:") and "total" in values:
+                paths = source.split("; ")
+                require(
+                    len(paths) == 2 and paths[1].endswith("/mem_info_vram_total"),
+                    "invalid GPU total source",
+                )
+                totals = [(paths[1], "total", values["total"], lambda value: value)]
+            start = observation["read_started_ns"]
+            window = map_window(
+                (
+                    snapshot["capture_started_ns"] if start is None else start,
+                    observation["captured_ns"],
+                ),
+                collector,
+                external,
+            )
+            for path, key, value, extract in totals:
+                attempts = [
+                    sample["sources"][path]
+                    for sample in observer.samples
+                    if path in sample["sources"]
+                ]
+                samples = [
+                    {**sample, "value": extract(sample["value"])}
+                    for sample in attempts
+                    if sample["errno"] is None
+                ]
+                before = [sample for sample in samples if sample["end"] <= window[0]]
+                after = [sample for sample in samples if sample["start"] >= window[1]]
+                context = f"stable total {reading['sensor_id']} {path} {key} query={window} attempts={attempts}"
+                require(before and after, "missing stable-total bracket: " + context)
+                a, b = (
+                    max(before, key=lambda sample: sample["end"]),
+                    min(after, key=lambda sample: sample["start"]),
+                )
+                require(
+                    a["value"] == b["value"],
+                    "changed independent total; exact comparison unavailable: "
+                    + context,
+                )
+                require(
+                    value == a["value"],
+                    f"wrong independent stable total {value} != {a['value']}: "
+                    + context,
+                )
+                evidence.append(
+                    {
+                        "sensor_id": reading["sensor_id"],
+                        "source": path,
+                        "key": key,
+                        "value": value,
+                        "window": window,
+                        "before": a,
+                        "after": b,
+                        "snapshot_sequence": snapshot["sequence"],
+                    }
+                )
+    return evidence
+
+
 def verify_capture(observer, snapshots, child_info):
     require(len(snapshots) >= 3, "missing fresh snapshot sequence")
     require(observer.failure is None, f"external observer failed: {observer.failure}")
@@ -570,8 +723,23 @@ def verify_capture(observer, snapshots, child_info):
         ]
     )
     counts = collections.Counter()
+    final_capabilities = getattr(observer, "final_capabilities", None)
+    if final_capabilities is not None:
+
+        def projection(capabilities):
+            return {(c["id"], c["source"], c["unit"]) for c in capabilities}
+
+        initial_ids, final_ids = (
+            projection(observer.capabilities),
+            projection(final_capabilities),
+        )
+        require(
+            initial_ids == final_ids,
+            f"independent inventory changed during capture: added={sorted(final_ids - initial_ids)}, removed={sorted(initial_ids - final_ids)}; see final-inventory.json",
+        )
     brackets = []
     missing = []
+    stable_totals = []
     expected = {c["id"]: c for c in observer.capabilities}
     for sid, capability in expected.items():
         if capability["probe"]["errno"] is not None or sid.endswith(
@@ -594,6 +762,10 @@ def verify_capture(observer, snapshots, child_info):
         "accessible GPU adapter has no independent verifier",
     )
     for snapshot in snapshots:
+        verify_inventory(observer.capabilities, snapshot)
+        stable_totals.extend(
+            verify_stable_totals(observer, snapshot, collector, external)
+        )
         sensors = {s["id"]: s for s in snapshot["sensors"]}
         readings = {r["sensor_id"]: r for r in snapshot["readings"]}
         for sid, capability in expected.items():
@@ -771,6 +943,11 @@ def verify_capture(observer, snapshots, child_info):
         "collector_offset": collector,
         "brackets": brackets,
         "missing_brackets": missing,
+        "stable_totals": stable_totals,
+        "independent_stable_totals": len(stable_totals),
+        "inventory_scope": "initial and final independent inventories"
+        if final_capabilities is not None
+        else "retained initial inventory only",
     }
 
 
@@ -980,7 +1157,23 @@ def run(output, binary):
                 indent=2,
             )
         )
+        final_inventory = Observer()
+        observer.final_capabilities = final_inventory.capabilities
+        (output / "final-inventory.json").write_text(
+            json.dumps(
+                {
+                    "started_ns": final_inventory.inventory_started_ns,
+                    "finished_ns": final_inventory.inventory_finished_ns,
+                    "capabilities": final_inventory.capabilities,
+                    "scope_limits": final_inventory.errors,
+                },
+                indent=2,
+            )
+        )
         result = verify_capture(observer, snapshots, child_info)
+        (output / "stable-totals.json").write_text(
+            json.dumps(result.pop("stable_totals"), indent=2)
+        )
         (output / "counter-brackets.json").write_text(
             json.dumps(result.pop("brackets"))
         )

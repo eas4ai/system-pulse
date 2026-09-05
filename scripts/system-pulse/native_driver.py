@@ -671,6 +671,7 @@ class Native:
         aid = mid + ":summary"
         node = self.find(aid=aid, root=self.panel(mid))
         deadline = time.monotonic() + 5
+        attempts = []
         while time.monotonic() < deadline:
             before = self.frame()
             node.clear_cache()
@@ -697,7 +698,19 @@ class Native:
                 "Unavailable" in entry["label"],
                 "missing-device specimen lacks truthful unavailable status",
             )
-            if text == entry["label"] and self.visible(node):
+            visible = self.visible(node)
+            attempts.append(
+                {
+                    "sequence": before["snapshot"]["sequence"],
+                    "revision": before["render_revision"],
+                    "native_text": text,
+                    "expected_text": entry["label"],
+                    "bounds": self.bounds(node),
+                    "clip_ancestors": self.ancestors(node),
+                    "visible": visible,
+                }
+            )
+            if text == entry["label"] and visible:
                 self.save(
                     "missing-native.json",
                     {
@@ -705,11 +718,13 @@ class Native:
                         "frame": before,
                         "bounds": self.bounds(node),
                         "clip_ancestors": self.ancestors(node),
+                        "attempts": attempts,
                     },
                 )
                 self.screenshot("missing-native.png")
                 return entry
             spin()
+        self.save("missing-native-failure.json", {"attempts": attempts})
         raise TimeoutError(
             "missing native monitor did not match within original five seconds"
         )
