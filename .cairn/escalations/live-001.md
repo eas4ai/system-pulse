@@ -8,8 +8,23 @@ Instead:    Keep acceptance blocked and investigate the retained specimen withou
 
 Reply: ok | instead | ask
 
-Concerns: LIVE-001
+Concerns: LIVE-001, LIVE-002, LIVE-003, LIVE-004, LIVE-005, LIVE-006, LIVE-007, LIVE-008, LIVE-009, LIVE-010, LIVE-011, LIVE-012, LIVE-013
 Status: open
 Raised: 2026-09-05T06:48:23.276Z
 Answer: ok
 Answered: 2026-09-05T11:26:01.887Z
+
+## Scope correction, 2026-09-05
+
+The original question concerns the shared live-acceptance rerun, which maps all
+thirteen LIVE requirements. Its Concerns field named only the first identifier
+selected by the former aggregate verdict. The developer authorized continuation:
+"ok you should be good to go now. Let me know if you encounter any more issues
+with Cairn". Root recorded that answer at the Answered timestamp above.
+
+This amendment names every requirement already covered by that shared rerun;
+it does not change the question, recommendation, developer answer, or original
+Raised/Answered timestamps. No new product scope or approval is inferred.
+The 2026-09-05T11:59:33Z failure is preserved: a regression expected a decoder's
+recursion wording, while this interpreter rejected the same invalid native
+result by shape. No host or native run occurred in that attempt.
