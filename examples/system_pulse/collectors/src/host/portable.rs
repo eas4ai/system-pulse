@@ -376,11 +376,7 @@ impl HostCollector {
         );
         for (name, data) in &self.networks {
             let mac = data.mac_address().to_string();
-            let id = if mac == "00:00:00:00:00:00" {
-                format!("network:name:{name}")
-            } else {
-                format!("network:mac:{mac}")
-            };
+            let id = network_identity(name, Some(&mac), None);
             monitor(s, &id, name, MonitorKind::Network);
             for (suffix, total) in [
                 ("rx", data.total_received()),

@@ -162,6 +162,17 @@ impl HostCollector {
         self.collect()
     }
 }
+/// Interface names distinguish VLANs and ports even when MACs and hardware parents match.
+/// Names are always present in the key; sibling arrival/removal never changes an existing key.
+fn network_identity(name: &str, mac: Option<&str>, hardware_path: Option<&str>) -> String {
+    if let Some(path) = hardware_path {
+        format!("network:path:{path}:name:{name}")
+    } else if let Some(mac) = mac.filter(|m| !m.is_empty() && *m != "00:00:00:00:00:00") {
+        format!("network:mac:{mac}:name:{name}")
+    } else {
+        format!("network:name:{name}")
+    }
+}
 pub(crate) fn monitor(s: &mut Snapshot, id: &str, title: &str, kind: MonitorKind) {
     let suffix = match kind {
         MonitorKind::Cpu | MonitorKind::Gpu => "usage",

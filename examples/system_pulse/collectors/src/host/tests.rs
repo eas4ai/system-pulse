@@ -213,15 +213,15 @@ fn network_rates_totals_and_no_invented_connection_counts() {
     f.put("sys/class/net/eth9/statistics/rx_bytes", "4000");
     let s = c.collect_at(2_500_000_000);
     assert_eq!(
-        reading(&s, "network:mac:aa:bb:cc:dd:ee:ff/rx").value,
+        reading(&s, "network:mac:aa:bb:cc:dd:ee:ff:name:eth9/rx").value,
         Some(2000.0)
     );
     assert_eq!(
-        reading(&s, "network:mac:aa:bb:cc:dd:ee:ff/rx-total").value,
+        reading(&s, "network:mac:aa:bb:cc:dd:ee:ff:name:eth9/rx-total").value,
         Some(4000.0)
     );
     assert_eq!(
-        reading(&s, "network:mac:aa:bb:cc:dd:ee:ff/connections").value,
+        reading(&s, "network:mac:aa:bb:cc:dd:ee:ff:name:eth9/connections").value,
         None
     );
 }
@@ -358,7 +358,7 @@ fn derived_source_observations_have_read_windows() {
     let s = c.collect_at(500);
     for id in [
         "cpu:host/usage",
-        "network:mac:aa:bb:cc:dd:ee:ff/rx",
+        "network:mac:aa:bb:cc:dd:ee:ff:name:eth0/rx",
         "volume:source:/dev/sda1:/:/mnt/test/read",
     ] {
         let o = &reading(&s, id).observations[0];
@@ -382,4 +382,123 @@ fn kernel_thread_count_survives_process_census_races() {
     let r = reading(&s, "cpu:host/threads");
     assert_eq!(r.value, Some(20.0));
     assert!(r.observations[0].source.contains("loadavg"));
+}
+
+#[test]
+fn shared_mac_interfaces_keep_independent_rates_through_discovery_churn() {
+    for hardware_parent in [false, true] {
+        let f = Fixture::new();
+        f.base();
+        if hardware_parent {
+            f.put(
+                "sys/devices/pci/shared/uevent",
+                "PCI_SLOT_NAME=0000:01:00.0",
+            );
+        }
+        let put_interface = |name: &str, rx: u64| {
+            f.put(
+                &format!("sys/class/net/{name}/address"),
+                "aa:bb:cc:dd:ee:ff",
+            );
+            f.put(
+                &format!("sys/class/net/{name}/statistics/rx_bytes"),
+                &rx.to_string(),
+            );
+            f.put(&format!("sys/class/net/{name}/statistics/tx_bytes"), "0");
+            if hardware_parent {
+                let link = f.0.join(format!("sys/class/net/{name}/device"));
+                if !link.exists() {
+                    std::os::unix::fs::symlink(f.0.join("sys/devices/pci/shared"), link).unwrap();
+                }
+            }
+        };
+        // First creation order; both VLAN interfaces belong to the same hardware MAC.
+        put_interface("eth0.10", 1000);
+        put_interface("eth0.20", 9000);
+        let mut c = HostCollector::rooted(f.0.clone());
+        let first = c.collect_at(1_000_000_000);
+        let id10 = first
+            .monitors
+            .iter()
+            .find(|m| m.title == "eth0.10")
+            .unwrap()
+            .id
+            .clone();
+        let id20 = first
+            .monitors
+            .iter()
+            .find(|m| m.title == "eth0.20")
+            .unwrap()
+            .id
+            .clone();
+        assert_ne!(
+            id10, id20,
+            "two VLAN interfaces sharing one MAC must remain distinct"
+        );
+        assert_eq!(
+            reading(&first, &format!("{id10}/rx")).availability,
+            Availability::WarmingUp
+        );
+        assert_eq!(
+            reading(&first, &format!("{id20}/rx")).availability,
+            Availability::WarmingUp
+        );
+        // Recreate in reverse directory enumeration order without an intervening sample.
+        fs::remove_dir_all(f.0.join("sys/class/net/eth0.10")).unwrap();
+        fs::remove_dir_all(f.0.join("sys/class/net/eth0.20")).unwrap();
+        put_interface("eth0.20", 15000);
+        put_interface("eth0.10", 4000);
+        let reordered = c.collect_at(2_500_000_000);
+        assert_eq!(
+            reordered
+                .monitors
+                .iter()
+                .find(|m| m.title == "eth0.10")
+                .unwrap()
+                .id,
+            id10
+        );
+        assert_eq!(
+            reordered
+                .monitors
+                .iter()
+                .find(|m| m.title == "eth0.20")
+                .unwrap()
+                .id,
+            id20
+        );
+        assert_eq!(
+            reading(&reordered, &format!("{id10}/rx")).value,
+            Some(2000.0)
+        );
+        assert_eq!(
+            reading(&reordered, &format!("{id20}/rx")).value,
+            Some(4000.0)
+        );
+        fs::remove_dir_all(f.0.join("sys/class/net/eth0.10")).unwrap();
+        put_interface("eth0.20", 17000);
+        let removed = c.collect_at(3_500_000_000);
+        assert!(!removed.monitors.iter().any(|m| m.id == id10));
+        assert_eq!(reading(&removed, &format!("{id20}/rx")).value, Some(2000.0));
+        put_interface("eth0.10", 30000);
+        put_interface("eth0.20", 19000);
+        let restored = c.collect_at(4_500_000_000);
+        assert_eq!(
+            restored
+                .monitors
+                .iter()
+                .find(|m| m.title == "eth0.10")
+                .unwrap()
+                .id,
+            id10
+        );
+        assert_eq!(
+            reading(&restored, &format!("{id10}/rx")).availability,
+            Availability::WarmingUp
+        );
+        assert_eq!(
+            reading(&restored, &format!("{id20}/rx")).value,
+            Some(2000.0)
+        );
+    }
 }

@@ -246,16 +246,7 @@ impl HostCollector {
                 .ok()
                 .map(|v| v.trim().to_string())
                 .filter(|v| !v.is_empty() && v != "00:00:00:00:00:00");
-            let id = if let Some(p) = physical {
-                format!(
-                    "network:path:{p}:{}",
-                    mac.unwrap_or_else(|| format!("name:{name}"))
-                )
-            } else if let Some(m) = mac {
-                format!("network:mac:{m}")
-            } else {
-                format!("network:name:{name}")
-            };
+            let id = network_identity(&name, mac.as_deref(), physical.as_deref());
             monitor(s, &id, &name, MonitorKind::Network);
             for (suffix, file, title) in [
                 ("rx", "rx_bytes", "Receive"),
