@@ -73,3 +73,26 @@ the next hit the unchanged freshness gate during navigation before invoking
 this helper. See [storage failure](native-tmp-inode-exhaustion.md) and
 [freshness failure](native-navigation-stale-frame.md). Native lookup timing
 and final acceptance remain unverified.
+
+## Monitor body pruning candidate
+
+Candidate `18a7c978c07a3424244ddbd2e16dd62f7d636631` follows the observed
+15-second panel discovery timeout. Only process-cell panel discovery
+opts into pruning body viewports that match their live traversed named
+parent monitor. The workspace viewport remains traversable. Default
+walk and strict exit semantics remain unchanged.
+
+The worker reported 64 focused native tests and 168 full Python tests
+passing, plus Ruff and diff checks. Four new tests reproduced the old
+body traversal failure; six further tests preserve malformed-boundary,
+layout, default, strict, and deadline behavior. Independent SPEC then
+QUALITY review and actual native timing remain pending.
+
+## Monitor body pruning reviews
+
+Independent SPEC and QUALITY PASS on `18a7c978`. Each ran all 64 focused
+native tests. SPEC checked a 151-monitor/1,350-process synthetic shape,
+malformed names, defunct parents, parentless viewports, and unchanged
+budgets and metric/exit methods. QUALITY ran five additional probes for
+transient boundary reads, node limits, strict failures, and generic lookup.
+No findings remain. Actual native timing is still pending.

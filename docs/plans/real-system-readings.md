@@ -258,10 +258,10 @@ on this host's 151-monitor tree. Preserve current membership checks while
 using the observed monitor body viewport boundary to skip its contents
 during panel discovery. See [observations](../execution/real-system-readings/native-publication-watch.md).
 
-- [ ] Add opt-in body pruning validated against the traversed named parent
+- [x] Add opt-in body pruning validated against the traversed named parent
   monitor and actual native `panel` roles. Keep workspace/layout traversal,
   all sibling panels, and default generic/strict exit behavior unchanged.
-- [ ] Test valid and malformed boundaries, duplicate sibling panels,
+- [x] Test valid and malformed boundaries, duplicate sibling panels,
   detached membership, and shared deadline/node bounds. Complete focused
   and full Python checks, then independent SPEC and QUALITY reviews.
 - [ ] Verify fresh native timing and complete committed acceptance.

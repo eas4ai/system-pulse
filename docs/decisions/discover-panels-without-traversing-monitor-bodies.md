@@ -11,4 +11,4 @@ During panel discovery, continue through the current application layout and all 
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 18a7c978c07a3424244ddbd2e16dd62f7d636631 fix: prune monitor bodies during native panel discovery
