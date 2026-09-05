@@ -32,9 +32,10 @@ sequence or render revision causes another observation under the same deadline.
 Potentially slow panel discovery occurs before this bracket, so a collector
 publication during discovery does not prevent a later coherent observation.
 
-If the previous exact PID/start identity disappears, navigation waits for its
-native selection to clear. Only a complete observation can establish clearing.
-It then sends a physical Home or End and acknowledges the exact boundary row
+If the previous exact PID/start identity disappears, navigation waits for a
+complete observation with no instantiated selected row. Because the table is
+virtualized, this is not proof that model selection cleared. As explicit
+navigation recovery, it sends Home or End and acknowledges the exact boundary row
 using the remainder of that same batch deadline. An unexplained different
 selected identity is a failure, including reuse of the old PID with different
 start ticks. The exact controlled target must remain present. Fresh indices
@@ -142,3 +143,7 @@ in 3.815 s; all 224 Python tests passed in 9.525 s using the exact Python 3.14
 and TMPDIR commands above. Ruff lint/format and `git diff --check` passed. No
 native runs, builds, replay/Rust edits, or deadline changes were performed.
 Independent SPEC and QUALITY review precede fresh native verification.
+
+The later [selection evidence correction](selection-evidence-review.md)
+supersedes the original model-clear claim. It adds direct production-path
+integration evidence and current-panel native exit proof.

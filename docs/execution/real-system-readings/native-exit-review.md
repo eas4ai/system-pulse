@@ -37,3 +37,12 @@ five-second deadline. Preserve strict complete traversal and the newer
 child-free snapshot prerequisite. Add detached-cache, replacement during
 scan, and duplicate-panel regressions. This correction is separate from
 the no-visible-selection-transfer evidence repair; both need re-review.
+
+## Selection evidence correction reviewed
+
+The separate finding is closed by `1790fe53` after independent SPEC and
+QUALITY PASS. See [the review](selection-evidence-review.md). The native
+tree establishes only instantiated-row observations; a production GPUI
+integration test directly establishes model selection clearing. Current
+panel membership is mandatory for native exit proof. Fresh live acceptance
+and final commitment review remain outstanding.

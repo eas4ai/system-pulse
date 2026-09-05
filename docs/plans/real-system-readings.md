@@ -294,7 +294,8 @@ controlled target remained present. See the judged decision
   sequence each time. Preserve the total and batch deadlines.
 - [x] Reconcile an exited selection against current native selection and
   snapshot membership. Retry transient retention of the exited identity;
-  once cleared, reestablish Home/End physically within the same deadline.
+  after observing no instantiated selected row, reestablish Home/End
+  physically within the same deadline; this does not prove model clearing.
   Reject any unexplained transfer to a different selected identity, target
   loss, PID reuse, ambiguous selection, stale frames, and incomplete native
   observations.
@@ -361,16 +362,16 @@ The virtualized native tree cannot prove automatic model clearing. The
 superseding decision `recover-native-navigation-without-claiming-model-selection-evidence`
 keeps explicit Home/End recovery and all existing rejection/budget rules.
 
-- [ ] Correct reconciliation comments to state the actual visible-row
+- [x] Correct reconciliation comments to state the actual visible-row
   observation. Add a GPUI integration regression through accept_snapshot
   proving selection remains on identity through reordering and clears on
   removal and PID reuse before further input.
-- [ ] Make the selected-child exit check reject another instantiated
+- [x] Make the selected-child exit check reject another instantiated
   selected identity during its existing strict current-tree proof, before
   further input and within the original five-second deadline. Test this
   rejection without treating unrendered rows as observed.
-- [ ] Run relevant Python/Rust checks and independent SPEC then QUALITY
-  review, then fresh untraced native and full committed acceptance.
+- [x] Run relevant Python/Rust checks and independent SPEC then QUALITY review.
+- [ ] Run fresh untraced native and full committed acceptance.
 
 ### Require current panel membership for native exit
 
@@ -378,11 +379,11 @@ Independent review reproduced false success from a live detached cached
 panel while the current panel still contained the child. See the recorded
 `prove-process-exit-in-the-current-native-panel` decision.
 
-- [ ] Reproduce that false pass, replace cached-panel trust with fresh
+- [x] Reproduce that false pass, replace cached-panel trust with fresh
   navigation_panel discovery on each attempt, and validate its current
   membership after complete strict scanning. Reuse established helpers.
-- [ ] Test detachment, replacement during scanning, duplicate panels, and
+- [x] Test detachment, replacement during scanning, duplicate panels, and
   incomplete membership under the original five-second deadline. Preserve
   newer child-free snapshots and visible-transfer rejection.
-- [ ] Pass focused/full checks and independent SPEC then QUALITY review,
-  then fresh untraced native and full committed acceptance.
+- [x] Pass focused/full checks and independent SPEC then QUALITY review.
+- [ ] Run fresh untraced native and full committed acceptance.

@@ -143,3 +143,12 @@ instantiates visible rows only. A complete native walk finding no selected
 row cannot establish that the model selection is clear or exclude an
 offscreen selection transfer. This retry correction does not change that
 logic. Resolve the stronger reconciliation claim before final acceptance.
+
+## Selection evidence correction reviewed
+
+The separate finding is closed by `1790fe53` after independent SPEC and
+QUALITY PASS. See [the review](selection-evidence-review.md). The native
+tree establishes only instantiated-row observations; a production GPUI
+integration test directly establishes model selection clearing. Current
+panel membership is mandatory for native exit proof. Fresh live acceptance
+and final commitment review remain outstanding.

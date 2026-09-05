@@ -13,4 +13,4 @@ Retain navigation independent of per-batch collector advancement, two-key batche
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 1790fe53506439b8c897421aa91be15598586162 test(system-pulse): prove selection clearing and current native exit

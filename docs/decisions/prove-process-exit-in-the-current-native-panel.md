@@ -12,4 +12,4 @@ Independent review reproduced false exit acknowledgement at 0.5 seconds with a l
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 1790fe53506439b8c897421aa91be15598586162 test(system-pulse): prove selection clearing and current native exit
