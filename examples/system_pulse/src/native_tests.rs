@@ -1012,6 +1012,11 @@ fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestA
             .focus(window, cx);
     });
     draw(cx);
+    native_key("home", cx);
+    draw(cx);
+    let selected = cx
+        .read(|cx| processes.read(cx).selected.clone())
+        .expect("Home must establish a selected process identity before outer navigation");
     let scroll = cx.read(|cx| view.read(cx).shared.borrow().scroll.clone());
     assert!(scroll.max_offset().x > px(600.));
     assert!(scroll.max_offset().y > px(600.));
@@ -1034,6 +1039,11 @@ fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestA
             expected.y = (expected.y + px(dy)).clamp(-scroll.max_offset().y, px(0.));
             native_key(key, cx);
             assert_eq!(
+                cx.read(|cx| processes.read(cx).selected.clone()),
+                Some(selected.clone()),
+                "{key} must preserve the selected process identity"
+            );
+            assert_eq!(
                 scroll.offset(),
                 expected,
                 "every key mutates the offset immediately"
@@ -1045,8 +1055,18 @@ fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestA
             "queued Alt navigation must not dirty the view"
         );
         assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+        assert_eq!(
+            cx.read(|cx| processes.read(cx).selected.clone()),
+            Some(selected.clone()),
+            "frame delivery must preserve the selected process identity"
+        );
         assert_eq!(notifications.get(), 1);
         draw(cx);
+        assert_eq!(
+            cx.read(|cx| processes.read(cx).selected.clone()),
+            Some(selected.clone()),
+            "rendering outer movement must preserve the selected process identity"
+        );
         assert_eq!(scroll.offset(), expected);
         assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
     }
