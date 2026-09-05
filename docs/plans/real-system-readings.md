@@ -72,6 +72,14 @@ Read-only acceptance preparation found that connection readings preserve only th
 - [ ] Add an optional defaulted snapshot field for the shared observation. Derive per-interface connection counts from those captured inputs without duplicating the tables in each reading. Preserve unavailable/failed semantics; no fake zero on input failure. Verify serialization and full app/model compatibility. Correct the README's overly broad passwd-lookup failure claim or implement the promised distinction; a truthful numeric UID fallback is acceptable when described accurately.
 - [ ] Run focused regression, collector tests, formatting, strict Clippy and integration checks; commit only owned files. Independent spec then quality reviews must pass before Task 3 implementation.
 
+## Task 2b: Prevent native keyboard input from starving live delivery
+
+The real native probe found a finite X11 key backlog: each navigation key synchronously redraws the large workspace before foreground delivery can run. Ordinary 25 Hz key repeat held for three seconds caused more than fourteen seconds of stale accepted data. See `../execution/real-system-readings/native-freeze.md`. Finish Task 2a reviews before handing production source back to the app implementer.
+
+- [ ] Reproduce and retain the ordinary held-key failure and stack evidence. Compare condition-paced navigation so the final harness waits for actual selection acknowledgement instead of adding unprocessed batches.
+- [ ] Use the pinned GPUI next-frame scheduling API to coalesce navigation repaint requests with one pending request per owning view. Preserve every selection and scroll update immediately. Cover table vertical/horizontal navigation and outer Alt navigation when they share the same demonstrated synchronous pattern. Avoid dependency or unrelated framework rewrites.
+- [ ] Add a focused regression for accumulated selection/scroll state and bounded repaint scheduling. Run app/model and relevant existing focus/scroll tests, scoped Clippy/format/build. Repeat actual held-key and child-table navigation with current snapshots and clean shutdown; preserve the declared freshness bounds. Commit owned source; independent spec then quality review must pass.
+
 ## Task 3: Executable independent host and native acceptance
 
 Create `scripts/system-pulse/acceptance.py`, `host_accuracy.py`, `test_host_accuracy.py`, and a tracked native driver/replay. Extend existing `verify.py` so its source guard is only one step in the full mandatory acceptance run. Evidence goes in `docs/execution/real-system-readings/`; large runtime artifacts may be external with precise hashes/paths. No unavailable test or missing adapter is a passing check.
