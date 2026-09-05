@@ -90,6 +90,26 @@ Root screenshot review found a GPU label behind the toolbar even though its boun
 
 The minimal source follow-up is complete at `217941e5`, with independent spec and quality PASS; see [viewport review](../execution/real-system-readings/viewport-review.md). Full Task 3 acceptance remains pending.
 
+### Host census coverage repair
+
+The first reviewed aggregate passed the automated suites but missed two CPU
+counter endpoints for a PID absent from every independent census. The collector
+observed it between censuses separated by about 75 ms. Preserve that failed
+receipt and its [diagnosis](../execution/real-system-readings/aggregate-attempt-2026-09-05.md).
+
+The acceptance worker may refresh the census during long process sweeps on a
+prospective 20 ms schedule, immediately sample newly discovered PIDs, and retain
+repeated observations until the next full sweep takes over. Keep all ordinary PID
+reads and every supplemental observation with its identity, query window, census,
+and clock anchors. Use one thread and a predeclared 4,096 supplemental-observation
+limit alongside the existing capture limits. Exhaustion and missing brackets fail;
+this cadence is not a relaxed comparison bound or a guarantee of every lifetime.
+
+Test the between-census appearance, repeated observations, preservation of ordinary
+reads, cadence, and limit failures before implementation. Recheck retained host08
+compatibility and one coordinated fresh focused capture. Commit the correction
+and complete independent SPEC then QUALITY review before rerunning Cairn.
+
 ### Predeclared comparison rules
 
 Static device IDs, units, total quantities and formulas compare exactly to the same source observation. CPU = 100 * delta(total - idle - iowait) / delta(total), with guest fields excluded from total; process CPU uses one logical core's elapsed ticks as denominator. RAM used = MemTotal - MemAvailable, KiB times 1024. Network and disk rates recompute exact integer counter differences over each recorded monotonic observation interval. Read/write sectors multiply by 512. Disk latency is weighted completed-operation time / completed operations, unavailable at zero operations. AMD conversion divides temperature by 1000, power by 1,000,000; frequency is retained in Hz. NVML units are defined in its adapter tests and source metadata; fan percent remains percent.
