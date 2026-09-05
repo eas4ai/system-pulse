@@ -767,21 +767,7 @@ def main():
         app.acknowledge(target, time.monotonic() + 5)
         before_seq = app.frame()["snapshot"]["sequence"]
         stop_child(child)
-        app.wait(
-            lambda: (
-                lambda f: f["snapshot"]["sequence"] > before_seq
-                and all(identity(r) != target for r in f["snapshot"]["processes"])
-            )(app.frame()),
-            5,
-            "child exit newer snapshot",
-        )
-        require(
-            all(
-                (n.get_accessible_id() or "") != target
-                for n in app.walk(app.panel("processes"))
-            ),
-            "exited identity remains in native tree",
-        )
+        app.wait_for_process_exit(target, before_seq, time.monotonic() + 5)
         app.save(
             "real-child.json",
             {

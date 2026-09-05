@@ -766,6 +766,30 @@ class Native:
         require(len(matches) <= 1, "multiple selected process identities")
         return matches[0] if matches else None
 
+    def wait_for_process_exit(self, aid, before_sequence, deadline):
+        def poll():
+            snapshot = self.frame()["snapshot"]
+            if snapshot["sequence"] <= before_sequence or any(
+                identity(row) == aid for row in snapshot["processes"]
+            ):
+                return False
+            key = "__panel:processes"
+            panel = self.cache.get(key)
+            if not self.alive(panel):
+                panel = self.find(name="processes", role="panel", deadline=deadline)
+                self.cache[key] = panel
+            saw_panel = False
+            for node in self.walk(panel, deadline=deadline, skip_cells=True):
+                saw_panel = saw_panel or node is panel
+                if (node.get_accessible_id() or "") == aid:
+                    return False
+            # A vanished panel or an incomplete/defunct tree cannot prove exit.
+            return saw_panel and self.alive(panel)
+
+        return self.wait(
+            poll, message="child exit snapshot and native tree", deadline=deadline
+        )
+
     def enter_processes(self):
         self.focus(self.find("Hide Processes", "button", root=self.panel("processes")))
         self.key("Tab")
