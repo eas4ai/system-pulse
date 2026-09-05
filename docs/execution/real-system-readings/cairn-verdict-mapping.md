@@ -26,13 +26,15 @@ full and partial results. A missing artifact invalidates its evidence group;
 a focused preparation cannot earn aggregate evidence. No test or session is
 repeated to generate a separate requirement receipt.
 
-Emit each earned result once as `cairn: LIVE-001: pass`. Incomplete or interrupted
-proof is omitted, which Cairn records as unverified when at least one known
-result line exists. Free-text harness exceptions do not identify a falsified
-requirement and must not be guessed into individual failures. Retain the original
-aggregate failure and nonzero exit even when some requirement passes survive.
+Emit each earned result once as `cairn: LIVE-001: pass`. The mechanism declares
+`results: per-requirement` before execution. Every omitted requirement is
+unverified, including a run that emits zero valid result lines. Free-text harness
+exceptions do not identify a falsified requirement and must not be guessed into
+individual failures. Retain the original aggregate failure and nonzero exit even
+when some requirement passes survive. Cairn records execution diagnostics
+separately from these results.
 
-Cairn's compatibility rule uses the exit code for every mapped requirement if no
-known result lines exist. Consequently the protocol cannot yet represent an
-entirely unverified early harness failure. This limit is disclosed; do not invent
-a sentinel verdict, alter Cairn, or claim such a run yielded independent failures.
+The explicit mode was added in Cairn production `6879dde` after this project's
+zero-result report. Legacy receipts remain unchanged, including their earlier
+exit-code fallback classifications. No sentinel verdict is needed. Existing
+commands without a results declaration retain the compatibility fallback.

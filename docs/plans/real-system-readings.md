@@ -156,9 +156,10 @@ proof stays unverified; do not infer a requirement failure from a free-text
 harness exception. Reuse the same checks in full and partial paths. Regressions
 must reject omitted artifacts, cleanup failures, focused preparations, missing
 cases, and early pass publication; the full passing run must emit all thirteen
-requirements exactly once. Cairn retains legacy exit-code behavior when no known
-result lines exist, so an entirely unverified early failure remains a documented
-protocol limit. Preserve original aggregate failures and raw artifacts.
+requirements exactly once. The mechanism declares `results: per-requirement`, so zero known result lines
+leave every requirement unverified while preserving the command failure and
+execution diagnostics. Legacy receipts retain their original classifications.
+Preserve original aggregate failures and raw artifacts.
 
 ### Native process exit synchronization
 

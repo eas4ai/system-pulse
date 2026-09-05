@@ -1,3 +1,4 @@
+results: per-requirement
 command: rtk proxy python3 scripts/system-pulse/verify.py
 inputs:
   - Cargo.toml
