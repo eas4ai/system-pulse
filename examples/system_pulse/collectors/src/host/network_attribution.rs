@@ -80,10 +80,13 @@ fn capture_table(
             let header = lines
                 .next()
                 .map(|line| line.split_whitespace().collect::<Vec<_>>());
-            if !header
-                .as_ref()
-                .is_some_and(|h| h.get(1) == Some(&"local_address") && h.get(3) == Some(&"st"))
-            {
+            let trusted_header = header.as_ref().is_some_and(|h| {
+                h.first() == Some(&"sl")
+                    && h.get(1) == Some(&"local_address")
+                    && matches!(h.get(2), Some(&"rem_address" | &"remote_address"))
+                    && h.get(3) == Some(&"st")
+            });
+            if !trusted_header {
                 errors.push(format!(
                     "{source}: line 1: missing local_address/state header"
                 ));
@@ -94,33 +97,42 @@ fn capture_table(
                 }
                 let line_number = index as u64 + 2;
                 let fields = line.split_whitespace().collect::<Vec<_>>();
-                let local_token = fields.get(1).copied();
-                // Strip ports immediately; no remote endpoint or other socket metadata is retained.
-                let local_address_hex = local_token
-                    .and_then(|token| token.split(':').next())
-                    .map(str::to_string);
-                let state_hex = fields.get(3).map(|state| state.to_string());
-                let mut row = TcpLocalRow {
+                // Establish column ownership before copying any source contents. Otherwise a
+                // missing column could cause a remote address or owner to masquerade as local.
+                let hex = |token: &str, length| {
+                    token.len() == length && token.bytes().all(|b| b.is_ascii_hexdigit())
+                };
+                let endpoint = |token: &&str| {
+                    token.split_once(':').is_some_and(|(address, port)| {
+                        hex(address, if family == IpVersion::Ipv4 { 8 } else { 32 }) && hex(port, 4)
+                    })
+                };
+                let valid_slot = fields.first().is_some_and(|token| {
+                    token.strip_suffix(':').is_some_and(|slot| {
+                        !slot.is_empty() && slot.bytes().all(|b| b.is_ascii_digit())
+                    })
+                });
+                let trusted_row = trusted_header
+                    && valid_slot
+                    && fields.get(1).is_some_and(endpoint)
+                    && fields.get(2).is_some_and(endpoint)
+                    && fields.get(3).is_some_and(|token| hex(token, 2));
+                let (local_address_hex, state_hex) = if trusted_row {
+                    (
+                        fields[1].split_once(':').map(|(address, _)| address.into()),
+                        Some(fields[3].to_string()),
+                    )
+                } else {
+                    errors.push(format!(
+                        "{source}: line {line_number}: uncertain slot/local endpoint/remote endpoint/state column structure"
+                    ));
+                    (None, None)
+                };
+                let row = TcpLocalRow {
                     line_number,
                     local_address_hex,
                     state_hex,
                 };
-                if !local_token.is_some_and(|token| token.contains(':')) {
-                    row.local_address_hex = None;
-                    errors.push(format!(
-                        "{source}: line {line_number}: local_address field is missing its delimiter"
-                    ));
-                }
-                if let Err(error) = address(&row, family, order) {
-                    errors.push(format!("{source}: line {line_number}: {error}"));
-                    row.local_address_hex = None;
-                }
-                if let Err(error) = state(&row) {
-                    errors.push(format!("{source}: line {line_number}: {error}"));
-                    row.state_hex = None;
-                }
-                // Malformed fields may actually be shifted ports, endpoints or owners.
-                // Retain their field/line error, never their arbitrary contents.
                 rows.push(row);
             }
         }
@@ -304,7 +316,12 @@ mod tests {
         "  sl  local_address rem_address   st tx_queue rx_queue\n"
     }
     fn row(local: &str, state: &str) -> String {
-        format!("0: {local}:1234 01020304:ABCD {state} 00000000:00000000 0 0 12345 99\n")
+        let remote = if local.len() == 32 {
+            "00000000000000000000000001020304"
+        } else {
+            "01020304"
+        };
+        format!("0: {local}:1234 {remote}:ABCD {state} 00000000:00000000 0 0 12345 99\n")
     }
     fn table(family: IpVersion, text: &str) -> TcpTableObservation {
         capture_table(
@@ -522,6 +539,55 @@ mod tests {
         }
     }
     #[test]
+    fn uncertain_column_ownership_redacts_both_fields_and_propagated_errors() {
+        for line in [
+            "0100007F:1234 DEADBEEF:CAFE 01 00000000:00000000",
+            "0: DEADBEEF:CAFE 01 00000000:00000000",
+            "0: 0100007F:1234 01 00000000:00000000",
+            "0: 0100007F:1234 DEADBEEF:CAFE 00000000:00000000",
+            "0: inserted 0100007F:1234 DEADBEEF:CAFE 01",
+            "0: 0100007F:1234 inserted DEADBEEF:CAFE 01",
+            "0: 0100007F:1234 DEADBEEF:CAFE inserted 01",
+            "0: 0100007F:1234 DEADBEEF:CAFE 01:CAFE",
+        ] {
+            let text = format!("{}{line}\n", header());
+            let captured = capture(&[("lo", &["127.0.0.1"])], &text, header());
+            assert_eq!(captured.tcp_v4.query.availability, Availability::Failed);
+            let raw = &captured.tcp_v4.rows[0];
+            assert_eq!(raw.local_address_hex, None, "uncertain row: {line}");
+            assert_eq!(raw.state_hex, None, "uncertain row: {line}");
+            let readings = connection_readings(&captured);
+            assert_eq!(readings["lo"].availability, Availability::Failed);
+            for serialized in [
+                serde_json::to_string(&captured).unwrap(),
+                serde_json::to_string(&readings).unwrap(),
+            ] {
+                for excluded in ["DEADBEEF", "CAFE", "0100007F", "inserted"] {
+                    assert!(!serialized.contains(excluded), "leaked row: {serialized}");
+                }
+            }
+        }
+        let invalid_header = table(
+            IpVersion::Ipv4,
+            "sl remote_address local_address st\n0: DEADBEEF:CAFE 0100007F:1234 01\n",
+        );
+        assert_eq!(invalid_header.query.availability, Availability::Failed);
+        assert_eq!(invalid_header.rows[0].local_address_hex, None);
+        assert_eq!(invalid_header.rows[0].state_hex, None);
+        assert!(
+            !serde_json::to_string(&invalid_header)
+                .unwrap()
+                .contains("DEADBEEF")
+        );
+        let valid = table(
+            IpVersion::Ipv4,
+            &format!("{}{}", header(), row("0100007f", "0a")),
+        );
+        assert_eq!(valid.query.availability, Availability::Available);
+        assert_eq!(valid.rows[0].local_address_hex.as_deref(), Some("0100007f"));
+        assert_eq!(valid.rows[0].state_hex.as_deref(), Some("0a"));
+    }
+    #[test]
     fn malformed_shifted_fields_cannot_serialize_excluded_socket_metadata() {
         for (local, state, excluded) in [
             ("0100007F", "DEADBEEF:CAFE", "DEADBEEF"),
@@ -540,13 +606,8 @@ mod tests {
             assert_eq!(readings["lo"].availability, Availability::Failed);
             assert!(!serde_json::to_string(&readings).unwrap().contains(excluded));
             let raw = &captured.tcp_v4.rows[0];
-            if state == "01" {
-                assert_eq!(raw.local_address_hex, None);
-                assert_eq!(raw.state_hex.as_deref(), Some("01"));
-            } else {
-                assert_eq!(raw.local_address_hex.as_deref(), Some("0100007F"));
-                assert_eq!(raw.state_hex, None);
-            }
+            assert_eq!(raw.local_address_hex, None);
+            assert_eq!(raw.state_hex, None);
         }
         let shifted = table(
             IpVersion::Ipv4,
