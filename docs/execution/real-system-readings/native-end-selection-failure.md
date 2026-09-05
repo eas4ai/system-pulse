@@ -15,3 +15,12 @@ diagnosis is in progress. All existing deadlines remain unchanged.
 The owned app exited on cleanup and no longer existed in procfs. The
 transport exited normally with no cleanup errors or forced kill. The
 focused failure is retained separately from Cairn aggregate receipts.
+
+## Read-only diagnosis
+
+The expected last process identity remains last in retained sequence 78
+and the failure/latest sequence 97. The journal sends Tab 30.74 ms before
+End, with no table-focus acknowledgement between them. The screenshot
+shows initial rows without the earlier selection highlight. This supports
+investigating focus and key delivery, but the capture lacks native focused
+and selected states at failure and cannot establish the precise cause.
