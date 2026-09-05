@@ -432,11 +432,11 @@ publication from a read of the superseded inode. The current frame method
 fails immediately and has no caller-deadline argument. Preserve that
 verdict; do not add a freshness retry or wait based on this evidence.
 
-- [ ] Retain read start, read/parse completion, and age-check times, the
+- [x] Retain read start, read/parse completion, and age-check times, the
   opened file's fstat identity, and pathname identity immediately before
   age validation. Save these with the existing stale-frame evidence and
   its sequence/acceptance/age metadata. No added frame read or wait.
-- [ ] Verify timing/order and unchanged freshness failures, including an
+- [x] Verify timing/order and unchanged freshness failures, including an
   atomic replacement fixture. Metadata failures must not replace the
   original verdict. Run focused/full checks and independent reviews.
 - [ ] Use the next actual failure, if any, to distinguish the observation

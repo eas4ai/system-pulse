@@ -12,4 +12,4 @@ Implement the recorded Retain freshness read identity and timing plan. Native.fr
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 48ab9551f850d3775a418991f7bf090cf0f22d3d Retain diagnostic frame read timing and file identities
