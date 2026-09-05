@@ -505,3 +505,22 @@ metric check still establishes current membership and value correctness.
 All 175 Python tests, including 71 native harness tests, and Ruff checks
 passed. Independent SPEC review is in progress, with QUALITY next. Root owns
 the source implement marker. Fresh focused and full acceptance remain pending.
+
+## 2026-09-05: gesture reviews passed; End preparation failed
+
+SPEC and QUALITY independently passed `0b9dcfda` with 71 focused native
+tests each and additional invalidation, uniqueness, and deadline probes.
+Root review record `320c6d7e` preceded the next untraced process run.
+That run passed launch, metrics, collapse, charts, and inner scrolling,
+then failed held-input preparation while acknowledging End selection.
+It did not reach the repaired horizontal gesture.
+
+The expected last PID/start identity remains last in retained snapshots.
+Tab preceded End by 30.74 ms without table-focus acknowledgement, and
+the failure screenshot shows initial rows without the earlier selection
+highlight. The precise cause is unproven because focused/selected native
+state was not captured. Source record `native-end-selection-failure.md/json`
+retains hashes and cleanup evidence. Artifact root:
+`/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-7s12jgwh/native`.
+Root is preparing a bounded diagnostic step, with no changed deadlines
+or successful native acceptance claim. Final review and Cairn Done remain.
