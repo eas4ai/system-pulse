@@ -15,7 +15,7 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 - Implementation branch: `feat/system-pulse-workspace`.
 - Verified fixture acceptance documentation: `9f2f3ad0382ce4c7ce0aadfc0c4ed88588ad95af`.
 - Adoption drafts begin at `822635ff044df53b60258ad645c7dbf01fc0287b`; inspect Git history for later documentation commits.
-- Latest source change: `88343d5ed3be72865e52fc3d51a860649d8def83`.
+- Historical fixture source baseline: `88343d5ed3be72865e52fc3d51a860649d8def83`. Inspect current source HEAD and worktree status before resuming.
 - Backing framework clone: `/home/shawn/workspace2/gpui-component`.
 - Application: `examples/system_pulse`; pure model: `examples/system_pulse/model`.
 - The existing `examples/system_monitor` is unchanged and may contain reusable real collector patterns.
@@ -27,19 +27,21 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
 1. Complete: cited recon, agreed LIVE contract, implementation plan, roadmap/current commitment and executable baseline mechanism.
-2. **In progress:** implement and review the host collector crate and bounded sampling service.
-3. Pending: integrate real devices/readings/process rows, physical meters, stable state and test-only fixtures into the workspace.
+2. Complete: host collector crate and bounded sampling service, with independent spec and quality review.
+3. **In progress:** integrate real devices/readings/process rows, physical meters, stable state and test-only fixtures into the workspace.
 4. Pending: independent host/native acceptance and final review.
 
 Activation is committed as `55087aa6` in the source worktree. Read `docs/spec/live-collection.md`, `docs/plans/real-system-readings.md`, and `docs/commitments/real-system-readings.md` there. Historical READ/VIEW/STATE specs remain Observed. The new source-root AGENTS working agreement was created from the existing-project skill's template; the design repository's existing AGENTS remains untouched.
 
 Cairn's first committed baseline check failed on the actual production fixture dependency and retained receipts for all LIVE requirements. `cairn wake` reports **Resolvable: implement LIVE-001**. `.cairn/in-progress` records that source action. Do not rerun the aggregate repeatedly while implementation is incomplete; use focused tests and retain failing receipts.
 
-A fresh implementer owns only `examples/system_pulse/collectors/`, workspace membership and Cargo.lock. Its task includes full Linux field coverage, AMD sysfs, optional-runtime NVIDIA NVML, serializable source/counter observations, real process identities, and a single latest-only sampling worker. Check current subagent/worktree state before editing. One source implementer at a time; independent spec review then quality review follows each coherent task.
+The active integration worker owns only `examples/system_pulse/src/`, `examples/system_pulse/model/`, the app manifest and corresponding lockfile changes. Check current subagent/worktree state before editing. One source implementer at a time; independent spec review then quality review follows each coherent task. Root owns execution documentation and independent acceptance preparation.
 
 Host preflight found 32 logical CPUs and two Radeon AI PRO R9700 GPUs, with readable utilization, VRAM, temperatures, average SoC power, graphics/memory clocks and fan RPM. Stable AMD IDs and exact sources are in source `docs/execution/real-system-readings/host-preflight.md`. NVIDIA backend API research and the verification design are adjacent documents. NVIDIA deterministic adapter tests and graceful-absence tests are required; actual NVIDIA hardware accuracy remains explicitly unverified until run on such hardware.
 
-The collector is committed in `8b7c35b9`, `9c9d059c`, and `19099472`; independent spec review passed after fixing shared-MAC interface identity collisions. A separate quality review requested fixes for public counter-helper retention and common-backend query timestamps; the implementer is addressing them. See source `docs/execution/real-system-readings/collector-review.md` for the current review record. App/model integration has not started. The app still uses fixtures until that task lands; no native live acceptance or completion is claimed. Preserve all accessible-field requirements: missing collector code is not an unavailable hardware result.
+The collector is committed through `c217818d`; independent spec and quality reviews passed after fixing shared-MAC interface identity collisions, public counter-helper retention, and common-backend query timestamps. All 35 collector tests, scoped strict Clippy and formatting passed. Source `docs/execution/real-system-readings/collector-review.md` records the review results. Root independently checked 2,509 external counter brackets and 754 derived values in a real-host probe; this is supporting evidence, not final acceptance.
+
+The integration worker has a compiling live application and a native smoke run discovering 151 monitors, 862 sensors, and over 1,200 processes. Saved workspace data was 539,995 bytes, below the existing 1 MiB read limit. Native testing caught an unnamed accessibility label: the pinned adapter needs both aria_label and aria_value plus accessibility_id. The worker is fixing and verifying that app-side before committing and independent reviews. No full native live acceptance or completion is claimed. Preserve every accessible-field requirement: missing collector code is not an unavailable hardware result.
 
 ## Working rules
 
@@ -60,4 +62,4 @@ rtk cargo run -p system-pulse
 rtk cargo test --locked -p system-pulse --lib
 ```
 
-The current binary still uses simulated readings. That is the deficiency to fix, not the desired final behavior. The prior verification report contains the complete affected-package commands and Linux native harness setup. Do not rerun all baseline checks without a reason; inspect status first and use focused checks as changes are made.
+The old baseline used simulated readings. Current uncommitted integration uses real collection, but still needs independent reviews and full acceptance; inspect current state before judging completion. The prior verification report contains the complete affected-package commands and Linux native harness setup. Do not rerun all baseline checks without a reason; inspect status first and use focused checks as changes are made.
