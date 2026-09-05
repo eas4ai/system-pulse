@@ -463,7 +463,10 @@ class Observer:
                     "4096 supplemental process observation limit exceeded",
                 )
                 self.supplemental_count += 1
-                refresh["processes"].append({"pid": pid, "readings": process(pid)})
+                readings = process(pid)
+                refresh["processes"].append({"pid": pid, "readings": readings})
+                if readings["stat"]["errno"] in (errno.ENOENT, errno.ESRCH):
+                    self.supplemental_pids.discard(pid)
         except BaseException as error:
             refresh["error"] = str(error)
             raise
@@ -482,11 +485,17 @@ class Observer:
         # Every enumerated PID is still sampled and joined by actual start ticks.
         ordered = sorted(pids, key=lambda pid: pid in self.previous_pids)
         self.full_census_pids = set(pids)
-        self.supplemental_pids.clear()
+        # Keep supplemental candidates across sweeps until a retained stat read
+        # observes exit. Census membership and io errors are not exit evidence.
         result = {} if result is None else result
         for pid in ordered:
             self.check_capture_deadline()
             result[str(pid)] = process(pid)
+            if pid in self.supplemental_pids and result[str(pid)]["stat"]["errno"] in (
+                errno.ENOENT,
+                errno.ESRCH,
+            ):
+                self.supplemental_pids.discard(pid)
             self.refresh_processes_if_due()
         self.previous_pids = set(pids)
         return result
