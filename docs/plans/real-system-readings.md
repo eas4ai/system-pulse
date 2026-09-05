@@ -110,6 +110,41 @@ reads, cadence, and limit failures before implementation. Recheck retained host0
 compatibility and one coordinated fresh focused capture. Commit the correction
 and complete independent SPEC then QUALITY review before rerunning Cairn.
 
+### Missing-device specimen repair
+
+The developer authorized resuming the recorded `live-001` escalation on
+2026-09-05. The last aggregate passed 400 tests, fresh host checks, and thirteen
+native cases; the final specimen combined an early expanded CPU dock size with
+later collapsed panel preferences. See
+[retained failure](../execution/real-system-readings/aggregate-attempt-2-2026-09-05.md).
+
+Capture a consistent actual pre-split workspace for the specimen's dock and
+presentation preferences. Replace the chosen actual GPU identity with a saved
+absent identity, keeping the original actual GPU saved-hidden. Preserve actual
+metadata, sensor choices, strict dock equality, and all native unavailable-value
+assertions. Add a regression that reproduces the inconsistent composition before
+fixing it. Complete focused checks and independent spec then quality review,
+followed by a focused native case and the full committed acceptance run.
+
+### Cairn per-requirement evidence
+
+Cairn now accepts `cairn: LIVE-001: pass` result lines. Adapt the shared runner
+using existing evidence, preserving every aggregate requirement and failure exit.
+All automated steps remain prerequisites. Validate host artifacts before reporting
+LIVE-004/012/013. Validate primary native cases through restart, their artifacts,
+the first two normal shutdowns and shared transport cleanup before reporting
+LIVE-001/002/003/005/008/009/011. Report LIVE-006/007/010 only after all remaining
+recovery and missing-device cases, required artifacts and shutdowns pass.
+
+Never print passes from provisional step progress. Missing or interrupted native
+proof stays unverified; do not infer a requirement failure from a free-text
+harness exception. Reuse the same checks in full and partial paths. Regressions
+must reject omitted artifacts, cleanup failures, focused preparations, missing
+cases, and early pass publication; the full passing run must emit all thirteen
+requirements exactly once. Cairn retains legacy exit-code behavior when no known
+result lines exist, so an entirely unverified early failure remains a documented
+protocol limit. Preserve original aggregate failures and raw artifacts.
+
 ### Predeclared comparison rules
 
 Static device IDs, units, total quantities and formulas compare exactly to the same source observation. CPU = 100 * delta(total - idle - iowait) / delta(total), with guest fields excluded from total; process CPU uses one logical core's elapsed ticks as denominator. RAM used = MemTotal - MemAvailable, KiB times 1024. Network and disk rates recompute exact integer counter differences over each recorded monotonic observation interval. Read/write sectors multiply by 512. Disk latency is weighted completed-operation time / completed operations, unavailable at zero operations. AMD conversion divides temperature by 1000, power by 1,000,000; frequency is retained in Hz. NVML units are defined in its adapter tests and source metadata; fan percent remains percent.

@@ -38,3 +38,7 @@ Verification performed:
 No Python formatter or linter is configured in the acceptance runner. Native
 and aggregate reruns remain pending independent review. Physical device removal
 remains unverified; this is a stopped-app configuration specimen.
+
+## Independent review
+
+SPEC PASS at `24533a15`: all 51 Python tests passed independently; the new regression reproduced the baseline defect and the identity control passed. QUALITY PASS at the same source: two focused tests and commit-range whitespace check passed; complete capture timing, immutable copy, preservation and unchanged native assertions inspected. Native and aggregate evidence remain pending.
