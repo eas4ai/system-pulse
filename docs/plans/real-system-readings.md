@@ -339,3 +339,18 @@ the diagnostic stopped at an earlier held-input failure.
 - [x] Pass focused/full checks and independent SPEC then QUALITY reviews.
 - [ ] Resolve the separate virtualized-selection evidence limitation, then
   verify actual untraced navigation and full committed acceptance.
+
+### Observe held movement before subsequent collection
+
+The failed coherence diagnostic delayed its first movement observation
+until three subsequent collection sequences. The native table is virtualized;
+its later missing selection does not identify the state at release. Preserve
+the failed capture and avoid attributing its cause without evidence.
+
+- [ ] Reproduce the observation ordering, then read signed movement just
+  after release and before sequence waiting. Keep the publication observer
+  active across both checks and retain the exact observed process identity.
+- [ ] Preserve all movement/freshness budgets, three fresh sequences, exact
+  64-key burst count and expected endpoint acknowledgement. Test failures
+  as well as ordering and finish independent SPEC then QUALITY review.
+- [ ] Run fresh untraced native and full committed acceptance.
