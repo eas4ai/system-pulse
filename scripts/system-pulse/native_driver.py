@@ -237,7 +237,42 @@ class Native:
         )
 
     def frame(self):
-        frame = json.loads(self.latest.read_text())
+        observation = {"opened_file": None, "pathname_before_check": None, "errors": {}}
+
+        def mark_time(stage):
+            try:
+                observation[stage] = time.monotonic_ns()
+            except Exception as error:
+                observation[stage] = None
+                observation["errors"][stage] = f"{type(error).__name__}: {error}"
+
+        mark_time("read_started_monotonic_ns")
+        with self.latest.open() as opened:
+            contents = opened.read()
+            mark_time("read_completed_monotonic_ns")
+            frame = json.loads(contents)
+            mark_time("parse_completed_monotonic_ns")
+            try:
+                opened_stat = os.fstat(opened.fileno())
+                observation["opened_file"] = {
+                    "device": opened_stat.st_dev,
+                    "inode": opened_stat.st_ino,
+                }
+            except Exception as error:
+                observation["errors"]["opened_file"] = (
+                    f"{type(error).__name__}: {error}"
+                )
+        try:
+            pathname_stat = self.latest.stat()
+            observation["pathname_before_check"] = {
+                "device": pathname_stat.st_dev,
+                "inode": pathname_stat.st_ino,
+            }
+        except Exception as error:
+            observation["errors"]["pathname_before_check"] = (
+                f"{type(error).__name__}: {error}"
+            )
+        mark_time("age_checked_monotonic_ns")
         checked_unix_ns = time.time_ns()
         age = (checked_unix_ns - frame["accepted_unix_ns"]) / 1e9
         require(
@@ -245,13 +280,18 @@ class Native:
         )
         limit = self.interval_ms / 500
         if not 0 <= age <= limit:
+            # A failed observation clock must not replace the stale verdict.
+            artifact_stamp = observation["age_checked_monotonic_ns"]
+            if artifact_stamp is None:
+                artifact_stamp = checked_unix_ns
             self.save(
-                f"stale-frame-{time.monotonic_ns()}.json",
+                f"stale-frame-{artifact_stamp}.json",
                 {
                     "checked_unix_ns": checked_unix_ns,
                     "age_seconds": age,
                     "limit_seconds": limit,
                     "frame": frame,
+                    "observation": observation,
                 },
             )
         require(0 <= age <= limit, f"accepted frame stale: {age:.3f}s (limit {limit}s)")

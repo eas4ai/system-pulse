@@ -1,5 +1,6 @@
 """Exercise the real navigation protocol without a host process or native session."""
 
+from contextlib import nullcontext
 import json
 from types import SimpleNamespace
 import unittest
@@ -18,6 +19,9 @@ class NavigationTests(unittest.TestCase):
         self.clock.monotonic_ns = lambda: int(self.clock.now * 1e9)
         self.clock.time_ns = self.clock.monotonic_ns
         native, _ = native_class(self.clock)
+        native.frame.__globals__["os"] = SimpleNamespace(
+            fstat=lambda descriptor: SimpleNamespace(st_dev=1, st_ino=1)
+        )
         native.selected.__globals__["Atspi"].StateType.SELECTED = "selected"
         self.native = native.__new__(native)
         self.native.app = Mock(pid=500)
@@ -27,7 +31,12 @@ class NavigationTests(unittest.TestCase):
         self.native.enter_processes = Mock()
         self.native.journal = self.journal
         self.native.key = self.key
-        self.native.latest = SimpleNamespace(read_text=self.frame_text)
+        self.native.latest = SimpleNamespace(
+            open=lambda: nullcontext(
+                SimpleNamespace(read=self.frame_text, fileno=lambda: 0)
+            ),
+            stat=lambda: SimpleNamespace(st_dev=1, st_ino=1),
+        )
         self.ids = [aid(pid) for pid in range(20)]
         self.target = aid(6)
         self.selection = None
