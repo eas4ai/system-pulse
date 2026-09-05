@@ -182,12 +182,284 @@ def source_guard():
         "test_process_attribution.py",
         "test_native_cleanup.py",
         "test_supplemental_processes.py",
+        "test_missing_device_specimen.py",
+        "test_requirement_verdicts.py",
     ):
         require(
             (ROOT / "scripts/system-pulse" / name).is_file(),
             "missing acceptance source " + name,
         )
     print("PASS fixture production guard and required acceptance sources")
+
+
+def validate_automated_steps(runner):
+    required = {
+        "source-guard",
+        "python",
+        "fmt",
+        "fmt-atspi",
+        "clippy",
+        "build",
+        "diff",
+    } | {suite[0] for suite in SUITES}
+    require_steps(required, {name: runner.steps[name] for name in required})
+    for name in required:
+        require(runner.steps[name]["timed_out"] is False, "automated step timed out")
+    for name in {"python"} | {suite[0] for suite in SUITES}:
+        count = runner.steps[name]["test_count"]
+        require(type(count) is int and count > 0, "zero/missing executed tests")
+
+
+def validate_host(runner):
+    output = runner.output
+    step = runner.steps["host"]
+    require(step["exit_code"] == 0 and step["timed_out"] is False, "host step failed")
+    host = json.loads((output / "host/result.json").read_text())
+    require(host["status"] == "PASS", "host acceptance failed")
+    mandatory = (
+        "host/result.json",
+        "host/capabilities.json",
+        "host/final-inventory.json",
+        "host/stable-totals.json",
+        "host/external-observations.json",
+        "host/snapshots.jsonl",
+        "host/counter-brackets.json",
+        "host/missing-brackets.json",
+        "host/collector-lifecycle.json",
+        "host/collector-start.json",
+        "host/collector-stopped.json",
+        "host/cleanup.json",
+        "host/child.json",
+        "host/after-exit.jsonl",
+    )
+    return [runner.artifact(output / path) for path in mandatory]
+
+
+def read_native_result(runner):
+    # Runner records the step only after the child and its termination handling end.
+    require(type(runner.steps["native"]["exit_code"]) is int, "native not terminated")
+    native = json.loads((runner.output / "native/result.json").read_text())
+    require(isinstance(native, dict), "unknown native result shape")
+    require(
+        native["status"] in ("PASS", "FAIL")
+        and native["focused_preparation"] is None
+        and isinstance(native["cases"], dict)
+        and isinstance(native["errors"], list)
+        and all(isinstance(error, str) for error in native["errors"]),
+        "focused/missing acceptance mistaken for final run",
+    )
+    return native
+
+
+def validate_native_cases(native, required):
+    from native_replay import REQUIRED
+
+    cases = native["cases"]
+    require(
+        set(required) <= set(cases) <= set(REQUIRED), "native required cases omitted"
+    )
+    for name in required:
+        value = cases[name]
+        if name == "metrics":
+            require(isinstance(value, dict), "invalid metrics completion")
+            count = value["gpu_count"]
+            require(type(count) is int and count >= 0, "invalid GPU count")
+        elif name == "charts":
+            require(isinstance(value, dict), "invalid charts completion")
+            count = value["gpu_temperature_count"]
+            names = value["gpu_temperature_artifacts"]
+            require(
+                type(count) is int
+                and count >= 0
+                and isinstance(names, list)
+                and all(
+                    isinstance(name, str) and re.fullmatch(r"gpu-\d+-temperature", name)
+                    for name in names
+                )
+                and len(set(names)) == len(names),
+                "invalid GPU temperature artifacts",
+            )
+        elif name == "restart":
+            require(
+                isinstance(value, dict) and isinstance(value["new_discovery"], list),
+                "invalid restart completion",
+            )
+        else:
+            require(value is True, "native case not completed: " + name)
+
+
+def validate_sessions(runner, sessions):
+    artifacts = []
+    for session in sessions:
+        directory = runner.output / "native" / session
+        for filename in (
+            "metadata.json",
+            "journal.jsonl",
+            "shutdown.json",
+            "cleanup.json",
+        ):
+            artifacts.append(runner.artifact(directory / filename))
+        shutdown = json.loads((directory / "shutdown.json").read_text())
+        require(
+            shutdown["exit_code"] == 0 and shutdown["before_deadline"] is True,
+            "required native normal shutdown failed",
+        )
+        cleanup = json.loads((directory / "cleanup.json").read_text())
+        require(
+            isinstance(cleanup, list)
+            and len(cleanup) == 1
+            and cleanup[0]["exit_code"] == 0
+            and cleanup[0]["proc_exists"] is False,
+            "required native session cleanup failed",
+        )
+    return artifacts
+
+
+def validate_primary_native(runner, native):
+    from native_contract import check_transport_record
+    from native_replay import REQUIRED
+
+    output = runner.output
+    validate_native_cases(native, REQUIRED[:11])
+    mandatory = (
+        "native/result.json",
+        "native/progress.jsonl",
+        "native/private-session.json",
+        "native/harness-manifest.json",
+        "native/transport-cleanup.json",
+    )
+    artifacts = [runner.artifact(output / path) for path in mandatory]
+    check_transport_record(
+        json.loads((output / "native/transport-cleanup.json").read_text())
+    )
+    artifacts.extend(validate_sessions(runner, ("session-01", "session-02")))
+    session = output / "native/session-01"
+    metric_names = [
+        "cpu-visible",
+        "ram-visible",
+        "row-compact",
+        "panel-compact",
+        "chart-physical-value",
+        "ram-capacity",
+        "child-left",
+        "child-right",
+    ]
+    metric_names += [
+        f"gpu-{i}-visible" for i in range(native["cases"]["metrics"]["gpu_count"])
+    ]
+    temperature_artifacts = native["cases"]["charts"]["gpu_temperature_artifacts"]
+    require(
+        len(temperature_artifacts)
+        == native["cases"]["charts"]["gpu_temperature_count"],
+        "GPU temperature artifact count mismatch",
+    )
+    metric_names += temperature_artifacts
+    metric_names += [f"child-visible-{i}" for i in range(1, 7)]
+    for name in metric_names:
+        for suffix in (".json", ".png"):
+            artifacts.append(runner.artifact(session / (name + suffix)))
+    for name in ("launch-no-tabs", "split-no-tabs", "recall-no-tabs"):
+        for suffix in (".json", ".png"):
+            artifacts.append(runner.artifact(session / (name + suffix)))
+    for name in (
+        "split-structure",
+        "divider-movement",
+        "outer-movement",
+        "inner-edge-wheel",
+        "chart-history-evidence",
+        "collapsed-sequences",
+        "real-child",
+        "real-child-cell-discovery",
+        "deliberate-scroll-sequences",
+        "held-up-25hz",
+        "exact-64-up",
+        "held-table-left",
+        "held-table-right",
+        "held-outer-next",
+        "held-outer-prior",
+        "held-outer-left",
+        "held-outer-right",
+    ):
+        artifacts.append(runner.artifact(session / (name + ".json")))
+    for name in (
+        "expanded-chart",
+        "ram-capacity-chart",
+        "split-divider",
+        "outer-scroll",
+        "inner-scroll",
+        "child-exited",
+    ):
+        artifacts.append(runner.artifact(session / (name + ".png")))
+    return artifacts
+
+
+def validate_remaining_native(runner, native):
+    from native_replay import REQUIRED
+
+    output = runner.output
+    require(
+        native["status"] == "PASS" and native["errors"] == [],
+        "native acceptance failed",
+    )
+    validate_native_cases(native, REQUIRED)
+    artifacts = [runner.artifact(output / "native/missing-device-config.json")]
+    artifacts.extend(
+        validate_sessions(
+            runner,
+            (
+                "session-recovery-schema",
+                "session-recovery-schema-restart",
+                "session-recovery-json",
+                "session-recovery-json-restart",
+                "session-missing-device",
+            ),
+        )
+    )
+    for mode in ("schema", "json"):
+        artifacts.append(
+            runner.artifact(
+                output
+                / "native"
+                / ("session-recovery-" + mode)
+                / "rejected-specimen.json"
+            )
+        )
+    for name in (
+        "missing-native.json",
+        "missing-native.png",
+        "missing-device-specimen.json",
+    ):
+        artifacts.append(
+            runner.artifact(output / "native/session-missing-device" / name)
+        )
+    artifacts.extend(
+        runner.artifact(p) for p in sorted((output / "native").rglob("*.png"))
+    )
+    require(
+        any(a["path"].endswith("expanded-chart.png") for a in artifacts),
+        "missing reviewable physical chart",
+    )
+    return artifacts
+
+
+def partial_requirement_passes(runner):
+    """Invalid or unavailable final evidence leaves its group unverified."""
+    earned = set()
+    try:
+        validate_automated_steps(runner)
+        validate_host(runner)
+        earned.update((4, 12, 13))
+        native = read_native_result(runner)
+        validate_primary_native(runner, native)
+        earned.update((1, 2, 3, 5, 8, 9, 11))
+    except (AssertionError, OSError, ValueError, KeyError, TypeError) as error:
+        print(f"Unverified requirement evidence: {error}", file=sys.stderr, flush=True)
+    return earned
+
+
+def emit_requirement_passes(earned):
+    for number in sorted(earned):
+        print(f"cairn: LIVE-{number:03}: pass", flush=True)
 
 
 def main():
@@ -316,151 +588,11 @@ def main():
             timeout=1250,
         )
         require_steps(required, runner.steps)
-        host = json.loads((output / "host/result.json").read_text())
-        native = json.loads((output / "native/result.json").read_text())
-        require(
-            host["status"] == "PASS"
-            and native["status"] == "PASS"
-            and native["focused_preparation"] is None,
-            "focused/missing acceptance mistaken for final run",
-        )
-        from native_replay import REQUIRED
-
-        require(set(native["cases"]) == set(REQUIRED), "native required cases omitted")
-        mandatory = [
-            "host/result.json",
-            "host/capabilities.json",
-            "host/final-inventory.json",
-            "host/stable-totals.json",
-            "host/external-observations.json",
-            "host/snapshots.jsonl",
-            "host/counter-brackets.json",
-            "host/missing-brackets.json",
-            "host/collector-lifecycle.json",
-            "host/collector-start.json",
-            "host/collector-stopped.json",
-            "host/cleanup.json",
-            "host/child.json",
-            "host/after-exit.jsonl",
-            "native/result.json",
-            "native/progress.jsonl",
-            "native/private-session.json",
-            "native/harness-manifest.json",
-            "native/transport-cleanup.json",
-            "native/missing-device-config.json",
-        ]
-        artifacts = [runner.artifact(output / p) for p in mandatory]
-        from native_contract import check_transport_record
-
-        check_transport_record(
-            json.loads((output / "native/transport-cleanup.json").read_text())
-        )
-        for session in (
-            "session-01",
-            "session-02",
-            "session-recovery-schema",
-            "session-recovery-schema-restart",
-            "session-recovery-json",
-            "session-recovery-json-restart",
-            "session-missing-device",
-        ):
-            for filename in (
-                "metadata.json",
-                "journal.jsonl",
-                "shutdown.json",
-                "cleanup.json",
-            ):
-                artifacts.append(
-                    runner.artifact(output / "native" / session / filename)
-                )
-            shutdown = json.loads(
-                (output / "native" / session / "shutdown.json").read_text()
-            )
-            require(
-                shutdown["exit_code"] == 0 and shutdown["before_deadline"],
-                "required native normal shutdown failed",
-            )
-        session = output / "native/session-01"
-        metric_names = [
-            "cpu-visible",
-            "ram-visible",
-            "row-compact",
-            "panel-compact",
-            "chart-physical-value",
-            "ram-capacity",
-            "child-left",
-            "child-right",
-        ]
-        metric_names += [
-            f"gpu-{i}-visible" for i in range(native["cases"]["metrics"]["gpu_count"])
-        ]
-        temperature_artifacts = native["cases"]["charts"]["gpu_temperature_artifacts"]
-        require(
-            len(temperature_artifacts)
-            == native["cases"]["charts"]["gpu_temperature_count"],
-            "GPU temperature artifact count mismatch",
-        )
-        metric_names += temperature_artifacts
-        metric_names += [f"child-visible-{i}" for i in range(1, 7)]
-        for name in metric_names:
-            for suffix in (".json", ".png"):
-                artifacts.append(runner.artifact(session / (name + suffix)))
-        for name in ("launch-no-tabs", "split-no-tabs", "recall-no-tabs"):
-            for suffix in (".json", ".png"):
-                artifacts.append(runner.artifact(session / (name + suffix)))
-        for name in (
-            "split-structure",
-            "divider-movement",
-            "outer-movement",
-            "inner-edge-wheel",
-            "chart-history-evidence",
-            "collapsed-sequences",
-            "real-child",
-            "real-child-cell-discovery",
-            "deliberate-scroll-sequences",
-            "held-up-25hz",
-            "exact-64-up",
-            "held-table-left",
-            "held-table-right",
-            "held-outer-next",
-            "held-outer-prior",
-            "held-outer-left",
-            "held-outer-right",
-        ):
-            artifacts.append(runner.artifact(session / (name + ".json")))
-        for name in (
-            "expanded-chart",
-            "ram-capacity-chart",
-            "split-divider",
-            "outer-scroll",
-            "inner-scroll",
-            "child-exited",
-        ):
-            artifacts.append(runner.artifact(session / (name + ".png")))
-        for mode in ("schema", "json"):
-            artifacts.append(
-                runner.artifact(
-                    output
-                    / "native"
-                    / ("session-recovery-" + mode)
-                    / "rejected-specimen.json"
-                )
-            )
-        for name in (
-            "missing-native.json",
-            "missing-native.png",
-            "missing-device-specimen.json",
-        ):
-            artifacts.append(
-                runner.artifact(output / "native/session-missing-device" / name)
-            )
-        artifacts.extend(
-            runner.artifact(p) for p in sorted((output / "native").rglob("*.png"))
-        )
-        require(
-            any(a["path"].endswith("expanded-chart.png") for a in artifacts),
-            "missing reviewable physical chart",
-        )
+        validate_automated_steps(runner)
+        artifacts = validate_host(runner)
+        native = read_native_result(runner)
+        artifacts.extend(validate_primary_native(runner, native))
+        artifacts.extend(validate_remaining_native(runner, native))
         result = {
             "status": "PASS",
             "steps": runner.steps,
@@ -482,8 +614,11 @@ def main():
                 indent=2,
             )
         )
+        emit_requirement_passes(partial_requirement_passes(runner))
         print(f"FAIL {error}; evidence={output}", flush=True)
         raise
+    else:
+        emit_requirement_passes(range(1, 14))
 
 
 if __name__ == "__main__":
