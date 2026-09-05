@@ -131,3 +131,43 @@ Native21 passed 13 of 14 required cases, including actual 960×640 outer overflo
 The missing-device message is visibly truthful, but the inherited wide split allocates a 2848-pixel summary inside a 1424-pixel clipping viewport. The full-bounds assertion correctly rejects it. The focused correction will use the actual captured pre-split dock projection for this stopped-app configuration specimen, preserving saved device/sensor preferences and exact identity substitution evidence. It will retain the original containment/deadline requirement and add failure attempt diagnostics. This is configuration fault injection, not simulated readings or a claim of physical unplug.
 
 After focused corrections, independent SPEC then QUALITY review will evaluate the committed candidate. Native21's 13 cases and the focused missing-device case are preparation evidence only. The next full replay should be the mandatory committed Cairn aggregate with a fresh host capture; do not run a duplicate full preparation replay without a concrete reason. Cairn receipts and final adversarial review remain pending. Root owns Cairn metadata and the in-progress marker.
+
+
+### 2026-09-05: reviewed acceptance and fresh aggregate census gap
+
+Acceptance source `322b05d9` passed independent SPEC and QUALITY after closing
+stable-total, reverse device identity, process field attribution/duplicate PID,
+and abnormal transport cleanup gaps. The final Python suite has45tests. Both
+reviewers independently reran relevant controls and mutations; no blockers remained.
+Root changed README to link to current evidence instead of embedding temporary
+pending status (`219cd194`), preserving the worker's later source/docs.
+
+The committed Cairn aggregate at `7e7a678a` passed396tests, scoped formatting, strict
+Clippy, both binary builds anddiffcheck, then failed host capture. All13shared
+receipts remainfail; native didnotrun. Evidence root:
+`/tmp/system-pulse-cairn-check-g5vrhjsx/system-pulse-acceptance-ijo2cidw/`.
+Source report: `docs/execution/real-system-readings/aggregate-attempt-2026-09-05.md`.
+The host passed41986brackets,468stabletotals,2218sensorchecks,16386processfields,
+and96interfaces, with matchinginitial/finalinventory andverifiedownedchildexit.
+It lacked twoCPUcounterbrackets for`2835657:67295702`,name`imgproxy`,seq1.
+
+Read-only diagnosis found that all41independentcensuses omitted thatPID. The
+collectorquery `[672957070834055,672957070845719]` laybetween neighboring
+censuses `[672957015817082,672957020095983]` and
+`[672957090239154,672957095232269]`. There is no externalerrno,ancestry,orproven
+exit time. Linux directroot`/proc` enumeration rulesout thesysinfotask/TID
+alternative; the portable`.with_tasks()` path is not used onLinux. Report:
+`/tmp/pulse-aggregate-bracket-diagnosis-duj_jayr/report.md`.
+
+The soleworker is implementing a bounded single-thread supplementalcensus during
+longprocesssweeps: prospective20ms schedule, immediateand repeatednewPIDreads,
+everyobservationretainedseparatelywithtimestamps/anchors, alloriginalPIDreads
+preserved, and4096supplemental-observationcap alongsideexisting35s/2048limits.
+Exhaustionormissingbrackets stillfail. This improves observationcadence; it does
+notguarantee everytransient orwaiveanyacceptancebound. Tests, retainedhost08
+compatibility, onecoordinatedfreshfocusedcapture, thenSPEC/QUALITYare required
+beforeanotherCairnrun. Root recreated theimplementLIVE-001marker andownsall
+Cairnmetadata. Existingfailedreceipts werecommitted andmustremainintact.
+
+The fullnative gate still requirescompleteexecution. Native21's13passingcases
+and focusedmissing02PASS remainpreparationonly. No mergeorpush is authorized.
