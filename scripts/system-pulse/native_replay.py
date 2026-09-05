@@ -717,10 +717,11 @@ def main():
         )
         from native_input import exercise
 
-        def selected_pid():
-            return int(app.selected(time.monotonic() + 5)[0].split(":")[1])
+        def selected_pid(deadline):
+            selected = app.selected(deadline)
+            return (int(selected[0].split(":")[1]), selected[0]) if selected else None
 
-        exercise(app, "held-up-25hz", ("Up",), selected_pid, -1)
+        exercise(app, "held-up-25hz", ("Up",), None, -1, observe=selected_pid)
         app.key("End")
         rows = app.frame()["snapshot"]["processes"]
         app.acknowledge(identity(rows[-1]), time.monotonic() + 5)
@@ -732,10 +733,11 @@ def main():
             app,
             "exact-64-up",
             ("Up",),
-            selected_pid,
+            None,
             -1,
             burst=64,
             expected_identity=identity(rows[-65]),
+            observe=selected_pid,
         )
         stable = identity(next(row for row in rows if row["identity"]["pid"] == 1))
         app.navigate(stable)
