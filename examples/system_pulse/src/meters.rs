@@ -64,7 +64,7 @@ pub(crate) fn meter(
         .last()
         .is_some_and(|s| s.quantity == system_pulse_model::Quantity::Temperature)
     {
-        format!("Observed range: {:.1}–{:.1} °C", range.0, range.1)
+        format!("Scale: {:.1}–{:.1} °C", range.0, range.1)
     } else {
         if capacity
             && samples
