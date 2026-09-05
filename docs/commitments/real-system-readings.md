@@ -22,7 +22,7 @@ Snapshots use serde JSON for diagnostic capture, with monotonic timestamps, raw 
 
 ## Mechanisms
 
-`live-acceptance` maps the complete LIVE set to one aggregate command because Cairn assigns one mechanism per requirement. It runs the source guard, collector/model/app tests, affected dock regressions, formatting, strict Clippy, native build, capability coverage, and host/native verification. No missing mechanism, empty test selection, absent hardware adapter, or absent native evidence counts as pass.
+`live-acceptance` maps the complete LIVE set to one shared aggregate command. It runs the source guard, collector/model/app tests, affected dock regressions, formatting, strict Clippy, native build, capability coverage, and host/native verification. Cairn now accepts explicit results for each requirement; the [evidence mapping](../execution/real-system-readings/cairn-verdict-mapping.md) separates validated host, primary native, and complete native proof. No missing mechanism, empty test selection, absent hardware adapter, or absent required native evidence counts as pass.
 
 Command: `rtk proxy python3 scripts/system-pulse/verify.py`
 
