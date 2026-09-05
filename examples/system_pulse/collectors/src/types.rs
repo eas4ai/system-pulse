@@ -168,7 +168,9 @@ pub struct TcpTableObservation {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct TcpLocalRow {
     pub line_number: u64,
+    /// Original address digits; absent for missing or malformed local-address fields.
     pub local_address_hex: Option<String>,
+    /// Original two hexadecimal digits; absent for missing or malformed state fields.
     pub state_hex: Option<String>,
 }
 #[cfg(test)]

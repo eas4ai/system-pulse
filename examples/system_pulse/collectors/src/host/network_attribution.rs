@@ -100,22 +100,27 @@ fn capture_table(
                     .and_then(|token| token.split(':').next())
                     .map(str::to_string);
                 let state_hex = fields.get(3).map(|state| state.to_string());
-                let row = TcpLocalRow {
+                let mut row = TcpLocalRow {
                     line_number,
                     local_address_hex,
                     state_hex,
                 };
                 if !local_token.is_some_and(|token| token.contains(':')) {
+                    row.local_address_hex = None;
                     errors.push(format!(
                         "{source}: line {line_number}: local_address field is missing its delimiter"
                     ));
                 }
                 if let Err(error) = address(&row, family, order) {
                     errors.push(format!("{source}: line {line_number}: {error}"));
+                    row.local_address_hex = None;
                 }
                 if let Err(error) = state(&row) {
                     errors.push(format!("{source}: line {line_number}: {error}"));
+                    row.state_hex = None;
                 }
+                // Malformed fields may actually be shifted ports, endpoints or owners.
+                // Retain their field/line error, never their arbitrary contents.
                 rows.push(row);
             }
         }
@@ -515,6 +520,43 @@ mod tests {
             };
             assert_eq!(address(&r, family, order).unwrap().to_string(), expected);
         }
+    }
+    #[test]
+    fn malformed_shifted_fields_cannot_serialize_excluded_socket_metadata() {
+        for (local, state, excluded) in [
+            ("0100007F", "DEADBEEF:CAFE", "DEADBEEF"),
+            ("0100007F", "12345", "12345"),
+            ("0100007F", "00000000:CAFEBABE", "CAFEBABE"),
+            ("private-owner", "01", "private-owner"),
+            ("12345", "01", "12345"),
+        ] {
+            let text = format!("{}{}", header(), row(local, state));
+            let captured = capture(&[("lo", &["127.0.0.1"])], &text, header());
+            assert_eq!(captured.tcp_v4.query.availability, Availability::Failed);
+            let serialized = serde_json::to_string(&captured).unwrap();
+            assert!(!serialized.contains(excluded), "leaked token: {serialized}");
+            assert!(!serialized.contains("CAFE"));
+            let readings = connection_readings(&captured);
+            assert_eq!(readings["lo"].availability, Availability::Failed);
+            assert!(!serde_json::to_string(&readings).unwrap().contains(excluded));
+            let raw = &captured.tcp_v4.rows[0];
+            if state == "01" {
+                assert_eq!(raw.local_address_hex, None);
+                assert_eq!(raw.state_hex.as_deref(), Some("01"));
+            } else {
+                assert_eq!(raw.local_address_hex.as_deref(), Some("0100007F"));
+                assert_eq!(raw.state_hex, None);
+            }
+        }
+        let shifted = table(
+            IpVersion::Ipv4,
+            &format!("{}0: DEADBEEF 01020304:CAFE 01\n", header()),
+        );
+        assert_eq!(shifted.query.availability, Availability::Failed);
+        assert_eq!(shifted.rows[0].local_address_hex, None);
+        let serialized = serde_json::to_string(&shifted).unwrap();
+        assert!(!serialized.contains("DEADBEEF"));
+        assert!(!serialized.contains("CAFE"));
     }
     #[test]
     fn malformed_tables_retain_allowed_tokens_and_context_without_faking_zero() {
