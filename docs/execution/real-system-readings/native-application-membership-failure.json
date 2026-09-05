@@ -1,0 +1,623 @@
+[
+  {
+    "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-9x70h6fj/native",
+    "diagnostic_only": false,
+    "result": {
+      "status": "FAIL",
+      "errors": [
+        "native discovery deadline exceeded; incomplete tree"
+      ],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true
+      },
+      "focused_preparation": "process",
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "hashes": {
+      "result.json": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+      "session-01/journal.jsonl": "de279975183e737ed594194c3c6153fc7ba65661e67aaaf04b41296461225165",
+      "session-01/cleanup.json": "d305fcd88ff2682f781208226b9506ca879fec44ac27fd52a0b9a7dacbbb3f2e",
+      "transport-cleanup.json": "7510b3be53a753eefa3a9559bef621581fdcec9ebf766466d80981fb2dac7e41"
+    },
+    "probes": []
+  },
+  {
+    "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/native-navigation-discovery-diagnostic/native",
+    "diagnostic_only": true,
+    "result": {
+      "status": "FAIL",
+      "errors": [
+        "native discovery deadline exceeded; incomplete tree"
+      ],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true
+      },
+      "focused_preparation": "process",
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "hashes": {
+      "result.json": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+      "session-01/journal.jsonl": "d0e93996f4b755198b7cc1f4cba109cdebefe285a2b99c396f977c39dc52ad31",
+      "session-01/cleanup.json": "27e0ca599542cb1c4832e382b0f4a3f6b5d6e0a1f3852c240c91fcd282233a32",
+      "transport-cleanup.json": "d5eda0c2ebb2def7b59f0304dbd3d5e618e92821c0dada0743b4bbad3a0e51aa"
+    },
+    "probes": [
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715314720945555,
+        "started_ns": 715314633060536,
+        "yielded": 97,
+        "alive_calls": 97,
+        "alive_ns": 17926666,
+        "alive_max_ns": 1102811,
+        "alive_false": 0,
+        "flags": {},
+        "explicit_root": true,
+        "finished_ns": 715314720876078
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715316195162017,
+        "started_ns": 715314988954793,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 478392523,
+        "alive_max_ns": 3401417,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715316195094937
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715317315513997,
+        "started_ns": 715316226566014,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 426915036,
+        "alive_max_ns": 1037656,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715317315415043
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715318395379296,
+        "started_ns": 715317352759514,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 405240898,
+        "alive_max_ns": 2443005,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715318395306303
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715319473458806,
+        "started_ns": 715318427333011,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 426999598,
+        "alive_max_ns": 12226589,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715319473380687
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715320554794126,
+        "started_ns": 715319524881896,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 416301201,
+        "alive_max_ns": 16216185,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715320554730884
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715321745056275,
+        "started_ns": 715320590648835,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 449047389,
+        "alive_max_ns": 2031216,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715321744984715
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715322844012431,
+        "started_ns": 715321775758256,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 412224441,
+        "alive_max_ns": 2979725,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715322843924472
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715322989565733,
+        "started_ns": 715322875069847,
+        "yielded": 75,
+        "alive_calls": 152,
+        "alive_ns": 36723360,
+        "alive_max_ns": 921345,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715322.988937054,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "error": "AssertionError('native discovery deadline exceeded; incomplete tree')",
+        "finished_ns": 715322989460729
+      }
+    ]
+  },
+  {
+    "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/native-navigation-membership-diagnostic/native",
+    "diagnostic_only": true,
+    "result": {
+      "status": "FAIL",
+      "errors": [
+        "native discovery deadline exceeded; incomplete tree"
+      ],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true
+      },
+      "focused_preparation": "process",
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "hashes": {
+      "result.json": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+      "session-01/journal.jsonl": "c066f8c2d841177ec9b8dd63709818edd84dd8ddeaa83c8b043e5443d0deb5c5",
+      "session-01/cleanup.json": "bf7d3a6bc8332199f8bc4bb831c369d94b65c65e9339894fe720d1bf1a3ee289",
+      "transport-cleanup.json": "fa48eb8879eddd72a782ea58018df41012364e6c24c34e3479e33c25701f97b7"
+    },
+    "probes": [
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715523738166783,
+        "started_ns": 715523631523652,
+        "yielded": 97,
+        "alive_calls": 97,
+        "alive_ns": 23163471,
+        "alive_max_ns": 901175,
+        "alive_false": 0,
+        "flags": {},
+        "explicit_root": true,
+        "finished_ns": 715523738061625
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715525290574616,
+        "started_ns": 715524088800567,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 472465797,
+        "alive_max_ns": 16975844,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715525290499542
+      },
+      {
+        "op": "diagnostic-rejected-navigation-membership",
+        "monotonic_ns": 715525322227406,
+        "links": [
+          {
+            "child_role": "panel",
+            "child_name": "processes",
+            "child_id": "",
+            "parent_role": "panel",
+            "parent_name": "",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "panel",
+            "child_matches": true
+          },
+          {
+            "child_role": "panel",
+            "child_name": "",
+            "child_id": "workspace:viewport",
+            "parent_role": "frame",
+            "parent_name": "System Pulse",
+            "index": 160,
+            "parent_matches": true,
+            "actual_parent_role": "frame",
+            "child_matches": true
+          },
+          {
+            "child_role": "frame",
+            "child_name": "System Pulse",
+            "child_id": "",
+            "parent_role": "application",
+            "parent_name": "system-pulse",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "application",
+            "child_matches": true
+          },
+          {
+            "child_role": "application",
+            "child_name": "system-pulse",
+            "child_id": "",
+            "parent_role": "desktop frame",
+            "parent_name": "main",
+            "index": -1,
+            "parent_matches": false,
+            "actual_parent_role": null,
+            "child_matches": null
+          }
+        ],
+        "deadline": 715532.0887893
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715526542680806,
+        "started_ns": 715525347379639,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 480271316,
+        "alive_max_ns": 8366144,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715526542595066
+      },
+      {
+        "op": "diagnostic-rejected-navigation-membership",
+        "monotonic_ns": 715526556023265,
+        "links": [
+          {
+            "child_role": "panel",
+            "child_name": "processes",
+            "child_id": "",
+            "parent_role": "panel",
+            "parent_name": "",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "panel",
+            "child_matches": true
+          },
+          {
+            "child_role": "panel",
+            "child_name": "",
+            "child_id": "workspace:viewport",
+            "parent_role": "frame",
+            "parent_name": "System Pulse",
+            "index": 160,
+            "parent_matches": true,
+            "actual_parent_role": "frame",
+            "child_matches": true
+          },
+          {
+            "child_role": "frame",
+            "child_name": "System Pulse",
+            "child_id": "",
+            "parent_role": "application",
+            "parent_name": "system-pulse",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "application",
+            "child_matches": true
+          },
+          {
+            "child_role": "application",
+            "child_name": "system-pulse",
+            "child_id": "",
+            "parent_role": "desktop frame",
+            "parent_name": "main",
+            "index": -1,
+            "parent_matches": false,
+            "actual_parent_role": null,
+            "child_matches": null
+          }
+        ],
+        "deadline": 715532.0887893
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715527771737913,
+        "started_ns": 715526581190493,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 468748809,
+        "alive_max_ns": 1519085,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715527771668053
+      },
+      {
+        "op": "diagnostic-rejected-navigation-membership",
+        "monotonic_ns": 715527787047127,
+        "links": [
+          {
+            "child_role": "panel",
+            "child_name": "processes",
+            "child_id": "",
+            "parent_role": "panel",
+            "parent_name": "",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "panel",
+            "child_matches": true
+          },
+          {
+            "child_role": "panel",
+            "child_name": "",
+            "child_id": "workspace:viewport",
+            "parent_role": "frame",
+            "parent_name": "System Pulse",
+            "index": 160,
+            "parent_matches": true,
+            "actual_parent_role": "frame",
+            "child_matches": true
+          },
+          {
+            "child_role": "frame",
+            "child_name": "System Pulse",
+            "child_id": "",
+            "parent_role": "application",
+            "parent_name": "system-pulse",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "application",
+            "child_matches": true
+          },
+          {
+            "child_role": "application",
+            "child_name": "system-pulse",
+            "child_id": "",
+            "parent_role": "desktop frame",
+            "parent_name": "main",
+            "index": -1,
+            "parent_matches": false,
+            "actual_parent_role": null,
+            "child_matches": null
+          }
+        ],
+        "deadline": 715532.0887893
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715528937339730,
+        "started_ns": 715527812186874,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 434864929,
+        "alive_max_ns": 1346603,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715528937262473
+      },
+      {
+        "op": "diagnostic-rejected-navigation-membership",
+        "monotonic_ns": 715528952981725,
+        "links": [
+          {
+            "child_role": "panel",
+            "child_name": "processes",
+            "child_id": "",
+            "parent_role": "panel",
+            "parent_name": "",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "panel",
+            "child_matches": true
+          },
+          {
+            "child_role": "panel",
+            "child_name": "",
+            "child_id": "workspace:viewport",
+            "parent_role": "frame",
+            "parent_name": "System Pulse",
+            "index": 160,
+            "parent_matches": true,
+            "actual_parent_role": "frame",
+            "child_matches": true
+          },
+          {
+            "child_role": "frame",
+            "child_name": "System Pulse",
+            "child_id": "",
+            "parent_role": "application",
+            "parent_name": "system-pulse",
+            "index": 0,
+            "parent_matches": true,
+            "actual_parent_role": "application",
+            "child_matches": true
+          },
+          {
+            "child_role": "application",
+            "child_name": "system-pulse",
+            "child_id": "",
+            "parent_role": "desktop frame",
+            "parent_name": "main",
+            "index": -1,
+            "parent_matches": false,
+            "actual_parent_role": null,
+            "child_matches": null
+          }
+        ],
+        "deadline": 715532.0887893
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715530028467755,
+        "started_ns": 715528978128517,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 412062475,
+        "alive_max_ns": 2200739,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715530028398808
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715531107856807,
+        "started_ns": 715530060560040,
+        "yielded": 927,
+        "alive_calls": 1856,
+        "alive_ns": 406008623,
+        "alive_max_ns": 3392945,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "finished_ns": 715531107753497
+      },
+      {
+        "op": "diagnostic-navigation-walk",
+        "monotonic_ns": 715532089380737,
+        "started_ns": 715531140888621,
+        "yielded": 827,
+        "alive_calls": 1656,
+        "alive_ns": 371975712,
+        "alive_max_ns": 3421506,
+        "alive_false": 0,
+        "flags": {
+          "deadline": 715532.0887893,
+          "skip_cells": true,
+          "strict": true,
+          "skip_monitor_bodies": true
+        },
+        "explicit_root": false,
+        "error": "AssertionError('native discovery deadline exceeded; incomplete tree')",
+        "finished_ns": 715532089306231
+      }
+    ]
+  }
+]

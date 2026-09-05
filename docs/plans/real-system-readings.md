@@ -307,3 +307,18 @@ controlled target remained present. See the judged decision
   focused/full checks and independent reviews.
 - [ ] Run fresh untraced native and full committed acceptance. Earlier
   intermittent focus, burst, and freshness failures remain unproven.
+
+### Respect the native application root boundary
+
+The [retained failure](../execution/real-system-readings/native-application-membership-failure.md)
+shows a registered application with null parent and index -1, as the pinned
+adapter specifies. Ordinary links succeed; treating the desktop boundary
+the same way causes repeated complete discovery until timeout.
+
+- [ ] Keep ordinary link checks through the application, then validate its
+  current desktop registration by bounded child enumeration, exact native
+  identity, liveness, and PID. Preserve final uniqueness and deadlines.
+- [ ] Reproduce actual root semantics and reject missing/replaced/duplicate
+  or incomplete registration, wrong PID, and deadline exhaustion. Pass
+  focused/full checks and independent SPEC then QUALITY review.
+- [ ] Run fresh untraced native and committed aggregate acceptance.
