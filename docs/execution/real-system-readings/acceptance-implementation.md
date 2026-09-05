@@ -1,13 +1,13 @@
 # Acceptance implementation work
 
-- In progress: independent SPEC/QUALITY review and any required corrections.
+- In progress: root committed aggregate, including fresh host and complete native execution.
 - Verified preparation: executable aggregate and independent host/native harness;
   45 Python regressions, retained host re-analysis, 13 full-run native cases and
   focused final missing-device correction. The complete native run remains FAIL.
 - Verified delivery preparation: documentation, self-audit and all listed manifest
   artifact paths, sizes and SHA256 hashes.
-- Pending: independent SPEC/QUALITY approval and root's subsequent committed
-  aggregate and Cairn receipt, including fresh host and complete native execution.
+- Verified review: independent SPEC and QUALITY passed source `322b05d9`.
+- Pending: full aggregate receipts and final adversarial review before Cairn Done.
 
 Preparation checks are not final committed Cairn receipts. No aggregate acceptance
 receipt has been earned by this implementation yet.
@@ -211,3 +211,18 @@ recorded hardware boundary, not an accuracy pass. macOS/Windows native behavior
 and physical device removal remain unverified. Configuration fault specimens
 carry no simulated measurements. Historical fixture evidence does not satisfy
 live acceptance.
+
+
+## Independent implementation reviews
+
+SPEC and QUALITY both passed source `322b05d9bfe1408f1317068aa66d3af924355762`;
+QUALITY also inspected documentation HEAD `b7577afd38a7c944f063b82b057a5129ab89d8f3`.
+Each reviewer ran eight focused pure tests. QUALITY independently repeated the
+original process controls and five attribution/duplication mutations; controls
+passed and every mutation failed. Its transport recheck accepted exit 0 and
+rejected 42 and -15 with retained evidence. See
+`/tmp/pulse-quality-corrected-transport-vqvaqfww/review.json` and
+`/tmp/pulse-task3-spec-stable-total-pqsqqa6x/correction322b05d9-tests.log`.
+No reviewer launched a new build, host capture, native session, or Cairn action.
+These reviews approve the implementation for the committed aggregate; they do
+not promote native21 or focused preparations to complete acceptance.
