@@ -13,7 +13,7 @@ fn harness(cx: &mut TestAppContext) -> (Entity<WorkspaceView>, &mut VisualTestCo
     cx.update(gpui_component::init);
     let mut workspace = None;
     let (_, cx) = cx.add_window_view(|window, cx| {
-        let view = cx.new(|cx| WorkspaceView::new(false, window, cx));
+        let view = cx.new(|cx| WorkspaceView::new_fixture(window, cx));
         workspace = Some(view.clone());
         gpui_component::Root::new(view, window, cx)
     });
@@ -168,7 +168,7 @@ fn workspace_and_long_table_are_independently_reachable(cx: &mut TestAppContext)
     draw(cx);
     cx.simulate_keystrokes("end");
     draw(cx);
-    assert_eq!(cx.read(|cx| processes.read(cx).selected), 499);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(499));
     assert!(cx.debug_bounds("process-row:499").is_some());
     assert!(
         cx.debug_bounds("process-row:0").is_none(),
@@ -685,4 +685,156 @@ fn revisiting_offscreen_focus_reveals_both_axes_without_pinning_user_scroll(
         });
         draw(cx);
     }
+}
+
+#[gpui::test]
+fn live_snapshot_discovery_refreshes_controls_and_keeps_explicit_state(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let mut snapshot = system_pulse_collectors::Snapshot {
+        sequence: 1,
+        capture_finished_ns: 20_000_000_000,
+        ..Default::default()
+    };
+    snapshot
+        .monitors
+        .push(system_pulse_collectors::MonitorDescriptor {
+            id: "amdgpu:real-id".into(),
+            title: "Actual GPU".into(),
+            kind: system_pulse_collectors::MonitorKind::Gpu,
+            summary_sensor_id: "amdgpu:real-id/usage".into(),
+        });
+    snapshot
+        .sensors
+        .push(system_pulse_collectors::SensorDescriptor {
+            id: "amdgpu:real-id/usage".into(),
+            monitor_id: "amdgpu:real-id".into(),
+            title: "Usage".into(),
+            kind: system_pulse_collectors::SensorKind::Percentage,
+            unit: system_pulse_collectors::Unit::Percent,
+            source: "test".into(),
+            scope: "device".into(),
+            scale: None,
+        });
+    snapshot.readings.push(system_pulse_collectors::Reading {
+        sensor_id: "amdgpu:real-id/usage".into(),
+        value: Some(75.),
+        total: None,
+        availability: system_pulse_collectors::Availability::Available,
+        reason: None,
+        observations: vec![],
+    });
+    cx.update(|window, cx| {
+        view.update(cx, |this, cx| {
+            this.accept_snapshot(snapshot.clone(), window, cx)
+        })
+    });
+    draw(cx);
+    let gpu = panel(&view, "amdgpu:real-id", cx);
+    command(&view, Command::PanelCollapse("amdgpu:real-id".into()), cx);
+    command(
+        &view,
+        Command::RowCollapse("amdgpu:real-id".into(), "amdgpu:real-id/usage".into()),
+        cx,
+    );
+    snapshot.sequence = 2;
+    snapshot.capture_finished_ns += 1_000_000_000;
+    snapshot
+        .sensors
+        .push(system_pulse_collectors::SensorDescriptor {
+            id: "amdgpu:real-id/temp".into(),
+            title: "Temperature".into(),
+            kind: system_pulse_collectors::SensorKind::Temperature,
+            unit: system_pulse_collectors::Unit::Celsius,
+            ..snapshot.sensors[0].clone()
+        });
+    cx.update(|window, cx| view.update(cx, |this, cx| this.accept_snapshot(snapshot, window, cx)));
+    draw(cx);
+    cx.read(|cx| {
+        assert!(
+            gpu.read(cx)
+                .controls
+                .contains_key("row:amdgpu:real-id/temp")
+        );
+        let data = view.read(cx).shared.borrow();
+        assert!(data.session.workspace.panels["amdgpu:real-id"].collapsed);
+        assert!(
+            data.session.workspace.panels["amdgpu:real-id"].sensors["amdgpu:real-id/usage"]
+                .collapsed
+        );
+        assert!(
+            !data.session.workspace.panels["amdgpu:real-id"].sensors["amdgpu:real-id/temp"]
+                .collapsed
+        );
+        assert_eq!(
+            data.history
+                .samples("amdgpu:real-id", "amdgpu:real-id/usage")
+                .unwrap()
+                .len(),
+            2
+        );
+    });
+}
+
+#[gpui::test]
+fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let rows: Vec<_> = (0..1205)
+        .map(|index| crate::live::ProcessView {
+            identity: system_pulse_collectors::ProcessIdentity {
+                pid: index + 1,
+                start_time_ticks: 55,
+            },
+            cells: vec![
+                (index + 1).to_string(),
+                "host process".into(),
+                "200 %".into(),
+                "4 KiB".into(),
+                "Unavailable · Permission denied".into(),
+                "2 KiB/s".into(),
+                "4 count".into(),
+                "user".into(),
+            ],
+        })
+        .collect();
+    cx.update(|_, cx| {
+        view.update(cx, |this, cx| {
+            this.shared.borrow_mut().processes = rows;
+            cx.notify();
+        })
+    });
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx)
+    });
+    draw(cx);
+    native_key("end", cx);
+    draw(cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected_index()),
+        Some(1204)
+    );
+    assert!(cx.debug_bounds("process-row:1204").is_some());
+    cx.update(|_, cx| {
+        view.update(cx, |this, cx| {
+            this.shared.borrow_mut().processes.reverse();
+            cx.notify();
+        })
+    });
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(0));
+    native_key("down", cx);
+    draw(cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(1));
+    cx.update(|_, cx| {
+        view.update(cx, |this, cx| {
+            this.shared.borrow_mut().processes.clear();
+            cx.notify();
+        })
+    });
+    draw(cx);
+    native_key("end", cx);
+    draw(cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), None);
 }

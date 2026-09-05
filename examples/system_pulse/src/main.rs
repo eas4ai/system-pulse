@@ -18,8 +18,8 @@ fn main() {
                     ..WindowOptions::default()
                 },
                 |window, cx| {
-                    window.set_window_title("System Pulse — Fixture mode");
-                    let view = cx.new(|cx| WorkspaceView::new(true, window, cx));
+                    window.set_window_title("System Pulse");
+                    let view = cx.new(|cx| WorkspaceView::new(window, cx));
                     cx.new(|cx| Root::new(view, window, cx).bg(cx.theme().background))
                 },
             );

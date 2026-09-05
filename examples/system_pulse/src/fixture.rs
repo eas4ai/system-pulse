@@ -1,76 +1,102 @@
 use system_pulse_model::{HistoryStore, ReadingStatus, Sample, Workspace};
 
-#[derive(Clone)]
-pub(crate) struct Monitor {
-    pub(crate) id: &'static str,
-    pub(crate) title: &'static str,
-    pub(crate) summary: &'static str,
-    pub(crate) sensors: Vec<(&'static str, &'static str)>,
-}
+use system_pulse_model::{
+    MonitorDescriptor as Monitor, PhysicalUnit, Quantity, SensorDescriptor as Sensor,
+};
 
 pub(crate) fn catalog() -> Vec<Monitor> {
     vec![
         Monitor {
-            id: "cpu",
-            title: "CPU",
-            summary: "overall",
+            id: "cpu".into(),
+            title: "CPU".into(),
+            summary: "overall".into(),
             sensors: vec![
-                ("overall", "Overall utilization"),
-                ("core0", "Core 0 utilization"),
+                Sensor {
+                    id: "overall".into(),
+                    title: "Overall utilization".into(),
+                    quantity: Quantity::Percentage,
+                    unit: PhysicalUnit::Percent,
+                },
+                Sensor {
+                    id: "core0".into(),
+                    title: "Core 0 utilization".into(),
+                    quantity: Quantity::Percentage,
+                    unit: PhysicalUnit::Percent,
+                },
             ],
         },
         Monitor {
-            id: "gpu:fixture-a",
-            title: "GPU A",
-            summary: "utilization",
-            sensors: vec![("utilization", "Utilization")],
+            id: "gpu:fixture-a".into(),
+            title: "GPU A".into(),
+            summary: "utilization".into(),
+            sensors: vec![Sensor {
+                id: "utilization".into(),
+                title: "Utilization".into(),
+                quantity: Quantity::Percentage,
+                unit: PhysicalUnit::Percent,
+            }],
         },
         Monitor {
-            id: "gpu:fixture-b",
-            title: "GPU B",
-            summary: "utilization",
-            sensors: vec![("utilization", "Utilization")],
+            id: "gpu:fixture-b".into(),
+            title: "GPU B".into(),
+            summary: "utilization".into(),
+            sensors: vec![Sensor {
+                id: "utilization".into(),
+                title: "Utilization".into(),
+                quantity: Quantity::Percentage,
+                unit: PhysicalUnit::Percent,
+            }],
         },
         Monitor {
-            id: "memory",
-            title: "Memory",
-            summary: "capacity",
-            sensors: vec![("capacity", "RAM used / total")],
+            id: "memory".into(),
+            title: "Memory".into(),
+            summary: "capacity".into(),
+            sensors: vec![Sensor {
+                id: "capacity".into(),
+                title: "RAM used / total".into(),
+                quantity: Quantity::Percentage,
+                unit: PhysicalUnit::Percent,
+            }],
         },
         Monitor {
-            id: "volume:fixture-home",
-            title: "Home volume",
-            summary: "capacity",
-            sensors: vec![("capacity", "Capacity used / total")],
+            id: "volume:fixture-home".into(),
+            title: "Home volume".into(),
+            summary: "capacity".into(),
+            sensors: vec![Sensor {
+                id: "capacity".into(),
+                title: "Capacity used / total".into(),
+                quantity: Quantity::Percentage,
+                unit: PhysicalUnit::Percent,
+            }],
         },
         Monitor {
-            id: "interface:fixture-lan",
-            title: "LAN",
-            summary: "traffic",
-            sensors: vec![("traffic", "RX / TX throughput")],
+            id: "interface:fixture-lan".into(),
+            title: "LAN".into(),
+            summary: "traffic".into(),
+            sensors: vec![Sensor {
+                id: "traffic".into(),
+                title: "RX / TX throughput".into(),
+                quantity: Quantity::Percentage,
+                unit: PhysicalUnit::Percent,
+            }],
         },
         Monitor {
-            id: "processes",
-            title: "Processes",
-            summary: "count",
+            id: "processes".into(),
+            title: "Processes".into(),
+            summary: "count".into(),
             sensors: vec![],
         },
         Monitor {
-            id: "settings",
-            title: "Settings",
-            summary: "",
+            id: "settings".into(),
+            title: "Settings".into(),
+            summary: "".into(),
             sensors: vec![],
         },
     ]
 }
 
 pub(crate) fn discover(workspace: &mut Workspace, monitors: &[Monitor]) {
-    for monitor in monitors {
-        let panel = workspace.panel_mut(monitor.id);
-        for (id, _) in &monitor.sensors {
-            panel.sensor_mut(id);
-        }
-    }
+    crate::live::discover(workspace, monitors);
 }
 
 pub(crate) fn sample(monitor: &str, sensor: &str, tick: u64) -> Sample {
@@ -101,17 +127,24 @@ pub(crate) fn sample(monitor: &str, sensor: &str, tick: u64) -> Sample {
         },
         unit: unit.into(),
         status,
+        quantity: Default::default(),
+        total: None,
+        reason: None,
     }
 }
 
 pub(crate) fn advance(history: &mut HistoryStore, tick: u64) -> Result<(), String> {
     for monitor in catalog() {
-        let mut ids: Vec<_> = monitor.sensors.iter().map(|(id, _)| *id).collect();
-        if !monitor.summary.is_empty() && !ids.contains(&monitor.summary) {
-            ids.push(monitor.summary);
+        let mut ids: Vec<_> = monitor
+            .sensors
+            .iter()
+            .map(|sensor| sensor.id.as_str())
+            .collect();
+        if !monitor.summary.is_empty() && !ids.contains(&monitor.summary.as_str()) {
+            ids.push(&monitor.summary);
         }
         for sensor in ids {
-            history.push(monitor.id, sensor, sample(monitor.id, sensor, tick))?;
+            history.push(&monitor.id, sensor, sample(&monitor.id, sensor, tick))?;
         }
     }
     Ok(())
@@ -150,7 +183,7 @@ mod tests {
             .find(|monitor| monitor.id == "cpu")
             .unwrap()
             .sensors
-            .retain(|(id, _)| *id != "core0");
+            .retain(|sensor| sensor.id != "core0");
         discover(&mut workspace, &changed);
         assert!(workspace.panels["gpu:fixture-a"].collapsed);
         assert!(!workspace.panels["gpu:fixture-b"].collapsed);
@@ -172,4 +205,25 @@ mod tests {
             assert_eq!(next.at_ms - first.at_ms, 12_000);
         }
     }
+}
+
+pub(crate) fn processes() -> Vec<crate::live::ProcessView> {
+    (0..500)
+        .map(|index| crate::live::ProcessView {
+            identity: system_pulse_collectors::ProcessIdentity {
+                pid: 1000 + index,
+                start_time_ticks: 1,
+            },
+            cells: vec![
+                (1000 + index).to_string(),
+                format!("fixture-process-{index}"),
+                format!("{}%", index % 100),
+                "1 MiB".into(),
+                "1 KiB/s".into(),
+                "2 KiB/s".into(),
+                "1 count".into(),
+                "fixture".into(),
+            ],
+        })
+        .collect()
 }

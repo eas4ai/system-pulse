@@ -22,7 +22,7 @@ pub(crate) fn directory() -> Result<PathBuf, String> {
     let base = std::env::var_os("XDG_CONFIG_HOME")
         .map(PathBuf::from)
         .or_else(|| std::env::var_os("HOME").map(|p| PathBuf::from(p).join(".config")));
-    base.map(|p| p.join("system-pulse-fixture"))
+    base.map(|p| p.join("system-pulse"))
         .ok_or_else(|| "No platform configuration directory is available".into())
 }
 

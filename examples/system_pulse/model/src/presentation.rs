@@ -121,6 +121,10 @@ impl PanelState {
 /// Largest accepted width or height for a persisted expanded panel size.
 pub const MAX_EXPANDED_DIMENSION: f32 = 16_384.0;
 
+fn default_interval_ms() -> u64 {
+    1000
+}
+
 fn schema_version() -> u32 {
     1
 }
@@ -132,6 +136,10 @@ pub struct Workspace {
     pub dock: Value,
     #[serde(default)]
     pub panels: BTreeMap<String, PanelState>,
+    #[serde(default)]
+    pub monitors: BTreeMap<String, MonitorDescriptor>,
+    #[serde(default = "default_interval_ms")]
+    pub interval_ms: u64,
 }
 
 impl Workspace {
@@ -140,6 +148,8 @@ impl Workspace {
             schema_version: schema_version(),
             dock,
             panels: BTreeMap::new(),
+            monitors: BTreeMap::new(),
+            interval_ms: default_interval_ms(),
         }
     }
 
@@ -153,6 +163,17 @@ impl Workspace {
                 "Unsupported presentation schema {}",
                 self.schema_version
             ));
+        }
+        if ![500, 1000, 2000, 5000].contains(&self.interval_ms) {
+            return Err("Unsupported sampling interval".into());
+        }
+        for (id, monitor) in &self.monitors {
+            if id.trim().is_empty()
+                || id != &monitor.id
+                || monitor.sensors.iter().any(|s| s.id.trim().is_empty())
+            {
+                return Err("Invalid saved monitor metadata identity".into());
+            }
         }
         for (id, panel) in &self.panels {
             if id.trim().is_empty() {
@@ -169,4 +190,19 @@ impl Workspace {
         }
         Ok(())
     }
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct SensorDescriptor {
+    pub id: String,
+    pub title: String,
+    pub quantity: crate::Quantity,
+    pub unit: crate::PhysicalUnit,
+}
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct MonitorDescriptor {
+    pub id: String,
+    pub title: String,
+    pub summary: String,
+    pub sensors: Vec<SensorDescriptor>,
 }

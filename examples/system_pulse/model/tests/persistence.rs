@@ -90,3 +90,24 @@ fn autosave_revalidates_presentation_and_legacy_defaults_remain_expanded() {
     session.workspace.panel_mut("cpu").expanded_size.height = 0.0;
     assert!(session.autosave_json().is_err());
 }
+
+#[test]
+fn interval_and_absent_device_descriptors_roundtrip() {
+    let mut workspace = system_pulse_model::Workspace::new(serde_json::json!({}));
+    workspace.interval_ms = 5000;
+    workspace.monitors.insert(
+        "amdgpu:stable".into(),
+        system_pulse_model::MonitorDescriptor {
+            id: "amdgpu:stable".into(),
+            title: "GPU stable".into(),
+            summary: "usage".into(),
+            sensors: vec![],
+        },
+    );
+    let restored: system_pulse_model::Workspace =
+        serde_json::from_str(&serde_json::to_string(&workspace).unwrap()).unwrap();
+    assert_eq!(restored.interval_ms, 5000);
+    assert_eq!(restored.monitors["amdgpu:stable"].title, "GPU stable");
+    workspace.interval_ms = 7;
+    assert!(workspace.validate().is_err());
+}

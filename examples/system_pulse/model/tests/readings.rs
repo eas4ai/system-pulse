@@ -8,6 +8,9 @@ fn current(at_ms: u64, value: f64) -> Sample {
         text: format!("{value}"),
         unit: "%".into(),
         status: ReadingStatus::Current,
+        quantity: Default::default(),
+        total: None,
+        reason: None,
     }
 }
 
@@ -58,6 +61,9 @@ fn unavailable_and_stale_are_explicit_history_gaps() {
                 text: "Unavailable".into(),
                 unit: "%".into(),
                 status: ReadingStatus::Unavailable,
+                quantity: Default::default(),
+                total: None,
+                reason: None,
             },
         )
         .unwrap();
@@ -109,4 +115,113 @@ fn invalid_and_out_of_order_samples_do_not_mutate_history() {
     assert_eq!(history.samples("cpu", "overall").unwrap().len(), 1);
     assert_eq!(history.latest("cpu", "overall").unwrap().value, Some(4.0));
     assert!(history.push("", "overall", current(3000, 2.0)).is_err());
+}
+
+#[test]
+fn physical_values_capacity_and_signed_temperature_remain_truthful() {
+    use system_pulse_model::{PhysicalUnit, Quantity};
+    let rate =
+        Sample::measured(1, Quantity::Rate, 4096., None, PhysicalUnit::BytesPerSecond).unwrap();
+    assert_eq!(rate.value, Some(4096.));
+    assert_eq!(rate.text, "4.0");
+    assert_eq!(rate.unit, "KiB/s");
+    let capacity = Sample::measured(
+        2,
+        Quantity::Capacity,
+        16. * 1024_f64.powi(3),
+        Some(64. * 1024_f64.powi(3)),
+        PhysicalUnit::Bytes,
+    )
+    .unwrap();
+    assert_eq!(capacity.capacity_ratio(), Some(0.25));
+    assert_eq!(capacity.text, "16.0 / 64.0");
+    assert_eq!(capacity.unit, "GiB");
+    assert!(Sample::measured(3, Quantity::Temperature, -10., None, PhysicalUnit::Celsius).is_ok());
+    assert!(Sample::measured(3, Quantity::Rate, -10., None, PhysicalUnit::BytesPerSecond).is_err());
+    assert!(
+        Sample::measured(
+            3,
+            Quantity::Percentage,
+            f64::INFINITY,
+            None,
+            PhysicalUnit::Percent
+        )
+        .is_err()
+    );
+    assert_eq!(
+        Sample::measured(4, Quantity::Percentage, 150., None, PhysicalUnit::Percent)
+            .unwrap()
+            .value,
+        Some(150.)
+    );
+}
+
+#[test]
+fn meters_follow_physical_compatibility_and_observed_scales() {
+    use system_pulse_model::{PhysicalUnit, Quantity, chart_range};
+    assert_eq!(Quantity::Capacity.meters(), &[Meter::Number, Meter::Bar]);
+    assert_eq!(
+        Quantity::Counter.meters(),
+        &[Meter::Number, Meter::Sparkline]
+    );
+    assert_eq!(
+        Quantity::Rate.meters(),
+        &[Meter::Number, Meter::Sparkline, Meter::Line]
+    );
+    assert!(!Quantity::Temperature.meters().contains(&Meter::Bar));
+    assert!(Quantity::Temperature.meters().contains(&Meter::Radial));
+    let sample =
+        Sample::measured(1, Quantity::Rate, 4096., None, PhysicalUnit::BytesPerSecond).unwrap();
+    let range = chart_range(&[sample]);
+    assert!(range.1 >= 4096.);
+    let temp =
+        Sample::measured(1, Quantity::Temperature, -10., None, PhysicalUnit::Celsius).unwrap();
+    let range = chart_range(&[temp]);
+    assert!(range.0 < -10. && range.1 > -10.);
+}
+
+#[test]
+fn absent_series_are_evicted_without_changing_presentation_and_stale_adds_no_points() {
+    let mut history = HistoryStore::new(2).unwrap();
+    let mut workspace = Workspace::new(json!({}));
+    workspace.panel_mut("absent").collapsed = true;
+    for n in 1..=100 {
+        history
+            .push(&format!("device:{n}"), "value", current(n, 1.))
+            .unwrap();
+        history.retain_keys(&std::collections::BTreeSet::from([(
+            format!("device:{n}"),
+            "value".into(),
+        )]));
+        assert_eq!(history.series_count(), 1);
+    }
+    assert!(workspace.panels["absent"].collapsed);
+    assert!(history.mark_stale(110, 5));
+    let values = history.samples("device:100", "value").unwrap();
+    assert_eq!(values.len(), 1);
+    assert_eq!(values.back().unwrap().status, ReadingStatus::Stale);
+    assert!(!history.mark_stale(111, 5));
+}
+
+#[test]
+fn chart_time_spacing_uses_elapsed_capture_time() {
+    let samples = vec![current(1000, 1.), current(1500, 2.), current(6000, 3.)];
+    assert_eq!(system_pulse_model::chart_x(&samples, 1), 0.1);
+    assert_eq!(system_pulse_model::chart_x(&samples, 2), 1.);
+}
+
+#[test]
+fn zero_sized_capacity_keeps_the_observation_without_inventing_a_ratio() {
+    let sample = Sample::measured(
+        1,
+        system_pulse_model::Quantity::Capacity,
+        0.,
+        Some(0.),
+        system_pulse_model::PhysicalUnit::Bytes,
+    )
+    .unwrap();
+    assert_eq!(sample.value, Some(0.));
+    assert_eq!(sample.total, Some(0.));
+    assert_eq!(sample.status, ReadingStatus::Current);
+    assert_eq!(sample.capacity_ratio(), None);
 }

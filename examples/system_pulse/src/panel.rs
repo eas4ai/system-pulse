@@ -1,7 +1,6 @@
 use crate::{
     controls::{self, FocusEntry},
-    fixture::Monitor,
-    meters,
+    live, meters,
     workspace::{Command, Shared},
 };
 use gpui::{prelude::FluentBuilder, *};
@@ -11,6 +10,8 @@ use gpui_base::{
 };
 use gpui_component::ActiveTheme;
 use std::{collections::BTreeMap, rc::Rc, sync::Arc};
+use system_pulse_collectors::ProcessIdentity;
+use system_pulse_model::MonitorDescriptor as Monitor;
 
 pub(crate) struct MonitorPanel {
     pub(crate) monitor: Monitor,
@@ -20,7 +21,8 @@ pub(crate) struct MonitorPanel {
     pub(crate) controls: BTreeMap<String, FocusEntry>,
     body_scroll: ScrollHandle,
     table_scroll: VirtualListScrollHandle,
-    pub(crate) selected: usize,
+    pub(crate) selected: Option<ProcessIdentity>,
+    table_horizontal: ScrollHandle,
 }
 
 impl MonitorPanel {
@@ -29,7 +31,8 @@ impl MonitorPanel {
         for key in ["collapse", "close", "table"] {
             controls.insert(key.into(), FocusEntry::new(cx));
         }
-        for (id, _) in &monitor.sensors {
+        for sensor in &monitor.sensors {
+            let id = &sensor.id;
             for verb in ["row", "visible", "meter"] {
                 controls.insert(format!("{verb}:{id}"), FocusEntry::new(cx));
             }
@@ -42,8 +45,29 @@ impl MonitorPanel {
             controls,
             body_scroll: ScrollHandle::default(),
             table_scroll: VirtualListScrollHandle::new(),
-            selected: 0,
+            selected: None,
+            table_horizontal: ScrollHandle::default(),
         }
+    }
+
+    pub(crate) fn refresh(&mut self, monitor: Monitor, cx: &mut Context<Self>) {
+        for sensor in &monitor.sensors {
+            for verb in ["row", "visible", "meter"] {
+                self.controls
+                    .entry(format!("{verb}:{}", sensor.id))
+                    .or_insert_with(|| FocusEntry::new(cx));
+            }
+        }
+        self.monitor = monitor;
+    }
+    pub(crate) fn selected_index(&self) -> Option<usize> {
+        self.selected.as_ref().and_then(|selected| {
+            self.shared
+                .borrow()
+                .processes
+                .iter()
+                .position(|row| &row.identity == selected)
+        })
     }
 
     fn control(
@@ -74,21 +98,8 @@ impl MonitorPanel {
         cx: &mut Context<Self>,
     ) -> AnyElement {
         let data = self.shared.borrow();
-        let collapsed = data.session.workspace.panels[self.monitor.id].collapsed;
-        let summary = if self.monitor.summary.is_empty() {
-            String::new()
-        } else {
-            meters::value(data.history.latest(self.monitor.id, self.monitor.summary))
-        };
-        let title = format!(
-            "{}{}",
-            self.monitor.title,
-            if !summary.is_empty() {
-                format!(" · {summary}")
-            } else {
-                String::new()
-            }
-        );
+        let collapsed = data.session.workspace.panels[&self.monitor.id].collapsed;
+        let title = meters::summary(&self.monitor, &data.history);
         drop(data);
         let drag = group
             .is_draggable()
@@ -112,17 +123,15 @@ impl MonitorPanel {
                     self.monitor.title
                 ),
                 Some(!collapsed),
-                Command::PanelCollapse(self.monitor.id.into()),
+                Command::PanelCollapse(self.monitor.id.clone()),
                 false,
                 cx,
             ))
             .child(
-                div()
-                    .id("drag-title")
+                meters::metric_label(format!("{}:summary", self.monitor.id), title)
                     .flex_1()
                     .min_w_0()
                     .overflow_hidden()
-                    .child(title)
                     .when_some(drag, |el, drag| {
                         el.on_drag(drag, move |drag, offset, _, cx| {
                             cx.stop_propagation();
@@ -135,7 +144,7 @@ impl MonitorPanel {
                 "close",
                 format!("Hide {}", self.monitor.title),
                 None,
-                Command::PanelVisible(self.monitor.id.into()),
+                Command::PanelVisible(self.monitor.id.clone()),
                 false,
                 cx,
             ))
@@ -144,18 +153,41 @@ impl MonitorPanel {
 
     fn sensor_rows(&mut self, cx: &mut Context<Self>) -> AnyElement {
         let data = self.shared.borrow();
-        let panel = data.session.workspace.panels[self.monitor.id].clone();
+        let panel = data.session.workspace.panels[&self.monitor.id].clone();
         let mut rows = Vec::new();
         for (sensor, state) in panel.visible_sensors() {
-            let Some((_, label)) = self.monitor.sensors.iter().find(|(id, _)| *id == sensor) else {
+            let Some(descriptor) = self.monitor.sensors.iter().find(|s| s.id == sensor) else {
                 continue;
             };
-            let current = meters::value(data.history.latest(self.monitor.id, sensor));
-            let samples = data
-                .history
-                .samples(self.monitor.id, sensor)
-                .map(|s| s.iter().cloned().collect())
-                .unwrap_or_default();
+            let label = &descriptor.title;
+            let absent = live::missing(
+                descriptor.quantity,
+                descriptor.unit,
+                "Sensor or device absent",
+                0,
+            );
+            let current = meters::sensor_label(
+                &self.monitor,
+                descriptor,
+                data.history
+                    .latest(&self.monitor.id, sensor)
+                    .unwrap_or(&absent),
+            );
+            let actual_meter = descriptor.quantity.compatible(state.meter);
+            let samples = if state.collapsed {
+                Vec::new()
+            } else if actual_meter == system_pulse_model::Meter::Number {
+                data.history
+                    .latest(&self.monitor.id, sensor)
+                    .cloned()
+                    .into_iter()
+                    .collect()
+            } else {
+                data.history
+                    .samples(&self.monitor.id, sensor)
+                    .map(|s| s.iter().cloned().collect())
+                    .unwrap_or_default()
+            };
             let id = self.monitor.id.to_owned();
             let sensor = sensor.to_owned();
             let selector = format!("{}:meter-body:{sensor}", self.monitor.id);
@@ -184,7 +216,13 @@ impl MonitorPanel {
                             true,
                             cx,
                         ))
-                        .child(div().flex_1().child(current))
+                        .child(
+                            meters::metric_label(
+                                format!("{}:value:{sensor}", self.monitor.id),
+                                current,
+                            )
+                            .flex_1(),
+                        )
                         .child(self.control(
                             &format!("visible:{sensor}"),
                             format!("Hide {label}"),
@@ -196,7 +234,14 @@ impl MonitorPanel {
                 )
                 .child(self.control(
                     &format!("meter:{sensor}"),
-                    format!("Meter: {:?}", state.meter),
+                    if state.meter == actual_meter {
+                        format!("Meter: {actual_meter:?}")
+                    } else {
+                        format!(
+                            "Meter: {actual_meter:?} · saved {:?} incompatible",
+                            state.meter
+                        )
+                    },
                     None,
                     Command::Meter(id, sensor),
                     true,
@@ -206,18 +251,20 @@ impl MonitorPanel {
                     row.child(
                         div()
                             .debug_selector(move || selector.clone().into())
-                            .child(meters::meter(state.meter, samples, cx)),
+                            .child(meters::meter(actual_meter, samples, descriptor.unit, cx)),
                     )
                 });
             rows.push(row.into_any_element());
         }
-        for (sensor, label) in &self.monitor.sensors {
-            if panel.sensors.get(*sensor).is_some_and(|s| !s.visible) {
+        for descriptor in &self.monitor.sensors {
+            let sensor = &descriptor.id;
+            let label = &descriptor.title;
+            if panel.sensors.get(sensor).is_some_and(|s| !s.visible) {
                 rows.push(self.control(
                     &format!("visible:{sensor}"),
                     format!("Show {label}"),
                     None,
-                    Command::SensorVisible(self.monitor.id.into(), (*sensor).into()),
+                    Command::SensorVisible(self.monitor.id.clone(), sensor.clone()),
                     true,
                     cx,
                 ));
@@ -243,90 +290,85 @@ impl MonitorPanel {
     fn process_table(&mut self, window: &Window, cx: &mut Context<Self>) -> AnyElement {
         let handle = self.controls["table"].handle.clone();
         let ring = cx.theme().ring;
-        let sizes = Rc::new(vec![
-            size(window.rem_size() * 37.5, window.rem_size() * 1.75);
-            500
-        ]);
+        let count = self.shared.borrow().processes.len();
+        let widths = self.shared.borrow().process_widths;
+        let width: f32 = widths.iter().sum();
+        let sizes = Rc::new(vec![size(px(width), window.rem_size() * 1.75); count]);
         let list = v_virtual_list(cx.entity(), "process-rows", sizes, |this, range, _, cx| {
+            let data = this.shared.borrow();
             range
-                .map(|index| {
-                    TableRow::new(("process", index), index + 1)
-                        .flex()
-                        .h_7()
-                        .aria_selected(index == this.selected)
-                        .when(index == this.selected, |row| row.bg(cx.theme().muted))
-                        .debug_selector(move || format!("process-row:{index}").into())
-                        .child(
-                            TableCell::new(("pid", index), 1)
-                                .w_24()
-                                .child(format!("{}", 1000 + index)),
-                        )
-                        .child(
-                            TableCell::new(("name", index), 2)
-                                .w_80()
-                                .child(format!("fixture-process-{index}")),
-                        )
-                        .child(
-                            TableCell::new(("cpu", index), 3)
-                                .w_24()
-                                .child(format!("{}%", index % 100)),
-                        )
+                .filter_map(|index| {
+                    let process = data.processes.get(index)?;
+                    let identity = &process.identity;
+                    let stable_id =
+                        format!("process:{}:{}", identity.pid, identity.start_time_ticks);
+                    let selected = this.selected.as_ref() == Some(identity);
+                    Some(
+                        TableRow::new(SharedString::from(stable_id.clone()), index + 2)
+                            .flex()
+                            .h_7()
+                            .aria_selected(selected)
+                            .when(selected, |row| row.bg(cx.theme().muted))
+                            .debug_selector(move || format!("process-row:{index}").into())
+                            .children(process.cells.iter().enumerate().map(|(column, text)| {
+                                TableCell::new(
+                                    SharedString::from(format!("{stable_id}:cell:{column}")),
+                                    column + 1,
+                                )
+                                .aria_label(text.clone())
+                                .w(px(data.process_widths[column]))
+                                .flex_none()
+                                .overflow_hidden()
+                                .child(text.clone())
+                            })),
+                    )
                 })
                 .collect()
         })
         .track_scroll(&self.table_scroll);
         let outer = self.shared.borrow().scroll.clone();
         let focus = self.controls["table"].clone();
-        div()
-            .id("process-table-viewport")
-            .size_full()
-            .relative()
-            .track_focus(&handle)
-            .border_1()
-            .border_color(cx.theme().border)
-            .focus_visible(move |style| style.border_color(ring))
+        let horizontal = self.table_horizontal.clone();
+        div().id("process-table-viewport").size_full().relative().track_focus(&handle)
+            .border_1().border_color(cx.theme().border).focus_visible(move |style| style.border_color(ring))
             .debug_selector(|| "process-table".into())
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
-                if event.keystroke.modifiers.alt {
-                    return;
+                if event.keystroke.modifiers.alt { return; }
+                if matches!(event.keystroke.key.as_str(), "left" | "right") {
+                    let old = this.table_horizontal.offset();
+                    let delta = if event.keystroke.key == "left" { 240. } else { -240. };
+                    this.table_horizontal.set_offset(point((old.x + px(delta)).clamp(-this.table_horizontal.max_offset().x, px(0.)), old.y));
+                    window.refresh(); cx.stop_propagation(); return;
                 }
+                let count = this.shared.borrow().processes.len();
+                if count == 0 { return; }
+                let current = this.selected_index();
                 let next = match event.keystroke.key.as_str() {
-                    "up" => this.selected.saturating_sub(1),
-                    "down" => (this.selected + 1).min(499),
-                    "home" => 0,
-                    "end" => 499,
-                    _ => return,
+                    "up" => current.unwrap_or(0).saturating_sub(1),
+                    "down" => current.map_or(0, |i| (i + 1).min(count - 1)),
+                    "home" => 0, "end" => count - 1, _ => return,
                 };
-                this.selected = next;
+                this.selected = Some(this.shared.borrow().processes[next].identity.clone());
                 this.table_scroll.scroll_to_item(next, ScrollStrategy::Top);
-                controls::reveal(
-                    this.table_scroll.base_handle().bounds().dilate(px(1.)),
-                    &this.shared.borrow().scroll,
-                );
-                window.refresh();
-                cx.stop_propagation();
-                cx.notify();
+                controls::reveal(this.table_scroll.base_handle().bounds().dilate(px(1.)), &this.shared.borrow().scroll);
+                window.refresh(); cx.stop_propagation(); cx.notify();
             }))
             .on_prepaint(move |bounds, window, _| {
-                if focus.entered(window) {
-                    // Include the table viewport's one-pixel focus border.
-                    controls::reveal(bounds.dilate(px(1.)), &outer);
-                    window.refresh();
-                }
+                if focus.entered(window) { controls::reveal(bounds.dilate(px(1.)), &outer); window.refresh(); }
             })
-            .child(
-                Table::new("process-table")
-                    .row_count(500)
-                    .column_count(3)
-                    .accessibility_label("Fixture processes; arrows navigate; Tab leaves table")
-                    .size_full()
-                    .child(list),
-            )
-            .child(ScrollableMask::new(
-                Axis::Vertical,
-                self.table_scroll.base_handle(),
-            ))
-            .child(Scrollbar::new(&self.table_scroll).mode(ScrollbarMode::Always))
+            .child(div().id("process-horizontal").size_full().overflow_x_scroll().track_scroll(&horizontal)
+                .child(Table::new("process-table").row_count(count + 1).column_count(8)
+                    .accessibility_label(format!("{count} readable process rows; arrows navigate and scroll columns; Tab leaves table"))
+                    .w(px(width)).h_full().flex().flex_col()
+                    .child(TableRow::new("process-columns", 1).flex().h_7().flex_none()
+                        .children(live::PROCESS_COLUMNS.iter().enumerate().map(|(column, title)| {
+                            TableCell::new(("process-heading", column), column + 1).role(Role::ColumnHeader)
+                                .aria_label((*title).to_owned()).w(px(widths[column])).flex_none().child(*title)
+                        })))
+                    .child(div().flex_1().min_h_0().child(list))))
+            .child(ScrollableMask::new(Axis::Vertical, self.table_scroll.base_handle()))
+            .child(Scrollbar::vertical(&self.table_scroll).mode(ScrollbarMode::Always))
+            .child(Scrollbar::horizontal(&horizontal).mode(ScrollbarMode::Always))
             .into_any_element()
     }
 }
@@ -340,7 +382,7 @@ impl Panel for MonitorPanel {
         data.session
             .workspace
             .panels
-            .get(self.monitor.id)
+            .get(&self.monitor.id)
             .is_some_and(|s| s.visible)
             && data.catalog.iter().any(|m| m.id == self.monitor.id)
     }
@@ -349,7 +391,7 @@ impl Panel for MonitorPanel {
     }
     fn dock_extent(&self, _: &App) -> Option<PanelExtent> {
         let data = self.shared.borrow();
-        let p = &data.session.workspace.panels[self.monitor.id];
+        let p = &data.session.workspace.panels[&self.monitor.id];
         let extent = PanelExtent::new(
             size(px(320.), px(220.)),
             size(px(p.expanded_size.width), px(p.expanded_size.height)),
@@ -377,12 +419,12 @@ impl Focusable for MonitorPanel {
 }
 impl Render for MonitorPanel {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
-        if self.shared.borrow().session.workspace.panels[self.monitor.id].collapsed {
+        if self.shared.borrow().session.workspace.panels[&self.monitor.id].collapsed {
             return Empty.into_any_element();
         }
-        let content = match self.monitor.id {
+        let content = match self.monitor.id.as_str() {
             "processes" => self.process_table(window, cx),
-            "settings" => div().p_3().child("Fixture controls and the single preset slot are in the workspace toolbar. No operating-system collectors are running.").into_any_element(),
+            "settings" => div().p_3().child("Choose the global sampling interval and panel visibility above. Sensor meters use physical units. CPU process percentages use one core and may exceed 100%.").into_any_element(),
             _ => self.sensor_rows(cx),
         };
         div()
@@ -466,10 +508,15 @@ pub(crate) fn register(shared: Shared, cx: &mut App) {
             PanelInfo::Panel(v) => v["monitor_id"].as_str().unwrap_or(""),
             _ => "",
         };
-        let monitor = crate::fixture::catalog()
-            .into_iter()
-            .find(|m| m.id == id)
-            .expect("native adapter validates every fixture identity before loading");
+        let monitor = {
+            let data = shared.borrow();
+            data.catalog
+                .iter()
+                .find(|m| m.id == id)
+                .or_else(|| data.session.workspace.monitors.get(id))
+                .cloned()
+        }
+        .expect("restored catalog contains every validated dock identity");
         let entity = cx.new(|cx| MonitorPanel::new(monitor.clone(), shared.clone(), cx));
         shared
             .borrow_mut()

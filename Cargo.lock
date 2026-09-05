@@ -9397,8 +9397,10 @@ dependencies = [
  "gpui-base",
  "gpui-component",
  "gpui_platform",
+ "serde",
  "serde_json",
  "smol",
+ "system-pulse-collectors",
  "system-pulse-model",
 ]
 

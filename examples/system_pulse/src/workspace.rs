@@ -1,10 +1,12 @@
+#[cfg(test)]
+use crate::fixture;
 use crate::{
-    fixture::{self, Monitor},
+    live::{self, LiveState},
     panel::{self, MonitorPanel, WorkspaceSkin},
     storage::{self, Storage},
 };
 use gpui::*;
-use gpui_base::{Button, Scrollbar, ScrollbarMode, dock::*};
+use gpui_base::{Button, ElementExt, Scrollbar, ScrollbarMode, dock::*};
 use gpui_component::ActiveTheme;
 use std::{
     cell::RefCell,
@@ -13,7 +15,10 @@ use std::{
     rc::Rc,
     time::Duration,
 };
-use system_pulse_model::{ExpandedSize, HistoryStore, Meter, Session, Workspace};
+use system_pulse_collectors::{SamplingService, Snapshot};
+use system_pulse_model::{
+    ExpandedSize, HistoryStore, MonitorDescriptor as Monitor, Session, Workspace,
+};
 
 pub(crate) type Shared = Rc<RefCell<Data>>;
 pub(crate) struct Data {
@@ -24,6 +29,10 @@ pub(crate) struct Data {
     pub(crate) views: BTreeMap<String, WeakEntity<MonitorPanel>>,
     pub(crate) bounds: BTreeMap<String, Bounds<Pixels>>,
     pub(crate) scroll: ScrollHandle,
+    pub(crate) processes: Vec<crate::live::ProcessView>,
+    pub(crate) process_widths: [f32; 8],
+    pub(crate) snapshot: Option<std::sync::Arc<Snapshot>>,
+    pub(crate) live: LiveState,
 }
 
 #[derive(Clone)]
@@ -33,19 +42,28 @@ pub(crate) enum Command {
     RowCollapse(String, String),
     SensorVisible(String, String),
     Meter(String, String),
+    #[cfg(test)]
     Tick,
     Save,
     SavePreset,
     RecallPreset,
     Recover,
+    #[cfg(test)]
     ReverseDiscovery,
+    #[cfg(test)]
     ToggleGpu,
+    Interval(u64),
     Scroll(f32, f32),
 }
 
+#[cfg(test)]
 pub(crate) fn default_dock() -> DockAreaState {
-    let children = fixture::catalog()
-        .into_iter()
+    default_dock_for(&fixture::catalog())
+}
+
+fn default_dock_for(monitors: &[Monitor]) -> DockAreaState {
+    let children = monitors
+        .iter()
         .map(|monitor| {
             let mut leaf = PanelState::new("SystemPulseMonitor");
             leaf.info = PanelInfo::panel(serde_json::json!({"monitor_id": monitor.id}));
@@ -69,15 +87,24 @@ pub(crate) fn default_dock() -> DockAreaState {
     }
 }
 
+#[cfg(test)]
 pub(crate) fn validate_dock(value: &serde_json::Value) -> Result<(), String> {
+    validate_dock_mode(value, false)
+}
+
+fn validate_dock_mode(value: &serde_json::Value, allow_fixture: bool) -> Result<(), String> {
     let state: DockAreaState = serde_json::from_value(value.clone()).map_err(|e| e.to_string())?;
     PanelPolicy::Separate
         .validate_state(&state)
         .map_err(|e| e.to_string())?;
     if state.left_dock.is_some() || state.right_dock.is_some() || state.bottom_dock.is_some() {
-        return Err("The fixture workspace supports center splits only".into());
+        return Err("The workspace supports center splits only".into());
     }
-    fn leaves(node: &PanelState, seen: &mut BTreeSet<String>) -> Result<(), String> {
+    fn leaves(
+        node: &PanelState,
+        seen: &mut BTreeSet<String>,
+        allow_fixture: bool,
+    ) -> Result<(), String> {
         let expected = match &node.info {
             PanelInfo::Stack { .. } => "StackPanel",
             PanelInfo::Tabs { .. } => "TabPanel",
@@ -92,20 +119,21 @@ pub(crate) fn validate_dock(value: &serde_json::Value) -> Result<(), String> {
                 .as_str()
                 .ok_or("Missing monitor identity")?;
             if node.panel_name != "SystemPulseMonitor"
-                || !fixture::catalog().iter().any(|m| m.id == id)
+                || id.trim().is_empty()
+                || (!allow_fixture && live::is_fixture_id(id))
             {
-                return Err(format!("Unknown fixture monitor: {id}"));
+                return Err(format!("Unsupported simulated monitor identity: {id}"));
             }
             if !seen.insert(id.to_owned()) {
                 return Err(format!("Duplicate monitor: {id}"));
             }
         }
         for child in &node.children {
-            leaves(child, seen)?;
+            leaves(child, seen, allow_fixture)?;
         }
         Ok(())
     }
-    leaves(&state.center, &mut BTreeSet::new())
+    leaves(&state.center, &mut BTreeSet::new(), allow_fixture)
 }
 
 fn ensure_enabled_regions(
@@ -130,7 +158,7 @@ fn ensure_enabled_regions(
         let data = shared.borrow();
         data.catalog
             .iter()
-            .filter(|m| data.session.workspace.panels[m.id].visible && !present.contains(m.id))
+            .filter(|m| data.session.workspace.panels[&m.id].visible && !present.contains(&m.id))
             .cloned()
             .collect()
     };
@@ -205,23 +233,34 @@ pub struct WorkspaceView {
     read_blocked: bool,
     storage: Storage,
     revision: u64,
+    #[cfg(test)]
     tick: u64,
+    fixture_mode: bool,
+    service: Option<SamplingService>,
+    accepted_clock: Option<(std::time::Instant, u64)>,
+    diagnostics: Option<crate::diagnostics::Writer>,
     preset: Option<String>,
     timer: Option<Task<()>>,
     save_task: Option<Task<()>>,
     focus: FocusHandle,
+    visibility_scroll: ScrollHandle,
+    visibility_controls: BTreeMap<String, crate::controls::FocusEntry>,
 }
 
 impl Command {
     fn control_id(&self) -> String {
         match self {
             Self::PanelVisible(id) => format!("workspace:visible:{id}"),
+            #[cfg(test)]
             Self::Tick => "workspace:tick".into(),
             Self::Save => "workspace:save".into(),
             Self::SavePreset => "workspace:save-preset".into(),
             Self::RecallPreset => "workspace:recall-preset".into(),
+            Self::Interval(ms) => format!("workspace:interval:{ms}"),
             Self::Recover => "workspace:recover".into(),
+            #[cfg(test)]
             Self::ReverseDiscovery => "workspace:reverse-discovery".into(),
+            #[cfg(test)]
             Self::ToggleGpu => "workspace:toggle-gpu".into(),
             _ => unreachable!("only workspace commands appear in the toolbar"),
         }
@@ -229,11 +268,27 @@ impl Command {
 }
 
 impl WorkspaceView {
-    pub fn new(live: bool, window: &mut Window, cx: &mut Context<Self>) -> Self {
-        let mut workspace =
-            Workspace::new(serde_json::to_value(default_dock()).expect("static dock serializes"));
-        fixture::discover(&mut workspace, &fixture::catalog());
-        workspace.panel_mut("cpu").sensor_mut("overall").meter = Meter::Line;
+    pub fn new(window: &mut Window, cx: &mut Context<Self>) -> Self {
+        Self::construct(false, window, cx)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn new_fixture(window: &mut Window, cx: &mut Context<Self>) -> Self {
+        Self::construct(true, window, cx)
+    }
+
+    fn construct(fixture_mode: bool, window: &mut Window, cx: &mut Context<Self>) -> Self {
+        let live = !fixture_mode;
+        let initial = initial_catalog(fixture_mode);
+        let mut workspace = Workspace::new(
+            serde_json::to_value(default_dock_for(&initial)).expect("default dock serializes"),
+        );
+        live::discover(&mut workspace, &initial);
+        #[cfg(test)]
+        if fixture_mode {
+            workspace.panel_mut("cpu").sensor_mut("overall").meter =
+                system_pulse_model::Meter::Line;
+        }
         let mut session = Session {
             workspace: workspace.clone(),
             rejected: None,
@@ -255,7 +310,7 @@ impl WorkspaceView {
         let mut preset = None;
         if let Some(dir) = &directory {
             match storage::read(&dir.join("workspace.json")) {
-                Ok(Some(raw)) => session = Session::restore(&raw, workspace, validate_dock),
+                Ok(Some(raw)) => session = restore_session(&raw, workspace, fixture_mode),
                 Ok(None) => {}
                 Err(e) => {
                     notice = e;
@@ -270,11 +325,40 @@ impl WorkspaceView {
                 }
             }
         }
-        fixture::discover(&mut session.workspace, &fixture::catalog());
+        let catalog = if fixture_mode {
+            initial
+        } else {
+            live::catalog(&session.workspace)
+        };
+        live::discover(&mut session.workspace, &catalog);
+        let interval = Duration::from_millis(session.workspace.interval_ms);
+        let service = if live {
+            match SamplingService::start(interval) {
+                Ok(service) => Some(service),
+                Err(e) => {
+                    notice = e;
+                    None
+                }
+            }
+        } else {
+            None
+        };
+        let diagnostics = if live {
+            crate::diagnostics::Writer::from_env().unwrap_or_else(|e| {
+                notice = e;
+                None
+            })
+        } else {
+            None
+        };
         let shared = Rc::new(RefCell::new(Data {
             session,
-            history: HistoryStore::new(120).expect("valid fixture capacity"),
-            catalog: fixture::catalog(),
+            history: HistoryStore::new(120).expect("valid history capacity"),
+            catalog,
+            processes: Vec::new(),
+            process_widths: live::PROCESS_WIDTHS,
+            snapshot: None,
+            live: LiveState::default(),
             owner: Some(cx.weak_entity()),
             views: BTreeMap::new(),
             bounds: BTreeMap::new(),
@@ -311,22 +395,32 @@ impl WorkspaceView {
             read_blocked,
             storage: Storage::default(),
             revision: 0,
+            #[cfg(test)]
             tick: 0,
+            fixture_mode,
+            service,
+            accepted_clock: None,
+            diagnostics,
             preset,
             timer: None,
             save_task: None,
             focus: cx.focus_handle(),
+            visibility_scroll: ScrollHandle::default(),
+            visibility_controls: BTreeMap::new(),
         };
-        view.advance(cx);
+        #[cfg(test)]
+        if fixture_mode {
+            view.advance(cx);
+        }
         if live {
             view.timer = Some(cx.spawn_in(window, async move |weak, window| {
                 loop {
                     window
                         .background_executor()
-                        .timer(Duration::from_secs(1))
+                        .timer(Duration::from_millis(100))
                         .await;
                     if weak
-                        .update_in(window, |this, _, cx| this.advance(cx))
+                        .update_in(window, |this, window, cx| this.deliver(window, cx))
                         .is_err()
                     {
                         break;
@@ -344,7 +438,7 @@ impl WorkspaceView {
                     let json = if this.read_blocked {
                         None
                     } else {
-                        validate_dock(&data.session.workspace.dock)
+                        validate_dock_mode(&data.session.workspace.dock, this.fixture_mode)
                             .and_then(|_| data.session.autosave_json())
                             .ok()
                     };
@@ -377,6 +471,89 @@ impl WorkspaceView {
         view
     }
 
+    fn deliver(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        if let Some(writer) = &self.diagnostics {
+            if let Some(error) = writer.take_error() {
+                self.notice = error;
+                cx.notify();
+            }
+        }
+        if let Some(snapshot) = self.service.as_ref().and_then(SamplingService::take_latest) {
+            self.accept_snapshot(snapshot, window, cx);
+        } else if let Some((accepted, collector_ms)) = self.accepted_clock {
+            let now = collector_ms.saturating_add(accepted.elapsed().as_millis() as u64);
+            let mut data = self.shared.borrow_mut();
+            let threshold = data.session.workspace.interval_ms * 2;
+            if data.history.mark_stale(now, threshold) {
+                if let Some(snapshot) = &data.snapshot {
+                    data.processes = live::process_views(snapshot, now, threshold);
+                }
+                drop(data);
+                self.notify_panels(cx);
+            }
+        }
+    }
+
+    pub(crate) fn accept_snapshot(
+        &mut self,
+        snapshot: Snapshot,
+        window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        let unix_ns = live::unix_ns();
+        let now_ms = live::collector_now_ms(&snapshot, unix_ns);
+        let mut data = self.shared.borrow_mut();
+        let old_catalog = data.catalog.clone();
+        let interval = data.session.workspace.interval_ms;
+        let Data {
+            session,
+            history,
+            live,
+            ..
+        } = &mut *data;
+        if let Err(error) =
+            live.accept(&snapshot, &mut session.workspace, history, now_ms, interval)
+        {
+            self.notice = error;
+            cx.notify();
+            return;
+        }
+        data.catalog = live::catalog(&data.session.workspace);
+        data.processes = live::process_views(&snapshot, now_ms, interval * 2);
+        data.process_widths = live::process_widths(&data.processes);
+        let snapshot = std::sync::Arc::new(snapshot);
+        data.snapshot = Some(snapshot.clone());
+        let changed = old_catalog != data.catalog;
+        let updates: Vec<_> = data
+            .catalog
+            .iter()
+            .filter_map(|monitor| {
+                data.views
+                    .get(&monitor.id)
+                    .map(|view| (view.clone(), monitor.clone()))
+            })
+            .collect();
+        let identities: Vec<_> = data.processes.iter().map(|p| p.identity.clone()).collect();
+        if let Some(writer) = &self.diagnostics {
+            writer.submit(crate::diagnostics::Record::new(snapshot, unix_ns, &data));
+        }
+        drop(data);
+        for (view, monitor) in updates {
+            let _ = view.update(cx, |panel, cx| {
+                panel.refresh(monitor, cx);
+                live::reconcile_selection(&mut panel.selected, &identities);
+            });
+        }
+        if changed {
+            self.capture_sizes(cx);
+            ensure_enabled_regions(&self.shared, &self.dock, window, cx);
+            self.record(cx);
+            self.queue_save(cx);
+        }
+        self.accepted_clock = Some((std::time::Instant::now(), now_ms));
+        self.notify_panels(cx);
+    }
+
     fn capture_sizes(&mut self, cx: &App) {
         capture_preferences(&self.shared, &self.dock.read(cx).dump(cx));
     }
@@ -401,11 +578,13 @@ impl WorkspaceView {
         cx.notify();
     }
 
+    #[cfg(test)]
     pub(crate) fn advance(&mut self, cx: &mut Context<Self>) {
         self.tick += 1;
         if let Err(e) = fixture::advance(&mut self.shared.borrow_mut().history, self.tick) {
             self.notice = e;
         }
+        self.shared.borrow_mut().processes = fixture::processes();
         self.notify_panels(cx);
     }
 
@@ -415,8 +594,8 @@ impl WorkspaceView {
         }
         let Some(dir) = &self.directory else { return };
         let data = self.shared.borrow();
-        let result =
-            validate_dock(&data.session.workspace.dock).and_then(|_| data.session.autosave_json());
+        let result = validate_dock_mode(&data.session.workspace.dock, self.fixture_mode)
+            .and_then(|_| data.session.autosave_json());
         drop(data);
         let json = match result {
             Ok(json) => json,
@@ -445,13 +624,24 @@ impl WorkspaceView {
     }
 
     pub(crate) fn restore(&mut self, raw: &str, window: &mut Window, cx: &mut Context<Self>) {
-        let mut fallback =
-            Workspace::new(serde_json::to_value(default_dock()).expect("default serializes"));
-        fixture::discover(&mut fallback, &fixture::catalog());
-        let mut session = Session::restore(raw, fallback, validate_dock);
-        fixture::discover(&mut session.workspace, &fixture::catalog());
+        let catalog = self.shared.borrow().catalog.clone();
+        let mut fallback = Workspace::new(
+            serde_json::to_value(default_dock_for(&catalog)).expect("default serializes"),
+        );
+        live::discover(&mut fallback, &catalog);
+        let mut session = restore_session(raw, fallback, self.fixture_mode);
+        live::discover(&mut session.workspace, &catalog);
         if let Some(rejected) = self.shared.borrow().session.rejected.clone() {
             session.rejected = Some(rejected);
+        }
+        let interval = Duration::from_millis(session.workspace.interval_ms);
+        if let Some(service) = &self.service {
+            if let Err(e) = service.set_interval(interval) {
+                self.notice = e;
+            }
+        }
+        if !self.fixture_mode {
+            self.shared.borrow_mut().catalog = live::catalog(&session.workspace);
         }
         self.shared.borrow_mut().session = session;
         let state = serde_json::from_value(self.shared.borrow().session.workspace.dock.clone())
@@ -473,6 +663,7 @@ impl WorkspaceView {
         cx: &mut Context<Self>,
     ) {
         match command {
+            #[cfg(test)]
             Command::Tick => {
                 self.advance(cx);
                 return;
@@ -511,7 +702,14 @@ impl WorkspaceView {
                 let old = data.views.get(&id).and_then(WeakEntity::upgrade);
                 drop(data);
                 if visible {
-                    if let Some(monitor) = fixture::catalog().into_iter().find(|m| m.id == id) {
+                    let monitor = self
+                        .shared
+                        .borrow()
+                        .catalog
+                        .iter()
+                        .find(|m| m.id == id)
+                        .cloned();
+                    if let Some(monitor) = monitor {
                         let panel = old.unwrap_or_else(|| {
                             cx.new(|cx| MonitorPanel::new(monitor, self.shared.clone(), cx))
                         });
@@ -548,14 +746,15 @@ impl WorkspaceView {
             }
             Command::Meter(id, sensor) => {
                 let mut data = self.shared.borrow_mut();
+                let quantity = data
+                    .catalog
+                    .iter()
+                    .find(|m| m.id == id)
+                    .and_then(|m| m.sensors.iter().find(|s| s.id == sensor))
+                    .map(|s| s.quantity)
+                    .unwrap_or(system_pulse_model::Quantity::Scalar);
                 let row = data.session.workspace.panel_mut(&id).sensor_mut(&sensor);
-                row.meter = match row.meter {
-                    Meter::Number => Meter::Line,
-                    Meter::Line => Meter::Bar,
-                    Meter::Bar => Meter::Sparkline,
-                    Meter::Sparkline => Meter::Radial,
-                    Meter::Radial => Meter::Number,
-                };
+                row.meter = quantity.next_meter(row.meter);
             }
             Command::SavePreset => {
                 if self.read_blocked {
@@ -593,7 +792,7 @@ impl WorkspaceView {
                 if let Some(raw) = self.preset.clone() {
                     self.restore(&raw, window, cx);
                 } else {
-                    self.notice = "Save the fixture preset before recalling it".into();
+                    self.notice = "Save a preset before recalling it".into();
                 }
             }
             Command::Recover => {
@@ -627,9 +826,11 @@ impl WorkspaceView {
                 self.shared.borrow_mut().session.accept_recovery();
                 self.notice.clear();
             }
+            #[cfg(test)]
             Command::ReverseDiscovery => {
                 self.shared.borrow_mut().catalog.reverse();
             }
+            #[cfg(test)]
             Command::ToggleGpu => {
                 self.capture_sizes(cx);
                 let mut data = self.shared.borrow_mut();
@@ -647,6 +848,17 @@ impl WorkspaceView {
                 self.dock
                     .update(cx, |dock, cx| dock.refresh_geometry(window, cx));
             }
+            Command::Interval(ms) => {
+                if let Some(service) = &self.service {
+                    if let Err(error) = service.set_interval(Duration::from_millis(ms)) {
+                        self.notice = error;
+                        return;
+                    }
+                }
+                if [500, 1000, 2000, 5000].contains(&ms) {
+                    self.shared.borrow_mut().session.workspace.interval_ms = ms;
+                }
+            }
             Command::Save => {}
         }
         self.record(cx);
@@ -658,25 +870,33 @@ impl WorkspaceView {
 impl Render for WorkspaceView {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
         let data = self.shared.borrow();
-        let mut commands = data
+        let monitor_commands = data
             .catalog
             .iter()
             .map(|m| {
-                let visible = data.session.workspace.panels[m.id].visible;
+                let visible = data.session.workspace.panels[&m.id].visible;
                 (
                     format!("{} {}", if visible { "Hide" } else { "Show" }, m.title),
-                    Command::PanelVisible(m.id.into()),
+                    Command::PanelVisible(m.id.clone()),
                 )
             })
             .collect::<Vec<_>>();
-        commands.extend([
-            ("Advance fixture".into(), Command::Tick),
+        let mut commands = vec![
             ("Save".into(), Command::Save),
             ("Save preset".into(), Command::SavePreset),
             ("Recall preset".into(), Command::RecallPreset),
-            ("Reverse discovery".into(), Command::ReverseDiscovery),
-            ("Connect/disconnect GPU A".into(), Command::ToggleGpu),
-        ]);
+        ];
+        let selected_interval = data.session.workspace.interval_ms;
+        commands.extend([500, 1000, 2000, 5000].map(|ms| {
+            (
+                format!(
+                    "{}{} s",
+                    if ms == selected_interval { "✓ " } else { "" },
+                    ms as f64 / 1000.
+                ),
+                Command::Interval(ms),
+            )
+        }));
         let mut message = self.notice.clone();
         if let Some(rejected) = &data.session.rejected {
             message = format!(
@@ -688,27 +908,33 @@ impl Render for WorkspaceView {
         let scroll = data.scroll.clone();
         drop(data);
         let extent = self.dock.read(cx).content_extent(cx);
-        let toolbar = div()
-            .flex()
-            .flex_wrap()
-            .gap_1()
-            .children(commands.into_iter().map(|(label, command)| {
-                let selector = command.control_id();
-                Button::new(SharedString::from(command.control_id()))
-                    .debug_selector(move || selector.clone().into())
-                    .accessibility_label(label.clone())
-                    .child(label)
-                    .px_2()
-                    .h_7()
-                    .text_sm()
-                    .border_1()
-                    .rounded(cx.theme().radius)
-                    .border_color(cx.theme().border)
-                    .focus_visible(|style| style.border_color(cx.theme().ring))
-                    .on_click(cx.listener(move |this, _, window, cx| {
-                        this.command(command.clone(), window, cx)
-                    }))
-            }));
+        let toolbar = div().flex().flex_wrap().gap_1().children(
+            commands
+                .into_iter()
+                .map(|(label, command)| command_button(label, command, cx)),
+        );
+        let visibility_scroll = self.visibility_scroll.clone();
+        let visibility =
+            div()
+                .flex()
+                .flex_wrap()
+                .gap_1()
+                .children(monitor_commands.into_iter().map(|(label, command)| {
+                    let entry = self
+                        .visibility_controls
+                        .entry(command.control_id())
+                        .or_insert_with(|| crate::controls::FocusEntry::new(cx))
+                        .clone();
+                    let scroll = visibility_scroll.clone();
+                    command_button(label, command, cx)
+                        .track_focus(&entry.handle)
+                        .on_prepaint(move |bounds, window, _| {
+                            if entry.entered(window) {
+                                crate::controls::reveal(bounds.dilate(px(1.)), &scroll);
+                                window.refresh();
+                            }
+                        })
+                }));
         div().size_full().flex().flex_col().gap_2().p_2().bg(cx.theme().background)
             .text_color(cx.theme().foreground).track_focus(&self.focus).tab_group()
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
@@ -720,13 +946,153 @@ impl Render for WorkspaceView {
                     this.command(command, window, cx); cx.stop_propagation();
                 }
             }))
-            .child("Fixture mode · simulated readings · 1 s cadence · normalized demonstration meters")
+            .child("System Pulse · live host readings")
             .child("Alt+PageUp/PageDown: workspace · Alt+Left/Right: horizontal · table arrows/Home/End · Tab: next control")
-            .child(toolbar).child(message)
+            .child(toolbar)
+            .child(div().h(px(96.)).flex_none().relative()
+                .child(div().id("visibility-controls").size_full().overflow_y_scroll().track_scroll(&self.visibility_scroll).child(visibility))
+                .child(Scrollbar::vertical(&self.visibility_scroll).mode(ScrollbarMode::Always)))
+            .child(message)
             .child(div().flex_1().min_h_0().min_w_0().relative()
                 .child(div().id("workspace-scroll").size_full().overflow_scroll().track_scroll(&scroll)
                     .debug_selector(|| "workspace-viewport".into())
                     .child(div().w(extent.width).h(extent.height).min_w_full().child(self.dock.clone())))
                 .child(Scrollbar::new(&scroll).mode(ScrollbarMode::Always)))
     }
+}
+
+fn initial_catalog(fixture_mode: bool) -> Vec<Monitor> {
+    #[cfg(test)]
+    if fixture_mode {
+        return fixture::catalog();
+    }
+    let _ = fixture_mode;
+    live::presentations()
+}
+
+fn restore_session(raw: &str, fallback: Workspace, allow_fixture: bool) -> Session {
+    let mut session = Session::restore(raw, fallback.clone(), |value| {
+        validate_dock_mode(value, allow_fixture)
+    });
+    if !allow_fixture
+        && session.rejected.is_none()
+        && (session
+            .workspace
+            .panels
+            .keys()
+            .any(|id| live::is_fixture_id(id))
+            || session
+                .workspace
+                .monitors
+                .keys()
+                .any(|id| live::is_fixture_id(id)))
+    {
+        session = Session {
+            workspace: fallback,
+            rejected: Some(system_pulse_model::RejectedInput {
+                original: raw.into(),
+                error: "Saved workspace contains simulated device identities".into(),
+            }),
+        };
+    }
+    // Saved dock leaves may precede persisted presentation metadata.
+    fn collect(value: &serde_json::Value, ids: &mut Vec<String>) {
+        if let Some(id) = value.get("monitor_id").and_then(serde_json::Value::as_str) {
+            ids.push(id.into());
+        }
+        match value {
+            serde_json::Value::Object(map) => {
+                for value in map.values() {
+                    collect(value, ids);
+                }
+            }
+            serde_json::Value::Array(values) => {
+                for value in values {
+                    collect(value, ids);
+                }
+            }
+            _ => {}
+        }
+    }
+    let mut ids = Vec::new();
+    collect(&session.workspace.dock, &mut ids);
+    for id in ids {
+        session.workspace.panel_mut(&id);
+    }
+    session
+}
+
+#[cfg(test)]
+mod live_tests {
+    use super::*;
+    #[::core::prelude::v1::test]
+    fn live_restore_rejects_copied_fixture_workspace_and_preserves_original() {
+        let mut copied = Workspace::new(serde_json::to_value(default_dock()).unwrap());
+        fixture::discover(&mut copied, &fixture::catalog());
+        let raw = serde_json::to_string(&copied).unwrap();
+        let fallback =
+            Workspace::new(serde_json::to_value(default_dock_for(&live::presentations())).unwrap());
+        let restored = restore_session(&raw, fallback.clone(), false);
+        assert_eq!(restored.rejected.as_ref().unwrap().original, raw);
+        assert!(restored.autosave_json().is_err());
+        assert_eq!(restored.workspace.dock, fallback.dock);
+        assert!(
+            restored
+                .workspace
+                .panels
+                .keys()
+                .all(|id| !live::is_fixture_id(id))
+        );
+        let mut panels_only = fallback.clone();
+        panels_only.panel_mut("gpu:fixture-a");
+        assert!(
+            restore_session(
+                &serde_json::to_string(&panels_only).unwrap(),
+                fallback,
+                false
+            )
+            .rejected
+            .is_some()
+        );
+    }
+    #[::core::prelude::v1::test]
+    fn absent_real_identity_is_valid_before_discovery() {
+        let missing = Monitor {
+            id: "nvidia:GPU-absent".into(),
+            title: "Saved GPU".into(),
+            summary: "usage".into(),
+            sensors: vec![],
+        };
+        let dock = serde_json::to_value(default_dock_for(&[missing])).unwrap();
+        assert!(validate_dock(&dock).is_ok());
+        let workspace = Workspace::new(dock);
+        let restored = restore_session(
+            &serde_json::to_string(&workspace).unwrap(),
+            workspace,
+            false,
+        );
+        assert!(restored.rejected.is_none());
+        assert!(restored.workspace.panels.contains_key("nvidia:GPU-absent"));
+        assert!(
+            live::catalog(&restored.workspace)
+                .iter()
+                .any(|m| m.id == "nvidia:GPU-absent")
+        );
+    }
+}
+
+fn command_button(label: String, command: Command, cx: &Context<WorkspaceView>) -> Button {
+    let selector = command.control_id();
+    Button::new(SharedString::from(command.control_id()))
+        .debug_selector(move || selector.clone().into())
+        .accessibility_label(label.clone())
+        .child(label)
+        .px_2()
+        .h_7()
+        .text_sm()
+        .border_1()
+        .rounded(cx.theme().radius)
+        .border_color(cx.theme().border)
+        .focus_visible(|style| style.border_color(cx.theme().ring))
+        .on_click(cx.listener(move |this, _, window, cx| this.command(command.clone(), window, cx)))
 }
