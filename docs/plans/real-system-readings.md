@@ -76,9 +76,9 @@ Read-only acceptance preparation found that connection readings preserve only th
 
 The real native probe found a finite X11 key backlog: each navigation key synchronously redraws the large workspace before foreground delivery can run. Ordinary 25 Hz key repeat held for three seconds caused more than fourteen seconds of stale accepted data. See `../execution/real-system-readings/native-freeze.md`. Finish Task 2a reviews before handing production source back to the app implementer.
 
-- [ ] Reproduce and retain the ordinary held-key failure and stack evidence. Compare condition-paced navigation so the final harness waits for actual selection acknowledgement instead of adding unprocessed batches.
-- [ ] Use the pinned GPUI next-frame scheduling API to coalesce navigation repaint requests with one pending request per owning view. Preserve every selection and scroll update immediately. Cover table vertical/horizontal navigation and outer Alt navigation when they share the same demonstrated synchronous pattern. Avoid dependency or unrelated framework rewrites.
-- [ ] Add a focused regression for accumulated selection/scroll state and bounded repaint scheduling. Run app/model and relevant existing focus/scroll tests, scoped Clippy/format/build. Repeat actual held-key and child-table navigation with current snapshots and clean shutdown; preserve the declared freshness bounds. Commit owned source; independent spec then quality review must pass.
+- [x] Reproduce and retain the ordinary held-key failure and stack evidence. Compare condition-paced navigation so the final harness waits for actual selection acknowledgement instead of adding unprocessed batches.
+- [x] Use the pinned GPUI next-frame scheduling API to coalesce navigation repaint requests with one pending request per owning view. Preserve every selection and scroll update immediately. Cover table vertical/horizontal navigation and outer Alt navigation when they share the same demonstrated synchronous pattern. Avoid dependency or unrelated framework rewrites.
+- [x] Add a focused regression for accumulated selection/scroll state and bounded repaint scheduling. Run app/model and relevant existing focus/scroll tests, scoped Clippy/format/build. Repeat actual held-key and child-table navigation with current snapshots and clean shutdown; preserve the declared freshness bounds. Commit owned source; independent spec then quality review must pass.
 
 ## Task 3: Executable independent host and native acceptance
 
