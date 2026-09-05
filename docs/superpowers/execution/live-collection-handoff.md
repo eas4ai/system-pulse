@@ -448,37 +448,60 @@ this observation. Source records: native-navigation-stale-frame.md/json and
 native-tmp-inode-exhaustion.md.
 
 Cairn production advanced to `1ea0cf7`; older Realized by records were migrated
-to include actual Git subjects and one current section. Source HEAD902170ff,
+to include actual Git subjects and one current section. Source HEAD `902170ff`,
 no in-progress marker, wake run LIVE-001. Final acceptance and review remain.
 
 The developer also requested `[features.context_management]` with
-`experimental_mode = true` in ~/.codex/config.toml. Root added it at line416,
+`experimental_mode = true` in ~/.codex/config.toml. Root added it at line 416,
 parsed the TOML, and verified every existing setting remained identical.
 
 
 ## 2026-09-05: diagnostic policy reviewed; freshness remains unresolved
 
 Recorded judged decision `publish-transient-diagnostics-without-a-durability-flush`
-and plan at source18a52eb1. Implementationdb08a65c adds a private durability
-choice: diagnostic atomic publication omits sync_all, while workspace and
-preset saves retain it. Three new Rust tests;48 app and24 model tests,
+and plan at `18a52eb1`. Implementation `db08a65c` adds a private durability
+choice: diagnostic atomic publication omits `sync_all`, while workspace and
+preset saves retain it. Three new Rust tests; 48 app and 24 model tests,
 formatting, strict Clippy, and build passed. Before/after syscall assertion
-failed then passed; both independent reviewers reran8 storage/3 diagnostic
-tests and fresh syscall probes successfully. Review record966b3a49.
-Binary SHA082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83.
+failed then passed; both independent reviewers reran 8 storage/3 diagnostic
+tests and fresh syscall probes successfully. Review record `966b3a49`.
+Binary SHA-256: 082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83.
 No in-progress marker; Cairn names run LIVE-001.
 
 The diagnostic-only syscall trace from the preceding investigation did not
-reproduce the earlier stall (maxfsync52.977ms); it failed an exact64Up check
+reproduce the earlier stall (maximum fsync 52.977 ms); it failed an exact-64-Up check
 and is not acceptance evidence. Cleanup reaped the tracer and owned children.
-The subsequent untraced focused run at966b3a49 again failed the2s freshness
-gate, this time during collapse at2.037s. The policy change does not resolve
+The subsequent untraced focused run at `966b3a49` again failed the two-second freshness
+gate, this time during collapse at 2.037 seconds. The policy change does not resolve
 this failure. Artifacts:
 `/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native`.
-Stale seq33, subsequent failure frame34, final latest39. No write errors.
+Stale sequence 33, subsequent failure frame 34, final latest 39. No write errors.
 A precise diagnostic capture is being prepared by diagnose_native_stale_frame
 to distinguish file-read race, publication delay, and thread scheduling.
 No further production fix is chosen. Source records:
 `native-post-publication-freshness.md/json`. Original deadlines stand.
-Full Python count158; latest Rust app48/model24; no full aggregate for
+Full Python count: 158; latest Rust app/model counts: 48/24; no full aggregate for
 this final candidate yet. Native lookup, exit, final replay/review/Done remain.
+
+## 2026-09-05: bounded discovery and gesture review
+
+The bounded publication watcher did not reproduce a checked-frame freshness
+breach. It found startup delivery delay while the main thread was busy, but
+did not identify the work responsible. Neither diagnostic capture proves that
+the earlier intermittent failures are resolved. The watcher instead exposed
+full panel discovery traversing 151 monitor bodies and timing out.
+
+Reviewed correction `18a7c978` prunes only native monitor body viewports whose
+identity matches their traversed live parent. Workspace/layout traversal,
+current panel membership and uniqueness, generic discovery, and strict exit
+checks remain intact. All 168 Python tests passed; SPEC and QUALITY passed.
+The next untraced run passed initial metric comparisons, then failed column
+five: repeated one-second full lookups exhausted a three-movement gesture.
+Artifacts: workspace artifacts/tmp/pulse-process-lookup-gq69tkie/native.
+
+Candidate `0b9dcfda` reuses the verified cell only during that gesture and
+reacquires after invalidation under the same deadline. The separate final
+metric check still establishes current membership and value correctness.
+All 175 Python tests, including 71 native harness tests, and Ruff checks
+passed. Independent SPEC review is in progress, with QUALITY next. Root owns
+the source implement marker. Fresh focused and full acceptance remain pending.
