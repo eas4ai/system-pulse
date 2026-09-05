@@ -1,0 +1,1513 @@
+{
+  "scope": "Preparation only. No final committed Cairn aggregate receipt; complete native21 remains FAIL.",
+  "source_candidate": "6a52d1a2",
+  "evidence": [
+    {
+      "run": "host-08",
+      "scope": "Original capture; its old PASS did not establish subsequently missing stable-total or reverse-inventory proof."
+    },
+    {
+      "run": "host08-inventory-reanalysis",
+      "status": "PASS",
+      "scope": "Retained initial inventory only; 468 independent stable totals plus strict arithmetic and all 41744 counter brackets. No new capture/final inventory invented."
+    },
+    {
+      "run": "native-20",
+      "status": "FAIL",
+      "scope": "Frozen640px preparation; child/preset/input support, failed restart."
+    },
+    {
+      "run": "native-21",
+      "status": "FAIL",
+      "source": "b3f3b9f7",
+      "scope": "Complete960px attempt passed13cases; last missing-device fullbounds failed."
+    },
+    {
+      "run": "native-restart-02",
+      "status": "PASS",
+      "scope": "Focused shared-transport restart preparation."
+    },
+    {
+      "run": "native-recovery-01",
+      "status": "PASS",
+      "scope": "Focused schema/JSON recovery preparation."
+    },
+    {
+      "run": "native-missing-02",
+      "status": "PASS",
+      "scope": "Focused same-function config specimen correction; fullbounds and truthful unavailable status, no simulated readings."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/tmp/pulse-host08-exact-audit-vvll5mix/strict-final/report.md",
+      "bytes": 1507,
+      "sha256": "f521bb2d007ca3ae1fe9001a32622a464356d224c59659d604b7c55d176bb675"
+    },
+    {
+      "path": "/tmp/pulse-host08-exact-audit-vvll5mix/strict-final/summary.json",
+      "bytes": 1691,
+      "sha256": "29f0fde3822a912d64b6d96e263857e44fbe0ccac741fbea955d38edf26121fd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/candidate-checks/checks.json",
+      "bytes": 728,
+      "sha256": "485760d45b22d037af6681085db7d35b3ccbd7cdcfeceefdb54820b8cf3bd796"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/candidate-checks/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/candidate-checks/python-format.log",
+      "bytes": 27,
+      "sha256": "75b7030be9d7de96bf4e76e79b1f03f14af8899d169fd8d79564d59167d1ab80"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/candidate-checks/python-lint.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/candidate-checks/python-tests.log",
+      "bytes": 4000,
+      "sha256": "2700af081a2d6bb8f8f9fdea2fd3d251ea11f0bf5596d1fb79b6aa3cbca7913c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/caption-candidate/app-tests.log",
+      "bytes": 4440,
+      "sha256": "10f4fc11d95420338c1ae614a9e3b1585be34fea90c77fe0b83a10cbace7e752"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/caption-candidate/build.log",
+      "bytes": 196,
+      "sha256": "e29dd39c568783aa06fe08e1c9d93688ef560b61a9f2a65a88ea8c8b80f378d4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/caption-candidate/checks.json",
+      "bytes": 784,
+      "sha256": "615a882d16aceaca2f5e038ddc9337f3c25be1b0a137e2e9968fa97d87cd0a93"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/caption-candidate/clippy.log",
+      "bytes": 196,
+      "sha256": "c1a8f9c15fa9af85d27278d7dda3391a101f0a855b6df969dcdd50440f6afae7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/caption-candidate/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/caption-candidate/fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/correction-checks/checks.json",
+      "bytes": 735,
+      "sha256": "4e8078355f71702b6ed82ad6a8118ca8e27d3c7c9048162b536cb607b7997723"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/correction-checks/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/correction-checks/python-format.log",
+      "bytes": 27,
+      "sha256": "cfe5c6461b42a90595a492aed11f2c8e6eb98b7c4caf2cc9f47e3333185e3f33"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/correction-checks/python-lint-fixed.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/correction-checks/python-lint.log",
+      "bytes": 646,
+      "sha256": "70518b31e8a548c6753a4a846480111d113ef514da92bc1d2babd6920e3ac2a1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/correction-checks/python-tests.log",
+      "bytes": 5162,
+      "sha256": "409dd65e2a367336b67f32118d29f6b610185914c6fb0bab5330c5a3b915059c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-03/corrected-missing-brackets.json",
+      "bytes": 48098,
+      "sha256": "18d7f1ffb0d0f161e5c44ba75eda959a5d793a91fc0b19322e052dee2de519a8"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-03/corrected-result.json",
+      "bytes": 2473,
+      "sha256": "9fbe2183834e22c813c9f64ee0f6e2dcaad958d60a606fd37c14ae314b75ce9d"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-03/result.json",
+      "bytes": 622,
+      "sha256": "078dad1a76eec9c225594c5201e351bddb0a4ddcd4bf4327461894ed9002b726"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-04/result.json",
+      "bytes": 582,
+      "sha256": "9660eb4397e43c97f8f850ac0519f09fac186a0475efce8b52f08d0c4992e594"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-05/result.json",
+      "bytes": 582,
+      "sha256": "c55a11633da8122fe0629032d3f8a5f3e49b4bc96014b84ce8ccfa4dbd549937"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-07/failure.json",
+      "bytes": 98,
+      "sha256": "a9e9e3afff2d8d7200fd6dfc4fc6408cfa3e657be2e00483df2cddd5ef08b7cd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-07/result.json",
+      "bytes": 582,
+      "sha256": "4a2f14f51fd9ea790c14039fa0a40f339b52c22f820bda710f5d29f6e2e5ccdb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/after-exit.jsonl",
+      "bytes": 2600565,
+      "sha256": "d53842bd76abd38808d5f82af319e73911e4bddf864a277b280b9be90f8dfdca"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/capabilities.json",
+      "bytes": 424071,
+      "sha256": "96eb3daaf3604bc21ed161a722f40eb60e7a755bb10efb9beea28dd4d0060741"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/child.json",
+      "bytes": 15413,
+      "sha256": "8b28d8e5177d4603fe3cc6938f8235e1af1bbce9a62bfe3174e1c428e927ae1f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/collector-exec-gate",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/collector-lifecycle.json",
+      "bytes": 2665,
+      "sha256": "c9f47464736bdda3aaa1d847c2fa4acd439ede4a928a4af5aa1922b10fbadb20"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/collector-start.json",
+      "bytes": 699,
+      "sha256": "f4a3d185efe370b3dc7832ea211f1883caac38787e2134f33d447317ac8c8f1c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/collector-stopped.json",
+      "bytes": 705,
+      "sha256": "c65f3a5b6021ae0d553775438bca7d12fc1bfbb6bc97bdb5a16aed6923dcb879"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/collector.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/counter-brackets.json",
+      "bytes": 17019031,
+      "sha256": "1713060fc906ab5b5306bf2311b251791898c2648ee23b9841eb5a1d7affc198"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/external-observations.json",
+      "bytes": 32231646,
+      "sha256": "66cd5a415bb54b8ac5d631326e24e54872711ab0eb08b3ee4ddf9073b1734ab0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/missing-brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/result.json",
+      "bytes": 582,
+      "sha256": "a14aa79beca4788a650fe79d474b50f514307219362aa058cbf999f569212069"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-08/snapshots.jsonl",
+      "bytes": 11526120,
+      "sha256": "f35f6327a80875a7fa6335dd51dde39873427892170afc9b88782202ebec77d5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-inventory-red.log",
+      "bytes": 4112,
+      "sha256": "2fa27af4ed6034eb9696e3f9508ed40d1965ef373ba8de92aaac2c70c4f9d3ca"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/brackets.json",
+      "bytes": 17019031,
+      "sha256": "1713060fc906ab5b5306bf2311b251791898c2648ee23b9841eb5a1d7affc198"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/host_capture.py",
+      "bytes": 49744,
+      "sha256": "f70bca3359ee4825354b73d76b60bfdc54b8312f83d3d5cb45b4f78470af13a7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/missing_brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/result.json",
+      "bytes": 414,
+      "sha256": "ec713e9a7e496c01369f5a4a4cd0f83a2a79ea4e560a28fee4a3edc7dcc9a8ab"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-inventory-reanalysis/stable_totals.json",
+      "bytes": 250192,
+      "sha256": "3c0f48f3f85753e85e719163c232e4ea786dca13e69a412a7d02ebf9e736e1eb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-20/harness-manifest.json",
+      "bytes": 995,
+      "sha256": "c39d91c0a9441898cc32bdf96ebe53f14ddbb249979ef30106b0472f7877f32e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-20/progress.jsonl",
+      "bytes": 1542,
+      "sha256": "fcb405d8824ba41ccb228691a47fc3cef850e6d5a4ce273c8b5ea2003d6af4a9"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-20/result.json",
+      "bytes": 738,
+      "sha256": "05d2f604ce62834081e0c461380dd71ed2061be6ec9f1a3e37b7d282caf6b969"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/harness-manifest.json",
+      "bytes": 995,
+      "sha256": "e6d8721e2ae02adba39058582eee644f3de32edbb2a5198724a1bb42fb5e9192"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/private-session.json",
+      "bytes": 559,
+      "sha256": "c010d067b64b8dc8fe866308844132c909590d128bf741a276bb99e2d9078063"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/private-session.log",
+      "bytes": 9285,
+      "sha256": "f267618c0d10c9f7165cdf0b22929f608e4fa21c42a73fe1a74714e8b7e155c4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/progress.jsonl",
+      "bytes": 2012,
+      "sha256": "7a82ea2fffeaf0c34fa960cc25bc9b842e9f7ce3be0f08688ef85a4d349a250e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/result.json",
+      "bytes": 896,
+      "sha256": "c4ac931bc7724a510a7fe3a119ef52205288c5cbac7f4c82232f1156e4921e83"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/after-held-input-ancestors.json",
+      "bytes": 506,
+      "sha256": "fa968608d004454d3aed062130e1297671b5a2e556d0a2f1d1bfcfdd43bfa0fd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/after-held-input.json",
+      "bytes": 9528734,
+      "sha256": "df537db70a349b3bb4659fc21e97a03c56da9b8a393ee3620abe94c18cbee2eb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/application.log",
+      "bytes": 467,
+      "sha256": "d20c70c757230ed5dc74a2417396a9ddc2317ec445e03c240b63165a30cbb6d0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/chart-history-evidence.json",
+      "bytes": 446,
+      "sha256": "185a37b0dbe7cd536707ed9d4193cee993b61dcdaf4339dfa6b7f38c45712e1e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/chart-physical-value-ancestors.json",
+      "bytes": 647,
+      "sha256": "87df6ded1cd041372739eef99f6b00892100134c0033dc8f6a283e2f379af4cb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/chart-physical-value.json",
+      "bytes": 9698811,
+      "sha256": "0059e147a1cbb468394e68f92d83f67fa0276a44325d1e73f21517f51d6a0b43"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/chart-physical-value.png",
+      "bytes": 119997,
+      "sha256": "80d9c3e7d7876216caae9650fb42c1bde1d20af6b26a85bfacf6ec880b0537c9"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-0-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-0.json",
+      "bytes": 9516681,
+      "sha256": "900a64b7fa62e8e3ca2fbd4c34ca962a4c659493abee6b3b05eeb624f6afca60"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-1-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-1.json",
+      "bytes": 9516695,
+      "sha256": "40f4cbbd90c6d8ed4cb2f4780b5efc323beabaf8966700dbea853a2b438c847a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-2-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-2.json",
+      "bytes": 9516680,
+      "sha256": "fd169453b4014997dfaa061aa903bd8e1c795188659c100e43773a9cc17164dc"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-3-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-3.json",
+      "bytes": 9516686,
+      "sha256": "38e0890dd1f6bbdd20bad514b7ff688ebfbc7bac9a6ee64cee4b8d62ddf27e10"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-4-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-4.json",
+      "bytes": 9516684,
+      "sha256": "7bead57260b30f9d7903aa9bdd0f522efa7fdb2d84283b1bd7e2a633ba648ce4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-5-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-5.json",
+      "bytes": 9516768,
+      "sha256": "cbc2351ba8f6fb840b5183f5d58397ccab7ca7bb0637f4393533f418512ca9b5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-6-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-6.json",
+      "bytes": 9516768,
+      "sha256": "3b07d71a5879a4c4347faf9ff70b2e3065c08cd440114859be19f31e599123a5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-7-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-cell-7.json",
+      "bytes": 9516764,
+      "sha256": "62f1227bd0f42f023fe0fb9957772fa870b8bbb60576bb7783df78ec3be6c46e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-exited.png",
+      "bytes": 145546,
+      "sha256": "350ff2347f8d281480b83f921f93cd1064492d96d45248156f86cef52fbf9493"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-left-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-left.json",
+      "bytes": 9516763,
+      "sha256": "a4639c1062e655fe5ab2df72cc3d3f77e8d52da16f478144e820e5328658b60f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-left.png",
+      "bytes": 162730,
+      "sha256": "4ace734e16f46e1e5bdb6dd34542ff32785f5bc8372aaea70f3bcfeb537c9e1a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-right-ancestors.json",
+      "bytes": 1160,
+      "sha256": "8e7bce449432930722ce49cc47d7cd2a7dd751f095bdf150418bae937465f8e6"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-right.json",
+      "bytes": 9515885,
+      "sha256": "80accbe9a57b463da2ce6a5603a9abd2c97f44e3bb187aa8cda569927d183a3a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-right.png",
+      "bytes": 145578,
+      "sha256": "7084e1d265ac18aff6322ccc74c0a134ff606d38906ce9bd5331e2ba2938da49"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-1-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-1.json",
+      "bytes": 9548265,
+      "sha256": "6f53e66e558f16b347a105ecf67d709fc09f9b43a2bcfff19b7fb34b69db34ad"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-1.png",
+      "bytes": 193425,
+      "sha256": "8aed627f6744436848de76d2323782975ea99d9d01f6cf48e7642fb82c90d4a4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-2-ancestors.json",
+      "bytes": 1151,
+      "sha256": "fde615d6aecd124a6ca8a53202b591d4133c127a5c9774955a62c040a5592133"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-2.json",
+      "bytes": 9548136,
+      "sha256": "4267bdd7f600ac1c1296dd76ea48a894625170a78bef9f9a0deb203ce414f95b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-2.png",
+      "bytes": 193425,
+      "sha256": "8aed627f6744436848de76d2323782975ea99d9d01f6cf48e7642fb82c90d4a4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-3-ancestors.json",
+      "bytes": 1151,
+      "sha256": "fde615d6aecd124a6ca8a53202b591d4133c127a5c9774955a62c040a5592133"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-3.json",
+      "bytes": 9548142,
+      "sha256": "e628c712cf78556a4c6b3df97274496494ab201381146f0d599f0006597adc86"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-3.png",
+      "bytes": 193425,
+      "sha256": "8aed627f6744436848de76d2323782975ea99d9d01f6cf48e7642fb82c90d4a4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-4-ancestors.json",
+      "bytes": 1151,
+      "sha256": "7806b3f59db929868d0e1c0d145d1c944e7dbbbda72fd3c9415aeac9441d6c81"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-4.json",
+      "bytes": 9515734,
+      "sha256": "9b77754688a7d8ae971add78ba20bf4bb81836275dc766b5fa9894646ed6f75f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-4.png",
+      "bytes": 162610,
+      "sha256": "0b526a75c6817cef601e4d2c9b377fbbd96caabc63102b1859431bdb81febf83"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-5-ancestors.json",
+      "bytes": 1160,
+      "sha256": "0e68635e464ca9d9fe20311895ea03b699a6a4258b6ea38d496e32b86e8c9631"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-5.json",
+      "bytes": 9515743,
+      "sha256": "3e1cb7fbdb7abae8fa23e26642aa703c6159158b7e99bcdbeedf8bab8a0a18f5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-5.png",
+      "bytes": 144395,
+      "sha256": "d38feefb6eca67dbe77ec6c27d615ba95a101e33f7af1e4537a7d6d4aa3654d2"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-6-ancestors.json",
+      "bytes": 1160,
+      "sha256": "d19d3c2bbf449a657a6a7136c55f0ba3159cab2427ef6ac75a528c78f9833587"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-6.json",
+      "bytes": 9515889,
+      "sha256": "72e0bddad9628911fdc37c25a2635b999ed1a66790670563b31c633cf70d3a5b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/child-visible-6.png",
+      "bytes": 146377,
+      "sha256": "44119dae7125e3e25b0ff5d85fcf0596ffadf30aa0d7105bcf86541cf5eb2a4b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/cleanup.json",
+      "bytes": 76,
+      "sha256": "0a2bd7c3f870c8d014f54d258a4ac36174aac9562308b9b719796f9104a24961"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/collapsed-sequences.json",
+      "bytes": 221,
+      "sha256": "6554431df50fae008b332138cf185720ec031bb7e4e0628197301347c88f8e25"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/cpu-visible-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/cpu-visible.json",
+      "bytes": 9705930,
+      "sha256": "6d107a5ff7430e081a3d3d409321a3c41d5c53bbf0f61dfa1c42a730f7526373"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/cpu-visible.png",
+      "bytes": 130524,
+      "sha256": "7357ea075ec056f97c054db4de16f82a2dce60a04708054c61734e7958ccbe89"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/deliberate-scroll-sequences.json",
+      "bytes": 204,
+      "sha256": "b00a20fe9ba83896bfecd25dc300ffc8fca212bad532a58e642a18baf1e93909"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/divider-movement.json",
+      "bytes": 79446,
+      "sha256": "2556870a04388bd593e052035f59d468e6d7f4041bce589b94dd588390aa5812"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/exact-64-up.json",
+      "bytes": 1433,
+      "sha256": "34fe45c52491488002b1d8228c629c455ee47a5b5fa6a9e754ed1788a7400510"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/expanded-chart.png",
+      "bytes": 119997,
+      "sha256": "80d9c3e7d7876216caae9650fb42c1bde1d20af6b26a85bfacf6ec880b0537c9"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "b9afa03f194da6d2a4b63dc53e5b9e406d2fb8234147d08f6fb1c9fed0570f06"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-temperature-chart.png",
+      "bytes": 114599,
+      "sha256": "4a9deea05ab32bd458f2c3761d48d899efc79649f48bfb59acec4ebe3d5114ff"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-temperature.json",
+      "bytes": 9670118,
+      "sha256": "0736e63524173464f69e3fb5a8cf696a44ea9152ad7e94d2c33de7fb57d28d89"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-temperature.png",
+      "bytes": 114599,
+      "sha256": "4a9deea05ab32bd458f2c3761d48d899efc79649f48bfb59acec4ebe3d5114ff"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "e5cad9bf55a336895151bf8a25123e2ed019c84453d81f272d8dc6134d2a7585"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-visible.json",
+      "bytes": 9704233,
+      "sha256": "f6a7eafdfa866fd942bf0cc8b1e0c0104282f50d81ece54f64ddedd493877062"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-0-visible.png",
+      "bytes": 130039,
+      "sha256": "b3ea0412c06f0393c17ed275391312a26f018a66f17aa01b3ca1a6467f5a643c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "0ca4a9d8c580ccf374a37b170ab5804903336fa3cb54f12b9048d7d502577639"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-temperature-chart.png",
+      "bytes": 124860,
+      "sha256": "fef3c8dabe9d5840259cea97ea042873f7db98d2a0b540c0421cb35ce564f34a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-temperature.json",
+      "bytes": 9536268,
+      "sha256": "f752db8c1e40862ee468b5cf9731890e495ed054b05e7cbbc34bec47fdf905c7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-temperature.png",
+      "bytes": 124860,
+      "sha256": "fef3c8dabe9d5840259cea97ea042873f7db98d2a0b540c0421cb35ce564f34a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "417e27a7eb1af4cd6663cd1a5676eabf2d0efcbf4030ab82d0366027cbf30fe5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-visible.json",
+      "bytes": 9697952,
+      "sha256": "21a7922cf95e71cd628d20c106faa35a875cd9d4a1eab79c506294908d307281"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/gpu-1-visible.png",
+      "bytes": 134536,
+      "sha256": "607abb22bd2d435f57efdda73676b61abc3bfc36f420b94b3d48246ee656c82e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-outer-left.json",
+      "bytes": 3942,
+      "sha256": "f5c9af0b86e3eab1249e375bde5b140131a8de49378bea4a507b950ad1e72ac5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-outer-next.json",
+      "bytes": 3456,
+      "sha256": "6430aba97ccbc6c9f0839798f1eff5a5cadcf1a763950d646531f5c3c9e1fcd8"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-outer-prior.json",
+      "bytes": 3884,
+      "sha256": "a31944aaf0c88f03adf8ba001fc73f38327d8d5db8b59b3752e675836ab7a227"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-outer-right.json",
+      "bytes": 3936,
+      "sha256": "15866313b10c2896bdd3231e0a1e2e22cf9abc704540f3eb6a451569afe032c6"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-table-left.json",
+      "bytes": 3207,
+      "sha256": "05540d121fadade0ac6a21361652bb547a67fd78299a7163146dda7975586c55"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-table-right.json",
+      "bytes": 3266,
+      "sha256": "ab827938131148160541bd42c378c08c3eaef9198542de4658ebfed9d68790ce"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/held-up-25hz.json",
+      "bytes": 3393,
+      "sha256": "d4a3223fef7c7170553feb9b7d3dc90224041094900433e4fb8c45256e49c3ea"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/inner-edge-wheel.json",
+      "bytes": 211,
+      "sha256": "905788f5ac9bcee740cf651a64db027e08d9bca9d909f16fc3bf83740b6377e7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/inner-scroll.png",
+      "bytes": 180234,
+      "sha256": "4704301c2852b944dd8cfa4488cb2d6dcc8a394d22898c29f09a8afaf3f80cbf"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/journal.jsonl",
+      "bytes": 105436,
+      "sha256": "f7b35c9a05b20b516f6b353e3fa207d8ce3649309100bc1a39874c598ae7da80"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/launch-no-tabs.png",
+      "bytes": 179919,
+      "sha256": "ade9e92b79976866d85654d20b8c1a451958b3f74984e3baadac315e68f816c9"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/metadata.json",
+      "bytes": 702,
+      "sha256": "dfa178a031e3a9265bac45823057fd7e14809d0eae7fe3660bd974c733b4523f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/navigation-start-process-1-31.json",
+      "bytes": 34507,
+      "sha256": "a2d7226513c92b621642faf673c5d3b770e14a782e362d2485d8d825876672f3"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/navigation-start-process-2644181-67121028.json",
+      "bytes": 34458,
+      "sha256": "c6e72f4720b7ec1fab4c983ed2083091a40911a01260d734c4e994e302640c6d"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/outer-movement.json",
+      "bytes": 1546,
+      "sha256": "f49ab71bf992538f23871a1f0d844aa9aef957d64e235e7fa1846892956640fa"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/outer-scroll.png",
+      "bytes": 55964,
+      "sha256": "0f7bc64e41f71ee11da44d384317e3d29c32de2cac6a6e00fce520d72aa8eccf"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/panel-compact-ancestors.json",
+      "bytes": 505,
+      "sha256": "bbf411cfc45495e74006fe22853bdcf30907f7c3d5506f0049f03f22f6fff7aa"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/panel-compact.json",
+      "bytes": 9704965,
+      "sha256": "b5da1fc1a9b5d39c5702d9b607524ee4d4f402fa3f2c99620cb4b263353bd3cb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/panel-compact.png",
+      "bytes": 126698,
+      "sha256": "ed231c87f423150c5cb282773c6e8b9388ba22c415b8f2aee8ee57ab4e11c5db"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-capacity-ancestors.json",
+      "bytes": 653,
+      "sha256": "61c6c0f61b9bc96cd73b64451d29534bc842d142f2bc952d7cf9fcf582cb9041"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-capacity-chart.png",
+      "bytes": 114227,
+      "sha256": "779d32ffb0f860053207faa0438d7202af2c8adbfa0b707747a4a35888089aa3"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-capacity.json",
+      "bytes": 9698319,
+      "sha256": "61e2834e58077b1a52455b2d75885dc0b1a6bc6b388c5f4b2e75629a7620e12a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-capacity.png",
+      "bytes": 114227,
+      "sha256": "779d32ffb0f860053207faa0438d7202af2c8adbfa0b707747a4a35888089aa3"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-visible-ancestors.json",
+      "bytes": 509,
+      "sha256": "ae8675b5c7f22f47eff16f96e2b178627ec135f58c6caffc1e6901e6aaeec67c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-visible.json",
+      "bytes": 9695535,
+      "sha256": "c67658fe4bfd09d9f1f14642e4ca8397b25fd57822d164903da33437f0fb94df"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/ram-visible.png",
+      "bytes": 130664,
+      "sha256": "cae746ee038dc6b6d4e838f9ffbbc4ddc335f38996b7da51c727ece494333a91"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/real-child-cell-discovery.json",
+      "bytes": 376,
+      "sha256": "218072fc815221e6c068d4bf4bdfba428c8c892ddc5f70f2c2b41e31aa7d5a4a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/real-child-start.json",
+      "bytes": 835,
+      "sha256": "9e6f6cab83f84d52d13e1dfbbcc06acf2b29bad2458bb57e4baeb296aabbd7e7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/real-child.json",
+      "bytes": 1461,
+      "sha256": "4bcebad3ad6094ac2052aeaa14ff976da52aa277d1038aa964747dffa9a3043a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/recall-no-tabs.json",
+      "bytes": 846865,
+      "sha256": "fffe3a594ed05513c4b35d899405bbe9d99dccab2afdfb3c9ac609b859831a24"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/recall-no-tabs.png",
+      "bytes": 46534,
+      "sha256": "0a112e242fde636aca3115bd0b144a8fb2ac26c18571afdd227195ea4640db09"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/row-compact-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/row-compact.json",
+      "bytes": 9704307,
+      "sha256": "1f5414c744ccaaabd770509a097bb7544898fe2c8539b1d3f53a4427362decbe"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/row-compact.png",
+      "bytes": 130508,
+      "sha256": "0caba30917c651822b2f54aee00f62e5d5c0c91ab166d9a0d69a421443dbe72f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/split-divider.png",
+      "bytes": 90248,
+      "sha256": "c76a0966c0c7bf71b1849dffa320dbb27fab8e462763bae894bafd1ab56ae353"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/split-no-tabs.json",
+      "bytes": 914101,
+      "sha256": "f73b466c2024c83838186b4fcf67f86e45122943a44ad224472462c7e1b7f9bf"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/split-no-tabs.png",
+      "bytes": 90670,
+      "sha256": "f4f28bc09ebef278330590e9d8de914b5f5317fcdde5d06b79751aa21d9f2600"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-01/split-structure.json",
+      "bytes": 158942,
+      "sha256": "4fe356e2bec600d7e84df311255dac5c4e47e35a5fcbd711094522cd4e198e53"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/cleanup.json",
+      "bytes": 76,
+      "sha256": "b57345bedd9d04a5b34d931a1e0d486202835e5638cc9199a2b8ef0f918a1327"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/journal.jsonl",
+      "bytes": 1434,
+      "sha256": "3039c232e68872719324e6e23b4875aa3a415ae0393277a352716649f4089bc3"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/metadata.json",
+      "bytes": 702,
+      "sha256": "b43d1381f07e17569667af06b550a0d745bd98e0a7cb45738f88b91d7309cc2a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/restart-no-tabs.json",
+      "bytes": 836780,
+      "sha256": "f515bb0667b06ccdf5dadf3a59ea64f9a797fcbaa1634744580d4c8eebe29d55"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/restart-no-tabs.png",
+      "bytes": 174147,
+      "sha256": "d64cbe59ea0b750fa908e7c57ce4892ec8ecf78488475f3e0a8d7af7e92afa97"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-02/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/cleanup.json",
+      "bytes": 78,
+      "sha256": "7e1219f7441e437d4a4e7967dc65e79688ec9409c01d4f97639957510d7e16a9"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/failure-frame.json",
+      "bytes": 8892918,
+      "sha256": "12da5c3a010f39714f9bde1bcdf82b50885338396e989f7b099aaf9c86c87353"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/failure-panels.json",
+      "bytes": 177,
+      "sha256": "4e57b41a0c66b64ed940284f8fb19b880663c5e0980937c7cdc5000892d9174b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/failure.png",
+      "bytes": 183216,
+      "sha256": "72e7b5f9de09ef440e7a7581a43724326a74fb16bf8566f6baed910881309ce4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/journal.jsonl",
+      "bytes": 2074,
+      "sha256": "41c5097edae3ed99119e331e3cc74e9d66e58b008184fe4dc9afd55a7a607d8a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-missing-device/metadata.json",
+      "bytes": 702,
+      "sha256": "e283d04c65c754dbd0c31d2ad3529dadbe9c7f6069a59fa02f935cc93b06e9e0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/cleanup.json",
+      "bytes": 76,
+      "sha256": "3adbb3797c0a46648e433fa072a8d21b1f6f268232a50abf88b3e2859aabb460"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/journal.jsonl",
+      "bytes": 1555,
+      "sha256": "71bb9185399e765158d1c862b69335891bf1eeaa50bc4f985a7684737dc4b08e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/metadata.json",
+      "bytes": 702,
+      "sha256": "77907c73e56506d7bbb81e1d0671afda92a69dab4747f040cb3e9bbf2a54e379"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/recovery-restart-no-tabs.json",
+      "bytes": 836780,
+      "sha256": "1c860eb4bf3684f5e9285875615ce57eced79d64077b1ebbcd02b986b4993295"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/recovery-restart-no-tabs.png",
+      "bytes": 174107,
+      "sha256": "feee89011429d70d8380eac84705efeb2e4a63d6ef135185db4d1890cfdb3def"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json-restart/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json/cleanup.json",
+      "bytes": 76,
+      "sha256": "30f06842736a54698dd62426c734a9ece9d13416fcc3a9927ab5229aff07f6b2"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json/journal.jsonl",
+      "bytes": 2941,
+      "sha256": "1e685b19ab24f4d6d969564bd08226a4157e02ef9343c5b4e095a864e361db43"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json/metadata.json",
+      "bytes": 702,
+      "sha256": "40b1120d80a1d141e779ce7a47fe4fdd91ef044b60542e247b26cb0143712f4f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json/rejected-specimen.json",
+      "bytes": 572253,
+      "sha256": "ec8e05b24411640488aa6ff5aff3cafdc4a32c99267d44564540ea588074efbd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-json/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/cleanup.json",
+      "bytes": 76,
+      "sha256": "718f2f45a8d4d37b718fa2400d0e11ee36c4d4a81395f1b7dc6101aadede25ad"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/journal.jsonl",
+      "bytes": 1557,
+      "sha256": "50f4d27ab60db2e8a249050444fd40acc586fb62c5b10e0e58cd1765b0ec1897"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/metadata.json",
+      "bytes": 702,
+      "sha256": "dcaf38fc9eb15cea173a7a7c638a82bf6bc98292c475e4c9ee80ce00f3b371de"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/recovery-restart-no-tabs.json",
+      "bytes": 836781,
+      "sha256": "9848de85b8d33e5ac0db598bede4116203c8563250804bb89a857fc92cdac939"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/recovery-restart-no-tabs.png",
+      "bytes": 173863,
+      "sha256": "4cf027546f497bdb056e752053d5aa3e64543f922645c6f0a8b37e0152da36d1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema-restart/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema/cleanup.json",
+      "bytes": 76,
+      "sha256": "4e3d852703e8af880a678acd878f60f53b6521c413f9acd2e002d2b29eeb2e4b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema/journal.jsonl",
+      "bytes": 2941,
+      "sha256": "fbc18fc9a5fafa0ca2ee2751cbce62615339f7db109f9bdbb2faaf02d2778386"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema/metadata.json",
+      "bytes": 702,
+      "sha256": "0aab2363243aa1bd7dff9c20011d02d50bdadb2bc0716977fd015caa0c90fea6"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema/rejected-specimen.json",
+      "bytes": 2106869,
+      "sha256": "87971851b2862061b5cc3da807ca82ec3da1180c8dad41ffc01c96b7c26c6263"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/session-recovery-schema/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-21/transport-cleanup.json",
+      "bytes": 62,
+      "sha256": "d9b14178c03d56d826eb9c7a14e35afa8b450574b5887f47de171f03acb64c3c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-01/harness-manifest.json",
+      "bytes": 995,
+      "sha256": "0511af0d4cb2fcc78420830c031839afd038c652a4531d1e035106f22e0706f2"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-01/progress.jsonl",
+      "bytes": 224,
+      "sha256": "635780f4efca2d90b6cc67db3574ddecabae7f8b484f1d22e7f50bd890fd0e75"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-01/result.json",
+      "bytes": 404,
+      "sha256": "e23fa5a0a3d8b223441e23f399b8c044223e78f944cfabdf9b9de9434f8d5836"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/harness-manifest.json",
+      "bytes": 1091,
+      "sha256": "11c1b6759856fa1b1dfc5758e9db0abaf22cd75918f2ddbf30044cfb3157f236"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/missing-device-config.json",
+      "bytes": 544030,
+      "sha256": "dd25c3333da5abf4b7cdf6d038b7d0702c397f7564f2eb17d5307c37c6cafa4c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/private-session.json",
+      "bytes": 604,
+      "sha256": "bedbb3fdeed0f28bf6dabe8964bfe2f96e32e7150a9646cb7c7dad003d1cd7fd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/private-session.log",
+      "bytes": 5227,
+      "sha256": "27f3a896bedfb1152f4676bf40747bf23d30052844b8c0eae46421776b98bf7b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/progress.jsonl",
+      "bytes": 302,
+      "sha256": "5ae4576d4c704791945fea58f6ee180dd6b91b5f17ae5ec930cc636a3869f244"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/result.json",
+      "bytes": 393,
+      "sha256": "0f1879f07138cb95422c55483e373b0e3e4f23e85f2645dc861aad4aa40f7b77"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/application.log",
+      "bytes": 467,
+      "sha256": "2483550afbc14c16958428d5560c6996fb120d294fb6520d1f491f2581de240c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/cleanup.json",
+      "bytes": 76,
+      "sha256": "fe926a8e6d03540f47e6855df9262ce4a2e072a3fea7becda9e8bdba8bbf8c51"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/journal.jsonl",
+      "bytes": 915,
+      "sha256": "5a4dcc04729767dff0176072855aad02736cf9baf2632351ecb032dca13810c0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/launch-no-tabs.png",
+      "bytes": 179724,
+      "sha256": "261ad117815bcdea454218f79a8da823bccd9d8b88d9b1f5a440b323e0cba61d"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/metadata.json",
+      "bytes": 702,
+      "sha256": "c3c64ae41ac0585dc9b97a47601d418aaceeab574035aa9233fc37fc93bd358f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-01/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/cleanup.json",
+      "bytes": 76,
+      "sha256": "fef57ed189ecad58ac74243955d29c3693086370c80c52e062a4399f9288f4e1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/journal.jsonl",
+      "bytes": 1914,
+      "sha256": "78187a5be0c88a2265e6d23482c5797a6dc3ad52f8aa34011728b3f15a997acb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/metadata.json",
+      "bytes": 702,
+      "sha256": "6d8a743300fce5cb3506bea8ed2ec64ba738995cf0c3b284e4fc1048287b36e6"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/missing-device-specimen.json",
+      "bytes": 83046,
+      "sha256": "98879e7730ac17bf8ddd91ae89066ff2e4b512901b234514457982a763850976"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/missing-native.json",
+      "bytes": 9561965,
+      "sha256": "eaa8d15663ccb6768b3b0471962d0d48c79e14a06841492fdefe0458426c164b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/missing-native.png",
+      "bytes": 137779,
+      "sha256": "ac7b754007b712972c48c31fe36e00027d2f650ec4d7398da106d1e96934f3df"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/session-missing-device/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-missing-02/transport-cleanup.json",
+      "bytes": 62,
+      "sha256": "4ab23fcb443cc8624dad95bfa4422e8055a9043bc2108a9e512720e2564d70d7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/harness-manifest.json",
+      "bytes": 995,
+      "sha256": "dd3375e5a5890eadc56506fdcfa6abfff55221dfb4577ec2f931852878b642e0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/private-session.json",
+      "bytes": 600,
+      "sha256": "0d8764c40737d397661b19dbdc9bf5a6304932407393cbae73c014aecfa8e1cb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/private-session.log",
+      "bytes": 6577,
+      "sha256": "5deeb50a3cde1be25a39df7f636ccb8c2435ba5f1ae8daff62dc75c4c2b41b49"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/progress.jsonl",
+      "bytes": 533,
+      "sha256": "69bdff8a07ad3cb7d2983f02d79f521d2813749c1a0c09bede0a02ad686792bd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/result.json",
+      "bytes": 437,
+      "sha256": "925829bd8dae516511ea1c8d28502b3eeb017076c3a153667030ac5b23ca0f90"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/application.log",
+      "bytes": 467,
+      "sha256": "9f911bd0740f47aa2f36c044421b855dbaabb5bebfd593d2cd1599de2e436c41"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/cleanup.json",
+      "bytes": 76,
+      "sha256": "55a977960ee6bc10ad50d21318d8bbd2e4e7686028475e46f876d5e6592e0874"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/journal.jsonl",
+      "bytes": 1189,
+      "sha256": "6e3e624e79b92d6d8259e4209c0b07eab6ac4f37c0b6755c004410021be00b80"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/launch-no-tabs.png",
+      "bytes": 179906,
+      "sha256": "eca23ebe165aab30f3347bc1be7f829438d6f3c0e3a8b28a981bf97c6daec566"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/metadata.json",
+      "bytes": 702,
+      "sha256": "b89477fd450efb07ec354f7acd0c9d02b6395cecb6a9f57fdcd59512ffec7eb7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-01/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/cleanup.json",
+      "bytes": 76,
+      "sha256": "ffe1c984b1f8fa4112b9a6bbba157272f5ade062e82554ff9ad97f9e201fe739"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/journal.jsonl",
+      "bytes": 1116,
+      "sha256": "19d5868948cc7154032c0deab3738a9160a02eedb96dc9ac11a5f09e4887fb4a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/metadata.json",
+      "bytes": 702,
+      "sha256": "00c923a444a5e72392d62a1255a87750858d7e27bc25515f27dba079b9100bc0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/recovery-restart-no-tabs.json",
+      "bytes": 905150,
+      "sha256": "1c74741d2ade295bd8a8d602e9393bb7d8616a245a36cf78113fd60a8c866673"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/recovery-restart-no-tabs.png",
+      "bytes": 180359,
+      "sha256": "6f694124f4735b751c76580318dfd5a9f0ba1b7458afa40b34bf015712671a68"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json-restart/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json/cleanup.json",
+      "bytes": 76,
+      "sha256": "a697b45f369eb121c26f6f3895cd697fb58ed034d30526f24363d770ed9dd5fc"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json/journal.jsonl",
+      "bytes": 2941,
+      "sha256": "82478c1d6f2be25002eb5bb93e4c099e5b29e3a38169ffd46103ce4d5be64ef5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json/metadata.json",
+      "bytes": 702,
+      "sha256": "50cb7329dac80a41ccd9a1d5b9943ea2bcf12c37542b878aff60608712579b00"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json/rejected-specimen.json",
+      "bytes": 572316,
+      "sha256": "5871e4430e0e2a1d13b4900d0691009138e4a4318af42d84fead631967865196"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-json/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/cleanup.json",
+      "bytes": 76,
+      "sha256": "03dca19ef94feda92bbf5e274a756c2584ba8f314507b86ce0a0d53b21c9da96"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/journal.jsonl",
+      "bytes": 1118,
+      "sha256": "57507e3ea74f78a13bdf35eb2e63844ae4d020861620434643080121438463ef"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/metadata.json",
+      "bytes": 702,
+      "sha256": "03d733329e5460c3a12459acc1664556b15c2f83682583fcad7df5c67220f4b0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/recovery-restart-no-tabs.json",
+      "bytes": 905162,
+      "sha256": "4238dffad1672d4d02a4302f6a9203a75d04b012166d2762fe764b965252ce7e"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/recovery-restart-no-tabs.png",
+      "bytes": 180128,
+      "sha256": "f862a6e85c9a94293513eb4a94e4d20371b1d0ee6232407278dbdc071d08946a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema-restart/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema/cleanup.json",
+      "bytes": 76,
+      "sha256": "2c7f8778404a90a5965f683fc0758c2768c0f6f434572052ab646f28bf63be8c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema/journal.jsonl",
+      "bytes": 2941,
+      "sha256": "683956376a7ded3e3fafa7e5851cea061dc97256cd151cf34708d74ce7d9fcf5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema/metadata.json",
+      "bytes": 702,
+      "sha256": "71439707ff2d78f8ee736b00ffaab2c1c42a0b575526bfa8083afa5dad8bf485"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema/rejected-specimen.json",
+      "bytes": 2107344,
+      "sha256": "04387684eb3e4c900be5e26bb59d4d38c6ebac42b4ad1096cba67c8b0b60725c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/session-recovery-schema/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-recovery-01/transport-cleanup.json",
+      "bytes": 62,
+      "sha256": "9738cff55054cfa637d5bf5ee576d7eba288b8a2bbaae00eb069c419f0c966e5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-01/harness-manifest.json",
+      "bytes": 995,
+      "sha256": "3e6a5c3c5d3e38e908ac931ceba10910b479930aeedae0f9ef5ba2aa1d397de5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-01/progress.jsonl",
+      "bytes": 143,
+      "sha256": "267066c0b50c381a51cca2da38f89809db6ab282f4607c4c7764f61ad9a52195"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-01/result.json",
+      "bytes": 556,
+      "sha256": "e6d1a2ebb729a3121ecabec3f57d2cf6ed07cb738395b31872136ff57e35bba1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/harness-manifest.json",
+      "bytes": 995,
+      "sha256": "7a2b8c36c9ba65d0fded8343ce948b7527ffd0e5d110ff8e79a29c45539b9827"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/private-session.json",
+      "bytes": 597,
+      "sha256": "36d9762ce1e084a95ef7a356efc850d79dceef50d9e2bdc42b17ebd2c975a8b1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/private-session.log",
+      "bytes": 5139,
+      "sha256": "1e6fd69eeb888e57290ca25abc287247045eb3d0e4680daeac61d81f5904a3d9"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/progress.jsonl",
+      "bytes": 214,
+      "sha256": "519807569bf360c2c5df4c33ca53c6bffbe65e538b3771ca26188a4a307f5ede"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/result.json",
+      "bytes": 379,
+      "sha256": "de93223e2ba051cc2a77422eeefacfd64fdb198824a88277297fbc644b8eab73"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/application.log",
+      "bytes": 467,
+      "sha256": "98a9daa1b4159e88fd34823f1a9930032d48f271aad9deaa7de40ed65e1d7293"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/cleanup.json",
+      "bytes": 76,
+      "sha256": "7009a1453c4a5993cea2616633f9b9cfa275d8a156cca99123cd17880e739a14"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/journal.jsonl",
+      "bytes": 1181,
+      "sha256": "c96625b56e431d57777321c1b6df62aa2492f95b2bd9070214bf4de8e59c3fd3"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/launch-no-tabs.png",
+      "bytes": 179783,
+      "sha256": "2d743c2aaac7e276374041103283e1011903900a722ccb2ebe73c6c92baa242a"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/metadata.json",
+      "bytes": 633,
+      "sha256": "d37598d543545d52f6e249de857622446b37a18254ffd24654987fc86c5aa6fb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-01/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/application.log",
+      "bytes": 134,
+      "sha256": "76050053c4b02071888d4c96a42008c20783652c7d6b1762457f640578a0d413"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/cleanup.json",
+      "bytes": 76,
+      "sha256": "cdfc4a13916856d32e9cfbd3b127be8c85296b3df421e40bd21ac3bbf3d45c86"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/journal.jsonl",
+      "bytes": 916,
+      "sha256": "7448c5cb10871969061130e9890a8573e2f284e95f2e63f6d9f705bf9ad3a6c4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/metadata.json",
+      "bytes": 633,
+      "sha256": "deb54f4f6b9a26a5e301c6aea8eb4fcdface95ddf842397c71a9b2b70ccbdf15"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/restart-no-tabs.json",
+      "bytes": 905100,
+      "sha256": "eb61400a3cfd1ece86874b477f9e896aa6a73949da7a5aadb9977d1a3eb19bd1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/restart-no-tabs.png",
+      "bytes": 179869,
+      "sha256": "23658699a40584bf6485ab563ecc6590177b7c802ca7f5958992043df7debdbf"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/session-02/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-restart-02/transport-cleanup.json",
+      "bytes": 62,
+      "sha256": "ec9c43e481ea67f1c3c929370898aeb8fcfe061e6632c760554e2279324f79f0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/red.log",
+      "bytes": 10589,
+      "sha256": "cba4dd0d5d8123f7de97ebb35ba778a18fb52923b42d356fa0a316ae364f6733"
+    }
+  ]
+}

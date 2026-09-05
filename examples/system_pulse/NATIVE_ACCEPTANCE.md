@@ -1,5 +1,9 @@
 # Native fixture acceptance — 2026-09-04
 
+Historical evidence only: the production application now uses live Linux collectors.
+This fixture receipt is retained for its original revision and does not establish
+live accuracy or current native acceptance. See the [current acceptance work](../../docs/execution/real-system-readings/acceptance-implementation.md).
+
 Result: PASS on Linux for the workspace visibility/collapse fixture scope. Verified source: `88343d5ed3be72865e52fc3d51a860649d8def83`. Final running binary SHA-256: `162facf9d5402761aa0ca3e39ee2c834903d0eee1008d9b024cd43cf90e67cf2`.
 
 The root executor used real GPUI windows in private Xvfb/D-Bus sessions, XTEST pointer/keyboard events, AT-SPI, and llvmpipe Vulkan. The app used isolated `SYSTEM_PULSE_STATE_DIR` directories. All app shutdowns returned zero. Desktop preferences were unchanged.
