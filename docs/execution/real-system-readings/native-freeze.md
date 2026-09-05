@@ -1,6 +1,6 @@
 # Native process navigation freeze
 
-Status: finite input backlog reproduced and traced, including ordinary held-key input. The application fix is pending. This blocks final native acceptance.
+Status: root cause reproduced; a focused fix and eight native regressions pass. Source commit `88d92e6c8a77c3a3f2ff1879831f662fdaf22e8c` awaits independent spec and quality reviews. Final native acceptance remains pending.
 
 ## Candidate and evidence
 
@@ -32,10 +32,16 @@ Full read-only report: `/tmp/system-pulse-freeze-investigation/REPORT.md`. Ordin
 
 ## Candidate repaint correction
 
-The app implementer has a narrow pending-frame correction in `panel.rs` and `workspace.rs`, with burst regressions in `native_tests.rs`. Three new regressions failed on the prior implementation; the candidate passed 44 app tests, 24 model tests, scoped formatting/strict Clippy and native build. Candidate binary SHA256: `c419281e6618155e31abfd5b1f4492698848ffa3bdec5e3f505b5604091dc76f`. Source commit and independent reviews are pending.
+The app implementer has a narrow pending-frame correction in `panel.rs` and `workspace.rs`, with burst regressions in `native_tests.rs`. Three new regressions failed on the prior implementation; the candidate passed 44 app tests, 24 model tests, scoped formatting/strict Clippy and native build. Candidate binary SHA256: `c419281e6618155e31abfd5b1f4492698848ffa3bdec5e3f505b5604091dc76f`. Source is committed as `88d92e6c8a77c3a3f2ff1879831f662fdaf22e8c`; independent reviews are pending.
 
 The original-size 1440×1000 native held-Up replay passed: 3.000521-second hold at unchanged 25 Hz, 69 independent freshness observations, maximum accepted age 1.358890228 seconds, sequences 231→235. Selection changed and Processes panel bounds remained `[8,250,1424,280]`. A stable native/diagnostic summary comparison completed in 57.214 ms at sequence 235/revision 234. Root inspected `/tmp/system-pulse-repaint-fix/native-held2/original-size-after-up.png`; the header is visible while the inner table remains horizontally scrolled from earlier checks. This is not an all-fields process or final accuracy proof. Exact case data: `/tmp/system-pulse-repaint-fix/native-original/held-up.json`.
 
 The first held case used a 640-pixel-wide window around a 1424-pixel panel; its existing outer-reveal behavior moved the oversized panel horizontally, so that result proves freshness but not visible metric acceptance. Its 67 observations and 1.340-second maximum age remain in the replay journal; the standard case filename was overwritten by the full-size run. Later artifacts must use unique case paths. Initial whole-tree rescans and transient selected-row assumptions also caused harness setup failures before held input. The corrected transport caches/scopes nodes, selects a stable long-lived row before horizontal checks, and retains the original deadlines. Remaining native cases and clean shutdown are pending.
 
 The bounded burst also passed: exactly 64 Up keys in 1.587819 seconds, then no additional input until the predicted PID/start identity was acknowledged. Forty freshness observations had a maximum accepted age of 1.429978066 seconds; the outer panel stayed fixed. Exact native/diagnostic summary comparison took 53.770 ms. Evidence: `/tmp/system-pulse-repaint-fix/native-burst/burst-64-up.json`. Root inspected that artifact; this is a passing bounded-input regression, not final native acceptance.
+
+## Completed focused replay
+
+All eight final cases passed on the same binary: original-size held Up, exactly 64 Up taps, held Left/Right, and held Alt+Left/Right/PageUp/PageDown. Maximum accepted age across those passing cases was 1.530683060 seconds, below the declared two seconds. Horizontal cases retained native PID/start `1:31`; outer vertical cases observed signed 15,900-pixel panel motion and explicitly did not observe offscreen selected rows. The deterministic outer test proves no selection mutation. Failed boundary/setup and offscreen-row lookup attempts remain separate and were not counted as passes.
+
+Normal WM_DELETE_WINDOW shutdown returned zero in 0.402581 seconds; parent confirmation and cleanup recorded the private app, driver and DBus PIDs absent. Final evidence: `/tmp/system-pulse-repaint-fix/native-final-results.json`, `verification.md`, and `native-held2/shutdown.json`. Root read the final results and verification report. The source change adds two per-view pending flags and next-frame helpers; the remaining additions are focused regression coverage. Both independent reviews must pass before Task 3 source work begins.
