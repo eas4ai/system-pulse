@@ -1,0 +1,17 @@
+{
+  "source_commit": "6e6963b34e8d328d327b4443df5bd4efa3f12160",
+  "command": "rtk proxy cargo build --locked -p system-pulse -p system-pulse-collectors --bins",
+  "exit_code": 0,
+  "cargo_reported_seconds": 59.87,
+  "scope": "Preparation build; committed aggregate acceptance remains pending",
+  "binaries": {
+    "system-pulse": {
+      "path": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+      "sha256": "ac14c8769139481ec23d4415fae963075afb158f13d7800ee7ff96dc3239ff88"
+    },
+    "pulse-snapshot": {
+      "path": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/pulse-snapshot",
+      "sha256": "f6aa0a4e757a10612451bd7ea8886b748d92f6b232c673de56ff4bbb6a72b679"
+    }
+  }
+}

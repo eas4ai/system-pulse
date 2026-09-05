@@ -6,4 +6,4 @@ The machine's `CARGO_BUILD_RUSTFLAGS` supplies `-L /usr/local/lib/x86_64-linux-g
 
 The acceptance mechanism now declares `.cargo/config.toml` as an input so the linker change invalidates earlier build evidence. An isolated Cargo project using the exact resulting configuration built offline and its executable printed `lld smoke passed`. The verbose command confirmed both the lld and library-search flags. Artifacts: `/tmp/pulse-lld-config-27c1zl7m/build.log`.
 
-The full System Pulse rebuild and acceptance run remain pending. No build-speed measurement is claimed.
+Both System Pulse binaries then built successfully with the locked dependency graph and the adopted configuration. Cargo reported 59.87 seconds; this is one build observation, not a speedup comparison. Source commit, command and binary hashes are retained in [the build record](cargo-linker-build.json). Full committed acceptance remains pending.
