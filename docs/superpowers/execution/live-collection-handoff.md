@@ -174,3 +174,126 @@ all Cairn metadata. Failed receipts were committed and must remain intact.
 The full native gate still requires complete execution. Native21's 13 passing
 cases and focused missing02 PASS remain preparation only. No merge or push is
 authorized.
+
+
+## 2026-09-05: fresh host pass; final native specimen mismatch
+
+Census repair `8ffa088b` passed independent specification and quality review. The full aggregate at `93747be6` passed 400 tests, formatting, strict Clippy, locked builds and fresh host acceptance (41,674 brackets, zero missing). Thirteen native cases passed; the last missing-device case failed exact dock preservation. The sole dock change was CPU panel height 280 to 36, while the input specimen retained `collapsed: true` from later state alongside an earlier expanded dock. This points to inconsistent specimen composition, pending a reviewed correction. No runtime readings were simulated. NVIDIA hardware accuracy remains unverified.
+
+Cairn now requires `escalate LIVE-001` after three failed aggregate records (DEC-016). Do not start a fourth aggregate or implementation until answered. Evidence and the bounded recommendation are in the source worktree's `docs/execution/real-system-readings/aggregate-attempt-2-2026-09-05.md`. Artifacts: `/tmp/system-pulse-cairn-check-8czjw7vp/system-pulse-acceptance-2zl2nswb`. Task 3 and final acceptance remain incomplete.
+
+
+## 2026-09-05: resumed after Cairn commitment 10
+
+The developer said "ok you should be good to go now" and asked to hear about
+further Cairn issues. Root recorded that authorization with `cairn answer
+live-001 ok`; the updated kernel then named `implement LIVE-001`. Cairn checkout
+HEAD was `0781a3b`, including the per-requirement verdict implementation.
+The pending escalation is answered; its old pause instruction is historical.
+
+A fresh worker is correcting the missing-device specimen with a failing
+regression first, preserving strict assertions. Source worktree root owns
+`.cairn/in-progress` and all Cairn metadata. A read-only assessment is mapping
+current acceptance evidence to Cairn's explicit per-requirement output. No new
+full aggregate has run. Existing source binary remains unchanged; current task
+is acceptance correctness and final review.
+
+
+## 2026-09-05: reviewed specimen and reporting candidate
+
+Specimen source `24533a15` passed independent SPEC (51 Python tests and baseline
+regression reproduction) then QUALITY (two focused tests and code review).
+Focused native replay at `7ec16468` passed launch and missing-device with both
+normal app shutdowns and clean shared transport. Root visually confirmed the
+absent-device header's unit/reason and no numeric value. Evidence is recorded in
+source docs/execution/real-system-readings/missing-specimen-native.json, pointing
+to /tmp/pulse-resumed-native-w__6vgpn/missing-device. It remains preparation only.
+
+Cairn decision `report-validated-live-evidence-per-requirement` was recorded as
+Judged, and wake named its build. Candidate `a3db8b26` adapts the shared runner to
+validated requirement groups; 22 focused and 73 total Python tests passed. The
+retained failed aggregate earns ten passes with three unverified native-dependent
+requirements and still fails overall. Independent SPEC review is in progress;
+QUALITY and the fresh full aggregate remain pending. Root owns the
+build-decision marker. No runtime application source changed in these repairs.
+
+Remaining Cairn protocol limit reported to developer: with no known result lines,
+legacy exit-code fallback cannot express an entirely unverified early harness
+failure. No sentinel result or kernel change was introduced.
+
+
+## 2026-09-05: adapter reviewed; Python-version test correction
+
+Adapter correction `5da24b21` passed cumulative SPEC and QUALITY after strict
+exit-code/PID validation, session PID binding, and preservation of the original
+error on excessive JSON nesting. The first resumed Cairn run at `0831810e`
+failed before host/native capture: 77 Python passes and one diagnostic-wording
+assertion failed. Previous direct runs used Miniconda Python 3.13.12; the gate
+uses Brew Python 3.14.7, whose decoder accepted the nested array and then correctly
+rejected its result shape. No malformed evidence earned a pass.
+
+Root preserved all receipts and wrote source
+`docs/execution/real-system-readings/resumed-aggregate-python-failure.md`.
+Cairn's zero-result fallback marked all thirteen failed and requested LIVE-002
+escalation. The existing answered question covered the shared rerun but named
+only LIVE-001. Root corrected its Concerns to all thirteen mapped IDs, preserved
+question/answer/timestamps, and documented the developer's existing go-ahead.
+`cairn wake` then named `implement LIVE-001`; this is not a new permission.
+
+Test-only correction `eac95a14` retains the real invalid-payload behavior checks
+and separately injects RecursionError. All 79 Python tests passed on both exact
+interpreters. SPEC re-review passed both target tests under the actual gate
+interpreter; QUALITY re-review is pending. Production acceptance.py is unchanged
+from 5da24b21. Root owns the current implement LIVE-001 marker. Next action after
+review: commit root records, remove marker, wake, fresh full aggregate. No live
+acceptance has passed yet.
+
+
+## 2026-09-05: all automated checks passed; observed process handoff gap
+
+Portability candidate `eac95a14` passed both independent reviews. The next
+aggregate at `204780f2` passed all 430 automated tests, formatting, Clippy and
+builds, then host verification failed on four missing endpoints for process
+`1322913:69430231`. No native run occurred. Artifacts:
+`/tmp/system-pulse-cairn-check-co3wh4lm/system-pulse-acceptance-e3kdpb2x`.
+
+Independent diagnosis found a post-query supplemental census still saw the
+process, but sampling had retired its fast reads when a full sweep first saw it.
+Root recorded judged decision `retain-supplemental-process-observation-until-exit`;
+Cairn names its build and root owns that marker. Failed capture stays failed.
+
+Worker candidate `0458ddee` keeps supplemental candidates across ordinary sweeps
+and retires them only after retaining direct terminal stat evidence. Existing
+20 ms cadence and all limits remain unchanged; the correction does not guarantee
+all process lifetimes can be observed. Eleven focused and all 86 Python tests
+passed on the exact gate interpreter. Source change is nine added lines in two
+methods. SPEC review is in progress; QUALITY and fresh full aggregate remain.
+Root-owned source records: `resumed-host-exit-gap.md/json` under
+`docs/execution/real-system-readings/`. Runtime application code is unchanged.
+
+
+## 2026-09-05: host passes; native exit synchronization under repair
+
+Retention candidate `0458ddee` passed independent SPEC and QUALITY reviews.
+Root committed review records, realization, and failed receipts at `bc5237d1`.
+The fresh aggregate passed all 437 tests, formatting, strict Clippy, builds,
+and independent host verification: 42,258 counter brackets, zero missing
+endpoints, 468 stable totals, 2,218 exact readings, 16,654 process field checks,
+and 96 interface comparisons.
+
+Artifacts: `/tmp/system-pulse-cairn-check-wjwz1i2q/system-pulse-acceptance-pa15uycr`.
+Native acceptance then failed with `exited identity remains in native tree`
+for owned child `process:1524059:69556521`. Diagnostic sequence 217 omitted
+the child, but the harness immediately inspected an older native tree.
+The diagnostic publication precedes panel refresh scheduling, so it does not
+prove native publication. Diagnosis and a bounded synchronization repair are
+in progress; no native pass is claimed. The existing five-second exit deadline
+must cover both snapshot and actual native disappearance.
+
+Cairn correctly retained LIVE-004, LIVE-012, and LIVE-013 passes and left the
+other ten unverified. Wake says `Resolvable: implement LIVE-001`. No new
+escalation or approval is needed. Source records are
+`docs/execution/real-system-readings/native-exit-failure.md/json`. Failed
+receipts are preserved, awaiting the next root documentation commit.
+NVIDIA hardware accuracy remains unverified. Final acceptance, independent
+final review, and Cairn Done remain outstanding.
