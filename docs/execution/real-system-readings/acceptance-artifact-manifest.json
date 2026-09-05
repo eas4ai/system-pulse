@@ -1,6 +1,6 @@
 {
-  "scope": "Preparation only. No final committed Cairn aggregate receipt; complete native21 remains FAIL.",
-  "source_candidate": "322b05d9",
+  "scope": "Focused preparation only. First committed Cairn aggregate failed required host brackets; no passing final aggregate receipt.",
+  "source_candidate": "8ffa088b",
   "evidence": [
     {
       "run": "host-08",
@@ -46,6 +46,21 @@
       "run": "quality-correction-checks",
       "status": "PASS",
       "scope": "45 Python tests plus formatting/lint/diff; transport cleanup fault cases isolated without native launch. Final aggregate pending."
+    },
+    {
+      "run": "host08-supplemental-compatibility",
+      "status": "PASS",
+      "scope": "Retained initial-inventory capture with absent optional supplemental array, unchanged prior counts."
+    },
+    {
+      "run": "host-09",
+      "status": "PASS",
+      "scope": "Single focused coordinated run:35full sweeps/169supplemental censuses/103real process observations/408anchors;41440counter proofs. No supplemental endpoint selected by nearest-bracket matching in this capture; tests separately prove that matcher path."
+    },
+    {
+      "run": "supplemental-checks",
+      "status": "PASS",
+      "scope": "49 Python tests plus format/lint/diff;20ms prospective schedule only, strict missing-bracket failure unchanged."
     }
   ],
   "artifacts": [
@@ -245,6 +260,101 @@
       "sha256": "f35f6327a80875a7fa6335dd51dde39873427892170afc9b88782202ebec77d5"
     },
     {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/after-exit.jsonl",
+      "bytes": 2558167,
+      "sha256": "e426f8671df993c0f4fa9c1059dd7350036990b2e8584a72727871eeebe85d5c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/capabilities.json",
+      "bytes": 424054,
+      "sha256": "70f65c339b3af8f3cab8cb9efb381355c38ea9afc94f9d7efb0caa9fc8af8d2f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/child.json",
+      "bytes": 15386,
+      "sha256": "c62516fb5de924235e29a79b7e23b0a59f9608db0bc4194ec364c96d92e3188d"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/cleanup.json",
+      "bytes": 192,
+      "sha256": "33c0ca48ddce2bf065424ec2d40a4fa4c27ac773687484a4fad1ed0200bb71ec"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/collector-exec-gate",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/collector-lifecycle.json",
+      "bytes": 2665,
+      "sha256": "2ded06237503344e3ab6639bc55737ebea23d723300aa6b56e46967d5903012b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/collector-start.json",
+      "bytes": 699,
+      "sha256": "25a037ba888f4c5ad5873c4bf4c601ed0e8a8b714a4a4e78dce356e4d0de31b0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/collector-stopped.json",
+      "bytes": 705,
+      "sha256": "a8e1d78a286628397a7c51ec63f58675961549138cb95c0f3d31e4a4d84f2568"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/collector.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/counter-brackets.json",
+      "bytes": 16887945,
+      "sha256": "97cb406f053e592490fe41869063f4ee57785a1ed7620f8a4ba079a220290924"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/external-observations.json",
+      "bytes": 28816016,
+      "sha256": "58ceb9ca855151f913dceb9754b637447ece65c53746927bacb4640d69ed16c1"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/final-inventory.json",
+      "bytes": 423964,
+      "sha256": "2e5f91da373793aa17632e29b1710262ff663aea457c532ddee604ff8eadd98c"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/host_capture.py",
+      "bytes": 54898,
+      "sha256": "6be4931e35ab035b764b6c3612a0a37213a260319ca2f0e1cbd75063729fd051"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/missing-brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/result.json",
+      "bytes": 684,
+      "sha256": "e1c7020f97dc43f61c1df0d7b8d1bb84e0334ee51208268649bf9ed922cb48cf"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/snapshots.jsonl",
+      "bytes": 11349462,
+      "sha256": "023e9c7fa8d2f629c4a1f2cc3cfd94eecec3d56e18f38adcdaf9b2b43b3b5f25"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/stable-totals.json",
+      "bytes": 310098,
+      "sha256": "23137d920992123fa0936c16dbb4ee475733969039432b719e367f5e9e9eb3bd"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-09/supplemental-summary.json",
+      "bytes": 2291,
+      "sha256": "bb467e37228a87d286632600c86f4644b37a0bc3c0141998dc939a6ea147f3be"
+    },
+    {
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host-inventory-red.log",
       "bytes": 4112,
       "sha256": "2fa27af4ed6034eb9696e3f9508ed40d1965ef373ba8de92aaac2c70c4f9d3ca"
@@ -306,6 +416,36 @@
     },
     {
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-process-reanalysis/stable_totals.json",
+      "bytes": 250192,
+      "sha256": "3c0f48f3f85753e85e719163c232e4ea786dca13e69a412a7d02ebf9e736e1eb"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-supplemental-compatibility/brackets.json",
+      "bytes": 17019031,
+      "sha256": "1713060fc906ab5b5306bf2311b251791898c2648ee23b9841eb5a1d7affc198"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-supplemental-compatibility/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-supplemental-compatibility/host_capture.py",
+      "bytes": 54898,
+      "sha256": "6be4931e35ab035b764b6c3612a0a37213a260319ca2f0e1cbd75063729fd051"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-supplemental-compatibility/missing_brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-supplemental-compatibility/result.json",
+      "bytes": 414,
+      "sha256": "ec713e9a7e496c01369f5a4a4cd0f83a2a79ea4e560a28fee4a3edc7dcc9a8ab"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/host08-supplemental-compatibility/stable_totals.json",
       "bytes": 250192,
       "sha256": "3c0f48f3f85753e85e719163c232e4ea786dca13e69a412a7d02ebf9e736e1eb"
     },
@@ -1583,6 +1723,36 @@
       "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/red.log",
       "bytes": 10589,
       "sha256": "cba4dd0d5d8123f7de97ebb35ba778a18fb52923b42d356fa0a316ae364f6733"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/supplemental-checks/checks.json",
+      "bytes": 744,
+      "sha256": "6729ffa0e9c380b6b9c903d5977fba4f42250d106345d968793011382408b4f4"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/supplemental-checks/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/supplemental-checks/python-format.log",
+      "bytes": 27,
+      "sha256": "d41ae50829b47e318b0787bc39d2a2ea2d52b518cfc7900d2efd569e6d26ab88"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/supplemental-checks/python-lint.log",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/supplemental-checks/python-tests.log",
+      "bytes": 7230,
+      "sha256": "6a347501cb81c4ac816d540c3318dcaa876c318c9335d29355bb3531ad0fe066"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/supplemental-red.log",
+      "bytes": 5161,
+      "sha256": "a06b2c537763016a2f2ecca0bf71ffe077c3dd7c15800f2c39f82f4c46f2586d"
     }
   ]
 }

@@ -2,7 +2,7 @@
 
 - In progress: root committed aggregate, including fresh host and complete native execution.
 - Verified preparation: executable aggregate and independent host/native harness;
-  45 Python regressions, retained host re-analysis, 13 full-run native cases and
+  49 Python regressions, retained host re-analysis, 13 full-run native cases and
   focused final missing-device correction. The complete native run remains FAIL.
 - Verified delivery preparation: documentation, self-audit and all listed manifest
   artifact paths, sizes and SHA256 hashes.
@@ -205,6 +205,52 @@ sensor checks, 16,240 process fields, 96 interfaces and 468 stable totals, still
 limited to the original independent inventory. No new capture, build or native
 run was performed for these narrow verifier corrections. The source is paused
 at `322b05d9` for the final independent review follow-up.
+
+## Supplemental process observation repair
+
+The first committed Cairn aggregate passed 396 tests, formatting, Clippy and
+build checks, then failed two required CPU counter brackets for a real short-lived
+process that appeared between all ordinary external censuses. It did not reach
+native replay. The root-owned [aggregate attempt report](aggregate-attempt-2026-09-05.md)
+preserves that failed receipt and diagnosis; this was an observer sampling gap,
+not evidence of incorrect application readings.
+
+Correction `8ffa088b` adds prospective 20 ms census refresh scheduling to the
+existing single observer thread. It checks between ordinary process reads and
+after gauges, immediately observes new PIDs, and rereads them until the next full
+census takes over. Every ordinary census PID still receives its normal read.
+Supplemental census, stat, UID and IO observations retain actual source windows
+and clock anchors in an append-only array. The verifier includes every retained
+supplemental counter observation in its PID/start identity join. Old captures
+without the optional array remain readable. Missing brackets still fail.
+
+The original 35-second and 2,048-full-sweep limits remain enforced, with a declared
+4,096 supplemental process observation cap. Exhaustion fails instead of dropping
+data. Partial ordinary/supplemental records survive failure. Scheduling records
+retain actual lateness and skipped slots; the nominal cadence is not a promised
+20 ms observation bound or a change to counter comparison rules.
+
+Four new timing/matcher tests first failed five assertions, then passed. They
+establish supplemental before/after coverage for a birth between full censuses,
+no loss of ordinary reads, no overwrite of repeat observations, actual cadence,
+deadline/cap failure, and PID-reuse rejection. All 49 Python tests plus Ruff
+format/lint and diff checks passed in `supplemental-checks/`. Retained `host-08`
+compatibility in `host08-supplemental-compatibility/` preserves its earlier counts
+and explicitly remains limited to the old initial inventory.
+
+One coordinated focused `host-09` run passed: four snapshots, 41,440 counter
+brackets, 2,216 sensor checks, 16,049 process fields, 96 interfaces and 468 stable
+totals, with matching initial/final inventories and verified child exit. It
+retained 35 complete full sweeps, 169 supplemental censuses, 103 supplemental
+process reads across 30 actual PID/start identities, and 408 clock anchors.
+Supplemental census-start intervals were 11.996 ms minimum, 20.001 ms median and
+58.094 ms maximum; maximum schedule lateness was 26.222 ms, with six skipped slots.
+The selected nearest counter brackets in this run used ordinary observations;
+zero supplemental endpoints were needed for those proofs. The independent
+regression separately establishes supplemental-only bracket matching. These facts
+are preserved in `host-09/supplemental-summary.json` without claiming a cadence
+guarantee or replacing the failed aggregate. Source is paused at `8ffa088b` for
+independent review before another Cairn run.
 
 NVIDIA hardware accuracy remains UNVERIFIED. `DriverNotLoaded` is a separately
 recorded hardware boundary, not an accuracy pass. macOS/Windows native behavior
