@@ -1,6 +1,8 @@
 # Workspace state as implemented
 
 Status: Observed
+
+Historical baseline inspected at `9f2f3ad0`. These fixture observations are preserved as history; see the [overview](overview.md) and [LIVE contract](live-collection.md) for the current implementation and pending acceptance.
 Prefix: STATE
 
 [STATE-001] The presentation model MUST store panel and sensor collapse independently from visibility and meter selection.

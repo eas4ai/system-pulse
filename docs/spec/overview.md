@@ -2,9 +2,9 @@
 
 Status: Observed
 
-System Pulse currently provides a native GPUI workspace with separate panels, scrolling, independent panel/sensor collapse, and persistent layout recovery. Its runtime readings and process rows are simulated. Evidence: [entry point](../../examples/system_pulse/src/main.rs:5), [fixture](../../examples/system_pulse/src/fixture.rs:11), [workspace](../../examples/system_pulse/src/workspace.rs:232).
+System Pulse's reviewed implementation uses real host collector snapshots in a native GPUI workspace with separate panels, scrolling, independent panel/sensor collapse and persistent recovery. Physical quantities, actual process identities and test-only fixture isolation are implemented. Evidence: [collector](../../examples/system_pulse/collectors/src/host/mod.rs), [live mapping](../../examples/system_pulse/src/live.rs), [workspace](../../examples/system_pulse/src/workspace.rs), [module boundary](../../examples/system_pulse/src/lib.rs).
 
-The developer's intended product monitors the actual machine. The immediate work replaces runtime simulation with real collection while preserving the workspace behavior already verified. The developer rejected simulation as the delivered application and confirmed real collection; see the [restart handoff](/home/shawn/workspace2/task-manager/docs/superpowers/execution/live-collection-handoff.md:5).
+The active commitment still requires executable independent host/native acceptance and final Cairn evidence. Collector, integration, attribution and native repaint tasks have passed focused checks and independent reviews; those results do not substitute for the remaining acceptance suite. See [execution records](../execution/real-system-readings/) and the [implementation plan](../plans/real-system-readings.md). The developer rejected simulated production readings and confirmed real collection; the [handoff](/home/shawn/workspace2/task-manager/docs/superpowers/execution/live-collection-handoff.md) preserves that direction.
 
 The cited [recon report](/home/shawn/workspace2/task-manager/docs/recon.md) distinguishes observed behavior, documented intent, contradictions, and unverified claims. The historical fixture acceptance remains valid for its stated scope; it is not evidence of live metric accuracy.
 
@@ -16,12 +16,12 @@ Read [glossary](glossary.md), the relevant domain below, and [the agreed real-co
 
 | Domain | Prefix | Coverage |
 | --- | --- | --- |
-| [Readings](readings.md) | READ | Observed fixture generation, samples, history, and timer. |
-| [Rendering](rendering.md) | VIEW | Observed compact readings, scales, and process table. |
-| [Workspace state](workspace-state.md) | STATE | Observed identities, presentation, restore, and storage. |
+| [Readings](readings.md) | READ | Historical fixture generation, samples, history, and timer. |
+| [Rendering](rendering.md) | VIEW | Historical compact readings, scales, and process table. |
+| [Workspace state](workspace-state.md) | STATE | Historical identities, presentation, restore, and storage. |
 | [Real collection](live-collection.md) | LIVE | Agreed intended behavior and falsifiers for this session. |
 | Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](/home/shawn/workspace2/task-manager/docs/superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../examples/system_pulse/NATIVE_ACCEPTANCE.md). |
 | Process actions, full presets, styling, settings and packaging | Product scope | Retained in the [product specification](/home/shawn/workspace2/task-manager/docs/feature-spec-dockable-system-monitor.md:164); no claim that collection completes these areas. |
 | Other framework examples, shell, website and reference projects | Outside this work | Workspace membership is defined in [Cargo.toml](../../Cargo.toml:3); this adoption does not redefine those products. |
 
-Observed sections record what exists; their fixture behavior is not proposed as the target. The developer confirmed LIVE-001 through LIVE-013 on 2026-09-04. The [roadmap](roadmap.md) names the active commitment; historical fixture-specific observations are not promoted into the target contract.
+READ/VIEW/STATE sections record the original fixture baseline; their behavior is not proposed as the target. The glossary and this overview describe the current reviewed implementation, with final acceptance explicitly pending. The developer confirmed LIVE-001 through LIVE-013 on 2026-09-04. The [roadmap](roadmap.md) names the active commitment; historical fixture-specific observations are not promoted into the target contract.

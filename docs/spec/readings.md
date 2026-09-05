@@ -1,6 +1,8 @@
 # Readings as implemented
 
 Status: Observed
+
+Historical baseline inspected at `9f2f3ad0`. These fixture observations are preserved as history; see the [overview](overview.md) and [LIVE contract](live-collection.md) for the current implementation and pending acceptance.
 Prefix: READ
 
 These requirements describe current behavior in contract-shaped text. They are not an agreement to retain simulation.

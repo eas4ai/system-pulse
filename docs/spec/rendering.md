@@ -1,6 +1,8 @@
 # Reading presentation as implemented
 
 Status: Observed
+
+Historical baseline inspected at `9f2f3ad0`. These fixture observations are preserved as history; see the [overview](overview.md) and [LIVE contract](live-collection.md) for the current implementation and pending acceptance.
 Prefix: VIEW
 
 [VIEW-001] The compact value formatter MUST distinguish unavailable and stale samples from measured zero.
