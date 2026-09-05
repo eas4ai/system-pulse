@@ -65,6 +65,32 @@ After these repairs, the same focused and full Python commands passed 27 and 78
 tests respectively; the full suite took 5.310 seconds. The modified Python files
 were formatted with Black. No live acceptance work ran during the repair.
 
+The prior `python` commands resolved to `/home/shawn/miniconda3/bin/python`,
+Anaconda CPython 3.13.12. The subsequent aggregate used
+`/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14`, CPython 3.14.7.
+On that exact aggregate interpreter, the focused suite reproduced one failing
+assertion: the real deeply nested JSON was rejected as an unknown result shape,
+but the test incorrectly required a recursion-specific diagnostic. The validator
+still preserved the original failure and the three host requirement passes.
+
+The portability correction changes only tests. The real nested-input regression
+now checks the general unverified-evidence diagnostic, exact host IDs, original
+exception and `failure.json`. A separate test injects `RecursionError` when the
+native result is decoded, proving that handler without assuming a parser depth
+limit. Production validation is unchanged.
+
+Both exact executables ran these command arguments through `rtk proxy`:
+
+```sh
+-B -m unittest discover -s scripts/system-pulse -p test_requirement_verdicts.py -v
+-B -m unittest discover -s scripts/system-pulse -p 'test_*.py' -v
+```
+
+Python 3.14.7 passed 28 focused tests and all 79 tests in 5.384 seconds.
+Python 3.13.12 passed 28 focused tests and all 79 tests in 5.426 seconds.
+Black's check passed for the updated regression file. This comparison covers the
+two observed parser behaviors; it does not claim support for every interpreter.
+
 ## Limits and release review
 
 No live host capture, native replay, Cairn command, Rust suite or complete aggregate

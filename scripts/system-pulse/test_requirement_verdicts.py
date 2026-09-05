@@ -306,7 +306,28 @@ class RequirementVerdictTests(unittest.TestCase):
             str(failure),
         )
         self.assertIn("Unverified requirement evidence:", self.stderr)
-        self.assertIn("recursion", self.stderr)
+
+    def test_native_json_recursion_error_preserves_host_and_original_failure(self):
+        failure = AssertionError("native exited 1; original failure")
+        native_text = (self.output / "native/result.json").read_text()
+        original_loads = json.loads
+
+        def load_evidence(text):
+            if text == native_text:
+                raise RecursionError("native JSON recursion limit")
+            return original_loads(text)
+
+        with patch.object(acceptance.json, "loads", side_effect=load_evidence):
+            ids, error = self.run_gate(failure)
+        self.assertIs(error, failure)
+        self.assertEqual(ids, HOST_IDS)
+        self.assertEqual(
+            json.loads((self.output / "failure.json").read_text())["error"],
+            str(failure),
+        )
+        self.assertIn(
+            "Unverified requirement evidence: native JSON recursion limit", self.stderr
+        )
 
     def test_focused_preparation_keeps_only_host(self):
         self.native["focused_preparation"] = "missing-device"
