@@ -39,8 +39,8 @@ class RequirementVerdictTests(unittest.TestCase):
             "session-recovery-schema-restart session-recovery-json "
             "session-recovery-json-restart session-missing-device"
         ).split():
-            for name in ("metadata.json", "journal.jsonl"):
-                self.artifact(f"native/{session}/{name}")
+            self.artifact(f"native/{session}/journal.jsonl")
+            self.write(f"native/{session}/metadata.json", {"application_pid": 123})
             self.write(
                 f"native/{session}/shutdown.json",
                 {
@@ -91,6 +91,7 @@ class RequirementVerdictTests(unittest.TestCase):
         self.write(
             "native/transport-cleanup.json",
             {
+                "pid": 456,
                 "exit_code": 0,
                 "proc_exists": False,
                 "forced_kill": False,
@@ -127,6 +128,7 @@ class RequirementVerdictTests(unittest.TestCase):
 
     def run_gate(self, failure=None, fail_step="native", zero_tests=False):
         stdout = io.StringIO()
+        stderr = io.StringIO()
 
         def step(runner, name, command, kind=None, timeout=1800):
             # Exercise main and its real artifact checks without live processes.
@@ -146,12 +148,13 @@ class RequirementVerdictTests(unittest.TestCase):
         ), patch("sys.argv", ["acceptance.py"]), contextlib.redirect_stdout(
             stdout
         ), contextlib.redirect_stderr(
-            io.StringIO()
+            stderr
         ):
             try:
                 acceptance.main()
             except BaseException as caught:
                 error = caught
+        self.stderr = stderr.getvalue()
         lines = [
             line for line in stdout.getvalue().splitlines() if line.startswith("cairn:")
         ]
@@ -207,6 +210,7 @@ class RequirementVerdictTests(unittest.TestCase):
         self.write(
             "native/transport-cleanup.json",
             {
+                "pid": 456,
                 "exit_code": 0,
                 "proc_exists": True,
                 "forced_kill": False,
@@ -224,9 +228,85 @@ class RequirementVerdictTests(unittest.TestCase):
 
     def test_failed_session_cleanup_keeps_only_host(self):
         self.write(
-            "native/session-01/cleanup.json", [{"exit_code": 0, "proc_exists": True}]
+            "native/session-01/cleanup.json",
+            [{"pid": 123, "exit_code": 0, "proc_exists": True}],
         )
         self.assertEqual(self.run_gate(self.late_failure())[0], HOST_IDS)
+
+    def test_cleanup_and_shutdown_require_integer_exit_codes(self):
+        for name in ("shutdown.json", "cleanup.json"):
+            path = self.output / "native/session-01" / name
+            original = json.loads(path.read_text())
+            for value in (False, 0.0):
+                with self.subTest(name=name, value=value):
+                    record = copy.deepcopy(original)
+                    (record[0] if isinstance(record, list) else record)[
+                        "exit_code"
+                    ] = value
+                    path.write_text(json.dumps(record))
+                    ids, error = self.run_gate(
+                        AssertionError("original native failure")
+                    )
+                    self.assertEqual(ids, HOST_IDS)
+                    self.assertIsInstance(error, AssertionError)
+            path.write_text(json.dumps(original))
+
+    def test_cleanup_requires_positive_integer_pid(self):
+        for value in (False, 123.0, 0, -1, "123", None):
+            with self.subTest(value=value):
+                self.write(
+                    "native/session-01/cleanup.json",
+                    [
+                        {
+                            "pid": value,
+                            "exit_code": 0,
+                            "proc_exists": False,
+                        }
+                    ],
+                )
+                self.assertEqual(
+                    self.run_gate(AssertionError("native failed"))[0], HOST_IDS
+                )
+
+    def test_cleanup_pid_must_match_integer_application_pid(self):
+        for value in (124, 123.0, True, None):
+            with self.subTest(application_pid=value):
+                self.write(
+                    "native/session-01/metadata.json", {"application_pid": value}
+                )
+                self.assertEqual(
+                    self.run_gate(AssertionError("native failed"))[0], HOST_IDS
+                )
+
+    def test_transport_requires_integer_exit_code_and_pid(self):
+        path = self.output / "native/transport-cleanup.json"
+        original = json.loads(path.read_text())
+        for field, value in (
+            ("exit_code", False),
+            ("exit_code", 0.0),
+            ("pid", True),
+            ("pid", 456.0),
+            ("pid", 0),
+        ):
+            with self.subTest(field=field, value=value):
+                record = dict(original, **{field: value})
+                path.write_text(json.dumps(record))
+                self.assertEqual(
+                    self.run_gate(AssertionError("native failed"))[0], HOST_IDS
+                )
+
+    def test_excessively_nested_native_result_preserves_host_and_original_failure(self):
+        failure = AssertionError("native exited 1; original failure")
+        (self.output / "native/result.json").write_text("[" * 10000 + "0" + "]" * 10000)
+        ids, error = self.run_gate(failure)
+        self.assertIs(error, failure)
+        self.assertEqual(ids, HOST_IDS)
+        self.assertEqual(
+            json.loads((self.output / "failure.json").read_text())["error"],
+            str(failure),
+        )
+        self.assertIn("Unverified requirement evidence:", self.stderr)
+        self.assertIn("recursion", self.stderr)
 
     def test_focused_preparation_keeps_only_host(self):
         self.native["focused_preparation"] = "missing-device"

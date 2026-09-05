@@ -301,13 +301,21 @@ def validate_sessions(runner, sessions):
             artifacts.append(runner.artifact(directory / filename))
         shutdown = json.loads((directory / "shutdown.json").read_text())
         require(
-            shutdown["exit_code"] == 0 and shutdown["before_deadline"] is True,
+            type(shutdown["exit_code"]) is int
+            and shutdown["exit_code"] == 0
+            and shutdown["before_deadline"] is True,
             "required native normal shutdown failed",
         )
         cleanup = json.loads((directory / "cleanup.json").read_text())
+        metadata = json.loads((directory / "metadata.json").read_text())
         require(
             isinstance(cleanup, list)
             and len(cleanup) == 1
+            and type(cleanup[0]["pid"]) is int
+            and cleanup[0]["pid"] > 0
+            and type(metadata["application_pid"]) is int
+            and cleanup[0]["pid"] == metadata["application_pid"]
+            and type(cleanup[0]["exit_code"]) is int
             and cleanup[0]["exit_code"] == 0
             and cleanup[0]["proc_exists"] is False,
             "required native session cleanup failed",
@@ -329,9 +337,14 @@ def validate_primary_native(runner, native):
         "native/transport-cleanup.json",
     )
     artifacts = [runner.artifact(output / path) for path in mandatory]
-    check_transport_record(
-        json.loads((output / "native/transport-cleanup.json").read_text())
+    transport = json.loads((output / "native/transport-cleanup.json").read_text())
+    require(
+        type(transport["pid"]) is int
+        and transport["pid"] > 0
+        and type(transport["exit_code"]) is int,
+        "invalid native transport process record",
     )
+    check_transport_record(transport)
     artifacts.extend(validate_sessions(runner, ("session-01", "session-02")))
     session = output / "native/session-01"
     metric_names = [
@@ -452,7 +465,14 @@ def partial_requirement_passes(runner):
         native = read_native_result(runner)
         validate_primary_native(runner, native)
         earned.update((1, 2, 3, 5, 8, 9, 11))
-    except (AssertionError, OSError, ValueError, KeyError, TypeError) as error:
+    except (
+        AssertionError,
+        OSError,
+        ValueError,
+        KeyError,
+        TypeError,
+        RecursionError,
+    ) as error:
         print(f"Unverified requirement evidence: {error}", file=sys.stderr, flush=True)
     return earned
 

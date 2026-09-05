@@ -5,7 +5,9 @@ The adapter follows [the predeclared mapping](cairn-verdict-mapping.md).
 automated-step checks between aggregate validation and partial reporting.
 The existing artifact lists, dynamic GPU evidence, screenshot accounting and
 aggregate checks remain mandatory. Normal native session cleanup now also requires
-the single app process to have exit code zero and no remaining `/proc` entry.
+the single app process to have integer exit code zero and no recorded remaining
+`/proc` entry. Its positive integer PID must match the session metadata's integer
+`application_pid`. Transport cleanup also requires integer exit code and PID fields.
 
 Reporting happens after subprocess termination. Native progress records cannot
 earn passes. A focused native result cannot earn either native group; independently
@@ -27,7 +29,7 @@ termination boundary. An injected manifest hash failure first reproduced duplica
 verdict publication; moving complete publication after the aggregate success path
 made that regression pass.
 
-Final commands run from the repository root:
+Verification commands run from the repository root:
 
 ```sh
 rtk proxy python -B -m unittest discover -s scripts/system-pulse -p test_requirement_verdicts.py -v
@@ -37,7 +39,7 @@ rtk proxy python -B scripts/system-pulse/acceptance.py --source-guard
 rtk git diff --check
 ```
 
-Results: 22 focused tests passed; all 73 Python tests passed in 5.280 seconds;
+Initial results: 22 focused tests passed; all 73 Python tests passed in 5.280 seconds;
 Black, source guard and diff checks passed. Fixtures use temporary files and a
 controlled `Runner.step`; aggregate artifact validation and manifest generation
 run normally. These tests do not claim live measurements.
@@ -48,6 +50,20 @@ validated LIVE-001, LIVE-002, LIVE-003, LIVE-004, LIVE-005, LIVE-008, LIVE-009,
 LIVE-011, LIVE-012 and LIVE-013. Its aggregate step check still failed on the
 native process exit. No retained evidence was changed and no Cairn result was
 published by that interpretation.
+
+Independent quality review then found that Python equality accepted Boolean and
+floating-point exit codes, cleanup did not identify the tested app, and excessive
+JSON nesting could replace the original aggregate exception during partial
+reporting. New regressions reproduced each issue before the boundary fixes.
+Session and transport records now enforce integer scalar types. Session cleanup
+must identify the app recorded in that session's metadata. The secondary evidence
+interpreter explicitly catches `RecursionError`, logs its detail and retains both
+the original failure and any earned host requirements. Control signals remain
+outside the handled exception types.
+
+After these repairs, the same focused and full Python commands passed 27 and 78
+tests respectively; the full suite took 5.310 seconds. The modified Python files
+were formatted with Black. No live acceptance work ran during the repair.
 
 ## Limits and release review
 
@@ -65,4 +81,6 @@ publication follows durable evidence; no processes, retries or dependencies were
 added; work was tracked through regression, implementation and verification;
 checks above actually ran; unavailable live checks are explicit; the declared
 mapping remains authoritative; the final diff was reviewed; and this report uses
-the repository's terms. No unresolved defect was identified in that review.
+the repository's terms. The initial self-review missed the boundary defects
+documented above. The repaired candidate requires independent SPEC and QUALITY
+review before acceptance.
