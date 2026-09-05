@@ -10,7 +10,7 @@ rtk proxy cargo test --locked -p system-pulse --lib
 rtk proxy python3 -B scripts/system-pulse/verify.py
 ```
 
-The mandatory verifier builds and checks the affected packages, exercises independent proc/sysfs arithmetic and counter brackets, and replays native interactions in a private Xvfb/DBus session. It writes complete logs and fresh host/native evidence outside the checkout. Missing steps or counter brackets fail the aggregate. See [acceptance implementation status](../../docs/execution/real-system-readings/acceptance-implementation.md); a passing aggregate has not yet been earned.
+The mandatory verifier builds and checks the affected packages, exercises independent proc/sysfs arithmetic and counter brackets, and replays native interactions in a private Xvfb/DBus session. It writes complete logs and fresh host/native evidence outside the checkout. Missing steps or counter brackets fail the aggregate. See [acceptance implementation status](../../docs/execution/real-system-readings/acceptance-implementation.md) for recorded results and remaining verification.
 
 `SYSTEM_PULSE_STATE_DIR` selects an isolated configuration directory. `SYSTEM_PULSE_DIAGNOSTICS_PATH` optionally exports the accepted live snapshot and rendered entries for acceptance inspection. Process arguments and environments are not collected. The process table uses PID and start ticks together, so an exited identity cannot silently become a reused PID.
 
