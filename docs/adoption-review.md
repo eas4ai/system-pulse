@@ -1,5 +1,7 @@
 # Adoption draft review
 
+Historical adoption review, before live implementation. References to missing collectors describe that baseline. See the [current overview](spec/overview.md) and [implementation plan](plans/real-system-readings.md) for reviewed changes and pending acceptance.
+
 Status: Draft review, 2026-09-04
 
 The reviewed text is `docs/spec/{overview,glossary,readings,rendering,workspace-state,live-collection}.md`; code evidence is pinned to `9f2f3ad0382ce4c7ce0aadfc0c4ed88588ad95af`.
