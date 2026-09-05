@@ -17,3 +17,21 @@ the first physical recovery step. Freeze gesture eligibility only once
 scrolling actually begins. Add the exact reproducer and preserve rejection
 of incomplete geometry/membership under the same deadline. Corrective work
 is separate from this read-only review. QUALITY has not begun.
+
+## Corrected specification review
+
+Candidate: `d4452f8f38c7734ec70567e47a6f2ca56305c7ed`.
+
+Independent SPEC review passed; the prior P1 is closed. Tentative eligibility
+and retained membership are discarded after rejection or exception before
+successful wheel dispatch. Fresh unique discovery and complete eligibility
+precede a later first wheel. Established gestures retain their original
+evidence across subsequent wheel steps, and exact selected endpoint proof
+still requires fresh unique discovery. Original deadlines remain unchanged.
+
+The reviewer independently passed 68 navigation, 163 focused native, and
+267 full Python tests, scoped Ruff lint/format, and diff checks. Four extra
+probes passed: renewed opposite-direction eligibility after publication
+rejection and exception, failed wheel dispatch discarding permission, and
+continued multi-step recovery after a post-wheel rejection. No live capture
+or build ran. QUALITY review and actual native acceptance remain pending.
