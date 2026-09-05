@@ -305,16 +305,23 @@ class Native:
         node.clear_cache()
         return not node.get_state_set().contains(Atspi.StateType.DEFUNCT)
 
-    def walk(self, root=None, deadline=None, skip_cells=False, strict=False):
+    def walk(
+        self,
+        root=None,
+        deadline=None,
+        skip_cells=False,
+        strict=False,
+        skip_monitor_bodies=False,
+    ):
         deadline = deadline or time.monotonic() + 15
-        stack = [root if root is not None else self.root()]
+        stack = [(root if root is not None else self.root(), None)]
         count = 0
         while stack:
             require(
                 time.monotonic() < deadline,
                 "native discovery deadline exceeded; incomplete tree",
             )
-            node = stack.pop()
+            node, parent = stack.pop()
             if not self.alive(node):
                 if strict:
                     raise IncompleteNativeTree(
@@ -331,6 +338,19 @@ class Native:
             yield node
             if skip_cells and aid.startswith("process:") and ":cell:" not in aid:
                 continue
+            if (
+                skip_monitor_bodies
+                and aid.endswith(":viewport")
+                and aid != "workspace:viewport"
+                and parent is not None
+                and node.get_role_name() == "panel"
+                and self.alive(parent)
+                and parent.get_role_name() == "panel"
+            ):
+                parent_name = parent.get_name()
+                if parent_name and aid == parent_name + ":viewport":
+                    # Monitor bodies contain readings/rows, never sibling dock panels.
+                    continue
             child_count = node.get_child_count()
             if strict and child_count < 0:
                 raise IncompleteNativeTree(
@@ -343,7 +363,7 @@ class Native:
                         f"incomplete native tree: missing child at index {index}"
                     )
                 if child is not None:
-                    stack.append(child)
+                    stack.append((child, node))
             if strict and not self.alive(node):
                 raise IncompleteNativeTree(
                     "incomplete native tree: node became defunct"
@@ -609,7 +629,9 @@ class Native:
             # A cached panel cannot prove current application membership or uniqueness.
             panels = [
                 node
-                for node in self.walk(deadline=deadline, skip_cells=True)
+                for node in self.walk(
+                    deadline=deadline, skip_cells=True, skip_monitor_bodies=True
+                )
                 if node.get_name() == "processes" and node.get_role_name() == "panel"
             ]
             require(len(panels) <= 1, "nonunique native Processes panel")

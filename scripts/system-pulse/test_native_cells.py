@@ -88,6 +88,99 @@ class NativeCellTests(unittest.TestCase):
         self.assertIs(self.lookup(), self.cells[0])
         self.other.get_child_count.assert_not_called()
 
+    def monitor_body(self, name="cpu:host", descendants=None):
+        body = Node(self.clock, name + ":viewport", children=lambda: descendants or [])
+        panel = Node(self.clock, name=name, children=lambda: [body])
+        return panel, body
+
+    def unreadable_monitor_body(self):
+        panel, body = self.monitor_body()
+        body.get_child_count = Mock(
+            side_effect=AssertionError("traversed monitor body during panel discovery")
+        )
+        return panel, body
+
+    def test_panel_discovery_skips_validated_monitor_body_descendants(self):
+        monitor, body = self.unreadable_monitor_body()
+        self.root.children = lambda: [monitor, self.panel]
+        self.assertIs(self.lookup(), self.cells[0])
+        body.get_child_count.assert_not_called()
+
+    def test_process_body_is_read_only_for_row_discovery(self):
+        self.panel, body = self.monitor_body("processes", [self.other, self.row])
+        body.get_child_count = Mock(wraps=body.get_child_count)
+        self.assertIs(self.lookup(), self.cells[0])
+        self.assertEqual(body.get_child_count.call_count, 1)
+
+    def test_duplicate_sibling_panels_after_monitor_body_still_fail(self):
+        monitor, body = self.unreadable_monitor_body()
+        duplicate = Node(self.clock, name="processes")
+        self.root.children = lambda: [monitor, self.panel, duplicate]
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.lookup()
+        body.get_child_count.assert_not_called()
+
+    def test_detached_cached_panel_after_monitor_body_still_fails(self):
+        monitor, body = self.unreadable_monitor_body()
+        replacement = Node(self.clock, name="processes")
+        self.root.children = lambda: [monitor, replacement]
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.lookup()
+        self.assertEqual(self.clock.now, 5)
+        body.get_child_count.assert_not_called()
+
+    def test_mismatched_viewport_parent_cannot_hide_current_panel(self):
+        for mismatch in ("parent name", "parent role", "child role", "child id"):
+            with self.subTest(mismatch=mismatch):
+                monitor, body = self.monitor_body(descendants=[self.panel])
+                if mismatch == "parent name":
+                    monitor.name = ""
+                elif mismatch == "parent role":
+                    monitor.role = "frame"
+                elif mismatch == "child role":
+                    body.role = "section"
+                else:
+                    body.aid = "gpu:other:viewport"
+                self.root.children = lambda: [monitor]
+                self.assertIs(self.lookup(), self.cells[0])
+
+    def test_workspace_and_unmatched_layout_viewports_remain_traversable(self):
+        workspace, _ = self.monitor_body("workspace", [self.panel])
+        layout = Node(self.clock, "layout:viewport", children=lambda: [workspace])
+        wrapper = Node(self.clock, children=lambda: [layout])
+        self.root.children = lambda: [wrapper]
+        self.assertIs(self.lookup(), self.cells[0])
+
+    def test_unmatched_nested_viewport_does_not_hide_duplicate_panel(self):
+        duplicate = Node(self.clock, name="processes")
+        monitor, body = self.monitor_body(descendants=[duplicate])
+        body.aid = "cpu:host:rows-viewport"
+        self.root.children = lambda: [self.panel, monitor]
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.lookup()
+
+    def test_default_walk_still_descends_monitor_body(self):
+        descendant = Node(self.clock, "sensor")
+        monitor, body = self.monitor_body(descendants=[descendant])
+        self.assertEqual(list(self.native.walk(monitor)), [monitor, body, descendant])
+
+    def test_strict_walk_still_rejects_defunct_monitor_body_descendant(self):
+        descendant = Node(self.clock, "sensor")
+        descendant.defunct = True
+        monitor, _ = self.monitor_body(descendants=[descendant])
+        with self.assertRaisesRegex(RuntimeError, "incomplete native tree.*defunct"):
+            list(self.native.walk(monitor, strict=True))
+
+    def test_repeated_lookup_keeps_original_deadline_across_monitor_boundaries(self):
+        monitor, body = self.monitor_body()
+        body.read_seconds = 0.5
+        self.root.children = lambda: [monitor, self.panel]
+        self.assertIs(self.lookup(deadline=5), self.cells[0])
+        self.clock.now = 4.75
+        with self.assertRaisesRegex(AssertionError, "deadline"):
+            self.lookup(deadline=5)
+        self.assertEqual(self.clock.now, 5.25)
+
     def test_defunct_cached_cell_and_row_reacquire_exact_identity(self):
         for aid in (TARGET, CELL):
             stale = Node(self.clock, aid)

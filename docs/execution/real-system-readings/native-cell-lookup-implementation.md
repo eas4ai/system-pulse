@@ -78,3 +78,36 @@ passed. No live run was performed. Self-audit found no remaining known defect;
 independent re-review remains required. Each lookup now traverses the application
 tree with process-cell descendants skipped, so the fresh native run must establish
 whether it meets the unchanged five-second deadline.
+
+## Monitor body pruning
+
+The [follow-up decision](../../decisions/discover-panels-without-traversing-monitor-bodies.md)
+addresses the observed fifteen-second panel discovery timeout with 151 monitors
+and 1,350 process rows. Panel discovery now opts into `skip_monitor_bodies`.
+The walk carries each traversed parent, and prunes descendants only when the
+viewport and its live direct parent both have native role `panel`, the parent
+has a nonempty name, and the viewport ID is exactly `<parent name>:viewport`.
+`workspace:viewport` is explicitly excluded. Unmatched layout nodes remain
+traversable; all monitor-panel siblings are still examined for uniqueness.
+
+The structural boundary is grounded in
+[panel.rs](../../../examples/system_pulse/src/panel.rs): `MonitorPanel::render`
+selects only the process table, static settings text, or sensor rows. The sensor
+body viewport at line 280 contains reading rows; the process body at line 334
+contains the table and its `processes:rows-viewport`. Neither constructs nested
+monitor panels. The remaining actual viewport call is `workspace:viewport` in
+[workspace.rs](../../../examples/system_pulse/src/workspace.rs), which stays open
+to traversal. Retained `child-cell-0-ancestors.json` confirms the native body
+role is `panel` beneath the named `processes` panel; the AccessKit enum alone
+does not establish the native role.
+
+Ten regressions cover body pruning, sibling duplicates, detached panels,
+mismatched parent names/roles/IDs, workspace/layout traversal, repeated lookup
+deadlines, and default/strict traversal. Four failed on the old implementation
+before the correction; the other six establish preserved behavior. All 64
+focused native tests and 168 full Python tests passed. The full suite used the
+exact Python 3.14 command above with `TMPDIR` set to workspace `artifacts/tmp`.
+Ruff lint/format and diff checks passed. Self-audit found no remaining known
+implementation issue. No Rust or replay source changed, no generic default or
+strict exit behavior changed, and no deadline or node bound changed. Independent
+specification and quality review and fresh native timing proof remain pending.
