@@ -64,6 +64,14 @@ Modify app `src/lib.rs`, `main.rs`, `workspace.rs`, `panel.rs`, `meters.rs`, `st
 - [ ] Gate `fixture` and deterministic construction with `cfg(test)`; update all old model/native test callers with explicit injection. Remove normal Advance fixture, fake discovery order and connect/disconnect controls. Retain save/recovery/presentation controls and Separate dock policy.
 - [ ] Run `rtk cargo test -p system-pulse-model`, `rtk cargo test -p system-pulse`, strict app/model Clippy, formatting, and native build. Replay focused native collapse/scroll/process interactions on real data. Commit and complete independent spec then quality review.
 
+## Task 2a: Close the connection-attribution evidence finding
+
+Read-only acceptance preparation found that connection readings preserve only the derived count. Before building the independent verifier, the collector worker owns a focused follow-up in `examples/system_pulse/collectors/`; first finish Task 2's spec and quality reviews. This is required evidence for the existing LIVE-013 contract, not new product scope.
+
+- [ ] Write a failing regression proving that one shared snapshot observation preserves interface/local-address ownership and TCP4/TCP6 local-address/state inputs, with source query windows and actual errors. Preserve raw local-address/state tokens before filtering so independent Python code can challenge byte order, established-state selection, mapped IPv6, wildcard exclusion and distinct-interface ownership. Omit ports, remote endpoints and socket owners.
+- [ ] Add an optional defaulted snapshot field for the shared observation. Derive per-interface connection counts from those captured inputs without duplicating the tables in each reading. Preserve unavailable/failed semantics; no fake zero on input failure. Verify serialization and full app/model compatibility. Correct the README's overly broad passwd-lookup failure claim or implement the promised distinction; a truthful numeric UID fallback is acceptable when described accurately.
+- [ ] Run focused regression, collector tests, formatting, strict Clippy and integration checks; commit only owned files. Independent spec then quality reviews must pass before Task 3 implementation.
+
 ## Task 3: Executable independent host and native acceptance
 
 Create `scripts/system-pulse/acceptance.py`, `host_accuracy.py`, `test_host_accuracy.py`, and a tracked native driver/replay. Extend existing `verify.py` so its source guard is only one step in the full mandatory acceptance run. Evidence goes in `docs/execution/real-system-readings/`; large runtime artifacts may be external with precise hashes/paths. No unavailable test or missing adapter is a passing check.
