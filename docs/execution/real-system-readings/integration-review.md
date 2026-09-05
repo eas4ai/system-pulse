@@ -50,3 +50,7 @@ Root also found that process row/cell constructors used only internal GPUI IDs. 
 The implementer ran 65 app/model tests (41 app, 24 model), scoped strict all-target Clippy, formatting, whitespace checks and native build successfully. Focused spec boundary re-review is in progress; quality re-review follows.
 
 Focused spec boundary re-review passed on `9c6034b4` with 16 independent tests covering model persistence, storage, preset preservation, native process identity, and diagnostic size independence. Quality re-review of the original failure is in progress.
+
+## Completed integration gate
+
+Independent quality re-review passed on `9c6034b456a0a50d6a8b7a708d36dddd8d6cbd4b`. The reviewer reran the original 451-panel, 1,473,216-byte workspace/preset reproduction successfully, verified exact-boundary and over-limit preservation behavior, and confirmed diagnostic size independence. All 65 app/model tests and locked scoped strict Clippy passed independently. Reproduction artifacts: `/tmp/pulse-quality-size-74x3c8cr/main-fixed.rs` and `check-fixed`. Task 2 has passed both spec and quality reviews. Full native/host acceptance remains pending.
