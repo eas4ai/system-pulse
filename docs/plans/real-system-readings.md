@@ -211,3 +211,22 @@ Independent samples bracket each collector observation except the explicitly unv
 ## Coverage self-review
 
 Task 1 implements LIVE-002/004/006/008/009/012 and the explicit NVIDIA addition. Task 2 implements LIVE-001/003/005/007/010/011 and preserves Task 1 semantics at the UI boundary. Task 3 independently challenges every falsifier, including LIVE-013. Native NVIDIA and macOS/Windows evidence remain named limitations; accessible Linux measurements and the NVIDIA adapter itself cannot be deferred.
+
+
+### Scope native process cell rediscovery
+
+Aggregate `098d2b2e` passed host verification and 481 tests, then a direct
+process cell lookup fell back to a full application traversal and ignored
+the caller's five-second deadline. The app continued accepting fresh samples.
+See [the diagnosis](../execution/real-system-readings/native-cell-discovery-failure.md)
+and [decision](../decisions/scope-process-cell-discovery-to-its-native-row.md).
+
+- [ ] Extract the existing metric process-row lookup for shared use by cell
+  visibility navigation. Carry the original absolute deadline through row
+  reacquisition, cell discovery, and movement. Preserve identity, uniqueness,
+  node bounds, generic lookup, strict exit traversal, and all comparisons.
+- [ ] Test stale cells and rows, unrelated branches, duplicate and missing
+  cells, PID reuse, and exhaustion of the original deadline. Verify the actual
+  replay call boundary, then pass independent SPEC and QUALITY reviews.
+- [ ] Run focused native process acceptance and fresh committed aggregate
+  acceptance. Preserve failed receipts; final review remains pending.
