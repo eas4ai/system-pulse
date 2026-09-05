@@ -153,6 +153,64 @@ class InputTests(unittest.TestCase):
         self.assertEqual(self.clock.now, 8)
         self.assert_cleaned()
 
+    def test_main_sequence_observation_is_retained_when_watcher_misses_it(self):
+        frame = self.app.frame
+
+        def missed():
+            result = frame()
+            if threading.current_thread().name == "input-freshness-observer":
+                if result["snapshot"]["sequence"] > 2:
+                    result["snapshot"]["sequence"] = 2
+                    result["accepted_unix_ns"] = 1_000_000_000
+            return result
+
+        self.app.frame = missed
+        record = self.run_input(burst=64, expected_identity="process:36:123")
+        self.assertIn(3, {item["sequence"] for item in record["observations"]})
+        self.assert_cleaned()
+
+    def test_watcher_errors_survive_merge_with_three_main_observations(self):
+        frame = self.app.frame
+        failed = False
+
+        def errored():
+            nonlocal failed
+            result = frame()
+            if (
+                threading.current_thread().name == "input-freshness-observer"
+                and not failed
+            ):
+                failed = True
+                raise RuntimeError("watcher publication failure")
+            return result
+
+        self.app.frame = errored
+        with self.assertRaisesRegex(AssertionError, "starved fresh publication"):
+            self.run_input()
+        observations = self.app.save.call_args.args[1]["observations"]
+        self.assertIn({"error": "watcher publication failure"}, observations)
+        self.assertIn(6, {item.get("sequence") for item in observations})
+        self.assert_cleaned()
+
+    def test_sequence_records_capture_age_at_read_time_and_keep_existing_fields(self):
+        self.age = 1
+        records = self.app.sequences()
+        self.assertEqual([item["sequence"] for item in records], [1, 2, 3])
+        self.assertEqual(
+            [item["accepted_unix_ns"] for item in records],
+            [-1_000_000_000, 0, 1_000_000_000],
+        )
+        self.assertEqual([item["age"] for item in records], [1, 1, 1])
+        self.assertEqual(self.clock.now, 2)
+
+    def test_sequence_count_option_remains_compatible(self):
+        # Call the production method directly: the fixture's wrapper preserves
+        # exercise's existing no-argument call but does not expose options.
+        records = type(self.app).sequences(self.app, count=2, seconds=5)
+        self.assertEqual(len(records), 2)
+        self.assertEqual([item["sequence"] for item in records], [1, 2])
+        self.assertEqual(self.clock.now, 1)
+
     def test_exact_burst_keeps_64_keys_and_expected_identity_acknowledgement(self):
         target = "process:36:123"
         record = self.run_input(burst=64, expected_identity=target)

@@ -817,6 +817,7 @@ class Native:
 
         def poll():
             frame = self.frame()
+            age = (time.time_ns() - frame["accepted_unix_ns"]) / 1e9
             sequence = frame["snapshot"]["sequence"]
             if sequence not in seen:
                 seen.add(sequence)
@@ -824,6 +825,7 @@ class Native:
                     {
                         "sequence": sequence,
                         "accepted_unix_ns": frame["accepted_unix_ns"],
+                        "age": age,
                     }
                 )
             return records if len(seen) >= count else None

@@ -48,3 +48,27 @@ numeric/identity correspondence, and observer cleanup.
 
 No native runs, builds, Rust edits, or Cairn mutations were performed. Independent
 SPEC and QUALITY review precede the parent's next untraced native verification.
+
+## Retain the main reader's sequence evidence
+
+The subsequent untraced run observed held movement and the exact 64-key
+endpoint, but the independent watcher retained only two sequences before
+shutdown. The main `Native.sequences()` call had observed three and returned
+their records; the input exercise discarded that list.
+
+`Native.sequences()` now captures age immediately after each existing frame
+read and retains it beside the existing sequence and accepted timestamp.
+The input exercise appends the returned actual sequence/age records to the
+watcher observations before stopping the watcher. Every watcher record and
+error remains intact. No additional frame reads, sequence waits, callback
+mechanisms, or deadline changes were introduced. Ages are neither fabricated
+nor recomputed when the sequence wait returns.
+
+Four regressions cover a third main-reader observation missed by the watcher,
+watcher errors surviving the merge, read-time age versus later return-time
+age, and compatibility of existing sequence fields/count options. RED
+reproduced the three-sequence evidence failure and missing age field; all
+17 input tests now pass. Final verification: all 144 focused native tests
+passed in 4.562 s and all 248 Python tests passed in 10.161 s using the exact
+Python 3.14 and TMPDIR commands above. Scoped Ruff lint/format and
+`git diff --check` passed. No live runs, builds, or Cairn mutations were made.

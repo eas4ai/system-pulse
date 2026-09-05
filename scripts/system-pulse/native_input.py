@@ -84,7 +84,10 @@ def exercise(
         record["after"] = after
         if observe is not None:
             record["after_identity"] = after_identity
-        app.sequences()
+        observations.extend(
+            {"sequence": item["sequence"], "age": item["age"]}
+            for item in app.sequences()
+        )
     finally:
         stop.set()
         watcher.join(timeout=1)
