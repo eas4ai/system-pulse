@@ -1,0 +1,40 @@
+{
+  "source": "098d2b2e26973588282a21fad54f5d94dc9a704a",
+  "artifacts": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg",
+  "automated_tests": 481,
+  "host": "PASS",
+  "native": "FAIL",
+  "error": "native discovery deadline exceeded; incomplete tree",
+  "records": {
+    "progress.jsonl": {
+      "path": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/progress.jsonl",
+      "sha256": "e3cffadd01d483dcbc5f1f665645867ef9b4176305857189ebde505e2a82e6a0",
+      "bytes": 9462
+    },
+    "host/result.json": {
+      "path": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/host/result.json",
+      "sha256": "950100d511b7cc00ef6f52b4cbdff1161d068d35b4cabd0b75e61d432a52cd48",
+      "bytes": 741
+    },
+    "native/result.json": {
+      "path": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/native/result.json",
+      "sha256": "98bdba32c22c76366944c5730c6a31ce3f8d4a2a52e47756893f179b00870668",
+      "bytes": 666
+    },
+    "native/private-session.log": {
+      "path": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/native/private-session.log",
+      "sha256": "6722b435c9e9b40450e56090a01c5959319dc30fcf00b3828ac9e2de1eff4ed9",
+      "bytes": 6898
+    },
+    "native/session-01/failure-frame.json": {
+      "path": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/native/session-01/failure-frame.json",
+      "sha256": "0a9b9d4e0b762e6923738ba457f9cdadea9586355bc3400eeacd65f6ac4ddf7a",
+      "bytes": 9260619
+    },
+    "native/session-01/real-child-start.json": {
+      "path": "/tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/native/session-01/real-child-start.json",
+      "sha256": "687e1882e23d55e2a8b9bb2bab3a849cc31e77a7746167103d610e3c459d1c74",
+      "bytes": 840
+    }
+  }
+}

@@ -1,0 +1,16 @@
+requirement: LIVE-007
+requirement_digest: sha256:5ae7c4b32c0352236acc1f4fa04417a92256d88d27516deef8028885d208bc12
+mechanism: live-acceptance
+commit: 098d2b2e
+inputs_digest: sha256:2e7ce040d0989ebc445bfeb7fad163f7b27bf217659bf17b6913a64e82c312e3
+mechanism_digest: sha256:851e4658d6436c920210ec94aaa4f4429a7b445c93e73663886e3b86ed6b1f63
+command: rtk proxy python3 scripts/system-pulse/verify.py
+cwd: .
+exit: 1
+output_digest: sha256:fa8182efc1bf3ff9b87cabe7b161452ab73f5ee3c1debf09c0d92a3f18299175
+signal: none
+execution_error: null
+stderr: "Unverified requirement evidence: native required cases omitted\nTraceback (most recent call last):\n  File \"/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py\", line 652, in <module>\n    main()\n    ~~~~^^\n  File \"/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py\", line 604, in main\n    runner.step(\n    ~~~~~~~~~~~^\n        \"native\",\n        ^^^^^^^^^\n    ...<9 lines>...\n        timeout=1250,\n        ^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py\", line 149, in step\n    require(\n    ~~~~~~~^\n        child.returncode == 0, f\"{name} exited {child.returncode}; full log: {path}\"\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/host_accuracy.py\", line 12, in require\n    raise AssertionError(message)\nAssertionError: native exited 1; full log: /tmp/system-pulse-cairn-check-aoiaislv/system-pulse-acceptance-i8rstkpg/native.log\n"
+result: unverified
+source: none
+recorded: 2026-09-05T14:29:25.534Z
