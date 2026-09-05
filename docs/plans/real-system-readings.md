@@ -394,10 +394,10 @@ The focused run reached the exact burst endpoint but lost the third main
 reader observation when it stopped the independent watcher. This correction
 completes the existing held-observation plan without changing its bounds.
 
-- [ ] Record each existing Native.sequences observation's age at read time.
+- [x] Record each existing Native.sequences observation's age at read time.
   Append its actual sequence/age records to the input evidence before
   watcher shutdown; retain every watcher record and error.
-- [ ] Reproduce the watcher-misses-third race and reject watcher errors
+- [x] Reproduce the watcher-misses-third race and reject watcher errors
   after merging. Preserve three actual distinct sequences, freshness,
   original reads/wait, and all non-input sequences callers. Complete
   focused/full checks and independent SPEC then QUALITY review.
