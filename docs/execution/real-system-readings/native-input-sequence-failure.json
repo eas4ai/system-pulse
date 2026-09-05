@@ -1,0 +1,41 @@
+{
+  "commit": "3d5786fa",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-u39xj7ld/native",
+  "diagnostic_only": false,
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "input did not retain three fresh sequences"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "sha256": {
+    "result.json": "7cac393a6d3c2005cc6e65e1087bf60c093fa1c0dda865d39cb625c9c15849fe",
+    "session-01/held-up-25hz.json": "c1abc62b020a0d55dab10209da63afb770a3f17feb7e0146ab17fb4ab696a160",
+    "session-01/exact-64-up.json": "cf0517416e73720f4632e090b923bd562bf18c80fad380a358111c8f4514872d",
+    "session-01/journal.jsonl": "3a38d282a2a97932351b5f15bbc59a8c84837c3e8b472848de73eafdb31cb42f",
+    "session-01/cleanup.json": "111542675b47378fb63c9408dd21ad2aa3aee3c333662329f6b8217674f8e444",
+    "transport-cleanup.json": "d19193ad091af775aac27e8a59983825a16414f37d301e9a4349394b0991b225"
+  }
+}
