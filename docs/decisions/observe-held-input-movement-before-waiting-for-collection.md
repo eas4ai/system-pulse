@@ -11,4 +11,4 @@ Observe signed native movement immediately after the held input is released, bef
 
 ## Realized by
 
-(none yet: recorded, not built)
+- caa06d742df2739149e46547ad1bc8b83b7030a6 fix(system-pulse): observe input movement before collection wait
