@@ -3,10 +3,10 @@
 This GPL-3.0-or-later Rust crate owns blocking host collection and has no GPUI dependency. Linux reads procfs/sysfs directly where source errors, device identity, or counters matter. The common backend uses pinned sysinfo 0.37.2. NVIDIA support dynamically loads NVML through pinned nvml-wrapper 0.13.0; no NVIDIA library or driver is needed to start the app.
 
 ```sh
-cargo test -p system-pulse-collectors
-cargo clippy -p system-pulse-collectors --all-targets -- -D warnings
-cargo fmt -p system-pulse-collectors -- --check
-cargo run -p system-pulse-collectors --bin pulse-snapshot -- --count 3 --interval-ms 1000
+rtk cargo test -p system-pulse-collectors
+rtk cargo clippy -p system-pulse-collectors --all-targets -- -D warnings
+rtk cargo fmt -p system-pulse-collectors -- --check
+rtk cargo run -p system-pulse-collectors --bin pulse-snapshot -- --count 3 --interval-ms 1000
 ```
 
 The diagnostic writes one JSON snapshot per line. Count defaults to 3 and accepts 1–100000. Intervals accept 500/1000/2000/5000 ms and default to 1000 ms. Invalid or repeated options fail with exit status 2. `--help` lists usage. Redirect stdout to retain a capture; process command lines and environments are never collected.
@@ -36,7 +36,7 @@ The snapshot itself is a per-device capability report: each descriptor names the
 | CPU overall / every logical core | `/proc/stat`; utilization formula above | Per-core keys use Linux CPU IDs. Read/parse failure invalidates the affected baseline. |
 | CPU frequency | `cpuN/cpufreq/scaling_cur_freq` kHz ×1000; fallback `/proc/cpuinfo` cpu MHz ×1000000 | Hertz per logical CPU; scaling frequency may be a requested P-state. Missing both sources is explicit. |
 | CPU temperature | CPU provider hwmon `temp*_input` millidegrees ×0.001 | Celsius; provider device path and original physical package/core label retained. Sparse physical labels are not reassigned to logical CPU indexes. |
-| CPU load / uptime / counts | `/proc/loadavg`, `/proc/uptime`, numeric `/proc` entries, summed `stat:num_threads` | Load1/5/15, seconds, process/thread counts. Incomplete thread enumeration is failed rather than a partial total. |
+| CPU load / uptime / counts | `/proc/loadavg`, `/proc/uptime`, numeric `/proc` entries, `/proc/loadavg` fourth-field total scheduling entities | Load1/5/15, seconds, process/thread counts. Thread count comes directly from the kernel and includes kernel threads; process count is the separately scoped procfs census. |
 | RAM / composition | `/proc/meminfo`, kB ×1024 | Used = Total − Available. Disjoint composition: Free, Cache = Cached + SReclaimable − Shmem, Buffers, Other = Total − Free − Cache − Buffers. Available is a separate estimate, not another composition slice. |
 | Swap / faults | `SwapTotal − SwapFree`, `/proc/vmstat` pgfault / pgmajfault | Bytes and cumulative fault counts. Missing fields retain a reason. |
 | AMD utilization / VRAM | `gpu_busy_percent`, `mem_info_vram_used/total` | Percent and bytes. ID is `amdgpu:<unique_id>`, with PCI address fallback; no card/hwmon discovery index identity. |

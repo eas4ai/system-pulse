@@ -372,3 +372,14 @@ fn derived_source_observations_have_read_windows() {
         assert_eq!(r.observations[0].read_started_ns, Some(500));
     }
 }
+
+#[test]
+fn kernel_thread_count_survives_process_census_races() {
+    let f = Fixture::new();
+    f.base();
+    f.put("proc/999/stat", "process exited");
+    let s = HostCollector::rooted(f.0.clone()).collect_at(1);
+    let r = reading(&s, "cpu:host/threads");
+    assert_eq!(r.value, Some(20.0));
+    assert!(r.observations[0].source.contains("loadavg"));
+}

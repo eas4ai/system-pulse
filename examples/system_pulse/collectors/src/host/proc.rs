@@ -118,6 +118,37 @@ impl HostCollector {
                 r,
             );
         }
+        let thread_started = self.now();
+        let thread_count = self.read("/proc/loadavg").and_then(|text| {
+            let total = text
+                .split_whitespace()
+                .nth(3)
+                .and_then(|field| field.split_once('/').map(|(_, total)| total))
+                .ok_or("/proc/loadavg: missing total scheduling entities")?;
+            total
+                .parse::<u64>()
+                .map_err(|e| format!("/proc/loadavg: invalid total scheduling entities: {e}"))
+        });
+        let mut r = self.integer(
+            "cpu:host/threads",
+            "/proc/loadavg: total scheduling entities",
+            thread_count,
+            1.0,
+        );
+        for observation in &mut r.observations {
+            observation.read_started_ns = Some(thread_started);
+        }
+        sensor(
+            s,
+            "cpu:host",
+            "threads",
+            "Threads",
+            SensorKind::Counter,
+            Unit::Count,
+            "/proc/loadavg: fourth field total",
+            "Kernel total scheduling entities (threads), including kernel threads",
+            r,
+        );
         let uptime = self.read("/proc/uptime").and_then(|t| {
             t.split_whitespace()
                 .next()

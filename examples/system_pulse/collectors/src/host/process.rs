@@ -54,8 +54,6 @@ impl HostCollector {
                 .collect::<BTreeMap<_, _>>()
         });
         let process_count = pids.len() as u64;
-        let mut threads = 0u64;
-        let mut thread_error = None;
         for pid in pids {
             let path = format!("/proc/{pid}/stat");
             let stat_started = self.now();
@@ -65,7 +63,6 @@ impl HostCollector {
             {
                 Ok(v) => v,
                 Err(e) => {
-                    thread_error = Some(e.clone());
                     diagnostic(s, "linux-process", e);
                     continue;
                 }
@@ -134,19 +131,14 @@ impl HostCollector {
             match self.read(&path).and_then(|t| parse_stat(&t)) {
                 Ok(end) if end.start == stat.start => {}
                 _ => {
-                    thread_error = Some(format!(
-                        "{path}: process exited or PID changed during capture"
-                    ));
+                    diagnostic(
+                        s,
+                        "linux-process",
+                        format!("{path}: process exited or PID changed during capture"),
+                    );
                     continue;
                 }
             }
-            threads = match threads.checked_add(stat.threads) {
-                Some(v) => v,
-                None => {
-                    thread_error = Some("thread count overflow".into());
-                    threads
-                }
-            };
             let mut memory_bytes = self.integer(
                 &format!("{key}memory"),
                 &path,
@@ -197,23 +189,6 @@ impl HostCollector {
             Unit::Count,
             "/proc",
             "All enumerated process IDs",
-            r,
-        );
-        let r = self.integer(
-            "cpu:host/threads",
-            "/proc/[pid]/stat:num_threads",
-            thread_error.map_or(Ok(threads), Err),
-            1.0,
-        );
-        sensor(
-            s,
-            "cpu:host",
-            "threads",
-            "Threads",
-            SensorKind::Counter,
-            Unit::Count,
-            "/proc/[pid]/stat:num_threads",
-            "Sum over process thread counts; unavailable if enumeration is incomplete",
             r,
         );
     }
