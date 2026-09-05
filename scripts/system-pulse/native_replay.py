@@ -38,18 +38,34 @@ def result_status(cases, focus, completed, errors):
 
 
 def reveal_process_cell(app, aid, key, deadline):
+    cell = None
+
+    def observe(read):
+        nonlocal cell
+        current, cell = cell, None
+        # Keep this gesture's node only after a complete, live, exact-ID read.
+        # An interrupted read leaves it unset so the next poll reacquires it.
+        if not app.alive(current) or current.get_accessible_id() != aid:
+            current = app.process_cell(aid, deadline)
+        value = read(current)
+        if not app.alive(current) or current.get_accessible_id() != aid:
+            return None
+        cell = current
+        return current, value
+
     def poll():
-        cell = app.process_cell(aid, deadline)
-        if app.visible(cell):
-            return cell if app.alive(cell) else None
-        old = app.bounds(cell)
+        observation = observe(lambda node: (app.visible(node), app.bounds(node)))
+        if observation is None:
+            return None
+        current, (visible, old) = observation
+        if visible:
+            return current
         require(time.monotonic() < deadline, "child cell movement deadline exceeded")
         app.key(key)
 
         def moved():
-            current = app.process_cell(aid, deadline)
-            bounds = app.bounds(current)
-            return app.alive(current) and bounds != old
+            observation = observe(app.bounds)
+            return observation is not None and observation[1] != old
 
         app.wait(moved, message="child horizontal cell movement", deadline=deadline)
         return None

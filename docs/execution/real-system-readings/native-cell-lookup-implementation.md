@@ -111,3 +111,28 @@ Ruff lint/format and diff checks passed. Self-audit found no remaining known
 implementation issue. No Rust or replay source changed, no generic default or
 strict exit behavior changed, and no deadline or node bound changed. Independent
 specification and quality review and fresh native timing proof remain pending.
+
+## Reuse within one horizontal gesture
+
+The [next untraced failure](native-cell-gesture-failure.md) showed that repeated
+full lookups, each taking roughly one second, exhausted the five-second budget
+for a column requiring three movements. The visibility helper now retains its
+initially verified cell only within that gesture. It checks liveness and exact
+identity before and after each native observation. A defunct node, changed ID,
+or interrupted read clears the retained node and triggers full shared lookup
+under the same absolute deadline. No global lookup cache shortcut was restored.
+
+The helper's return remains navigation acknowledgement, not acceptance evidence.
+The following separate metric call still performs fresh current-tree membership,
+uniqueness, value, frame, and clipping checks. A regression demonstrates that it
+rejects a row detached during an otherwise successful retained-cell gesture.
+
+Seven new regressions cover a one-second lookup plus three movements, replacement,
+wrong identity, transient reads, slow reacquisition, repeated transient deadlines,
+and the final fresh metric boundary. Four failed before the correction; three
+confirm preserved failures. All 71 focused native tests and 175 full Python tests
+passed with workspace `TMPDIR`. Ruff lint/format and diff checks passed.
+Self-audit found no remaining known implementation issue. Driver, Rust, generic
+traversal, strict exit, comparisons, and budgets are unchanged. No live run was
+performed; independent specification and quality review and fresh native proof
+remain pending.

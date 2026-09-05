@@ -3,9 +3,10 @@
 import ast
 from pathlib import Path
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 
 from host_accuracy import require
+from native_replay import reveal_process_cell
 from test_native_exit import Clock, Node, TARGET, native_class
 
 
@@ -354,6 +355,121 @@ class NativeCellTests(unittest.TestCase):
                 for i in range(8)
             ],
         )
+
+    def slow_lookup(self):
+        lookup = self.native.process_cell
+
+        def delayed(aid, deadline=None):
+            self.clock.now += 1
+            return lookup(aid, deadline)
+
+        self.native.process_cell = Mock(side_effect=delayed)
+
+    def reveal(self):
+        with patch("native_replay.time", self.clock):
+            return reveal_process_cell(self.native, CELL, "Right", 5)
+
+    def test_three_movements_with_one_second_lookup_fit_original_deadline(self):
+        self.slow_lookup()
+        self.cells[0].x = 3
+
+        def move(key):
+            self.clock.now += 0.25
+            self.cells[0].x -= 1
+
+        self.native.key.side_effect = move
+        try:
+            revealed = self.reveal()
+        except TimeoutError as error:
+            self.fail(f"three-movement gesture exhausted its deadline: {error}")
+        self.assertIs(revealed, self.cells[0])
+        self.assertEqual(self.native.key.call_count, 3)
+        self.assertEqual(self.native.process_cell.call_count, 1)
+        self.assertLess(self.clock.now, 5)
+
+    def test_replaced_gesture_cell_reacquires_with_same_deadline(self):
+        self.slow_lookup()
+
+        def move(key):
+            self.cells[0].defunct = True
+            self.cells[0] = Node(self.clock, CELL)
+            self.cells[0].x = 0
+
+        self.native.key.side_effect = move
+        self.assertIs(self.reveal(), self.cells[0])
+        self.assertEqual(self.native.process_cell.call_count, 2)
+        self.assertEqual(
+            [call.args for call in self.native.process_cell.call_args_list],
+            [(CELL, 5), (CELL, 5)],
+        )
+        self.assertLess(self.clock.now, 5)
+
+    def test_wrong_gesture_identity_cannot_acknowledge_visibility(self):
+        def move(key):
+            self.cells[0].aid = "process:42:124:cell:0"
+            self.cells[0].x = 0
+
+        self.native.key.side_effect = move
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.reveal()
+        self.assertEqual(self.clock.now, 5)
+        self.assertEqual(self.native.key.call_count, 1)
+
+    def test_transient_bounds_error_invalidates_gesture_cell(self):
+        self.slow_lookup()
+        bounds = self.native.bounds
+        transport_error = self.native.wait.__func__.__globals__["GLib"].Error
+        failed = False
+
+        def transient(node):
+            nonlocal failed
+            if not failed:
+                failed = True
+                raise transport_error("node replaced during bounds read")
+            return bounds(node)
+
+        self.native.bounds = transient
+        self.assertIs(self.reveal(), self.cells[0])
+        self.assertEqual(self.native.process_cell.call_count, 2)
+        self.assertLess(self.clock.now, 5)
+
+    def test_slow_replacement_lookup_does_not_restart_gesture_deadline(self):
+        self.slow_lookup()
+
+        def move(key):
+            self.clock.now = 4
+            self.cells[0].defunct = True
+            self.cells[0] = Node(self.clock, CELL)
+            self.cells[0].x = 0
+
+        self.native.key.side_effect = move
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.reveal()
+        self.assertEqual(self.clock.now, 5)
+
+    def test_repeated_geometry_transients_keep_original_gesture_deadline(self):
+        self.slow_lookup()
+        transport_error = self.native.wait.__func__.__globals__["GLib"].Error
+        self.native.bounds = Mock(side_effect=transport_error("geometry unavailable"))
+        with self.assertRaisesRegex(TimeoutError, "original deadline"):
+            self.reveal()
+        self.assertEqual(self.clock.now, 5)
+        self.assertEqual(
+            [call.args for call in self.native.process_cell.call_args_list],
+            [(CELL, 5)] * 4,
+        )
+        self.native.key.assert_not_called()
+
+    def test_final_metric_rechecks_membership_after_gesture_cell_reuse(self):
+        def move(key):
+            self.cells[0].x = 0
+            self.panel.children = lambda: []
+
+        self.native.key.side_effect = move
+        self.native.metric = Mock(wraps=type(self.native).metric.__get__(self.native))
+        with self.assertRaisesRegex(TimeoutError, "find process cell"):
+            self.replay()
+        self.native.metric.assert_called_once_with(CELL, "child-left")
 
     def test_replay_reacquires_cell_and_row_replaced_by_movement(self):
         def move(key):
