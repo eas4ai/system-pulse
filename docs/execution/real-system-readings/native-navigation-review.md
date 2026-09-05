@@ -82,3 +82,46 @@ five additional probes passed. They covered ancestry failures, identity
 mutation, final multiple-selection rejection, and slow membership checks.
 No concrete quality findings remain. The worker's exact full suite passed
 204 Python tests. Actual native timing and full acceptance remain pending.
+
+## Native finding after candidate reviews
+
+Actual untraced navigation rejected the registered application at the
+desktop boundary. Two bounded diagnostics isolated the failed assumption:
+ordinary links match, but the pinned adapter's application root returns
+null Parent and index -1. The previous API review described ordinary
+accessible links; applying it to the application root was incorrect,
+and the initial test fixture did not model that distinction.
+
+Status: open. Preserve ordinary link validation through the application,
+then establish current desktop registration by bounded child enumeration
+and exact native identity/PID. The failure and correction plan were
+recorded before implementation at `197030de`; see
+[native observations](native-application-membership-failure.md).
+Independent re-reviews and actual native proof remain required.
+
+## Application root correction awaiting re-review
+
+Candidate `c2396a49ce04068bfc05f8f97a77843d168dde92` validates desktop
+registration through bounded current child enumeration. Ordinary ancestry
+checks remain unchanged. The fixture now reports the pinned application's
+actual null parent and -1 index, reproducing the old retry failure.
+Thirteen new registration regressions cover missing, replaced, duplicate,
+wrong-PID, defunct, incomplete, changing and over-budget observations.
+
+The worker reported 42 navigation tests, 113 focused native tests, and
+217 full Python tests passing, plus Ruff lint/format and diff checks.
+Independent SPEC then QUALITY re-review and actual native timing remain
+pending. The open native finding above is not closed yet.
+
+## Application root re-reviews
+
+Independent SPEC and QUALITY PASS on `c2396a49`. Each ran all 113 focused
+native tests. SPEC also ran seven registration/deadline probes and checked
+the pinned adapter's actual root semantics. QUALITY ran five registration
+probes and confirmed ordinary ancestry, individual cache refreshes,
+uniqueness, and deadlines remain intact. Invalid registration prevents
+further input. The application-root implementation finding is closed.
+
+All 217 full Python tests passed in the worker's verification. Actual
+untraced navigation and full acceptance remain pending; these reviews
+do not establish native timing or resolve earlier intermittent failures.
