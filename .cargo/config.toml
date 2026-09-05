@@ -1,2 +1,7 @@
 [target.x86_64-pc-windows-msvc]
 rustflags = ["-C", "link-arg=/STACK:8000000"]
+
+[target.x86_64-unknown-linux-gnu]
+# Use LLVM lld for faster linking; requires ld.lld on PATH.
+# Target flags override build.rustflags, so retain the native library search path.
+rustflags = ["-L", "/usr/local/lib/x86_64-linux-gnu", "-C", "link-arg=-fuse-ld=lld"]

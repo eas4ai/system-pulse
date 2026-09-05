@@ -1,6 +1,7 @@
 results: per-requirement
 command: rtk proxy python3 scripts/system-pulse/verify.py
 inputs:
+  - .cargo/config.toml
   - Cargo.toml
   - Cargo.lock
   - AGENTS.md
