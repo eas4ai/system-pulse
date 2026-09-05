@@ -24,25 +24,22 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-1. Complete: inspect current application code, existing collector reference, documentation, and tooling. Host GPU capability probing remains part of collector design.
-2. **In progress:** confirm the adoption draft's real-collection requirements and falsifiers, then write the implementation plan.
-3. Pending: implement and independently review live collection integration.
-4. Pending: verify native readings against the host and document actual results.
+The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
-**No collector source code or implementation plan has been written yet.** No dependencies have changed. The cited [recon](../../recon.md) is now written. Formal adoption documents live beside the source at `/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/spec/`; start with `overview.md` and `live-collection.md`. READ/VIEW/STATE sections are Observed; LIVE requirements are Draft pending confirmation of text and falsifiers. They are not yet a Cairn contract.
+1. Complete: cited recon, agreed LIVE contract, implementation plan, roadmap/current commitment and executable baseline mechanism.
+2. **In progress:** implement and review the host collector crate and bounded sampling service.
+3. Pending: integrate real devices/readings/process rows, physical meters, stable state and test-only fixtures into the workspace.
+4. Pending: independent host/native acceptance and final review.
 
-The read-only collector agent completed a cited audit of `examples/system_monitor` and pinned sysinfo 0.37.2. It found reusable CPU/memory/process/disk APIs, but no network/GPU implementation in that example, and UI-thread collection, time-axis, warm-up, truncation, and zero-on-error weaknesses to avoid. The recon records its findings. The full relevant product sensor/data-layer sections have now been read. The project is Rust/GPUI with Linux-primary development and cross-platform product intent. Do not invent another fixture-only completion boundary.
+Activation is committed as `55087aa6` in the source worktree. Read `docs/spec/live-collection.md`, `docs/plans/real-system-readings.md`, and `docs/commitments/real-system-readings.md` there. Historical READ/VIEW/STATE specs remain Observed. The new source-root AGENTS working agreement was created from the existing-project skill's template; the design repository's existing AGENTS remains untouched.
 
-The user-invoked existing-project skill requires confirmation of the proposed requirement text and falsifiers before marking new sections Agreed. Their high-level approval of real readings and subagents already stands. Ask only for corrections/confirmation of the newly concrete acceptance bar, not whether to pursue real readings again. No active roadmap/commitment is created before this confirmation. `cairn wake` and `cairn check` currently return exit 3 because `docs/spec/roadmap.md` does not exist; this is not a passing or Done verdict.
+Cairn's first committed baseline check failed on the actual production fixture dependency and retained receipts for all LIVE requirements. `cairn wake` reports **Resolvable: implement LIVE-001**. `.cairn/in-progress` records that source action. Do not rerun the aggregate repeatedly while implementation is incomplete; use focused tests and retain failing receipts.
 
-## Next discovery work
+A fresh implementer owns only `examples/system_pulse/collectors/`, workspace membership and Cargo.lock. Its task includes full Linux field coverage, AMD sysfs, optional-runtime NVIDIA NVML, serializable source/counter observations, real process identities, and a single latest-only sampling worker. Check current subagent/worktree state before editing. One source implementer at a time; independent spec review then quality review follows each coherent task.
 
-- Read the recon and adoption drafts before doing further discovery; they cite the inspected app, reference collector, tests, pinned dependencies, and preservation contracts.
-- Confirm the LIVE text/falsifiers through the existing-project workflow, then create the roadmap/current commitment and executable mechanisms in the implementation worktree.
-- Consult local `reference/` source snapshots for any collection technique used and preserve its license constraints.
-- Inspect actual host GPU/backend availability. Prefer existing pinned collector libraries. Clearly separate unsupported hardware metrics from missing implementation.
-- Define stable real monitor/sensor identities, cumulative counter deltas, sampling intervals, error/stale states, dynamic devices/processes, bounded histories, off-UI-thread work, and safe migration from fixture identities.
-- Keep simulation only in tests. Remove runtime fixture controls and labels when actual collectors are installed; report real source/availability where useful.
+Host preflight found 32 logical CPUs and two Radeon AI PRO R9700 GPUs, with readable utilization, VRAM, temperatures, average SoC power, graphics/memory clocks and fan RPM. Stable AMD IDs and exact sources are in source `docs/execution/real-system-readings/host-preflight.md`. NVIDIA backend API research and the verification design are adjacent documents. NVIDIA deterministic adapter tests and graceful-absence tests are required; actual NVIDIA hardware accuracy remains explicitly unverified until run on such hardware.
+
+The app still uses fixtures until the integration task lands. Collector implementation has begun, but no live acceptance or completion is claimed. Preserve all accessible-field requirements: missing collector code is not an unavailable hardware result.
 
 ## Working rules
 
