@@ -10,6 +10,11 @@ use system_pulse_model::{MAX_CONFIGURATION_BYTES, validate_configuration_size};
 #[derive(Clone, Default)]
 pub(crate) struct Storage(Arc<Mutex<BTreeMap<PathBuf, u64>>>);
 
+enum Durability {
+    Durable,
+    Transient,
+}
+
 pub(crate) fn directory() -> Result<PathBuf, String> {
     if let Some(path) = std::env::var_os("SYSTEM_PULSE_STATE_DIR") {
         return Ok(path.into());
@@ -48,21 +53,27 @@ impl Storage {
     pub(crate) fn write(&self, path: &Path, revision: u64, data: &str) -> Result<(), String> {
         validate_configuration_size(data.len())
             .map_err(|error| format!("Save {}: {error}", path.display()))?;
-        self.atomic_write(path, revision, data)
+        self.atomic_write(path, revision, data, Durability::Durable)
     }
 
     /// Diagnostics retain one latest complete record, independent of configuration
-    /// byte limits. Only the diagnostic worker uses this entry point.
+    /// byte limits and disk durability. Only the diagnostic worker uses this entry point.
     pub(crate) fn write_diagnostic(
         &self,
         path: &Path,
         revision: u64,
         data: &str,
     ) -> Result<(), String> {
-        self.atomic_write(path, revision, data)
+        self.atomic_write(path, revision, data, Durability::Transient)
     }
 
-    fn atomic_write(&self, path: &Path, revision: u64, data: &str) -> Result<(), String> {
+    fn atomic_write(
+        &self,
+        path: &Path,
+        revision: u64,
+        data: &str,
+        durability: Durability,
+    ) -> Result<(), String> {
         let mut versions = self.0.lock().map_err(|_| "Storage lock poisoned")?;
         if versions.get(path).is_some_and(|saved| *saved > revision) {
             return Ok(());
@@ -73,7 +84,9 @@ impl Storage {
         let result = (|| -> std::io::Result<()> {
             let mut file = fs::File::create(&temp)?;
             file.write_all(data.as_bytes())?;
-            file.sync_all()?;
+            if matches!(durability, Durability::Durable) {
+                file.sync_all()?;
+            }
             fs::rename(&temp, path)?;
             Ok(())
         })();
@@ -89,6 +102,69 @@ impl Storage {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn diagnostic_publication_and_configuration_saves_use_distinct_flush_policies() {
+        // Also run under strace to verify the actual flush policy of each entrypoint.
+        let dir = std::env::temp_dir().join(format!("pulse-flush-policy-{}", std::process::id()));
+        let storage = Storage::default();
+        for name in ["workspace.json", "preset.json", "latest.json"] {
+            let path = dir.join(name);
+            let data = serde_json::json!({"target": name, "revision": 1}).to_string();
+            if name == "latest.json" {
+                storage.write_diagnostic(&path, 1, &data).unwrap();
+            } else {
+                storage.write(&path, 1, &data).unwrap();
+            }
+            assert_eq!(fs::read_to_string(&path).unwrap(), data);
+        }
+        assert_eq!(fs::read_dir(&dir).unwrap().count(), 3);
+        fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
+    fn stale_diagnostic_revision_cannot_replace_newer_complete_json() {
+        let dir =
+            std::env::temp_dir().join(format!("pulse-diagnostic-revisions-{}", std::process::id()));
+        let path = dir.join("latest.json");
+        let storage = Storage::default();
+        let previous = serde_json::json!({"render_revision": 1, "payload": "x".repeat(4096)});
+        let latest = serde_json::json!({"render_revision": 3, "payload": "complete"});
+        storage
+            .write_diagnostic(&path, 1, &previous.to_string())
+            .unwrap();
+        storage
+            .write_diagnostic(&path, 3, &latest.to_string())
+            .unwrap();
+        storage.clone().write_diagnostic(&path, 2, "stale").unwrap();
+        let actual: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+        assert_eq!(actual, latest);
+        assert_eq!(fs::read_dir(&dir).unwrap().count(), 1);
+        fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
+    fn failed_diagnostic_replace_preserves_target_cleans_temp_and_allows_retry() {
+        let dir =
+            std::env::temp_dir().join(format!("pulse-diagnostic-replace-{}", std::process::id()));
+        let target = dir.join("latest.json");
+        fs::create_dir_all(&target).unwrap();
+        fs::write(target.join("original"), "preserve").unwrap();
+        let storage = Storage::default();
+        let error = storage.write_diagnostic(&target, 3, "new").unwrap_err();
+        assert!(error.contains("Save") && error.contains("latest.json"));
+        assert_eq!(
+            fs::read_to_string(target.join("original")).unwrap(),
+            "preserve"
+        );
+        assert_eq!(fs::read_dir(&dir).unwrap().count(), 1);
+        fs::remove_dir_all(&target).unwrap();
+        let data = r#"{"render_revision":2}"#;
+        storage.write_diagnostic(&target, 2, data).unwrap();
+        assert_eq!(fs::read_to_string(&target).unwrap(), data);
+        fs::remove_dir_all(dir).unwrap();
+    }
+
     #[test]
     fn older_work_cannot_replace_a_newer_atomic_snapshot() {
         let dir = std::env::temp_dir().join(format!("system-pulse-storage-{}", std::process::id()));
