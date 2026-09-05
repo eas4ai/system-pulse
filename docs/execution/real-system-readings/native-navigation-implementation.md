@@ -14,8 +14,10 @@ The initial panel discovery, invalidation recovery, and final target proof find
 the unique current Processes panel using the existing bounded traversal with
 validated monitor-body pruning. Intermediate endpoint observations retain only
 a navigation-local ancestry path. Before and after each complete selected-row
-scan, every parent-to-child link is validated through the current desktop's
-application child, including the exact application PID. The check refreshes
+scan, every ordinary parent-to-child link is validated through the application.
+The application's registration is separately proved by enumerating the current
+desktop children, requiring one exact accessible object for the application PID.
+The check refreshes
 individual nodes with `clear_cache_single`, rejects negative indices, verifies
 the parent's current child at that index with accessible equality, and rereads
 the child's parent to detect reparenting. It does not treat a live cached panel
@@ -75,3 +77,35 @@ Independent SPEC and QUALITY review and a fresh untraced native run remain the
 parent's next steps. Actual native ancestry lookup cost and collection/selection
 timing remain to be measured there; no live runs or builds were performed for
 this implementation.
+
+## Application registration correction
+
+The subsequent retained diagnostic completed seven strict, pruned 927-node
+discoveries, then rejected each path before an eighth scan expired. Four
+captured paths showed all ordinary links matching, with the application itself
+reporting a null parent and index -1. The prior fixture incorrectly represented
+the application as an ordinary child with a desktop parent and index zero.
+
+The pinned `accesskit_unix` 0.21.1 implementation explicitly returns a null
+application Parent and `GetIndexInParent=-1` in
+`src/atspi/interfaces/accessible.rs:167` and `:206`. It registers that root using
+the desktop socket's `Embed` operation in `src/atspi/bus.rs:80`. Consequently,
+ordinary parent/index validation must end at the application root.
+
+The correction changes only that boundary. It enumerates current desktop
+children under the supplied deadline and existing node bound, checks each
+registration's liveness and PID, requires a unique match equal to the retained
+application accessible, and rechecks the matched desktop slot, child count,
+application liveness, and PID before success. Missing, defunct, duplicate,
+replaced, and incomplete registrations fail validation. No application Parent
+or index is required. Individual cache clearing and all ordinary link checks
+remain in place.
+
+The corrected fixture now uses the observed null-parent/-1-index semantics for
+every navigation test. RED ran 42 tests with 14 failures and 16 errors, including
+the reproduced eight-second panel-membership timeout. Thirteen new tests cover
+registration success and negative boundaries. Final verification after this
+correction: 42 navigation tests within 113 focused native tests, all 217 Python
+tests, Ruff lint/format, and `git diff --check` passed with the same Python 3.14
+and workspace TMPDIR commands above. No native run or build was performed for
+the correction; independent reviews precede the parent's next native proof.

@@ -919,10 +919,7 @@ class Native:
         """Parent pointers alone do not prove membership after a replacement."""
         if not path:
             return False
-        # Include the desktop->application link without root()/alive() recursively
-        # flushing the entire application's AT-SPI cache on every pacing check.
-        current = path + [Atspi.get_desktop(0)]
-        for child, parent in zip(current, current[1:]):
+        for child, parent in zip(path, path[1:]):
             require(time.monotonic() < deadline, "navigation panel deadline expired")
             if child is None or parent is None:
                 return False
@@ -940,11 +937,50 @@ class Native:
             child.clear_cache_single()
             if child.get_parent() != parent:
                 return False
-        return (
-            path[-1].get_process_id() == self.app.pid
+        # AccessKit registers its application through the desktop socket, while
+        # the application Accessible reports Parent=null and IndexInParent=-1.
+        # Prove that boundary from the desktop's current children instead.
+        desktop = Atspi.get_desktop(0)
+        if desktop is None:
+            return False
+        desktop.clear_cache_single()
+        if desktop.get_state_set().contains(Atspi.StateType.DEFUNCT):
+            return False
+        count = desktop.get_child_count()
+        if count < 0:
+            return False
+        require(count <= BUDGETS["nodes"], "native node bound exceeded")
+        matches = []
+        for index in range(count):
+            require(time.monotonic() < deadline, "navigation panel deadline expired")
+            child = desktop.get_child_at_index(index)
+            if child is None:
+                return False
+            child.clear_cache_single()
+            if child.get_state_set().contains(Atspi.StateType.DEFUNCT):
+                return False
+            if child.get_process_id() == self.app.pid:
+                matches.append((index, child))
+        require(time.monotonic() < deadline, "navigation panel deadline expired")
+        require(len(matches) <= 1, "nonunique native application registration")
+        if not matches or matches[0][1] != path[-1]:
+            return False
+        desktop.clear_cache_single()
+        if (
+            desktop.get_state_set().contains(Atspi.StateType.DEFUNCT)
+            or desktop.get_child_count() != count
+            or desktop.get_child_at_index(matches[0][0]) != path[-1]
+        ):
+            return False
+        path[-1].clear_cache_single()
+        registered = (
+            not path[-1].get_state_set().contains(Atspi.StateType.DEFUNCT)
+            and path[-1].get_process_id() == self.app.pid
             and path[0].get_name() == "processes"
             and path[0].get_role_name() == "panel"
         )
+        require(time.monotonic() < deadline, "navigation panel deadline expired")
+        return registered
 
     def navigation_selection(
         self, expected, target, deadline, reconcile=False, path=None

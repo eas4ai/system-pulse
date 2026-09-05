@@ -45,8 +45,10 @@ class NavigationTests(unittest.TestCase):
         self.root = Node(self.clock, role="application", children=lambda: [self.panel])
         self.desktop = Node(self.clock, children=lambda: [self.root])
         native.selected.__globals__["Atspi"].get_desktop = lambda index: self.desktop
-        self.root.get_parent = lambda: self.desktop
-        self.root.get_index_in_parent = lambda: 0
+        # The pinned AccessKit application is registered with the desktop socket,
+        # but its own Accessible Parent is null and GetIndexInParent is -1.
+        self.root.get_parent = lambda: None
+        self.root.get_index_in_parent = lambda: -1
         self.root.get_process_id = lambda: 500
         self.desktop.clear_cache_single = lambda: None
         self.root.clear_cache_single = lambda: None
@@ -124,6 +126,87 @@ class NavigationTests(unittest.TestCase):
 
     def navigate(self):
         return self.native.navigate(self.target)
+
+    def application_membership(self, deadline=8):
+        return self.native.navigation_panel_current([self.panel, self.root], deadline)
+
+    def test_application_registration_does_not_require_parent_or_index(self):
+        self.assertTrue(self.application_membership())
+        self.assertEqual(self.navigate()[0], self.target)
+
+    def test_unregistered_application_is_rejected(self):
+        self.desktop.children = lambda: []
+        self.assertFalse(self.application_membership())
+
+    def test_duplicate_application_registration_is_rejected(self):
+        self.desktop.children = lambda: [self.root, self.root]
+        with self.assertRaisesRegex(AssertionError, "nonunique native application"):
+            self.application_membership()
+
+    def replacement_application(self, pid=500):
+        replacement = Node(self.clock, role="application")
+        replacement.clear_cache_single = lambda: None
+        replacement.get_process_id = lambda: pid
+        return replacement
+
+    def test_distinct_application_with_same_pid_cannot_replace_registered_identity(
+        self,
+    ):
+        replacement = self.replacement_application()
+        self.desktop.children = lambda: [replacement]
+        self.assertFalse(self.application_membership())
+
+    def test_multiple_application_objects_for_pid_are_rejected(self):
+        replacement = self.replacement_application()
+        self.desktop.children = lambda: [self.root, replacement]
+        with self.assertRaisesRegex(AssertionError, "nonunique native application"):
+            self.application_membership()
+
+    def test_wrong_application_pid_is_rejected(self):
+        self.root.get_process_id = lambda: 501
+        self.assertFalse(self.application_membership())
+
+    def test_missing_desktop_child_cannot_prove_unique_registration(self):
+        self.desktop.children = lambda: [self.root, None]
+        self.assertFalse(self.application_membership())
+
+    def test_defunct_desktop_cannot_prove_registration(self):
+        self.desktop.defunct = True
+        self.assertFalse(self.application_membership())
+
+    def test_defunct_registration_cannot_prove_membership(self):
+        self.root.defunct = True
+        self.assertFalse(self.application_membership())
+
+    def test_negative_registration_count_is_incomplete(self):
+        self.desktop.get_child_count = lambda: -1
+        self.assertFalse(self.application_membership())
+
+    def test_desktop_registration_keeps_node_bound(self):
+        self.desktop.get_child_count = lambda: 30001
+        with self.assertRaisesRegex(AssertionError, "native node bound exceeded"):
+            self.application_membership()
+
+    def test_application_replaced_during_enumeration_is_rejected(self):
+        replacement = self.replacement_application()
+        calls = 0
+
+        def replacing(index):
+            nonlocal calls
+            calls += 1
+            return self.root if calls == 1 else replacement
+
+        self.desktop.get_child_at_index = replacing
+        self.assertFalse(self.application_membership())
+
+    def test_slow_desktop_enumeration_cannot_acknowledge_after_deadline(self):
+        def slow(index):
+            self.clock.now += 8
+            return self.root
+
+        self.desktop.get_child_at_index = slow
+        with self.assertRaisesRegex(AssertionError, "deadline"):
+            self.application_membership()
 
     def exit_after_ack(self, identity=aid(2), clear_at=0):
         def exited(selected):
