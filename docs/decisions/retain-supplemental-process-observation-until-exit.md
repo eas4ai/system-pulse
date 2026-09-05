@@ -11,8 +11,4 @@ Keep newly discovered processes eligible for the existing prospective 20 ms supp
 
 ## Realized by
 
-(none yet: recorded, not built)
-
-## Realized by
-
-- 0458ddee7706913467f59b47fa02aa563ca2c053
+- 0458ddee7706913467f59b47fa02aa563ca2c053 fix: retain supplemental process observations until exit
