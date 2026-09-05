@@ -13,3 +13,4 @@ Retain two-key batches, exact native endpoint acknowledgements, and the original
 
 - 0459aa6dc8464f0e378192eb4f4c345afe451127 fix(system-pulse): navigate across live process collection
 - c2396a49ce04068bfc05f8f97a77843d168dde92 fix(system-pulse): validate native application registration
+- ef36088be360347e3f58f8c367860a906055ce1e fix(system-pulse): retain validated navigation pacing paths

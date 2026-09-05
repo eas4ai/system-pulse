@@ -330,11 +330,12 @@ identify local membership discarded after otherwise valid scans when
 publication changes. Exact failure causation remains unmeasured because
 the diagnostic stopped at an earlier held-input failure.
 
-- [ ] Reproduce unnecessary discovery cost during frame/selected-node
+- [x] Reproduce unnecessary discovery cost during frame/selected-node
   retries, then retain only the validated panel path for intermediate
   pacing. Repeat strict selection, identity, and fresh-frame observations.
-- [ ] Keep invalidation on broken links or incomplete/exceptional scans.
+- [x] Keep invalidation on broken links or incomplete/exceptional scans.
   Preserve fresh full uniqueness on final proof retries; reject duplicate
   panels, target loss, PID reuse, transfer, and deadline overruns.
-- [ ] Pass focused/full checks and independent reviews, then verify actual
-  untraced navigation and full committed acceptance.
+- [x] Pass focused/full checks and independent SPEC then QUALITY reviews.
+- [ ] Resolve the separate virtualized-selection evidence limitation, then
+  verify actual untraced navigation and full committed acceptance.

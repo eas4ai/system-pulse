@@ -125,3 +125,21 @@ further input. The application-root implementation finding is closed.
 All 217 full Python tests passed in the worker's verification. Actual
 untraced navigation and full acceptance remain pending; these reviews
 do not establish native timing or resolve earlier intermittent failures.
+
+## Validated membership retry correction
+
+Independent SPEC and QUALITY PASS on
+`ef36088be360347e3f58f8c367860a906055ce1e`. Each ran all 120 focused
+native tests. SPEC additionally challenged final duplicate discovery,
+rejected observations before further keys, and broken-link reacquisition.
+QUALITY ran three retry probes, including selected-node replacement during
+final proof. Intermediate retries preserve only validated panel membership;
+selection and coherent fresh frames are read again. Final proof retries
+repeat full unique discovery. The worker ran all 224 Python tests and
+Ruff lint/format checks successfully. Actual timing remains unverified.
+
+A separate existing evidence limitation remains open: the virtualized table
+instantiates visible rows only. A complete native walk finding no selected
+row cannot establish that the model selection is clear or exclude an
+offscreen selection transfer. This retry correction does not change that
+logic. Resolve the stronger reconciliation claim before final acceptance.
