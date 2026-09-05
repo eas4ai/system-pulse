@@ -51,3 +51,10 @@ read-start time nor opened/current inode identities, so this capture
 cannot distinguish publication delay, read/parse latency, or an old-file
 read during atomic replacement. The read frame exceeded the bound; no
 particular stalled syscall or false verdict is established.
+
+Independent SPEC review recommends diagnostic identity/timing retention
+first, with the fail-fast freshness verdict unchanged. A future bounded
+re-observation would need evidence that the opened inode was already
+superseded before the original age check and a preserved caller deadline.
+A replacement seen only after artifact writing would not establish that.
+No freshness recovery is authorized by this diagnostic plan.
