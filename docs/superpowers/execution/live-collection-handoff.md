@@ -612,3 +612,32 @@ Application-root candidate `c2396a49` now passes 217 Python tests, including
 42 navigation and 113 focused native tests. Independent SPEC re-review
 passed those 113 tests and seven additional registration/deadline probes.
 QUALITY and actual native verification remain pending.
+
+## 2026-09-05: pacing retries reviewed; selection evidence correction
+
+Application-root re-reviews passed at `47bab9aa`. The next untraced run
+passed held input and several child-navigation batches, then exhausted an
+eight-second endpoint deadline during panel reacquisition. Source exposed
+validated paths discarded on coherent-observation retries; its exact role
+in that failure remains unmeasured. Candidate `ef36088b` retains validated
+local membership during intermediate retries and repeats full unique
+discovery on final-proof retries. Both reviewers passed 120 native tests
+and additional probes; the worker passed all 224 Python tests. Review record
+`4e32adc6`. Full live acceptance remains outstanding.
+
+The attempted coherence diagnostic stopped earlier at held-Up movement:
+115 publication observations were fresh, but the first selection check
+followed release by a three-sequence wait. It retained no release-time
+identity. The table is virtualized, so native selected=None does not prove
+model selection is clear. Earlier wording claiming that was too strong.
+
+Root recorded the bounded held-observation plan at `59f1f307`; the sole
+worker measures movement before subsequent sequence waiting while retaining
+publication, movement, and exact-64-key obligations. Root owns the LIVE-003
+implement marker. A separate SPEC follow-up recommends explicit Home/End
+recovery wording, a production accept_snapshot selection-clear regression,
+and visible-transfer rejection during native selected-child exit. That
+correction is not implemented yet. Neither change relaxes LIVE-003.
+
+The requested Codex context-management setting remains true and TOML
+parsing was rechecked; no runtime reload/schema validation is claimed.
