@@ -37,6 +37,26 @@ def result_status(cases, focus, completed, errors):
     return "PASS" if completed and not errors and required_satisfied else "FAIL"
 
 
+def reveal_process_cell(app, aid, key, deadline):
+    def poll():
+        cell = app.process_cell(aid, deadline)
+        if app.visible(cell):
+            return cell if app.alive(cell) else None
+        old = app.bounds(cell)
+        require(time.monotonic() < deadline, "child cell movement deadline exceeded")
+        app.key(key)
+
+        def moved():
+            current = app.process_cell(aid, deadline)
+            bounds = app.bounds(current)
+            return app.alive(current) and bounds != old
+
+        app.wait(moved, message="child horizontal cell movement", deadline=deadline)
+        return None
+
+    return app.wait(poll, message="child cell visibility", deadline=deadline)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True, type=Path)
@@ -750,18 +770,7 @@ def main():
                 else f"child-visible-{column}"
             )
             deadline = time.monotonic() + 5
-            cell = app.find(aid=target + f":cell:{column}")
-            while not app.visible(cell) and time.monotonic() < deadline:
-                old = app.bounds(cell)
-                app.key(key)
-                app.wait(
-                    lambda: app.bounds(cell) != old,
-                    message="child horizontal cell movement",
-                    deadline=deadline,
-                )
-            require(
-                app.visible(cell), "child cell not visible within original five seconds"
-            )
+            reveal_process_cell(app, target + f":cell:{column}", key, deadline)
             app.metric(target + f":cell:{column}", name)
         app.sequences()
         app.acknowledge(target, time.monotonic() + 5)

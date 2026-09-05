@@ -600,25 +600,63 @@ class Native:
         self.save(name + ".json", rows)
         self.screenshot(name + ".png")
 
+    def process_cell(self, aid, deadline=None):
+        """Find a unique cell in its exact PID/start row under one deadline."""
+        deadline = deadline if deadline is not None else time.monotonic() + 15
+        row_id = aid.rsplit(":cell:", 1)[0]
+
+        def attempt():
+            panel_key = "__panel:processes"
+            panel = self.cache.get(panel_key)
+            if not self.alive(panel):
+                self.cache.pop(row_id, None)
+                panels = [
+                    node
+                    for node in self.walk(deadline=deadline, skip_cells=True)
+                    if node.get_name() == "processes"
+                    and node.get_role_name() == "panel"
+                ]
+                require(len(panels) <= 1, "nonunique native Processes panel")
+                if not panels:
+                    return None
+                panel = self.cache[panel_key] = panels[0]
+            row = self.cache.get(row_id)
+            if not self.alive(row) or row.get_accessible_id() != row_id:
+                rows = [
+                    node
+                    for node in self.walk(panel, deadline, skip_cells=True)
+                    if node.get_accessible_id() == row_id
+                ]
+                require(len(rows) <= 1, "nonunique native process row " + row_id)
+                if not rows:
+                    return None
+                row = rows[0]
+            # Scan this row even when the cell is cached: a live cache entry alone
+            # cannot establish membership or uniqueness after a native replacement.
+            cells = [
+                node
+                for node in self.walk(row, deadline, strict=True)
+                if node.get_accessible_id() == aid
+            ]
+            require(len(cells) <= 1, "nonunique native lookup " + aid)
+            if (
+                cells
+                and self.alive(panel)
+                and self.alive(row)
+                and row.get_accessible_id() == row_id
+                and self.alive(cells[0])
+                and cells[0].get_accessible_id() == aid
+            ):
+                return cells[0]
+            return None
+
+        return self.wait(attempt, message="find process cell " + aid, deadline=deadline)
+
     def metric(self, aid, name, visible=True):
         # Initial discovery is outside the original per-metric five-second bracket.
         def lookup(deadline=None):
             if aid.startswith("process:"):
-                row_id = aid.rsplit(":cell:", 1)[0]
-                row = self.cache.get(row_id)
-                if not self.alive(row):
-                    row = next(
-                        (
-                            candidate
-                            for candidate in self.walk(
-                                self.panel("processes"), deadline, skip_cells=True
-                            )
-                            if candidate.get_accessible_id() == row_id
-                        ),
-                        None,
-                    )
-                require(row is not None, "required real process row absent")
-                return self.find(aid=aid, root=row, deadline=deadline)
+                return self.process_cell(aid, deadline)
             return self.find(aid=aid, deadline=deadline)
 
         node = lookup()
