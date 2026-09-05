@@ -84,6 +84,10 @@ The real native probe found a finite X11 key backlog: each navigation key synchr
 
 Create `scripts/system-pulse/acceptance.py`, `host_accuracy.py`, `test_host_accuracy.py`, and a tracked native driver/replay. Extend existing `verify.py` so its source guard is only one step in the full mandatory acceptance run. Evidence goes in `docs/execution/real-system-readings/`; large runtime artifacts may be external with precise hashes/paths. No unavailable test or missing adapter is a passing check.
 
+### Native visibility evidence repair
+
+Root screenshot review found a GPU label behind the toolbar even though its bounds fit inside the window. The native ancestor tree omits the workspace clipping viewport. Before the final native replay, the acceptance worker owns a minimal app follow-up: expose stable semantic accessibility identities and bounds for the workspace viewport and, if needed, the nested process viewport. Add a regression that rejects a window-contained label outside its actual clipping viewport. Verify actual native bounds and visible GPU headers; keep readings and diagnostic schemas unchanged. This separate source candidate receives spec then quality review. Any demonstrated focus-reveal defect must be reported before expanding the change.
+
 ### Predeclared comparison rules
 
 Static device IDs, units, total quantities and formulas compare exactly to the same source observation. CPU = 100 * delta(total - idle - iowait) / delta(total), with guest fields excluded from total; process CPU uses one logical core's elapsed ticks as denominator. RAM used = MemTotal - MemAvailable, KiB times 1024. Network and disk rates recompute exact integer counter differences over each recorded monotonic observation interval. Read/write sectors multiply by 512. Disk latency is weighted completed-operation time / completed operations, unavailable at zero operations. AMD conversion divides temperature by 1000, power by 1,000,000; frequency is retained in Hz. NVML units are defined in its adapter tests and source metadata; fan percent remains percent.
