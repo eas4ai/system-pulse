@@ -272,3 +272,19 @@ rejected 42 and -15 with retained evidence. See
 No reviewer launched a new build, host capture, native session, or Cairn action.
 These reviews approve the implementation for the committed aggregate; they do
 not promote native21 or focused preparations to complete acceptance.
+
+
+## Census correction review
+
+Independent SPEC and QUALITY passed source
+`8ffa088bffeeac1a4743170cff93bf2eec0847b8`, with documentation HEAD `52968510`.
+SPEC ran five pure tests and independently replayed host09: 41,440 brackets,
+zero missing endpoints, and 468 stable-total comparisons. QUALITY ran four
+supplemental tests and two injected census-error checks, then inspected raw
+coverage, anchors, and timing evidence. Every ordinary PID was still attempted.
+
+Host09 selected no supplemental endpoints for its nearest brackets. Deterministic
+tests separately establish supplemental-only matching and PID-reuse rejection.
+Its maximum measured census interval was 58.094 ms; the 20 ms schedule remains
+a target, not a guarantee or relaxed comparison bound. The failed aggregate
+receipts remain intact. A fresh committed aggregate is still required.
