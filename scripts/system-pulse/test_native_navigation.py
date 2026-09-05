@@ -135,6 +135,321 @@ class NavigationTests(unittest.TestCase):
             aid(2), self.target, 8, path=[self.panel, self.root]
         )
 
+    def displaced_endpoint(self):
+        """The key's slot 5 stays onscreen while its exact identity shifts to 2."""
+        self.endpoint = aid(5)
+        self.ids.remove(self.endpoint)
+        self.ids.insert(2, self.endpoint)
+        self.selection = [self.endpoint]
+        self.visible_ids = self.ids[5:8]
+        self.viewport = Node(
+            self.clock,
+            "processes:rows-viewport",
+            children=lambda: [self.nodes[value] for value in self.visible_ids],
+        )
+        self.viewport.get_parent = lambda: self.panel
+        self.viewport.get_index_in_parent = lambda: 0
+        self.panel.children = lambda: [self.viewport]
+        self.native.window = Mock(
+            return_value=SimpleNamespace(
+                get_geometry=lambda: SimpleNamespace(width=800, height=600)
+            )
+        )
+        self.native.ancestors = Mock(
+            return_value=[
+                {"id": "workspace:viewport", "bounds": [0, 220, 800, 350]},
+                {"id": "processes:viewport", "bounds": [100, 200, 600, 300]},
+            ]
+        )
+        self.row_bounds = [100, 230, 1200, 20]
+        self.native.bounds = Mock(
+            side_effect=lambda node: [100, 200, 600, 300]
+            if node == self.viewport
+            else self.row_bounds
+        )
+        self.native.wheel = Mock(side_effect=self.reveal_wheel)
+        self.native.navigation_panel = Mock(wraps=self.native.navigation_panel)
+
+    def reveal_wheel(self, point, down):
+        self.events.append(("reveal-wheel", {"point": point, "down": down}))
+        self.visible_ids = self.ids[2:6]
+
+    def observe_displaced(self, original_index=5, deadline=8):
+        return self.native.navigation_selection(
+            self.endpoint,
+            self.target,
+            deadline,
+            path=[self.panel, self.root],
+            endpoint_index=original_index,
+        )
+
+    def test_displaced_endpoint_reveal_preserves_identity_and_fresh_unique_proof(self):
+        self.displaced_endpoint()
+        result, _, _ = self.observe_displaced()
+        self.assertEqual(result[0], self.endpoint)
+        self.assertEqual(self.selection, [self.endpoint])
+        self.assertFalse(any(event[0] == "key" for event in self.events))
+        self.native.wheel.assert_called_once_with([400, 360], down=False)
+        self.assertEqual(self.native.navigation_panel.call_count, 2)
+        self.assertTrue(
+            all(
+                call.args == (8,)
+                for call in self.native.navigation_panel.call_args_list
+            )
+        )
+        recovery = next(
+            e[1] for e in self.events if e[0] == "navigation-endpoint-reveal"
+        )
+        self.assertEqual(recovery["original_index"], 5)
+        self.assertEqual(recovery["eligibility_index"], 2)
+        self.assertEqual(recovery["eligibility_span"], [5, 7])
+        self.assertLess(self.clock.now, 8)
+
+    def test_reveal_rejects_unchanged_index_and_original_slot_outside_span(self):
+        for original in (2, 4, 8):
+            with self.subTest(original=original):
+                self.setUp()
+                self.displaced_endpoint()
+                with self.assertRaises(TimeoutError):
+                    self.observe_displaced(original)
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_rejects_visible_unselected_or_foreign_selected_endpoint(self):
+        for foreign in (False, True):
+            with self.subTest(foreign=foreign):
+                self.setUp()
+                self.displaced_endpoint()
+                if foreign:
+                    self.selection = [self.visible_ids[0]]
+                else:
+                    self.visible_ids = self.ids[2:6]
+                    self.selection = None
+                with self.assertRaises(TimeoutError):
+                    self.observe_displaced()
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_rejects_missing_reused_target_or_endpoint_identity(self):
+        for removed in (aid(5), self.target):
+            with self.subTest(removed=removed):
+                self.setUp()
+                self.displaced_endpoint()
+                self.ids[self.ids.index(removed)] = removed.rsplit(":", 1)[0] + ":101"
+                self.visible_ids = [
+                    value for value in self.visible_ids if value != removed
+                ]
+                with self.assertRaises((TimeoutError, AssertionError)):
+                    self.observe_displaced()
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_rejects_empty_duplicate_unmapped_or_noncontiguous_span(self):
+        for span in ([], [aid(4), aid(4)], [aid(4), aid(7)], [aid(40)]):
+            with self.subTest(span=span):
+                self.setUp()
+                self.displaced_endpoint()
+                self.nodes[aid(40)] = self.row(aid(40))
+                self.visible_ids = span
+                with self.assertRaises((TimeoutError, AssertionError)):
+                    self.observe_displaced()
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_rejects_incomplete_scan_and_invalid_current_membership(self):
+        for incomplete in (True, False):
+            with self.subTest(incomplete=incomplete):
+                self.setUp()
+                self.displaced_endpoint()
+                if incomplete:
+                    self.viewport.get_child_at_index = lambda index: None
+                else:
+                    self.panel.get_parent = lambda: None
+                with self.assertRaises(TimeoutError):
+                    self.observe_displaced()
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_rejects_stale_or_changing_frame(self):
+        for stale in (True, False):
+            with self.subTest(stale=stale):
+                self.setUp()
+                self.displaced_endpoint()
+                self.stale = stale
+                if not stale:
+                    self.before_frame = lambda: setattr(
+                        self, "sequence", self.sequence + 1
+                    )
+                with self.assertRaises((TimeoutError, AssertionError)):
+                    self.observe_displaced()
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_requires_clips_and_live_viewport_membership(self):
+        for invalid in ("workspace", "offscreen", "detached", "duplicate"):
+            with self.subTest(invalid=invalid):
+                self.setUp()
+                self.displaced_endpoint()
+                if invalid == "workspace":
+                    self.native.ancestors.return_value = []
+                elif invalid == "offscreen":
+                    self.native.ancestors.return_value[0]["bounds"] = [900, 900, 1, 1]
+                elif invalid == "detached":
+                    self.viewport.get_parent = lambda: None
+                else:
+                    extra = Node(self.clock, "processes:rows-viewport")
+                    self.panel.children = lambda: [self.viewport, extra]
+                with self.assertRaises((TimeoutError, AssertionError)):
+                    self.observe_displaced()
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_slow_geometry_or_action_cannot_extend_original_deadline(self):
+        for operation in ("bounds", "wheel"):
+            with self.subTest(operation=operation):
+                self.setUp()
+                self.displaced_endpoint()
+                original = getattr(self.native, operation).side_effect
+
+                def slow(*args, **kwargs):
+                    self.clock.now += 8
+                    return original(*args, **kwargs)
+
+                getattr(self.native, operation).side_effect = slow
+                with self.assertRaises((TimeoutError, AssertionError)):
+                    self.observe_displaced()
+                if operation == "bounds":
+                    self.native.wheel.assert_not_called()
+                else:
+                    self.native.wheel.assert_called_once()
+
+    def test_reveal_fractional_vertical_visibility_uses_same_eligibility_record(self):
+        self.displaced_endpoint()
+        steps = 0
+
+        def fractional(point, down):
+            nonlocal steps
+            steps += 1
+            self.visible_ids = self.ids[
+                1:4
+            ]  # Original slot is now outside our scrolled span.
+            self.row_bounds[1] = 210 if steps == 1 else 230
+
+        self.native.wheel.side_effect = fractional
+        self.assertEqual(self.observe_displaced()[0][0], self.endpoint)
+        self.assertEqual(steps, 2)
+        records = [e[1] for e in self.events if e[0] == "navigation-endpoint-reveal"]
+        self.assertTrue(all(record["eligibility_span"] == [5, 7] for record in records))
+
+    def test_reveal_cannot_accept_selection_transfer_or_duplicate_panel_after_scroll(
+        self,
+    ):
+        for invalid in ("selection", "panel"):
+            with self.subTest(invalid=invalid):
+                self.setUp()
+                self.displaced_endpoint()
+
+                def changed(point, down):
+                    self.reveal_wheel(point, down)
+                    if invalid == "selection":
+                        self.selection = [self.visible_ids[0], self.visible_ids[1]]
+                    else:
+                        extra = Node(self.clock, name="processes")
+                        self.root.children = lambda: [self.panel, extra]
+
+                self.native.wheel.side_effect = changed
+                with self.assertRaises(AssertionError):
+                    self.observe_displaced()
+                self.native.wheel.assert_called_once()
+
+    def test_reveal_actual_key_batch_keeps_issue_snapshot_index(self):
+        self.displaced_endpoint()
+        self.ids = [aid(pid) for pid in range(20)]
+        self.visible_ids = list(self.ids)
+        self.selection = None
+        self.target = aid(2)
+        key = self.native.key
+
+        def moved(value):
+            key(value)
+            if self.pending[1] == self.target:
+                self.ids.remove(self.target)
+                self.ids.insert(0, self.target)
+                self.visible_ids = self.ids[2:5]
+                self.sequence += 1
+
+        self.native.key = moved
+        self.native.wheel.side_effect = lambda point, down: setattr(
+            self, "visible_ids", list(self.ids)
+        )
+        self.assertEqual(self.navigate()[0], self.target)
+        self.assertEqual(
+            [event[1] for event in self.events if event[0] == "key"],
+            ["Home", "Down", "Down"],
+        )
+        recovery = next(
+            event[1]
+            for event in self.events
+            if event[0] == "navigation-endpoint-reveal"
+        )
+        self.assertEqual(recovery["expected"], self.target)
+        self.assertEqual(recovery["original_index"], 2)
+        self.assertEqual(recovery["eligibility_index"], 0)
+        self.assertEqual(recovery["eligibility_span"], [2, 4])
+
+    def test_reveal_rejects_duplicate_current_panel_before_any_wheel(self):
+        self.displaced_endpoint()
+        extra = Node(self.clock, name="processes")
+        self.root.children = lambda: [self.panel, extra]
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.observe_displaced()
+        self.native.wheel.assert_not_called()
+
+    def test_reveal_does_not_erase_an_observed_visible_unselected_endpoint(self):
+        self.displaced_endpoint()
+        self.visible_ids = self.ids[2:6]
+        self.selection = None
+        selected = self.native.selected
+
+        def becomes_absent(*args, **kwargs):
+            result = selected(*args, **kwargs)
+            self.visible_ids = self.ids[5:8]
+            self.selection = [self.endpoint]
+            return result
+
+        self.native.selected = becomes_absent
+        with self.assertRaises(TimeoutError):
+            self.observe_displaced()
+        self.native.wheel.assert_not_called()
+
+    def test_reveal_membership_replacement_during_geometry_prevents_wheel(self):
+        self.displaced_endpoint()
+
+        def detached(node):
+            self.panel.children = lambda: []
+            return [100, 200, 600, 300]
+
+        self.native.bounds.side_effect = detached
+        with self.assertRaises(TimeoutError):
+            self.observe_displaced()
+        self.native.wheel.assert_not_called()
+
+    def test_reveal_publication_change_during_geometry_prevents_wheel(self):
+        self.displaced_endpoint()
+
+        def changing(node):
+            self.sequence += 1
+            return [100, 200, 600, 300]
+
+        self.native.bounds.side_effect = changing
+        with self.assertRaises(TimeoutError):
+            self.observe_displaced()
+        self.native.wheel.assert_not_called()
+
+    def test_reveal_downward_shift_uses_down_wheel(self):
+        self.displaced_endpoint()
+        self.ids.remove(self.endpoint)
+        self.ids.insert(10, self.endpoint)
+        self.visible_ids = self.ids[4:7]
+        self.native.wheel.side_effect = lambda point, down: setattr(
+            self, "visible_ids", self.ids[9:12]
+        )
+        self.assertEqual(self.observe_displaced()[0][0], self.endpoint)
+        self.native.wheel.assert_called_once_with([400, 360], down=True)
+
     def test_pacing_frame_retries_reuse_valid_panel_without_discovery_cost(self):
         self.selection = [aid(2)]
         selected = self.native.selected

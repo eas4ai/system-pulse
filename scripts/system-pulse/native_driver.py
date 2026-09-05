@@ -832,11 +832,18 @@ class Native:
 
         return self.wait(poll, seconds, "fresh sequence progression")
 
-    def selected(self, deadline, strict=False, panel=None):
+    def selected(self, deadline, strict=False, panel=None, scan=None):
         panel = panel if panel is not None else self.panel("processes")
         matches = []
+        if scan is not None:
+            scan.update(rows=[], viewports=[])
         for node in self.walk(panel, deadline, skip_cells=True, strict=strict):
             aid = node.get_accessible_id() or ""
+            if scan is not None:
+                if aid.startswith("process:") and ":cell:" not in aid:
+                    scan["rows"].append(aid)
+                elif aid == "processes:rows-viewport":
+                    scan["viewports"].append(node)
             if (
                 aid.startswith("process:")
                 and ":cell:" not in aid
@@ -929,8 +936,8 @@ class Native:
             raise IncompleteNativeTree("incomplete native tree: panel membership")
         return path
 
-    def navigation_panel_current(self, path, deadline):
-        """Parent pointers alone do not prove membership after a replacement."""
+    def navigation_links_current(self, path, deadline):
+        """Validate ordinary child links, including viewport ancestry on recovery."""
         if not path:
             return False
         for child, parent in zip(path, path[1:]):
@@ -951,6 +958,12 @@ class Native:
             child.clear_cache_single()
             if child.get_parent() != parent:
                 return False
+        return True
+
+    def navigation_panel_current(self, path, deadline):
+        """Parent pointers alone do not prove membership after a replacement."""
+        if not self.navigation_links_current(path, deadline):
+            return False
         # AccessKit registers its application through the desktop socket, while
         # the application Accessible reports Parent=null and IndexInParent=-1.
         # Prove that boundary from the desktop's current children instead.
@@ -996,13 +1009,79 @@ class Native:
         require(time.monotonic() < deadline, "navigation panel deadline expired")
         return registered
 
+    def navigation_reveal_clip(self, scan, path, deadline):
+        """Intersect the current rows viewport with its native ancestor/window clips."""
+        require(len(scan["viewports"]) == 1, "nonunique navigation rows viewport")
+        viewport = scan["viewports"][0]
+        require(
+            self.alive(viewport)
+            and viewport.get_accessible_id() == "processes:rows-viewport"
+            and viewport.get_role_name() == "panel",
+            "invalid navigation rows viewport",
+        )
+        ancestry = [viewport]
+        while ancestry[-1] != path[0]:
+            require(time.monotonic() < deadline, "navigation reveal deadline expired")
+            require(len(ancestry) < 40, "navigation reveal ancestry bound exceeded")
+            parent = ancestry[-1].get_parent()
+            if parent is None or parent in ancestry:
+                raise IncompleteNativeTree("incomplete navigation viewport ancestry")
+            ancestry.append(parent)
+        if not self.navigation_links_current(ancestry, deadline):
+            raise IncompleteNativeTree("incomplete navigation viewport membership")
+        ancestors = self.ancestors(viewport)
+        require(
+            any(item["id"] == "workspace:viewport" for item in ancestors),
+            "workspace clipping rectangle absent from native ancestry",
+        )
+        geometry = self.window().get_geometry()
+        clips = [self.bounds(viewport), [0, 0, geometry.width, geometry.height]]
+        clips.extend(
+            item["bounds"]
+            for item in ancestors
+            if (item["id"] or "").endswith(":viewport")
+        )
+        require(
+            all(
+                bounds is not None and bounds[2] > 0 and bounds[3] > 0
+                for bounds in clips
+            ),
+            "missing native clipping bounds",
+        )
+        left, top = max(b[0] for b in clips), max(b[1] for b in clips)
+        right = min(b[0] + b[2] for b in clips)
+        bottom = min(b[1] + b[3] for b in clips)
+        require(
+            right > left and bottom > top, "navigation viewport outside native clips"
+        )
+        if not self.navigation_links_current(ancestry, deadline):
+            raise IncompleteNativeTree("replaced navigation viewport")
+        require(time.monotonic() < deadline, "navigation reveal deadline expired")
+        return left, top, right, bottom
+
     def navigation_selection(
-        self, expected, target, deadline, reconcile=False, path=None, fresh_panel=False
+        self,
+        expected,
+        target,
+        deadline,
+        reconcile=False,
+        path=None,
+        fresh_panel=False,
+        endpoint_index=None,
     ):
         """Observe exact selection in a complete tree within one fresh publication."""
+        recovery = None
+        recovery_blocked = False
+        recovery_preparing = False
+        recovery_proof = False
 
         def poll():
-            nonlocal path
+            nonlocal \
+                path, \
+                recovery, \
+                recovery_blocked, \
+                recovery_preparing, \
+                recovery_proof
             before = self.frame()
             require(
                 target in map(identity, before["snapshot"]["processes"]),
@@ -1011,6 +1090,8 @@ class Native:
             retained, path = path, None
             if (
                 fresh_panel
+                or recovery_preparing
+                or recovery_proof
                 or retained is None
                 or not self.navigation_panel_current(retained, deadline)
             ):
@@ -1020,7 +1101,13 @@ class Native:
             # Panel discovery may span collection intervals; bracket selection
             # itself with one fresh publication after discovery has completed.
             before = self.frame()
-            selected = self.selected(deadline, strict=True, panel=retained[0])
+            scan = {} if endpoint_index is not None else None
+            selected = self.selected(
+                deadline,
+                strict=True,
+                panel=retained[0],
+                **({"scan": scan} if scan is not None else {}),
+            )
             if not self.navigation_panel_current(retained, deadline):
                 return None
             if selected and not (
@@ -1042,6 +1129,109 @@ class Native:
                 path = retained if not fresh_panel else None
                 return None
             path = retained
+            if scan is not None:
+                row_ids = scan["rows"]
+                mapped = [ids.index(value) for value in row_ids if value in ids]
+                complete_span = (
+                    len(mapped) == len(row_ids)
+                    and len(set(ids)) == len(ids)
+                    and bool(mapped)
+                    and mapped == list(range(mapped[0], mapped[-1] + 1))
+                )
+                if (
+                    selected
+                    and selected[0] != expected
+                    or selected is None
+                    and expected in row_ids
+                ):
+                    recovery_blocked = True
+                if (
+                    recovery is None
+                    and not recovery_blocked
+                    and selected is None
+                    and expected in ids
+                    and complete_span
+                    and not mapped[0] <= ids.index(expected) <= mapped[-1]
+                    and ids.index(expected) != endpoint_index
+                    and mapped[0] <= endpoint_index <= mapped[-1]
+                ):
+                    if not recovery_preparing:
+                        # Establish uniqueness before the fresh eligibility scan
+                        # that will authorize the first physical recovery step.
+                        recovery_preparing = True
+                        path = None
+                        return None
+                    recovery = {
+                        "expected": expected,
+                        "original_index": endpoint_index,
+                        "eligibility_index": ids.index(expected),
+                        "eligibility_span": [mapped[0], mapped[-1]],
+                        "eligibility_sequence": after["snapshot"]["sequence"],
+                        "eligibility_revision": after["render_revision"],
+                    }
+                    recovery_preparing = False
+                if recovery is not None:
+                    require(
+                        expected in ids,
+                        "navigation recovery endpoint absent: " + expected,
+                    )
+                    require(
+                        selected is None or selected[0] == expected,
+                        "selection changed during nonselecting navigation recovery",
+                    )
+                    if not complete_span or recovery_blocked:
+                        return None
+                    left, top, right, bottom = self.navigation_reveal_clip(
+                        scan, path, deadline
+                    )
+                    bounds = self.bounds(selected[1]) if selected else None
+                    current_frame = self.frame()
+                    if (
+                        current_frame["snapshot"]["sequence"],
+                        current_frame["render_revision"],
+                    ) != (
+                        after["snapshot"]["sequence"],
+                        after["render_revision"],
+                    ) or not self.navigation_panel_current(path, deadline):
+                        return None
+                    require(
+                        time.monotonic() < deadline,
+                        "navigation reveal deadline expired",
+                    )
+                    if (
+                        selected
+                        and bounds[3] > 0
+                        and top <= bounds[1]
+                        and bounds[1] + bounds[3] <= bottom
+                    ):
+                        if not recovery_proof:
+                            recovery_proof = True
+                            path = None
+                            return None
+                        self.journal("navigation-endpoint-reveal-proof", **recovery)
+                        return selected, current_frame, path
+                    if selected:
+                        down = bounds[1] + bounds[3] > bottom
+                    elif ids.index(expected) < mapped[0]:
+                        down = False
+                    elif ids.index(expected) > mapped[-1]:
+                        down = True
+                    else:
+                        return None
+                    point = [(left + right) / 2, (top + bottom) / 2]
+                    self.journal(
+                        "navigation-endpoint-reveal",
+                        **recovery,
+                        current_index=ids.index(expected),
+                        current_span=[mapped[0], mapped[-1]],
+                        point=point,
+                        down=down,
+                        deadline=deadline,
+                        action="nonselecting vertical wheel",
+                    )
+                    self.wheel(point, down=down)
+                    recovery_proof = False
+                    return None
             if reconcile:
                 require(
                     selected is None or selected[0] == expected,
@@ -1116,8 +1306,13 @@ class Native:
             time.monotonic() < batch_deadline, "navigation original deadline expired"
         )
         self.key(key)
+        endpoint_index = 0 if key == "Home" else len(ids) - 1
         selected, observed, path = self.navigation_selection(
-            ids[0 if key == "Home" else -1], target, batch_deadline, path=path
+            ids[endpoint_index],
+            target,
+            batch_deadline,
+            path=path,
+            endpoint_index=endpoint_index,
         )
         while True:
             self.navigation_context.update(
@@ -1153,6 +1348,7 @@ class Native:
                     batch_deadline,
                     reconcile=True,
                     path=None if selected[0] == target else path,
+                    endpoint_index=endpoint_index,
                 )
                 ids = list(map(identity, frame["snapshot"]["processes"]))
                 if selected is None:
@@ -1163,11 +1359,13 @@ class Native:
                         "navigation original deadline expired",
                     )
                     self.key(key)
+                    endpoint_index = 0 if key == "Home" else len(ids) - 1
                     selected, observed, path = self.navigation_selection(
-                        ids[0 if key == "Home" else -1],
+                        ids[endpoint_index],
                         target,
                         batch_deadline,
                         path=path,
+                        endpoint_index=endpoint_index,
                     )
                     continue
             if selected[0] == target:
@@ -1186,12 +1384,14 @@ class Native:
                 count > 0 and time.monotonic() < deadline,
                 "navigation original deadline expired",
             )
-            expected = ids[ids.index(selected[0]) + (count if delta > 0 else -count)]
+            endpoint_index = ids.index(selected[0]) + (count if delta > 0 else -count)
+            expected = ids[endpoint_index]
             self.journal(
                 "navigation-batch",
                 target=target,
                 selected=selected[0],
                 expected=expected,
+                endpoint_index=endpoint_index,
                 count=count,
                 distance=abs(delta),
                 sequence=frame["snapshot"]["sequence"],
@@ -1204,7 +1404,11 @@ class Native:
                 )
                 self.key("Down" if delta > 0 else "Up")
             selected, observed, path = self.navigation_selection(
-                expected, target, batch_deadline, path=path
+                expected,
+                target,
+                batch_deadline,
+                path=path,
+                endpoint_index=endpoint_index,
             )
 
     def shutdown(self):
