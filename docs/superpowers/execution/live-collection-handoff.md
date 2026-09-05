@@ -669,3 +669,40 @@ before shutdown. It preserves every watcher record/error, three distinct
 sequences, reads, and deadlines. The sole worker implements that bounded
 follow-up; root owns its LIVE-003 marker. Fresh native/full acceptance,
 final review, and Cairn Done remain outstanding.
+
+## 2026-09-05: bounded navigation visibility recovery in progress
+
+Sequence recording candidate `25fdc702` passed both reviews, all 248 Python
+tests and Ruff; review record `41c345a1`. Fresh untraced run
+`pulse-process-lookup-74h7o_8f/native` passed held Up, the exact 64-Up
+endpoint, and horizontal table movement. Child navigation then timed out
+on an eight-second batch, about 52.66 seconds into its 180-second budget.
+The expected PID/start survived but shifted from index 1221 to 1216; the
+screenshot starts at index 1221. No actual selection was retained during
+that final wait. Source records: native-batch-selection-failure.md/json.
+
+One frozen diagnostic retained 512 of 1,730 events over 19.63 seconds.
+Twelve complete scans saw no selected row with the expected identity
+outside the instantiated span; every observed episode recovered. Two
+rediscoveries took about 2.3 seconds, while selection scans took 27–102 ms.
+It did not reproduce sustained drift or the old timeout. It instead failed
+at accepted-frame age 2.020 seconds after a successful acknowledgement.
+Record: native-batch-selection-diagnostic.md/json; output:
+`/home/shawn/workspace2/task-manager-artifacts/tmp/native-batch-selection-diagnostic/native`.
+No diagnostic process remains running.
+
+Source/contract review separates stable model identity from a pixel-based
+viewport. Automatic identity anchoring would be additional product behavior.
+Root recorded decision and plan at `ba6bfa16` for verifier-only recovery:
+immutable expected PID/start and issued index, fresh coherent current
+complete evidence, no selected row, expected outside the visible span,
+changed index, and ORIGINAL numeric endpoint index still inside that span.
+Only then use nonselecting vertical scrolling and fresh exact endpoint
+proof under the same deadlines. Held-input evidence and production behavior
+stay unchanged. This is not a proven causal fix for the prior timeout.
+
+The sole source worker owns native_driver.py, navigation regressions, and
+the implementation note; root owns the LIVE-003 marker and plan/reviews.
+A separate read-only assessment examines this diagnostic's frame read/save
+path and retained timestamps. No further live run is active. Fresh full
+acceptance, final review, and Cairn Done remain outstanding.
