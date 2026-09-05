@@ -136,38 +136,41 @@ After focused corrections, independent SPEC then QUALITY review will evaluate th
 ### 2026-09-05: reviewed acceptance and fresh aggregate census gap
 
 Acceptance source `322b05d9` passed independent SPEC and QUALITY after closing
-stable-total, reverse device identity, process field attribution/duplicate PID,
-and abnormal transport cleanup gaps. The final Python suite has45tests. Both
-reviewers independently reran relevant controls and mutations; no blockers remained.
-Root changed README to link to current evidence instead of embedding temporary
-pending status (`219cd194`), preserving the worker's later source/docs.
+stable-total, reverse device identity, process attribution, duplicate PID, and
+abnormal transport cleanup gaps. The Python suite has 45 tests. Both reviewers
+reran relevant controls and mutations; no blockers remained. Root changed README
+to link to current evidence instead of embedding temporary pending status
+(`219cd194`), preserving the worker's later source and documentation.
 
-The committed Cairn aggregate at `7e7a678a` passed396tests, scoped formatting, strict
-Clippy, both binary builds anddiffcheck, then failed host capture. All13shared
-receipts remainfail; native didnotrun. Evidence root:
+The committed Cairn aggregate at `7e7a678a` passed 396 tests, scoped formatting,
+strict Clippy, both binary builds, and the diff check, then failed host capture.
+All 13 shared receipts remain fail; native replay did not run. Evidence:
 `/tmp/system-pulse-cairn-check-g5vrhjsx/system-pulse-acceptance-ijo2cidw/`.
-Source report: `docs/execution/real-system-readings/aggregate-attempt-2026-09-05.md`.
-The host passed41986brackets,468stabletotals,2218sensorchecks,16386processfields,
-and96interfaces, with matchinginitial/finalinventory andverifiedownedchildexit.
-It lacked twoCPUcounterbrackets for`2835657:67295702`,name`imgproxy`,seq1.
+The source report is `docs/execution/real-system-readings/aggregate-attempt-2026-09-05.md`.
+The host passed 41,986 brackets, 468 stable totals, 2,218 sensor checks, 16,386
+process fields, and 96 interfaces. Initial/final inventories matched and the
+owned child's exit was verified. Two CPU counter brackets were missing for
+`2835657:67295702`, name `imgproxy`, in sequence 1.
 
-Read-only diagnosis found that all41independentcensuses omitted thatPID. The
-collectorquery `[672957070834055,672957070845719]` laybetween neighboring
+Read-only diagnosis found that all 41 independent censuses omitted that PID. The
+collector query `[672957070834055,672957070845719]` lay between neighboring
 censuses `[672957015817082,672957020095983]` and
-`[672957090239154,672957095232269]`. There is no externalerrno,ancestry,orproven
-exit time. Linux directroot`/proc` enumeration rulesout thesysinfotask/TID
-alternative; the portable`.with_tasks()` path is not used onLinux. Report:
+`[672957090239154,672957095232269]`. There is no external errno, ancestry, or proven
+exit time. Linux's direct root `/proc` enumeration rules out the sysinfo task/TID
+alternative; the portable `.with_tasks()` path is not used on Linux. Report:
 `/tmp/pulse-aggregate-bracket-diagnosis-duj_jayr/report.md`.
 
-The soleworker is implementing a bounded single-thread supplementalcensus during
-longprocesssweeps: prospective20ms schedule, immediateand repeatednewPIDreads,
-everyobservationretainedseparatelywithtimestamps/anchors, alloriginalPIDreads
-preserved, and4096supplemental-observationcap alongsideexisting35s/2048limits.
-Exhaustionormissingbrackets stillfail. This improves observationcadence; it does
-notguarantee everytransient orwaiveanyacceptancebound. Tests, retainedhost08
-compatibility, onecoordinatedfreshfocusedcapture, thenSPEC/QUALITYare required
-beforeanotherCairnrun. Root recreated theimplementLIVE-001marker andownsall
-Cairnmetadata. Existingfailedreceipts werecommitted andmustremainintact.
+The sole worker is adding a bounded, single-thread supplemental census during
+long process sweeps: a prospective 20 ms schedule, immediate and repeated reads
+for new PIDs, and separate retained observations with timestamps and anchors.
+Every original PID still gets its normal reads. A 4,096 supplemental-observation
+cap joins the existing 35-second/2,048-sweep limits. Exhaustion and missing
+brackets still fail. Better observation cadence does not guarantee every
+transient or waive any acceptance bound. Tests, retained host08 compatibility,
+one coordinated fresh focused capture, and SPEC/QUALITY review are required
+before another Cairn run. Root recreated the implement LIVE-001 marker and owns
+all Cairn metadata. Failed receipts were committed and must remain intact.
 
-The fullnative gate still requirescompleteexecution. Native21's13passingcases
-and focusedmissing02PASS remainpreparationonly. No mergeorpush is authorized.
+The full native gate still requires complete execution. Native21's 13 passing
+cases and focused missing02 PASS remain preparation only. No merge or push is
+authorized.
