@@ -641,3 +641,31 @@ correction is not implemented yet. Neither change relaxes LIVE-003.
 
 The requested Codex context-management setting remains true and TOML
 parsing was rechecked; no runtime reload/schema validation is claimed.
+
+## 2026-09-05: selection proof reviewed; sequence evidence race
+
+Held-observation candidate `caa06d74` passed both reviews and all 237 Python
+tests. Selection/exit candidate `1790fe53` passed both reviews, 244 Python
+tests, all 49 app tests, Clippy, Ruff, and rustfmt. The new GPUI regression
+checks exact model selection through production accept_snapshot before any
+further key. Native exit now requires fresh unique current-panel discovery,
+post-scan membership, and rejection of any other instantiated selected row.
+It closes a reproduced false pass from a live detached cached empty panel.
+The stronger earlier model-clear wording was superseded explicitly. Review
+record `3d5786fa`; no product behavior changes were needed.
+
+The next untraced focused run passed launch, metrics, collapse, charts,
+inner scrolling, held-Up movement, and the exact 64-Up endpoint. It then
+failed the three-sequence evidence check. Artifact root:
+`/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-u39xj7ld/native`.
+The watcher retained only sequences 82/83, despite the main sequence wait
+observing three publications. Read-only diagnosis found exercise discarded
+that main-thread list and stopped the watcher before its next observation.
+The run remains FAIL; controlled navigation/exit was not reached.
+
+Source plan `556ab837` retains each existing main observation with its age
+measured at read time, then merges those real records into input evidence
+before shutdown. It preserves every watcher record/error, three distinct
+sequences, reads, and deadlines. The sole worker implements that bounded
+follow-up; root owns its LIVE-003 marker. Fresh native/full acceptance,
+final review, and Cairn Done remain outstanding.
