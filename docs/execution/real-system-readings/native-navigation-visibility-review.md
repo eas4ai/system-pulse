@@ -53,3 +53,20 @@ and button release/synchronization behavior. Reproduce both slow-journal
 cases; the original batch and navigation budgets remain binding.
 The reviewer passed 163 focused native tests and an additional failed-wheel
 permission probe. Final QUALITY verdict remains pending this correction.
+
+## Deadline correction reviews
+
+Candidate: `bb733beb7c45a1cfc7e1a49d976098e89bc5a44d`.
+
+Independent SPEC then QUALITY passed. The deadline finding is closed;
+no code findings remain. Recovery passes its original absolute deadline
+to wheel, which checks after journaling and before the first physical
+input. Generic callers and release/sync cleanup retain their behavior.
+A late completion cannot acknowledge success.
+
+SPEC independently passed 72 navigation tests, scoped Ruff lint/format,
+and diff checks, plus five combined-delay and slow-sync probes. QUALITY
+passed 167 focused native tests, diff checks, and seven probes covering
+both journals, exact/combined boundaries, zero deadline, and slow sync.
+The worker passed all 271 Python tests. Neither review ran live capture
+or a build. Actual native and full acceptance remain outstanding.

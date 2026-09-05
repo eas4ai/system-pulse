@@ -2,7 +2,7 @@
 
 Level: Judged
 Decided by: agent
-Rests on: LIVE-003 and LIVE-010 require exact process identity and preserved reachability. Source retains pixel scroll offset across process churn; the untraced expected index shifted1221 to1216 while viewport began1221. Diagnostic complete scans also observed expected identities outside instantiated spans, without proving sustained drift.
+Rests on: LIVE-003 and LIVE-010 require exact process identity and preserved reachability. Source retains pixel scroll offset across process churn; the untraced expected index shifted from 1221 to 1216 while the viewport began at 1221. Diagnostic complete scans also observed expected identities outside instantiated spans, without proving sustained drift.
 Would be wrong if: Scrolling changes selection, hides incorrect keyboard endpoints, accepts stale/incomplete or ambiguous observations, contaminates held-input movement evidence, changes product behavior, or extends the original deadlines.
 History: The prior navigation decision was reversed for overstating virtualized native absence as model-clear proof. This decision responds by requiring explicit current visible-range evidence, retaining an immutable endpoint, and never inferring selection from scrolling. Its level remains Judged: it repairs bounded verifier observability within agreed reachability/identity requirements and leaves product behavior and all bounds unchanged. Independent plan review added the original-slot-inside-span guard to avoid broadly substituting scrolling for keyboard reveal.
 
@@ -12,4 +12,6 @@ Support a narrowly identified observation recovery during navigation acknowledge
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 485c5129c2e95ddff27b2ec78fcdbcc8ff65a7cc fix: reveal displaced native navigation endpoints
+- d4452f8f38c7734ec70567e47a6f2ca56305c7ed fix: discard rejected navigation reveal eligibility
+- bb733beb7c45a1cfc7e1a49d976098e89bc5a44d fix: enforce navigation deadline at wheel dispatch
