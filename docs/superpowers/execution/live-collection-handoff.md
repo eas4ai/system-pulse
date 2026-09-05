@@ -454,3 +454,31 @@ no in-progress marker, wake run LIVE-001. Final acceptance and review remain.
 The developer also requested `[features.context_management]` with
 `experimental_mode = true` in ~/.codex/config.toml. Root added it at line416,
 parsed the TOML, and verified every existing setting remained identical.
+
+
+## 2026-09-05: diagnostic policy reviewed; freshness remains unresolved
+
+Recorded judged decision `publish-transient-diagnostics-without-a-durability-flush`
+and plan at source18a52eb1. Implementationdb08a65c adds a private durability
+choice: diagnostic atomic publication omits sync_all, while workspace and
+preset saves retain it. Three new Rust tests;48 app and24 model tests,
+formatting, strict Clippy, and build passed. Before/after syscall assertion
+failed then passed; both independent reviewers reran8 storage/3 diagnostic
+tests and fresh syscall probes successfully. Review record966b3a49.
+Binary SHA082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83.
+No in-progress marker; Cairn names run LIVE-001.
+
+The diagnostic-only syscall trace from the preceding investigation did not
+reproduce the earlier stall (maxfsync52.977ms); it failed an exact64Up check
+and is not acceptance evidence. Cleanup reaped the tracer and owned children.
+The subsequent untraced focused run at966b3a49 again failed the2s freshness
+gate, this time during collapse at2.037s. The policy change does not resolve
+this failure. Artifacts:
+`/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native`.
+Stale seq33, subsequent failure frame34, final latest39. No write errors.
+A precise diagnostic capture is being prepared by diagnose_native_stale_frame
+to distinguish file-read race, publication delay, and thread scheduling.
+No further production fix is chosen. Source records:
+`native-post-publication-freshness.md/json`. Original deadlines stand.
+Full Python count158; latest Rust app48/model24; no full aggregate for
+this final candidate yet. Native lookup, exit, final replay/review/Done remain.
