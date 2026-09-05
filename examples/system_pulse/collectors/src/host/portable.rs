@@ -3,33 +3,72 @@ use super::*;
 use sysinfo::{
     CpuRefreshKind, MemoryRefreshKind, ProcessRefreshKind, ProcessesToUpdate, UpdateKind,
 };
+
+#[derive(Clone, Copy, Debug)]
+struct QueryWindow {
+    started_ns: u64,
+    captured_ns: u64,
+}
+fn query<T>(clock: impl Fn() -> u64, operation: impl FnOnce() -> T) -> (T, QueryWindow) {
+    let started_ns = clock();
+    let value = operation();
+    (
+        value,
+        QueryWindow {
+            started_ns,
+            captured_ns: clock(),
+        },
+    )
+}
+fn api_raw<const N: usize>(
+    source: &str,
+    window: QueryWindow,
+    values: [(&str, u64); N],
+) -> RawObservation {
+    raw_window(source, window.started_ns, window.captured_ns, values)
+}
 #[cfg_attr(target_os = "linux", allow(dead_code))]
 impl HostCollector {
     pub(super) fn collect_portable(&mut self, s: &mut Snapshot) {
-        self.system
-            .refresh_cpu_specifics(CpuRefreshKind::everything());
-        self.system
-            .refresh_memory_specifics(MemoryRefreshKind::everything());
+        let origin = self.origin;
+        let fixed_ns = self.fixed_ns;
+        let clock =
+            || fixed_ns.unwrap_or_else(|| origin.elapsed().as_nanos().min(u64::MAX as u128) as u64);
+        let (_, cpu_window) = query(clock, || {
+            self.system
+                .refresh_cpu_specifics(CpuRefreshKind::everything())
+        });
+        let (_, memory_window) = query(clock, || {
+            self.system
+                .refresh_memory_specifics(MemoryRefreshKind::everything())
+        });
         // Deliberately exclude command lines, environments, working directories, and executable paths.
-        self.system.refresh_processes_specifics(
-            ProcessesToUpdate::All,
-            true,
-            ProcessRefreshKind::nothing()
-                .with_cpu()
-                .with_memory()
-                .with_disk_usage()
-                .with_user(UpdateKind::Always)
-                .with_tasks(),
-        );
-        self.networks.refresh(true);
-        let ns = self.now();
+        let (_, process_window) = query(clock, || {
+            self.system.refresh_processes_specifics(
+                ProcessesToUpdate::All,
+                true,
+                ProcessRefreshKind::nothing()
+                    .with_cpu()
+                    .with_memory()
+                    .with_disk_usage()
+                    .with_user(UpdateKind::Always)
+                    .with_tasks(),
+            )
+        });
+        // sysinfo's process refresh may also refresh the global CPU cache. Bound both
+        // calls before reading that shared cache, including a slow process refresh.
+        let cpu_window = QueryWindow {
+            started_ns: cpu_window.started_ns,
+            captured_ns: process_window.captured_ns,
+        };
+        let (_, network_window) = query(clock, || self.networks.refresh(true));
         monitor(s, "cpu:host", "CPU", MonitorKind::Cpu);
         monitor(s, "memory:host", "Memory", MonitorKind::Memory);
         let mut usage = api_scalar(
             "cpu:host/usage",
             "sysinfo::System::global_cpu_usage",
             self.system.global_cpu_usage() as f64,
-            ns,
+            cpu_window,
         );
         if self.sequence <= 1 {
             usage.value = None;
@@ -67,7 +106,7 @@ impl HostCollector {
                 ),
             ] {
                 let id = format!("cpu:host/{suffix}");
-                let mut r = api_scalar(&id, source, v, ns);
+                let mut r = api_scalar(&id, source, v, cpu_window);
                 if suffix.ends_with("frequency") {
                     r.observations[0]
                         .integers
@@ -90,14 +129,15 @@ impl HostCollector {
                 );
             }
         }
-        let components = sysinfo::Components::new_with_refreshed_list();
+        let (components, component_window) =
+            query(clock, sysinfo::Components::new_with_refreshed_list);
         for component in &components {
             let suffix = format!("temperature:{}", component.label());
             let id = format!("cpu:host/{suffix}");
             let source = "sysinfo::Component::temperature";
             let r = component
                 .temperature()
-                .map(|v| api_scalar(&id, source, v as f64, ns))
+                .map(|v| api_scalar(&id, source, v as f64, component_window))
                 .unwrap_or_else(|| {
                     missing(
                         &id,
@@ -129,7 +169,7 @@ impl HostCollector {
                 "No hardware component temperature exposed",
             );
         }
-        let load = sysinfo::System::load_average();
+        let (load, load_window) = query(clock, sysinfo::System::load_average);
         for (suffix, v) in [
             ("load-1", load.one),
             ("load-5", load.five),
@@ -151,7 +191,7 @@ impl HostCollector {
                     &format!("cpu:host/{suffix}"),
                     "sysinfo::System::load_average",
                     v,
-                    ns,
+                    load_window,
                 );
                 sensor(
                     s,
@@ -166,11 +206,12 @@ impl HostCollector {
                 );
             }
         }
+        let (uptime, uptime_window) = query(clock, sysinfo::System::uptime);
         let r = api_integer(
             "cpu:host/uptime",
             "sysinfo::System::uptime",
-            sysinfo::System::uptime(),
-            ns,
+            uptime,
+            uptime_window,
         );
         sensor(
             s,
@@ -216,7 +257,7 @@ impl HostCollector {
             let id = format!("memory:host/{suffix}");
             let source = "sysinfo::System memory bytes";
             let mut r = value
-                .map(|v| api_integer(&id, source, v, ns))
+                .map(|v| api_integer(&id, source, v, memory_window))
                 .unwrap_or_else(|| {
                     missing(
                         &id,
@@ -226,9 +267,9 @@ impl HostCollector {
                 });
             r.total = total.map(|v| v as f64);
             if suffix == "used" {
-                r.observations = vec![raw(
+                r.observations = vec![api_raw(
                     source,
-                    ns,
+                    memory_window,
                     [
                         ("total", self.system.total_memory()),
                         ("available", self.system.available_memory()),
@@ -284,9 +325,9 @@ impl HostCollector {
             let source = "sysinfo::Process::accumulated_cpu_time (milliseconds)";
             let cpu_percent = self.counters.derive(
                 &format!("{key}/cpu"),
-                Ok(raw(
+                Ok(api_raw(
                     source,
-                    ns,
+                    process_window,
                     [("cpu_ms", process.accumulated_cpu_time())],
                 )),
                 |a, b, e| Ok(delta(a, b, "cpu_ms")? as f64 / 10.0 / e),
@@ -295,7 +336,11 @@ impl HostCollector {
             let mut rate = |suffix: &str, bytes: u64| {
                 self.counters.derive(
                     &format!("{key}/{suffix}"),
-                    Ok(raw("sysinfo::Process::disk_usage", ns, [("bytes", bytes)])),
+                    Ok(api_raw(
+                        "sysinfo::Process::disk_usage",
+                        process_window,
+                        [("bytes", bytes)],
+                    )),
                     |a, b, e| Ok(delta(a, b, "bytes")? as f64 / e),
                 )
             };
@@ -308,7 +353,14 @@ impl HostCollector {
             let count = process.tasks().map(|t| t.len() as u64);
             thread_total = thread_total.zip(count).and_then(|(a, b)| a.checked_add(b));
             let threads = count
-                .map(|v| api_integer(&format!("{key}/threads"), "sysinfo::Process::tasks", v, ns))
+                .map(|v| {
+                    api_integer(
+                        &format!("{key}/threads"),
+                        "sysinfo::Process::tasks",
+                        v,
+                        process_window,
+                    )
+                })
                 .unwrap_or_else(|| {
                     missing(
                         &format!("{key}/threads"),
@@ -330,7 +382,7 @@ impl HostCollector {
                     &format!("{key}/memory"),
                     "sysinfo::Process::memory",
                     process.memory(),
-                    ns,
+                    process_window,
                 ),
                 read_bytes_per_second,
                 write_bytes_per_second,
@@ -341,7 +393,7 @@ impl HostCollector {
             "cpu:host/processes",
             "sysinfo::System::processes",
             s.processes.len() as u64,
-            ns,
+            process_window,
         );
         sensor(
             s,
@@ -355,7 +407,14 @@ impl HostCollector {
             r,
         );
         let r = thread_total
-            .map(|n| api_integer("cpu:host/threads", "sysinfo::Process::tasks", n, ns))
+            .map(|n| {
+                api_integer(
+                    "cpu:host/threads",
+                    "sysinfo::Process::tasks",
+                    n,
+                    process_window,
+                )
+            })
             .unwrap_or_else(|| {
                 missing(
                     "cpu:host/threads",
@@ -386,7 +445,7 @@ impl HostCollector {
                 let sid = format!("{id}/{suffix}");
                 let r = self.counters.derive(
                     &sid,
-                    Ok(raw(source, ns, [("bytes", total)])),
+                    Ok(api_raw(source, network_window, [("bytes", total)])),
                     |a, b, e| Ok(delta(a, b, "bytes")? as f64 / e),
                 );
                 sensor(
@@ -401,7 +460,7 @@ impl HostCollector {
                     r,
                 );
                 let suffix = format!("{suffix}-total");
-                let r = api_integer(&format!("{id}/{suffix}"), source, total, ns);
+                let r = api_integer(&format!("{id}/{suffix}"), source, total, network_window);
                 sensor(
                     s,
                     &id,
@@ -425,7 +484,7 @@ impl HostCollector {
                 "sysinfo exposes no address-attributed connection counts",
             );
         }
-        let disks = sysinfo::Disks::new_with_refreshed_list();
+        let (disks, disk_window) = query(clock, sysinfo::Disks::new_with_refreshed_list);
         for disk in &disks {
             let id = format!(
                 "volume:source:{}:{}",
@@ -443,12 +502,12 @@ impl HostCollector {
                 &format!("{id}/capacity"),
                 source,
                 disk.total_space().saturating_sub(disk.available_space()),
-                ns,
+                disk_window,
             );
             r.total = Some(disk.total_space() as f64);
-            r.observations = vec![raw(
+            r.observations = vec![api_raw(
                 source,
-                ns,
+                disk_window,
                 [
                     ("total", disk.total_space()),
                     ("available", disk.available_space()),
@@ -473,7 +532,7 @@ impl HostCollector {
                 let sid = format!("{id}/{suffix}");
                 let r = self.counters.derive(
                     &sid,
-                    Ok(raw(source, ns, [("bytes", total)])),
+                    Ok(api_raw(source, disk_window, [("bytes", total)])),
                     |a, b, e| Ok(delta(a, b, "bytes")? as f64 / e),
                 );
                 sensor(
@@ -508,7 +567,7 @@ impl HostCollector {
         s.diagnostics.push(BackendDiagnostic{backend:"sysinfo".into(),availability:Availability::Available,reason:"sysinfo 0.37.2 common backend; some APIs expose no per-field error channel. Native macOS/Windows accuracy is not validated on Linux. Process identity start value is Unix seconds on this backend.".into()});
     }
 }
-fn api_scalar(id: &str, source: &str, value: f64, ns: u64) -> Reading {
+fn api_scalar(id: &str, source: &str, value: f64, window: QueryWindow) -> Reading {
     if !value.is_finite() {
         return missing(
             id,
@@ -517,14 +576,15 @@ fn api_scalar(id: &str, source: &str, value: f64, ns: u64) -> Reading {
         );
     }
     let mut r = measured(id, value, None);
-    let mut o = raw(source, ns, []);
+    let mut o = api_raw(source, window, []);
     o.decimals.insert("value".into(), value);
     r.observations.push(o);
     r
 }
-fn api_integer(id: &str, source: &str, value: u64, ns: u64) -> Reading {
+fn api_integer(id: &str, source: &str, value: u64, window: QueryWindow) -> Reading {
     let mut r = measured(id, value as f64, None);
-    r.observations.push(raw(source, ns, [("value", value)]));
+    r.observations
+        .push(api_raw(source, window, [("value", value)]));
     r
 }
 #[allow(clippy::too_many_arguments)]
@@ -575,5 +635,86 @@ mod tests {
                 .iter()
                 .any(|p| p.identity.pid == std::process::id())
         );
+        let finished_ns = c.now();
+        for observation in s
+            .readings
+            .iter()
+            .chain(s.processes.iter().flat_map(|p| {
+                [
+                    &p.cpu_percent,
+                    &p.memory_bytes,
+                    &p.read_bytes_per_second,
+                    &p.write_bytes_per_second,
+                    &p.threads,
+                ]
+            }))
+            .flat_map(|reading| &reading.observations)
+        {
+            assert!(
+                observation
+                    .read_started_ns
+                    .is_some_and(|start| start <= observation.captured_ns)
+            );
+            assert!(observation.captured_ns <= finished_ns);
+        }
+        let uptime_end = s
+            .readings
+            .iter()
+            .find(|r| r.sensor_id == "cpu:host/uptime")
+            .unwrap()
+            .observations[0]
+            .captured_ns;
+        for disk_observation in s
+            .readings
+            .iter()
+            .flat_map(|r| &r.observations)
+            .filter(|o| o.source.starts_with("sysinfo::Disk"))
+        {
+            assert!(
+                disk_observation.read_started_ns.unwrap() >= uptime_end,
+                "disk observations must use the later disk refresh window, not the earlier system timestamp"
+            );
+        }
+    }
+
+    #[test]
+    fn delayed_queries_stamp_completion_and_use_measured_disk_rate() {
+        use std::cell::Cell;
+        let clock = Cell::new(800_000_000u64);
+        let now = || clock.get();
+        let (first, first_window) = query(now, || {
+            clock.set(clock.get() + 200_000_000);
+            1000
+        });
+        assert_eq!(first_window.captured_ns, 1_000_000_000);
+        let mut counters = Counters::default();
+        let first_reading = counters.derive(
+            "disk/read",
+            Ok(api_raw(
+                "sysinfo::Disk::usage",
+                first_window,
+                [("bytes", first)],
+            )),
+            |a, b, e| Ok(delta(a, b, "bytes")? as f64 / e),
+        );
+        assert_eq!(first_reading.availability, Availability::WarmingUp);
+        clock.set(1_500_000_000);
+        let (second, second_window) = query(now, || {
+            clock.set(clock.get() + 1_000_000_000);
+            4000
+        });
+        let reading = counters.derive(
+            "disk/read",
+            Ok(api_raw(
+                "sysinfo::Disk::usage",
+                second_window,
+                [("bytes", second)],
+            )),
+            |a, b, e| Ok(delta(a, b, "bytes")? as f64 / e),
+        );
+        assert_eq!(reading.value, Some(2000.0));
+        assert_eq!(reading.observations[0].read_started_ns, Some(800_000_000));
+        assert_eq!(reading.observations[1].read_started_ns, Some(1_500_000_000));
+        assert_eq!(reading.observations[1].captured_ns, 2_500_000_000);
     }
 }

@@ -17,6 +17,7 @@ impl Counters {
     }
     pub fn retain(&mut self, keys: &[&str]) {
         self.baselines.retain(|k, _| keys.contains(&k.as_str()));
+        self.touched.retain(|k| keys.contains(&k.as_str()));
     }
     pub fn len(&self) -> usize {
         self.baselines.len()
@@ -87,7 +88,6 @@ pub(crate) fn raw<const N: usize>(
         decimals: BTreeMap::new(),
     }
 }
-#[cfg(target_os = "linux")]
 pub(crate) fn raw_window<const N: usize>(
     source: &str,
     start: u64,
@@ -154,5 +154,19 @@ mod tests {
         c.retain(&["b"]);
         assert_eq!(c.len(), 1);
         assert_eq!(c.rate("a", Ok(1000), 3_000_000_000), None);
+    }
+
+    #[test]
+    fn public_retain_releases_all_identity_state_during_churn() {
+        let mut counters = Counters::default();
+        for index in 0..1000 {
+            counters.rate(&format!("interface-{index}"), Ok(10), 1);
+            counters.retain(&[]);
+            assert!(counters.is_empty());
+            assert!(
+                counters.touched.is_empty(),
+                "removed identities must leave no retained tracking keys"
+            );
+        }
     }
 }
