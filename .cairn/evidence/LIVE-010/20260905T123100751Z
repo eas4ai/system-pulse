@@ -1,0 +1,12 @@
+requirement: LIVE-010
+mechanism: live-acceptance
+commit: bc5237d1
+inputs_digest: sha256:c8c200354e0536a314ea24e3addac0b15e0e7786b789e1de166c6e8bd55691f9
+mechanism_digest: sha256:d103d7786a22512a681db2c5c80109d0bab7291f536274f2d784a6b9122adf19
+command: rtk proxy python3 scripts/system-pulse/verify.py
+cwd: .
+exit: 1
+output_digest: sha256:5d3a31046635b45675e6bb2f898b7faee7ce8ef1f709ba8a20da43c4ae815b2f
+result: unverified
+source: none
+recorded: 2026-09-05T12:31:00.749Z

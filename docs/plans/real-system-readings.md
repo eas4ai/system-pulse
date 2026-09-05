@@ -160,6 +160,20 @@ requirements exactly once. Cairn retains legacy exit-code behavior when no known
 result lines exist, so an entirely unverified early failure remains a documented
 protocol limit. Preserve original aggregate failures and raw artifacts.
 
+### Native process exit synchronization
+
+The aggregate at `bc5237d1` passed host verification but inspected the native
+Processes tree immediately after diagnostic snapshot publication. Diagnostics
+precede redraw scheduling and cannot acknowledge an accessibility update.
+Preserve that failed capture in `native-exit-failure.md/json`. Wait for both a
+newer snapshot without the exited PID/start identity and its actual absence
+from a live native Processes subtree. Share the original five-second exit
+deadline across both observations and traversal. A missing/defunct subtree or
+slow traversal cannot count as absence. Add deterministic delayed-removal,
+permanent-retention, stale-snapshot, missing-subtree and deadline regressions.
+Complete independent SPEC then QUALITY review before a fresh committed run.
+No product behavior, freshness bound or exit budget changes.
+
 ### Predeclared comparison rules
 
 Static device IDs, units, total quantities and formulas compare exactly to the same source observation. CPU = 100 * delta(total - idle - iowait) / delta(total), with guest fields excluded from total; process CPU uses one logical core's elapsed ticks as denominator. RAM used = MemTotal - MemAvailable, KiB times 1024. Network and disk rates recompute exact integer counter differences over each recorded monotonic observation interval. Read/write sectors multiply by 512. Disk latency is weighted completed-operation time / completed operations, unavailable at zero operations. AMD conversion divides temperature by 1000, power by 1,000,000; frequency is retained in Hz. NVML units are defined in its adapter tests and source metadata; fan percent remains percent.
