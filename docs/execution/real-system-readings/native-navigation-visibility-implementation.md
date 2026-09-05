@@ -57,3 +57,23 @@ tests using the required Python 3.14 executable and workspace artifact TMPDIR.
 Scoped Ruff lint/format and whitespace checks pass. No live session or build was
 run. These deterministic checks prove the supported recovery protocol; they do
 not establish the cause of the prior native timeout or its real-session timing.
+
+## SPEC correction: discard rejected pre-scroll permission
+
+The independent SPEC probe changed the snapshot during geometry acquisition:
+the tentative endpoint moved from index 2 to its original index 5, while the
+instantiated span moved from 5–7 to 8–10. The rejected observation incorrectly
+left its old eligibility available for a later wheel. The exact probe and its
+geometry-exception variant both reproduced false success before correction;
+a duplicate-panel variant also demonstrated a wheel before renewed uniqueness.
+
+Eligibility is now tentative until a physical wheel dispatch completes. Every
+rejected or exceptional observation before that point discards the candidate
+record and local path, requiring unique discovery and fresh eligibility again.
+After dispatch, the established gesture keeps its original record across its
+own scroll steps, under the unchanged deadline. The existing fractional-step
+test verifies that intended reuse.
+
+After this correction, 68 navigation, 163 focused native, and 267 full Python
+tests pass. Scoped Ruff lint/format and `git diff --check` pass. No live run or
+build was performed.

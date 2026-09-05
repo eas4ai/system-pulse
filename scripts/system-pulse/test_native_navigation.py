@@ -439,6 +439,54 @@ class NavigationTests(unittest.TestCase):
             self.observe_displaced()
         self.native.wheel.assert_not_called()
 
+    def test_reveal_rejected_first_geometry_discards_old_eligibility(self):
+        for raises in (False, True):
+            with self.subTest(geometry_exception=raises):
+                self.setUp()
+                self.displaced_endpoint()
+                original = self.native.bounds.side_effect
+                changed = False
+
+                def replaced(node):
+                    nonlocal changed
+                    if not changed:
+                        changed = True
+                        self.ids = [aid(pid) for pid in range(20)]
+                        self.visible_ids = self.ids[8:11]
+                        self.sequence += 1
+                        if raises:
+                            raise FileNotFoundError("geometry observation replaced")
+                    return original(node)
+
+                self.native.bounds.side_effect = replaced
+                self.native.wheel.side_effect = lambda point, down: setattr(
+                    self, "visible_ids", list(self.ids)
+                )
+                with self.assertRaises(TimeoutError):
+                    self.observe_displaced()
+                self.assertTrue(changed)
+                self.assertEqual(self.ids.index(self.endpoint), 5)
+                self.native.wheel.assert_not_called()
+
+    def test_reveal_rejected_first_geometry_requires_new_unique_discovery(self):
+        self.displaced_endpoint()
+        original = self.native.bounds.side_effect
+        changed = False
+
+        def duplicate(node):
+            nonlocal changed
+            if not changed:
+                changed = True
+                extra = Node(self.clock, name="processes")
+                self.root.children = lambda: [self.panel, extra]
+                self.sequence += 1
+            return original(node)
+
+        self.native.bounds.side_effect = duplicate
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.observe_displaced()
+        self.native.wheel.assert_not_called()
+
     def test_reveal_downward_shift_uses_down_wheel(self):
         self.displaced_endpoint()
         self.ids.remove(self.endpoint)

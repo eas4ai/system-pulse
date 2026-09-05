@@ -1074,14 +1074,16 @@ class Native:
         recovery_blocked = False
         recovery_preparing = False
         recovery_proof = False
+        recovery_started = False
 
-        def poll():
+        def observe():
             nonlocal \
                 path, \
                 recovery, \
                 recovery_blocked, \
                 recovery_preparing, \
-                recovery_proof
+                recovery_proof, \
+                recovery_started
             before = self.frame()
             require(
                 target in map(identity, before["snapshot"]["processes"]),
@@ -1230,6 +1232,7 @@ class Native:
                         action="nonselecting vertical wheel",
                     )
                     self.wheel(point, down=down)
+                    recovery_started = True
                     recovery_proof = False
                     return None
             if reconcile:
@@ -1247,6 +1250,18 @@ class Native:
                 if selected and selected[0] == expected and expected in ids
                 else None
             )
+
+        def poll():
+            nonlocal path, recovery, recovery_preparing
+            try:
+                return observe()
+            finally:
+                if recovery is not None and not recovery_started:
+                    # A rejected pre-input observation is not permission to scroll
+                    # later. Freeze eligibility only after dispatching a wheel step.
+                    recovery = None
+                    recovery_preparing = True
+                    path = None
 
         return self.wait(poll, message="selected " + expected, deadline=deadline)
 
