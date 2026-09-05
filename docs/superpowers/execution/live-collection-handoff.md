@@ -39,7 +39,7 @@ A fresh implementer owns only `examples/system_pulse/collectors/`, workspace mem
 
 Host preflight found 32 logical CPUs and two Radeon AI PRO R9700 GPUs, with readable utilization, VRAM, temperatures, average SoC power, graphics/memory clocks and fan RPM. Stable AMD IDs and exact sources are in source `docs/execution/real-system-readings/host-preflight.md`. NVIDIA backend API research and the verification design are adjacent documents. NVIDIA deterministic adapter tests and graceful-absence tests are required; actual NVIDIA hardware accuracy remains explicitly unverified until run on such hardware.
 
-The app still uses fixtures until the integration task lands. Collector implementation has begun, but no live acceptance or completion is claimed. Preserve all accessible-field requirements: missing collector code is not an unavailable hardware result.
+The collector is committed in `8b7c35b9`, `9c9d059c`, and `19099472`; independent spec review passed after fixing shared-MAC interface identity collisions. A separate quality review requested fixes for public counter-helper retention and common-backend query timestamps; the implementer is addressing them. See source `docs/execution/real-system-readings/collector-review.md` for the current review record. App/model integration has not started. The app still uses fixtures until that task lands; no native live acceptance or completion is claimed. Preserve all accessible-field requirements: missing collector code is not an unavailable hardware result.
 
 ## Working rules
 
