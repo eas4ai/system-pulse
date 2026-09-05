@@ -706,3 +706,23 @@ the implementation note; root owns the LIVE-003 marker and plan/reviews.
 A separate read-only assessment examines this diagnostic's frame read/save
 path and retained timestamps. No further live run is active. Fresh full
 acceptance, final review, and Cairn Done remain outstanding.
+
+
+## 2026-09-05: resumed after harness restart
+
+Navigation visibility candidate `485c5129` received an independent SPEC P1:
+provisional eligibility survived a rejected pre-scroll observation. Correction
+`d4452f8f` discards that permission until physical wheel dispatch completes,
+requiring fresh unique eligibility before any first wheel after rejection.
+The worker recorded 68 navigation, 163 native harness, and 267 full Python
+tests passing, with Ruff checks. Fresh independent SPEC review has resumed;
+QUALITY follows. Root retains the LIVE-003 reconciliation marker.
+
+The next recorded plan adds opened-file/path identity and read/parse/check
+timestamps to stale-frame evidence. It preserves the existing fail-fast
+freshness verdict, with no retry, additional content read, or relaxed bound.
+No live run is active. Focused native acceptance, full committed acceptance,
+final commitment review, and actual Cairn Done remain outstanding.
+
+The requested Codex context-management value remains true and the TOML parses.
+The developer reports restarting the harness. No runtime reload claim was made.
