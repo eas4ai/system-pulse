@@ -1,0 +1,50 @@
+{
+  "source": "966b3a49",
+  "binary_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.037s (limit 2.0s)"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      }
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "records": {
+    "result.json": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native/result.json",
+      "sha256": "3d0fa2cca58c82bf0b00814ad689af9d4ea1ff6a1ef5aee4ead0936fa15fa7e1",
+      "bytes": 454
+    },
+    "private-session.log": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native/private-session.log",
+      "sha256": "d99c19fb560f4621fe6b06cc0d8a4014348e06172b83ee0a73b98d7ce7eae548",
+      "bytes": 6516
+    },
+    "session-01/journal.jsonl": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native/session-01/journal.jsonl",
+      "sha256": "8c26b15d23ce56417aaaad336864beafb0470d986e29c4d1d0baa78599281cd3",
+      "bytes": 8743
+    },
+    "session-01/failure-frame.json": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native/session-01/failure-frame.json",
+      "sha256": "b58dcb08537d9ccef63fa8208c65fb9e1bde601c89d52569406741e37234f1fa",
+      "bytes": 9148875
+    },
+    "session-01/stale-frame-707156639573860.json": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-jfnoszbh/native/session-01/stale-frame-707156639573860.json",
+      "sha256": "d5189ca323d391469bff6d23a038030f9fe1f6cd15154d662958d9cbda5b9d91",
+      "bytes": 9762154
+    }
+  }
+}
