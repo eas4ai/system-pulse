@@ -194,8 +194,8 @@ pub(crate) fn summary(
         } else {
             "Unavailable · device absent".into()
         }
-    } else if let Some(sample) = history.latest(&monitor.id, &monitor.summary) {
-        value(Some(sample))
+    } else if let Some(sample) = summary_sample(monitor, history) {
+        value(Some(&sample))
     } else {
         "Unavailable · waiting for device reading".into()
     };
@@ -205,6 +205,26 @@ pub(crate) fn summary(
         format!("{} · {summary}", monitor.title)
     }
 }
+/// Retained descriptors supply physical context after history eviction or restart.
+/// This placeholder is presentation state only; it never enters measured history.
+pub(crate) fn summary_sample(
+    monitor: &system_pulse_model::MonitorDescriptor,
+    history: &system_pulse_model::HistoryStore,
+) -> Option<Sample> {
+    history
+        .latest(&monitor.id, &monitor.summary)
+        .cloned()
+        .or_else(|| {
+            monitor
+                .sensors
+                .iter()
+                .find(|sensor| sensor.id == monitor.summary)
+                .map(|sensor| {
+                    crate::live::missing(sensor.quantity, sensor.unit, "Sensor or device absent", 0)
+                })
+        })
+}
+
 pub(crate) fn sensor_label(
     monitor: &system_pulse_model::MonitorDescriptor,
     sensor: &system_pulse_model::SensorDescriptor,
@@ -237,5 +257,62 @@ mod accessibility_tests {
         label.write_a11y_info(&mut node);
         assert_eq!(node.value(), Some("CPU · Usage · 42.0 %"));
         assert_eq!(node.author_id(), Some("cpu:host:value:usage"));
+    }
+}
+
+#[cfg(test)]
+mod absent_summary_tests {
+    use super::*;
+    use system_pulse_model::{
+        HistoryStore, MonitorDescriptor, PhysicalUnit, Quantity, SensorDescriptor, Workspace,
+    };
+
+    #[::core::prelude::v1::test]
+    fn absent_summary_keeps_units_after_eviction_and_saved_metadata_restore() {
+        let monitor = MonitorDescriptor {
+            id: "amdgpu:retained".into(),
+            title: "Retained GPU".into(),
+            summary: "amdgpu:retained/temperature".into(),
+            sensors: vec![SensorDescriptor {
+                id: "amdgpu:retained/temperature".into(),
+                title: "Temperature".into(),
+                quantity: Quantity::Temperature,
+                unit: PhysicalUnit::Celsius,
+            }],
+        };
+        let mut history = HistoryStore::new(2).unwrap();
+        history
+            .push(
+                &monitor.id,
+                &monitor.summary,
+                Sample::measured(
+                    1000,
+                    Quantity::Temperature,
+                    -5.,
+                    None,
+                    PhysicalUnit::Celsius,
+                )
+                .unwrap(),
+            )
+            .unwrap();
+        assert_eq!(summary(&monitor, &history), "Retained GPU · -5.0 °C");
+        history.retain_keys(&std::collections::BTreeSet::new());
+        let expected = "Retained GPU · Unavailable · °C · Sensor or device absent";
+        assert_eq!(summary(&monitor, &history), expected);
+        let mut workspace = Workspace::new(serde_json::json!({}));
+        workspace.panel_mut(&monitor.id).collapsed = true;
+        workspace
+            .monitors
+            .insert(monitor.id.clone(), monitor.clone());
+        let restored: Workspace =
+            serde_json::from_str(&serde_json::to_string(&workspace).unwrap()).unwrap();
+        assert!(restored.panels[&monitor.id].collapsed);
+        assert_eq!(
+            summary(
+                &restored.monitors[&monitor.id],
+                &HistoryStore::new(2).unwrap()
+            ),
+            expected
+        );
     }
 }

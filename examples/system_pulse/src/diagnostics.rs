@@ -1,4 +1,8 @@
-//! Opt-in latest accepted snapshot evidence. One worker owns serialization and I/O.
+//! Opt-in latest rendered snapshot evidence. One worker owns serialization and I/O.
+//! `accepted_unix_ns` and the raw snapshot never change during elapsed stale updates.
+//! `render_revision` orders publications, including same-snapshot stale transitions.
+//! `rendered_at_collector_ms` is the collector-clock coordinate used to age samples;
+//! it describes presentation evaluation time, never a new source capture.
 use crate::{meters, workspace::Data};
 use serde::Serialize;
 use std::{
@@ -21,10 +25,18 @@ pub(crate) struct Rendered {
 pub(crate) struct Record {
     snapshot: Arc<Snapshot>,
     accepted_unix_ns: u64,
+    render_revision: u64,
+    rendered_at_collector_ms: u64,
     rendered: Vec<Rendered>,
 }
 impl Record {
-    pub(crate) fn new(snapshot: Arc<Snapshot>, accepted_unix_ns: u64, data: &Data) -> Self {
+    pub(crate) fn new(
+        snapshot: Arc<Snapshot>,
+        accepted_unix_ns: u64,
+        render_revision: u64,
+        rendered_at_collector_ms: u64,
+        data: &Data,
+    ) -> Self {
         let mut rendered = Vec::new();
         for monitor in &data.catalog {
             rendered.push(Rendered {
@@ -33,7 +45,7 @@ impl Record {
                 process_identity: None,
                 element_id: format!("{}:summary", monitor.id),
                 label: meters::summary(monitor, &data.history),
-                sample: data.history.latest(&monitor.id, &monitor.summary).cloned(),
+                sample: meters::summary_sample(monitor, &data.history),
             });
             for sensor in &monitor.sensors {
                 let sample = data
@@ -76,6 +88,8 @@ impl Record {
         Self {
             snapshot,
             accepted_unix_ns,
+            render_revision,
+            rendered_at_collector_ms,
             rendered,
         }
     }
@@ -100,7 +114,7 @@ impl Writer {
             .map(|path| Self::start(path.into()))
             .transpose()
     }
-    fn start(path: PathBuf) -> Result<Self, String> {
+    pub(crate) fn start(path: PathBuf) -> Result<Self, String> {
         let shared = Arc::new(Shared {
             state: Mutex::new(State::default()),
             wake: Condvar::new(),
@@ -114,9 +128,9 @@ impl Writer {
                     while state.latest.is_none() && !state.stopping { state = worker_shared.wake.wait(state).unwrap_or_else(|p| p.into_inner()); }
                     match state.latest.take() { Some(record) => record, None => break }
                 };
-                let json = serde_json::to_string(&serde_json::json!({ "schema_version": 1, "application_pid": std::process::id(), "accepted_unix_ns": record.accepted_unix_ns, "snapshot": record.snapshot.as_ref(), "rendered": record.rendered }));
+                let json = serde_json::to_string(&serde_json::json!({ "schema_version": 1, "application_pid": std::process::id(), "accepted_unix_ns": record.accepted_unix_ns, "render_revision": record.render_revision, "rendered_at_collector_ms": record.rendered_at_collector_ms, "snapshot": record.snapshot.as_ref(), "rendered": record.rendered }));
                 let result = json.map_err(|e| format!("Serialize snapshot diagnostics: {e}"))
-                    .and_then(|json| storage.write(&path, record.snapshot.sequence, &json));
+                    .and_then(|json| storage.write(&path, record.render_revision, &json));
                 if let Err(error) = result {
                     eprintln!("{error}");
                     worker_shared.state.lock().unwrap_or_else(|p| p.into_inner()).error = Some(error);
@@ -177,6 +191,8 @@ mod tests {
                     ..Snapshot::default()
                 }),
                 accepted_unix_ns: sequence,
+                render_revision: sequence,
+                rendered_at_collector_ms: sequence,
                 rendered: vec![],
             });
         }
@@ -201,6 +217,8 @@ mod tests {
                 ..Snapshot::default()
             }),
             accepted_unix_ns: 1,
+            render_revision: 1,
+            rendered_at_collector_ms: 1,
             rendered: vec![],
         });
         let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);

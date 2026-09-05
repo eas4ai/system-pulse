@@ -238,6 +238,8 @@ pub struct WorkspaceView {
     fixture_mode: bool,
     service: Option<SamplingService>,
     accepted_clock: Option<(std::time::Instant, u64)>,
+    accepted_unix_ns: u64,
+    diagnostic_revision: u64,
     diagnostics: Option<crate::diagnostics::Writer>,
     preset: Option<String>,
     timer: Option<Task<()>>,
@@ -400,6 +402,8 @@ impl WorkspaceView {
             fixture_mode,
             service,
             accepted_clock: None,
+            accepted_unix_ns: 0,
+            diagnostic_revision: 0,
             diagnostics,
             preset,
             timer: None,
@@ -487,8 +491,10 @@ impl WorkspaceView {
             if data.history.mark_stale(now, threshold) {
                 if let Some(snapshot) = &data.snapshot {
                     data.processes = live::process_views(snapshot, now, threshold);
+                    data.process_widths = live::process_widths(&data.processes);
                 }
                 drop(data);
+                self.publish_diagnostics(now);
                 self.notify_panels(cx);
             }
         }
@@ -522,7 +528,7 @@ impl WorkspaceView {
         data.processes = live::process_views(&snapshot, now_ms, interval * 2);
         data.process_widths = live::process_widths(&data.processes);
         let snapshot = std::sync::Arc::new(snapshot);
-        data.snapshot = Some(snapshot.clone());
+        data.snapshot = Some(snapshot);
         let changed = old_catalog != data.catalog;
         let updates: Vec<_> = data
             .catalog
@@ -534,10 +540,9 @@ impl WorkspaceView {
             })
             .collect();
         let identities: Vec<_> = data.processes.iter().map(|p| p.identity.clone()).collect();
-        if let Some(writer) = &self.diagnostics {
-            writer.submit(crate::diagnostics::Record::new(snapshot, unix_ns, &data));
-        }
+        self.accepted_unix_ns = unix_ns;
         drop(data);
+        self.publish_diagnostics(now_ms);
         for (view, monitor) in updates {
             let _ = view.update(cx, |panel, cx| {
                 panel.refresh(monitor, cx);
@@ -552,6 +557,24 @@ impl WorkspaceView {
         }
         self.accepted_clock = Some((std::time::Instant::now(), now_ms));
         self.notify_panels(cx);
+    }
+
+    fn publish_diagnostics(&mut self, rendered_at_collector_ms: u64) {
+        let Some(writer) = &self.diagnostics else {
+            return;
+        };
+        let data = self.shared.borrow();
+        let Some(snapshot) = data.snapshot.clone() else {
+            return;
+        };
+        self.diagnostic_revision += 1;
+        writer.submit(crate::diagnostics::Record::new(
+            snapshot,
+            self.accepted_unix_ns,
+            self.diagnostic_revision,
+            rendered_at_collector_ms,
+            &data,
+        ));
     }
 
     fn capture_sizes(&mut self, cx: &App) {
@@ -1095,4 +1118,182 @@ fn command_button(label: String, command: Command, cx: &Context<WorkspaceView>) 
         .border_color(cx.theme().border)
         .focus_visible(|style| style.border_color(cx.theme().ring))
         .on_click(cx.listener(move |this, _, window, cx| this.command(command.clone(), window, cx)))
+}
+
+#[cfg(test)]
+mod diagnostic_delivery_tests {
+    use super::{Duration, Snapshot, WorkspaceView};
+    use gpui::{AppContext, Element, Role, TestAppContext};
+
+    #[gpui::test]
+    fn elapsed_delivery_refreshes_diagnostics_without_refreshing_the_snapshot(
+        cx: &mut TestAppContext,
+    ) {
+        cx.update(gpui_component::init);
+        let mut view = None;
+        let (_, cx) = cx.add_window_view(|window, cx| {
+            let workspace = cx.new(|cx| WorkspaceView::new_fixture(window, cx));
+            view = Some(workspace.clone());
+            gpui_component::Root::new(workspace, window, cx)
+        });
+        let view = view.unwrap();
+        let dir = std::env::temp_dir().join(format!("pulse-stale-delivery-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let path = dir.join("latest.json");
+        let reading = system_pulse_collectors::Reading {
+            sensor_id: "cpu:host/usage".into(),
+            value: Some(42.),
+            total: None,
+            availability: system_pulse_collectors::Availability::Available,
+            reason: None,
+            observations: vec![],
+        };
+        let snapshot = Snapshot {
+            sequence: 43,
+            capture_started_ns: 19_900_000_000,
+            capture_finished_ns: 20_000_000_000,
+            monitors: vec![system_pulse_collectors::MonitorDescriptor {
+                id: "cpu:host".into(),
+                title: "CPU".into(),
+                kind: system_pulse_collectors::MonitorKind::Cpu,
+                summary_sensor_id: "cpu:host/usage".into(),
+            }],
+            sensors: vec![system_pulse_collectors::SensorDescriptor {
+                id: "cpu:host/usage".into(),
+                monitor_id: "cpu:host".into(),
+                title: "Usage".into(),
+                kind: system_pulse_collectors::SensorKind::Percentage,
+                unit: system_pulse_collectors::Unit::Percent,
+                source: "controlled test".into(),
+                scope: "host".into(),
+                scale: None,
+            }],
+            readings: vec![
+                reading.clone(),
+                system_pulse_collectors::Reading {
+                    sensor_id: "cpu:host/processes".into(),
+                    value: Some(1.),
+                    ..reading.clone()
+                },
+            ],
+            processes: vec![system_pulse_collectors::ProcessRow {
+                identity: system_pulse_collectors::ProcessIdentity {
+                    pid: 7,
+                    start_time_ticks: 9,
+                },
+                name: "controlled process".into(),
+                user: Some("user".into()),
+                user_reason: None,
+                cpu_percent: reading.clone(),
+                memory_bytes: reading.clone(),
+                read_bytes_per_second: reading.clone(),
+                write_bytes_per_second: reading.clone(),
+                threads: reading,
+            }],
+            ..Snapshot::default()
+        };
+        cx.update(|window, cx| {
+            view.update(cx, |this, cx| {
+                this.diagnostics = Some(crate::diagnostics::Writer::start(path.clone()).unwrap());
+                this.accept_snapshot(snapshot, window, cx);
+            })
+        });
+        let deadline = std::time::Instant::now() + Duration::from_secs(2);
+        let before: serde_json::Value = loop {
+            if let Ok(raw) = std::fs::read_to_string(&path) {
+                if let Ok(record) = serde_json::from_str::<serde_json::Value>(&raw) {
+                    if record["snapshot"]["sequence"] == 43 {
+                        break record;
+                    }
+                }
+            }
+            assert!(
+                std::time::Instant::now() < deadline,
+                "initial diagnostic write did not finish"
+            );
+            std::thread::sleep(Duration::from_millis(5));
+        };
+        let initial_history_len = cx.read(|cx| {
+            view.read(cx)
+                .shared
+                .borrow()
+                .history
+                .samples("cpu:host", "cpu:host/usage")
+                .unwrap()
+                .len()
+        });
+        cx.update(|window, cx| {
+            view.update(cx, |this, cx| {
+                this.accepted_clock = Some((
+                    std::time::Instant::now() - Duration::from_millis(3000),
+                    20_000,
+                ));
+                this.deliver(window, cx);
+                let revision = this.diagnostic_revision;
+                this.deliver(window, cx);
+                assert_eq!(
+                    this.diagnostic_revision, revision,
+                    "unchanged stale state must not publish again"
+                );
+            })
+        });
+        let writer = cx.update(|_, cx| view.update(cx, |this, _| this.diagnostics.take()));
+        drop(writer); // Flush the bounded worker's final record, without another collection.
+        let after: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap();
+        let mapping = |record: &serde_json::Value, id: &str| {
+            record["rendered"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .find(|r| r["element_id"] == id)
+                .unwrap()
+                .clone()
+        };
+        let id = "cpu:host:value:cpu:host/usage";
+        assert_eq!(mapping(&before, id)["sample"]["status"], "current");
+        cx.read(|cx| {
+            let data = view.read(cx).shared.borrow();
+            let monitor = data.catalog.iter().find(|m| m.id == "cpu:host").unwrap();
+            let sample = data.history.latest("cpu:host", "cpu:host/usage").unwrap();
+            assert_eq!(sample.status, system_pulse_model::ReadingStatus::Stale);
+            assert_eq!(
+                data.history
+                    .samples("cpu:host", "cpu:host/usage")
+                    .unwrap()
+                    .len(),
+                initial_history_len
+            );
+            let label = crate::meters::sensor_label(monitor, &monitor.sensors[0], sample);
+            let mut node = gpui::accesskit::Node::new(Role::Label);
+            crate::meters::metric_label(id.into(), label.clone()).write_a11y_info(&mut node);
+            assert_eq!(node.value(), Some(label.as_str()));
+            assert_eq!(mapping(&after, id)["label"], label);
+            assert_eq!(mapping(&after, id)["sample"]["status"], "stale");
+            assert_eq!(
+                mapping(&after, "cpu:host:summary")["label"],
+                crate::meters::summary(monitor, &data.history)
+            );
+            assert_eq!(
+                mapping(&after, "process:7:9:cell:2")["label"],
+                data.processes[0].cells[2]
+            );
+            assert!(data.processes[0].cells[2].contains("Stale"));
+        });
+        assert_eq!(
+            after["render_revision"].as_u64().unwrap(),
+            before["render_revision"].as_u64().unwrap() + 1
+        );
+        assert_eq!(before["rendered_at_collector_ms"], 20_000);
+        assert!(after["rendered_at_collector_ms"].as_u64().unwrap() >= 23_000);
+        assert_eq!(
+            mapping(&after, id)["sample"]["at_ms"],
+            mapping(&before, id)["sample"]["at_ms"]
+        );
+        assert_eq!(after["snapshot"], before["snapshot"]);
+        assert_eq!(after["accepted_unix_ns"], before["accepted_unix_ns"]);
+        assert_eq!(after["application_pid"], before["application_pid"]);
+        std::fs::remove_file(path).unwrap();
+        std::fs::remove_dir(dir).unwrap();
+    }
 }
