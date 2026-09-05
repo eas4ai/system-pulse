@@ -297,3 +297,31 @@ escalation or approval is needed. Source records are
 receipts are preserved, awaiting the next root documentation commit.
 NVIDIA hardware accuracy remains unverified. Final acceptance, independent
 final review, and Cairn Done remain outstanding.
+
+
+## 2026-09-05: Cairn reporting repair adopted; observation decision pending
+
+Native exit synchronization candidate `d912b506` passed independent SPEC and
+QUALITY reviews, including 22 focused tests and incomplete-tree regressions.
+The subsequent full run at `95af7183` passed 459 automated tests, formatting,
+Clippy and builds, but host verification missed six process counter brackets.
+Native replay did not start. Original receipts and compact artifacts are retained
+in source `docs/execution/real-system-readings/host-process-exit-gap.md/json`.
+One process missed initial supplemental admission; another was correctly retained
+but exited between the collector query and the next independent read. Admission
+repair alone cannot remove this observation limit.
+
+The developer updated production Cairn to `6879dde`. Root ran all 12 reporting
+mode tests successfully. Source mechanism now declares `results: per-requirement`.
+Independent SPEC then QUALITY review passed: thirteen-ID zero-output scenarios
+at exits 0 and 1 remain entirely unverified; actual host-pass output with exit 1
+keeps three passes and ten unverified. All 28 reporter unit tests passed.
+Historical receipts stay unchanged. No fresh aggregate ran during this adoption.
+
+A narrow proposal is drafted at source
+`docs/execution/real-system-readings/process-observation-proposal.md`: retain
+unverifiable comparisons only for independently proven process exits, preserve
+strict arithmetic and all other brackets, and require predeclared controlled
+process coverage. This changes the acceptance boundary and is not yet approved
+or implemented. The agreed specification stands. Cairn's historical failure
+streak still requests escalation; no new reporting defect was found.
