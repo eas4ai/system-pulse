@@ -402,3 +402,25 @@ completes the existing held-observation plan without changing its bounds.
   original reads/wait, and all non-input sequences callers. Complete
   focused/full checks and independent SPEC then QUALITY review.
 - [ ] Run fresh untraced native and full committed acceptance.
+
+### Reveal an endpoint displaced by collection
+
+Independent contract review approved the bounded observation recovery in
+`reveal-a-navigation-endpoint-shifted-outside-native-visibility`. This is
+not a demonstrated cause-specific fix for the old timeout; diagnostic
+visibility retries recovered and the separate freshness limit still holds.
+
+- [ ] Retain immutable expected PID/start and its key-issue snapshot index.
+  Permit recovery only with fresh coherent/current complete evidence: no
+  selected row, expected outside the instantiated span, changed index, and
+  the original numeric endpoint index inside that span. Map identities into
+  that same snapshot; ambiguous or incomplete evidence is ineligible.
+- [ ] Reveal with nonselecting vertical scrolling inside the clipped
+  Processes viewport and then prove the exact selected endpoint afresh.
+  Keep original deadlines, independent metric proof, production behavior,
+  and held-input movement untouched. Record the recovery honestly.
+- [ ] Reproduce bounded recovery and reject invalid eligibility, visible
+  unselected endpoints, foreign selection, identity loss/reuse, stale or
+  incomplete membership, and deadline exhaustion. Pass focused/full checks
+  and independent SPEC then QUALITY review.
+- [ ] Run fresh untraced native and full committed acceptance.
