@@ -96,3 +96,29 @@ malformed names, defunct parents, parentless viewports, and unchanged
 budgets and metric/exit methods. QUALITY ran five additional probes for
 transient boundary reads, node limits, strict failures, and generic lookup.
 No findings remain. Actual native timing is still pending.
+
+## Gesture reuse candidate
+
+Candidate `0b9dcfdac9d163ab55a3ceb500007d05c8fbf2fc` follows the
+[three-movement deadline failure](native-cell-gesture-failure.md). It retains
+a cell only within one gesture, checks liveness and exact identity around
+observations, and reacquires through the shared helper after invalidation.
+The separate final metric verification remains fresh.
+
+The worker reported 71 focused native tests and 175 full Python tests passing,
+plus Ruff and diff checks. Four new tests reproduced the old failure and
+three further tests preserve rejection/deadline behavior. Independent SPEC
+then QUALITY review and actual native timing remain pending.
+
+## Gesture reuse reviews
+
+Independent SPEC and QUALITY PASS on `0b9dcfda`. Each ran all 71 focused
+native tests. SPEC checked independent gestures, identity mutation during
+geometry reads, and final metric rejection of duplicate cells, rows, and
+panels introduced during movement. QUALITY checked interrupted identity
+reads, mid-observation invalidation, missing movement acknowledgement,
+and deadline exhaustion. No findings remain for this correction.
+
+The worker's full Python suite passed all 175 tests. Fresh native timing
+and complete acceptance remain pending; the earlier intermittent frame
+freshness failures are not claimed resolved.
