@@ -1,6 +1,6 @@
 # Process observation proposal
 
-Status: Draft — developer decision required. The agreed specification is unchanged.
+Status: Agreed 2026-09-05 — developer: “The rest is approved.” The agreement is incorporated into LIVE-013 and its process-exit observation policy.
 
 ## Problem
 
@@ -20,4 +20,4 @@ This proposal changes only how independently proven process exit affects host ac
 
 The alternative is to retain the universal bracket condition and leave acceptance blocked whenever an uncontrolled process exits in the observation gap. Another blind rerun may pass under quieter conditions, but cannot establish that the observer handles the same exit reliably. Seeding every initial process into faster sampling also increases the existing 4,096-observation budget pressure and does not remove the gap.
 
-No code or agreed requirement has been changed to implement this proposal.
+The agreed specification has been updated. Implementation, independent reviews and fresh acceptance remain pending.

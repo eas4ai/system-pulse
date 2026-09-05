@@ -175,11 +175,32 @@ permanent-retention, stale-snapshot, missing-subtree and deadline regressions.
 Complete independent SPEC then QUALITY review before a fresh committed run.
 No product behavior, freshness bound or exit budget changes.
 
+### Independently proven process exits
+
+The developer approved the process observation proposal on 2026-09-05. Keep every
+existing comparison and bound. Retain stat observations for previously observed
+PID/start identities through an actual terminal read, within existing capture
+and observation budgets. Resolve only missing after-counter brackets with valid
+independent before evidence and a later terminal stat observation for the same
+identity; reject permission failures, identity ambiguity/reuse, missing-before,
+known out-of-bound values, and unexplained gaps. A census omission is insufficient.
+Record allowed gaps separately as unverified with complete query windows and
+source/identity evidence; do not count them in successful bracket totals.
+
+Predeclare the existing owned child as mandatory controlled process coverage.
+Require its successful CPU and I/O counter brackets throughout capture plus all
+other existing child, host and native assertions. Missing controlled-process or
+non-process brackets remain failures. Make the aggregate validate the new
+coverage artifacts and child obligations before reporting any host requirement
+pass. Preserve old capture outcomes. Add meaningful rejection/recovery and
+artifact-gate tests, run the exact gate Python suite, obtain independent SPEC
+then QUALITY review, and perform fresh committed host/native acceptance.
+
 ### Predeclared comparison rules
 
 Static device IDs, units, total quantities and formulas compare exactly to the same source observation. CPU = 100 * delta(total - idle - iowait) / delta(total), with guest fields excluded from total; process CPU uses one logical core's elapsed ticks as denominator. RAM used = MemTotal - MemAvailable, KiB times 1024. Network and disk rates recompute exact integer counter differences over each recorded monotonic observation interval. Read/write sectors multiply by 512. Disk latency is weighted completed-operation time / completed operations, unavailable at zero operations. AMD conversion divides temperature by 1000, power by 1,000,000; frequency is retained in Hz. NVML units are defined in its adapter tests and source metadata; fan percent remains percent.
 
-Independent samples bracket each collector observation. For monotonic cumulative counters, the collector raw counter must lie within independent before/after counters. For memory and instantaneous GPU gauges, verify exact captured raw observations, parsing and conversions, then exact rendering of the consumed snapshot. Independent contemporaneous gauge samples provide supporting observations, not proof of equality at a different instant; never invent a percentage tolerance. Derived arithmetic is separately checked exactly from raw inputs. Capture source path, identity, monotonic times, raw values and bound before judging the output. Compare native formatted values to the snapshot at their capture sequence/age, allowing only documented rounding and explicitly captured later snapshots. Bind displayed snapshot identity to opt-in bounded diagnostic evidence of consumed snapshots, serialized off the UI path, and give metric text a natural-language accessible label identical to its visible formatted value. See ../execution/real-system-readings/verification-design.md.
+Independent samples bracket each collector observation except the explicitly unverified after-counter gaps allowed by the agreed process-exit policy in LIVE-013. For monotonic cumulative counters, the collector raw counter must lie within independent before/after counters. For memory and instantaneous GPU gauges, verify exact captured raw observations, parsing and conversions, then exact rendering of the consumed snapshot. Independent contemporaneous gauge samples provide supporting observations, not proof of equality at a different instant; never invent a percentage tolerance. Derived arithmetic is separately checked exactly from raw inputs. Capture source path, identity, monotonic times, raw values and bound before judging the output. Compare native formatted values to the snapshot at their capture sequence/age, allowing only documented rounding and explicitly captured later snapshots. Bind displayed snapshot identity to opt-in bounded diagnostic evidence of consumed snapshots, serialized off the UI path, and give metric text a natural-language accessible label identical to its visible formatted value. See ../execution/real-system-readings/verification-design.md.
 
 - [ ] Write verifier regressions before implementation. Mutated byte unit (1000 versus 1024), CPU normalization, elapsed interval and out-of-bound gauge each fail; correct known observations pass. A capability missing any accessible required field fails. NVIDIA absence is recorded separately from adapter tests; it never produces a hardware-accuracy pass.
 - [ ] Implement host capture and comparison using Python standard library proc/sysfs readers independent of Rust collector logic. Launch and exit a harmless named child and verify its real PID/identity appears/disappears in snapshots and the actual native Processes table. Record every required field's actual backend and permission/attribution limits.

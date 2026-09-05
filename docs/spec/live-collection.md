@@ -86,12 +86,21 @@ Falsifier: the capability report omits such a field or marks it unimplemented wh
 Mechanism: `collector-capability-coverage` check joins the required metric matrix to source/permission probes and adapter tests; an unimplemented accessible field fails the check. Unsupported attribution and denied permissions require recorded source evidence, not an adapter's absence.
 Baseline evidence: the broader [product field list](/home/shawn/workspace2/task-manager/docs/feature-spec-dockable-system-monitor.md:41) exceeds the [fixture catalog](../../examples/system_pulse/src/fixture.rs:11).
 
-[LIVE-013] The host verifier MUST reject unexplained differences from predeclared quantity definitions and comparison bounds.
-Falsifier: a wrong unit, normalization, counter interval, or out-of-bound value passes, or the verifier chooses its bounds after seeing the app's result.
+[LIVE-013] The host verifier MUST reject unexplained differences or missing mandatory comparisons under the predeclared quantity definitions, comparison bounds, and process-exit observation policy.
+Falsifier: a wrong unit, normalization, counter interval, out-of-bound value, or unexplained missing comparison passes; an exited-process gap counts as a verified comparison; controlled-process brackets are missing; or the verifier chooses its bounds or mandatory coverage after seeing the app's result.
 Mechanism: `native-live-readings` verifier records the source, formula, units, monotonic sample window, raw counters, and comparison bound before capture; verifier regression cases intentionally inject each mismatch and require failure.
 Baseline evidence: [existing acceptance](../../examples/system_pulse/NATIVE_ACCEPTANCE.md) proves fixture interactions and supplies no host-accuracy comparison.
 
 Comparison rules: identical captured inputs require exact numeric agreement before documented display rounding. Independent live readings use recorded bracketing sample windows and bounds derived from source precision and measured variation; unbounded percentage tolerances are not acceptable. Rate checks recompute counter deltas over their recorded elapsed time. CPU/process checks state the CPU denominator explicitly, including whether process usage may exceed 100%; memory checks name the exact used/available definition. GPU and disk comparisons name the device and attribution scope. A mismatch fails acceptance unless its explanation fits those predeclared bounds.
+
+
+## Process-exit observation policy
+
+Agreed 2026-09-05: the developer approved the process-exit observation proposal and the related escalation. The earlier universal after-counter condition is replaced only for independently proven exits.
+
+Every available process reading retains exact source, PID/start identity, unit, normalization and counter arithmetic checks. Independent brackets remain mandatory for non-process counters and the predeclared controlled child whose lifetime covers capture. Other real processes receive the same attempted comparisons. Only independently documented exit of the observed identity may explain a missing after-counter bracket; its raw readings, query windows and terminal stat evidence remain recorded, and the missing comparison is labeled unverified, never passed or assigned an inferred value. Available comparison bounds still apply.
+
+Census absence alone does not prove exit. Permission errors, ambiguous identities or PID reuse, missing before observations, and unexplained gaps remain failures. Acceptance may complete with these disclosed exited-process gaps only when the controlled workload and every other mandatory comparison pass. Coverage and the controlled workload are declared before capture. Previous failed captures retain their original outcomes.
 
 ## Execution commitment
 
