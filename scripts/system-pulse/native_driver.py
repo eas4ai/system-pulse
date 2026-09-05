@@ -830,9 +830,10 @@ class Native:
 
         return self.wait(poll, seconds, "fresh sequence progression")
 
-    def selected(self, deadline):
+    def selected(self, deadline, strict=False, panel=None):
+        panel = panel if panel is not None else self.panel("processes")
         matches = []
-        for node in self.walk(self.panel("processes"), deadline, skip_cells=True):
+        for node in self.walk(panel, deadline, skip_cells=True, strict=strict):
             aid = node.get_accessible_id() or ""
             if (
                 aid.startswith("process:")
@@ -886,6 +887,122 @@ class Native:
 
         return self.wait(poll, message="selected " + aid, deadline=deadline)
 
+    def navigation_panel(self, deadline):
+        """Discover the unique current panel and retain its application ancestry."""
+        panels = [
+            node
+            for node in self.walk(
+                deadline=deadline,
+                skip_cells=True,
+                strict=True,
+                skip_monitor_bodies=True,
+            )
+            if node.get_name() == "processes" and node.get_role_name() == "panel"
+        ]
+        require(len(panels) <= 1, "nonunique native Processes panel")
+        if not panels:
+            raise IncompleteNativeTree("incomplete native tree: Processes panel absent")
+        application = self.root()
+        path = [panels[0]]
+        while path[-1] != application:
+            require(time.monotonic() < deadline, "navigation panel deadline expired")
+            require(len(path) < 40, "navigation panel ancestry bound exceeded")
+            parent = path[-1].get_parent()
+            if not self.alive(parent) or parent in path:
+                raise IncompleteNativeTree("incomplete native tree: panel ancestry")
+            path.append(parent)
+        if not self.navigation_panel_current(path, deadline):
+            raise IncompleteNativeTree("incomplete native tree: panel membership")
+        return path
+
+    def navigation_panel_current(self, path, deadline):
+        """Parent pointers alone do not prove membership after a replacement."""
+        if not path:
+            return False
+        # Include the desktop->application link without root()/alive() recursively
+        # flushing the entire application's AT-SPI cache on every pacing check.
+        current = path + [Atspi.get_desktop(0)]
+        for child, parent in zip(current, current[1:]):
+            require(time.monotonic() < deadline, "navigation panel deadline expired")
+            if child is None or parent is None:
+                return False
+            child.clear_cache_single()
+            parent.clear_cache_single()
+            if child.get_state_set().contains(
+                Atspi.StateType.DEFUNCT
+            ) or parent.get_state_set().contains(Atspi.StateType.DEFUNCT):
+                return False
+            index = child.get_index_in_parent()
+            if index < 0 or child.get_parent() != parent:
+                return False
+            if parent.get_child_at_index(index) != child:
+                return False
+            child.clear_cache_single()
+            if child.get_parent() != parent:
+                return False
+        return (
+            path[-1].get_process_id() == self.app.pid
+            and path[0].get_name() == "processes"
+            and path[0].get_role_name() == "panel"
+        )
+
+    def navigation_selection(
+        self, expected, target, deadline, reconcile=False, path=None
+    ):
+        """Observe exact selection in a complete tree within one fresh publication."""
+
+        def poll():
+            nonlocal path
+            before = self.frame()
+            require(
+                target in map(identity, before["snapshot"]["processes"]),
+                "navigation target absent: " + target,
+            )
+            retained, path = path, None
+            if retained is None or not self.navigation_panel_current(
+                retained, deadline
+            ):
+                retained = self.navigation_panel(deadline)
+            if not self.navigation_panel_current(retained, deadline):
+                return None
+            # Panel discovery may span collection intervals; bracket selection
+            # itself with one fresh publication after discovery has completed.
+            before = self.frame()
+            selected = self.selected(deadline, strict=True, panel=retained[0])
+            if not self.navigation_panel_current(retained, deadline):
+                return None
+            if selected and not (
+                self.alive(selected[1])
+                and selected[1].get_accessible_id() == selected[0]
+                and selected[1].get_state_set().contains(Atspi.StateType.SELECTED)
+            ):
+                return None
+            after = self.frame()
+            ids = list(map(identity, after["snapshot"]["processes"]))
+            require(target in ids, "navigation target absent: " + target)
+            if (before["snapshot"]["sequence"], before["render_revision"]) != (
+                after["snapshot"]["sequence"],
+                after["render_revision"],
+            ):
+                return None
+            path = retained
+            if reconcile:
+                require(
+                    selected is None or selected[0] == expected,
+                    f"process selection transferred without input: {expected} -> {selected}",
+                )
+                if expected not in ids:
+                    # Publication may precede native reconciliation. Only a complete
+                    # observation of cleared selection permits a new boundary key.
+                    return (None, after, path) if selected is None else None
+            return (
+                (selected, after, path)
+                if selected and selected[0] == expected and expected in ids
+                else None
+            )
+
+        return self.wait(poll, message="selected " + expected, deadline=deadline)
+
     def navigate(self, target):
         deadline = time.monotonic() + 180
         self.navigation_context = {
@@ -911,8 +1028,15 @@ class Native:
 
     def _navigate(self, target, deadline):
         self.enter_processes()
+        batch_deadline = min(deadline, time.monotonic() + 8)
+        path = self.wait(
+            lambda: self.navigation_panel(batch_deadline),
+            message="current navigation panel",
+            deadline=batch_deadline,
+        )
         rows = self.frame()["snapshot"]["processes"]
         ids = list(map(identity, rows))
+        require(target in ids, "navigation target absent: " + target)
         index = ids.index(target)
         self.save(
             "navigation-start-" + target.replace(":", "-") + ".json",
@@ -931,16 +1055,71 @@ class Native:
             population=len(ids),
             distance=min(index, len(ids) - 1 - index),
         )
-        self.key(key)
-        selected = self.acknowledge(
-            ids[0 if key == "Home" else -1], min(deadline, time.monotonic() + 8)
+        require(
+            time.monotonic() < batch_deadline, "navigation original deadline expired"
         )
-        while selected[0] != target:
+        self.key(key)
+        selected, observed, path = self.navigation_selection(
+            ids[0 if key == "Home" else -1], target, batch_deadline, path=path
+        )
+        while True:
             self.navigation_context.update(
                 last_acknowledged_identity=selected[0], phase="next batch"
             )
+            batch_deadline = min(deadline, time.monotonic() + 8)
+            require(
+                time.monotonic() < batch_deadline,
+                "navigation original deadline expired",
+            )
+            try:
+                current = self.navigation_panel_current(path, batch_deadline) and (
+                    self.alive(selected[1])
+                    and selected[1].get_accessible_id() == selected[0]
+                    and selected[1].get_state_set().contains(Atspi.StateType.SELECTED)
+                )
+            except (GLib.Error, AttributeError, TypeError):
+                current = False
+                path = None
             frame = self.frame()
             ids = list(map(identity, frame["snapshot"]["processes"]))
+            require(target in ids, "navigation target absent: " + target)
+            if (
+                (frame["snapshot"]["sequence"], frame["render_revision"])
+                != (observed["snapshot"]["sequence"], observed["render_revision"])
+                or selected[0] not in ids
+                or not current
+            ):
+                self.navigation_context["phase"] = "reconcile previous selection"
+                selected, frame, path = self.navigation_selection(
+                    selected[0],
+                    target,
+                    batch_deadline,
+                    reconcile=True,
+                    path=None if selected[0] == target else path,
+                )
+                ids = list(map(identity, frame["snapshot"]["processes"]))
+                if selected is None:
+                    index = ids.index(target)
+                    key = "Home" if index < len(ids) / 2 else "End"
+                    require(
+                        time.monotonic() < batch_deadline,
+                        "navigation original deadline expired",
+                    )
+                    self.key(key)
+                    selected, observed, path = self.navigation_selection(
+                        ids[0 if key == "Home" else -1],
+                        target,
+                        batch_deadline,
+                        path=path,
+                    )
+                    continue
+            if selected[0] == target:
+                # Intermediate acknowledgements pace input. Success independently
+                # rediscovers the unique current panel and exact selected target.
+                selected, _, _ = self.navigation_selection(
+                    target, target, batch_deadline, reconcile=True
+                )
+                return selected
             delta = ids.index(target) - ids.index(selected[0])
             self.navigation_context.update(
                 target_index=ids.index(target), population=len(ids), distance=abs(delta)
@@ -962,19 +1141,14 @@ class Native:
                 deadline=deadline,
             )
             for _ in range(count):
+                require(
+                    time.monotonic() < batch_deadline,
+                    "navigation original deadline expired",
+                )
                 self.key("Down" if delta > 0 else "Up")
-            selected = self.acknowledge(expected, min(deadline, time.monotonic() + 8))
-            self.navigation_context.update(
-                last_acknowledged_identity=selected[0],
-                phase="newer snapshot before next batch",
+            selected, observed, path = self.navigation_selection(
+                expected, target, batch_deadline, path=path
             )
-            self.wait(
-                lambda: self.frame()["snapshot"]["sequence"]
-                > frame["snapshot"]["sequence"],
-                message="fresh next navigation snapshot",
-                deadline=min(deadline, time.monotonic() + 8),
-            )
-        return selected
 
     def shutdown(self):
         if self.app.poll() is not None:
