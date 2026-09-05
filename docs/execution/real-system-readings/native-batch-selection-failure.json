@@ -1,0 +1,43 @@
+{
+  "commit": "41c345a1",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-74h7o_8f/native",
+  "diagnostic_only": false,
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "sha256": {
+    "result.json": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+    "session-01/journal.jsonl": "8d12e53561fbfc66bb45ab930f5be7fd07820436cbc9bd3f5f54a5eed0a59425",
+    "session-01/real-child-start.json": "6db507e1adfabc842fd020938f3ee0b1cc59db8d5271bebc4a995dff8c223fef",
+    "session-01/failure.png": "1de9523d486736ec589d445144beb07df344d5c5771bd63269e5e34b3768bbd9",
+    "session-01/cleanup.json": "234b2ee854ed5139931bcfa8f218cffbd783d6a9bfa406d18c0df73b8f561b3e",
+    "transport-cleanup.json": "018033b0500c587c8742153238821f7f39a2167dc0674e544adf4e9a10e169bf",
+    "session-01/held-up-25hz.json": "eb558debd81a443634631d02de223cefef61e1915620884d2148537140e8db07",
+    "session-01/exact-64-up.json": "27117736086b4bb5ecf3fe0ab8e1a7b27172739676c98083f693939c4990b4a7"
+  }
+}
