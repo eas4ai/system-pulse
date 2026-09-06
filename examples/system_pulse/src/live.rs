@@ -5,6 +5,9 @@ use system_pulse_model::{
     SensorDescriptor as Sensor, Workspace,
 };
 
+#[cfg(test)]
+mod gpu_tests;
+
 pub(crate) fn presentations() -> Vec<Monitor> {
     vec![
         Monitor {
@@ -123,7 +126,7 @@ pub(crate) fn convert_value(
     reading: &collectors::Reading,
     at_ms: u64,
 ) -> Sample {
-    let at_ms = reading
+    let observed_ms = reading
         .observations
         .iter()
         .map(|o| o.captured_ns / 1_000_000)
@@ -132,7 +135,7 @@ pub(crate) fn convert_value(
     let mut reason = reading.reason.clone();
     if reading.availability == Availability::Available {
         if let Some(value) = reading.value {
-            match Sample::measured(at_ms, quantity, value, reading.total, unit) {
+            match Sample::measured(observed_ms, quantity, value, reading.total, unit) {
                 Ok(mut sample) => {
                     sample.reason = reason;
                     return sample;
@@ -149,6 +152,8 @@ pub(crate) fn convert_value(
         Availability::Unavailable => ReadingStatus::Unavailable,
     };
     Sample {
+        // This is the outcome of this capture, not a new measurement of any
+        // retained raw operand. Successful values keep their source time above.
         at_ms,
         quantity,
         value: None,
@@ -243,17 +248,7 @@ impl LiveState {
                         .count()
                         > 1
                 {
-                    format!(
-                        "{} · {}",
-                        m.title,
-                        m.id.chars()
-                            .rev()
-                            .take(12)
-                            .collect::<String>()
-                            .chars()
-                            .rev()
-                            .collect::<String>()
-                    )
+                    format!("{} · {}", m.title, m.id)
                 } else {
                     m.title.clone()
                 };
@@ -283,6 +278,9 @@ impl LiveState {
             .map(|r| (r.sensor_id.as_str(), r))
             .collect();
         let mut present = BTreeSet::new();
+        // A repeated native observation may arrive inside a fresh snapshot.
+        // Age the retained value without manufacturing another history point.
+        history.mark_stale(now_ms, interval_ms.saturating_mul(2));
         for sensor in &snapshot.sensors {
             let mut sample = readings.get(sensor.id.as_str()).map_or_else(
                 || {
@@ -296,8 +294,14 @@ impl LiveState {
             {
                 sample.status = ReadingStatus::Stale;
             }
-            history.push(&sensor.monitor_id, &sensor.id, sample)?;
             present.insert((sensor.monitor_id.clone(), sensor.id.clone()));
+            if history
+                .latest(&sensor.monitor_id, &sensor.id)
+                .is_some_and(|previous| sample.at_ms <= previous.at_ms)
+            {
+                continue;
+            }
+            history.push(&sensor.monitor_id, &sensor.id, sample)?;
         }
         let mut count = census(snapshot);
         if count.status == ReadingStatus::Current
@@ -305,7 +309,12 @@ impl LiveState {
         {
             count.status = ReadingStatus::Stale;
         }
-        history.push("processes", "count", count)?;
+        if history
+            .latest("processes", "count")
+            .is_none_or(|previous| count.at_ms > previous.at_ms)
+        {
+            history.push("processes", "count", count)?;
+        }
         present.insert(("processes".into(), "count".into()));
         history.retain_keys(&present);
         self.sequence = Some(snapshot.sequence);
