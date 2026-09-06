@@ -9408,6 +9408,7 @@ dependencies = [
 name = "system-pulse-collectors"
 version = "0.1.0"
 dependencies = [
+ "libc",
  "nvml-wrapper",
  "rustix",
  "serde",

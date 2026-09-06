@@ -29,6 +29,8 @@ pub struct HostCollector {
     pub(crate) system: sysinfo::System,
     pub(crate) networks: sysinfo::Networks,
     nvidia: crate::nvidia::NvidiaCollector,
+    #[cfg(target_os = "linux")]
+    intel: crate::intel::IntelCollector,
 }
 impl Default for HostCollector {
     fn default() -> Self {
@@ -50,6 +52,8 @@ impl HostCollector {
             system: sysinfo::System::new(),
             networks: sysinfo::Networks::new(),
             nvidia: crate::nvidia::NvidiaCollector::new(),
+            #[cfg(target_os = "linux")]
+            intel: crate::intel::IntelCollector::new(),
         }
     }
     /// Captures a complete owned snapshot. Nanoseconds are relative to this collector's creation.
@@ -77,6 +81,8 @@ impl HostCollector {
             self.collect_cpu_memory(&mut s);
             self.collect_processes(&mut s);
             self.collect_devices(&mut s);
+            self.intel
+                .collect(&mut s, &self.root, self.origin, self.fixed_ns);
         }
         #[cfg(not(target_os = "linux"))]
         self.collect_portable(&mut s);
