@@ -11,4 +11,4 @@ First reproduce the recorded race in docs/execution/intel-and-apple-gpus/linux-p
 
 ## Realized by
 
-(none yet: recorded, not built)
+3ab14ff0bcd9a612a60477b397252bee48b2a48d fix: resolve pending process reveals against current rows

@@ -129,7 +129,9 @@ The [executable falsifier and correction](../execution/intel-and-apple-gpus/linu
 are committed at `3ab14ff0`, with an observed failing viewport regression before
 the correction and 67 application tests passing afterward. Independent
 specification review [passed](../execution/intel-and-apple-gpus/linux-pending-process-reveal-spec-review.md);
-fresh quality review follows. This does not close
+fresh [quality review also passed](../execution/intel-and-apple-gpus/linux-pending-process-reveal-quality-review.md).
+The focused source finding is closed; fresh full Linux preservation remains
+pending. This does not close
 the Mac finding or attribute the original freshness failures.
 
 - [ ] Complete and independently review the [recorded Mac application/dispatcher lifetime correction](../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md) as focused single-implementer work. Commit the reviewed implementation and remove its in-progress marker; update each applicable source decision's single `Realized by` entry with its actual resolving commit and exact subject.

@@ -1,7 +1,9 @@
 # Pending process reveal: identity/index race
 
 Status: Recorded before correction; executable falsifier subsequently confirmed.
-Correction `3ab14ff0` awaits independent specification and quality review.
+Correction `3ab14ff0` passed independent [specification](linux-pending-process-reveal-spec-review.md)
+and [quality](linux-pending-process-reveal-quality-review.md) review. F1 is closed
+for the demonstrated source race; native preservation remains pending.
 
 Independent read-only investigation of the retained
 [writer-only navigation failure](gpu-linux-preservation-failure.md#writer-only-syscall-diagnostic)
@@ -72,4 +74,5 @@ characterization. The correction then passed both cases and four focused
 behavior tests, with 67 application tests passing. Root independently verified
 26 artifact hashes, the 12 recorded check logs, both committed source-file hashes
 and the original production-file hash. Those integrity checks do not substitute
-for the pending independent reviews or native preservation.
+for independent reviews or native preservation. Both source reviews subsequently
+passed; native preservation remains a separate obligation.
