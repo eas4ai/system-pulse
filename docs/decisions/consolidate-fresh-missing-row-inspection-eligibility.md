@@ -13,3 +13,13 @@ For controlled-child missing-row cell preparation only, use the first fresh comp
 ## Realized by
 
 (none yet: recorded, not built)
+
+
+Independent SPEC and QUALITY reviews passed with no findings; see the
+[implementation](../execution/real-system-readings/native-inspection-eligibility-implementation.md)
+and [review](../execution/real-system-readings/native-inspection-eligibility-review.md).
+Fresh untraced focused replay and full aggregate acceptance remain pending.
+
+## Realized by
+
+- becae4b3ea251148e0560994c0e8551b5cd7287c test: consolidate fresh missing-row inspection eligibility

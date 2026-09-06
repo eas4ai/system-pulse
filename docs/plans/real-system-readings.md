@@ -613,14 +613,14 @@ its first wheel. The [decision](../decisions/consolidate-fresh-missing-row-inspe
 removes that inherited duplicate proof only from the explicit missing-row callback.
 The failed capture does not quantify traversal cost or prove the timeout cause.
 
-- [ ] Let one fresh complete strict unique coherent inspection observation both
+- [x] Let one fresh complete strict unique coherent inspection observation both
   establish all existing eligibility guards and dispatch the first nonselecting
   reveal. Keep final publication/membership/clipped-viewport checks and original
   post-journal dispatch deadlines. Rejection must discard provisional permission.
-- [ ] Retain separate fresh strict exact selected-child proof after the wheel,
+- [x] Retain separate fresh strict exact selected-child proof after the wheel,
   ordinary unique cell lookup and every metric/clipping comparison. Keep pre-exit,
   generic navigation, pending-exit recovery and held-input defaults unchanged.
-- [ ] Reproduce duplicate traversal with bounded simulated costs, and cover all
+- [x] Reproduce duplicate traversal with bounded simulated costs, and cover all
   guard, stale/partial/ambiguous/publication-change, rejection-reset, post-wheel
   proof and journal-expiry paths. Run focused/full Python tests, relevant Ruff,
   diff and documentation checks, then independent SPEC followed by QUALITY review.

@@ -2,7 +2,8 @@
 
 Implemented the [bounded consolidation decision](../../decisions/consolidate-fresh-missing-row-inspection-eligibility.md)
 against base `c5326f3c8539e7705ccdb95d824e25d3af40095e`.
-Independent SPEC and QUALITY review remain pending.
+Independent SPEC and QUALITY reviews passed; see the
+[review record](native-inspection-eligibility-review.md).
 
 ## Behavior
 
@@ -90,4 +91,5 @@ Reviewed all 14 production rules. The source delta adds a narrow opt-in and skip
 one inherited preparation branch; it does not introduce a retry, input policy,
 cache, thread or trace mode. Negative fixtures and full verification preserve
 the acceptance guards and default paths. No known defect remains from this
-self-audit. Independent SPEC, then QUALITY review, precede the next live replay.
+self-audit. Independent SPEC and QUALITY reviews subsequently passed. The next
+fresh untraced native replay remains pending.
