@@ -46,10 +46,30 @@ failure and reindex reveal preserved native/read/input calls, outcomes, prior
 event/save payloads and simulated deadlines. No source edits, builds or live
 runs were performed.
 
+## Correction and re-review
+
+Correction `2df34d14b6d0e2f2a37b7e4093f5ccee2c6c7a17` passes the already-read
+publication to the helper and guards extraction together with mapping. It adds
+no read or retained publication. Missing process data and a null snapshot first
+reproduced error replacement in both scan handlers, then preserved the exact
+original exception, one scan attempt and bounded mapping error after correction.
+
+The implementer passed all 357 Python tests, including thirteen focused tests,
+plus all-script Ruff lint, changed-file formatting, whitespace and five note
+links. Independent SPEC delta review returned **PASS** after thirteen focused
+tests and twelve additional malformed-frame/error probes, scoped Ruff and diff
+checks. It found no reads, retries, retained frames or deadline changes.
+
+Independent QUALITY re-review returned **PASS**, closing the P2 finding with no
+remaining issue. All thirteen focused tests passed independently. The original
+failing probe now preserves the exact exception object; an additional probe
+confirmed publication data is not retained. Neither re-review ran builds or
+native capture or changed source.
+
 ## Remaining work
 
-- [ ] Correct and verify the partial-mapping extraction finding.
-- [ ] Complete independent QUALITY review.
+- [x] Correct and verify the partial-mapping extraction finding.
+- [x] Complete independent QUALITY review.
 - [ ] Run the fresh focused native replay with publication tracing disabled.
 
 Native instantiated-selection observations cannot establish hidden application

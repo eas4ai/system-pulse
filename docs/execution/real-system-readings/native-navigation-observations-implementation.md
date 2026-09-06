@@ -2,8 +2,8 @@
 
 Implemented the [navigation observation decision](../../decisions/retain-bounded-navigation-observation-failures.md)
 against base `883724fb9d3761ffb513d19e1192f76dff53853c`.
-Initial SPEC review passed. The QUALITY correction below awaits independent
-review of the delta.
+Independent SPEC and QUALITY reviews passed after the correction below; see
+the [review record](native-navigation-observations-review.md).
 
 ## Behavior
 
@@ -106,5 +106,5 @@ Reviewed all 14 production rules. The source change is confined to navigation
 diagnostics, a small helper and fixture compatibility. Failure handling,
 retention bounds, unchanged call sequences and unchanged acceptance behavior
 have automated checks. No known implementation defect remains from the
-self-audit. Independent SPEC, then QUALITY review, precede the parent's fresh
-focused replay with publication tracing disabled.
+self-audit. Independent SPEC and QUALITY reviews subsequently passed. The parent's
+fresh focused replay with publication tracing disabled remains pending.

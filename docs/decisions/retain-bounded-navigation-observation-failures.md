@@ -16,6 +16,12 @@ Instrumentation adds bounded timestamp and memory bookkeeping around existing re
 
 Write tests first for partial/complete scans, selected competitors versus no selection, changing publication brackets and recorded rejection causes; prove fixed retention and individual bounds, original errors/deadlines preserved, no invented completions and no added read/input calls. Run relevant/full Python verification and scoped lint/format/documentation checks, then independent SPEC followed by QUALITY review. Run one fresh focused native replay with publication tracing disabled and preserve its outcome. Record any cause-supported remedy as a separate decision before changing behavior. Fresh untraced full aggregate acceptance and final review remain mandatory.
 
+Independent SPEC and QUALITY reviews passed after correcting guarded diagnostic
+input extraction. See the [implementation](../execution/real-system-readings/native-navigation-observations-implementation.md)
+and [review](../execution/real-system-readings/native-navigation-observations-review.md).
+The fresh focused replay and full aggregate acceptance remain pending.
+
 ## Realized by
 
-(none yet: recorded, not built)
+- 125971f244e58fe8020b97fbef0490a96a5ef6d4 test: retain bounded native navigation failure observations
+- 2df34d14b6d0e2f2a37b7e4093f5ccee2c6c7a17 test: preserve scan errors on malformed observation frames

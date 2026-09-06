@@ -566,14 +566,14 @@ The [independent traced-failure review](../execution/real-system-readings/native
 cannot distinguish competing selection, incomplete discovery and changing
 publication brackets from the current artifacts. This is observation work only.
 
-- [ ] Add a fixed-capacity history of at most 64 navigation observations, scoped
+- [x] Add a fixed-capacity history of at most 64 navigation observations, scoped
   to the active navigation operation. Bound every retained field and collection;
   retain evicted/observed counts. Capture existing operation/phase, exact issued
   identity/index and original deadlines, monotonic start/end, discovery and scan
   durations, before/after publication, panel-validation outcome, native selected
   identity/count, partial/complete row scan and mapped span, and rejection reason.
   Null or missing means unobserved. Native selection is not model selection.
-- [ ] Observe existing reads and decisions without adding accessibility/procfs
+- [x] Observe existing reads and decisions without adding accessibility/procfs
   reads, snapshot copies, input, retry, sleep or policy changes. Add no success-path
   filesystem I/O, thread, polling loop, unbounded log or queue. Serialize bounded
   failure context through the existing failure artifact path; diagnostic errors
@@ -581,7 +581,7 @@ publication brackets from the current artifacts. This is observation work only.
   process lists in the history. Keep the current freshness and 8/180/5-second
   deadlines, exact successful acknowledgements, proven-exit requirements, all
   sixteen child metrics, controlled exit and held-input proofs unchanged.
-- [ ] Write failing tests for complete/rejected/partial observations, wrong or
+- [x] Write failing tests for complete/rejected/partial observations, wrong or
   absent native selection, changing publication brackets, original exception and
   deadline preservation, bounded retention/fields and no added read/input calls.
   Verify relevant/full Python tests, scoped Ruff and documentation; commit and
