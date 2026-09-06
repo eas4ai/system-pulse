@@ -3,8 +3,8 @@
 ## Working state
 
 - Complete: pure conversion, failure, identity and service tests; 96 collector tests passed on Linux.
-- In progress: native IOReport, Metal/IOKit, SMC/HID implementation and local verification.
-- Pending: committed native compile/run, evidence, self-review and candidate delivery.
+- Complete: native IOReport, Metal/IOKit, SMC/HID implementation; Linux and arm64 Mac verification.
+- In progress: candidate handoff for independent SPEC then QUALITY review (root orchestration).
 
 ## Native source selection before implementation
 
@@ -39,7 +39,13 @@ The required 75 percent, 600 MHz and 2 W tests failed against unimplemented conv
 
 Linux passed 96 collector tests, strict Clippy, formatting and diff whitespace checks before the final native archive. The preliminary committed source `911848a8f0d6482870d774e91711a152e8819786` compiled on the arm64 M1 Pro and passed 39 native tests. A three-snapshot 500 ms run exited zero and returned the expected physical GPU, idle residency/power, shared-memory counters, guarded SMC values and independent unavailable fields. The preliminary native Clippy run found one unused import; it is corrected in the next checkpoint. Its archive and logs remain separate from final evidence.
 
-Final native test/Clippy/load evidence is pending the corrected committed archive. This implementation checkpoint is not GPU-008 accuracy acceptance, a full GPUI build or a UI/persistence replay.
+The corrected committed source `df2300f2a6af5a9e6bf0ebe60d725379096c2b46` passed 96 Linux tests and 44 native tests. Strict Clippy and formatting passed on both systems, and the native collector binary built without warnings. [Hashed command evidence](apple-native-implementation-evidence.json) retains source/archive/lock/binary/script/log hashes and exit codes; [selected original Apple observations](apple-native-implementation-observations.json) retain the raw fields from four frames. All 21 remote artifact transfers were checked for exact size and SHA-256.
+
+The native collector emitted 40 snapshots at 500 ms around a hash-verified 15-second Metal compute workload. Collector PID 2857 and workload PID 2863 both exited zero and were reaped. The capture showed activity reaching 100 percent, active-weighted frequency reaching 1,296,000,000 Hz, and power reaching 9.815226813992421 W. Shared allocation and in-use counters remained available in all 40 snapshots. Tg05 and Tg0D each recovered from the software guard to 34 unmodified current temperature readings; maxima were 52.27031326293945 and 49.221675872802734 Celsius respectively. Tg0L/Tg0T reported native key absence, HID reported no attributable service, and the fan retained its attribution limitation.
+
+A separate Python calculation reconstructed all 257 measured Apple values from the retained operands, within relative/absolute tolerance 1e-12, and checked the 12 guarded raw temperature readings. This checks internal operand sufficiency, not an external accuracy comparison. The actual native binary SHA-256 is `8e250888c1e05326b70365da32e7ed374ca53e2a347cca7f1bc926f7b48e015c`; the immutable remote copy is `apple-df2300f2-pulse-snapshot` in the dedicated validation directory. The complete 40-frame log and preliminary attempt remain under `/home/shawn/workspace2/task-manager-artifacts/apple-collector/` and on the Mac.
+
+This implementation checkpoint is not GPU-008 accuracy acceptance, a full GPUI build or a UI/persistence replay. Only M1 Pro has native execution evidence. Other Apple generations, multi-GPU native attribution, denied-permission behavior and sleep/wake still require hardware observations. The SMC software guard can withhold genuine cold readings and cannot certify every higher reading's validity.
 
 ## Production self-audit
 
@@ -51,9 +57,19 @@ Final native test/Clippy/load evidence is pending the corrected committed archiv
 6. Loads native APIs from fixed system paths; no monitoring wrappers or remote production calls.
 7. Clears invalid baselines and absent devices; re-enumerates and retries optional sources each capture.
 8. Uses bounded loops and scoped native ownership inside the existing one-slot worker pipeline.
-9. Maintains the working-state list above; native final verification remains in progress.
+9. Maintains the working-state list above; native verification is complete and independent review is next.
 10. Exercises arithmetic, lifecycle, failure/recovery, attribution and worker ownership; records actual native commands and logs separately.
 11. Distinguishes preliminary compile/run evidence from native accuracy and untested hardware profiles.
 12. Escalated ambiguous SMC semantics and followed the documented resolution without inventing a hardware flag.
-13. Reviewed these rules and corrected the known scalar/native-warning findings; final native validation remains the delivery gate.
+13. Reviewed these rules, corrected the scalar/native-warning findings and completed the final native checks before delivery.
 14. Uses source names, physical units and explicit limitation text in the capability record.
+
+## Commands actually run
+
+```sh
+rtk cargo test --locked -p system-pulse-collectors
+rtk cargo clippy --locked -p system-pulse-collectors --all-targets -- -D warnings
+rtk cargo fmt -p system-pulse-collectors -- --check
+```
+
+These passed on Linux (96 tests) and natively on the Mac (44 tests). The native build also ran `cargo build --locked -p system-pulse-collectors --bin pulse-snapshot` with two build jobs and the dedicated shared target cache. Native commands ran through bounded SSH Python launchers with task-owned process groups; the exact commands, launcher hashes and bounds are retained in the evidence bundle. The actual immutable collector command was `apple-df2300f2-pulse-snapshot --count 40 --interval-ms 500`. The workload retained its verified original hash and 15-second limit. No full application build, GUI action, Cairn acceptance or GPU hardware-accuracy pass was claimed here.
