@@ -660,5 +660,10 @@ The failed capture proves blocked qualification, not successful recovery.
   prefix expiry, publication advance, hard-block, existing-block, wrong final
   selection and deadline cases. Run focused/full Python tests, relevant Ruff,
   whitespace/doc links, then independent SPEC followed by QUALITY review.
-- [ ] Run one fresh untraced focused replay and retain its actual outcome.
+- [x] Run one fresh untraced focused replay and retain its actual outcome.
   Fresh full aggregate acceptance and final review remain required.
+
+The [fresh untraced focused run](../execution/real-system-readings/native-prior-selection-focused-pass.md)
+passed all sixteen child comparisons, controlled exit and held/exact-input checks.
+It exercised inspection recovery under a fifteen-second discovery deadline, with
+no intermediate navigation recovery event. Full committed acceptance remains open.

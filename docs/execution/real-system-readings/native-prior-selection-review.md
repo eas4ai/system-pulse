@@ -43,6 +43,8 @@ Actual checks:
 
 The reviewer made no edits and ran no build, native replay or Cairn action.
 Both reviews are complete. The implementer passed all 381 Python tests against
-final source. Fresh focused untraced replay, full aggregate acceptance and final
-review remain required. The failed capture remains failed; live recovery is
-not yet proven.
+final source. The [fresh untraced focused replay](native-prior-selection-focused-pass.md)
+subsequently passed all sixteen comparisons and controlled exit. It exercised
+inspection recovery under fifteen-second discovery, with no navigation recovery
+event. The failed capture remains failed. Full aggregate acceptance and final
+review remain required.

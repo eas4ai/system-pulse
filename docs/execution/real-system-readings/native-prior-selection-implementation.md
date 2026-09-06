@@ -101,10 +101,12 @@ The [captured replay](native-prior-acknowledgement-review.md) remains FAIL. The
 fixture supplies a recoverable native tree and exact post-wheel selection; it
 does not prove the live run would have passed the previously unreached input
 guards. No Rust/product changes, builds or live runs were performed. Fresh
-focused untraced replay and full acceptance remain pending.
+[focused untraced replay](native-prior-selection-focused-pass.md) passed; full
+acceptance remains pending.
 
 Reviewed all 14 production rules. The implementation is confined to the pending
 arrow evidence and blocking decision, with bounded state, explicit failure
 handling and existing acceptance guards. No known defect remains from this
 self-audit. Independent SPEC and QUALITY reviews subsequently passed. The fresh
-untraced focused replay remains pending.
+[untraced focused replay](native-prior-selection-focused-pass.md) subsequently
+passed all sixteen comparisons and controlled exit. Full acceptance remains open.

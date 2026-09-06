@@ -13,7 +13,8 @@ For intermediate pending arrow batches only, recognize the initial appearance of
 Independent SPEC and QUALITY reviews passed, with no findings. See the
 [implementation](../execution/real-system-readings/native-prior-selection-implementation.md)
 and [review](../execution/real-system-readings/native-prior-selection-review.md).
-Fresh untraced focused replay and full aggregate acceptance remain pending.
+The [fresh untraced focused replay](../execution/real-system-readings/native-prior-selection-focused-pass.md)
+passed. Full aggregate acceptance and final review remain pending.
 
 ## Realized by
 
