@@ -39,9 +39,13 @@ failed during visible-column-five inspection recovery after thirteen child
 metric artifacts. All 130 artifacts are hashed in source
 `native-combined-inspection-failure.md/json`. Retained publication timings were
 212–248 ms; no stale-frame receipt occurred. Independent read-only diagnosis
-is checking repeated discovery before the first recovery wheel, which used
-3.337 seconds of the original five-second budget. No behavior remedy is yet
-implemented. This instrumented diagnostic cannot count as acceptance.
+confirmed repeated fresh eligibility discovery before the first recovery wheel,
+which used 3.337 seconds of the original five-second budget. Source plan
+`c5326f3c` records the Judged decision to consolidate that proof only for
+missing-row cell preparation. Worker `trace_publication` owns its implementation
+and tests; independent SPEC then QUALITY review follows. Pre-exit, generic and
+held-input paths and every acceptance bound stay unchanged. The live timeout
+cause is not proven by identifying redundant source work. This instrumented diagnostic cannot count as acceptance.
 Fresh untraced full acceptance, final review and actual Cairn Done remain pending.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
