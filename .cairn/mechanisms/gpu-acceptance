@@ -1,0 +1,23 @@
+results: per-requirement
+command: rtk proxy python3 scripts/system-pulse/gpu_verify.py
+inputs:
+  - .cargo/config.toml
+  - Cargo.toml
+  - Cargo.lock
+  - AGENTS.md
+  - examples/system_pulse/
+  - crates/base/src/dock/
+  - crates/base/src/resizable/
+  - crates/ui/src/dock/
+  - vendor/accesskit_atspi_common/
+  - scripts/system-pulse/
+requirements:
+  - GPU-001
+  - GPU-002
+  - GPU-003
+  - GPU-004
+  - GPU-005
+  - GPU-006
+  - GPU-007
+  - GPU-008
+  - GPU-009
