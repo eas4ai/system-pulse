@@ -672,3 +672,19 @@ The [full committed aggregate](../execution/real-system-readings/native-prior-se
 passed 743 automated checks and host comparisons, then failed intermediate process
 navigation after a prior-selection block. Independent diagnosis is in progress;
 source correction and a fresh replay require a supported cause and reviewed fix.
+
+### Defer visible endpoint blocking during proven prior selection
+
+The [read-only diagnosis](../execution/real-system-readings/native-prior-visible-endpoint-review.md)
+and [Judged decision](../decisions/defer-visible-endpoint-blocking-during-proven-prior-selection.md)
+identify an initial valid prior-selected prefix containing the unselected endpoint.
+
+- [ ] Reproduce that prefix before correction; defer only its new block whether
+  expected is present or absent. Preserve proof binding, expiry, existing blocks,
+  separate no-selection/visible-expected blocking and all later exact proof.
+- [ ] Cover success, persistent prefix, lost keys, expiry, malformed/missing proof,
+  arbitrary selection, existing blocks, defaults and deadlines. Run focused/full
+  Python, relevant Ruff, whitespace and documentation checks; SPEC then QUALITY.
+- [ ] Run one fresh untraced focused replay and full committed aggregate, preserving
+  actual outcomes and all mandatory metrics/exit. Final adversarial review follows
+  only when the full requirement set passes.
