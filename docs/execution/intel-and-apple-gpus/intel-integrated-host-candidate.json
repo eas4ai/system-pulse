@@ -1,0 +1,48 @@
+{
+  "observed_unix_ns": 1788712944468189311,
+  "status": "Potential Intel integrated host; BIOS enablement, Linux enumeration and native acceptance pending",
+  "cpu": {
+    "vendor_id": "GenuineIntel",
+    "model name": "13th Gen Intel(R) Core(TM) i9-13900K"
+  },
+  "board": {
+    "board_vendor": "Micro-Star International Co., Ltd.",
+    "board_name": "MEG Z790 GODLIKE (MS-7D85)",
+    "board_version": "1.0"
+  },
+  "current_display_pci_inventory": [
+    {
+      "pci": "0000:03:00.0",
+      "class": "0x030000",
+      "vendor": "0x1002",
+      "device_id": "0x7551",
+      "driver": "amdgpu"
+    },
+    {
+      "pci": "0000:06:00.0",
+      "class": "0x030000",
+      "vendor": "0x1002",
+      "device_id": "0x7551",
+      "driver": "amdgpu"
+    }
+  ],
+  "official_cpu_gpu": "Intel UHD Graphics 770",
+  "sources": {
+    "cpu": "https://www.intel.com/content/www/us/en/products/sku/230496/intel-core-i913900k-processor-36m-cache-up-to-5-80-ghz/specifications.html",
+    "bios": "https://download.msi.com/manual/mb/Intel700BIOS.pdf"
+  },
+  "bios_documented_path": "Settings > Advanced > Integrated Graphics Configuration",
+  "bios_documented_settings": {
+    "Initiate Graphic Adapter": "PEG",
+    "IGD Multi-Monitor": "Enabled"
+  },
+  "bios_manual_pages": [
+    19,
+    20
+  ],
+  "limits": [
+    "No Intel display PCI function currently enumerated; this record does not establish the actual BIOS setting.",
+    "No BIOS changes or reboot performed by agent.",
+    "This is a candidate for integrated Intel coverage; discrete Intel hardware remains separate."
+  ]
+}

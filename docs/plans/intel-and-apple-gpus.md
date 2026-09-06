@@ -115,3 +115,7 @@ Expected baseline: the assertion fails because the Intel monitor is absent; exac
 - [ ] Resolve the retained [Linux native freshness failure](../execution/intel-and-apple-gpus/gpu-linux-preservation-failure.md) through demonstrated cause and fresh uninstrumented full preservation; an instrumented diagnostic cannot clear it. Obtain actual Intel integrated Linux, Intel discrete Linux and Apple Silicon reports, plus the complete Linux preservation replay. If a required host is unavailable, record that exact external dependency; the commitment stays incomplete.
 - [ ] Complete a final independent adversarial review in `.cairn/reviews/intel-and-apple-gpus.md`, recording attacks and findings before any fixes. Complete the production self-audit and documentation checks.
 - [ ] Claim completion only after actual `cairn wake` returns Done. Stop the task-owned Mac caffeinate assertion and clean up task-owned workloads. No merge, push or deployment is part of this plan.
+
+## Native host availability update
+
+The developer identified the local i9-13900K as an [Intel integrated GPU candidate](../execution/intel-and-apple-gpus/intel-integrated-host-candidate.md). UHD Graphics 770 is specified for that CPU, but no Intel display device currently appears in Linux. BIOS enablement and reboot are pending; no native Intel accuracy claim follows yet. Discrete Intel hardware and the unlocked Mac GUI session remain separate dependencies.
