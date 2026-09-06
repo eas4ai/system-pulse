@@ -58,8 +58,49 @@ and [xe allocator accounting](https://github.com/torvalds/linux/blob/master/driv
   acceptance were performed by the reviewer. Intel integrated/discrete native
   accuracy and GPU-008 remain unverified.
 
+## Second review — one remaining memory invariant
+
+Independent reviewer: `intel_gpu_spec`, 2026-09-06. Correction candidate:
+`5853ec66dd7819617175942e50a1a803dfb3483d`
+(`fix: preserve Intel GPU attribution across source failures`).
+
+F1, F2 and F4 withstand independent re-review. Changed, ambiguous, failed and
+unreadable peer hwmon identities invalidate old bindings and baselines. The
+independent PMU probe produced 50% for a valid engine while its malformed peer
+was Failed. Powercap candidate identity failures invalidate attribution and
+preserve errors; ordinary attributes remain excluded. The original oversized
+CPU-visible allocation case is rejected by both drivers.
+
+**P2, remaining F3:** `collectors/src/intel/drm.rs:298` checks xe visible-used
+against whole-used but omits the complementary capacity constraint:
+
+```text
+used - visible_used <= total - visible_total
+```
+
+The preceding operand bounds allow safe subtraction. Independent unchanged-code
+probes reproduced both invalid responses being accepted:
+
+| Total | Used | Visible total | Visible used | Contradiction |
+| --- | --- | --- | --- | --- |
+| 16384 | 4096 | 16384 | 0 | 4096 allocated outside a zero-capacity non-visible portion |
+| 16384 | 12288 | 8192 | 0 | 12288 allocated outside an 8192-byte non-visible portion |
+
+`regions()` accepts the accounting and `publish_memory()` publishes current
+capacity readings. Reject both responses while accepting the second with
+visible-used 4096. Add full-BAR and small-BAR complementary-bound regressions.
+i915 already validates this complementary bound. This remains GPU-004 and
+collector-side GPU-005, supported by the same xe UAPI and allocator sources
+cited above. This finding is recorded before its next correction.
+
+Re-review verification: 32 Intel-focused tests passed, 43 filtered out; the full
+collector suite passed 75 tests across three suites. The temporary unchanged-body
+harness reproduced this defect and confirmed the other corrections; final
+compile and execution exited zero, and temporary artifacts were removed.
+Collector source and lockfile matched the candidate before and after review.
+No repository edits, native/UI/SSH or Cairn acceptance ran during review.
+
 ## Resolution
 
-Pending implementation and independent re-review. The original implementer
-must retain observed failing regression tests, passing fixes, affected checks,
-and the resolving commit before this record can report closure.
+The remaining F3 finding needs correction and independent re-review. Task 1 and
+quality review remain open. Native Intel accuracy and GPU-008 remain unverified.
