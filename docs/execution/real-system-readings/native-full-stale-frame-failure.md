@@ -6,7 +6,10 @@ retains all capture paths and hashes, exact commands, results and timing evidenc
 
 All 693 automated tests passed: 338 Python and 355 Rust. Source guard,
 formatting, strict Clippy, build, diff checks and independent host comparisons
-passed. Native launch, metric values, collapse, charts and inner scrolling
+passed. Host verification retained 43,790 counter brackets, 2,216 exact
+readings, 17,632 process-field comparisons, 96 interface comparisons and
+468 independent stable totals across four snapshots, with zero failed
+brackets or unverified exit gaps. Native launch, metric values, collapse, charts and inner scrolling
 passed. Fifteen child metric artifacts exist; the final rightmost comparison
 and controlled process exit did not complete. Remaining native cases were not
 reached. This is a failed aggregate, despite the earlier focused pass.

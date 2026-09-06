@@ -1452,5 +1452,39 @@
       "bytes": 62,
       "sha256": "5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be"
     }
-  ]
+  ],
+  "host_result": {
+    "status": "PASS",
+    "counts": {
+      "exact_readings": 2216,
+      "connection_interfaces": 96,
+      "exact_process_fields": 17632,
+      "counter_brackets": 43790,
+      "unverified_exit_gaps": 0,
+      "failed_brackets": 0
+    },
+    "external_offset": [
+      1787915765907405095,
+      1787915765907405164
+    ],
+    "collector_offset": [
+      1788660961669834449,
+      1788660961669834706
+    ],
+    "independent_stable_totals": 468,
+    "inventory_scope": "initial and final independent inventories",
+    "snapshots": 4,
+    "child_identity": {
+      "pid": 4007325,
+      "start_time_ticks": 74519561
+    },
+    "child_exit_verified": true,
+    "nvml": [
+      {
+        "backend": "nvml",
+        "availability": "Failed",
+        "reason": "NVML init: DriverNotLoaded"
+      }
+    ]
+  }
 }
