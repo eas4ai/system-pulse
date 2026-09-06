@@ -24,19 +24,19 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-Latest result: reviewed publication tracing is implemented through source
-`f7c45638`, with 344 Python and 56 Rust app tests passing. The single traced
-process replay against `b53a030e` failed on an intermediate navigation deadline.
-Its last 64 complete publication records took 214–340 ms from acceptance to
-rename, with no pending overwrite or trace error. This does not explain the
-previous stale frame and does not justify a performance change. The expected
-navigation process remains present in the later failure snapshot at a changed
-index. Independent diagnosis identified missing scan and rejection context; a
-bounded harness failure history is being implemented under source decision
-`retain-bounded-navigation-observation-failures` at plan commit `883724fb`.
-All 97 capture files are hashed in the
-[source evidence record](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/native-publication-diagnostic-failure.md),
-committed as `671ca9f5`. This is supporting diagnosis, not aggregate acceptance.
+Latest result: bounded navigation observations and their error-preservation
+correction passed independent SPEC and QUALITY reviews through `2df34d14`, with
+all 357 Python tests passing. The untraced focused capture `1rqv69wz` then failed
+freshness at 2.116767208 seconds before the next accessibility scan. Earlier
+observations show successful exact endpoint acknowledgement. Read and parse
+took 22.65 ms through the age check, with an inode replacement during that
+interval. The 1.357-second baseline-to-batch journal interval is unattributed;
+source inspection shows no fsync or extra accessibility/procfs read there.
+Evidence and independent diagnosis are in the
+[source report](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/native-navigation-observation-stale-failure.md).
+One combined supporting diagnostic is running with the existing publication
+trace and navigation observations, output `pulse-publication-diagnostic-poelu223`.
+This changes no source or acceptance policy. It cannot count as acceptance.
 Fresh untraced full acceptance, final review and actual Cairn Done remain pending.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
