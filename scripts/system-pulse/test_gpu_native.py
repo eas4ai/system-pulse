@@ -99,7 +99,263 @@ def interrupt_cleanup_probe(output, fail_finish):
     print(json.dumps(result), flush=True)
 
 
+def stream_cleanup_probe(output):
+    """Exercise real handles/processes; isolate actual SIGINT in this probe."""
+    import errno
+    import json
+    import os
+    import signal
+    import subprocess
+    import sys
+    import threading
+    import time
+    from unittest.mock import patch
+    import gpu_capture
+
+    class Stream:
+        def __init__(self, stream, error):
+            self.stream, self.error = stream, error
+
+        def __getattr__(self, name):
+            return getattr(self.stream, name)
+
+        def __enter__(self):
+            return self
+
+        def close(self):
+            self.stream.close()
+            if self.error is not None:
+                raise self.error
+
+        def __exit__(self, *args):
+            self.close()
+
+    real_open, real_write, real_popen = Path.open, Path.write_text, subprocess.Popen
+    sentinel = real_popen(
+        [sys.executable, "-c", "import time; time.sleep(15)"], start_new_session=True
+    )
+    cases = [
+        (trigger, streams)
+        for trigger in ("close_only", "start_write", "actual_SIGINT")
+        for streams in (("stdout",), ("stderr",), ("stderr", "stdout"))
+    ] + [
+        ("stdout_open", ()),
+        ("stderr_open", ("stdout",)),
+        ("launch", ("stderr", "stdout")),
+    ]
+    rows = []
+    try:
+        for index, (trigger, failing_streams) in enumerate(cases):
+            directory = output / str(index)
+            directory.mkdir()
+            close_errors = {
+                name: OSError(errno.EIO, "injected " + name + " close failure")
+                for name in failing_streams
+            }
+            original = (
+                close_errors[failing_streams[0]]
+                if trigger == "close_only"
+                else KeyboardInterrupt("injected original SIGINT")
+                if trigger == "actual_SIGINT"
+                else OSError(errno.ENOSPC, "injected original " + trigger)
+            )
+            launched, streams = [], []
+
+            def opening(path, mode="r", *args, **kwargs):
+                if mode != "x" or path.parent != directory:
+                    return real_open(path, mode, *args, **kwargs)
+                name = path.suffix[1:]
+                if trigger == name + "_open":
+                    raise original
+                stream = Stream(
+                    real_open(path, mode, *args, **kwargs), close_errors.get(name)
+                )
+                streams.append(stream)
+                return stream
+
+            def writing(path, *args, **kwargs):
+                if trigger == "start_write" and path.name == "probe-started.json":
+                    raise original
+                return real_write(path, *args, **kwargs)
+
+            def spawn(*args, **kwargs):
+                if trigger == "launch":
+                    raise original
+                child = real_popen(*args, **kwargs)
+                launched.append(child)
+                return child
+
+            ready = directory / "child-ready"
+            command = [
+                sys.executable,
+                "-c",
+                "print('normal exit')"
+                if trigger == "close_only"
+                else "from pathlib import Path; import time; Path("
+                + repr(str(ready))
+                + ").write_text('ready'); time.sleep(2)",
+            ]
+            thread = None
+            old_handler = signal.getsignal(signal.SIGINT)
+            if trigger == "actual_SIGINT":
+
+                def handler(signum, frame):
+                    raise original
+
+                def interrupt():
+                    deadline = time.monotonic() + 1
+                    while not ready.exists() and time.monotonic() < deadline:
+                        time.sleep(0.005)
+                    if ready.exists():
+                        os.kill(os.getpid(), signal.SIGINT)
+
+                signal.signal(signal.SIGINT, handler)
+                thread = threading.Thread(target=interrupt)
+                thread.start()
+            caught = None
+            try:
+                with (
+                    patch.object(Path, "open", opening),
+                    patch.object(Path, "write_text", writing),
+                    patch.object(gpu_capture.subprocess, "Popen", spawn),
+                ):
+                    try:
+                        gpu_capture.owned_process(directory, "probe", command, 1)
+                    except BaseException as error:
+                        caught = error
+                record = getattr(caught, "capture_record", None)
+                finished = directory / "probe-finished.json"
+                rows.append(
+                    dict(
+                        trigger=trigger,
+                        failing_streams=failing_streams,
+                        original_exception_preserved=caught is original,
+                        expected_primary_type=type(original).__name__,
+                        actual_primary_type=type(caught).__name__,
+                        expected_secondary_messages=[
+                            str(close_errors[name])
+                            for name in failing_streams
+                            if close_errors[name] is not original
+                        ],
+                        capture_errors=getattr(caught, "capture_errors", []),
+                        capture_record=record,
+                        disk_record_matches=finished.exists()
+                        and json.loads(finished.read_text()) == record,
+                        children_after_owner=[
+                            dict(
+                                pid=c.pid,
+                                reaped=c.poll() is not None,
+                                group_exists=gpu_capture.group_exists(c.pid),
+                            )
+                            for c in launched
+                        ],
+                        streams_closed=all(stream.stream.closed for stream in streams),
+                        stream_count=len(streams),
+                        unrelated_sentinel_running=sentinel.poll() is None,
+                    )
+                )
+            finally:
+                if thread is not None:
+                    thread.join(timeout=2)
+                    assert not thread.is_alive()
+                signal.signal(signal.SIGINT, old_handler)
+                for child in launched:
+                    try:
+                        os.killpg(child.pid, signal.SIGKILL)
+                    except ProcessLookupError:
+                        pass
+                    child.wait(timeout=3)
+                for stream in streams:
+                    stream.stream.close()
+    finally:
+        try:
+            os.killpg(sentinel.pid, signal.SIGKILL)
+        except ProcessLookupError:
+            pass
+        sentinel.wait(timeout=3)
+    print(
+        json.dumps(
+            dict(
+                rows=rows,
+                sentinel_pid=sentinel.pid,
+                sentinel_reaped=sentinel.poll() is not None,
+                sentinel_group_absent=not gpu_capture.group_exists(sentinel.pid),
+            )
+        ),
+        flush=True,
+    )
+
+
 class NativeTests(unittest.TestCase):
+    def test_stream_cleanup_preserves_execution_and_first_close_errors(self):
+        import json
+        import subprocess
+        import sys
+
+        with tempfile.TemporaryDirectory() as tmp:
+            script = (
+                "from pathlib import Path; from test_gpu_native import stream_cleanup_probe; stream_cleanup_probe(Path("
+                + repr(tmp)
+                + "))"
+            )
+            result = subprocess.run(
+                [sys.executable, "-B", "-c", script],
+                cwd=Path(__file__).parent,
+                capture_output=True,
+                text=True,
+                timeout=15,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            proof = json.loads(result.stdout)
+            print(result.stdout.strip())
+            self.assertTrue(proof["sentinel_reaped"])
+            self.assertTrue(proof["sentinel_group_absent"])
+            self.assertEqual(len(proof["rows"]), 12)
+            for row in proof["rows"]:
+                with self.subTest(
+                    trigger=row["trigger"], streams=row["failing_streams"]
+                ):
+                    self.assertTrue(row["original_exception_preserved"], row)
+                    self.assertEqual(
+                        row["actual_primary_type"], row["expected_primary_type"]
+                    )
+                    self.assertEqual(
+                        [e["message"] for e in row["capture_errors"]],
+                        row["expected_secondary_messages"],
+                    )
+                    self.assertTrue(row["streams_closed"])
+                    self.assertTrue(row["unrelated_sentinel_running"])
+                    launched = row["trigger"] not in (
+                        "stdout_open",
+                        "stderr_open",
+                        "launch",
+                    )
+                    self.assertEqual(len(row["children_after_owner"]), int(launched))
+                    self.assertEqual(
+                        row["stream_count"],
+                        0
+                        if row["trigger"] == "stdout_open"
+                        else 1
+                        if row["trigger"] == "stderr_open"
+                        else 2,
+                    )
+                    if launched:
+                        self.assertTrue(row["disk_record_matches"])
+                        self.assertEqual(
+                            row["capture_record"]["capture_error"],
+                            row["expected_primary_type"],
+                        )
+                        self.assertTrue(row["capture_record"]["reaped"])
+                        self.assertFalse(row["capture_record"]["proc_exists"])
+                    else:
+                        self.assertIsNone(row["capture_record"])
+                    self.assertTrue(
+                        all(
+                            c["reaped"] and not c["group_exists"]
+                            for c in row["children_after_owner"]
+                        )
+                    )
+
     def test_start_record_failure_reaps_children_and_preserves_original_error(self):
         import errno
         import json

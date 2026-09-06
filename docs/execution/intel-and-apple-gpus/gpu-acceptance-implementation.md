@@ -1,15 +1,15 @@
 # GPU acceptance implementation
 
-Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The focused correction at `f1e78133` passed independent [specification re-review](gpu-acceptance-q1-spec-review.md); [quality re-review](gpu-acceptance-q1-quality-review.md) found Q1-R1: a stream-close error can replace the original execution error, despite successful cleanup. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
+Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The focused correction at `f1e78133` passed independent [specification re-review](gpu-acceptance-q1-spec-review.md); [quality re-review](gpu-acceptance-q1-quality-review.md) found Q1-R1: a stream-close error can replace the original execution error, despite successful cleanup. The Q1-R1 correction below passed local checks and awaits independent SPEC then quality re-review. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
 
 ## Work tracking
 
-Independent SPEC review closed F1–F10 at `50ea29d6`. Independent quality review found Q1, exceptional process cleanup, and committed that finding at `11d2c450` before correction.
+Independent SPEC review closed F1–F10 and the initial Q1 lifecycle correction. Independent quality re-review committed the remaining Q1-R1 stream-error priority finding at `46645864` before correction.
 
-- Done: reproduced Q1 with real bounded processes and corrected exceptional ownership. The unchanged regression file moved from seven failing fault cases to all ten methods passing.
-- Done: 443 Python tests, all seven development groups (60 tests), strict Python checks and unchanged native-source verification.
+- Done: reproduced Q1-R1 and corrected first-error priority during stream cleanup. One unchanged regression method moved from nine failing subcases to all twelve cases passing.
+- Done: all 444 Python methods, seven GPU development groups (61 methods), affected lint/format, whitespace and unchanged-source checks.
 - Done: all 14 self-audit rules and retained source/lifecycle evidence for the focused correction.
-- In progress: correct recorded Q1-R1 error priority, then complete independent specification and quality re-review.
+- In progress: Task 4 review handoff; independent SPEC and quality verdicts remain required.
 
 ## Implementation
 
@@ -119,6 +119,18 @@ The original reviewer scripts and their 51-file evidence manifest remain unchang
 
 The focused [Q1 correction record](gpu-acceptance-q1-correction.json) binds the unchanged RED/GREEN test hash, final source hashes, exact check records and evidence manifest in `gpu-task4/q1-correction-20260906/`. All 443 Python tests and all seven GPU development groups (6/5/6/8/15/10/10, 60 tests) passed. Development emitted no Cairn acceptance lines. Ruff lint/format and whitespace checks passed. Native helper sources remain byte-identical to the independently reviewed `50ea29d6` candidate; no native build or GUI retry was needed. Hardware accuracy, the failed Linux preservation run and the Task 5 pool finding remain pending.
 
+## Q1-R1: preserve the first error during stream cleanup
+
+The independent [quality re-review](gpu-acceptance-q1-quality-review.md) recorded Q1-R1 at `46645864` before this correction. The existing finalizer already terminated owned processes, but Python could replace a start/wait exception while exiting a stream context. The outer handler then preserved the replacement close error.
+
+`owned_process` now saves the execution error before closing either acquired stream. It closes stderr and stdout separately in their existing reverse acquisition order, catches each close failure and adds it to the existing error list. The first error remains primary, including a close error when there was no earlier failure. Partial acquisition closes whichever stream was opened. Both stream cleanup attempts still precede unconditional bounded group cleanup, direct-child reaping and completion recording. No caller, cancellation interface, native helper or production Rust changed.
+
+One new method covers twelve cases: close-only, start-record ENOSPC and actual SIGINT, each with stdout, stderr or both close failures; initial stdout acquisition failure; partial stderr acquisition followed by stdout close failure; and launch failure followed by both close failures. The proxy uses real file handles, injects after actual `close()`, and routes `__exit__` through that same method. Switching cleanup style therefore cannot bypass the injected failure. Nine subcases failed before the fix; the exact same test file passes all twelve cases afterward. All ten existing native test methods and their original interrupt helper remain byte-identical by source-segment hashes. Their prior full test-file hash and original evidence are retained.
+
+The new probe verifies exact primary exception identity, separate secondary messages, completed record type, closure of every acquired stream, reaped owned children and absent groups before fallback cleanup. An unrelated sentinel remains running throughout and is later cleaned only by its own test owner. The frozen review's 55 originals remain unchanged. Its original script was copied and reproduced the defect before editing production. The passing replay explicitly adapts the file proxy to the same `close()` boundary and replaces old-defect assertions with corrected-contract assertions; the exact adaptation is retained as a diff. It preserves the close-only control and confirms both original combined failures are fixed. The original delayed-subreaper zombie qualification from Q1 is unchanged.
+
+Final checks passed 444 Python methods and all seven GPU development groups (6/5/6/8/15/10/11, 61 methods). These totals include the new method, not twelve additional methods. Development emitted no Cairn acceptance lines. Ruff lint/format and whitespace checks passed. The [Q1-R1 correction record](gpu-acceptance-q1-r1-correction.json) binds exact source hashes, RED/GREEN commands and logs, process cleanup observations and the external evidence manifest. Native sources remain unchanged; no native build or GUI attempt ran. Independent review and the remaining Task 5/hardware/preservation work remain required.
+
 ## Verification evidence
 
 The task-owned artifact root is `/home/shawn/workspace2/task-manager-artifacts/gpu-task4`.
@@ -149,4 +161,4 @@ Intel integrated and discrete hardware are unavailable in this task. Apple obser
 
 ## Self-audit
 
-The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. Independent specification review closed F1–F10 at `50ea29d6`. Q1 cleanup correction passed local checks; independent SPEC and quality re-review remain required. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.
+The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. Independent specification review closed F1–F10 at `50ea29d6` and the initial Q1 lifecycle correction at `f1e78133`. Q1-R1 passed local checks; independent SPEC and quality re-review remain required. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.

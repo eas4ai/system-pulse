@@ -97,40 +97,50 @@ def owned_process(output, role, command, timeout, env=None, stop_event=None):
     require(executable is not None, "native executable not found")
     executable_digest = sha256(executable)
     child, primary, record = None, None, None
+    out, err = None, None
     errors = []
     timed_out = False
-    # Ownership begins before Popen, including publication and stream closure.
+    # Save execution errors before closing either stream can raise another error.
     try:
-        with (output / stdout).open("x") as out, (output / stderr).open("x") as err:
-            child = subprocess.Popen(
-                command, stdout=out, stderr=err, env=environment, start_new_session=True
-            )
-            (output / (role + "-started.json")).write_text(
-                json.dumps(
-                    dict(
-                        pid=child.pid,
-                        command=command,
-                        started_ns=started,
-                        started_unix_ns=started_unix_ns,
-                        deadline_ns=started + int(timeout * 1e9),
-                    )
+        out = (output / stdout).open("x")
+        err = (output / stderr).open("x")
+        child = subprocess.Popen(
+            command, stdout=out, stderr=err, env=environment, start_new_session=True
+        )
+        (output / (role + "-started.json")).write_text(
+            json.dumps(
+                dict(
+                    pid=child.pid,
+                    command=command,
+                    started_ns=started,
+                    started_unix_ns=started_unix_ns,
+                    deadline_ns=started + int(timeout * 1e9),
                 )
             )
-            deadline = started / 1e9 + timeout
-            while child.poll() is None:
-                if stop_event is not None and stop_event.is_set():
-                    break
-                remaining = deadline - time.monotonic()
-                if remaining <= 0:
-                    timed_out = True
-                    break
-                try:
-                    child.wait(timeout=min(remaining, 0.1))
-                except subprocess.TimeoutExpired:
-                    pass
+        )
+        deadline = started / 1e9 + timeout
+        while child.poll() is None:
+            if stop_event is not None and stop_event.is_set():
+                break
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                timed_out = True
+                break
+            try:
+                child.wait(timeout=min(remaining, 0.1))
+            except subprocess.TimeoutExpired:
+                pass
     except BaseException as error:
         primary = error
     finally:
+        for name, stream in (("stderr", err), ("stdout", out)):
+            if stream is not None:
+                try:
+                    stream.close()
+                except BaseException as error:
+                    if primary is None:
+                        primary = error
+                    errors.append((name + " close", error))
         if child is not None:
             cleanup_signals, exists = clean_group(child, errors)
             record = dict(

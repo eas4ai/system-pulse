@@ -1,0 +1,160 @@
+{
+  "status": "DONE_WITH_CONCERNS; focused correction awaiting independent SPEC then quality re-review",
+  "finding": "Q1-R1 stream-close error priority",
+  "review_record_commit": "466458647faf22537eb7c3e8cd13b972063a0ae9",
+  "runtime_change": "Capture execution errors before stream cleanup; close each acquired stream through a guarded path preserving the first error.",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906",
+  "artifact_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/artifact-manifest.json",
+    "sha256": "9f744e345dd753da52669f118833ce84eb4ff4a93dbf83a70d0d9be971e4e6a1",
+    "files": 81
+  },
+  "source_sha256": {
+    "gpu_capture.py": "161844fd655b08ba4c886008bbd9c4ef5f1071f1efd347aeb5fe0c05b0285279",
+    "test_gpu_native.py": "28b307dfb076e3f7d4e39285097f08f7d6c8f870b98b577c1d0df944214d2078"
+  },
+  "regression_test_unchanged_after_red": true,
+  "regression_proofs": {
+    "red": {
+      "subcases": 12,
+      "primary_identity_failures": 9,
+      "all_acquired_streams_closed": true,
+      "all_launched_children_reaped_and_groups_absent": true,
+      "unrelated_sentinel_preserved": true,
+      "original_log_sha256": "de6ef1972c8dd2aed9d86963dcc4a05ad884b3739b99b72127bab7649956d965"
+    },
+    "green": {
+      "subcases": 12,
+      "primary_identity_failures": 0,
+      "all_acquired_streams_closed": true,
+      "all_launched_children_reaped_and_groups_absent": true,
+      "unrelated_sentinel_preserved": true,
+      "original_log_sha256": "ce69ddcea692e9a52a3774d81772d6c0dff0ec41a5c3c6f861615308e1d9567e"
+    }
+  },
+  "review_originals_verified": 55,
+  "review_manifest_sha256": "b3da56a35e972cf230835b2952512eee308da18aadf79cc4a00d72f1a75ec4af",
+  "prior_q1_artifacts_verified": 93,
+  "prior_q1_manifest_sha256": "595f6e821505b2e6cc5a9d11be40e817d96fac309c662dacec4bb5289d0a959c",
+  "prior_regression_preservation_sha256": "247dc2d5e14773d9e81bd92875d29162c0a7ada7f065bba462d92a4bf349ff49",
+  "native_sources_unchanged": {
+    "scripts/system-pulse/gpu_apple_native.m": "09031de48c6ec922e2d9ff3955b8487aea54373d58cd3de907dfe4f72479bb0e",
+    "scripts/system-pulse/gpu_apple_ax.m": "1b949eb681a63fd729501f79222622cec053232e43aaa048eb6a5aa5d3d1fcef",
+    "scripts/system-pulse/gpu_intel_workload.c": "9b0cfbb25e3d144c287f9a5d595e41012bc07f1f10bdf0b5d887c9ed4eba2cb0"
+  },
+  "checks": {
+    "final-development": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/final-development-finished.json",
+      "sha256": "19537e62cedba9cd0a7e3c338cf85344700a81255a17370ecc739eab1c99ed51",
+      "pid": 4104800,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "final-format": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/final-format-finished.json",
+      "sha256": "e3a0448b93c2d336df4f239a265ebfd3c678ca40743d4697e4c79fdb50015685",
+      "pid": 4104755,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "final-python": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/final-python-finished.json",
+      "sha256": "b9cd573b2bebec5603947acefc46a8ffa8bdb2289a7e6430e4cf2bb536fa4ac4",
+      "pid": 4104514,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "final-ruff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/final-ruff-finished.json",
+      "sha256": "7cb6233007edaead4cfe30810573fa87b0e389d51ecab31802b405009cdd2ef5",
+      "pid": 4104675,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "regression-green": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/regression-green-finished.json",
+      "sha256": "1b69a6094df4254f9ffa809989a21dd1b63a471c19c5ee1e5a6543d1771f8ebe",
+      "pid": 4097164,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "regression-red": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/regression-red-finished.json",
+      "sha256": "aa0650a8cd716f8e2cdd0166efd6e2ae4c8598c3b47fbddbabeeb42067a4e4fb",
+      "pid": 4091723,
+      "exit_code": 1,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "review-green": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/review-green-finished.json",
+      "sha256": "dae6d53e726751d288e3c62899dfb6d195a9d9bd1816a0ececb37e80f1c1289a",
+      "pid": 4104322,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "review-red": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/review-red-finished.json",
+      "sha256": "1b4611695f1e8e3b21c6d4c87a389ab8c5f141aa0d51cc8e6f632ae797d86590",
+      "pid": 4077660,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "final-diff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/final-diff-finished.json",
+      "sha256": "47c30311b1be4c44453f211fc96260ab7e330496593e8773b7fae5808ec43dc0",
+      "pid": 4121918,
+      "exit_code": 0,
+      "reaped": true,
+      "group_absent_now": true
+    }
+  },
+  "python_methods": 444,
+  "gpu_groups": {
+    "gpu-aggregate": 6,
+    "gpu-apple-capture": 5,
+    "gpu-arithmetic": 6,
+    "gpu-desktop": 8,
+    "gpu-evidence": 15,
+    "gpu-intel": 10,
+    "gpu-native": 11
+  },
+  "method_counts": {
+    "prior_native_methods": 10,
+    "new_methods": 1,
+    "new_subcases": 12,
+    "red_failing_subcases": 9,
+    "green_failing_subcases": 0,
+    "final_native_methods": 11
+  },
+  "replay_contract": "Frozen original copied unchanged for RED. GREEN proxy injects after real close() and routes __exit__ through it; assertions require exact original exception and secondary close failure. Adaptation retained in review-proxy-adaptation.diff.",
+  "limitations": [
+    "Original Q1 leaks and in-memory cancellation stay fixed; original delayed-subreaper zombie qualification unchanged.",
+    "No production Rust, native helper, Task 5, GUI or hardware acceptance changes.",
+    "Original Linux freshness failures, Mac application pool finding and Intel/Apple hardware matrix remain pending.",
+    "Independent reviewers alone can declare SPEC and quality pass."
+  ],
+  "self_audit": {
+    "1": "Read recorded Q1-R1 and reproduced both combined failures before production edits.",
+    "2": "Changed only local stream ownership/error priority; retained existing cleanup and cancellation.",
+    "3": "Used the existing error list and simple explicit close calls; no new production abstraction.",
+    "4": "Preserved public interfaces and exact first-exception identity across acquisition/execution/close boundaries.",
+    "5": "Retained later close errors separately, including simultaneous close failures and actual SIGINT.",
+    "6": "Real-child tests confirm unrelated sentinel remains alive; only task-owned process groups are signaled.",
+    "7": "Partial acquisition and simultaneous publication/close failure retain ownership and original errors.",
+    "8": "Bounded process cleanup remains unchanged; all acquired streams are attempted independently.",
+    "9": "Tracked reproduction, correction, verification and review handoff with one active item.",
+    "10": "Observed nine RED failures then twelve GREEN subcases; passed 444 Python and 61 GPU methods plus strict checks.",
+    "11": "Kept method/subcase counts separate and explicitly documented the replay proxy adaptation and native limits.",
+    "12": "Followed the authorized focused remedy and shared evidence with the orchestrator.",
+    "13": "Audited all 14 rules after final checks; no known Q1-R1 implementation revision remains.",
+    "14": "Explained the original error replacement, local remedy, proof and remaining work directly."
+  }
+}
