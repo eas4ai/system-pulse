@@ -1,6 +1,6 @@
 # GPU acceptance specification review
 
-Status: **FAIL — eight open findings.** Independent read-only review of
+Status: **FAIL — nine open findings.** Independent read-only review of
 Task 4 source `c014522d23aae011cfe2e88627320e07740b4ebc`, before corrective
 implementation. Intervening commits contain only orchestration documents.
 No source or acceptance policy was changed during the review.
@@ -121,9 +121,37 @@ GPU-008/009 require native PID/stream ownership and complete role-specific
 commands to match retained source and lifecycle originals. Reproduction:
 `originals-attack.py`.
 
+## F9 — P1: Intel can claim a load phase without GPU work
+
+A subsequent read-only review used an external snapshot of the original
+`c014522d` source while F1–F8 corrections were underway. In that source,
+[gpu_host_capture.py](../../../scripts/system-pulse/gpu_host_capture.py),
+lines 411–423, accepts any nonempty workload argv. Selected-device and
+completed-command receipts in
+[gpu_originals.py](../../../scripts/system-pulse/gpu_originals.py), lines 73–86,
+apply only to Apple. Lines 190–203 independently require a consumed observation
+somewhere in the load phase and a workload contained in that phase; they do not
+require measurement overlap with actual GPU work.
+
+The synthetic original/lifecycle validation passes an honestly recorded
+`["/usr/bin/true"]`, its actual executable hash, empty output, and no physical
+GPU or command-completion receipt. A phase observation at time 31 passes even
+though the nominal workload window is [39, 40]. No later host check compensates
+for the missing work or overlap. The
+[acceptance plan](../../plans/intel-and-apple-gpu-acceptance.md) requires Intel
+idle/load intervals and predeclared device/measurement coverage, supporting a
+GPU-008/009 finding distinct from F8's command-provenance defect.
+
+Require bounded evidence of commands completed on the selected physical GPU
+and corresponding measurement overlap. This does not require utilization to
+rise by a guessed amount. Reproduction: `intel-load-followup/intel-load-attack.py`;
+its manifest records the original source and final synthetic run. The reviewer
+did not execute a native workload, including `/usr/bin/true`. This finding is
+recorded before any correction addressing it.
+
 ## Correction and review order
 
-All eight findings are open. Record-preserving regressions and focused
+All nine findings are open. Record-preserving regressions and focused
 corrections belong to the same Task 4 implementer. Independent specification
 re-review must close them before independent quality review starts.
 

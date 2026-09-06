@@ -11,7 +11,8 @@
     "F5",
     "F6",
     "F7",
-    "F8"
+    "F8",
+    "F9"
   ],
   "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review",
   "review_manifest_sha256": "afb743fca46fb6110bc68e4c1cc445f3a2ae0cf8fea6634d1ede1f9f7623eb71",
@@ -86,5 +87,31 @@
       "sha256": "a4ee1bbce0d895a720babfa65dbe2d187466834fad576cb3f77a1f031b4ed20c"
     }
   },
-  "scope": "Independent synthetic SPEC attacks and source inspection; no native hardware or Cairn acceptance"
+  "scope": "Independent synthetic SPEC attacks and source inspection; no native hardware or Cairn acceptance",
+  "intel_load_followup": {
+    "source_commit": "c014522d23aae011cfe2e88627320e07740b4ebc",
+    "synthetic_boundary_only": true,
+    "native_workloads_executed": false,
+    "manifest_path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/intel-load-followup/manifest.json",
+    "manifest_sha256": "be71d57487d581fa0088c820e57a9081e9d1283f80a7e93fa37012426e05a56e",
+    "artifact_records_verified": 126,
+    "command": [
+      "python3",
+      "-B",
+      "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/intel-load-followup/intel-load-attack.py"
+    ],
+    "exit_code": 0,
+    "reproduction": {
+      "bytes": 6406,
+      "sha256": "9291da1865735e1370933bd6f7cb5478fd5f1afc7e57789ee00831b4477178e2"
+    },
+    "stdout": {
+      "bytes": 386,
+      "sha256": "26a5ca64f47be6fb7796206f1c491f55a11f1bf99ed2bcbe7ca54ec73d46ea7e"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
 }
