@@ -2,7 +2,7 @@
 
 Status: Agreed 2026-09-04. Not normative.
 
-Current: intel-and-apple-gpus
+Current: finish-application
 
 ## Real system readings
 
@@ -17,3 +17,7 @@ Completed 2026-09-06: [passing acceptance, final review and Cairn Done](../execu
 The developer confirmed GPU-001 through GPU-009 and their falsifiers on 2026-09-06. Add Intel integrated/discrete Linux and Apple Silicon collectors with accurate memory scope, independent adapter reviews and native evidence. [Contract](gpu-collection.md), [commitment](../commitments/intel-and-apple-gpus.md), [acceptance plan](../plans/intel-and-apple-gpu-acceptance.md).
 
 Intel Windows support follows separately; a tablet is available for future validation. Intel Linux access and a discrete Intel test device remain to be established.
+
+## Finish the application
+
+The developer asked to finish the application on 2026-09-06. Complete the remaining original product features and a usable Linux package under [finish-application](../commitments/finish-application.md). The GPU work remains incomplete and its requirements remain included; this change of active work does not claim hardware acceptance or change the pending platform-priority decision.
