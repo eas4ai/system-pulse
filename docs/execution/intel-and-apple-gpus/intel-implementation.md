@@ -14,7 +14,9 @@ Native Intel accuracy remains **unverified**: this development host has AMD hard
 - Complete: SPEC F3 subset regression failed as expected; all seven DRM tests passed after operand validation.
 - Complete: SPEC F4 incomplete-zone regression failed as expected; three powercap tests passed, including denied/missing identities.
 - Complete: correction collector checks, formatting, strict Clippy and self-audit.
-- In progress: correction commit handoff for independent SPEC re-review, then QUALITY review (root-owned).
+- Complete: first correction commit; independent re-review closed F1/F2/F4 and identified one remaining F3 complementary bound.
+- Complete: remaining xe complementary-bound regression reproduced both invalid cases, then passed after correction; all 76 collector tests, formatting and strict Clippy passed.
+- In progress: focused correction commit handoff for independent SPEC re-review (root-owned).
 
 No independent review has been self-approved. No native Intel/full-workspace acceptance or Cairn aggregate was run in this task.
 
@@ -55,7 +57,15 @@ The independent review record remains unchanged. All four reported falsifiers we
 
 The final correction checks ran successfully: `rtk cargo test --locked -p system-pulse-collectors` (**75 passed**, three suites), `rtk cargo fmt -p system-pulse-collectors -- --check`, `rtk cargo clippy --locked -p system-pulse-collectors --all-targets -- -D warnings`, and `rtk git diff --check`. An intermediate F3 edit landed in the publication function instead of the decoder and failed compilation; it was moved to the decoder before the seven DRM tests passed. That compiler failure is not counted as regression evidence.
 
-Correction self-audit covered binding lifecycle, independent event metadata, preserved error classes, subset arithmetic before publication and complete uniqueness evidence. No source-contract uncertainty remains for these four fixture-level corrections. Native Intel verification is still pending; neither these checks nor the correction commit accepts GPU-008.
+Correction self-audit covered binding lifecycle, independent event metadata, preserved error classes, subset arithmetic before publication and complete uniqueness evidence. The subsequent independent review found that the xe complementary capacity bound was still missing; the first correction checks did not establish complete F3 coverage. Native Intel verification is still pending; neither these checks nor the correction commit accepts GPU-008.
+
+## Second correction: xe non-visible capacity
+
+The second independent review was committed before this correction in `8886c6f04f81f9ef709f674f33997b240e6db148`. Its record remains unchanged. The new regression evaluated both reported tuples `(total, used, visible total, visible used)`: `(16384, 4096, 16384, 0)` and `(16384, 12288, 8192, 0)`. The observed RED returned `[false, false]` for the expected rejection results `[true, true]` (one test failed, 74 filtered out).
+
+The xe local-region decoder now also requires `used - visible_used <= total - visible_total`. Earlier operand bounds and short-circuit evaluation make both subtractions safe. The same regression then passed: both contradictory responses are rejected and `(16384, 12288, 8192, 4096)` is accepted with its original operands. This focused change leaves i915 accounting intact.
+
+Verification actually ran after the correction: the focused regression passed; the complete collector suite passed **76 tests across three suites**; formatting check, strict Clippy with `-D warnings`, and `git diff --check` exited zero. Self-audit checked both complementary partition bounds, short-circuit subtraction safety, the valid boundary case and the narrow two-file change. Independent SPEC re-review remains required. Native Intel accuracy and GPU-008 remain unverified.
 
 ## Implementation self-audit
 

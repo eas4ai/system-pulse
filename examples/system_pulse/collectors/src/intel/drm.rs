@@ -295,7 +295,7 @@ pub(super) fn regions(driver: &str, bytes: &[u8]) -> io::Result<Vec<Region>> {
             && if driver == "i915" {
                 visible_count > count || visible_total - visible_count > total - count
             } else {
-                visible_count > count
+                visible_count > count || count - visible_count > total - visible_total
             }
         {
             return Err(invalid(
@@ -457,6 +457,33 @@ mod tests {
             let regions = regions(driver, &b).unwrap();
             assert_eq!(regions[1].used, Some(4096));
         }
+    }
+    #[test]
+    fn xe_nonvisible_allocation_cannot_exceed_nonvisible_capacity() {
+        let local = 8 + 88;
+        let outcomes = [(16384, 4096, 16384, 0), (16384, 12288, 8192, 0)].map(
+            |(total, used, visible_total, visible_used)| {
+                let mut b = memory("xe");
+                put64(&mut b, local + 8, total);
+                put64(&mut b, local + 16, used);
+                put64(&mut b, local + 24, visible_total);
+                put64(&mut b, local + 32, visible_used);
+                regions("xe", &b).is_err()
+            },
+        );
+        assert_eq!(
+            outcomes,
+            [true, true],
+            "full-BAR and small-BAR contradictions must be rejected"
+        );
+        let mut b = memory("xe");
+        put64(&mut b, local + 8, 16384);
+        put64(&mut b, local + 16, 12288);
+        put64(&mut b, local + 24, 8192);
+        put64(&mut b, local + 32, 4096);
+        let r = regions("xe", &b).unwrap();
+        assert_eq!(r[1].used, Some(12288));
+        assert_eq!(r[1].visible_count, 4096);
     }
     #[test]
     fn engine_topology_preserves_sparse_gt_class_and_instance() {
