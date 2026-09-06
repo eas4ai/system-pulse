@@ -28,6 +28,12 @@ Perf group reads check count, exact length, enabled time and running time. A fir
 
 Sysfs values are limited to 4096 bytes; each scanned directory, per-device remembered field set and physical inventory is bounded at 512. PMU handles and baselines follow stable sensor identities; failed reads close handles and retry on the next collection. Physical disappearance prunes inventory, fields and counter state. Known card associations are checked before frequency reads so a reused alias cannot transfer measurements to another device.
 
+SPEC-review corrections additionally require fresh unique hwmon provider/channel discovery before reading any remembered hwmon field. Replacement, failed provider identity (including an unreadable peer) or ambiguity invalidates the old attribution and energy baseline; recovery warms up. A renamed hwmon ordinal keeps the physical provider/channel sensor identity.
+
+Each i915 event validates its own metadata. A malformed or denied event publishes its own failed/unavailable reading while valid peer engines continue. Previously known event paths retain their engine identity on metadata failure, close their handle and clear their baseline. A never-readable configuration is identified by the exposed event name without inventing its engine class.
+
+CPU-visible local-memory used/free operands must fit the corresponding whole-region operands before any derived allocation is published. Powercap scans recognize Intel RAPL zone selectors and skip ordinary attribute files; failed identities on actual package or child-zone candidates invalidate uniqueness with a path-qualified reason. An incomplete scan cannot select an arbitrary package or PP1 domain.
+
 ## Unverified or unavailable evidence
 
 - Intel integrated and discrete native discovery, accuracy, suspend/resume and permission behavior remain unverified. Required GPU-008 host evidence is still pending.

@@ -9,7 +9,12 @@ Native Intel accuracy remains **unverified**: this development host has AMD hard
 - Complete: bounded i915/xe DRM region and engine queries, memory semantics and malformed-response tests.
 - Complete: direct engine PMU and attributable integrated RAPL collection, retry, baseline and lifecycle tests.
 - Complete: collector suite, formatting, strict Clippy, C layout comparison and implementation self-audit.
-- In progress: handoff for independent SPEC review followed by independent QUALITY review, owned by root orchestration.
+- Complete: SPEC F1 hwmon identity regression failed as expected, then both hwmon tests passed after correction.
+- Complete: SPEC F2 initial and peer metadata regressions failed as expected, then all seven PMU tests passed after correction.
+- Complete: SPEC F3 subset regression failed as expected; all seven DRM tests passed after operand validation.
+- Complete: SPEC F4 incomplete-zone regression failed as expected; three powercap tests passed, including denied/missing identities.
+- Complete: correction collector checks, formatting, strict Clippy and self-audit.
+- In progress: correction commit handoff for independent SPEC re-review, then QUALITY review (root-owned).
 
 No independent review has been self-approved. No native Intel/full-workspace acceptance or Cairn aggregate was run in this task.
 
@@ -23,7 +28,7 @@ No independent review has been self-approved. No native Intel/full-workspace acc
 | Initial DRM decode cases | 1 passed, **3 failed** for missing decoding, then **4 passed**. |
 | Memory publication, native query buffer, PMU arithmetic/configuration/retry, perf response, RAPL source and power arithmetic | Each implementation addition had an observed failing selection followed by a passing selection. |
 | Self-audit regressions | Observed failures for transient identity loss, reused alias association, unbounded negative status negation, shared allocation tied to system capacity, missing-source reporting, proven vendor replacement, and incomplete inventory falsely establishing RAPL uniqueness. These cases pass in the final suite. |
-| `rtk cargo test --locked -p system-pulse-collectors` | Final **69 passed** across three suites, zero failures. |
+| `rtk cargo test --locked -p system-pulse-collectors` | Initial implementation: **69 passed** across three suites, zero failures. |
 | `rtk cargo fmt -p system-pulse-collectors -- --check` | Final exit 0. An earlier check correctly reported unfinished formatting; rustfmt was applied. |
 | `rtk cargo clippy --locked -p system-pulse-collectors --all-targets -- -D warnings` | Final exit 0, no issues. Initial four collapsible-if findings were fixed. |
 | `rtk git diff --check` | Exit 0. |
@@ -36,6 +41,21 @@ rtk cargo test --locked -p system-pulse-collectors --lib host::tests::intel_pci_
 ```
 
 A RAPL test command initially combined a module filter with `--exact` and executed zero tests. That run is not evidence. It was immediately replaced with the full test name, which executed one failing test before the implementation and passed afterward.
+
+## SPEC-review correction evidence
+
+The independent review record remains unchanged. All four reported falsifiers were reproduced before their corrections:
+
+| Finding | Observed RED | Corrected behavior and focused verification |
+| --- | --- | --- |
+| F1 retained hwmon identity | Old `i915` whole-card energy published **2 W** after its path became `i915_gt0`. | Fresh provider/channel authorization rejects replacement, missing/malformed names and duplicate providers. Both hwmon tests pass, including recovery warming. A further observed RED showed that an unreadable peer could falsely establish uniqueness; incomplete provider inventories now invalidate hwmon bindings too. |
+| F2 PMU discovery coupling | Two failed tests: malformed peer metadata removed the valid engine, and initial malformed discovery reported unavailable. | Seven PMU tests pass. Per-event metadata failures preserve valid peer samples; malformed is failed and denied is unavailable. Injected denial covers both config and unit reads; known event identity survives and recovery warms up. |
+| F3 memory subset | The i915 visible-used > whole-used response was accepted. | Seven DRM tests pass. i915 visible free and derived allocated bytes, and xe visible used bytes, must fit their whole local region. The regression covers rejection and valid equality for both drivers. |
+| F4 incomplete powercap zones | An unreadable second package still allowed current PP1 power from the first. | Three powercap tests pass. Actual zone-name failures invalidate package/domain uniqueness; path-qualified errors survive, ordinary attribute files are skipped, and recovery warms up. Tests cover malformed bytes, missing identity and injected denial at both zone levels. |
+
+The final correction checks ran successfully: `rtk cargo test --locked -p system-pulse-collectors` (**75 passed**, three suites), `rtk cargo fmt -p system-pulse-collectors -- --check`, `rtk cargo clippy --locked -p system-pulse-collectors --all-targets -- -D warnings`, and `rtk git diff --check`. An intermediate F3 edit landed in the publication function instead of the decoder and failed compilation; it was moved to the decoder before the seven DRM tests passed. That compiler failure is not counted as regression evidence.
+
+Correction self-audit covered binding lifecycle, independent event metadata, preserved error classes, subset arithmetic before publication and complete uniqueness evidence. No source-contract uncertainty remains for these four fixture-level corrections. Native Intel verification is still pending; neither these checks nor the correction commit accepts GPU-008.
 
 ## Implementation self-audit
 

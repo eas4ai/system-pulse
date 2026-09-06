@@ -273,6 +273,76 @@ fn intel_hwmon_scope_units_failure_independence_and_energy_recovery() {
 }
 
 #[test]
+fn intel_hwmon_invalid_identity_never_reuses_old_scope_or_baseline() {
+    for invalidation in [
+        "replacement",
+        "missing",
+        "malformed",
+        "duplicate",
+        "unknown-peer",
+    ] {
+        let f = Fixture::new();
+        f.base();
+        let physical = f.intel("0000:00:02.0", "i915", &["card7"]);
+        let hw = format!("{physical}/hwmon/hwmon91");
+        f.put(&format!("{hw}/name"), "i915");
+        f.put(&format!("{hw}/energy1_input"), "1000000");
+        f.put(&format!("{hw}/temp1_input"), "50000");
+        let sid = "intel-pci:0000:00:02.0/hwmon-i915-energy1_input-power";
+        let mut c = HostCollector::rooted(f.0.clone());
+        c.collect_at(1_000_000_000);
+        match invalidation {
+            "replacement" => f.put(&format!("{hw}/name"), "i915_gt0"),
+            "missing" => fs::remove_file(f.0.join(format!("{hw}/name"))).unwrap(),
+            "malformed" => fs::write(f.0.join(format!("{hw}/name")), [0xff]).unwrap(),
+            "duplicate" => f.put(&format!("{physical}/hwmon/hwmon92/name"), "i915"),
+            "unknown-peer" => {
+                f.put(&format!("{physical}/hwmon/hwmon92/name"), "i915");
+                fs::write(f.0.join(format!("{physical}/hwmon/hwmon92/name")), [0xff]).unwrap();
+            }
+            _ => unreachable!(),
+        }
+        f.put(&format!("{hw}/energy1_input"), "4000000");
+        let s = c.collect_at(2_500_000_000);
+        let r = reading(&s, sid);
+        assert_eq!(r.value, None, "{invalidation}: old scope must not publish");
+        assert_eq!(
+            r.availability,
+            if matches!(invalidation, "malformed" | "unknown-peer") {
+                Availability::Failed
+            } else {
+                Availability::Unavailable
+            },
+            "{invalidation}"
+        );
+        assert_eq!(
+            reading(&s, "intel-pci:0000:00:02.0/hwmon-i915-temp1_input").value,
+            None
+        );
+        if invalidation == "replacement" {
+            assert_eq!(
+                reading(
+                    &s,
+                    "intel-pci:0000:00:02.0/hwmon-i915_gt0-energy1_input-power"
+                )
+                .availability,
+                Availability::WarmingUp
+            );
+        }
+        f.put(&format!("{hw}/name"), "i915");
+        if matches!(invalidation, "duplicate" | "unknown-peer") {
+            fs::remove_dir_all(f.0.join(format!("{physical}/hwmon/hwmon92"))).unwrap();
+        }
+        f.put(&format!("{hw}/energy1_input"), "9000000");
+        assert_eq!(
+            reading(&c.collect_at(4_000_000_000), sid).availability,
+            Availability::WarmingUp,
+            "{invalidation}: recovery must reset baseline"
+        );
+    }
+}
+
+#[test]
 fn intel_legacy_clocks_reject_overflow_and_keep_requested_semantics() {
     let f = Fixture::new();
     f.base();
@@ -376,6 +446,54 @@ fn intel_integrated_powercap_pp1_is_separate_and_rejects_package_substitution() 
             .iter()
             .any(|r| r.sensor_id.ends_with("rapl-package-0-uncore-power") && r.value.is_some())
     );
+}
+#[test]
+fn intel_incomplete_powercap_identity_cannot_create_unique_attribution() {
+    for level in ["package", "domain"] {
+        let f = Fixture::new();
+        f.base();
+        f.intel("0000:00:02.0", "i915", &["card7"]);
+        f.put("sys/bus/event_source/devices/i915/type", "17");
+        let package = "sys/class/powercap/intel-rapl:0";
+        let domain = format!("{package}/intel-rapl:0:3");
+        f.put(&format!("{package}/name"), "package-0");
+        f.put(&format!("{package}/energy_uj"), "99999999");
+        f.put(&format!("{domain}/name"), "uncore");
+        f.put(&format!("{domain}/energy_uj"), "1000000");
+        let sid = "intel-pci:0000:00:02.0/rapl-package-0-uncore-power";
+        let mut c = HostCollector::rooted(f.0.clone());
+        assert_eq!(
+            reading(&c.collect_at(1_000_000_000), sid).availability,
+            Availability::WarmingUp
+        );
+        let unknown = if level == "package" {
+            "sys/class/powercap/intel-rapl:1".to_string()
+        } else {
+            format!("{package}/intel-rapl:0:4")
+        };
+        f.put(&format!("{unknown}/name"), "unknown");
+        fs::write(f.0.join(format!("{unknown}/name")), [0xff]).unwrap();
+        f.put(&format!("{domain}/energy_uj"), "4000000");
+        let s = c.collect_at(2_500_000_000);
+        assert!(
+            !s.readings
+                .iter()
+                .any(|r| r.sensor_id == sid && r.value.is_some()),
+            "{level}: unreadable zone must invalidate uniqueness"
+        );
+        assert!(
+            s.diagnostics
+                .iter()
+                .any(|d| d.availability == Availability::Failed
+                    && d.reason.contains(&format!("{unknown}/name")))
+        );
+        fs::remove_dir_all(f.0.join(unknown)).unwrap();
+        f.put(&format!("{domain}/energy_uj"), "9000000");
+        assert_eq!(
+            reading(&c.collect_at(4_000_000_000), sid).availability,
+            Availability::WarmingUp
+        );
+    }
 }
 #[test]
 fn intel_optional_sources_report_absence_and_malformed_discovery_explicitly() {

@@ -289,6 +289,19 @@ pub(super) fn regions(driver: &str, bytes: &[u8]) -> io::Result<Vec<Region>> {
         {
             return Err(invalid("invalid memory sizes"));
         }
+        // CPU-visible VRAM is a subset of the same local region. Validate the
+        // operands before deriving allocations; total-only bounds are insufficient.
+        if class == 1
+            && if driver == "i915" {
+                visible_count > count || visible_total - visible_count > total - count
+            } else {
+                visible_count > count
+            }
+        {
+            return Err(invalid(
+                "visible memory subset exceeds whole-region free/used bytes",
+            ));
+        }
         let used = if driver == "xe" {
             Some(count)
         } else if class == 1 && count < total {
@@ -410,6 +423,39 @@ mod tests {
             let mut bad = b.clone();
             put64(&mut bad, h + 88 + 8, u64::MAX);
             assert!(regions(driver, &bad).is_err());
+        }
+    }
+    #[test]
+    fn memory_visible_subset_cannot_exceed_whole_region_operands() {
+        for driver in ["i915", "xe"] {
+            let h = if driver == "i915" { 16 } else { 8 };
+            let mut b = memory(driver);
+            let local = h + 88;
+            put64(&mut b, local + 8, 16384);
+            put64(
+                &mut b,
+                local + 16,
+                if driver == "i915" { 12288 } else { 4096 },
+            );
+            put64(&mut b, local + 24, 16384);
+            put64(&mut b, local + 32, 8192);
+            assert!(
+                regions(driver, &b).is_err(),
+                "{driver}: visible used exceeds whole used"
+            );
+            if driver == "i915" {
+                put64(&mut b, local + 24, 16384);
+                put64(&mut b, local + 32, 16384);
+                assert!(
+                    regions(driver, &b).is_err(),
+                    "visible free exceeds whole free"
+                );
+                put64(&mut b, local + 32, 12288);
+            } else {
+                put64(&mut b, local + 32, 4096);
+            }
+            let regions = regions(driver, &b).unwrap();
+            assert_eq!(regions[1].used, Some(4096));
         }
     }
     #[test]

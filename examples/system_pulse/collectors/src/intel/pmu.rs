@@ -37,7 +37,23 @@ impl Pmu {
     ) {
         let prefix = format!("{id}/");
         let error = match specs {
-            Ok(specs) => {
+            Ok(mut specs) => {
+                // A failed event config cannot establish an engine class. Preserve
+                // the previous attributable identity when this event was known.
+                for spec in &mut specs {
+                    if spec.metadata_error.is_some()
+                        && let Some(slot) = self.slots.iter().find_map(|(key, slot)| {
+                            (key.starts_with(&prefix)
+                                && slot.spec.event_path == spec.event_path
+                                && spec.event_path.is_some())
+                            .then_some(slot)
+                        })
+                    {
+                        let error = spec.metadata_error.take();
+                        *spec = slot.spec.clone();
+                        spec.metadata_error = error;
+                    }
+                }
                 self.slots.retain(|key, _| {
                     !key.starts_with(&prefix)
                         || specs.iter().any(|v| key == &format!("{prefix}{}", v.id))
@@ -87,6 +103,9 @@ impl Pmu {
             let result = (|| {
                 if let Some(e) = &error {
                     return Err(io::Error::new(e.kind(), e.to_string()));
+                }
+                if let Some((kind, reason)) = &spec.metadata_error {
+                    return Err(io::Error::new(*kind, reason.clone()));
                 }
                 if slot.handle.is_none() {
                     slot.handle = Some((self.factory)(spec)?);
@@ -165,9 +184,12 @@ impl Pmu {
                 m.summary_sensor_id = key;
             }
         } else if count == 0 {
+            let availability = error
+                .as_ref()
+                .map_or(Availability::Unavailable, super::drm::error_availability);
             let reason =
                 error.map_or_else(|| "No engine counters exposed".into(), |e| e.to_string());
-            let r = missing(&format!("{id}/usage"), Availability::Unavailable, reason);
+            let r = missing(&format!("{id}/usage"), availability, reason);
             crate::host::sensor(
                 s,
                 id,
@@ -273,6 +295,8 @@ pub(super) struct Spec {
     pub total: Option<u64>,
     pub energy_denominator: u64,
     pub scope: String,
+    pub event_path: Option<PathBuf>,
+    pub metadata_error: Option<(io::ErrorKind, String)>,
 }
 fn first_cpu(list: &str) -> io::Result<i32> {
     let mut first = None;
@@ -325,16 +349,7 @@ fn specifications(
             if !name.ends_with("-busy") {
                 continue;
             }
-            if sysfs::text(&pmu.join(format!("events/{name}.unit")))? != "ns" {
-                return Err(invalid("i915 busy counter unit is not ns"));
-            }
-            let config = event(&path, "config=")?;
-            if config & 0xf != 0 || config >> 12 > 4 {
-                return Err(invalid("Unknown i915 engine busy configuration"));
-            }
-            let class = (config >> 12) as u16;
-            let instance = ((config >> 4) & 0xff) as u16;
-            specs.push(Spec {id:format!("engine-class{class}-instance{instance}"),pmu:pmu.into(),kind,cpu,active:config,total:None,energy_denominator:0,scope:format!("Physical GPU engine class {class}, instance {instance}; busy nanoseconds / measured elapsed nanoseconds; capacity 1")});
+            specs.push(i915_spec(pmu, &path, &name, kind, cpu, &sysfs::text));
         }
     } else {
         for (key, expected) in [
@@ -377,6 +392,8 @@ fn specifications(
                     "gt{}-engine-class{}-instance{}",
                     engine.gt, engine.class, engine.instance
                 ),
+                event_path: None,
+                metadata_error: None,
                 pmu: pmu.into(),
                 kind,
                 cpu,
@@ -408,6 +425,68 @@ fn specifications(
         return Err(invalid("Duplicate engine PMU configuration"));
     }
     Ok(specs)
+}
+fn i915_spec(
+    pmu: &Path,
+    path: &Path,
+    name: &str,
+    kind: u32,
+    cpu: i32,
+    read: &impl Fn(&Path) -> io::Result<String>,
+) -> Spec {
+    let config = (|| {
+        let unit_path = pmu.join(format!("events/{name}.unit"));
+        let unit = read(&unit_path)
+            .map_err(|e| io::Error::new(e.kind(), format!("{}: {e}", unit_path.display())))?;
+        if unit != "ns" {
+            return Err(invalid(&format!(
+                "{}: i915 busy counter unit is not ns",
+                unit_path.display()
+            )));
+        }
+        let text = read(path)?;
+        let value = text
+            .strip_prefix("config=0x")
+            .ok_or_else(|| invalid("Unexpected PMU config format"))?;
+        let config =
+            u64::from_str_radix(value, 16).map_err(|_| invalid("Invalid PMU config value"))?;
+        if config & 0xf != 0 || config >> 12 > 4 {
+            return Err(invalid("Unknown i915 engine busy configuration"));
+        }
+        Ok(config)
+    })();
+    let (id, active, scope, metadata_error) = match config {
+        Ok(config) => {
+            let class = config >> 12;
+            let instance = (config >> 4) & 0xff;
+            (
+                format!("engine-class{class}-instance{instance}"),
+                config,
+                format!(
+                    "Physical GPU engine class {class}, instance {instance}; busy nanoseconds / measured elapsed nanoseconds; capacity 1"
+                ),
+                None,
+            )
+        }
+        Err(e) => (
+            format!("event-{name}"),
+            0,
+            "PMU event metadata unavailable; no engine identity inferred".into(),
+            Some((e.kind(), format!("{}: {e}", path.display()))),
+        ),
+    };
+    Spec {
+        id,
+        pmu: pmu.into(),
+        kind,
+        cpu,
+        active,
+        total: None,
+        energy_denominator: 0,
+        scope,
+        event_path: Some(path.into()),
+        metadata_error,
+    }
 }
 fn utilization(a: &RawObservation, b: &RawObservation, elapsed: f64) -> Result<f64, String> {
     if !elapsed.is_finite() || elapsed <= 0.0 {
@@ -562,7 +641,11 @@ mod tests {
         assert_eq!(specs[0].active, 0);
         assert_eq!(specs[0].total, None);
         put("events/rcs0-busy.unit", "MHz");
-        assert!(specifications(&d, &path, &[], 0).is_err());
+        assert!(
+            specifications(&d, &path, &[], 0).unwrap()[0]
+                .metadata_error
+                .is_some()
+        );
         d.driver = "xe".into();
         put("events/engine-active-ticks", "event=0x2");
         put("events/engine-total-ticks", "event=0x3");
@@ -587,9 +670,171 @@ mod tests {
         assert!(specifications(&d, &path, std::slice::from_ref(&e), 0).is_err());
         std::fs::remove_dir_all(path).unwrap();
     }
+    #[test]
+    fn i915_bad_event_metadata_preserves_peer_sampling_and_recovery() {
+        struct Fake(u64);
+        impl Counter for Fake {
+            fn read(&mut self) -> io::Result<super::super::native::PerfRead> {
+                self.0 += 1;
+                Ok(super::super::native::PerfRead {
+                    active: self.0 * 500_000_000,
+                    total: 0,
+                    enabled: self.0 * 1_000_000_000,
+                    running: self.0 * 1_000_000_000,
+                })
+            }
+        }
+        let path = std::env::temp_dir().join(format!("pulse-pmu-peer-{}", std::process::id()));
+        std::fs::create_dir_all(path.join("events")).unwrap();
+        let put = |p: &str, v: &str| std::fs::write(path.join(p), v).unwrap();
+        put("type", "17");
+        put("events/rcs0-busy", "config=0x0");
+        put("events/rcs0-busy.unit", "ns");
+        put("events/bcs0-busy", "config=0x1000");
+        put("events/bcs0-busy.unit", "MHz");
+        let d = Device {
+            pci: "0000:00:02.0".into(),
+            driver: "i915".into(),
+            path: path.clone(),
+            cards: vec![],
+        };
+        let mut p = Pmu::new();
+        p.factory = Box::new(|_| Ok(Box::new(Fake(0))));
+        let run = |p: &mut Pmu, ns| {
+            let mut s = Snapshot::default();
+            p.sample_specs(
+                &mut s,
+                "intel-pci:test",
+                &Clock {
+                    origin: std::time::Instant::now(),
+                    fixed: Some(ns),
+                },
+                specifications(&d, &path, &[], 0),
+            );
+            s
+        };
+        let first = run(&mut p, 1_000_000_000);
+        assert!(
+            first
+                .readings
+                .iter()
+                .any(|r| r.sensor_id.ends_with("engine-class0-instance0")
+                    && r.availability == Availability::WarmingUp),
+            "valid peer suppressed: {:?}",
+            first.readings
+        );
+        assert!(
+            first
+                .readings
+                .iter()
+                .any(|r| r.availability == Availability::Failed)
+        );
+        let s = run(&mut p, 2_000_000_000);
+        assert!(s.readings.iter().any(|r| r.value == Some(50.0)));
+        put("events/bcs0-busy.unit", "ns");
+        let s = run(&mut p, 3_000_000_000);
+        assert!(
+            s.readings
+                .iter()
+                .any(|r| r.sensor_id.ends_with("engine-class1-instance0")
+                    && r.availability == Availability::WarmingUp)
+        );
+        put("events/bcs0-busy", "malformed");
+        let s = run(&mut p, 4_000_000_000);
+        assert!(
+            s.readings
+                .iter()
+                .any(|r| r.sensor_id.ends_with("engine-class0-instance0") && r.value == Some(50.0))
+        );
+        assert!(
+            s.readings
+                .iter()
+                .any(|r| r.sensor_id.ends_with("engine-class1-instance0")
+                    && r.availability == Availability::Failed)
+        );
+        put("events/bcs0-busy", "config=0x1000");
+        let s = run(&mut p, 5_000_000_000);
+        assert!(
+            s.readings
+                .iter()
+                .any(|r| r.sensor_id.ends_with("engine-class1-instance0")
+                    && r.availability == Availability::WarmingUp)
+        );
+        for (i, denied) in ["bcs0-busy", "bcs0-busy.unit"].iter().enumerate() {
+            let read = |path: &Path| {
+                if path.file_name().unwrap() == *denied {
+                    Err(io::Error::from(io::ErrorKind::PermissionDenied))
+                } else {
+                    sysfs::text(path)
+                }
+            };
+            let specs = ["rcs0-busy", "bcs0-busy"]
+                .iter()
+                .map(|name| {
+                    i915_spec(
+                        &path,
+                        &path.join(format!("events/{name}")),
+                        name,
+                        17,
+                        0,
+                        &read,
+                    )
+                })
+                .collect();
+            let mut s = Snapshot::default();
+            p.sample_specs(
+                &mut s,
+                "intel-pci:test",
+                &Clock {
+                    origin: std::time::Instant::now(),
+                    fixed: Some((6 + i as u64 * 2) * 1_000_000_000),
+                },
+                Ok(specs),
+            );
+            assert!(
+                s.readings
+                    .iter()
+                    .any(|r| r.sensor_id.ends_with("engine-class0-instance0")
+                        && r.value == Some(50.0))
+            );
+            assert!(
+                s.readings
+                    .iter()
+                    .any(|r| r.sensor_id.ends_with("engine-class1-instance0")
+                        && r.availability == Availability::Unavailable
+                        && r.value.is_none())
+            );
+            let recovered = run(&mut p, (7 + i as u64 * 2) * 1_000_000_000);
+            assert!(
+                recovered
+                    .readings
+                    .iter()
+                    .any(|r| r.sensor_id.ends_with("engine-class1-instance0")
+                        && r.availability == Availability::WarmingUp)
+            );
+        }
+        std::fs::remove_dir_all(path).unwrap();
+    }
+    #[test]
+    fn initial_malformed_pmu_discovery_is_failed() {
+        let mut p = Pmu::new();
+        let mut s = Snapshot::default();
+        p.sample_specs(
+            &mut s,
+            "intel-pci:test",
+            &Clock {
+                origin: std::time::Instant::now(),
+                fixed: Some(1),
+            },
+            Err(invalid("Malformed PMU type")),
+        );
+        assert_eq!(s.readings[0].availability, Availability::Failed);
+    }
     fn spec(id: &str) -> Spec {
         Spec {
             id: id.into(),
+            event_path: None,
+            metadata_error: None,
             pmu: "/sys/test".into(),
             kind: 17,
             cpu: 0,

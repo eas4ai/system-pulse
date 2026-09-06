@@ -173,6 +173,7 @@ fn find_fields(
     }
     // Parent membership attributes the provider. CPU coretemp/powercap are deliberately absent.
     let mut providers = BTreeMap::<String, Vec<PathBuf>>::new();
+    let mut identities_complete = true;
     for hw in scan(&device.path.join("hwmon"), diagnostics) {
         match text(&hw.join("name")) {
             Ok(name)
@@ -181,12 +182,20 @@ fn find_fields(
                 providers.entry(name).or_default().push(hw);
             }
             Ok(_) => {}
-            Err(e) => diagnostics.push(BackendDiagnostic {
-                backend: "intel sysfs".into(),
-                availability: super::drm::error_availability(&e),
-                reason: format!("{}: {e}", hw.join("name").display()),
-            }),
+            Err(e) => {
+                identities_complete = false;
+                diagnostics.push(BackendDiagnostic {
+                    backend: "intel sysfs".into(),
+                    availability: super::drm::error_availability(&e),
+                    reason: format!("{}: {e}", hw.join("name").display()),
+                });
+            }
         }
+    }
+    // An unreadable peer might have the same provider name. The remaining
+    // readable provider cannot establish uniqueness from an incomplete scan.
+    if !identities_complete {
+        return fields;
     }
     for (name, paths) in providers {
         // Repeated names without a physical subdevice key do not support safe persistence.
@@ -288,7 +297,22 @@ pub(super) fn collect(
     counters: &mut Counters,
 ) {
     let mut diagnostics = Vec::new();
-    for (key, field) in find_fields(device, &mut diagnostics) {
+    let discovered = find_fields(device, &mut diagnostics);
+    // Remember descriptors for unavailable readings, but authorize hwmon access anew
+    // each frame: a reused ordinal, failed name, or ambiguous name is not a binding.
+    let valid_hwmon = discovered
+        .keys()
+        .cloned()
+        .collect::<std::collections::BTreeSet<_>>();
+    let binding_errors = diagnostics
+        .iter()
+        .map(|d| d.reason.as_str())
+        .collect::<Vec<_>>()
+        .join("; ");
+    let binding_failed = diagnostics
+        .iter()
+        .any(|d| d.availability == Availability::Failed);
+    for (key, field) in discovered {
         if fields.len() >= 512 && !fields.contains_key(&key) {
             diagnostic(s, "intel sysfs", "512-field bound exceeded".into());
             break;
@@ -361,6 +385,12 @@ pub(super) fn collect(
         let source = format!("{} ({})", field.path.display(), field.source_unit);
         let start = clock.now();
         let result = (|| {
+            if key.starts_with("hwmon-") && !valid_hwmon.contains(key) {
+                return Err(io::Error::new(
+                    if binding_failed { io::ErrorKind::InvalidData } else { io::ErrorKind::NotFound },
+                    format!("Hwmon provider/channel identity is no longer uniquely verified: {binding_errors}"),
+                ));
+            }
             if let Some(card) = &field.card
                 && card.join("device").canonicalize()? != device.path
             {
