@@ -35,7 +35,8 @@ selection in publication 147 and latched a competing-selection block. Later
 observations saw no instantiated selection; the block remained. Observation 330
 expired during panel validation at the existing eight-second batch deadline.
 This capture does not establish the hidden model selection or prove that recovery
-would have succeeded. Independent diagnosis is pending.
+would have succeeded. The [independent diagnosis](native-prior-visible-endpoint-review.md)
+identifies the visible-unselected expected restriction inside the valid prior prefix.
 
 The binary and running executable SHA-256 were both
 `7dbcd3adfae54db64e3ed5f32cf728ee55684fd1429c95c1bbd1e72a770340e7`.

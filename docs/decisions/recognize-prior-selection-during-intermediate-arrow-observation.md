@@ -16,6 +16,11 @@ and [review](../execution/real-system-readings/native-prior-selection-review.md)
 The [fresh untraced focused replay](../execution/real-system-readings/native-prior-selection-focused-pass.md)
 passed. Full aggregate acceptance and final review remain pending.
 
+The later [visible endpoint decision](defer-visible-endpoint-blocking-during-proven-prior-selection.md)
+refines only the initial bound prior-selected case after the [full failure](../execution/real-system-readings/native-prior-selection-full-failure.md).
+Its implementation passed independent SPEC and QUALITY; fresh native acceptance
+remains pending.
+
 ## Realized by
 
 - a4cab9f764252a691fbdbdff0896886d8ed00b8e test: recognize prior selection in intermediate arrow observations
