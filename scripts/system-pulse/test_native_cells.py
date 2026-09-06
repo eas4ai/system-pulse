@@ -2,6 +2,7 @@
 
 import ast
 from pathlib import Path
+from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
@@ -82,7 +83,15 @@ class NativeCellTests(unittest.TestCase):
 
     def replay(self):
         replay_visibility(
-            dict(app=self.native, target=TARGET, time=self.clock, require=require)
+            dict(
+                app=self.native,
+                target=TARGET,
+                time=self.clock,
+                require=require,
+                inspection=SimpleNamespace(
+                    metric=self.native.metric, preparation=lambda: None
+                ),
+            )
         )
 
     def test_row_lookup_skips_unrelated_cells(self):

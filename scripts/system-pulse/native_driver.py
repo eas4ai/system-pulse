@@ -663,7 +663,7 @@ class Native:
         self.save(name + ".json", rows)
         self.screenshot(name + ".png")
 
-    def process_cell(self, aid, deadline=None):
+    def process_cell(self, aid, deadline=None, *, prepare_missing=None):
         """Find a unique cell in its exact PID/start row under one deadline."""
         deadline = deadline if deadline is not None else time.monotonic() + 15
         row_id = aid.rsplit(":cell:", 1)[0]
@@ -679,6 +679,8 @@ class Native:
             ]
             require(len(panels) <= 1, "nonunique native Processes panel")
             if not panels:
+                if prepare_missing is not None:
+                    prepare_missing(deadline)
                 return None
             panel = self.cache["__panel:processes"] = panels[0]
             # The global cache cannot prove membership or uniqueness in this panel.
@@ -689,6 +691,8 @@ class Native:
             ]
             require(len(rows) <= 1, "nonunique native process row " + row_id)
             if not rows:
+                if prepare_missing is not None:
+                    prepare_missing(deadline)
                 return None
             row = rows[0]
             # Scan this row even when the cell is cached: a live cache entry alone
@@ -712,11 +716,19 @@ class Native:
 
         return self.wait(attempt, message="find process cell " + aid, deadline=deadline)
 
-    def metric(self, aid, name, visible=True):
+    def metric(self, aid, name, visible=True, *, prepare_missing=None):
         # Initial discovery is outside the original per-metric five-second bracket.
         def lookup(deadline=None):
             if aid.startswith("process:"):
-                return self.process_cell(aid, deadline)
+                return self.process_cell(
+                    aid,
+                    deadline,
+                    **(
+                        {"prepare_missing": prepare_missing}
+                        if prepare_missing is not None
+                        else {}
+                    ),
+                )
             return self.find(aid=aid, deadline=deadline)
 
         node = lookup()
@@ -1111,8 +1123,49 @@ class Native:
         path=None,
         fresh_panel=False,
         endpoint_index=None,
+        *,
+        inspection=None,
     ):
         """Observe exact selection in a complete tree within one fresh publication."""
+        reference_index = endpoint_index
+        reveal_event = "navigation-endpoint-reveal"
+        if inspection is not None:
+            require(
+                endpoint_index is None and expected == target,
+                "inspection cannot use a keyboard endpoint",
+            )
+            require(isinstance(inspection, dict), "missing inspection evidence")
+            # Copy caller-owned evidence once. Recovery never advances its reference.
+            inspection = json.loads(json.dumps(inspection))
+            for name in ("acknowledgement", "reference"):
+                evidence = inspection.get(name)
+                require(isinstance(evidence, dict), "missing inspection " + name)
+                require(
+                    evidence.get("target") == target,
+                    "wrong inspection " + name + " target",
+                )
+                require(
+                    type(evidence.get("index")) is int and evidence["index"] >= 0,
+                    "missing inspection " + name + " index",
+                )
+                publication = evidence.get("publication")
+                require(
+                    isinstance(publication, dict)
+                    and all(
+                        type(publication.get(key)) is int
+                        for key in (
+                            "application_pid",
+                            "sequence",
+                            "render_revision",
+                            "accepted_unix_ns",
+                        )
+                    )
+                    and publication["application_pid"] == self.app.pid,
+                    "missing or foreign inspection " + name + " publication",
+                )
+            reference_index = inspection["reference"]["index"]
+            reveal_event = "inspection-row-reveal"
+            fresh_panel = True
         recovery = None
         recovery_blocked = False
         recovery_preparing = False
@@ -1146,7 +1199,7 @@ class Native:
             # Panel discovery may span collection intervals; bracket selection
             # itself with one fresh publication after discovery has completed.
             before = self.frame()
-            scan = {} if endpoint_index is not None else None
+            scan = {} if reference_index is not None else None
             selected = self.selected(
                 deadline,
                 strict=True,
@@ -1189,6 +1242,9 @@ class Native:
                     or selected is None
                     and expected in row_ids
                 ):
+                    require(
+                        inspection is None, "inspection selection changed without input"
+                    )
                     recovery_blocked = True
                 if (
                     recovery is None
@@ -1197,8 +1253,8 @@ class Native:
                     and expected in ids
                     and complete_span
                     and not mapped[0] <= ids.index(expected) <= mapped[-1]
-                    and ids.index(expected) != endpoint_index
-                    and mapped[0] <= endpoint_index <= mapped[-1]
+                    and ids.index(expected) != reference_index
+                    and mapped[0] <= reference_index <= mapped[-1]
                 ):
                     if not recovery_preparing:
                         # Establish uniqueness before the fresh eligibility scan
@@ -1208,7 +1264,15 @@ class Native:
                         return None
                     recovery = {
                         "expected": expected,
-                        "original_index": endpoint_index,
+                        **(
+                            {"original_index": endpoint_index}
+                            if inspection is None
+                            else {
+                                "acknowledgement": inspection["acknowledgement"],
+                                "reference": inspection["reference"],
+                                "reference_index": reference_index,
+                            }
+                        ),
                         "eligibility_index": ids.index(expected),
                         "eligibility_span": [mapped[0], mapped[-1]],
                         "eligibility_sequence": after["snapshot"]["sequence"],
@@ -1253,7 +1317,33 @@ class Native:
                             recovery_proof = True
                             path = None
                             return None
-                        self.journal("navigation-endpoint-reveal-proof", **recovery)
+                        self.journal(
+                            reveal_event + "-proof",
+                            **recovery,
+                            **(
+                                {
+                                    "selected": selected[0],
+                                    "publication": {
+                                        "sequence": current_frame["snapshot"][
+                                            "sequence"
+                                        ],
+                                        **{
+                                            key: current_frame[key]
+                                            for key in (
+                                                "application_pid",
+                                                "render_revision",
+                                                "accepted_unix_ns",
+                                            )
+                                        },
+                                    },
+                                    "current_index": ids.index(expected),
+                                    "current_span": [mapped[0], mapped[-1]],
+                                    "deadline": deadline,
+                                }
+                                if inspection is not None
+                                else {}
+                            ),
+                        )
                         return selected, current_frame, path
                     if selected:
                         down = bounds[1] + bounds[3] > bottom
@@ -1265,7 +1355,7 @@ class Native:
                         return None
                     point = [(left + right) / 2, (top + bottom) / 2]
                     self.journal(
-                        "navigation-endpoint-reveal",
+                        reveal_event,
                         **recovery,
                         current_index=ids.index(expected),
                         current_span=[mapped[0], mapped[-1]],
@@ -1308,7 +1398,7 @@ class Native:
 
         return self.wait(poll, message="selected " + expected, deadline=deadline)
 
-    def navigate(self, target):
+    def navigate(self, target, *, on_acknowledged=None):
         deadline = time.monotonic() + 180
         self.navigation_context = {
             "target": target,
@@ -1317,7 +1407,7 @@ class Native:
             "last_acknowledged_identity": None,
         }
         try:
-            return self._navigate(target, deadline)
+            return self._navigate(target, deadline, on_acknowledged=on_acknowledged)
         except BaseException as error:
             context = dict(
                 self.navigation_context,
@@ -1331,7 +1421,7 @@ class Native:
                 ) from error
             raise
 
-    def _navigate(self, target, deadline):
+    def _navigate(self, target, deadline, *, on_acknowledged=None):
         self.enter_processes()
         batch_deadline = min(deadline, time.monotonic() + 8)
         path = self.wait(
@@ -1429,9 +1519,29 @@ class Native:
             if selected[0] == target:
                 # Intermediate acknowledgements pace input. Success independently
                 # rediscovers the unique current panel and exact selected target.
-                selected, _, _ = self.navigation_selection(
+                selected, acknowledged, _ = self.navigation_selection(
                     target, target, batch_deadline, reconcile=True, fresh_panel=True
                 )
+                if on_acknowledged is not None:
+                    on_acknowledged(
+                        {
+                            "target": selected[0],
+                            "index": list(
+                                map(identity, acknowledged["snapshot"]["processes"])
+                            ).index(target),
+                            "publication": {
+                                "sequence": acknowledged["snapshot"]["sequence"],
+                                **{
+                                    key: acknowledged[key]
+                                    for key in (
+                                        "application_pid",
+                                        "render_revision",
+                                        "accepted_unix_ns",
+                                    )
+                                },
+                            },
+                        }
+                    )
                 return selected
             delta = ids.index(target) - ids.index(selected[0])
             self.navigation_context.update(

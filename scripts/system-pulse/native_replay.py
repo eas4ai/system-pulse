@@ -37,7 +37,78 @@ def result_status(cases, focus, completed, errors):
     return "PASS" if completed and not errors and required_satisfied else "FAIL"
 
 
-def reveal_process_cell(app, aid, key, deadline):
+class ProcessInspection:
+    """Caller-owned ACK and last successful metric for one controlled child."""
+
+    def __init__(self, app, target):
+        self.app = app
+        self.target = target
+        self.acknowledgement = None
+        self.reference = None
+
+    def acknowledge(self, evidence):
+        require(evidence["target"] == self.target, "wrong inspection acknowledgement")
+        require(self.acknowledgement is None, "inspection already acknowledged")
+        self.acknowledgement = copy.deepcopy(evidence)
+        self.reference = dict(copy.deepcopy(evidence), source="navigation")
+
+    def preparation(self):
+        require(self.acknowledgement is not None, "missing inspection acknowledgement")
+        # One frozen observation serves the entire metric or horizontal gesture.
+        evidence = copy.deepcopy(
+            {
+                "acknowledgement": self.acknowledgement,
+                "reference": self.reference,
+            }
+        )
+
+        def prepare(deadline):
+            self.app.navigation_selection(
+                self.target,
+                self.target,
+                deadline,
+                fresh_panel=True,
+                inspection=evidence,
+            )
+
+        return prepare
+
+    def metric(self, aid, name, visible=True):
+        require(
+            aid.rsplit(":cell:", 1)[0] == self.target, "wrong inspection metric target"
+        )
+        artifact = self.app.metric(
+            aid, name, visible=visible, prepare_missing=self.preparation()
+        )
+        frame = artifact["frame"]
+        ids = [
+            f"process:{row['identity']['pid']}:{row['identity']['start_time_ticks']}"
+            for row in frame["snapshot"]["processes"]
+        ]
+        require(
+            artifact["entry"]["element_id"] == aid and ids.count(self.target) == 1,
+            "inspection metric does not prove exact target",
+        )
+        self.reference = {
+            "target": self.target,
+            "index": ids.index(self.target),
+            "source": name + ".json",
+            "publication": {
+                "sequence": frame["snapshot"]["sequence"],
+                **{
+                    key: frame[key]
+                    for key in (
+                        "application_pid",
+                        "render_revision",
+                        "accepted_unix_ns",
+                    )
+                },
+            },
+        }
+        return artifact
+
+
+def reveal_process_cell(app, aid, key, deadline, *, prepare_missing=None):
     cell = None
 
     def observe(read):
@@ -46,7 +117,15 @@ def reveal_process_cell(app, aid, key, deadline):
         # Keep this gesture's node only after a complete, live, exact-ID read.
         # An interrupted read leaves it unset so the next poll reacquires it.
         if not app.alive(current) or current.get_accessible_id() != aid:
-            current = app.process_cell(aid, deadline)
+            current = app.process_cell(
+                aid,
+                deadline,
+                **(
+                    {"prepare_missing": prepare_missing}
+                    if prepare_missing is not None
+                    else {}
+                ),
+            )
         value = read(current)
         if not app.alive(current) or current.get_accessible_id() != aid:
             return None
@@ -762,7 +841,8 @@ def main():
             5,
             "real child appearance",
         )
-        selected_row = app.navigate(target)
+        inspection = ProcessInspection(app, target)
+        selected_row = app.navigate(target, on_acknowledged=inspection.acknowledge)
         cached_cells = [
             node.get_accessible_id()
             for node in app.walk(selected_row[1])
@@ -774,10 +854,14 @@ def main():
         )
         app.save(
             "real-child-cell-discovery.json",
-            {"identity": target, "cell_ids": cached_cells},
+            {
+                "identity": target,
+                "cell_ids": cached_cells,
+                "acknowledgement": inspection.acknowledgement,
+            },
         )
         for column in range(8):
-            app.metric(
+            inspection.metric(
                 target + f":cell:{column}", f"child-cell-{column}", visible=False
             )
         # Independently match every column again while its full label is actually clipped-visible.
@@ -791,8 +875,14 @@ def main():
                 else f"child-visible-{column}"
             )
             deadline = time.monotonic() + 5
-            reveal_process_cell(app, target + f":cell:{column}", key, deadline)
-            app.metric(target + f":cell:{column}", name)
+            reveal_process_cell(
+                app,
+                target + f":cell:{column}",
+                key,
+                deadline,
+                prepare_missing=inspection.preparation(),
+            )
+            inspection.metric(target + f":cell:{column}", name)
         app.sequences()
         app.acknowledge(target, time.monotonic() + 5)
         before_seq = app.frame()["snapshot"]["sequence"]
