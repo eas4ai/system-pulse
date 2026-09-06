@@ -77,9 +77,7 @@ fn pool_drains_real_objects_on_normal_return_early_return_and_unwind() {
         }
         Ok(())
     }
-    let mut early = early_return(true)
-        .err()
-        .expect("exercise early error return");
+    let mut early = early_return(true).expect_err("exercise early error return");
     assert!(!early.is_alive(), "early return must drain the native pool");
 
     let mut unwound = None;
