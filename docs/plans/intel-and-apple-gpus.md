@@ -91,7 +91,7 @@ Expected baseline: the assertion fails because the Intel monitor is absent; exac
 
 **Own:** `examples/system_pulse/src/live.rs`, existing meter/formatter code, model presentation/persistence tests, and additive collector metadata only if the current source/scope fields cannot express a required fact.
 
-- [ ] Add failing tests for shared GPU allocation without a capacity total, dedicated VRAM with a valid total, and rejected system-RAM/process-footprint substitutions. Assert both the physical quantity and visible label; a string-only test is insufficient.
+- [ ] Add focused tests for shared GPU allocation without a capacity total, dedicated VRAM with a valid total, and rejected system-RAM/process-footprint substitutions. Assert both the physical quantity and visible label; a string-only test is insufficient. Record existing correct behavior as passing baseline coverage. For a reproduced defect, retain a failing regression before its correction; do not change working behavior to manufacture a failure.
 - [ ] Map byte-valued shared allocations through the existing scalar/counter-compatible meters. Capacity rendering requires a valid known total. Keep historical AMD/NVIDIA IDs and saved presentation choices unchanged.
 - [ ] Extend discovery/restoration cases with Intel and Apple metadata, mixed vendors, absent/reappearing devices and same-name devices. Inject stale and failed readings to prove that a fresh snapshot cannot refresh an old native value as current.
 - [ ] Run collector, model and app tests and affected formatting/Clippy checks. Review specification compliance first, then quality, before committing task closure.
