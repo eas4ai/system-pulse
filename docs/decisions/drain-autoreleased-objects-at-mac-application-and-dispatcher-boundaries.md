@@ -17,4 +17,6 @@ Evidence is recorded in docs/execution/intel-and-apple-gpus/apple-gui-preflight-
 
 ## Realized by
 
-(none yet: recorded, not built)
+- c4a6aab106826a5c20c8f48a49e6617a14a2b57b fix: scope macOS application and dispatcher autoreleased objects
+
+This identifies the built source scopes only. Mac F1, the unfiltered full-application replay and independent quality approval remain open in docs/execution/intel-and-apple-gpus/apple-pool-spec-review.md. Binding the source commit does not grant native acceptance.

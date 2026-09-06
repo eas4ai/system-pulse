@@ -120,8 +120,8 @@ found the two source scopes and pinned dependency changes compliant, with no
 additional source-contract mismatch. It did not grant unconditional acceptance:
 F1 remains high severity because 16 background warnings are unexplained and the
 required unfiltered full-application replay, interactions and orderly shutdown
-are still missing. Quality approval and source-decision realization remain
-pending that specification proof. Task 5 is still the only item in progress.
+are still missing. Quality approval remains pending that specification proof. The source decision
+now identifies the built commit separately from native acceptance. Task 5 is still the only item in progress.
 
 While the Mac full-application proof awaits an unlocked desktop, the independent
 Linux investigation recorded a [pending process reveal race](../execution/intel-and-apple-gpus/linux-pending-process-reveal-finding.md).

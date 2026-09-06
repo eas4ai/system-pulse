@@ -17,4 +17,4 @@ This corrects recorded Task 4 specification finding F9. The existing Task 4 impl
 
 ## Realized by
 
-(none yet: recorded, not built)
+- ece89eaec5c7e0775b44583dcefaa92661cc46ca fix: bind GPU acceptance to complete native evidence

@@ -11,4 +11,6 @@ Implement Intel Linux through direct DRM/sysfs, read-only device queries and doc
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 4db68c71304d368977265e31ba365b121fcfd9f0 fix: preserve GPU memory freshness and physical identities
+
+This binds the reviewed collector and memory integration source. Required hardware captures and aggregate GPU acceptance remain incomplete.
