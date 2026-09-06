@@ -29,7 +29,7 @@ The native getters `IOReportChannelGetFormat`, `IOReportChannelGetDriverID`, `IO
 
 A separate maintained [Stats sensor table](https://github.com/exelban/stats/blob/6ef61b71de53eab400f811456ddeac5bef631308/Modules/Sensors/values.swift#L371) identifies `Tg05` and `Tg0D` as M1-generation GPU temperature sensors. It does not identify the observed zero-valued `Tg04` and `Tg0C` candidates in that table. This narrows the attribution lead; load validation of the approximately 9.2 readings is still required.
 
-The retained idle pairs advanced only `OFF` residency and left the energy counters unchanged. That is consistent with an idle GPU; it does not establish activity, frequency or power accuracy under load.
+The retained idle pairs advanced only `OFF` residency and left the energy counters unchanged. That is consistent with an idle GPU. A subsequent [bounded Metal source probe](apple-loaded-source-probe.md) observed active residency, energy and responding temperature keys under load. Production accuracy and idle temperature validity remain to be established.
 
 ## Ownership and boundary checks
 
@@ -47,4 +47,4 @@ The supplied MIT [macmon native sources](../../../../../task-manager/reference/m
 
 The [source inventory and artifact manifest](apple-source-probe.json) retain the four raw JSON captures. Probe scripts, stdout, stderr and SHA-256/size manifest are also retained outside the checkout at `/home/shawn/workspace2/task-manager-artifacts/gpu-recon/manifest.json`. Twelve declared script/output artifacts cover IOReport metadata/raw samples, Metal/registry/DVFS/memory, SMC and HID. All four retained probe commands exited zero. The manifest SHA-256 is `de2ee3df6ae11fe07c904290d4345ead5ede2983fb8797811c0fa8a6702166ef`; these observations are not Cairn pass receipts.
 
-Desktop preflight found console user 501 and accessibility trust available to the SSH-launched probe. Screen-capture preflight returned false. Actual application launch, visible labels/interactions, controlled GPU load and capture permissions remain to be established during native validation.
+Desktop preflight found console user 501 and accessibility trust available to the SSH-launched probe. Screen-capture preflight returned false. Actual application launch, visible labels/interactions and capture permissions remain to be established during native validation. The later source probe exercised a controlled GPU load and confirmed its process exited.

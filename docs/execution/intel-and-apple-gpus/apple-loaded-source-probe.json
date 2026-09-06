@@ -1,0 +1,687 @@
+{
+  "artifacts": {
+    "apple-ioreport-getters-probe.py": {
+      "bytes": 6295,
+      "sha256": "570cf17d41c4c5c843fccf7ae0fc6f60532170c351c25097d28424bbd451a8a1"
+    },
+    "apple-load-compile.json": {
+      "bytes": 459,
+      "sha256": "7b5581d1ef02c39c6b70fb14a761bcecc687ede5c9b3e546c7cd9bbd1720dc94"
+    },
+    "apple-load-compile.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "apple-load-compile.stdout.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "apple-load-probe.swift": {
+      "bytes": 2851,
+      "sha256": "305d44dd5691b731ebf899e0e283432aec84c759198329b5d0da379a7ba8bd15"
+    },
+    "apple-load-run.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "apple-load-run.stdout.json": {
+      "bytes": 281,
+      "sha256": "bf8eebff86b1f12f284b569152e2736296f2a3d7aa2235d33e6effdaf9efb489"
+    },
+    "apple-loaded-source-probe.json": {
+      "bytes": 2235,
+      "sha256": "e69b3a6e0fa0e5214b34d6ea72f923e079e732a0f0d9c59773fe61c9cc71a50a"
+    },
+    "apple-temperature-probe.py": {
+      "bytes": 9110,
+      "sha256": "a9adb187ee9acde5f141139410a7626328b9dbd2e7ee38f2714a35fd19a3fc6e"
+    },
+    "ioreport-during-load.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "ioreport-during-load.stdout.json": {
+      "bytes": 8575,
+      "sha256": "787a6b158e7325f2be27b2f45e2cb8eae6ec6dea1bdcf4010373dd682d3b2760"
+    },
+    "temperature-after-load.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "temperature-after-load.stdout.json": {
+      "bytes": 1504,
+      "sha256": "6e9c64bae6d040190ba26e9cba55f73100ac6e33dc0d7b54aa2dfb4829a5a2bf"
+    },
+    "temperature-before-load.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "temperature-before-load.stdout.json": {
+      "bytes": 1476,
+      "sha256": "f4359a090b82756e9f444a5bb61dd038e95c9c574b4646329d16a458f29c4330"
+    },
+    "temperature-during-load.stderr.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "temperature-during-load.stdout.json": {
+      "bytes": 1504,
+      "sha256": "0358365941d889b82e3458064f5077a2d5ed252e203977f1f61adba7b445e1bd"
+    }
+  },
+  "compile": {
+    "binary_sha256": "0410b18e08443aa1ab0d6905c772e739374b9155a9f7994641b31160477a91de",
+    "command": [
+      "xcrun",
+      "swiftc",
+      "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/apple-load-probe.swift",
+      "-o",
+      "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/apple-load-probe"
+    ],
+    "elapsed_seconds": 3.453316667,
+    "exit_code": 0,
+    "source_sha256": "305d44dd5691b731ebf899e0e283432aec84c759198329b5d0da379a7ba8bd15"
+  },
+  "execution": {
+    "binary_sha256": "0410b18e08443aa1ab0d6905c772e739374b9155a9f7994641b31160477a91de",
+    "end_ns": 16265988000,
+    "probes": [
+      {
+        "end_ns": 594419416,
+        "exit_code": 0,
+        "label": "temperature-before-load",
+        "script": "apple-temperature-probe.py",
+        "script_sha256": "a9adb187ee9acde5f141139410a7626328b9dbd2e7ee38f2714a35fd19a3fc6e",
+        "start_ns": 31977583,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "f4359a090b82756e9f444a5bb61dd038e95c9c574b4646329d16a458f29c4330"
+      },
+      {
+        "end_ns": 4001378666,
+        "exit_code": 0,
+        "label": "temperature-during-load",
+        "script": "apple-temperature-probe.py",
+        "script_sha256": "a9adb187ee9acde5f141139410a7626328b9dbd2e7ee38f2714a35fd19a3fc6e",
+        "start_ns": 3607762416,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "0358365941d889b82e3458064f5077a2d5ed252e203977f1f61adba7b445e1bd"
+      },
+      {
+        "end_ns": 5037250791,
+        "exit_code": 0,
+        "label": "ioreport-during-load",
+        "script": "apple-ioreport-getters-probe.py",
+        "script_sha256": "570cf17d41c4c5c843fccf7ae0fc6f60532170c351c25097d28424bbd451a8a1",
+        "start_ns": 4001987500,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "787a6b158e7325f2be27b2f45e2cb8eae6ec6dea1bdcf4010373dd682d3b2760"
+      },
+      {
+        "end_ns": 16857687625,
+        "exit_code": 0,
+        "label": "temperature-after-load",
+        "script": "apple-temperature-probe.py",
+        "script_sha256": "a9adb187ee9acde5f141139410a7626328b9dbd2e7ee38f2714a35fd19a3fc6e",
+        "start_ns": 16265989500,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "6e9c64bae6d040190ba26e9cba55f73100ac6e33dc0d7b54aa2dfb4829a5a2bf"
+      }
+    ],
+    "process_exited": true,
+    "start_ns": 595407958,
+    "workload_exit": 0,
+    "workload_pid": 99967,
+    "workload_stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "workload_stdout_sha256": "bf8eebff86b1f12f284b569152e2736296f2a3d7aa2235d33e6effdaf9efb489"
+  },
+  "raw_probes": {
+    "ioreport-during-load": {
+      "metadata": [
+        {
+          "channel": "GPU0",
+          "channel_id": 4921957558051156275,
+          "driver_id": 4294968421,
+          "encoded_unit": 216173314689728512,
+          "format": 1,
+          "group": "Energy Model",
+          "native_metadata": {
+            "ChannelName": "GPU0",
+            "DriverID": 4294968421,
+            "DriverName": "AppleT6000PMGR <id 0x100000465>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 216173314689728512
+            },
+            "IOReportGroupName": "Energy Model",
+            "LegendChannel": [
+              4921957558051156275,
+              4295098369,
+              "GPU0"
+            ],
+            "UnitLabel": "mJ"
+          },
+          "subgroup": null,
+          "unit": "mJ"
+        },
+        {
+          "channel": "GPU SRAM0",
+          "channel_id": 4921957558051156276,
+          "driver_id": 4294968421,
+          "encoded_unit": 216173314689728512,
+          "format": 1,
+          "group": "Energy Model",
+          "native_metadata": {
+            "ChannelName": "GPU SRAM0",
+            "DriverID": 4294968421,
+            "DriverName": "AppleT6000PMGR <id 0x100000465>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 216173314689728512
+            },
+            "IOReportGroupName": "Energy Model",
+            "LegendChannel": [
+              4921957558051156276,
+              4295098369,
+              "GPU SRAM0"
+            ],
+            "UnitLabel": "mJ"
+          },
+          "subgroup": null,
+          "unit": "mJ"
+        },
+        {
+          "channel": "GPU Energy",
+          "channel_id": 76202472785753,
+          "driver_id": 4294969787,
+          "encoded_unit": 216173288919924736,
+          "format": 1,
+          "group": "Energy Model",
+          "native_metadata": {
+            "ChannelName": "GPU Energy",
+            "DriverID": 4294969787,
+            "DriverName": "AGXAcceleratorG13X <id 0x1000009bb>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 216173288919924736
+            },
+            "IOReportGroupName": "Energy Model",
+            "LegendChannel": [
+              76202472785753,
+              4295098369,
+              "GPU Energy"
+            ],
+            "UnitLabel": "nJ"
+          },
+          "subgroup": null,
+          "unit": "nJ"
+        },
+        {
+          "channel": "GPUPH",
+          "channel_id": 306290446408,
+          "driver_id": 4294969787,
+          "encoded_unit": 72058115876454424,
+          "format": 2,
+          "group": "GPU Stats",
+          "native_metadata": {
+            "ChannelName": "GPUPH",
+            "DriverID": 4294969787,
+            "DriverName": "AGXAcceleratorG13X <id 0x1000009bb>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 72058115876454424
+            },
+            "IOReportGroupName": "GPU Stats",
+            "IOReportSubGroupName": "GPU Performance States",
+            "LegendChannel": [
+              306290446408,
+              68719607810
+            ],
+            "UnitLabel": "24Mticks"
+          },
+          "subgroup": "GPU Performance States",
+          "unit": "24Mticks"
+        }
+      ],
+      "samples": [
+        {
+          "query_end_ns": 203168166,
+          "query_start_ns": 201423458,
+          "values": [
+            {
+              "channel": "GPU0",
+              "channel_id": 4921957558051156275,
+              "driver_id": 4294968421,
+              "encoded_unit": 216173314689728512,
+              "format": 1,
+              "group": "Energy Model",
+              "integer": 464363,
+              "subgroup": null,
+              "unit": "mJ"
+            },
+            {
+              "channel": "GPU SRAM0",
+              "channel_id": 4921957558051156276,
+              "driver_id": 4294968421,
+              "encoded_unit": 216173314689728512,
+              "format": 1,
+              "group": "Energy Model",
+              "integer": 22267,
+              "subgroup": null,
+              "unit": "mJ"
+            },
+            {
+              "channel": "GPU Energy",
+              "channel_id": 76202472785753,
+              "driver_id": 4294969787,
+              "encoded_unit": 216173288919924736,
+              "format": 1,
+              "group": "Energy Model",
+              "integer": 486606521660,
+              "subgroup": null,
+              "unit": "nJ"
+            },
+            {
+              "channel": "GPUPH",
+              "channel_id": 306290446408,
+              "driver_id": 4294969787,
+              "encoded_unit": 72058115876454424,
+              "format": 2,
+              "group": "GPU Stats",
+              "state_count": 16,
+              "states": [
+                {
+                  "name": "OFF",
+                  "residency": 12313595154056
+                },
+                {
+                  "name": "P1",
+                  "residency": 31078313824
+                },
+                {
+                  "name": "P2",
+                  "residency": 1156996336
+                },
+                {
+                  "name": "P3",
+                  "residency": 1155901021
+                },
+                {
+                  "name": "P4",
+                  "residency": 2141582376
+                },
+                {
+                  "name": "P5",
+                  "residency": 387725522
+                },
+                {
+                  "name": "P6",
+                  "residency": 87442453
+                },
+                {
+                  "name": "P7",
+                  "residency": 0
+                },
+                {
+                  "name": "P8",
+                  "residency": 0
+                },
+                {
+                  "name": "P9",
+                  "residency": 0
+                },
+                {
+                  "name": "P10",
+                  "residency": 0
+                },
+                {
+                  "name": "P11",
+                  "residency": 0
+                },
+                {
+                  "name": "P12",
+                  "residency": 0
+                },
+                {
+                  "name": "P13",
+                  "residency": 0
+                },
+                {
+                  "name": "P14",
+                  "residency": 0
+                },
+                {
+                  "name": "P15",
+                  "residency": 0
+                }
+              ],
+              "subgroup": "GPU Performance States",
+              "unit": "24Mticks"
+            }
+          ]
+        },
+        {
+          "query_end_ns": 1014575041,
+          "query_start_ns": 1013276625,
+          "values": [
+            {
+              "channel": "GPU0",
+              "channel_id": 4921957558051156275,
+              "driver_id": 4294968421,
+              "encoded_unit": 216173314689728512,
+              "format": 1,
+              "group": "Energy Model",
+              "integer": 472258,
+              "subgroup": null,
+              "unit": "mJ"
+            },
+            {
+              "channel": "GPU SRAM0",
+              "channel_id": 4921957558051156276,
+              "driver_id": 4294968421,
+              "encoded_unit": 216173314689728512,
+              "format": 1,
+              "group": "Energy Model",
+              "integer": 22267,
+              "subgroup": null,
+              "unit": "mJ"
+            },
+            {
+              "channel": "GPU Energy",
+              "channel_id": 76202472785753,
+              "driver_id": 4294969787,
+              "encoded_unit": 216173288919924736,
+              "format": 1,
+              "group": "Energy Model",
+              "integer": 494465940160,
+              "subgroup": null,
+              "unit": "nJ"
+            },
+            {
+              "channel": "GPUPH",
+              "channel_id": 306290446408,
+              "driver_id": 4294969787,
+              "encoded_unit": 72058115876454424,
+              "format": 2,
+              "group": "GPU Stats",
+              "state_count": 16,
+              "states": [
+                {
+                  "name": "OFF",
+                  "residency": 12313595154056
+                },
+                {
+                  "name": "P1",
+                  "residency": 31078313824
+                },
+                {
+                  "name": "P2",
+                  "residency": 1156996336
+                },
+                {
+                  "name": "P3",
+                  "residency": 1155901021
+                },
+                {
+                  "name": "P4",
+                  "residency": 2141582376
+                },
+                {
+                  "name": "P5",
+                  "residency": 387725522
+                },
+                {
+                  "name": "P6",
+                  "residency": 106935723
+                },
+                {
+                  "name": "P7",
+                  "residency": 0
+                },
+                {
+                  "name": "P8",
+                  "residency": 0
+                },
+                {
+                  "name": "P9",
+                  "residency": 0
+                },
+                {
+                  "name": "P10",
+                  "residency": 0
+                },
+                {
+                  "name": "P11",
+                  "residency": 0
+                },
+                {
+                  "name": "P12",
+                  "residency": 0
+                },
+                {
+                  "name": "P13",
+                  "residency": 0
+                },
+                {
+                  "name": "P14",
+                  "residency": 0
+                },
+                {
+                  "name": "P15",
+                  "residency": 0
+                }
+              ],
+              "subgroup": "GPU Performance States",
+              "unit": "24Mticks"
+            }
+          ]
+        }
+      ]
+    },
+    "temperature-after-load": {
+      "hid": {
+        "gpu_rows": [],
+        "service_count": 64
+      },
+      "smc": {
+        "key_count": 2052,
+        "key_data_size": 80,
+        "rows": [
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "F0Ac",
+            "query_end_ns": 249070583,
+            "query_start_ns": 248939583,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "F1Ac",
+            "query_end_ns": 251945708,
+            "query_start_ns": 251691291,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "25063142",
+            "decoded_float": 44.25600051879883,
+            "key": "Tg04",
+            "query_end_ns": 388213958,
+            "query_start_ns": 386893666,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "f2d25542",
+            "decoded_float": 53.45600128173828,
+            "key": "Tg05",
+            "query_end_ns": 389253125,
+            "query_start_ns": 388969166,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "ee6c2442",
+            "decoded_float": 41.10637664794922,
+            "key": "Tg0C",
+            "query_end_ns": 389991625,
+            "query_start_ns": 389712791,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "bb394942",
+            "decoded_float": 50.30637741088867,
+            "key": "Tg0D",
+            "query_end_ns": 390676708,
+            "query_start_ns": 390480041,
+            "size": 4,
+            "type": "flt "
+          }
+        ]
+      }
+    },
+    "temperature-before-load": {
+      "hid": {
+        "gpu_rows": [],
+        "service_count": 64
+      },
+      "smc": {
+        "key_count": 2052,
+        "key_data_size": 80,
+        "rows": [
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "F0Ac",
+            "query_end_ns": 212267333,
+            "query_start_ns": 212068833,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "F1Ac",
+            "query_end_ns": 215028458,
+            "query_start_ns": 214841166,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "Tg04",
+            "query_end_ns": 351113208,
+            "query_start_ns": 350846625,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "33331341",
+            "decoded_float": 9.199999809265137,
+            "key": "Tg05",
+            "query_end_ns": 351883583,
+            "query_start_ns": 351703208,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "Tg0C",
+            "query_end_ns": 352679791,
+            "query_start_ns": 352414000,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "33331341",
+            "decoded_float": 9.199999809265137,
+            "key": "Tg0D",
+            "query_end_ns": 353447541,
+            "query_start_ns": 353243291,
+            "size": 4,
+            "type": "flt "
+          }
+        ]
+      }
+    },
+    "temperature-during-load": {
+      "hid": {
+        "gpu_rows": [],
+        "service_count": 64
+      },
+      "smc": {
+        "key_count": 2052,
+        "key_data_size": 80,
+        "rows": [
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "F0Ac",
+            "query_end_ns": 182605333,
+            "query_start_ns": 182500666,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "00000000",
+            "decoded_float": 0.0,
+            "key": "F1Ac",
+            "query_end_ns": 183862458,
+            "query_start_ns": 183757166,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "61da2242",
+            "decoded_float": 40.713260650634766,
+            "key": "Tg04",
+            "query_end_ns": 251423958,
+            "query_start_ns": 251302583,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "2ea74742",
+            "decoded_float": 49.91326141357422,
+            "key": "Tg05",
+            "query_end_ns": 251739833,
+            "query_start_ns": 251634500,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "d3571542",
+            "decoded_float": 37.33576583862305,
+            "key": "Tg0C",
+            "query_end_ns": 252070458,
+            "query_start_ns": 251960583,
+            "size": 4,
+            "type": "flt "
+          },
+          {
+            "bytes_hex": "a0243a42",
+            "decoded_float": 46.5357666015625,
+            "key": "Tg0D",
+            "query_end_ns": 252392125,
+            "query_start_ns": 252285333,
+            "size": 4,
+            "type": "flt "
+          }
+        ]
+      }
+    }
+  },
+  "raw_workload": {
+    "buffer_bytes": 1048576,
+    "commands": 11802,
+    "device": "Apple M1 Pro",
+    "elapsed_seconds": 15.00091320835054,
+    "first_gpu_start": 514570.164468,
+    "last_gpu_end": 514585.16302250006,
+    "pid": 99967,
+    "registry_id": 4294969787,
+    "sample": 0.8234434127807617
+  },
+  "status": "source reconnaissance only; not production or hardware acceptance"
+}
