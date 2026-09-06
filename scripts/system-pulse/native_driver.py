@@ -1582,6 +1582,10 @@ class Native:
                     publication=publication(result[1]),
                     status="no instantiated selected identity",
                 )
+        require(
+            time.monotonic() < deadline,
+            "navigation outcome journal exceeded original deadline",
+        )
         return result
 
     def navigate(self, target, *, on_acknowledged=None):

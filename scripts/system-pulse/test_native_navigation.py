@@ -1220,14 +1220,16 @@ class NavigationTests(unittest.TestCase):
 
     def test_total_deadline_caps_reconciliation(self):
         self.exit_after_ack(clear_at=1000)
-        prior = self.after_ack
+        selection = self.native.navigation_selection
 
-        def late_exit(selected):
-            prior(selected)
-            if selected == aid(2):
+        def late_exit(*args, **kwargs):
+            result = selection(*args, **kwargs)
+            if args[0] == aid(2):
+                # Delay between acknowledged batches, after the journal guard.
                 self.clock.now = 179
+            return result
 
-        self.after_ack = late_exit
+        self.native.navigation_selection = late_exit
         with self.assertRaisesRegex(TimeoutError, "original180s deadline"):
             self.navigate()
         self.assertEqual(self.clock.now, 180)
@@ -1359,8 +1361,12 @@ class NavigationTests(unittest.TestCase):
         )
 
     def test_slow_link_checks_cannot_extend_total_deadline(self):
-        def delay(selected):
-            if selected == aid(2):
+        selection = self.native.navigation_selection
+
+        def delay(*args, **kwargs):
+            result = selection(*args, **kwargs)
+            if args[0] == aid(2):
+                # Begin the slow link check after the previous journal completes.
                 self.clock.now = 179
 
                 def slow():
@@ -1368,8 +1374,9 @@ class NavigationTests(unittest.TestCase):
                     return self.root
 
                 self.panel.get_parent = slow
+            return result
 
-        self.after_ack = delay
+        self.native.navigation_selection = delay
         with self.assertRaisesRegex(TimeoutError, "original180s deadline"):
             self.navigate()
         self.assertEqual(

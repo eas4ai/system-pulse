@@ -168,3 +168,40 @@ Ruff lint and the four-file format check passed. Documentation links and
 correction. No native capture, build, Cairn check/mutation, merge, or push ran.
 The production self-audit was repeated with the SPEC finding resolved; fresh
 independent SPEC then QUALITY review remain required.
+
+
+## QUALITY correction: include outcome journaling in the original deadline
+
+The independent QUALITY review of `fb546f15` found that navigation's explicit
+acknowledgement and absence journals ran after `wait` checked the deadline.
+Returning those outcomes without another check allowed a late recovery journal
+to start another batch, or a late final journal to return success and invoke the
+controlled-target callback after the batch or total deadline.
+
+Tests written before the correction reproduce all four paths. Delaying the
+recovery endpoint ACK journal from 1.25 to 8.75 seconds previously passed the
+original 8.5-second batch deadline and dispatched more arrows. Delaying the final
+fresh controlled-target ACK from 2.75 to 11 seconds passed its 10.75-second batch
+deadline; delaying it to 180.25 also passed the total deadline. A direct post-ack
+absence observation likewise returned after its journal crossed the deadline.
+
+Navigation now checks its same original absolute deadline immediately after
+outcome journaling and before returning. Late recovery cannot reset the batch
+budget or issue another arrow, and late final proof cannot invoke the callback.
+The existing unverified interruption outcome, observation provenance, input
+release behavior, generic wait defaults, and all budgets remain unchanged.
+On-time navigation, the slow-discovery controls, and prior rejection cases pass.
+
+The same verification commands listed above were rerun: 30 pending tests passed;
+234 native tests passed in 11.131 seconds and 338 full Python tests passed in
+16.628 seconds. Broad Ruff lint and the
+four-file format check passed. Relative documentation links and whitespace were
+checked again. The source correction is four lines in `native_driver.py`; only
+that file, the pending tests, the existing navigation fixtures, and this record
+changed. Two total-budget fixtures now inject their synthetic clock jump after
+navigation selection returns, so they continue to test reconciliation and slow
+links at the total deadline instead of failing earlier inside the ACK journal.
+Their original total-timeout and no-extra-key assertions remain intact. The
+production self-audit was repeated with the late-journal finding resolved. No native capture, build,
+Cairn check/mutation, merge, or push ran. Fresh independent SPEC then QUALITY
+review and native acceptance remain separate work.

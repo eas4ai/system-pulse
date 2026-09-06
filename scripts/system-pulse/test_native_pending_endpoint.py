@@ -655,6 +655,97 @@ class PendingEndpointTests(unittest.TestCase):
                     else ["End", "Up", "Up"],
                 )
 
+    def test_late_recovery_ack_journal_cannot_start_another_batch(self):
+        self.disappear_before_ack()
+        f = self.f
+        f.native.navigation_context = {}
+        acknowledged = Mock()
+        delayed = []
+
+        def journal(event, **fields):
+            f.journal(event, **fields)
+            if (
+                event == "ack"
+                and fields["condition"] == "selected " + aid(19)
+                and any(e[0] == "navigation-boundary-recovery" for e in f.events)
+                and not delayed
+            ):
+                delayed.append(f.clock.now)
+                f.clock.now = 8.75
+
+        f.native.journal = journal
+        with self.assertRaisesRegex(AssertionError, "deadline"):
+            f.native._navigate(f.target, 180, on_acknowledged=acknowledged)
+        self.assertEqual(delayed, [1.25])
+        self.assertEqual(
+            [e[1] for e in f.events if e[0] == "key"], ["End", "Up", "Up", "End"]
+        )
+        acknowledged.assert_not_called()
+        recovery = next(
+            e[1] for e in f.events if e[0] == "navigation-boundary-recovery"
+        )
+        self.assertEqual(recovery["batch_deadline"], 8.5)
+
+    def test_late_final_ack_journal_cannot_return_or_invoke_callback(self):
+        for limit in ("batch", "total"):
+            with self.subTest(limit=limit):
+                self.setUp()
+                self.disappear_before_ack()
+                f = self.f
+                f.native.navigation_context = {}
+                acknowledged = Mock()
+                selection = f.native.navigation_selection
+                final_deadline = []
+                delayed = []
+
+                def observe(*args, **kwargs):
+                    if kwargs.get("fresh_panel"):
+                        final_deadline.append(args[2])
+                    return selection(*args, **kwargs)
+
+                def journal(event, **fields):
+                    f.journal(event, **fields)
+                    if (
+                        event == "ack"
+                        and fields["condition"] == "selected " + f.target
+                        and final_deadline
+                    ):
+                        delayed.append(f.clock.now)
+                        f.clock.now = (
+                            final_deadline[0] if limit == "batch" else 180
+                        ) + 0.25
+
+                f.native.navigation_selection = observe
+                f.native.journal = journal
+                with self.assertRaisesRegex(AssertionError, "deadline"):
+                    f.native._navigate(f.target, 180, on_acknowledged=acknowledged)
+                self.assertEqual(delayed, [2.75])
+                self.assertEqual(final_deadline, [10.75])
+                self.assertEqual(f.clock.now, 11 if limit == "batch" else 180.25)
+                acknowledged.assert_not_called()
+
+    def test_late_absence_journal_cannot_return_an_absence_outcome(self):
+        f = self.f
+        f.ids.remove(self.endpoint)
+        del f.nodes[self.endpoint]
+
+        def journal(event, **fields):
+            f.journal(event, **fields)
+            if event == "navigation-absence":
+                f.clock.now = 8.25
+
+        f.native.journal = journal
+        with self.assertRaisesRegex(AssertionError, "deadline"):
+            f.native.navigation_selection(
+                self.endpoint,
+                f.target,
+                8,
+                reconcile=True,
+                path=[f.panel, f.root],
+                endpoint_index=17,
+            )
+        self.assertFalse(any(e[0] == "ack" for e in f.events))
+
     def test_recovery_ack_loss_is_not_recursively_interrupted(self):
         self.disappear_before_ack()
         f = self.f
