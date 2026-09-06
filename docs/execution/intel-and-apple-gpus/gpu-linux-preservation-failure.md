@@ -251,3 +251,46 @@ lifecycle record. All 290 traced process/thread IDs and the application,
 transport and tracer process groups were absent. The observer joined without
 errors. The structured record binds the reproducible analysis and all three
 attempts; no original failed result has been replaced.
+
+## Writer-only syscall diagnostic
+
+The next diagnostic attached strace only to the owned diagnostic-writer thread.
+A bounded control first proved ancestor attachment and cleanup without changing
+OS tracing permissions. In the application run, every complete main-thread
+sample (1,756) and collector sample (1,755) had `TracerPid: 0`; all 1,755 complete
+writer samples identified the owned tracer. The observer retained 1,774 samples
+without errors, with maximum sample cost 6.050 ms. This addresses the previous
+whole-process tracer's collector interference, but remains instrumentation.
+
+The native replay failed after 178.619 seconds during process navigation. It
+retained no stale-frame receipt. Held-Up, left and right checks had 54, 63 and
+50 observations, no errors, and maximum accepted ages of 1.516, 1.406 and
+1.481 seconds. The trace contained 176 complete writes and 176 complete renames,
+with no unfinished/resumed calls left unresolved. Maximum write duration was
+3.195 ms; maximum rename duration was 81.304 ms. The longest interval from
+acceptance to write start was 258.039 ms. That interval includes construction,
+queueing, serialization and opening the file; it is not a pure CPU or storage
+measurement. This attempt does not establish the cause of either uninstrumented
+freshness failure or justify a performance correction.
+
+The navigation failure is more specific than the terminal discovery error.
+After a partial scan encountered a defunct node, repeated complete scans found
+nine instantiated rows and no selected row. Their mapped span remained
+1221–1229; the frozen expected endpoint index was 1219. No recovery wheel or panel
+rediscovery occurred in that batch. The unchanged eight-second batch deadline
+expired with approximately 96 seconds remaining in the overall navigation
+budget. These observations warrant source investigation; they do not yet prove
+an application defect or justify loosening recovery eligibility.
+
+Originals remain at `gpu-task5/linux-writer-only-20260906`, with the control at
+`gpu-task5/writer-only-tracer/control-01`. Reproducible analysis at
+`gpu-task5/linux-writer-only-analysis-20260906` binds 204 files, validates the
+harness/helper manifests and lifecycle stream hashes, and confirms absence of
+all 27 recorded process/thread IDs and their process groups across both runs.
+Application failure cleanup exited -15; transport and tracer exited zero.
+The monitor reaped its descendants, terminating two remaining private-session
+children, and recorded no remaining children. These are cleanup outcomes, not
+an orderly application-close pass. The historical application binary and
+harness remain identified by their original byte hashes; the launch-directory
+HEAD is explicitly qualified and does not establish current-source acceptance.
+All earlier failures remain retained and unresolved.

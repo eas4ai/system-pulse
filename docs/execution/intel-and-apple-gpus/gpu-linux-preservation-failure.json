@@ -1486,5 +1486,105 @@
         "sha256": "ad7e05df6313b3acfe8c175c7749dc21e933d839a6f7158ea603e2d025ee97e8"
       }
     ]
+  },
+  "writer_only_diagnostic": {
+    "status": "FAIL",
+    "scope": "Supporting writer-only diagnostic. Native FAIL remains FAIL. Does not clear uninstrumented freshness failures or establish current-source acceptance.",
+    "analysis": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-only-analysis-20260906/root-analysis.json",
+      "bytes": 230208,
+      "sha256": "eae2387e0d6a52eb612e62ad319ee8b067c72b142956dd825a759be86bcb79fc"
+    },
+    "original_files_bound": 204,
+    "observer": {
+      "samples": 1774,
+      "roles": {
+        "main": {
+          "states": {
+            "R": 1171,
+            "S": 584,
+            "Z": 1
+          },
+          "tracer_pids": {
+            "0": 1756
+          },
+          "samples": 1756
+        },
+        "collector": {
+          "states": {
+            "S": 1437,
+            "R": 276,
+            "D": 42
+          },
+          "tracer_pids": {
+            "0": 1755
+          },
+          "samples": 1755
+        },
+        "writer": {
+          "states": {
+            "S": 1341,
+            "R": 399,
+            "D": 5,
+            "t": 10
+          },
+          "tracer_pids": {
+            "833996": 1755
+          },
+          "samples": 1755
+        }
+      },
+      "maximum_sample_cost_ns": 6049808
+    },
+    "trace_counts": {
+      "write": 176,
+      "rename": 176
+    },
+    "maximum_syscall_duration_ns": {
+      "write": 3195000,
+      "rename": 81304000
+    },
+    "maximum_acceptance_to_write_start_ns": 258039154,
+    "prewrite_limit": "Acceptance to write start includes construction, queue, serialization and open; not pure CPU or write I/O.",
+    "stale_receipts": [],
+    "held_inputs": {
+      "held-up-25hz.json": {
+        "count": 54,
+        "errors": [],
+        "maximum_age_seconds": 1.515605366
+      },
+      "held-table-left.json": {
+        "count": 63,
+        "errors": [],
+        "maximum_age_seconds": 1.405734623
+      },
+      "held-table-right.json": {
+        "count": 50,
+        "errors": [],
+        "maximum_age_seconds": 1.481490007
+      }
+    },
+    "native_error": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "navigation": {
+      "target": "process:843160:80690156",
+      "phase": "next batch",
+      "original_deadline_monotonic": 807082.484907585,
+      "last_acknowledged_identity": "process:2079834:66751222",
+      "target_index": 1079,
+      "population": 1476,
+      "distance": 142,
+      "error": "native discovery deadline exceeded; incomplete tree",
+      "observed_monotonic": 806986.286696473,
+      "remaining_overall_seconds": 96.19821111194324
+    },
+    "verified_absent_process_thread_ids": 27,
+    "source_qualification": "Session source_commit is the launch working-directory HEAD, not provenance for the immutable historical binary. Original failed-session metadata and byte hashes identify that binary; Mac source editing is separate.",
+    "limits": [
+      "Supporting instrumented diagnostic; cannot clear original uninstrumented failures.",
+      "No current-source acceptance claim from historical binary or launch-directory HEAD.",
+      "No demonstrated production source cause or justification to relax navigation recovery guards."
+    ]
   }
 }
