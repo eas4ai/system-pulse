@@ -912,5 +912,235 @@
         "sha256": "cae502fb268056b3e81857b2235db0cb8de9bde73209fefa1c25735b6de2f306"
       }
     ]
+  },
+  "publication_os_diagnostic": {
+    "scope": "Instrumented focused replay and OS sampling only; no acceptance or earlier failure closure",
+    "verified_unix_ns": 1788710465509645972,
+    "result": {
+      "status": "PASS",
+      "errors": [],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true,
+        "process": true
+      },
+      "focused_preparation": "process",
+      "publication_timing_instrumented": true,
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "source_qualification": {
+      "scope": "Diagnostic provenance qualification; never acceptance",
+      "launch_working_directory": "/home/shawn/workspace2/task-manager",
+      "launch_cwd_commit": "428c22d27a5f1f9bc79a798f4502ae1273d0f5b7",
+      "implementation_worktree": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "implementation_HEAD": "014b7af026fd16cd269a69e056068f213d042839",
+      "harness_source_commit": "ece89eaec5c7e0775b44583dcefaa92661cc46ca",
+      "binary_source_unchanged_check": "launcher git diff --quiet ece89... -- examples/system_pulse crates Cargo.toml Cargo.lock passed",
+      "qualification": "native session source_commit was taken from launch cwd (design repository), not the implementation worktree; it is not valid source attribution. Binary SHA and immutable harness originals identify the instrumented diagnostic. This defect in diagnostic launch metadata is retained, not silently replaced."
+    },
+    "application_and_transport_pids_verified_absent": [
+      3161965,
+      3162118,
+      3162025
+    ],
+    "observer": {
+      "sample_count": 1541,
+      "joined": true,
+      "errors": [],
+      "max_sample_wall_ms": 14.293616,
+      "selection_limitation": "Name matching also included other system-pulse threads, adding observer overhead; all original thread samples retained. Sampled states are not continuous blocking durations.",
+      "pressure": {
+        "cpu": {
+          "minimum_some_avg10": 0.13,
+          "maximum_some_avg10": 1.92
+        },
+        "io": {
+          "minimum_some_avg10": 40.01,
+          "maximum_some_avg10": 48.48
+        },
+        "memory": {
+          "minimum_some_avg10": 0.0,
+          "maximum_some_avg10": 0.0
+        }
+      },
+      "selected_thread_states": [
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "state": "R",
+          "observations": 880
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "state": "S",
+          "observations": 1244
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "state": "S",
+          "observations": 1182
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "state": "R",
+          "observations": 243
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "state": "R",
+          "observations": 340
+        },
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "state": "S",
+          "observations": 644
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "state": "D",
+          "observations": 36
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "state": "D",
+          "observations": 1
+        }
+      ],
+      "selected_thread_waits": [
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "wait": "0",
+          "observations": 881
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "wait": "futex_do_wait",
+          "observations": 1244
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "wait": "futex_do_wait",
+          "observations": 1181
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "wait": "0",
+          "observations": 244
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "wait": "0",
+          "observations": 341
+        },
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "wait": "ep_poll",
+          "observations": 635
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "wait": "pci_power_up",
+          "observations": 35
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "wait": "__wait_on_buffer",
+          "observations": 1
+        },
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "wait": "futex_do_wait",
+          "observations": 8
+        }
+      ]
+    },
+    "writer": {
+      "sequence_bounds": [
+        96,
+        159
+      ],
+      "records_retained": 64,
+      "totals": {
+        "submitted": 158,
+        "dequeued": 158,
+        "overwritten_before_dequeue": 0,
+        "evicted": 94,
+        "sidecar_errors": 0,
+        "last_sidecar_error": null
+      },
+      "stage_maxima": {
+        "acceptance_started_ns..rename_completed_ns": {
+          "maximum_ms": 276.739477,
+          "sequence": 110
+        },
+        "acceptance_started_ns..model_completed_ns": {
+          "maximum_ms": 32.778691,
+          "sequence": 137
+        },
+        "construction_started_ns..construction_completed_ns": {
+          "maximum_ms": 9.07105,
+          "sequence": 154
+        },
+        "submission_completed_ns..dequeue_ns": {
+          "maximum_ms": 0.351044,
+          "sequence": 145
+        },
+        "json_conversion_started_ns..json_conversion_completed_ns": {
+          "maximum_ms": 131.874454,
+          "sequence": 110
+        },
+        "serialization_started_ns..serialization_completed_ns": {
+          "maximum_ms": 147.65248,
+          "sequence": 105
+        },
+        "temp_write_started_ns..temp_write_completed_ns": {
+          "maximum_ms": 10.066591,
+          "sequence": 135
+        },
+        "rename_started_ns..rename_completed_ns": {
+          "maximum_ms": 9.286967,
+          "sequence": 118
+        }
+      }
+    },
+    "conclusion": "No stale frame reproduced. High global I/O pressure coexisted with sub-277ms publication in retained final64 records; this does not establish the cause of prior failures. No correction justified by this run.",
+    "original_manifest": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-publication-os-20260906/root-verification.json",
+      "bytes": 36973,
+      "sha256": "6259ea1c2296b725fc4cae3552e71691e51f1b5c815408bf277a9d9ee30392f1",
+      "verified_originals": 167
+    }
   }
 }

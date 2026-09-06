@@ -152,3 +152,30 @@ receipts and GC events. The wrapper exited 1 after 79.675 seconds, within its
 420-second deadline. Failure cleanup terminated the app with exit -15; transport
 exited zero. Root confirmed the wrapper, reader, app and transport PIDs and
 process groups were absent. All previous failures remain retained and unresolved.
+
+
+## Publication and OS-wait diagnostic
+
+A subsequent bounded, instrumented focused replay passed in 159.79 seconds.
+It used the unchanged application binary and immutable `ece89eae` harness, with
+existing publication tracing and an external 100 ms OS observer. No stale frame
+was reproduced. The final 64 writer records (sequences 96–159) had a maximum
+acceptance-to-rename time of 276.740 ms, no overwritten submissions and no sidecar
+errors. Global I/O pressure remained high (some `avg10` 40.01–48.48), which by
+itself does not identify the cause of the earlier failures. Sampled thread waits
+are observations, not continuous blocking durations.
+
+The observer retained 1,541 samples without errors and joined. Its thread-name
+filter included additional application threads; its maximum sample cost was
+14.294 ms. The launcher also used the design repository as its working directory,
+so the session's `source_commit` is not valid implementation-source attribution.
+That mistake remains in the original record and is qualified separately; the
+immutable harness manifest and verified application binary hash identify this
+diagnostic. Neither this run nor its metadata can serve as acceptance evidence.
+
+Root verified all 167 retained originals, lifecycle/stream hashes, and absence of
+the application, transport and owned wrapper processes/groups. The external
+`gpu-task4/root-publication-os-20260906/root-verification.json` holds those hashes,
+OS observations, timing maxima and source qualification; its own hash is retained
+in the [structured record](gpu-linux-preservation-failure.json). The earlier
+uninstrumented failures remain failed. This diagnostic justifies no source fix.
