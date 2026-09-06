@@ -179,3 +179,39 @@ the application, transport and owned wrapper processes/groups. The external
 OS observations, timing maxima and source qualification; its own hash is retained
 in the [structured record](gpu-linux-preservation-failure.json). The earlier
 uninstrumented failures remain failed. This diagnostic justifies no source fix.
+
+## Untraced application with OS observation
+
+The next diagnostic disabled internal publication tracing and restricted the
+external 100 ms observer to the identified application main, collector and
+diagnostic-writer threads. It used the same historical application binary and
+immutable harness, launched from the implementation directory. This fixes the
+previous diagnostic's working-directory attribution error; the current HEAD
+still does not establish the historical binary's source provenance.
+
+The run failed after 151.951 seconds during process navigation, with `native
+discovery deadline exceeded; incomplete tree`. It retained no stale-frame
+receipt. Held-Up, left and right checks recorded 41, 64 and 59 observations,
+without errors; maximum accepted ages were 1.721, 1.462 and 1.918 seconds.
+
+The observer joined with 1,508 samples, no observer errors and a maximum sample
+cost of 7.193 ms. The collector and writer each disappeared in the final cleanup
+sample. The longest sequence of writer samples in `rq_qos_wait` comprised eight
+observations spanning 705.854 ms. These samples do not prove continuous blocking
+between observations or establish the cause of another run's stale frame.
+
+The final navigation batch exhausted its unchanged eight-second deadline while
+the overall navigation deadline remained in the future. Intermediate native
+scans observed the expected selected process, but the required final proof did
+not finish. Three panel rediscoveries in that batch consumed 1.196, 1.940 and
+2.007 seconds; the last was aborted at the deadline. The record does not yet
+establish whether this is an application or harness defect.
+
+Originals remain at `gpu-task5/linux-untraced-os-20260906`. Root verified all 184
+manifest entries and the application, transport and wrapper lifecycle records;
+all three processes and their groups were absent. A separate, reproducible
+analysis at `gpu-task5/linux-untraced-os-analysis-20260906` reverified that manifest
+and preserved the sampled waits and navigation observations. The structured
+record binds both. This supporting diagnostic remains failed and does not clear
+either original freshness failure. No acceptance limit or production behavior
+has changed in response to it.

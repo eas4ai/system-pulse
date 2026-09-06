@@ -1142,5 +1142,228 @@
       "sha256": "6259ea1c2296b725fc4cae3552e71691e51f1b5c815408bf277a9d9ee30392f1",
       "verified_originals": 167
     }
+  },
+  "untraced_os_diagnostic": {
+    "status": "FAIL",
+    "scope": "Supporting diagnostic only; not current-source or acceptance evidence",
+    "original_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906",
+    "error": "native discovery deadline exceeded; incomplete tree",
+    "internal_publication_tracing": false,
+    "elapsed_seconds": 151.950641738,
+    "freshness_limit_seconds": 2.0,
+    "stale_frame_receipts": 0,
+    "source_qualification": "Implementation launch cwd corrected; historical binary remains identified by original source metadata and immutable executable hash, not current HEAD.",
+    "original_manifest": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/artifact-manifest.json",
+      "bytes": 31257,
+      "sha256": "772c5e9ad005b96f537fd64da34b0903050786397826a8875d17e86cbe518b43"
+    },
+    "root_verification": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/root-verification.json",
+      "bytes": 6123,
+      "sha256": "c9e22258f4804026e72733b43e034df6c02f63917c33a9a45b346805d6550045"
+    },
+    "analysis": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-analysis-20260906/analysis.json",
+      "bytes": 20310,
+      "sha256": "0eead4814801e177a39979a99ba4f53cc1d5d324c6769151104b89a4a724f588"
+    },
+    "original_files_verified": 184,
+    "held": {
+      "held-table-left.json": {
+        "binding": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/native/session-01/held-table-left.json",
+          "bytes": 4047,
+          "sha256": "69ab0050273ed6fe96b9a2616edd2d8ff9ae6fbe60a9fc3c44404090f9d81548"
+        },
+        "count": 64,
+        "maximum_age_seconds": 1.462468239,
+        "errors": []
+      },
+      "held-table-right.json": {
+        "binding": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/native/session-01/held-table-right.json",
+          "bytes": 3740,
+          "sha256": "fdfcf6b452be5ca44d0f4fd6b8104a6d08601ebab6b2b4fbba630a4c31caa531"
+        },
+        "count": 59,
+        "maximum_age_seconds": 1.918036495,
+        "errors": []
+      },
+      "held-up-25hz.json": {
+        "binding": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/native/session-01/held-up-25hz.json",
+          "bytes": 2771,
+          "sha256": "ad95e58d594c2465159fa5753d1a6d6323920b0b5c5f37afaaeb57032cfa510b"
+        },
+        "count": 41,
+        "maximum_age_seconds": 1.720917792,
+        "errors": []
+      }
+    },
+    "roles": {
+      "main": {
+        "complete_observations": 1488,
+        "incomplete_observations": [],
+        "schedstat_delta_runtime_ns_wait_ns_timeslices": [
+          98351575609,
+          360514383,
+          88485
+        ],
+        "D_observations": 0,
+        "longest_consecutive_sample_groups": []
+      },
+      "collector": {
+        "complete_observations": 1487,
+        "incomplete_observations": [
+          {
+            "sample_index": 1505,
+            "record": {
+              "role": "collector",
+              "comm": "pulse-collector",
+              "start_ticks": 80280076,
+              "absent_or_identity_changed": true
+            }
+          }
+        ],
+        "schedstat_delta_runtime_ns_wait_ns_timeslices": [
+          25515061032,
+          97062130,
+          16080
+        ],
+        "D_observations": 41,
+        "longest_consecutive_sample_groups": [
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802808912044010
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802809917473611
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802810924245790
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802811929422856
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802812934604409
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802826919235084
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802827924462325
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802828929821034
+          }
+        ]
+      },
+      "writer": {
+        "complete_observations": 1487,
+        "incomplete_observations": [
+          {
+            "sample_index": 1505,
+            "record": {
+              "role": "writer",
+              "comm": "pulse-diagnosti",
+              "start_ticks": 80280076,
+              "absent_or_identity_changed": true
+            }
+          }
+        ],
+        "schedstat_delta_runtime_ns_wait_ns_timeslices": [
+          36084491235,
+          127210786,
+          61402
+        ],
+        "D_observations": 36,
+        "longest_consecutive_sample_groups": [
+          {
+            "count": 8,
+            "span_ns": 705854106,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802885610749770
+          },
+          {
+            "count": 7,
+            "span_ns": 609154184,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802880855023561
+          },
+          {
+            "count": 3,
+            "span_ns": 201162968,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802883789846211
+          },
+          {
+            "count": 3,
+            "span_ns": 200727849,
+            "wchan": "__wait_on_buffer",
+            "start_monotonic_ns": 802889440494472
+          },
+          {
+            "count": 2,
+            "span_ns": 100375897,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802884398150268
+          },
+          {
+            "count": 2,
+            "span_ns": 100502053,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802886718358114
+          },
+          {
+            "count": 2,
+            "span_ns": 100384963,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802889741673934
+          },
+          {
+            "count": 2,
+            "span_ns": 100554439,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802891351590701
+          }
+        ]
+      }
+    },
+    "cleanup_pids_and_groups_verified_absent": [
+      90187,
+      90268,
+      90237
+    ],
+    "conclusions": [
+      "Consecutive sampled waits are not proof of continuous blocking between samples.",
+      "This run has no stale-frame receipt and cannot establish the cause of another run's stale frame.",
+      "Selection was observed in intermediate scans, but the required final proof did not complete.",
+      "No source correction or acceptance-bound change is justified by this analysis alone."
+    ]
   }
 }
