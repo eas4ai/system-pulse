@@ -105,7 +105,8 @@ live execution, builds or Cairn mutations occurred during re-review.
 
 ## First quality review
 
-Status: open deadline finding; review is checking the remaining boundaries.
+Status: open P1 deadline finding. Complete QUALITY review established this
+one defect; corrective implementation follows the recorded verdict.
 The navigation-selection acknowledgement/absence journal now runs after
 wait has checked its deadline. There is no check after that journal before
 returning the outcome.
@@ -121,3 +122,13 @@ Check the original deadline after navigation outcome journaling and before
 returning to a budget reset or final callback. Preserve exact evidence,
 other wait callers, release behavior and every existing budget. These
 synthetic delays are failure probes, not measured live journal costs.
+
+Independent verification passed 27 pending, 231 native, and 335 full Python
+tests, broad Ruff lint, changed-file formatting, and diff checks. Discovery
+cost controls at 0.0, 0.3, 1.1 and 2.0 seconds passed; 4.0 seconds failed
+without recovery input. Additional probes rejected transient coherent
+post-terminal competing selection and PID reuse. Matching namespace context
+passed, a foreign application namespace failed before stat reading, and
+changed procfs identity failed after the read. No further finding was
+established. Source remained identical to the candidate throughout review;
+no edits, live app runs, builds, or Cairn mutations occurred.
