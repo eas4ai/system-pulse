@@ -34,9 +34,14 @@ interval. The 1.357-second baseline-to-batch journal interval is unattributed;
 source inspection shows no fsync or extra accessibility/procfs read there.
 Evidence and independent diagnosis are in the
 [source report](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/native-navigation-observation-stale-failure.md).
-One combined supporting diagnostic is running with the existing publication
-trace and navigation observations, output `pulse-publication-diagnostic-poelu223`.
-This changes no source or acceptance policy. It cannot count as acceptance.
+The combined supporting diagnostic `pulse-publication-diagnostic-poelu223`
+failed during visible-column-five inspection recovery after thirteen child
+metric artifacts. All 130 artifacts are hashed in source
+`native-combined-inspection-failure.md/json`. Retained publication timings were
+212–248 ms; no stale-frame receipt occurred. Independent read-only diagnosis
+is checking repeated discovery before the first recovery wheel, which used
+3.337 seconds of the original five-second budget. No behavior remedy is yet
+implemented. This instrumented diagnostic cannot count as acceptance.
 Fresh untraced full acceptance, final review and actual Cairn Done remain pending.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
