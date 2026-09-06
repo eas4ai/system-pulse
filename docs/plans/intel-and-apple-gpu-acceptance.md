@@ -15,7 +15,7 @@ Status: Agreed acceptance contract 2026-09-06. The [implementation plan](intel-a
 - [x] Confirm GPU-001 through GPU-009 and their falsifiers.
 - [x] Record the reviewed backend/source decisions, write the executable implementation plan and mechanism declarations, then move the roadmap's Current line to `intel-and-apple-gpus`.
 
-Preparation and activation were completed on 2026-09-06 in commit `66ea860f`. Code implementation, test execution and native GPU acceptance have not begun.
+Preparation and activation were completed on 2026-09-06 in commit `66ea860f`. Intel Linux implementation and focused tests are in progress. Read-only [Apple source probes](../execution/intel-and-apple-gpus/apple-source-probe.md) establish source availability; they do not establish production collector accuracy or native acceptance.
 
 ## Implementation sequence and owners
 
@@ -28,7 +28,7 @@ Preparation and activation were completed on 2026-09-06 in commit `66ea860f`. Co
 | Acceptance | Proposed `scripts/system-pulse/gpu_verify.py`, host probes and negative tests | Each GPU requirement receives its own evidence outcome; every absent mandatory comparison is rejected |
 | Completion | Execution reports, `.cairn/reviews/intel-and-apple-gpus.md`, roadmap | Native hardware matrix, preserved Linux acceptance, closed reviews and actual Cairn Done |
 
-These are proposed module owners, not claims that those new files already exist. The executable implementation plan will name exact interfaces after the contract and source decisions are confirmed.
+The executable implementation plan assigns the module owners and review order. Its working-state list tracks code and verification progress; this table defines the acceptance boundaries.
 
 ## Deterministic falsifier cases
 
@@ -75,4 +75,4 @@ Existing complete Linux preservation command:
 rtk proxy python3 scripts/system-pulse/verify.py
 ```
 
-The GPU-specific aggregate will be declared only when its executable exists. Missing GPU checks are unfinished work. No command above was run as part of this specification preparation, and the previous LIVE pass is historical preservation evidence, not proof of these new adapters.
+The GPU mechanism declaration names the planned aggregate entry point. That declaration is not executable proof: its implementation and successful committed execution are still required. Missing GPU checks are unfinished work. No command above was run as part of specification preparation; implementation reports record subsequent test runs. The previous LIVE pass is historical preservation evidence, not proof of these new adapters.

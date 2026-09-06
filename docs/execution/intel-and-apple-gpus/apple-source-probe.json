@@ -1,0 +1,636 @@
+{
+  "purpose": "Read-only native source reconnaissance; not collector accuracy or GPU acceptance",
+  "manifest": {
+    "purpose": "Read-only source reconnaissance; not production collector accuracy or GPU acceptance",
+    "host": "Apple M1 Pro, arm64, macOS 26.6.1 (25G76)",
+    "capture_date": "2026-09-06",
+    "artifacts": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-ioreport-getters-probe.py",
+        "bytes": 6295,
+        "sha256": "570cf17d41c4c5c843fccf7ae0fc6f60532170c351c25097d28424bbd451a8a1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-ioreport-getters-probe.stdout.json",
+        "bytes": 8574,
+        "sha256": "e1ee77a2334ff10bda5cbb06965a579d7ef1f42a0b399680edad570bcc093569"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-ioreport-getters-probe.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-device-probe.py",
+        "bytes": 5241,
+        "sha256": "7af93e0abd5cbd27a34e08fd4bd55247535482ce1ae02c54a96a8c8c990c9016"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-device-probe.stdout.json",
+        "bytes": 1977,
+        "sha256": "3686166a9b90740d42454aebbb068af80fa176abde610ba51d3f16a6a7ab1516"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-device-probe.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-temperature-probe.py",
+        "bytes": 9110,
+        "sha256": "a9adb187ee9acde5f141139410a7626328b9dbd2e7ee38f2714a35fd19a3fc6e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-temperature-probe.stdout.json",
+        "bytes": 1476,
+        "sha256": "20e9af493f5ad7f519f67770bdfd3fb1bcce0b3e99b134c6d146d2cd57b13686"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-temperature-probe.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-hid-inventory-probe.py",
+        "bytes": 9174,
+        "sha256": "dffb82789cc32bf426fe3097ac2795a7fb70a344b134906683ddc0736c6f57a3"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-hid-inventory-probe.stdout.json",
+        "bytes": 1324,
+        "sha256": "5db38c1b867d9f237f4423f5df12c6397f66c1248ab550c4f7ba46710874438d"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-recon/apple-hid-inventory-probe.stderr.txt",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "captures": {
+    "apple-ioreport-getters-probe.stdout.json": {
+      "metadata": [
+        {
+          "group": "Energy Model",
+          "subgroup": null,
+          "channel": "GPU0",
+          "unit": "mJ",
+          "format": 1,
+          "driver_id": 4294968421,
+          "channel_id": 4921957558051156275,
+          "encoded_unit": 216173314689728512,
+          "native_metadata": {
+            "IOReportGroupName": "Energy Model",
+            "UnitLabel": "mJ",
+            "ChannelName": "GPU0",
+            "DriverID": 4294968421,
+            "DriverName": "AppleT6000PMGR <id 0x100000465>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 216173314689728512
+            },
+            "LegendChannel": [
+              4921957558051156275,
+              4295098369,
+              "GPU0"
+            ]
+          }
+        },
+        {
+          "group": "Energy Model",
+          "subgroup": null,
+          "channel": "GPU SRAM0",
+          "unit": "mJ",
+          "format": 1,
+          "driver_id": 4294968421,
+          "channel_id": 4921957558051156276,
+          "encoded_unit": 216173314689728512,
+          "native_metadata": {
+            "IOReportGroupName": "Energy Model",
+            "UnitLabel": "mJ",
+            "ChannelName": "GPU SRAM0",
+            "DriverID": 4294968421,
+            "DriverName": "AppleT6000PMGR <id 0x100000465>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 216173314689728512
+            },
+            "LegendChannel": [
+              4921957558051156276,
+              4295098369,
+              "GPU SRAM0"
+            ]
+          }
+        },
+        {
+          "group": "Energy Model",
+          "subgroup": null,
+          "channel": "GPU Energy",
+          "unit": "nJ",
+          "format": 1,
+          "driver_id": 4294969787,
+          "channel_id": 76202472785753,
+          "encoded_unit": 216173288919924736,
+          "native_metadata": {
+            "IOReportGroupName": "Energy Model",
+            "UnitLabel": "nJ",
+            "ChannelName": "GPU Energy",
+            "DriverID": 4294969787,
+            "DriverName": "AGXAcceleratorG13X <id 0x1000009bb>",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 216173288919924736
+            },
+            "LegendChannel": [
+              76202472785753,
+              4295098369,
+              "GPU Energy"
+            ]
+          }
+        },
+        {
+          "group": "GPU Stats",
+          "subgroup": "GPU Performance States",
+          "channel": "GPUPH",
+          "unit": "24Mticks",
+          "format": 2,
+          "driver_id": 4294969787,
+          "channel_id": 306290446408,
+          "encoded_unit": 72058115876454424,
+          "native_metadata": {
+            "IOReportGroupName": "GPU Stats",
+            "IOReportSubGroupName": "GPU Performance States",
+            "ChannelName": "GPUPH",
+            "DriverID": 4294969787,
+            "DriverName": "AGXAcceleratorG13X <id 0x1000009bb>",
+            "UnitLabel": "24Mticks",
+            "IOReportChannelInfo": {
+              "IOReportChannelUnit": 72058115876454424
+            },
+            "LegendChannel": [
+              306290446408,
+              68719607810
+            ]
+          }
+        }
+      ],
+      "samples": [
+        {
+          "query_start_ns": 194666833,
+          "query_end_ns": 196392458,
+          "values": [
+            {
+              "group": "Energy Model",
+              "subgroup": null,
+              "channel": "GPU0",
+              "unit": "mJ",
+              "format": 1,
+              "driver_id": 4294968421,
+              "channel_id": 4921957558051156275,
+              "encoded_unit": 216173314689728512,
+              "integer": 422757
+            },
+            {
+              "group": "Energy Model",
+              "subgroup": null,
+              "channel": "GPU SRAM0",
+              "unit": "mJ",
+              "format": 1,
+              "driver_id": 4294968421,
+              "channel_id": 4921957558051156276,
+              "encoded_unit": 216173314689728512,
+              "integer": 21790
+            },
+            {
+              "group": "Energy Model",
+              "subgroup": null,
+              "channel": "GPU Energy",
+              "unit": "nJ",
+              "format": 1,
+              "driver_id": 4294969787,
+              "channel_id": 76202472785753,
+              "encoded_unit": 216173288919924736,
+              "integer": 444547899030
+            },
+            {
+              "group": "GPU Stats",
+              "subgroup": "GPU Performance States",
+              "channel": "GPUPH",
+              "unit": "24Mticks",
+              "format": 2,
+              "driver_id": 4294969787,
+              "channel_id": 306290446408,
+              "encoded_unit": 72058115876454424,
+              "state_count": 16,
+              "states": [
+                {
+                  "name": "OFF",
+                  "residency": 12253144928976
+                },
+                {
+                  "name": "P1",
+                  "residency": 30879341730
+                },
+                {
+                  "name": "P2",
+                  "residency": 1126259058
+                },
+                {
+                  "name": "P3",
+                  "residency": 1136564264
+                },
+                {
+                  "name": "P4",
+                  "residency": 2123697599
+                },
+                {
+                  "name": "P5",
+                  "residency": 382383755
+                },
+                {
+                  "name": "P6",
+                  "residency": 15849758
+                },
+                {
+                  "name": "P7",
+                  "residency": 0
+                },
+                {
+                  "name": "P8",
+                  "residency": 0
+                },
+                {
+                  "name": "P9",
+                  "residency": 0
+                },
+                {
+                  "name": "P10",
+                  "residency": 0
+                },
+                {
+                  "name": "P11",
+                  "residency": 0
+                },
+                {
+                  "name": "P12",
+                  "residency": 0
+                },
+                {
+                  "name": "P13",
+                  "residency": 0
+                },
+                {
+                  "name": "P14",
+                  "residency": 0
+                },
+                {
+                  "name": "P15",
+                  "residency": 0
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "query_start_ns": 1001545500,
+          "query_end_ns": 1006904083,
+          "values": [
+            {
+              "group": "Energy Model",
+              "subgroup": null,
+              "channel": "GPU0",
+              "unit": "mJ",
+              "format": 1,
+              "driver_id": 4294968421,
+              "channel_id": 4921957558051156275,
+              "encoded_unit": 216173314689728512,
+              "integer": 422757
+            },
+            {
+              "group": "Energy Model",
+              "subgroup": null,
+              "channel": "GPU SRAM0",
+              "unit": "mJ",
+              "format": 1,
+              "driver_id": 4294968421,
+              "channel_id": 4921957558051156276,
+              "encoded_unit": 216173314689728512,
+              "integer": 21790
+            },
+            {
+              "group": "Energy Model",
+              "subgroup": null,
+              "channel": "GPU Energy",
+              "unit": "nJ",
+              "format": 1,
+              "driver_id": 4294969787,
+              "channel_id": 76202472785753,
+              "encoded_unit": 216173288919924736,
+              "integer": 444547899030
+            },
+            {
+              "group": "GPU Stats",
+              "subgroup": "GPU Performance States",
+              "channel": "GPUPH",
+              "unit": "24Mticks",
+              "format": 2,
+              "driver_id": 4294969787,
+              "channel_id": 306290446408,
+              "encoded_unit": 72058115876454424,
+              "state_count": 16,
+              "states": [
+                {
+                  "name": "OFF",
+                  "residency": 12253164390665
+                },
+                {
+                  "name": "P1",
+                  "residency": 30879341730
+                },
+                {
+                  "name": "P2",
+                  "residency": 1126259058
+                },
+                {
+                  "name": "P3",
+                  "residency": 1136564264
+                },
+                {
+                  "name": "P4",
+                  "residency": 2123697599
+                },
+                {
+                  "name": "P5",
+                  "residency": 382383755
+                },
+                {
+                  "name": "P6",
+                  "residency": 15849758
+                },
+                {
+                  "name": "P7",
+                  "residency": 0
+                },
+                {
+                  "name": "P8",
+                  "residency": 0
+                },
+                {
+                  "name": "P9",
+                  "residency": 0
+                },
+                {
+                  "name": "P10",
+                  "residency": 0
+                },
+                {
+                  "name": "P11",
+                  "residency": 0
+                },
+                {
+                  "name": "P12",
+                  "residency": 0
+                },
+                {
+                  "name": "P13",
+                  "residency": 0
+                },
+                {
+                  "name": "P14",
+                  "residency": 0
+                },
+                {
+                  "name": "P15",
+                  "residency": 0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "apple-device-probe.stdout.json": {
+      "metal_devices": [
+        {
+          "name": "Apple M1 Pro",
+          "registry_id": 4294969787,
+          "has_unified_memory": true,
+          "ancestry": [
+            {
+              "id_return": 0,
+              "registry_id": 4294969787,
+              "IOService": {
+                "return": 0,
+                "path": "IOService:/AppleARMPE/arm-io/AppleT600xIO/sgx@4000000/AGXAcceleratorG13X"
+              },
+              "IODeviceTree": {
+                "return": -536870206,
+                "path": null
+              }
+            },
+            {
+              "id_return": 0,
+              "registry_id": 4294968283,
+              "IOService": {
+                "return": 0,
+                "path": "IOService:/AppleARMPE/arm-io/AppleT600xIO/sgx@4000000"
+              },
+              "IODeviceTree": {
+                "return": 0,
+                "path": "IODeviceTree:/arm-io/sgx@4000000"
+              }
+            }
+          ]
+        }
+      ],
+      "frequency_tables": [
+        {
+          "registry_name": "pmgr",
+          "registry_id": 4294968096,
+          "query_start_ns": 37779208,
+          "query_end_ns": 54216333,
+          "voltage_states9_hex": "0000000090010000009e2c176a02000080c5f71c7a02000000b29f2693020000003c592ec2020000008bef390303000000643f4d77030000",
+          "pairs": [
+            [
+              0,
+              400
+            ],
+            [
+              388800000,
+              618
+            ],
+            [
+              486000000,
+              634
+            ],
+            [
+              648000000,
+              659
+            ],
+            [
+              777600000,
+              706
+            ],
+            [
+              972000000,
+              771
+            ],
+            [
+              1296000000,
+              887
+            ]
+          ]
+        }
+      ],
+      "accelerators": [
+        {
+          "registry_name": "AGXAcceleratorG13X",
+          "registry_id": 4294969787,
+          "class": "AGXAcceleratorG13X",
+          "model": "Apple M1 Pro",
+          "query_start_ns": 58375291,
+          "query_end_ns": 77673958,
+          "memory": {
+            "Alloc system memory": 734461952,
+            "In use system memory": 222199808,
+            "In use system memory (driver)": 0
+          }
+        }
+      ]
+    },
+    "apple-temperature-probe.stdout.json": {
+      "smc": {
+        "key_count": 2052,
+        "key_data_size": 80,
+        "rows": [
+          {
+            "key": "F0Ac",
+            "type": "flt ",
+            "size": 4,
+            "bytes_hex": "00000000",
+            "query_start_ns": 195272375,
+            "query_end_ns": 195427875,
+            "decoded_float": 0.0
+          },
+          {
+            "key": "F1Ac",
+            "type": "flt ",
+            "size": 4,
+            "bytes_hex": "00000000",
+            "query_start_ns": 196953541,
+            "query_end_ns": 197098708,
+            "decoded_float": 0.0
+          },
+          {
+            "key": "Tg04",
+            "type": "flt ",
+            "size": 4,
+            "bytes_hex": "00000000",
+            "query_start_ns": 304374166,
+            "query_end_ns": 304654000,
+            "decoded_float": 0.0
+          },
+          {
+            "key": "Tg05",
+            "type": "flt ",
+            "size": 4,
+            "bytes_hex": "33331341",
+            "query_start_ns": 305157083,
+            "query_end_ns": 305363791,
+            "decoded_float": 9.199999809265137
+          },
+          {
+            "key": "Tg0C",
+            "type": "flt ",
+            "size": 4,
+            "bytes_hex": "00000000",
+            "query_start_ns": 305784375,
+            "query_end_ns": 306050458,
+            "decoded_float": 0.0
+          },
+          {
+            "key": "Tg0D",
+            "type": "flt ",
+            "size": 4,
+            "bytes_hex": "33331341",
+            "query_start_ns": 306473958,
+            "query_end_ns": 306737791,
+            "decoded_float": 9.199999809265137
+          }
+        ]
+      },
+      "hid": {
+        "service_count": 64,
+        "gpu_rows": []
+      }
+    },
+    "apple-hid-inventory-probe.stdout.json": {
+      "hid": {
+        "service_count": 64,
+        "products": [
+          "PMU tdie9",
+          "PMU tdie3",
+          "PMU TP1s",
+          "PMU tcal",
+          "PMU tdie10",
+          "PMU TP2g",
+          "PMU TP0s",
+          "PMU tdev3",
+          "PMU tdev6",
+          "gas gauge battery",
+          "NAND CH0 temp",
+          "PMU tdie1",
+          "gas gauge battery",
+          "PMU tdev7",
+          "PMU tdie1",
+          "PMU tdie1",
+          "PMU tdie4",
+          "PMU tdev2",
+          "PMU tdie2",
+          "PMU TP3g",
+          "PMU tdie7",
+          "PMU tdie10",
+          "PMU tdie9",
+          "PMU TP2s",
+          "PMU tdev1",
+          "PMU tdev4",
+          "PMU TP1s",
+          "PMU TP3g",
+          "PMU tdev4",
+          "PMU tdev5",
+          "PMU tcal",
+          "PMU TP2s",
+          "PMU tdev7",
+          "gas gauge battery",
+          "PMU tdie2",
+          "gas gauge battery",
+          "PMU tdie6",
+          "PMU tdev1",
+          "PMU tdie2",
+          "PMU TP2g",
+          "PMU tdie5",
+          "PMU tdie8",
+          "PMU tdie8",
+          "PMU tdev3",
+          "PMU TP0s",
+          "PMU tdie0",
+          "PMU TP1g",
+          "PMU tdie1",
+          "PMU tdev2",
+          "PMU tdev5",
+          "PMU tdie4",
+          "gas gauge battery",
+          "PMU TP1g",
+          "PMU tdev8",
+          "gas gauge battery",
+          "PMU tdie5",
+          "PMU tdev6",
+          "PMU tdie2",
+          "PMU tdie0",
+          "PMU tdie7",
+          "PMU tdev8",
+          "PMU tdie3",
+          "PMU tdie6"
+        ],
+        "gpu_rows": []
+      }
+    }
+  }
+}
