@@ -1,6 +1,7 @@
 # GPU acceptance F10 specification re-review
 
-Status: **FINDINGS — F10 remains open; F1–F9 remain closed.** Independent
+Status: **Historical finding at `eccf56b7`.** The [final specification pass](gpu-acceptance-spec-pass.md)
+closes F10 at `50ea29d6`; F1–F9 remain closed. Independent
 read-only review of `eccf56b7e5cb34c8a5103cbc36d9583c1383d6dc` found a remaining
 Intel provider identity mismatch. This record precedes its correction. Quality
 review has not started. The [structured record](gpu-acceptance-f10-spec-review.json)

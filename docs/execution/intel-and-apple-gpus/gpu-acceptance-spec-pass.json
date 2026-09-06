@@ -1,0 +1,65 @@
+{
+  "verdict": "SPEC PASS",
+  "candidate": "50ea29d6653d42ceafc8b3f246b9a18ae721b612",
+  "baseline": "eccf56b7e5cb34c8a5103cbc36d9583c1383d6dc",
+  "reviewed_utc": "2026-09-06T16:48:30.032749+00:00",
+  "open_findings": [],
+  "closed_finding": {
+    "id": "F10",
+    "status": "CLOSED",
+    "location": "scripts/system-pulse/gpu_provenance.py:421",
+    "evidence": "Complete authoritative identity maps now join each metadata-discovered GPU to the independently replayed inventory across pci, driver, physical_path, monitor_id, vendor and device_id. Old selected-device ID and driver attacks reject specifically at this identity boundary. Selected and secondary device ID, driver and physical-path mutations, missing providers and duplicates reject; reordered devices/aliases accept."
+  },
+  "prior_findings": {
+    "F1": "CLOSED; previous independent evidence remains applicable",
+    "F2": "CLOSED; previous independent evidence remains applicable",
+    "F3": "CLOSED; previous independent evidence remains applicable",
+    "F4": "CLOSED; previous independent evidence remains applicable",
+    "F5": "CLOSED; previous independent evidence remains applicable",
+    "F6": "CLOSED; previous independent evidence remains applicable",
+    "F7": "CLOSED; previous independent evidence remains applicable",
+    "F8": "CLOSED; previous independent evidence remains applicable",
+    "F9": "CLOSED; previous independent evidence remains applicable"
+  },
+  "verified": {
+    "gpu_tests": 57,
+    "mandatory_group_counts": {
+      "aggregate": 6,
+      "apple_capture": 5,
+      "arithmetic": 6,
+      "desktop": 8,
+      "evidence": 15,
+      "intel": 10,
+      "native": 7
+    },
+    "original_full_reports_replayed": 4,
+    "unchanged_non_source_originals_per_report": 106,
+    "committed_source_inputs": 711,
+    "independent_identity_negatives": 9,
+    "independent_order_alias_positives": 2,
+    "unchanged_candidate_files": 60,
+    "source_clean": true
+  },
+  "evidence": [
+    "candidate-source-hashes.json",
+    "initial-checks.json",
+    "gpu-tests.stderr",
+    "development-gate.stdout",
+    "replay-frozen-originals.py",
+    "replay-frozen-originals.stdout",
+    "frozen-replay-results.json",
+    "independent-identity-boundaries.py",
+    "independent-identity-boundaries.stdout",
+    "independent-identity-results.json",
+    "final-integrity-checks.json"
+  ],
+  "scope": "Independent specification review of the committed acceptance mechanism, not native GPU hardware acceptance or Task5 completion. No fresh native workload, GUI, SDK, build, preservation or Cairn acceptance run. Existing Linux untraced freshness failures remain failed; no Intel hardware evidence is inferred from the CPU model or BIOS possibility.",
+  "external_review_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/f10-identity-50ea29d6",
+  "original_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/f10-identity-50ea29d6/review-artifact-manifest.json",
+    "bytes": 671582,
+    "sha256": "50f70031b2100b52516d9a5c60306916a4984bd35b5cfcc4c817024c594409df",
+    "files": 3304,
+    "root_verified_unix_ns": 1788713461574495800
+  }
+}

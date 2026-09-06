@@ -1,14 +1,15 @@
 # GPU acceptance implementation
 
-Task 4 correction status: DONE_WITH_CONCERNS. Independent SPEC re-review closed F1–F9. F10 correction is committed at `eccf56b7`; independent [re-review](gpu-acceptance-f10-spec-review.md) found a remaining Intel provider identity join. The failed Linux preservation run remains unresolved. Hardware accuracy acceptance remains pending for Intel integrated, Intel discrete and Apple Silicon. The available AMD host supplies preservation and native transport evidence only.
+Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent quality review is pending. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
 
 ## Work tracking
 
-Independent re-review closed F1–F9 and found a remaining F10 Intel provider identity join at `eccf56b7`; its record was committed at `9e1c2c07` before correction. Quality review has not started.
+The remaining F10 identity finding was recorded at `9e1c2c07` before correction at `50ea29d6`. Independent specification review now closes all F1–F10; quality review follows.
 
 - Complete: original replay and four failing full-ingestion identity attacks; minimal inventory join and unchanged regression now pass, including reordered device/alias controls.
 - Complete: 440 Python tests, seven mandatory groups with 57 GPU tests, strict lint/format, unchanged native sources and all 14 self-audit rules.
-- In progress: focused commit, committed-source replay and independent SPEC re-review handoff.
+- Complete: focused commit `50ea29d6`, committed-source replay, 711 input bindings and independent specification review.
+- In progress: independent quality review.
 
 ## Implementation
 
@@ -136,4 +137,4 @@ Intel integrated and discrete hardware are unavailable in this task. Apple obser
 
 ## Self-audit
 
-The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. Independent re-review closed F1–F9. F10 requires its own independent re-review after this correction. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.
+The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. Independent specification review closed F1–F10 at `50ea29d6`. Quality review remains required. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.
