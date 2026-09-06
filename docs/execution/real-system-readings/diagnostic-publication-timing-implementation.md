@@ -84,10 +84,12 @@ If the worker never finishes its first attempt, no sidecar is promised.
 The older sidecar and application log remain available to the harness.
 
 The original primary error remains in the writer's existing error channel.
-Timing metadata/cleanup errors are distinct record fields. A sidecar error
-is separately identified in stderr and counted in bounded history; a later
-successful sidecar includes that count and last error. A final sidecar failure
-cannot publish its own failure, so consult the retained application log too.
+Timing metadata/cleanup errors are distinct record fields. Only the first
+sidecar error per writer is reported to stderr. Every sidecar failure updates
+the saturating counter and bounded latest-error field; a later successful
+sidecar includes both. A final sidecar failure cannot publish its own failure,
+and later failures are not individually logged. The retained application log
+can establish the first failure, but does not enumerate all failures.
 Tracing adds no thread, polling loop, filesystem work on the UI path or fsync.
 The same storage implementation retains revision checks, atomic rename and
 temporary cleanup on handled errors. Workspace/preset writes retain their
@@ -102,10 +104,13 @@ opt-in API, missing opt-in workspace timing output, unmarked error truncation
 and an inherited stale accessibility bus address during final self-review.
 The corrected focused timing tests pass.
 
-- `cargo test --locked -p system-pulse --lib`: 55 passed. Covers ordered stages,
+- `cargo test --locked -p system-pulse --lib`: 56 passed. Covers ordered stages,
   inode/byte identity, fixed history and overwrite counts, disabled mode,
   temporary-write/rename failure, revision skipping, cleanup, bounded errors,
   primary/sidecar error precedence and retained original stale acceptance.
+  The SPEC correction added a real repeated-sidecar-failure/recovery test:
+  captured stderr first reproduced three reports, then passed with one report,
+  all three failures retained after recovery, and unchanged primary authority.
 - Full Python unittest discovery: 344 passed. Includes six new timing tests;
   existing single-read freshness, process metrics/navigation/exit and held-input
   regressions remain in that suite.
@@ -118,6 +123,9 @@ The corrected focused timing tests pass.
 - `git diff --check` and this document's local links: passed.
 
 Commands above ran through `rtk proxy` with the external artifact `TMPDIR`.
+The SPEC correction reran the focused regression, full Rust app suite, strict
+Clippy, Rustfmt, diff and local-link checks. Python source did not change;
+its previously passing suite and lint/format checks were not repeated.
 The production-rules self-audit found no remaining implementation revision
 needed. Independent SPEC then QUALITY review and the coordinator's single
 instrumented diagnostic remain pending. Fresh untraced full acceptance is

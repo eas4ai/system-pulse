@@ -316,11 +316,15 @@ fn run_worker(shared: Arc<Shared>, path: PathBuf) {
             });
             if let Err(error) = result {
                 let error = bounded_error(&error);
-                eprintln!("Publication timing sidecar: {error}");
                 let mut state = shared.state.lock().unwrap_or_else(|p| p.into_inner());
                 let history = state.history.as_mut().expect("traced writer has history");
+                let first_error = (history.sidecar_errors == 0).then(|| error.clone());
                 history.sidecar_errors = history.sidecar_errors.saturating_add(1);
                 history.last_sidecar_error = Some(error);
+                drop(state);
+                if let Some(error) = first_error {
+                    eprintln!("Publication timing sidecar: {error}");
+                }
             }
         }
     }
@@ -424,6 +428,109 @@ mod tests {
                 .contains("publication-timing")
         );
         assert!(history.records[0].stages.rename_completed_ns.is_none());
+        assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 2);
+        std::fs::remove_dir_all(dir).unwrap();
+    }
+
+    #[test]
+    fn repeated_sidecar_failures_report_once_and_recover() {
+        const CHILD: &str = "SYSTEM_PULSE_TIMING_ERROR_TEST_CHILD";
+        if std::env::var_os(CHILD).is_none() {
+            // Capture the real worker's stderr without replacing its reporting path.
+            let output = std::process::Command::new(std::env::current_exe().unwrap())
+                .args([
+                    "--exact",
+                    "diagnostics::tests::repeated_sidecar_failures_report_once_and_recover",
+                    "--nocapture",
+                ])
+                .env(CHILD, "1")
+                .output()
+                .unwrap();
+            let stderr = String::from_utf8(output.stderr).unwrap();
+            assert!(output.status.success(), "child regression failed: {stderr}");
+            assert_eq!(
+                stderr.matches("Publication timing sidecar:").count(),
+                1,
+                "{stderr}"
+            );
+            return;
+        }
+
+        let dir = std::env::temp_dir().join(format!(
+            "pulse-timing-repeated-error-{}",
+            std::process::id()
+        ));
+        let path = dir.join("latest.json");
+        let sidecar = path.with_extension("publication-timing.json");
+        std::fs::create_dir_all(&sidecar).unwrap();
+        let writer = Writer::start_with_trace(path.clone(), true).unwrap();
+        let shared = writer.shared.clone();
+        for sequence in 1..=3 {
+            writer.submit(empty_record(sequence));
+            let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+            while shared
+                .state
+                .lock()
+                .unwrap()
+                .history
+                .as_ref()
+                .unwrap()
+                .sidecar_errors
+                != sequence
+            {
+                assert!(
+                    std::time::Instant::now() < deadline,
+                    "sidecar failure not observed"
+                );
+                std::thread::sleep(std::time::Duration::from_millis(5));
+            }
+            assert!(
+                writer.take_error().is_none(),
+                "trace error became a primary failure"
+            );
+            let primary: serde_json::Value =
+                serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+            assert_eq!(primary["render_revision"], sequence);
+        }
+        let last_error = shared
+            .state
+            .lock()
+            .unwrap()
+            .history
+            .as_ref()
+            .unwrap()
+            .last_sidecar_error
+            .clone()
+            .unwrap();
+        std::fs::remove_dir(&sidecar).unwrap();
+        writer.submit(empty_record(4));
+        let deadline = std::time::Instant::now() + std::time::Duration::from_secs(2);
+        while !sidecar.is_file() {
+            assert!(
+                std::time::Instant::now() < deadline,
+                "sidecar did not recover"
+            );
+            std::thread::sleep(std::time::Duration::from_millis(5));
+        }
+        let recovered: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&sidecar).unwrap()).unwrap();
+        assert_eq!(recovered["history"]["sidecar_errors"], 3);
+        assert_eq!(recovered["history"]["last_sidecar_error"], last_error);
+        assert!(writer.take_error().is_none());
+
+        // A subsequent primary failure must still reach the original error channel.
+        std::fs::remove_file(&path).unwrap();
+        std::fs::create_dir(&path).unwrap();
+        writer.submit(empty_record(5));
+        drop(writer);
+        let state = shared.state.lock().unwrap();
+        let primary = state.error.as_ref().unwrap();
+        assert!(primary.contains("latest.json") && !primary.contains("publication-timing"));
+        let retained: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&sidecar).unwrap()).unwrap();
+        assert_eq!(retained["history"]["sidecar_errors"], 3);
+        assert_eq!(retained["history"]["last_sidecar_error"], last_error);
+        assert_eq!(retained["history"]["records"][4]["primary_error"], *primary);
         assert_eq!(std::fs::read_dir(&dir).unwrap().count(), 2);
         std::fs::remove_dir_all(dir).unwrap();
     }
