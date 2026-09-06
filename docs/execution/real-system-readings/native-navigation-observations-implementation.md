@@ -91,7 +91,7 @@ All 13 focused observation tests passed after the correction. The full suite
 passed all 357 Python tests using the command above with Python's `-B` option.
 All-script Ruff lint, formatting for the three changed Python files, whitespace
 and this note's five local Markdown links passed. The production self-audit
-found no further known defect; independent delta reviews remain pending.
+found no further known defect; independent delta reviews subsequently passed.
 
 ## Limits and self-audit
 
@@ -107,4 +107,5 @@ diagnostics, a small helper and fixture compatibility. Failure handling,
 retention bounds, unchanged call sequences and unchanged acceptance behavior
 have automated checks. No known implementation defect remains from the
 self-audit. Independent SPEC and QUALITY reviews subsequently passed. The parent's
-fresh focused replay with publication tracing disabled remains pending.
+[fresh focused replay](native-navigation-observation-stale-failure.md) with
+publication tracing disabled failed freshness before the next native scan.

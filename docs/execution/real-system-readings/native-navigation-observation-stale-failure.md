@@ -43,10 +43,35 @@ of the eight-second navigation deadline.
 The matching baseline-stat journal timestamp is 751436879264901; the next batch
 journal timestamp is 751438236313959, a gap of 1.357049058 seconds. These timestamps
 alone do not identify whether journal writing, intervening preparation or
-scheduling consumed the interval. Independent source/evidence diagnosis is
-pending. No performance remedy or deadline relaxation is inferred.
+scheduling consumed the interval. Independent source/evidence diagnosis is recorded below. No performance remedy
+or deadline relaxation is inferred.
 
 The earlier traced publication run did not reproduce this freshness failure.
 This run has navigation observations but no producer stage trace. All previous
 failures remain failed; fresh full aggregate acceptance and final review remain
 required.
+
+## Independent diagnosis and next observation
+
+Reviewer `review_publication_quality` confirmed the artifact arithmetic, all
+thirteen observation records, exact prior acknowledgement, live baseline
+validation and disabled publication tracing. Frozen driver, pending validator
+and observation helper matched current source byte-for-byte. This read-only
+review made no edits, builds or live runs.
+
+The failing initial frame observation had approximately 6.439 seconds left in
+its batch deadline. The recovery-blocked latch did not prevent the previous
+exact acknowledgement or cause this next batch's stale read.
+
+`journal()` samples its timestamp after acquiring its lock and opening the
+append file. The 1.357-second interval includes the first record's serialization,
+write, close and lock release; in-memory stat validation and pending/publication
+construction; the next lock acquisition and file open; and possible scheduling
+delays. There is no journal fsync or additional accessibility/procfs read in that
+source interval. Existing timestamps cannot attribute its cost to one stage.
+
+The next routine verification action is one combined diagnostic with the existing
+publication tracing switch and bounded navigation observations. It changes no
+source or acceptance policy and may not reproduce the failure. It cannot count
+as acceptance. A performance remedy remains unsupported; fresh untraced full
+aggregate acceptance and final review remain required.

@@ -587,6 +587,14 @@ publication brackets from the current artifacts. This is observation work only.
   Verify relevant/full Python tests, scoped Ruff and documentation; commit and
   complete independent SPEC then QUALITY review. No Rust/product change is needed
   merely to observe existing native decisions.
-- [ ] Run one fresh focused native replay with publication tracing disabled,
+- [x] Run one fresh focused native replay with publication tracing disabled,
   retain its outcome and new failure context if any. Record any evidence-supported
   remedy separately. Fresh full aggregate acceptance and final review remain open.
+
+The [fresh untraced capture](../execution/real-system-readings/native-navigation-observation-stale-failure.md)
+failed freshness before the next native scan. Its independent review supports
+one combined diagnostic using the existing publication tracing switch and
+navigation observations; it supports no behavior remedy.
+
+- [ ] Run the combined supporting diagnostic and retain its actual outcome.
+  Fresh untraced full aggregate acceptance and final review remain required.

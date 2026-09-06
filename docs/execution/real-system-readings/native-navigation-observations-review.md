@@ -70,7 +70,9 @@ native capture or changed source.
 
 - [x] Correct and verify the partial-mapping extraction finding.
 - [x] Complete independent QUALITY review.
-- [ ] Run the fresh focused native replay with publication tracing disabled.
+- [x] Run the fresh focused native replay with publication tracing disabled.
+  The [capture](native-navigation-observation-stale-failure.md) failed freshness;
+  its independent diagnosis authorizes no behavior remedy.
 
 Native instantiated-selection observations cannot establish hidden application
 model selection. The previous failures remain failed. Fresh full aggregate

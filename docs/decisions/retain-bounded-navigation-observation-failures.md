@@ -19,7 +19,10 @@ Write tests first for partial/complete scans, selected competitors versus no sel
 Independent SPEC and QUALITY reviews passed after correcting guarded diagnostic
 input extraction. See the [implementation](../execution/real-system-readings/native-navigation-observations-implementation.md)
 and [review](../execution/real-system-readings/native-navigation-observations-review.md).
-The fresh focused replay and full aggregate acceptance remain pending.
+The [fresh focused replay](../execution/real-system-readings/native-navigation-observation-stale-failure.md)
+failed freshness before a native scan. Its independent diagnosis supports one
+combined diagnostic with the existing publication trace; no source behavior
+remedy is inferred. Full aggregate acceptance remains pending.
 
 ## Realized by
 
