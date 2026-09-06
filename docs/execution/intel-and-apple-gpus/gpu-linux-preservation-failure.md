@@ -2,8 +2,9 @@
 
 The Task 4 full Linux preservation run finished **FAIL**. The native replay
 rejected an accepted frame older than the unchanged two-second limit during
-held input. This remains an unresolved GPU-007 preservation result; passing
-helper tests or a later diagnostic cannot clear it.
+held input. The original result remains failed and its exact event ordering
+is unattributed. A subsequent [fresh full uninstrumented run passed](linux-preservation-pass.md);
+that establishes current preservation without rewriting this failure.
 
 Originals are retained outside the checkout at
 `/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906`.

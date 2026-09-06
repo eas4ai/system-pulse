@@ -130,8 +130,8 @@ are committed at `3ab14ff0`, with an observed failing viewport regression before
 the correction and 67 application tests passing afterward. Independent
 specification review [passed](../execution/intel-and-apple-gpus/linux-pending-process-reveal-spec-review.md);
 fresh [quality review also passed](../execution/intel-and-apple-gpus/linux-pending-process-reveal-quality-review.md).
-The focused source finding is closed; fresh full Linux preservation remains
-pending. This does not close
+The focused source finding is closed; [fresh full Linux preservation passed](../execution/intel-and-apple-gpus/linux-preservation-pass.md)
+with 870 tests, live host comparisons and all native replay cases. This does not close
 the Mac finding or attribute the original freshness failures.
 
 The subsequent full preservation attempt stopped at the mandatory Python stage:
@@ -139,12 +139,12 @@ the expanded complete suite takes about 34 seconds, above its older 30-second
 runner deadline. The [recorded budget mismatch](../execution/intel-and-apple-gpus/linux-python-budget-finding.md)
 is corrected at `61e8ceef`, with all 444 tests passing through the actual Runner
 and independent [SPEC and QUALITY passes](../execution/intel-and-apple-gpus/linux-python-budget-reviews.md).
-Fresh full preservation is next. Native freshness, navigation, comparison bounds
-and required coverage remain unchanged.
+Fresh full preservation subsequently passed. Native freshness, navigation,
+comparison bounds and required coverage remain unchanged.
 
 - [ ] Complete and independently review the [recorded Mac application/dispatcher lifetime correction](../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md) as focused single-implementer work. Commit the reviewed implementation and remove its in-progress marker; update each applicable source decision's single `Realized by` entry with its actual resolving commit and exact subject.
 - [ ] Run `cairn wake` and the named committed mechanism. Preserve failed attempts. Fix evidence failures at their cause without relaxing coverage or comparison bounds. Resolve the recorded [full-app Apple pool and AX findings](../execution/intel-and-apple-gpus/apple-gui-preflight-findings.md), with focused corrections and independent reviews, before accepting native GUI evidence. The [isolated pool investigation](../execution/intel-and-apple-gpus/apple-gui-pool-investigation.md) identifies startup and callback boundaries; it does not clear the full application.
-- [ ] Resolve the retained [Linux native freshness failure](../execution/intel-and-apple-gpus/gpu-linux-preservation-failure.md) through demonstrated cause and fresh uninstrumented full preservation; an instrumented diagnostic cannot clear it. Obtain actual Intel integrated Linux, Intel discrete Linux and Apple Silicon reports, plus the complete Linux preservation replay. If a required host is unavailable, record that exact external dependency; the commitment stays incomplete.
+- [ ] Obtain actual Intel integrated Linux, Intel discrete Linux and Apple Silicon reports. The [complete Linux preservation replay passed](../execution/intel-and-apple-gpus/linux-preservation-pass.md) after reviewed source corrections; historical freshness failures remain retained without a claim about their original event ordering. Intel integrated BIOS enablement/reboot, a discrete Intel host and an unlocked Mac desktop remain external dependencies; the commitment stays incomplete.
 - [ ] Complete a final independent adversarial review in `.cairn/reviews/intel-and-apple-gpus.md`, recording attacks and findings before any fixes. Complete the production self-audit and documentation checks.
 - [ ] Claim completion only after actual `cairn wake` returns Done. Stop the task-owned Mac caffeinate assertion and clean up task-owned workloads. No merge, push or deployment is part of this plan.
 

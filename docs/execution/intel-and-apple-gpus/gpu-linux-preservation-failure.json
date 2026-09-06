@@ -1609,5 +1609,13 @@
     ],
     "finding": "linux-python-budget-finding.md",
     "original_freshness_failures_resolved": false
+  },
+  "fresh_full_preservation": {
+    "status": "PASS",
+    "record": "linux-preservation-pass.md",
+    "root_verification": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-preservation-61e8ceef-reap-20260906-root-verification.json",
+    "sha256": "f40a632c61035c8afd38a133a512c10ea7ad54be9618f19ef3b96624088beabb",
+    "test_count": 870,
+    "historical_failure_reclassified": false
   }
 }
