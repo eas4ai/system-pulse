@@ -1,15 +1,15 @@
 # GPU acceptance implementation
 
-Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The finding is recorded before correction. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
+Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The focused correction below passed local verification and awaits independent SPEC then quality re-review. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
 
 ## Work tracking
 
-The remaining F10 identity finding was recorded at `9e1c2c07` before correction at `50ea29d6`. Independent specification review now closes all F1–F10; quality review now requires Q1 correction.
+Independent SPEC review closed F1–F10 at `50ea29d6`. Independent quality review found Q1, exceptional process cleanup, and committed that finding at `11d2c450` before correction.
 
-- Complete: original replay and four failing full-ingestion identity attacks; minimal inventory join and unchanged regression now pass, including reordered device/alias controls.
-- Complete: 440 Python tests, seven mandatory groups with 57 GPU tests, strict lint/format, unchanged native sources and all 14 self-audit rules.
-- Complete: focused commit `50ea29d6`, committed-source replay, 711 input bindings and independent specification review.
-- In progress: correct recorded quality finding Q1, then complete independent specification and quality re-review.
+- Done: reproduced Q1 with real bounded processes and corrected exceptional ownership. The unchanged regression file moved from seven failing fault cases to all ten methods passing.
+- Done: 443 Python tests, all seven development groups (60 tests), strict Python checks and unchanged native-source verification.
+- Done: all 14 self-audit rules and retained source/lifecycle evidence for the focused correction.
+- In progress: Task 4 review handoff; independent SPEC and quality verdicts remain required.
 
 ## Implementation
 
@@ -107,6 +107,18 @@ The unchanged original review replay reproduced both wrong acceptances. A new fu
 
 Final checks passed all 440 Python tests and seven nonempty GPU groups (6/5/6/8/15/10/7, 57 tests total), with no Cairn acceptance output. Ruff lint/format and `git diff --check` passed. The focused [identity correction record](gpu-acceptance-f10-identity-correction.json) links RED/GREEN logs and final checks in `gpu-task4/f10-identity-correction-20260906/`. The post-commit replay uses copies of the frozen review reports, refreshes only source bindings to the committed candidate, and checks that all other originals remain unchanged. Its two Intel/Apple controls must accept and both original identity attacks must reject specifically at the independent-inventory join. Neither synthetic result is native hardware evidence or an independent SPEC verdict.
 
+## Q1: exceptional capture cleanup
+
+The independent [quality finding](gpu-acceptance-quality-review.md), committed at `11d2c450` before this fix, reproduced a child surviving failure to write its start record and a running descendant surviving an actual SIGINT. The ownership guard now begins before process launch, covers start publication and waiting, and always attempts bounded group termination, direct-child reaping and completion recording. TERM escalates to KILL; process-exit races are tolerated. The original exception is preserved. Secondary cleanup or recording failures remain attached as `capture_errors` and are also reported to stderr where possible; `capture_record` retains available completion facts in memory when disk recording fails.
+
+`CaptureChildren` gives each worker a stop event kept in memory. Exception cleanup sets every event, and workers check it at most every 100 ms before performing their existing bounded cleanup. Cleanup therefore survives a missing start artifact and does not wait for the full child deadline. Lifecycle and secondary-error recording failures cannot replace the original body or worker exception. Native capture callers, native helpers and production Rust did not change.
+
+Three new test methods cover seven fault cases: direct/concurrent start-write ENOSPC with and without secondary recording failures; actual SIGINT with a TERM-ignoring descendant, with and without completion-write failure; and successful launch followed by removal of the start artifact. All seven cases failed before the fix, while the seven existing methods passed. The exact same regression file passed all ten methods afterward. Logs retain actual leader/descendant PIDs and confirm direct-child reaping and group absence before test fallback cleanup.
+
+The original reviewer scripts and their 51-file evidence manifest remain unchanged. Fresh copies retain the corrected implementation's outcomes. The ENOSPC script now observes a reaped child, absent group and completion record; it exits 1 because its final assertion expects the old defect. The original SIGINT script uses a private Linux subreaper but waits for its adopted descendant only after the owner returns. A separate diagnostic copy confirms that descendant is already killed (state `Z`, exit status 9). Its delayed reap keeps the group visible; the owner truthfully retains `proc_exists=true`, a cleanup error and the original `KeyboardInterrupt`. This is not a still-running descendant. The new confined test observer reaps its own adopted child during owner cleanup, and confirms both the group and direct child are gone. Production code does not adopt or reap unrelated children. These original and corrected observations are retained separately.
+
+The focused [Q1 correction record](gpu-acceptance-q1-correction.json) binds the unchanged RED/GREEN test hash, final source hashes, exact check records and evidence manifest in `gpu-task4/q1-correction-20260906/`. All 443 Python tests and all seven GPU development groups (6/5/6/8/15/10/10, 60 tests) passed. Development emitted no Cairn acceptance lines. Ruff lint/format and whitespace checks passed. Native helper sources remain byte-identical to the independently reviewed `50ea29d6` candidate; no native build or GUI retry was needed. Hardware accuracy, the failed Linux preservation run and the Task 5 pool finding remain pending.
+
 ## Verification evidence
 
 The task-owned artifact root is `/home/shawn/workspace2/task-manager-artifacts/gpu-task4`.
@@ -137,4 +149,4 @@ Intel integrated and discrete hardware are unavailable in this task. Apple obser
 
 ## Self-audit
 
-The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. Independent specification review closed F1–F10 at `50ea29d6`. Quality review remains required. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.
+The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. Independent specification review closed F1–F10 at `50ea29d6`. Q1 cleanup correction passed local checks; independent SPEC and quality re-review remain required. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.

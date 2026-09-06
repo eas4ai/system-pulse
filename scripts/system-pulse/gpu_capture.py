@@ -7,6 +7,8 @@ from pathlib import Path
 import signal
 import shutil
 import subprocess
+import sys
+from threading import Event
 import time
 from concurrent.futures import ThreadPoolExecutor
 
@@ -30,23 +32,56 @@ def group_exists(pid):
         return False
 
 
-def clean_group(pid):
+def clean_group(child, errors):
+    """Escalate even if waiting or signaling is interrupted; reap the leader."""
     signals = []
     for sig in (signal.SIGTERM, signal.SIGKILL):
-        if not group_exists(pid):
-            break
         try:
-            os.killpg(pid, sig)
-            signals.append(sig.name)
-        except ProcessLookupError:
-            break
-        deadline = time.monotonic() + 2
-        while group_exists(pid) and time.monotonic() < deadline:
-            time.sleep(0.02)
-    return signals, group_exists(pid)
+            child.poll()
+            if not group_exists(child.pid):
+                break
+            try:
+                os.killpg(child.pid, sig)
+                signals.append(sig.name)
+            except ProcessLookupError:
+                break
+            deadline = time.monotonic() + 2
+            while time.monotonic() < deadline:
+                child.poll()
+                if not group_exists(child.pid):
+                    break
+                time.sleep(0.02)
+        except BaseException as error:
+            errors.append(("process-group cleanup", error))
+    try:
+        child.wait(timeout=3)
+    except BaseException as error:
+        errors.append(("leader reap", error))
+    exists = True
+    try:
+        exists = group_exists(child.pid)
+        require(not exists, "native process group survived bounded cleanup")
+    except BaseException as error:
+        errors.append(("process-group absence", error))
+    return signals, exists
 
 
-def owned_process(output, role, command, timeout, env=None):
+def retain_errors(primary, errors):
+    """Expose secondary failures without replacing the original exception."""
+    rows = [
+        dict(stage=stage, type=type(error).__name__, message=str(error))
+        for stage, error in errors
+        if error is not primary
+    ]
+    if rows:
+        primary.capture_errors = getattr(primary, "capture_errors", []) + rows
+        try:
+            print(json.dumps(dict(capture_errors=rows)), file=sys.stderr, flush=True)
+        except BaseException:
+            pass
+
+
+def owned_process(output, role, command, timeout, env=None, stop_event=None):
     require(
         0 < timeout <= 3600 and role.replace("-", "").isalnum(),
         "invalid child bounds/name",
@@ -61,66 +96,90 @@ def owned_process(output, role, command, timeout, env=None):
     executable = shutil.which(command[0])
     require(executable is not None, "native executable not found")
     executable_digest = sha256(executable)
+    child, primary, record = None, None, None
+    errors = []
     timed_out = False
-    with (output / stdout).open("x") as out, (output / stderr).open("x") as err:
-        child = subprocess.Popen(
-            command, stdout=out, stderr=err, env=environment, start_new_session=True
-        )
-        (output / (role + "-started.json")).write_text(
-            json.dumps(
-                dict(
-                    pid=child.pid,
-                    command=command,
-                    started_ns=started,
-                    started_unix_ns=started_unix_ns,
-                    deadline_ns=started + int(timeout * 1e9),
+    # Ownership begins before Popen, including publication and stream closure.
+    try:
+        with (output / stdout).open("x") as out, (output / stderr).open("x") as err:
+            child = subprocess.Popen(
+                command, stdout=out, stderr=err, env=environment, start_new_session=True
+            )
+            (output / (role + "-started.json")).write_text(
+                json.dumps(
+                    dict(
+                        pid=child.pid,
+                        command=command,
+                        started_ns=started,
+                        started_unix_ns=started_unix_ns,
+                        deadline_ns=started + int(timeout * 1e9),
+                    )
                 )
             )
-        )
-        try:
-            child.wait(timeout=timeout)
-        except subprocess.TimeoutExpired:
-            timed_out = True
-        finally:
-            if child.poll() is None:
-                os.killpg(child.pid, signal.SIGTERM)
+            deadline = started / 1e9 + timeout
+            while child.poll() is None:
+                if stop_event is not None and stop_event.is_set():
+                    break
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    timed_out = True
+                    break
                 try:
-                    child.wait(timeout=3)
+                    child.wait(timeout=min(remaining, 0.1))
                 except subprocess.TimeoutExpired:
-                    os.killpg(child.pid, signal.SIGKILL)
-                    child.wait(timeout=3)
-    cleanup_signals, exists = clean_group(child.pid)
-    record = dict(
-        role=role,
-        pid=child.pid,
-        command=command,
-        exit_code=child.returncode,
-        executable_sha256=executable_digest,
-        timed_out=timed_out,
-        reaped=child.poll() is not None,
-        proc_exists=exists,
-        cleanup_signals=cleanup_signals,
-        started_ns=started,
-        finished_ns=time.monotonic_ns(),
-        started_unix_ns=started_unix_ns,
-        finished_unix_ns=time.time_ns(),
-        deadline_ns=started + int(timeout * 1e9),
-        stdout=stdout,
-        stderr=stderr,
-        environment={
-            k: environment[k]
-            for k in (
-                "OBJC_DEBUG_MISSING_POOLS",
-                "SYSTEM_PULSE_GPU_MONITOR_ID",
-                "SYSTEM_PULSE_STATE_DIR",
-                "SYSTEM_PULSE_DIAGNOSTICS_PATH",
+                    pass
+    except BaseException as error:
+        primary = error
+    finally:
+        if child is not None:
+            cleanup_signals, exists = clean_group(child, errors)
+            record = dict(
+                role=role,
+                pid=child.pid,
+                command=command,
+                exit_code=child.returncode,
+                executable_sha256=executable_digest,
+                timed_out=timed_out,
+                reaped=child.returncode is not None,
+                proc_exists=exists,
+                cleanup_signals=cleanup_signals,
+                started_ns=started,
+                finished_ns=time.monotonic_ns(),
+                started_unix_ns=started_unix_ns,
+                finished_unix_ns=time.time_ns(),
+                deadline_ns=started + int(timeout * 1e9),
+                stdout=stdout,
+                stderr=stderr,
+                environment={
+                    k: environment[k]
+                    for k in (
+                        "OBJC_DEBUG_MISSING_POOLS",
+                        "SYSTEM_PULSE_GPU_MONITOR_ID",
+                        "SYSTEM_PULSE_STATE_DIR",
+                        "SYSTEM_PULSE_DIAGNOSTICS_PATH",
+                    )
+                    if k in environment
+                },
             )
-            if k in environment
-        },
-        stdout_sha256=sha256(output / stdout),
-        stderr_sha256=sha256(output / stderr),
-    )
-    (output / (role + "-finished.json")).write_text(json.dumps(record, indent=2))
+            for name in (stdout, stderr):
+                try:
+                    record[name.rsplit(".", 1)[1] + "_sha256"] = sha256(output / name)
+                except BaseException as error:
+                    errors.append(("log hashing", error))
+            if primary is not None or errors:
+                record["capture_error"] = type(primary or errors[0][1]).__name__
+            try:
+                (output / (role + "-finished.json")).write_text(
+                    json.dumps(record, indent=2)
+                )
+            except BaseException as error:
+                errors.append(("completion recording", error))
+    if primary is None and errors:
+        primary = errors[0][1]
+    if primary is not None:
+        primary.capture_record = record
+        retain_errors(primary, errors)
+        raise primary
     return record
 
 
@@ -157,6 +216,7 @@ class CaptureChildren:
         self.output = Path(output)
         self.pool = ThreadPoolExecutor(max_workers=4)
         self.jobs = {}
+        self.stops = {}
         self.records = []
 
     def __enter__(self):
@@ -164,9 +224,11 @@ class CaptureChildren:
 
     def start(self, role, command, timeout, env=None):
         require(role not in self.jobs, "duplicate native process role")
+        stop_event = Event()
         future = self.pool.submit(
-            owned_process, self.output, role, command, timeout, env
+            owned_process, self.output, role, command, timeout, env, stop_event
         )
+        self.stops[role] = stop_event
         self.jobs[role] = future
         started = self.output / (role + "-started.json")
         deadline = time.monotonic() + 5
@@ -181,31 +243,65 @@ class CaptureChildren:
 
     def finish(self, role, stop=False):
         future = self.jobs[role]
-        if stop and not future.done():
-            started = json.loads((self.output / (role + "-started.json")).read_text())
-            try:
-                os.killpg(started["pid"], signal.SIGTERM)
-            except ProcessLookupError:
-                pass
-        record = future.result(timeout=3606)
+        if stop:
+            self.stops[role].set()
+        try:
+            record = future.result(timeout=3610)
+        except BaseException as error:
+            record = getattr(error, "capture_record", None)
+            if record is not None and record not in self.records:
+                self.records.append(record)
+            raise
         if record not in self.records:
             self.records.append(record)
         return record
 
     def __exit__(self, exception_type, exception, traceback):
         errors = []
+        primary = exception
+        if exception_type is not None:
+            for stop_event in self.stops.values():
+                stop_event.set()
         for role in self.jobs:
             try:
-                self.finish(role, stop=exception_type is not None)
+                self.finish(role, stop=primary is not None)
             except BaseException as error:
-                errors.append(str(error))
-        self.pool.shutdown(wait=True)
-        (self.output / "lifecycle.json").write_text(
-            json.dumps(self.records, indent=2) + "\n"
-        )
-        if errors:
-            (self.output / "cleanup-errors.json").write_text(
-                json.dumps(errors, indent=2) + "\n"
+                if primary is None:
+                    primary = error
+                    for stop_event in self.stops.values():
+                        stop_event.set()
+                errors.append((role + " cleanup", error))
+        try:
+            self.pool.shutdown(wait=True)
+        except BaseException as error:
+            errors.append(("worker shutdown", error))
+        try:
+            (self.output / "lifecycle.json").write_text(
+                json.dumps(self.records, indent=2) + "\n"
             )
-            if exception_type is None:
-                raise RuntimeError("native cleanup failed: " + "; ".join(errors))
+        except BaseException as error:
+            errors.append(("lifecycle recording", error))
+        if errors:
+            try:
+                (self.output / "cleanup-errors.json").write_text(
+                    json.dumps(
+                        [
+                            dict(
+                                stage=stage,
+                                type=type(error).__name__,
+                                message=str(error),
+                            )
+                            for stage, error in errors
+                        ],
+                        indent=2,
+                    )
+                    + "\n"
+                )
+            except BaseException as error:
+                errors.append(("cleanup-error recording", error))
+        if primary is None and errors:
+            primary = errors[0][1]
+        if primary is not None:
+            retain_errors(primary, errors)
+            if exception is None:
+                raise primary

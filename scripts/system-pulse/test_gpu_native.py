@@ -8,7 +8,259 @@ except ImportError:
     owned_process = validate_workload = validate_native_frame = None
 
 
+def interrupt_cleanup_probe(output, fail_finish):
+    """Confine SIGINT and orphan reaping to a disposable Linux test process."""
+    import ctypes
+    import errno
+    import json
+    import os
+    import signal
+    import sys
+    import threading
+    import time
+    from unittest.mock import patch
+    import gpu_capture
+
+    native = ctypes.CDLL(None, use_errno=True)
+    assert native.prctl(36, 1, 0, 0, 0) == 0
+    ready = output / "descendant-ready"
+    descendant = (
+        "import os,signal,time; from pathlib import Path; "
+        "signal.signal(signal.SIGTERM,signal.SIG_IGN); "
+        "Path(" + repr(str(ready)) + ").write_text(str(os.getpid())); time.sleep(8)"
+    )
+    leader = (
+        "import subprocess,sys,time; subprocess.Popen([sys.executable,'-c',"
+        + repr(descendant)
+        + "]); time.sleep(8)"
+    )
+    adopted = []
+
+    def interrupt_and_reap():
+        deadline = time.monotonic() + 2
+        while not ready.exists() and time.monotonic() < deadline:
+            time.sleep(0.01)
+        if not ready.exists():
+            return
+        pid = int(ready.read_text())
+        os.kill(os.getpid(), signal.SIGINT)
+        deadline = time.monotonic() + 8
+        while time.monotonic() < deadline:
+            try:
+                if os.waitpid(pid, os.WNOHANG)[0]:
+                    adopted.append(pid)
+                    return
+            except ChildProcessError:
+                pass
+            time.sleep(0.01)
+
+    real_write = Path.write_text
+
+    def write(path, *args, **kwargs):
+        if fail_finish and path.name == "probe-finished.json":
+            raise OSError(errno.ENOSPC, "injected completion write failure")
+        return real_write(path, *args, **kwargs)
+
+    thread = threading.Thread(target=interrupt_and_reap)
+    thread.start()
+    caught = None
+    try:
+        with patch.object(Path, "write_text", write):
+            try:
+                gpu_capture.owned_process(
+                    output, "probe", [sys.executable, "-c", leader], 3
+                )
+            except BaseException as error:
+                caught = error
+        start = json.loads((output / "probe-started.json").read_text())
+        result = dict(
+            case="actual_SIGINT",
+            fail_finish=fail_finish,
+            error=type(caught).__name__,
+            leader_pid=start["pid"],
+            descendant_pid=int(ready.read_text()),
+            group_existed_after_owner=gpu_capture.group_exists(start["pid"]),
+            finished_record_exists=(output / "probe-finished.json").exists(),
+            capture_errors=getattr(caught, "capture_errors", []),
+        )
+    finally:
+        if (output / "probe-started.json").exists():
+            pid = json.loads((output / "probe-started.json").read_text())["pid"]
+            try:
+                os.killpg(pid, signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+        thread.join(timeout=3)
+        assert not thread.is_alive()
+    result["test_cleanup_reaped_descendant"] = adopted == [result["descendant_pid"]]
+    result["test_cleanup_group_absent"] = not gpu_capture.group_exists(
+        result["leader_pid"]
+    )
+    print(json.dumps(result), flush=True)
+
+
 class NativeTests(unittest.TestCase):
+    def test_start_record_failure_reaps_children_and_preserves_original_error(self):
+        import errno
+        import json
+        import os
+        import signal
+        import subprocess
+        import sys
+        from unittest.mock import patch
+        import gpu_capture
+
+        for concurrent in (False, True):
+            for fail_reporting in (False, True):
+                with (
+                    self.subTest(concurrent=concurrent, fail_reporting=fail_reporting),
+                    tempfile.TemporaryDirectory() as tmp,
+                ):
+                    output = Path(tmp)
+                    launched = []
+                    original = OSError(errno.ENOSPC, "injected start write failure")
+                    real_popen, real_write = subprocess.Popen, Path.write_text
+
+                    def spawn(*args, **kwargs):
+                        child = real_popen(*args, **kwargs)
+                        launched.append(child)
+                        return child
+
+                    def write(path, *args, **kwargs):
+                        if path.name.endswith("-started.json"):
+                            raise original
+                        if fail_reporting and (
+                            path.name.endswith("-finished.json")
+                            or path.name == "lifecycle.json"
+                        ):
+                            raise OSError(
+                                errno.EIO, "injected secondary recording failure"
+                            )
+                        return real_write(path, *args, **kwargs)
+
+                    try:
+                        with (
+                            patch.object(gpu_capture.subprocess, "Popen", spawn),
+                            patch.object(Path, "write_text", write),
+                        ):
+                            with self.assertRaises(OSError) as caught:
+                                command = [
+                                    sys.executable,
+                                    "-c",
+                                    "import time; time.sleep(3)",
+                                ]
+                                if concurrent:
+                                    with gpu_capture.CaptureChildren(
+                                        output
+                                    ) as children:
+                                        children.start("probe", command, 0.05)
+                                else:
+                                    owned_process(output, "probe", command, 0.05)
+                        self.assertIs(caught.exception, original)
+                        self.assertEqual(len(launched), 1)
+                        self.assertIsNotNone(launched[0].poll())
+                        self.assertFalse(gpu_capture.group_exists(launched[0].pid))
+                        if fail_reporting:
+                            self.assertTrue(caught.exception.capture_errors)
+                        else:
+                            record = json.loads(
+                                (output / "probe-finished.json").read_text()
+                            )
+                            self.assertTrue(record["reaped"])
+                            self.assertFalse(record["proc_exists"])
+                    finally:
+                        before = [
+                            dict(
+                                pid=c.pid,
+                                alive=c.poll() is None,
+                                group_exists=gpu_capture.group_exists(c.pid),
+                            )
+                            for c in launched
+                        ]
+                        for child in launched:
+                            try:
+                                os.killpg(child.pid, signal.SIGKILL)
+                            except ProcessLookupError:
+                                pass
+                            child.wait(timeout=3)
+                        print(
+                            json.dumps(
+                                dict(
+                                    case="start_write_failure",
+                                    concurrent=concurrent,
+                                    fail_reporting=fail_reporting,
+                                    after_owner=before,
+                                    test_cleanup_groups_absent=all(
+                                        not gpu_capture.group_exists(c.pid)
+                                        for c in launched
+                                    ),
+                                )
+                            )
+                        )
+
+    @unittest.skipUnless(
+        __import__("sys").platform.startswith("linux"), "confined Linux subreaper probe"
+    )
+    def test_actual_interrupt_cleans_descendants_before_preserving_exception(self):
+        import json
+        import subprocess
+        import sys
+
+        for fail_finish in (False, True):
+            with (
+                self.subTest(fail_finish=fail_finish),
+                tempfile.TemporaryDirectory() as tmp,
+            ):
+                script = (
+                    "from pathlib import Path; from test_gpu_native import interrupt_cleanup_probe; interrupt_cleanup_probe(Path("
+                    + repr(tmp)
+                    + "),"
+                    + repr(fail_finish)
+                    + ")"
+                )
+                result = subprocess.run(
+                    [sys.executable, "-B", "-c", script],
+                    cwd=Path(__file__).parent,
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
+                )
+                self.assertEqual(result.returncode, 0, result.stderr)
+                row = json.loads(result.stdout)
+                print(result.stdout.strip())
+                self.assertEqual(row["error"], "KeyboardInterrupt")
+                self.assertFalse(row["group_existed_after_owner"])
+                self.assertTrue(row["test_cleanup_reaped_descendant"])
+                self.assertTrue(row["test_cleanup_group_absent"])
+                self.assertEqual(row["finished_record_exists"], not fail_finish)
+                if fail_finish:
+                    self.assertTrue(row["capture_errors"])
+
+    def test_concurrent_cleanup_keeps_ownership_when_start_record_disappears(self):
+        import json
+        import sys
+        import gpu_capture
+
+        with tempfile.TemporaryDirectory() as tmp:
+            output = Path(tmp)
+            original = RuntimeError("capture body failed")
+            with self.assertRaises(RuntimeError) as caught:
+                with gpu_capture.CaptureChildren(output) as children:
+                    children.start(
+                        "probe", [sys.executable, "-c", "import time; time.sleep(3)"], 2
+                    )
+                    (output / "probe-started.json").unlink()
+                    raise original
+            self.assertIs(caught.exception, original)
+            record = json.loads((output / "probe-finished.json").read_text())
+            print(json.dumps(dict(case="missing_start_artifact", record=record)))
+            self.assertFalse(record["timed_out"])
+            self.assertTrue(record["reaped"])
+            self.assertFalse(record["proc_exists"])
+            self.assertEqual(
+                json.loads((output / "lifecycle.json").read_text()), [record]
+            )
+
     def test_workload_requires_matching_device_completed_commands_and_bounds(self):
         self.assertIsNotNone(validate_workload, "native workload validation missing")
         good = dict(
