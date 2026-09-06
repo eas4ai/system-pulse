@@ -6,6 +6,8 @@ This is a historical inspection of the fixture baseline. Source links identify w
 
 The session's work is already known: replace runtime simulation with readings from the user's machine. That direction was confirmed before the harness restart; it is recorded in the [handoff](superpowers/execution/live-collection-handoff.md:5). This report describes existing behavior, not approval to preserve every observed behavior.
 
+The next [GPU commitment](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/commitments/intel-and-apple-gpus.md) was confirmed and activated on 2026-09-06. Intel Linux collection is in progress; Apple Silicon, integration and independent native acceptance follow the [implementation plan](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/plans/intel-and-apple-gpus.md). The original inspection below remains historical.
+
 ## Repository boundary
 
 `S` below means `/home/shawn/workspace2/task-manager-worktrees/workspace-visibility`. The application is `S/examples/system_pulse`; this repository retains design inputs and third-party snapshots. The source placement follows the [product specification](feature-spec-dockable-system-monitor.md:15) and [implementation manifest](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/Cargo.toml:20).

@@ -1,6 +1,8 @@
 # Resume: real system collection
 
-The real-collection commitment is complete. Cairn returned Done after full committed acceptance and independent final review. The history below preserves the implementation and verification path; the developer names the next commitment.
+The real-collection commitment is complete. Cairn returned Done after full committed acceptance and independent final review. The developer confirmed the next commitment, Intel Linux and Apple Silicon GPU collection, on 2026-09-06. The history below preserves the completed LIVE implementation and verification path.
+
+Current work follows the source [GPU contract](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/spec/gpu-collection.md) and [implementation plan](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/plans/intel-and-apple-gpus.md). Activation is committed at `66ea860f`; Intel Linux implementation is in progress. One source implementer works at a time, followed by independent specification and quality review. The authorized M1 Pro MacBook is reachable for native validation; stale Cargo outputs were cleaned and a timed keep-awake assertion was started. Intel integrated/discrete Linux hardware evidence remains pending. Windows support is a separate follow-on.
 
 ## User direction
 
