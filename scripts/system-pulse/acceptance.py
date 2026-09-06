@@ -248,6 +248,11 @@ def read_native_result(runner):
     native = json.loads((runner.output / "native/result.json").read_text())
     require(isinstance(native, dict), "unknown native result shape")
     require(
+        not native.get("publication_timing_instrumented", False)
+        and not (runner.output / "native/publication-timing-metadata.json").exists(),
+        "instrumented native run cannot count as final acceptance",
+    )
+    require(
         native["status"] in ("PASS", "FAIL")
         and native["focused_preparation"] is None
         and isinstance(native["cases"], dict)
@@ -315,6 +320,12 @@ def validate_sessions(runner, sessions):
         )
         cleanup = json.loads((directory / "cleanup.json").read_text())
         metadata = json.loads((directory / "metadata.json").read_text())
+        require(
+            not metadata.get("publication_timing_instrumented", False)
+            and not (directory / "publication-timing-metadata.json").exists()
+            and not (directory / "latest.publication-timing.json").exists(),
+            "instrumented native session cannot count as final acceptance",
+        )
         require(
             isinstance(cleanup, list)
             and len(cleanup) == 1

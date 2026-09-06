@@ -158,6 +158,11 @@ def main():
     parser.add_argument("--binary", required=True, type=Path)
     parser.add_argument("--inside", action="store_true")
     parser.add_argument(
+        "--trace-publication",
+        action="store_true",
+        help="retain diagnostic publication timings; ineligible for final acceptance",
+    )
+    parser.add_argument(
         "--focus",
         choices=(
             "launch",
@@ -171,9 +176,25 @@ def main():
         ),
     )
     args = parser.parse_args()
+    args.trace_publication = (
+        args.trace_publication
+        or os.environ.get("SYSTEM_PULSE_DIAGNOSTICS_TRACE") == "1"
+    )
+    if args.trace_publication:
+        os.environ["SYSTEM_PULSE_DIAGNOSTICS_TRACE"] = "1"
     if not args.inside:
         require(not args.output.exists(), "native output directory must be fresh")
         args.output.mkdir(parents=True)
+        if args.trace_publication:
+            (args.output / "publication-timing-metadata.json").write_text(
+                json.dumps(
+                    {
+                        "publication_timing_instrumented": True,
+                        "purpose": "supporting diagnostic only; final acceptance requires an untraced run",
+                    },
+                    indent=2,
+                )
+            )
         for command in ("xvfb-run", "Xvfb", "dbus-run-session", "xset"):
             require(shutil.which(command), f"missing native prerequisite {command}")
         icd = Path("/usr/share/vulkan/icd.d/lvp_icd.json")
@@ -212,6 +233,8 @@ def main():
             "--binary",
             str(args.binary.resolve()),
         ]
+        if args.trace_publication:
+            command += ["--trace-publication"]
         if args.focus:
             command += ["--focus", args.focus]
         with (args.output / "private-session.log").open("w") as log:
@@ -1139,6 +1162,7 @@ def main():
                     "errors": errors,
                     "cases": cases,
                     "focused_preparation": args.focus,
+                    "publication_timing_instrumented": args.trace_publication,
                     "limits": [
                         "NVIDIA hardware accuracy unverified",
                         "macOS/Windows native unverified",

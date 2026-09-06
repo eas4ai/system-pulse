@@ -239,6 +239,7 @@ pub struct WorkspaceView {
     service: Option<SamplingService>,
     accepted_clock: Option<(std::time::Instant, u64)>,
     accepted_unix_ns: u64,
+    accepted_model_timing: Option<(u64, u64)>,
     diagnostic_revision: u64,
     diagnostics: Option<crate::diagnostics::Writer>,
     preset: Option<String>,
@@ -404,6 +405,7 @@ impl WorkspaceView {
             service,
             accepted_clock: None,
             accepted_unix_ns: 0,
+            accepted_model_timing: None,
             diagnostic_revision: 0,
             diagnostics,
             preset,
@@ -508,6 +510,10 @@ impl WorkspaceView {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) {
+        let model_started = self
+            .diagnostics
+            .as_ref()
+            .and_then(|writer| writer.timestamp());
         let unix_ns = live::unix_ns();
         let now_ms = live::collector_now_ms(&snapshot, unix_ns);
         let mut data = self.shared.borrow_mut();
@@ -544,6 +550,11 @@ impl WorkspaceView {
         let identities: Vec<_> = data.processes.iter().map(|p| p.identity.clone()).collect();
         self.accepted_unix_ns = unix_ns;
         drop(data);
+        self.accepted_model_timing = model_started.zip(
+            self.diagnostics
+                .as_ref()
+                .and_then(|writer| writer.timestamp()),
+        );
         self.publish_diagnostics(now_ms);
         for (view, monitor) in updates {
             let _ = view.update(cx, |panel, cx| {
@@ -570,13 +581,19 @@ impl WorkspaceView {
             return;
         };
         self.diagnostic_revision += 1;
-        writer.submit(crate::diagnostics::Record::new(
+        let construction_started = writer.timestamp();
+        let record = crate::diagnostics::Record::new(
             snapshot,
             self.accepted_unix_ns,
             self.diagnostic_revision,
             rendered_at_collector_ms,
             &data,
-        ));
+        );
+        if construction_started.is_some() {
+            writer.submit_timed(record, self.accepted_model_timing, construction_started);
+        } else {
+            writer.submit(record);
+        }
     }
 
     fn capture_sizes(&mut self, cx: &App) {
@@ -1237,7 +1254,8 @@ mod diagnostic_delivery_tests {
         };
         cx.update(|window, cx| {
             view.update(cx, |this, cx| {
-                this.diagnostics = Some(crate::diagnostics::Writer::start(path.clone()).unwrap());
+                this.diagnostics =
+                    Some(crate::diagnostics::Writer::start_with_trace(path.clone(), true).unwrap());
                 this.accept_snapshot(snapshot, window, cx);
             })
         });
@@ -1336,6 +1354,39 @@ mod diagnostic_delivery_tests {
         assert_eq!(after["snapshot"], before["snapshot"]);
         assert_eq!(after["accepted_unix_ns"], before["accepted_unix_ns"]);
         assert_eq!(after["application_pid"], before["application_pid"]);
+        let timing_path = path.with_extension("publication-timing.json");
+        assert!(timing_path.is_file(), "opt-in publication timings missing");
+        let timing: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&timing_path).unwrap()).unwrap();
+        let records = timing["history"]["records"].as_array().unwrap();
+        assert_eq!(records.len(), 2);
+        for record in records {
+            assert_eq!(record["sequence"], 43);
+            assert_eq!(record["accepted_unix_ns"], before["accepted_unix_ns"]);
+            let stages = &record["stages"];
+            let values: Vec<_> = [
+                "acceptance_started_ns",
+                "model_completed_ns",
+                "construction_started_ns",
+                "construction_completed_ns",
+                "submission_started_ns",
+                "submission_completed_ns",
+                "dequeue_ns",
+            ]
+            .iter()
+            .map(|key| stages[key].as_u64().unwrap())
+            .collect();
+            assert!(values.windows(2).all(|pair| pair[0] <= pair[1]));
+        }
+        assert_eq!(
+            records[0]["stages"]["acceptance_started_ns"],
+            records[1]["stages"]["acceptance_started_ns"]
+        );
+        assert_eq!(
+            records[0]["stages"]["model_completed_ns"],
+            records[1]["stages"]["model_completed_ns"]
+        );
+        std::fs::remove_file(timing_path).unwrap();
         std::fs::remove_file(path).unwrap();
         std::fs::remove_dir(dir).unwrap();
     }

@@ -147,14 +147,10 @@ class Native:
             Atspi.init()
             Atspi.set_timeout(250, 250)
         self.a11y = TRANSPORT
+        application_environment = self.diagnostic_environment()
         self.app = subprocess.Popen(
             [str(self.binary)],
-            env=dict(
-                os.environ,
-                SYSTEM_PULSE_STATE_DIR=str(self.state_dir),
-                SYSTEM_PULSE_DIAGNOSTICS_PATH=str(self.latest),
-                RUST_BACKTRACE="1",
-            ),
+            env=application_environment,
             stdout=self.log,
             stderr=self.log,
         )
@@ -173,6 +169,7 @@ class Native:
         self.d.sync()
         metadata = {
             "application_pid": self.app.pid,
+            "publication_timing_instrumented": self.publication_timing_instrumented,
             "binary": str(self.binary),
             "binary_sha256": digest(self.binary),
             "proc_exe_sha256": digest(f"/proc/{self.app.pid}/exe"),
@@ -188,6 +185,36 @@ class Native:
             "running binary differs",
         )
         self.save("metadata.json", metadata)
+
+    def diagnostic_environment(self):
+        environment = dict(
+            os.environ,
+            SYSTEM_PULSE_STATE_DIR=str(self.state_dir),
+            SYSTEM_PULSE_DIAGNOSTICS_PATH=str(self.latest),
+            RUST_BACKTRACE="1",
+        )
+        self.publication_timing_instrumented = (
+            environment.get("SYSTEM_PULSE_DIAGNOSTICS_TRACE") == "1"
+        )
+        if self.publication_timing_instrumented:
+            before = time.monotonic_ns()
+            wall = time.time_ns()
+            after = time.monotonic_ns()
+            self.save(
+                "publication-timing-metadata.json",
+                {
+                    "publication_timing_instrumented": True,
+                    "sidecar": str(self.latest.with_suffix(".publication-timing.json")),
+                    "harness_clock_anchor": {
+                        "clock": "Python time.monotonic_ns; not writer Instant offsets",
+                        "monotonic_before_ns": before,
+                        "unix_ns": wall,
+                        "monotonic_after_ns": after,
+                    },
+                    "coverage": "Worker-produced sidecar retained in place, including failure cleanup. Missing or older sidecars do not prove completion of later stages.",
+                },
+            )
+        return environment
 
     def journal(self, op, **fields):
         with self.lock:

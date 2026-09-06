@@ -1,3 +1,4 @@
+use crate::diagnostics::timing::{Timing, bounded_error};
 use std::{
     collections::BTreeMap,
     fs,
@@ -53,7 +54,7 @@ impl Storage {
     pub(crate) fn write(&self, path: &Path, revision: u64, data: &str) -> Result<(), String> {
         validate_configuration_size(data.len())
             .map_err(|error| format!("Save {}: {error}", path.display()))?;
-        self.atomic_write(path, revision, data, Durability::Durable)
+        self.atomic_write(path, revision, data, Durability::Durable, None)
     }
 
     /// Diagnostics retain one latest complete record, independent of configuration
@@ -64,7 +65,17 @@ impl Storage {
         revision: u64,
         data: &str,
     ) -> Result<(), String> {
-        self.atomic_write(path, revision, data, Durability::Transient)
+        self.atomic_write(path, revision, data, Durability::Transient, None)
+    }
+
+    pub(crate) fn write_diagnostic_timed(
+        &self,
+        path: &Path,
+        revision: u64,
+        data: &str,
+        timing: &mut Timing,
+    ) -> Result<(), String> {
+        self.atomic_write(path, revision, data, Durability::Transient, Some(timing))
     }
 
     fn atomic_write(
@@ -73,25 +84,65 @@ impl Storage {
         revision: u64,
         data: &str,
         durability: Durability,
+        mut timing: Option<&mut Timing>,
     ) -> Result<(), String> {
         let mut versions = self.0.lock().map_err(|_| "Storage lock poisoned")?;
         if versions.get(path).is_some_and(|saved| *saved > revision) {
             return Ok(());
+        }
+        if let Some(t) = &mut timing {
+            t.stages.temp_write_started_ns = Some(t.clock.now());
         }
         let parent = path.parent().ok_or("State path has no parent")?;
         fs::create_dir_all(parent).map_err(|e| e.to_string())?;
         let temp = path.with_extension(format!("{}.tmp", std::process::id()));
         let result = (|| -> std::io::Result<()> {
             let mut file = fs::File::create(&temp)?;
+            if let Some(t) = &mut timing {
+                #[cfg(unix)]
+                {
+                    use std::os::unix::fs::MetadataExt;
+                    match file.metadata() {
+                        Ok(metadata) => {
+                            t.temp_device = Some(metadata.dev());
+                            t.temp_inode = Some(metadata.ino());
+                        }
+                        Err(error) => {
+                            t.trace_error =
+                                Some(bounded_error(&format!("Temporary file identity: {error}")))
+                        }
+                    }
+                }
+                #[cfg(not(unix))]
+                {
+                    t.trace_error = Some("Temporary device/inode observation requires Unix".into());
+                }
+            }
             file.write_all(data.as_bytes())?;
+            if let Some(t) = &mut timing {
+                t.stages.temp_write_completed_ns = Some(t.clock.now());
+            }
             if matches!(durability, Durability::Durable) {
                 file.sync_all()?;
             }
+            if let Some(t) = &mut timing {
+                t.stages.rename_started_ns = Some(t.clock.now());
+            }
             fs::rename(&temp, path)?;
+            if let Some(t) = &mut timing {
+                t.stages.rename_completed_ns = Some(t.clock.now());
+            }
             Ok(())
         })();
         if let Err(error) = result {
-            let _ = fs::remove_file(&temp);
+            if let Err(cleanup) = fs::remove_file(&temp) {
+                if cleanup.kind() != std::io::ErrorKind::NotFound {
+                    if let Some(t) = &mut timing {
+                        t.trace_error =
+                            Some(bounded_error(&format!("Temporary cleanup: {cleanup}")));
+                    }
+                }
+            }
             return Err(format!("Save {}: {error}", path.display()));
         }
         versions.insert(path.to_owned(), revision);
