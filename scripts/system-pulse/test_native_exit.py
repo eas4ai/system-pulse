@@ -8,6 +8,12 @@ import unittest
 from unittest.mock import Mock
 
 from host_accuracy import require
+from native_observations import (
+    NavigationObservations,
+    current_observation,
+    error_text,
+    navigation_observation,
+)
 
 
 TARGET = "process:42:123"
@@ -78,6 +84,10 @@ def native_class(clock):
         GLib=SimpleNamespace(Error=type("TransportError", (Exception,), {})),
         Atspi=SimpleNamespace(StateType=SimpleNamespace(DEFUNCT="defunct")),
         BUDGETS={"nodes": 30000},
+        NavigationObservations=NavigationObservations,
+        current_observation=current_observation,
+        error_text=error_text,
+        navigation_observation=navigation_observation,
     )
     exec(compile(ast.Module(body=nodes, type_ignores=[]), str(source), "exec"), context)
     return context["Native"], context["identity"]

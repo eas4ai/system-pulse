@@ -19,6 +19,12 @@ from Xlib.ext import xtest
 
 from host_accuracy import require
 from native_contract import expected_label, contained, check_transport_record
+from native_observations import (
+    NavigationObservations,
+    current_observation,
+    error_text,
+    navigation_observation,
+)
 
 BUDGETS = {
     "startup": 15,
@@ -922,25 +928,30 @@ class Native:
         return self.wait(poll, seconds, "fresh sequence progression")
 
     def selected(self, deadline, strict=False, panel=None, scan=None):
-        panel = panel if panel is not None else self.panel("processes")
-        matches = []
-        if scan is not None:
-            scan.update(rows=[], viewports=[])
-        for node in self.walk(panel, deadline, skip_cells=True, strict=strict):
-            aid = node.get_accessible_id() or ""
+        observation = current_observation(self)
+        with observation.stage("scan"):
+            panel = panel if panel is not None else self.panel("processes")
+            matches = []
             if scan is not None:
-                if aid.startswith("process:") and ":cell:" not in aid:
-                    scan["rows"].append(aid)
-                elif aid == "processes:rows-viewport":
-                    scan["viewports"].append(node)
-            if (
-                aid.startswith("process:")
-                and ":cell:" not in aid
-                and node.get_state_set().contains(Atspi.StateType.SELECTED)
-            ):
-                matches.append((aid, node))
-        require(len(matches) <= 1, "multiple selected process identities")
-        return matches[0] if matches else None
+                scan.update(rows=[], viewports=[])
+            for node in self.walk(panel, deadline, skip_cells=True, strict=strict):
+                aid = node.get_accessible_id() or ""
+                is_row = aid.startswith("process:") and ":cell:" not in aid
+                if scan is not None:
+                    if is_row:
+                        scan["rows"].append(aid)
+                    elif aid == "processes:rows-viewport":
+                        scan["viewports"].append(node)
+                if is_row:
+                    observation.row(aid)
+                    selected = node.get_state_set().contains(Atspi.StateType.SELECTED)
+                    observation.selection(aid, selected)
+                    if selected:
+                        matches.append((aid, node))
+            observation.scan_complete()
+            observation.phase("selection uniqueness validation")
+            require(len(matches) <= 1, "multiple selected process identities")
+            return matches[0] if matches else None
 
     def wait_for_process_exit(self, aid, before_sequence, deadline):
         def poll():
@@ -999,31 +1010,45 @@ class Native:
 
     def navigation_panel(self, deadline):
         """Discover the unique current panel and retain its application ancestry."""
-        panels = [
-            node
-            for node in self.walk(
-                deadline=deadline,
-                skip_cells=True,
-                strict=True,
-                skip_monitor_bodies=True,
-            )
-            if node.get_name() == "processes" and node.get_role_name() == "panel"
-        ]
-        require(len(panels) <= 1, "nonunique native Processes panel")
-        if not panels:
-            raise IncompleteNativeTree("incomplete native tree: Processes panel absent")
-        application = self.root()
-        path = [panels[0]]
-        while path[-1] != application:
-            require(time.monotonic() < deadline, "navigation panel deadline expired")
-            require(len(path) < 40, "navigation panel ancestry bound exceeded")
-            parent = path[-1].get_parent()
-            if not self.alive(parent) or parent in path:
-                raise IncompleteNativeTree("incomplete native tree: panel ancestry")
-            path.append(parent)
-        if not self.navigation_panel_current(path, deadline):
-            raise IncompleteNativeTree("incomplete native tree: panel membership")
-        return path
+        with navigation_observation(self, "panel discovery", deadline) as observation:
+            with observation.stage("discovery"):
+                panels = [
+                    node
+                    for node in self.walk(
+                        deadline=deadline,
+                        skip_cells=True,
+                        strict=True,
+                        skip_monitor_bodies=True,
+                    )
+                    if node.get_name() == "processes"
+                    and node.get_role_name() == "panel"
+                ]
+                require(len(panels) <= 1, "nonunique native Processes panel")
+                if not panels:
+                    raise IncompleteNativeTree(
+                        "incomplete native tree: Processes panel absent"
+                    )
+                application = self.root()
+                path = [panels[0]]
+                while path[-1] != application:
+                    require(
+                        time.monotonic() < deadline, "navigation panel deadline expired"
+                    )
+                    require(len(path) < 40, "navigation panel ancestry bound exceeded")
+                    parent = path[-1].get_parent()
+                    if not self.alive(parent) or parent in path:
+                        raise IncompleteNativeTree(
+                            "incomplete native tree: panel ancestry"
+                        )
+                    path.append(parent)
+                if not observation.panel(
+                    self.navigation_panel_current(path, deadline),
+                    "discovery membership",
+                ):
+                    raise IncompleteNativeTree(
+                        "incomplete native tree: panel membership"
+                    )
+                return path
 
     def navigation_links_current(self, path, deadline):
         """Validate ordinary child links, including viewport ancestry on recovery."""
@@ -1247,21 +1272,27 @@ class Native:
             fresh_panel = True
         recovery = None
         recovery_blocked = False
+        recovery_blocked_at = None
+        recovery_blocked_reason = None
         recovery_preparing = False
         recovery_proof = False
         recovery_started = False
         pending_preparing = False
 
-        def observe():
+        def observe(observation):
             nonlocal \
                 path, \
                 recovery, \
                 recovery_blocked, \
+                recovery_blocked_at, \
+                recovery_blocked_reason, \
                 recovery_preparing, \
                 recovery_proof, \
                 recovery_started, \
                 pending_preparing
+            observation.phase("initial publication")
             before = self.frame()
+            observation.publication("initial", before)
             require(
                 target in map(identity, before["snapshot"]["processes"]),
                 "navigation target absent: " + target,
@@ -1274,26 +1305,45 @@ class Native:
                 or recovery_preparing
                 or recovery_proof
             )
+            observation.phase("retained panel validation")
             if (
                 discover_fresh
                 or retained is None
-                or not self.navigation_panel_current(retained, deadline)
+                or not observation.panel(
+                    self.navigation_panel_current(retained, deadline), "retained"
+                )
             ):
                 retained = self.navigation_panel(deadline)
-            if not self.navigation_panel_current(retained, deadline):
-                return None
+            observation.phase("panel validation before scan")
+            if not observation.panel(
+                self.navigation_panel_current(retained, deadline), "before scan"
+            ):
+                return observation.reject("invalid panel before selection")
             # Panel discovery may span collection intervals; bracket selection
             # itself with one fresh publication after discovery has completed.
+            observation.phase("publication before selection")
             before = self.frame()
+            observation.publication("before selection", before)
             scan = {} if reference_index is not None else None
-            selected = self.selected(
-                deadline,
-                strict=True,
-                panel=retained[0],
-                **({"scan": scan} if scan is not None else {}),
-            )
-            if not self.navigation_panel_current(retained, deadline):
-                return None
+            try:
+                selected = self.selected(
+                    deadline,
+                    strict=True,
+                    panel=retained[0],
+                    **({"scan": scan} if scan is not None else {}),
+                )
+            except BaseException:
+                observation.partial_mapping(
+                    scan.get("rows") if scan is not None else None,
+                    before["snapshot"]["processes"],
+                )
+                raise
+            observation.phase("panel validation after scan")
+            if not observation.panel(
+                self.navigation_panel_current(retained, deadline), "after scan"
+            ):
+                return observation.reject("invalid panel after selection")
+            observation.phase("selected link validation")
             if selected and not (
                 self.alive(selected[1])
                 and selected[1].get_accessible_id() == selected[0]
@@ -1302,8 +1352,10 @@ class Native:
                 # The complete scan and post-scan links still validate this panel
                 # for pacing, even though the selected row must be observed again.
                 path = retained if not discover_fresh else None
-                return None
+                return observation.reject("invalid selected link")
+            observation.phase("publication after selection")
             after = self.frame()
+            observation.publication("after selection", after)
             ids = list(map(identity, after["snapshot"]["processes"]))
             require(target in ids, "navigation target absent: " + target)
             if (before["snapshot"]["sequence"], before["render_revision"]) != (
@@ -1311,7 +1363,7 @@ class Native:
                 after["render_revision"],
             ):
                 path = retained if not discover_fresh else None
-                return None
+                return observation.reject("publication changed during selection")
             path = retained
             if pending is not None and expected not in ids:
                 require(
@@ -1335,7 +1387,8 @@ class Native:
                 if not pending_preparing:
                     pending_preparing = True
                     path = None
-                    return None
+                    return observation.reject("pending exit preparing fresh proof")
+                observation.phase("independent terminal stat")
                 terminal_started = time.monotonic_ns()
                 require(
                     pending["dispatch_completed"] <= terminal_started,
@@ -1363,24 +1416,43 @@ class Native:
                 # Discovery may span collector publications. Bracket the fresh
                 # strict eligibility scan only after global discovery completes;
                 # the independently terminal stat remains prior evidence.
-                if self.navigation_panel(
-                    deadline
-                ) != path or not self.navigation_panel_current(path, deadline):
+                if self.navigation_panel(deadline) != path:
                     path = None
-                    return None
+                    return observation.reject("pending panel rediscovery changed")
+                observation.phase("pending panel validation")
+                if not observation.panel(
+                    self.navigation_panel_current(path, deadline), "pending before scan"
+                ):
+                    path = None
+                    return observation.reject("invalid panel before pending scan")
+                observation.phase("publication before pending scan")
                 current_before = self.frame()
+                observation.publication("before pending scan", current_before)
                 current_scan = {}
-                current_selection = self.selected(
-                    deadline, strict=True, panel=path[0], scan=current_scan
-                )
+                try:
+                    current_selection = self.selected(
+                        deadline, strict=True, panel=path[0], scan=current_scan
+                    )
+                except BaseException:
+                    observation.partial_mapping(
+                        current_scan.get("rows"),
+                        current_before["snapshot"]["processes"],
+                    )
+                    raise
+                observation.phase("publication after pending scan")
                 current = self.frame()
+                observation.publication("after pending scan", current)
                 current_ids = list(map(identity, current["snapshot"]["processes"]))
                 require(target in current_ids, "navigation target absent: " + target)
-                if publication(current) != publication(
-                    current_before
-                ) or not self.navigation_panel_current(path, deadline):
+                if publication(current) != publication(current_before):
                     path = None
-                    return None
+                    return observation.reject("publication changed during pending scan")
+                observation.phase("pending panel validation after scan")
+                if not observation.panel(
+                    self.navigation_panel_current(path, deadline), "pending after scan"
+                ):
+                    path = None
+                    return observation.reject("invalid panel after pending scan")
                 require(
                     current_selection is None,
                     "selection transferred during pending navigation",
@@ -1405,9 +1477,12 @@ class Native:
                     and all(value in current_ids for value in current_scan["rows"]),
                     "pending native rows duplicate or outside current snapshot",
                 )
-                if publication(current) != publication(self.frame()):
+                observation.phase("final pending publication")
+                final_pending = self.frame()
+                observation.publication("final pending", final_pending)
+                if publication(current) != publication(final_pending):
                     path = None
-                    return None
+                    return observation.reject("publication changed after pending proof")
                 require(
                     time.monotonic() < deadline, "pending navigation deadline expired"
                 )
@@ -1436,6 +1511,8 @@ class Native:
                     and bool(mapped)
                     and mapped == list(range(mapped[0], mapped[-1] + 1))
                 )
+                observation.mapping(mapped, complete_span)
+                observation.phase("reveal eligibility")
                 if (
                     selected
                     and selected[0] != expected
@@ -1445,6 +1522,13 @@ class Native:
                     require(
                         inspection is None, "inspection selection changed without input"
                     )
+                    if not recovery_blocked:
+                        recovery_blocked_at = observation.number
+                        recovery_blocked_reason = (
+                            "competing instantiated selection"
+                            if selected
+                            else "expected row instantiated without selection"
+                        )
                     recovery_blocked = True
                 if (
                     recovery is None
@@ -1461,7 +1545,9 @@ class Native:
                         # that will authorize the first physical recovery step.
                         recovery_preparing = True
                         path = None
-                        return None
+                        return observation.reject(
+                            "recovery preparing fresh eligibility"
+                        )
                     recovery = {
                         "expected": expected,
                         **(
@@ -1489,20 +1575,32 @@ class Native:
                         "selection changed during nonselecting navigation recovery",
                     )
                     if not complete_span or recovery_blocked:
-                        return None
+                        return observation.reject(
+                            "recovery blocked"
+                            if recovery_blocked
+                            else "incomplete mapped row span"
+                        )
+                    observation.phase("reveal clip discovery")
                     left, top, right, bottom = self.navigation_reveal_clip(
                         scan, path, deadline
                     )
                     bounds = self.bounds(selected[1]) if selected else None
+                    observation.phase("publication before reveal")
                     current_frame = self.frame()
+                    observation.publication("before reveal", current_frame)
                     if (
                         current_frame["snapshot"]["sequence"],
                         current_frame["render_revision"],
                     ) != (
                         after["snapshot"]["sequence"],
                         after["render_revision"],
-                    ) or not self.navigation_panel_current(path, deadline):
-                        return None
+                    ):
+                        return observation.reject("publication changed before reveal")
+                    observation.phase("panel validation before reveal")
+                    if not observation.panel(
+                        self.navigation_panel_current(path, deadline), "before reveal"
+                    ):
+                        return observation.reject("invalid panel before reveal")
                     require(
                         time.monotonic() < deadline,
                         "navigation reveal deadline expired",
@@ -1516,7 +1614,7 @@ class Native:
                         if not recovery_proof:
                             recovery_proof = True
                             path = None
-                            return None
+                            return observation.reject("recovery preparing final proof")
                         self.journal(
                             reveal_event + "-proof",
                             **recovery,
@@ -1552,7 +1650,9 @@ class Native:
                     elif ids.index(expected) > mapped[-1]:
                         down = True
                     else:
-                        return None
+                        return observation.reject(
+                            "expected row in span without instantiated selection"
+                        )
                     point = [(left + right) / 2, (top + bottom) / 2]
                     self.journal(
                         reveal_event,
@@ -1564,10 +1664,13 @@ class Native:
                         deadline=deadline,
                         action="nonselecting vertical wheel",
                     )
+                    observation.phase("existing reveal wheel dispatch")
                     self.wheel(point, down=down, deadline=deadline)
                     recovery_started = True
                     recovery_proof = False
-                    return None
+                    return observation.reject(
+                        "recovery wheel dispatched; fresh proof required"
+                    )
             if reconcile:
                 require(
                     selected is None or selected[0] == expected,
@@ -1577,24 +1680,57 @@ class Native:
                     # A complete scan with no instantiated selected row permits
                     # explicit boundary recovery; virtualization cannot prove model
                     # selection cleared automatically.
-                    return (None, after, path) if selected is None else None
-            return (
-                (selected, after, path)
-                if selected and selected[0] == expected and expected in ids
-                else None
-            )
+                    return (
+                        (None, after, path)
+                        if selected is None
+                        else observation.reject(
+                            "selected endpoint absent from publication"
+                        )
+                    )
+            if selected and selected[0] == expected and expected in ids:
+                return selected, after, path
+            if selected:
+                return observation.reject(
+                    "competing instantiated selection"
+                    if selected[0] != expected
+                    else "selected endpoint absent from publication"
+                )
+            if scan is not None and not complete_span:
+                return observation.reject("incomplete mapped row span")
+            return observation.reject("no instantiated selection")
 
         def poll():
             nonlocal path, recovery, recovery_preparing
-            try:
-                return observe()
-            finally:
-                if recovery is not None and not recovery_started:
-                    # A rejected pre-input observation is not permission to scroll
-                    # later. Freeze eligibility only after dispatching a wheel step.
-                    recovery = None
-                    recovery_preparing = True
-                    path = None
+            with navigation_observation(
+                self, "selection observation", deadline, expected, endpoint_index
+            ) as observation:
+                try:
+                    result = observe(observation)
+                    observation.outcome(
+                        "interrupted-unverified"
+                        if isinstance(result, InterruptedNavigation)
+                        else "returned selection"
+                        if result is not None and result[0] is not None
+                        else "returned absence"
+                        if result is not None
+                        else "retry"
+                    )
+                    return result
+                finally:
+                    if recovery is not None and not recovery_started:
+                        # A rejected pre-input observation is not permission to scroll
+                        # later. Freeze eligibility only after dispatching a wheel step.
+                        recovery = None
+                        recovery_preparing = True
+                        path = None
+                    observation.recovery(
+                        recovery_blocked,
+                        recovery_preparing,
+                        recovery_started,
+                        recovery_proof,
+                        recovery_blocked_at,
+                        recovery_blocked_reason,
+                    )
 
         result = self.wait(
             poll, message="selected " + expected, deadline=deadline, acknowledge=False
@@ -1623,6 +1759,7 @@ class Native:
             "original_deadline_monotonic": deadline,
             "last_acknowledged_identity": None,
         }
+        self.navigation_observations = NavigationObservations(time, target, deadline)
         try:
             return self._navigate(target, deadline, on_acknowledged=on_acknowledged)
         except BaseException as error:
@@ -1631,12 +1768,20 @@ class Native:
                 error=str(error),
                 observed_monotonic=time.monotonic(),
             )
-            self.save(f"navigation-failure-{time.monotonic_ns()}.json", context)
+            try:
+                context["observations"] = self.navigation_observations.snapshot()
+                self.save(f"navigation-failure-{time.monotonic_ns()}.json", context)
+            except BaseException as evidence_error:
+                error.add_note(
+                    "Navigation failure artifact: " + error_text(evidence_error)
+                )
             if time.monotonic() >= deadline:
                 raise TimeoutError(
                     f"child navigation original180s deadline expired: {context}"
                 ) from error
             raise
+        finally:
+            self.navigation_observations = None
 
     def navigation_stat(self, expected):
         from native_pending import read_stat
