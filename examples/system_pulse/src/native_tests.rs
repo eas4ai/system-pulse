@@ -9,7 +9,7 @@ use gpui::{
 };
 use gpui_base::{Placement, dock::*};
 
-fn harness(cx: &mut TestAppContext) -> (Entity<WorkspaceView>, &mut VisualTestContext) {
+pub(crate) fn harness(cx: &mut TestAppContext) -> (Entity<WorkspaceView>, &mut VisualTestContext) {
     cx.update(gpui_component::init);
     let mut workspace = None;
     let (_, cx) = cx.add_window_view(|window, cx| {
@@ -21,7 +21,7 @@ fn harness(cx: &mut TestAppContext) -> (Entity<WorkspaceView>, &mut VisualTestCo
     draw(cx);
     (view, cx)
 }
-fn draw(cx: &mut VisualTestContext) {
+pub(crate) fn draw(cx: &mut VisualTestContext) {
     for _ in 0..3 {
         cx.update(|window, cx| {
             window.simulate_next_frame(cx);
@@ -33,7 +33,11 @@ fn command(view: &Entity<WorkspaceView>, cmd: Command, cx: &mut VisualTestContex
     cx.update(|window, cx| view.update(cx, |this, cx| this.command(cmd, window, cx)));
     draw(cx);
 }
-fn panel(view: &Entity<WorkspaceView>, id: &str, cx: &VisualTestContext) -> Entity<MonitorPanel> {
+pub(crate) fn panel(
+    view: &Entity<WorkspaceView>,
+    id: &str,
+    cx: &VisualTestContext,
+) -> Entity<MonitorPanel> {
     cx.read(|cx| view.read(cx).shared.borrow().views[id].upgrade().unwrap())
 }
 fn leaf_nodes(node: &PaneNode) -> Vec<(NodeId, PanelId)> {
@@ -342,14 +346,24 @@ fn tab_enters_and_leaves_the_retained_process_table(cx: &mut TestAppContext) {
             .focus(window, cx)
     });
     draw(cx);
-    cx.simulate_keystrokes("tab");
-    draw(cx);
+    // Search precedes the table; disabled process actions are skipped.
+    for _ in 0..4 {
+        cx.simulate_keystrokes("tab");
+        draw(cx);
+        if cx.update(|window, cx| {
+            processes.read(cx).controls["table"]
+                .handle
+                .is_focused(window)
+        }) {
+            break;
+        }
+    }
     cx.update(|window, cx| {
         assert!(
             processes.read(cx).controls["table"]
                 .handle
                 .is_focused(window),
-            "Tab must enter the process table"
+            "Tab must reach the table after its search and action controls"
         )
     });
     cx.simulate_keystrokes("tab");
@@ -364,7 +378,7 @@ fn tab_enters_and_leaves_the_retained_process_table(cx: &mut TestAppContext) {
     });
 }
 
-fn native_key(key: &str, cx: &mut VisualTestContext) {
+pub(crate) fn native_key(key: &str, cx: &mut VisualTestContext) {
     let keystroke = Keystroke::parse(key).unwrap();
     cx.simulate_event(KeyDownEvent {
         keystroke: keystroke.clone(),
@@ -903,6 +917,7 @@ fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppCon
     let (view, cx) = harness(cx);
     let rows: Vec<_> = (0..1205)
         .map(|index| crate::live::ProcessView {
+            numeric: [None; 5],
             identity: system_pulse_collectors::ProcessIdentity {
                 pid: index + 1,
                 start_time_ticks: 55,
@@ -947,7 +962,11 @@ fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppCon
         })
     });
     assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(0));
+    // Reversing source storage does not change the displayed stable sort.
     native_key("down", cx);
+    draw(cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(0));
+    native_key("up", cx);
     draw(cx);
     assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(1));
     cx.update(|_, cx| {
@@ -970,6 +989,7 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
     cx.update(|window, cx| {
         for (index, start) in [(0, 91), (1204, 91), (0, 92)] {
             let process = crate::live::ProcessView {
+                numeric: [None; 5],
                 identity: system_pulse_collectors::ProcessIdentity {
                     pid: 53,
                     start_time_ticks: start,

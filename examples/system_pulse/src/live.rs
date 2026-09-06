@@ -492,6 +492,7 @@ pub(crate) fn is_fixture_id(id: &str) -> bool {
 pub(crate) struct ProcessView {
     pub(crate) identity: ProcessIdentity,
     pub(crate) cells: Vec<String>,
+    pub(crate) numeric: [Option<f64>; 5],
 }
 pub(crate) const PROCESS_COLUMNS: [&str; 8] = [
     "PID",
@@ -537,6 +538,12 @@ pub(crate) fn process_views(
                 (&process.threads, Quantity::Counter, PhysicalUnit::Count),
             ];
             let mut cells = vec![process.identity.pid.to_string(), process.name.clone()];
+            let sort_values = numeric.map(|(reading, _, _)| {
+                (reading.availability == collectors::Availability::Available)
+                    .then_some(reading.value)
+                    .flatten()
+                    .filter(|value| value.is_finite())
+            });
             cells.extend(numeric.map(|(reading, quantity, unit)| {
                 let mut sample = convert_value(
                     quantity,
@@ -560,6 +567,7 @@ pub(crate) fn process_views(
             ProcessView {
                 identity: process.identity.clone(),
                 cells,
+                numeric: sort_values,
             }
         })
         .collect()
@@ -616,6 +624,7 @@ mod observation_tests {
                 start_time_ticks: 1,
             },
             cells,
+            numeric: [None; 5],
         };
         let widths = process_widths(std::slice::from_ref(&row));
         assert!(widths[4] >= row.cells[4].chars().count() as f32 * 8.);

@@ -31,6 +31,7 @@ pub(crate) struct Data {
     pub(crate) scroll: ScrollHandle,
     pub(crate) processes: Vec<crate::live::ProcessView>,
     pub(crate) process_widths: [f32; 8],
+    pub(crate) allow_process_actions: bool,
     pub(crate) snapshot: Option<std::sync::Arc<Snapshot>>,
     pub(crate) live: LiveState,
 }
@@ -361,6 +362,7 @@ impl WorkspaceView {
             catalog,
             processes: Vec::new(),
             process_widths: live::PROCESS_WIDTHS,
+            allow_process_actions: live && !fixture_mode,
             snapshot: None,
             live: LiveState::default(),
             owner: Some(cx.weak_entity()),

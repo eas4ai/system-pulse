@@ -210,6 +210,7 @@ mod tests {
 pub(crate) fn processes() -> Vec<crate::live::ProcessView> {
     (0..500)
         .map(|index| crate::live::ProcessView {
+            numeric: [None; 5],
             identity: system_pulse_collectors::ProcessIdentity {
                 pid: 1000 + index,
                 start_time_ticks: 1,

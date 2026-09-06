@@ -10,6 +10,9 @@ use gpui_base::{
 };
 use gpui_component::ActiveTheme;
 use std::{collections::BTreeMap, rc::Rc, sync::Arc};
+
+#[path = "process_panel.rs"]
+mod process_panel;
 use system_pulse_collectors::ProcessIdentity;
 use system_pulse_model::MonitorDescriptor as Monitor;
 
@@ -25,6 +28,7 @@ pub(crate) struct MonitorPanel {
     table_horizontal: ScrollHandle,
     keyboard_repaint_pending: bool,
     process_reveal_pending: bool,
+    process_state: process_panel::ProcessPanelState,
 }
 
 impl MonitorPanel {
@@ -51,6 +55,7 @@ impl MonitorPanel {
             table_horizontal: ScrollHandle::default(),
             keyboard_repaint_pending: false,
             process_reveal_pending: false,
+            process_state: process_panel::ProcessPanelState::default(),
         }
     }
 
@@ -290,96 +295,6 @@ impl MonitorPanel {
             )
             .child(ScrollableMask::new(Axis::Vertical, &self.body_scroll))
             .child(Scrollbar::vertical(&self.body_scroll).mode(ScrollbarMode::Always))
-            .into_any_element()
-    }
-
-    fn request_keyboard_repaint(&mut self, window: &mut Window, cx: &Context<Self>) {
-        if self.keyboard_repaint_pending {
-            return;
-        }
-        self.keyboard_repaint_pending = true;
-        // Dirtying this event makes GPUI redraw before the next queued key,
-        // which can starve live snapshot delivery during ordinary key repeat.
-        cx.on_next_frame(window, |this, window, cx| {
-            this.keyboard_repaint_pending = false;
-            window.refresh();
-            cx.notify();
-        });
-    }
-
-    fn process_table(&mut self, window: &Window, cx: &mut Context<Self>) -> AnyElement {
-        // Snapshot delivery may reorder rows after a key but before layout.
-        // Consume the intent even when reconciliation cleared the selection.
-        if std::mem::take(&mut self.process_reveal_pending)
-            && let Some(index) = self.selected_index()
-        {
-            self.table_scroll.scroll_to_item(index, ScrollStrategy::Top);
-        }
-        let handle = self.controls["table"].handle.clone();
-        let ring = cx.theme().ring;
-        let count = self.shared.borrow().processes.len();
-        let widths = self.shared.borrow().process_widths;
-        let width: f32 = widths.iter().sum();
-        let sizes = Rc::new(vec![size(px(width), window.rem_size() * 1.75); count]);
-        let list = v_virtual_list(cx.entity(), "process-rows", sizes, |this, range, _, cx| {
-            let data = this.shared.borrow();
-            range
-                .filter_map(|index| {
-                    let process = data.processes.get(index)?;
-                    Some(process_row(
-                        process,
-                        index,
-                        this.selected.as_ref() == Some(&process.identity),
-                        &data.process_widths,
-                        cx,
-                    ))
-                })
-                .collect()
-        })
-        .track_scroll(&self.table_scroll);
-        let outer = self.shared.borrow().scroll.clone();
-        let focus = self.controls["table"].clone();
-        let horizontal = self.table_horizontal.clone();
-        crate::workspace::scroll_viewport("process-table-viewport", "processes:viewport".into()).size_full().relative().track_focus(&handle)
-            .border_1().border_color(cx.theme().border).focus_visible(move |style| style.border_color(ring))
-            .debug_selector(|| "process-table".into())
-            .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
-                if event.keystroke.modifiers.alt { return; }
-                if matches!(event.keystroke.key.as_str(), "left" | "right") {
-                    let old = this.table_horizontal.offset();
-                    let delta = if event.keystroke.key == "left" { 240. } else { -240. };
-                    this.table_horizontal.set_offset(point((old.x + px(delta)).clamp(-this.table_horizontal.max_offset().x, px(0.)), old.y));
-                    this.request_keyboard_repaint(window, cx); cx.stop_propagation(); return;
-                }
-                let count = this.shared.borrow().processes.len();
-                if count == 0 { return; }
-                let current = this.selected_index();
-                let next = match event.keystroke.key.as_str() {
-                    "up" => current.unwrap_or(0).saturating_sub(1),
-                    "down" => current.map_or(0, |i| (i + 1).min(count - 1)),
-                    "home" => 0, "end" => count - 1, _ => return,
-                };
-                this.selected = Some(this.shared.borrow().processes[next].identity.clone());
-                this.process_reveal_pending = true;
-                controls::reveal(this.table_scroll.base_handle().bounds().dilate(px(1.)), &this.shared.borrow().scroll);
-                this.request_keyboard_repaint(window, cx); cx.stop_propagation();
-            }))
-            .on_prepaint(move |bounds, window, _| {
-                if focus.entered(window) { controls::reveal(bounds.dilate(px(1.)), &outer); window.refresh(); }
-            })
-            .child(div().id("process-horizontal").size_full().overflow_x_scroll().track_scroll(&horizontal)
-                .child(Table::new("process-table").row_count(count + 1).column_count(8)
-                    .accessibility_label(format!("{count} readable process rows; arrows navigate and scroll columns; Tab leaves table"))
-                    .w(px(width)).h_full().flex().flex_col()
-                    .child(TableRow::new("process-columns", 1).flex().h_7().flex_none()
-                        .children(live::PROCESS_COLUMNS.iter().enumerate().map(|(column, title)| {
-                            TableCell::new(("process-heading", column), column + 1).role(Role::ColumnHeader)
-                                .aria_label((*title).to_owned()).w(px(widths[column])).flex_none().child(*title)
-                        })))
-                    .child(crate::workspace::scroll_viewport("process-row-clip", "processes:rows-viewport".into()).flex_1().min_h_0().child(list))))
-            .child(ScrollableMask::new(Axis::Vertical, self.table_scroll.base_handle()))
-            .child(Scrollbar::vertical(&self.table_scroll).mode(ScrollbarMode::Always))
-            .child(Scrollbar::horizontal(&horizontal).mode(ScrollbarMode::Always))
             .into_any_element()
     }
 }

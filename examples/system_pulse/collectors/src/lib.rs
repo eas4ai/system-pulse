@@ -6,6 +6,7 @@ pub use host::HostCollector;
 #[cfg(target_os = "linux")]
 mod intel;
 mod nvidia;
+pub mod process_control;
 mod service;
 pub use service::{DEFAULT_INTERVAL, SUPPORTED_INTERVALS, SamplingService};
 
