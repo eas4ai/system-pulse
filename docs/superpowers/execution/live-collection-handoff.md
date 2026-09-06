@@ -24,6 +24,19 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
+Latest result: reviewed publication tracing is implemented through source
+`f7c45638`, with 344 Python and 56 Rust app tests passing. The single traced
+process replay against `b53a030e` failed on an intermediate navigation deadline.
+Its last 64 complete publication records took 214–340 ms from acceptance to
+rename, with no pending overwrite or trace error. This does not explain the
+previous stale frame and does not justify a performance change. The expected
+navigation process remains present in the later failure snapshot at a changed
+index; independent diagnosis of the missing selection acknowledgement is active.
+All 97 capture files are hashed in the
+[source evidence record](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/native-publication-diagnostic-failure.md),
+committed as `671ca9f5`. This is supporting diagnosis, not aggregate acceptance.
+Fresh untraced full acceptance, final review and actual Cairn Done remain pending.
+
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
 1. Complete: cited recon, agreed LIVE contract, implementation plan, roadmap/current commitment and executable baseline mechanism.
