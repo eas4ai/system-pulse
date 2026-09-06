@@ -835,3 +835,31 @@ mandatory. The old failure cannot be reclassified under this new policy.
 One fresh worker implements the recorded protocol; root owns its new
 build-decision marker. No live app or build is running. Independent reviews,
 fresh focused/full acceptance, final review, and Cairn Done remain pending.
+
+
+### Full acceptance after pending-endpoint reviews
+
+Pending-endpoint recovery passed independent spec and quality review through
+`63883e2be8ceec3526f29d295cd179ba05ec76df`. The reviews found and closed
+post-terminal observation ordering and post-journal deadline defects. The
+focused native process run `pulse-process-lookup-6z8tnj4m` then passed all
+sixteen child comparisons, controlled process exit, and held/burst freshness.
+No recovery event occurred, so that pass does not measure recovery-path timing.
+Source `native-focused-process-pass.md` records the evidence at `c5eae7ca`.
+
+The subsequent full committed aggregate at `c5eae7ca` passed all 693 automated
+tests (338 Python, 355 Rust), formatting, strict Clippy, build and independent
+host comparisons. It failed on the sixteenth child metric comparison with an
+accepted frame age of 2.197136708 seconds against the unchanged two-second
+limit. The file was replaced during its 27.698 ms read/parse/check observation.
+The cause remains under read-only investigation; no threshold change or retry
+has been made. Fifteen child metric artifacts are retained, and controlled
+exit and later native cases were not reached. Source commit `726a1ff0` keeps
+actual Cairn receipts and all 170 artifact paths/hashes in
+`docs/execution/real-system-readings/native-full-stale-frame-failure.{md,json}`.
+
+Current Cairn verdict remains Resolvable: implement LIVE-001. LIVE-004,
+LIVE-012 and LIVE-013 have passing aggregate receipts; the other ten are
+unverified. No source marker or native session remains active. Complete the
+freshness diagnosis, any separately recorded implementation and reviews,
+then full acceptance and final adversarial review before claiming Done.
