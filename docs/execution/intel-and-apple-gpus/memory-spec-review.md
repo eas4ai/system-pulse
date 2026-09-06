@@ -1,6 +1,7 @@
 # GPU memory integration specification review
 
-Status: SPEC PASS on 2026-09-06. Independent quality review remains pending.
+Status: SPEC PASS on 2026-09-06. Subsequent independent
+[quality review](memory-quality-review.md) also approved Task 3.
 
 Independent reviewer `gpu_memory_spec` examined source
 `4db68c71304d368977265e31ba365b121fcfd9f0` against base
@@ -38,5 +39,5 @@ and distinguishes exploratory test corrections from actual production defects.
 
 Formatting and Clippy were not independently rerun by this specification reviewer.
 This review does not establish native hardware accuracy, native GUI behavior or
-aggregate acceptance. Task 3 awaits independent quality approval; Tasks 4 and 5
-remain unfinished.
+aggregate acceptance. Task 3 closed after the subsequent quality approval; Tasks
+4 and 5 remain unfinished.
