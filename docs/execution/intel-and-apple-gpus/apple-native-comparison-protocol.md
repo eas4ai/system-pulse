@@ -127,6 +127,17 @@ deadline. Retain its source/binary hashes, PID, start/exit status and command
 completion evidence. Stop only task-owned workloads/apps and verify exit.
 Task-owned keep-awake assertions are stopped when native work finishes.
 
+Native observer and workload code must scope and drain autoreleased Objective-C
+objects, including Metal initialization and repeated command submission. The
+[collector correction](apple-autorelease-correction.md) also exposed 57 missing-pool
+warnings from the earlier standalone Swift workload; those were retained under
+its own PID. The Task 4 helper must correct that lifetime before acceptance use.
+Check each native process with `OBJC_DEBUG_MISSING_POOLS=YES`, retain unfiltered
+stdout/stderr and PID attribution, and reject remaining missing-pool warnings
+from the collector, observer or workload. An empty collector log cannot clear a
+helper's separate failure. Preserve this diagnostic as lifecycle evidence;
+ordinary accuracy comparisons still require their declared sources and timing.
+
 The final per-host report links policy, originals, independent comparisons,
 actual native interactions, commands and cleanup. The aggregate requires the
 separate Intel integrated and Intel discrete Linux reports as well as this
