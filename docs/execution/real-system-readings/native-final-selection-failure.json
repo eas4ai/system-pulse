@@ -1,0 +1,173 @@
+{
+  "status": "FAIL",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-lhicc91e/native",
+  "metadata": {
+    "application_pid": 3464636,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "proc_exe_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "source_commit": "0cf236c2fedb7cd0895c6089f2b237465d2b58af",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "last_target_batch": {
+    "op": "navigation-batch",
+    "monotonic_ns": 739831386824932,
+    "target": "process:3472632:73981302",
+    "selected": "process:3473633:73982529",
+    "expected": "process:3472632:73981302",
+    "endpoint_index": 1310,
+    "count": 2,
+    "distance": 2,
+    "sequence": 109,
+    "deadline": 739993.97450231
+  },
+  "intermediate_target_ack": {
+    "op": "ack",
+    "monotonic_ns": 739831693995592,
+    "condition": "selected process:3472632:73981302"
+  },
+  "failure": {
+    "target": "process:3472632:73981302",
+    "phase": "next batch",
+    "original_deadline_monotonic": 739993.97450231,
+    "last_acknowledged_identity": "process:3472632:73981302",
+    "target_index": 1310,
+    "population": 1375,
+    "distance": 2,
+    "error": "native discovery deadline exceeded; incomplete tree",
+    "observed_monotonic": 739839.697177532
+  },
+  "seconds_after_intermediate_ack": 8.00318194006104,
+  "failure_publication": {
+    "sequence": 117,
+    "render_revision": 116,
+    "accepted_unix_ns": 1788655604606250943
+  },
+  "failure_target_index": 1309,
+  "failure_population": 1374,
+  "screenshot_first_visible_pid": 3473422,
+  "screenshot_first_pid_snapshot_index": 1310,
+  "post_ack_journal_operations": [
+    "screenshot"
+  ],
+  "stale_artifacts": [],
+  "cleanup": [
+    {
+      "pid": 3464636,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 3464608,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "artifacts": {
+    "result.json": {
+      "bytes": 671,
+      "sha256": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887"
+    },
+    "private-session.log": {
+      "bytes": 8384,
+      "sha256": "df36620077730455761675c9a6830ee59445b6c8c452c0daffe3862eae72d421"
+    },
+    "harness-manifest.json": {
+      "bytes": 2469,
+      "sha256": "0b855c6be0e2bfef986ec96bba9a0723f91b912c270c89cf8c9ed5b988b968df"
+    },
+    "transport-cleanup.json": {
+      "bytes": 102,
+      "sha256": "c63ddef9283c3d6ee571c5e28d786c0b9aa3d600b726e444cbb054e00fbfaa56"
+    },
+    "session-01/metadata.json": {
+      "bytes": 702,
+      "sha256": "f6f57b10f4f7b06f54dd091a514f07a347221d9f8983d7b17915aa14d8abc388"
+    },
+    "session-01/cleanup.json": {
+      "bytes": 78,
+      "sha256": "379c9ab08daad18c939fb95fb7808d3c2ac01da49934f9c2e9d774519bbfa377"
+    },
+    "session-01/real-child-start.json": {
+      "bytes": 840,
+      "sha256": "ececa54ec574f6c77200e0b28cda9833ff224b700573dc01e1152e808f699246"
+    },
+    "session-01/journal.jsonl": {
+      "bytes": 58104,
+      "sha256": "5347e20a1796ab855a5b8ce5960d619f26ac5316c2c58a8e6978b8775fbad579"
+    },
+    "session-01/navigation-failure-739839697180040.json": {
+      "bytes": 348,
+      "sha256": "dc8ec6eeae5c42f50a44f6169df75cd68854ed6ff38215268d546025de1045fe"
+    },
+    "session-01/failure-frame.json": {
+      "bytes": 9303647,
+      "sha256": "757d499365739372ff80fda5e1d818677822a63659513d162b8e464f82dd950f"
+    },
+    "session-01/failure.png": {
+      "bytes": 158957,
+      "sha256": "54fa103457ef612513ec42ed308842de70ebb47a5e7f00a6f427cdb429ac57dd"
+    },
+    "session-01/held-up-25hz.json": {
+      "bytes": 3550,
+      "sha256": "e0af5dc6a957c0a1ad45a3a944d990c3871f20667cce4dc75ede362f699059db"
+    },
+    "session-01/exact-64-up.json": {
+      "bytes": 1713,
+      "sha256": "583998ec2b8b771b717e6a3488741f4a97e87fdb793245b101ae4318c9d303fe"
+    },
+    "session-01/held-table-left.json": {
+      "bytes": 4047,
+      "sha256": "8559215f236134734ca649796eca5e7ba04adbcbd8e292b188557052742a06ae"
+    },
+    "session-01/held-table-right.json": {
+      "bytes": 3208,
+      "sha256": "39d1f239767f0899188068ce7b131757c765739e769cd35fab64a6f09a14eb12"
+    }
+  }
+}
