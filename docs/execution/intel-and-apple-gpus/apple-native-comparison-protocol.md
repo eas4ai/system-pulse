@@ -134,8 +134,13 @@ warnings from the earlier standalone Swift workload; those were retained under
 its own PID. The Task 4 helper must correct that lifetime before acceptance use.
 Check each native process with `OBJC_DEBUG_MISSING_POOLS=YES`, retain unfiltered
 stdout/stderr and PID attribution, and reject remaining missing-pool warnings
-from the collector, observer or workload. An empty collector log cannot clear a
-helper's separate failure. Preserve this diagnostic as lifecycle evidence;
+from the application, collector, observer, accessibility helper or workload.
+An empty collector log cannot clear another process's separate failure. Retain
+compiler diagnostics separately with the compiler PID; they are not runtime
+diagnostics for the executable being built. The recorded
+[full-application finding](apple-gui-preflight-findings.md) remains open until a
+fresh run of the corrected application and native interactions clears it.
+Preserve this diagnostic as lifecycle evidence;
 ordinary accuracy comparisons still require their declared sources and timing.
 
 The final per-host report links policy, originals, independent comparisons,
