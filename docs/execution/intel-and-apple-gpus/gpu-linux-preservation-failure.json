@@ -1,0 +1,269 @@
+{
+  "status": "FAIL",
+  "scope": "Development preservation run; uncommitted Task 4 helpers; no Cairn receipt or root-cause claim",
+  "verified_utc": "2026-09-06T14:09:15.213716+00:00",
+  "original_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906",
+  "metadata": {
+    "application_pid": 2151647,
+    "publication_timing_instrumented": false,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "a4b92e6593673fe08caafe8b59883bfbac6418397001ab17ec5f032aaa8c23f3",
+    "proc_exe_sha256": "a4b92e6593673fe08caafe8b59883bfbac6418397001ab17ec5f032aaa8c23f3",
+    "source_commit": "fa28a5b34bb5732d910e642aefe3f18fcd6bc455",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "native_error": "input starved fresh publication",
+  "first_input_observation": {
+    "sequence": 69,
+    "age_seconds": 1.943904796
+  },
+  "rejected_age_seconds": 2.026,
+  "unchanged_limit_seconds": 2.0,
+  "automated_tests": {
+    "python": 425,
+    "base-dock": 205,
+    "base-resizable": 13,
+    "component-dock": 19,
+    "model": 24,
+    "app": 63,
+    "collectors": 96,
+    "atspi": 2
+  },
+  "automated_test_total": 847,
+  "completed_step_logs_verified": 16,
+  "application_cleanup": [
+    {
+      "pid": 2151647,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 2151615,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "originals": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/failure.json",
+      "bytes": 8400,
+      "sha256": "da70822d519d5ed0bc7efdfe998fc2000a181f4ea7957633757a0f0942eedefc"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/progress.jsonl",
+      "bytes": 8211,
+      "sha256": "0bb299f522eba2a16fec165b60f62f02227012c9f901d9081650aac9fbae0c2d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/result.json",
+      "bytes": 690,
+      "sha256": "5f2f4e6949c527af22b88010a657dcdacf38e43325ca123d92aeb130df3bd837"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/progress.jsonl",
+      "bytes": 810,
+      "sha256": "12d39532dcfd48778d654e315c7dde74b3e2a0f16a926eac03dce2ac96c96ae9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/harness-manifest.json",
+      "bytes": 5019,
+      "sha256": "f55ed5dd8e2a7148e3a60bb5818011ac0076e7ce3bf2ae954753f5896a54b908"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/session-01/metadata.json",
+      "bytes": 746,
+      "sha256": "8a28ff047ae1a2787818cdae151728c141b987a2000efb0a9dc1351018f23734"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/session-01/held-up-25hz.json",
+      "bytes": 3498,
+      "sha256": "9621e5d1f07d3715e47829acc8988528948060726e1bee60ea27ecb72f4eec32"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/session-01/cleanup.json",
+      "bytes": 78,
+      "sha256": "9b8137c2dee43866520585be8daee65b671f447961f89879725c20d55d72a1d2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/transport-cleanup.json",
+      "bytes": 102,
+      "sha256": "ba26ce69b56a04368872f64f3489f32d7071a2ca34e19f83f2b72ae892965cd4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/source-guard.log",
+      "bytes": 62,
+      "sha256": "5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/python.log",
+      "bytes": 69879,
+      "sha256": "0167c8c5d3184289a521cccff9bef9d86d189cc9c39cc1c4eb23573d238b6fef"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/base-dock.log",
+      "bytes": 18235,
+      "sha256": "1e2930b56c90dbb11243cbf43d8717b0feee07ddf9a8eb9eb63f946e3b52ca85"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/base-resizable.log",
+      "bytes": 1481,
+      "sha256": "cd10bf63eef15ad4a0b60c5aa0a678180c6e62aa50c4afe5198632a61f608ad2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/component-dock.log",
+      "bytes": 1860,
+      "sha256": "0e7666790f323ac20bd0a2bce94707757d8329044e3b6c6e8199fe7c0de7bb3f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/model.log",
+      "bytes": 2730,
+      "sha256": "aacf9ec31043bf89330e334d47e795b9b17e6ee16ab78d14749df75308fa2451"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/app.log",
+      "bytes": 6071,
+      "sha256": "c0cdbe095dc6d95ebf4ad37bd6eb8b5f20834d5ae33fc8d3083e5b5c0c14d9a0"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/collectors.log",
+      "bytes": 8847,
+      "sha256": "742d75f472c1f24b2b2985c962172aac58dc98aa5ba6f2509aa750f0d0249690"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/atspi.log",
+      "bytes": 467,
+      "sha256": "0573e180202e776ac556c64268c44f095d67a4f2db7ef9343475bdd4f5023176"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/fmt-atspi.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/clippy.log",
+      "bytes": 196,
+      "sha256": "4a67204609bf4ece26faaccb0982748b65dbf89cc54ccc77f3893f619ca3b889"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/build.log",
+      "bytes": 342,
+      "sha256": "b32fd4813738f1d393c52a7b68e5105c34c2a4c0897c3e8ea3ca510bd9cc9c32"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/host.log",
+      "bytes": 624,
+      "sha256": "b019fe42c34278f6ee16d1b425651e26a29638b798ae621aa01a80c44c089f21"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native.log",
+      "bytes": 1728,
+      "sha256": "1b5be6851df449afa2b6db66ec7c3803d540eb9f88a35d1bc0151826e7e6e3a6"
+    }
+  ],
+  "subsequent_diagnostic": {
+    "status": "PASS",
+    "scope": "Instrumented focused process diagnostic only; original preservation failure unresolved",
+    "acceptance_eligible": false,
+    "observations": 54,
+    "max_accepted_age_seconds": 1.289118335,
+    "ring_records": 64,
+    "ring_sequences": [
+      123,
+      186
+    ],
+    "max_ms": {
+      "accept_to_rename": 252.928856,
+      "conversion": 104.372965,
+      "serialization": 130.001714,
+      "queue": 0.950605
+    },
+    "application_cleanup": [
+      {
+        "pid": 2174810,
+        "exit_code": 0,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2174803,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/result.json",
+        "bytes": 674,
+        "sha256": "5a8fe428b313555dad6e1ab9994bd13fa840218225282dc29e87b3df460f6bdb"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/metadata.json",
+        "bytes": 745,
+        "sha256": "9e81f99c6ae10a4248f2a24542e973cef2c706cf26e9a9f929d9927879eb1049"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/held-up-25hz.json",
+        "bytes": 3546,
+        "sha256": "7c87c9f5d0a7f0863ff4fe1b68d53de4e3d4cc94be5c4f9e646d4858cd76b7a1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/latest.publication-timing.json",
+        "bytes": 50265,
+        "sha256": "99682ab12d994442436f2408d970adbfcae679d2fe88c2c3bd616ebbd0285628"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/cleanup.json",
+        "bytes": 76,
+        "sha256": "9765ea46ad5977df97cab3cd67cf827e653d4342c2f3e24f5f3bf38cc183777f"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "2fb8397e8d7ae6f748c66fbba092b19219fc9db24f27a8ab45bde1ad9f93fea9"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/timing-summary.json",
+        "bytes": 575,
+        "sha256": "e7f7eb4f0664a4749de3400f3a455ff05f3330adc98c31d196b9b83c26eae950"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/held-input-publication-copy.json",
+        "bytes": 286,
+        "sha256": "c91c931ad400e21b5f7493bef80fc8381322291f5b9a4cf1ce98a6e306144864"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/held-input-publication-timing.json",
+        "bytes": 50265,
+        "sha256": "a61c90ec63dba483c84a54c3ba7537ba97dcf261141af5165e868464705dcf74"
+      }
+    ]
+  }
+}
