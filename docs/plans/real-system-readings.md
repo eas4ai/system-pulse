@@ -667,3 +667,8 @@ The [fresh untraced focused run](../execution/real-system-readings/native-prior-
 passed all sixteen child comparisons, controlled exit and held/exact-input checks.
 It exercised inspection recovery under a fifteen-second discovery deadline, with
 no intermediate navigation recovery event. Full committed acceptance remains open.
+
+The [full committed aggregate](../execution/real-system-readings/native-prior-selection-full-failure.md)
+passed 743 automated checks and host comparisons, then failed intermediate process
+navigation after a prior-selection block. Independent diagnosis is in progress;
+source correction and a fresh replay require a supported cause and reviewed fix.
