@@ -805,3 +805,33 @@ worker owns the final call and tests; root owns the existing navigation
 build-decision marker. Re-reviews precede another untraced process capture
 and full committed acceptance. No live process is running. Final commitment
 review and actual Cairn Done remain outstanding.
+
+## Final endpoint reviewed; interrupted intermediate batch policy
+
+Final-call candidate `4cb9981a` passed independent SPEC and QUALITY,
+recorded at source `54fec818`/`6a233892`. The worker passed all 308 Python
+tests; QUALITY independently passed 204 native tests and four probes.
+The fresh untraced `pulse-process-lookup-b9safeex/native` capture then failed
+earlier: expected intermediate PID/start `3578380:74088807` disappeared
+before acknowledgement while the controlled child survived. Final child
+confirmation, inspection, and exit were not reached. Evidence is retained
+at source `dae2a23a`; the run remains FAIL.
+
+Both reviewers reproduced the missing before-acknowledgement transition.
+A flag-only reconciliation shortcut emits a misleading acknowledgement
+and crashes. Existing post-ack recovery does not cover this boundary.
+Independent SPEC assessment supports a new Judged verifier decision:
+successful batches still need exact acknowledgement, while independently
+proven interrupted intermediate arrow batches remain explicitly unverified.
+
+Decision and plan `17d39770` require matching independent stat evidence
+before dispatch, terminal ENOENT/ESRCH after coherent disappearance, strict
+unique/current native evidence with no instantiated selection, and exact
+Home/End recovery within the same remaining eight-second/180-second bounds.
+No recursive excuse applies to recovery or the controlled target. Final
+selection, every metric comparison, controlled exit, and held-64 proof remain
+mandatory. The old failure cannot be reclassified under this new policy.
+
+One fresh worker implements the recorded protocol; root owns its new
+build-decision marker. No live app or build is running. Independent reviews,
+fresh focused/full acceptance, final review, and Cairn Done remain pending.
