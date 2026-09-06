@@ -1,6 +1,8 @@
 # GPU acceptance specification review
 
-Status: **FAIL — nine open findings.** Independent read-only review of
+Historical initial review: **nine findings, now closed by the
+[re-review](gpu-acceptance-spec-rereview.md).** That re-review records new open
+finding F10. The initial independent read-only review covered
 Task 4 source `c014522d23aae011cfe2e88627320e07740b4ebc`, before corrective
 implementation. Intervening commits contain only orchestration documents.
 No source or acceptance policy was changed during the review.
@@ -151,9 +153,10 @@ recorded before any correction addressing it.
 
 ## Correction and review order
 
-All nine findings are open. Record-preserving regressions and focused
-corrections belong to the same Task 4 implementer. Independent specification
-re-review must close them before independent quality review starts.
+All nine findings were open at this initial review. Their record-preserving
+regressions and corrections at `ece89eae` passed independent re-review. The new
+F10 finding remains open; independent quality review still awaits specification
+approval.
 
 The separate [Linux freshness failure](gpu-linux-preservation-failure.md),
 locked Mac desktop, pending Mac application pool correction and missing Intel

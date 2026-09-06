@@ -1,0 +1,437 @@
+{
+  "verdict": "SPEC FINDINGS \u2014 NOT PASS",
+  "candidate_commit": "ece89eaec5c7e0775b44583dcefaa92661cc46ca",
+  "base_commit": "c014522d23aae011cfe2e88627320e07740b4ebc",
+  "reviewed_utc": "2026-09-06T15:31:09.650510+00:00",
+  "original_findings": [
+    {
+      "id": "F1",
+      "status": "CLOSED",
+      "evidence": "Original wrong-total allocation and full three-field/four-snapshot attack reject. Independent extension hand-computes i915 free-byte and xe allocation semantics; all 24 mutations (four raw region operands in each of three readings on both drivers) reject through verify_series. Both complete positives pass.",
+      "artifacts": "original-attacks-adapted.py.stdout; extended-boundaries.stdout"
+    },
+    {
+      "id": "F2",
+      "status": "CLOSED",
+      "evidence": "Timer-only sensor collapse rejects through complete six-action validate_actions/display route. Changing only the corresponding targeted native control to Expand Allocation accepts.",
+      "artifacts": "original-attacks-adapted.py.stdout"
+    },
+    {
+      "id": "F3",
+      "status": "CLOSED",
+      "evidence": "Actual Cargo normal/build closure has seven package roots and all 709 committed inputs. Original base/ui omissions now bound. Independently excluding base, ui, assets or macros from declared inputs rejects committed_inputs; restored actual closure accepts.",
+      "artifacts": "extended-boundaries.stdout"
+    },
+    {
+      "id": "F4",
+      "status": "CLOSED",
+      "evidence": "Exact production full stable-ID disambiguation accepts same-name monitors in either order. Full host positive also contains two same-name physical devices and independently matched full-ID labels.",
+      "artifacts": "original-attacks-adapted.py.stdout; full-host-metadata-boundary.stdout"
+    },
+    {
+      "id": "F5",
+      "status": "CLOSED",
+      "evidence": "Independent isolated actual development CLI accepts seven nonempty groups; each of seven missing and seven empty groups exits 1. Restored seven-group positive exits 0. No Cairn lines.",
+      "artifacts": "independent-suite-results.json; extended-boundaries.stdout"
+    },
+    {
+      "id": "F6",
+      "status": "CLOSED",
+      "evidence": "Original omitted second physical GPU rejects; complete two-device series and reversed original enumeration accept. Full verify_host positive replays both physical devices.",
+      "artifacts": "original-inventory-adapted.py.stdout; full-host-metadata-boundary.stdout"
+    },
+    {
+      "id": "F7",
+      "status": "CLOSED",
+      "evidence": "Retained auxiliary close warning rejects lifecycle validation. Removing only its lifecycle entry rejects the retained started/finished/log census. Restored clean fixture accepts.",
+      "artifacts": "provenance-and-work-attacks-logged.py.stdout"
+    },
+    {
+      "id": "F8",
+      "status": "CLOSED",
+      "evidence": "Wrong retained inventory/observer PID and complete executed collector, observer, inventory, build, workload-build, accessibility commands reject with matching original record/log hashes. Apple full-originals path also rejects wrong modes, registry argument, helper source and close implementation; restored positives accept.",
+      "artifacts": "provenance-and-work-attacks-logged.py.stdout; apple-originals-boundary.stdout"
+    },
+    {
+      "id": "F9",
+      "status": "CLOSED",
+      "evidence": "Original zero-work true command rejects. Missing completed work, inconsistent submission/completion, wrong PCI/registry/device, missing PCI identity extension, or no actual consumed/source measurement overlap reject. Intel and Apple restored full-originals positives accept; full Intel host ingestion positive also accepts. Native Vulkan API/call bounds and primary headers reviewed independently.",
+      "artifacts": "provenance-and-work-attacks-logged.py.stdout; apple-originals-boundary.stdout; full-host-metadata-boundary.stdout; final-integrity-checks.json"
+    }
+  ],
+  "new_findings": [
+    {
+      "id": "F10",
+      "severity": "P2",
+      "status": "OPEN",
+      "title": "Require original host and provider version evidence before awarding GPU-008",
+      "requirements": [
+        "GPU-008",
+        "GPU-009"
+      ],
+      "location": "scripts/system-pulse/gpu_evidence.py:263",
+      "related_locations": [
+        "scripts/system-pulse/gpu_evidence.py:20",
+        "scripts/system-pulse/gpu_evidence.py:384",
+        "scripts/system-pulse/gpu_evidence.py:420",
+        "scripts/system-pulse/gpu_host_capture.py:572",
+        "scripts/system-pulse/gpu_intel_capture.py:452",
+        "scripts/system-pulse/gpu_intel_workload.c:115",
+        "scripts/system-pulse/gpu_intel_workload.c:239"
+      ],
+      "repro": "full-host-metadata-boundary.py",
+      "result": "The unmodified full verify_host route returns intel-discrete and earned {1,2,4,5,6,7,8} after removing host.json and os_release/machine from retained raw streams and regenerating consistent original hashes. Wrong application hash control rejects. Restored missing-metadata report again accepts.",
+      "contract": "GPU-008 mechanism explicitly requires per-host reports containing hardware/driver/API versions; GPU-009 rejects missing mandatory checks.",
+      "remedy": "Make original native host/OS build metadata mandatory and validate relevant driver/API provenance, binding it to the selected physical device and captured providers. Keep actual version values with raw source/provenance when available. For providers with no standalone queryable version, record that explicit limitation and the exact owning OS/framework/driver build evidence instead of inventing a version or treating API names/PCI registry IDs as versions. Test absent, mismatched and complete metadata through verify_host."
+    }
+  ],
+  "checks": {
+    "gpu_tests": 54,
+    "development_groups": {
+      "aggregate": 6,
+      "apple_capture": 5,
+      "arithmetic": 6,
+      "desktop": 8,
+      "evidence": 12,
+      "intel": 10,
+      "native": 7
+    },
+    "independent_memory_negatives": 24,
+    "independent_missing_empty_group_negatives": 14,
+    "unchanged_candidate_files": 58,
+    "verified_apple_readiness_originals": 31,
+    "verified_khronos_header_originals": 6
+  },
+  "scope": "Read-only source review; external synthetic verifier fixtures only. No new native workload, GUI, preservation, build or Cairn acceptance run. Hardware matrix and Task 5 remain pending; no quality-review trigger until SPEC PASS.",
+  "root_verified_utc": "2026-09-06T15:33:56.292712+00:00",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/corrected-ece89eae",
+  "artifact_manifest_sha256": "ee13c4b47294695589b340249dfa2252b81b42b89d067b01c1a1a7e385781f66",
+  "all_manifest_records_verified": 1611,
+  "selected_originals": [
+    {
+      "path": "apple-originals-boundary.py",
+      "bytes": 4411,
+      "sha256": "873388383f3aef8e1eeba70cd2fb1e75391a602478982dabfff0ce17fd0265e0"
+    },
+    {
+      "path": "candidate-source-hashes.json",
+      "bytes": 6874,
+      "sha256": "233b359aca2feb1a335325e8fdd9ef1db6f9f12a175deba69f920c7fca751b46"
+    },
+    {
+      "path": "extended-boundaries-result.json",
+      "bytes": 182,
+      "sha256": "fcf341be66b53752cc049c955f4b1ada8f37c46a9d7ebc9cdce1b07cff6172d1"
+    },
+    {
+      "path": "review.md",
+      "bytes": 8975,
+      "sha256": "61e999a29fbe7994f1482fd627bb752345ddce1451489a3be208517d55d6956c"
+    },
+    {
+      "path": "suite-aggregate-empty.stdout",
+      "bytes": 314,
+      "sha256": "8a40010d110b6f4ff8b10e9c21c3a550c8dbfaedb90cf3a87118d232461020a4"
+    },
+    {
+      "path": "suite-arithmetic-missing.stdout",
+      "bytes": 298,
+      "sha256": "cd2e48dda9f5a23c18646ae88826093f6b42d945472f37ad860e084374854e7c"
+    },
+    {
+      "path": "suite-restored-positive.stdout",
+      "bytes": 2276,
+      "sha256": "5d5bb3c34233018a11793c8980995c5bfe0cbd57d471ff30fa634b263fb48991"
+    },
+    {
+      "path": "suite-arithmetic-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-evidence-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gpu-tests.stderr",
+      "bytes": 8437,
+      "sha256": "8dfc940a17af95edf724b459895752e87e4204870ae616fe0618ee95010961fb"
+    },
+    {
+      "path": "suite-evidence-empty.stdout",
+      "bytes": 1448,
+      "sha256": "7103044d247e9dc525fba389d8e1aa89ae36b63c3e6574f23915da40f3d8500b"
+    },
+    {
+      "path": "full-host-metadata-result.json",
+      "bytes": 190,
+      "sha256": "1694e88ce5e9ef89faea4336f2cf2c3194ad680ec2d51bae2b5d225365a3d382"
+    },
+    {
+      "path": "suite-intel-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "development-gate.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "original-attacks-adapted.py.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-arithmetic-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-aggregate-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-aggregate-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "adapted-attacks-results.json",
+      "bytes": 894,
+      "sha256": "0191f67f8d396a8c5a423318e9ac2fdbeb164c6701d1cbff744927e680957936"
+    },
+    {
+      "path": "suite-apple_capture-missing.stdout",
+      "bytes": 304,
+      "sha256": "dc68071f28f21176e2794a67e7d3a8a5b262335964c8748b20f7fa9013e068d5"
+    },
+    {
+      "path": "suite-native-missing.stdout",
+      "bytes": 290,
+      "sha256": "d9718e66aee5c1701f2ebb3b192de7637d28009f3a172f0acf8d7af78ef94c01"
+    },
+    {
+      "path": "suite-desktop-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-evidence-missing.stdout",
+      "bytes": 294,
+      "sha256": "3dacab417f6268e45f72583b886d127d0e37daa5249e8d6498fc8d211e61723d"
+    },
+    {
+      "path": "suite-native-empty.stdout",
+      "bytes": 1979,
+      "sha256": "6e9d62c3777307d6f61161df0948ea6fa0275e9a9319ec0ab6ce46069c5f1054"
+    },
+    {
+      "path": "suite-intel-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-complete-positive.stdout",
+      "bytes": 2276,
+      "sha256": "b2c7f0e4dae05d2e39ac41a9937345d595ba0a0b58ce4fbd1e865d0f71ec1cdf"
+    },
+    {
+      "path": "extended-boundaries.py",
+      "bytes": 4819,
+      "sha256": "de5e586af8bcf21214da5b83c038547f683cd39abae57393c707d70c74758664"
+    },
+    {
+      "path": "suite-desktop-empty.stdout",
+      "bytes": 1166,
+      "sha256": "1ff99bc5ca132fb9b1a76b6ed8929120cd5374f6be0ceabdb36acc63de836397"
+    },
+    {
+      "path": "original-inventory-adapted.py.stdout",
+      "bytes": 544,
+      "sha256": "821c28259735065ab9e5f427eb510d2db0796aa93cfc99068a0af990ba3cc636"
+    },
+    {
+      "path": "suite-aggregate-missing.stdout",
+      "bytes": 296,
+      "sha256": "241c81befb180989653a7a51e9cf7db788038df323edc3938ff29dc84de1a111"
+    },
+    {
+      "path": "final-integrity-checks.json",
+      "bytes": 648,
+      "sha256": "aa17583d67895263ecc115227270d5205b391039dbc15d10f5f18119fcfaf07e"
+    },
+    {
+      "path": "suite-apple_capture-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "extended-boundaries.stdout",
+      "bytes": 2951,
+      "sha256": "ddcf25f5063a71f9c5943c35fa0916b1e31c4b25ec4d4e8b761c4366e7f6fb81"
+    },
+    {
+      "path": "suite-apple_capture-empty.stdout",
+      "bytes": 613,
+      "sha256": "87e2b7ff25ab85eb3609409dcbaaee2d38b569a16e4756d60878a4ad20cbcc3d"
+    },
+    {
+      "path": "apple-originals-result.json",
+      "bytes": 187,
+      "sha256": "bbe84a307200b5770ea5a602a7458e3d831762f65d625f62fa5e5c366690eaf9"
+    },
+    {
+      "path": "apple-originals-boundary.stdout",
+      "bytes": 1066,
+      "sha256": "83bf5ce51ec210eb7ee4c170fe34683d0d801154d927b56d0f9b2cc9ba275d1b"
+    },
+    {
+      "path": "development-gate.stdout",
+      "bytes": 2169,
+      "sha256": "f52b64c8a104b6e276afb61fb87d39ec98813a61008afd7ef858957ddff3b661"
+    },
+    {
+      "path": "suite-evidence-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "provenance-and-work-attacks-logged.py.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-complete-positive.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-suite-results.json",
+      "bytes": 7843,
+      "sha256": "b03a3cf752a847e3543b1799277b1f58adbdcc62f0b2f5baea3af7e802081170"
+    },
+    {
+      "path": "suite-desktop-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-arithmetic-empty.stdout",
+      "bytes": 897,
+      "sha256": "6ac952a41385c6d3f77ac6a40dba52986affd75eab7459a388fd85ce79e4fb6e"
+    },
+    {
+      "path": "suite-native-missing.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "apple-originals-boundary.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-desktop-missing.stdout",
+      "bytes": 292,
+      "sha256": "c1ec11550f281a09101b418f1ceeb97326371638013bac45751bc8d39a73e4da"
+    },
+    {
+      "path": "original-inventory-adapted.py.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "suite-intel-missing.stdout",
+      "bytes": 288,
+      "sha256": "493698eb93082ecec8a30e66c74f5ad9ee38a532d2b36f90dd33d41d1a02e32b"
+    },
+    {
+      "path": "review.json",
+      "bytes": 6446,
+      "sha256": "061a6324a754b6342fbc7c210f292b3fd0ca9a1fb2644d51f10e6e2a5395fa1b"
+    },
+    {
+      "path": "extended-boundaries.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "original-attacks-adapted.py.stdout",
+      "bytes": 781,
+      "sha256": "b04f3ad01ce24a3833f677d77688b6ed6785126dcf604ab9d7643e354cc3b09e"
+    },
+    {
+      "path": "original-inventory-adapted.py",
+      "bytes": 3628,
+      "sha256": "a2e9de99b54628033400b44d1c1aa32ac93d71728cb200edbcc286f6da9f6668"
+    },
+    {
+      "path": "full-host-metadata-boundary.py",
+      "bytes": 7599,
+      "sha256": "3779f9fd3268c9fb8f96d99f1a080aadacc6ad1094a590f693612e1c614a54bb"
+    },
+    {
+      "path": "suite-intel-empty.stdout",
+      "bytes": 1703,
+      "sha256": "0fd1814e094aa26bc7bdf8db5793dd49c3357a5021c8c59758578601053712af"
+    },
+    {
+      "path": "original-attacks-adapted.py",
+      "bytes": 10469,
+      "sha256": "2e6101327e86b0684e8b02ae72a1b88b678915d02381fd457a180774e1405ee9"
+    },
+    {
+      "path": "suite-apple_capture-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "initial-checks.json",
+      "bytes": 984,
+      "sha256": "b138a18ad8dca6878263b156918157fa165dddc5f273a34690ce8a40434d0a20"
+    },
+    {
+      "path": "suite-restored-positive.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gpu-tests.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "provenance-and-work-attacks-logged.py",
+      "bytes": 4520,
+      "sha256": "2798d1bdc5bb21218a08591c3883d8734609d25360ccc7f4f7103c9c3b61f6a3"
+    },
+    {
+      "path": "provenance-and-work-attacks-logged.py.stdout",
+      "bytes": 2207,
+      "sha256": "ef1f25fca6b1126d007e8c0fde0bc066548b20faa23995ee7608fec6ebc73bb0"
+    },
+    {
+      "path": "provenance-and-work-attacks.py",
+      "bytes": 4484,
+      "sha256": "b4e94186aa55206e5254cf954af0863c314852d3a0ecae2608e2aa050f6b571b"
+    },
+    {
+      "path": "suite-native-empty.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "full-host-metadata-boundary.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "full-host-metadata-boundary.stdout",
+      "bytes": 1042,
+      "sha256": "b20d62335ed09813ab746b399a68308fcc37b122b8a9cb71afd0951209947439"
+    }
+  ]
+}

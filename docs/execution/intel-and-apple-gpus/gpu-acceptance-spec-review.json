@@ -1,19 +1,7 @@
 {
-  "status": "FAIL",
   "reviewed_source": "c014522d23aae011cfe2e88627320e07740b4ebc",
   "recorded_before_corrections": true,
   "verified_utc": "2026-09-06T14:32:15.163726+00:00",
-  "open_findings": [
-    "F1",
-    "F2",
-    "F3",
-    "F4",
-    "F5",
-    "F6",
-    "F7",
-    "F8",
-    "F9"
-  ],
   "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review",
   "review_manifest_sha256": "afb743fca46fb6110bc68e4c1cc445f3a2ae0cf8fea6634d1ede1f9f7623eb71",
   "all_manifest_records_verified": 17,
@@ -113,5 +101,19 @@
       "bytes": 0,
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
-  }
+  },
+  "initial_status": "FAIL",
+  "initial_open_findings": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9"
+  ],
+  "status": "Historical review; F1-F9 closed at ece89eae, new F10 remains open",
+  "superseded_by": "gpu-acceptance-spec-rereview.json"
 }
