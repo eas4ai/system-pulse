@@ -42,7 +42,11 @@ passed; intermediate process navigation then exhausted its eight-second batch
 budget after the prior selected row set a permanent recovery block. Source
 `docs/execution/real-system-readings/native-prior-selection-full-failure.md/json`
 retains 136 artifact hashes and the actual result. App cleanup exited -15;
-transport exited zero, neither remained. Independent diagnosis is in progress.
+transport exited zero, neither remained. Independent diagnosis found the verifier
+blocks the valid prior-selected prefix when the unselected expected row is also
+instantiated. Judged decision `defer-visible-endpoint-blocking-during-proven-prior-selection`
+authorizes only deferring that initial block. One implementer is working from
+`826dca7b`; SPEC then QUALITY and fresh focused/full acceptance follow.
 Full acceptance, final adversarial review and actual Cairn Done remain pending.
 Do not poll finished native sessions or reclassify previous failures as passes.
 
