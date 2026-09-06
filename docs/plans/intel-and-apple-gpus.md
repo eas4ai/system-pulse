@@ -15,11 +15,11 @@
 - [x] Commit activation, source decision, plan and mechanism declaration; verify spec/link checks and the actual Cairn action (`66ea860f`).
 - [x] Implement and review Task 1: Intel Linux collection.
 - [x] Implement and review Task 2: Apple Silicon collection.
-- [ ] Implement and review Task 3: memory semantics and integration.
+- [x] Implement and review Task 3: memory semantics and integration.
 - [ ] Implement and review Task 4: independent GPU acceptance.
 - [ ] Run Task 5: actual native/aggregate evidence and final review.
 
-Task 3, memory semantics and integration, is the single item currently in progress. Task 1 closed at collector commit `507a12c0` after independent [specification](../execution/intel-and-apple-gpus/intel-spec-review.md) and [quality](../execution/intel-and-apple-gpus/intel-quality-review.md) reviews. Task 2 closed at native-tested source `2a40f069` after [specification and impact review](../execution/intel-and-apple-gpus/apple-spec-review.md) and [quality re-review](../execution/intel-and-apple-gpus/apple-quality-review.md). Its 96 Linux and 46 Mac tests, strict checks and repeated native captures are retained in the [correction record](../execution/intel-and-apple-gpus/apple-autorelease-correction.md). The discovered autorelease defect is resolved. Native accuracy, UI acceptance and other hardware coverage remain pending; a task stays open until its implementation and required verification/reviews are complete.
+Task 4, independent GPU acceptance, is the single item currently in progress. Task 1 closed at collector commit `507a12c0` after independent [specification](../execution/intel-and-apple-gpus/intel-spec-review.md) and [quality](../execution/intel-and-apple-gpus/intel-quality-review.md) reviews. Task 2 closed at native-tested source `2a40f069` after [specification](../execution/intel-and-apple-gpus/apple-spec-review.md) and [quality](../execution/intel-and-apple-gpus/apple-quality-review.md) reviews, including the [autorelease correction](../execution/intel-and-apple-gpus/apple-autorelease-correction.md). Task 3 closed at `4db68c71` after independent [specification](../execution/intel-and-apple-gpus/memory-spec-review.md) and [quality](../execution/intel-and-apple-gpus/memory-quality-review.md) reviews. All 183 Linux collector/model/app tests and strict checks passed independently; root also verified a [Mac build and 63 app tests](../execution/intel-and-apple-gpus/memory-mac-build.md). Native accuracy, UI acceptance and the Intel hardware matrix remain pending. A task stays open until its implementation and required verification/reviews are complete.
 
 ## Task 1: Intel Linux collection
 
@@ -91,10 +91,10 @@ Expected baseline: the assertion fails because the Intel monitor is absent; exac
 
 **Own:** `examples/system_pulse/src/live.rs`, existing meter/formatter code, model presentation/persistence tests, and additive collector metadata only if the current source/scope fields cannot express a required fact.
 
-- [ ] Add focused tests for shared GPU allocation without a capacity total, dedicated VRAM with a valid total, and rejected system-RAM/process-footprint substitutions. Assert both the physical quantity and visible label; a string-only test is insufficient. Record existing correct behavior as passing baseline coverage. For a reproduced defect, retain a failing regression before its correction; do not change working behavior to manufacture a failure.
-- [ ] Map byte-valued shared allocations through the existing scalar/counter-compatible meters. Capacity rendering requires a valid known total. Keep historical AMD/NVIDIA IDs and saved presentation choices unchanged.
-- [ ] Extend discovery/restoration cases with Intel and Apple metadata, mixed vendors, absent/reappearing devices and same-name devices. Inject stale and failed readings to prove that a fresh snapshot cannot refresh an old native value as current.
-- [ ] Run collector, model and app tests and affected formatting/Clippy checks. Review specification compliance first, then quality, before committing task closure.
+- [x] Add focused tests for shared GPU allocation without a capacity total, dedicated VRAM with a valid total, and rejected system-RAM/process-footprint substitutions. Assert both the physical quantity and visible label; a string-only test is insufficient. Record existing correct behavior as passing baseline coverage. For a reproduced defect, retain a failing regression before its correction; do not change working behavior to manufacture a failure.
+- [x] Map byte-valued shared allocations through the existing scalar/counter-compatible meters. Capacity rendering requires a valid known total. Keep historical AMD/NVIDIA IDs and saved presentation choices unchanged.
+- [x] Extend discovery/restoration cases with Intel and Apple metadata, mixed vendors, absent/reappearing devices and same-name devices. Inject stale and failed readings to prove that a fresh snapshot cannot refresh an old native value as current.
+- [x] Run collector, model and app tests and affected formatting/Clippy checks. Review specification compliance first, then quality, before committing task closure.
 
 ## Task 4: Independent GPU acceptance
 

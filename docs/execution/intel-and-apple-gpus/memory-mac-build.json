@@ -1,0 +1,91 @@
+{
+  "source_commit": "4db68c71304d368977265e31ba365b121fcfd9f0",
+  "source_directory": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/source-4db68c71",
+  "archive_sha256": "9c09c4f3ccad234c08d6e983880c94287dc3a05f51ad95e4d7ec2bf97c5978a2",
+  "lock_before_sha256": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+  "steps": [
+    {
+      "name": "build",
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "--bins"
+      ],
+      "pid": 4112,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false,
+      "seconds": 23.092,
+      "log": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-build/build.log",
+      "log_sha256": "ffb1000323c480d4465b75231804cfe979b7972ac4f07d80be57ac07355bfd3e"
+    },
+    {
+      "name": "app-tests",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib"
+      ],
+      "pid": 4267,
+      "exit_code": 0,
+      "reaped": true,
+      "timed_out": false,
+      "seconds": 65.2,
+      "log": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-build/app-tests.log",
+      "log_sha256": "002a76eaa33d56ac073f49a3dd366529e545c1ed01f3676e6da98103516cddf7"
+    }
+  ],
+  "status": "PASS",
+  "lock_after_sha256": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+  "binaries": {
+    "system-pulse": {
+      "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/system-pulse",
+      "sha256": "c3a4a7a71ee911b1e675fba566498d1092ea199ed96db6cde7044147c393b2b6"
+    },
+    "pulse-snapshot": {
+      "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/pulse-snapshot",
+      "sha256": "32c705a3bb77cb7850445dc40eac053b01a1c7fb52df98c19e0b4e0690be9e6f"
+    }
+  },
+  "verified_native_app_test_count": 63,
+  "local_artifacts": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-build/app-tests.log",
+      "bytes": 8190,
+      "sha256": "002a76eaa33d56ac073f49a3dd366529e545c1ed01f3676e6da98103516cddf7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-build/build.log",
+      "bytes": 1260,
+      "sha256": "ffb1000323c480d4465b75231804cfe979b7972ac4f07d80be57ac07355bfd3e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-build/build.py",
+      "bytes": 3641,
+      "sha256": "9671224e11a0ebf0b0da7e04a4fe9d55bfc7c816e617f47816f377a3f68ccffa"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-build/input.json",
+      "bytes": 415,
+      "sha256": "a015ad36d2f3cc702ed5b15d6710b57f1022c804b80f13af8f51886e1e1a47f4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-build/report.json",
+      "bytes": 1956,
+      "sha256": "1d1ef34af0ad438922617b231f95010bfc2e9295bf05be625df15f0c17527f4b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-build/source.tar",
+      "bytes": 24872960,
+      "sha256": "9c09c4f3ccad234c08d6e983880c94287dc3a05f51ad95e4d7ec2bf97c5978a2"
+    }
+  ]
+}

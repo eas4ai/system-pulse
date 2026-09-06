@@ -1,8 +1,9 @@
 # GPU memory presentation and persistence integration
 
-Status: Implementation and local verification complete; independent SPEC and
-QUALITY reviews remain pending. This is the Task 3 implementation record, not
-commitment closure or native GPU acceptance.
+Status: Task 3 closed after independent [SPEC](memory-spec-review.md) and
+[QUALITY](memory-quality-review.md) approval. The implementation and required
+local checks passed. Root also verified a [native Mac build and 63 app tests](memory-mac-build.md).
+This is not commitment closure or native GPU accuracy/GUI acceptance.
 
 Source commit: `4db68c71304d368977265e31ba365b121fcfd9f0`
 (`fix: preserve GPU memory freshness and physical identities`).
