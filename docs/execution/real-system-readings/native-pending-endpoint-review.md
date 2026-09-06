@@ -34,3 +34,29 @@ deadlines. Final target proof and every mandatory comparison remain required.
 
 Status: decision assessment pending. No batch disappearance counts as a
 successful endpoint, and no new recovery source has been implemented.
+
+## Prospective decision assessment
+
+SPEC assessed the explicit interrupted/unverified protocol as a new Judged
+verifier decision within the existing product contract. Transient intermediate
+lifetimes need not survive navigation, but their missing acknowledgement
+cannot be passed. Require an independent matching stat observation before
+dispatch and terminal ENOENT/ESRCH evidence after coherent disappearance.
+Only pending intermediate arrow batches qualify; the controlled target and
+recovery endpoint do not. Predispatch disappearance sends no input and
+replans within the original remaining deadline. All errors, PID reuse,
+current-selection guards, final comparisons, and original budgets remain.
+
+QUALITY source discovery identified host_capture.observe and
+host_accuracy.parse_process_stat as reusable stat-only observation pieces.
+The former preserves source, independent monotonic windows and actual errors;
+the latter requires explicit retention of the literal stat text if needed.
+Use driver-side query and dispatch times for ordering, not unmapped collector
+clock values. Represent interruption explicitly and revalidate publication
+and panel after terminal evidence. Do not reach a deadline reset until a
+real exact endpoint acknowledgement succeeds.
+
+Neither prospective assessment changed source or ran tests, live captures,
+or builds. The new [decision](../../decisions/recover-a-pending-navigation-batch-after-proven-endpoint-exit.md)
+is recorded before implementation; implementation and its reviews remain
+pending. The original failed capture remains failed.

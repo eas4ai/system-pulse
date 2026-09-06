@@ -11,6 +11,18 @@ Would be wrong if: The evidence split weakens LIVE-003, accepts observed selecti
 
 Retain navigation independent of per-batch collector advancement, two-key batches, exact native endpoint acknowledgements, original 180-second total and eight-second batch deadlines, and current membership and frame validation. The previous decision assumed a complete native scan could prove model selection clear; this was false because the process table instantiates only visible rows. When a fresh snapshot omits the previous PID/start identity and a complete native scan finds no instantiated selected row, send Home/End and acknowledge its exact endpoint as explicit navigation recovery. Do not claim this observes automatic model clearing. Continue rejecting any observed different or multiple selected identities without an intervening key, stale frames, target loss, PID reuse, incomplete observations, and deadline overruns. Prove actual clearing separately with a GPUI integration regression through production accept_snapshot: retain selection through reordering, then remove the selected identity while another survives, and assert panel.selected is None before further input; also cover same-PID/different-start replacement. During the existing actual selected-child exit check, reject another instantiated selected identity before further input within the same five-second deadline. Native evidence describes visible selection only; direct integration tests cover the full model state. No new product diagnostic channel or relaxed requirement is needed. Preserve earlier decisions and failures and complete focused verification, independent SPEC then QUALITY reviews, and fresh committed native and aggregate acceptance.
 
+## Pending intermediate batches
+
+The prospective [pending endpoint exit decision](recover-a-pending-navigation-batch-after-proven-endpoint-exit.md)
+adds a distinct interrupted, unverified outcome when an intermediate arrow
+endpoint independently exits before acknowledgement. Successful batches
+still require exact acknowledgement. This exception requires independent
+matching pre-dispatch identity and terminal evidence, strict current native
+eligibility, and an exact Home/End recovery proof within the same remaining
+deadlines. It cannot excuse the controlled target or recovery endpoint,
+infer model clearing, or count the interrupted batch as passed. Existing
+post-ack recovery and direct model-state regressions remain required.
+
 ## Realized by
 
 - 1790fe53506439b8c897421aa91be15598586162 test(system-pulse): prove selection clearing and current native exit

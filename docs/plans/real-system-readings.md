@@ -441,6 +441,41 @@ navigation recovery decision. This correction completes that decision.
   checks and independent SPEC then QUALITY reviews.
 - [ ] Run fresh untraced native process and full committed acceptance.
 
+### Distinguish interrupted pending batches from successful endpoints
+
+The [pending-endpoint failure](../execution/real-system-readings/native-pending-endpoint-failure.md)
+and [independent assessments](../execution/real-system-readings/native-pending-endpoint-review.md)
+support the new Judged decision recover-a-pending-navigation-batch-after-proven-endpoint-exit.
+The old capture stays failed; the new protocol is prospective.
+
+- [ ] Reproduce disappearance after issuing an intermediate arrow batch but
+  before acknowledgement, and the false acknowledgement/crash from a flag-only
+  shortcut. Keep the exact controlled target and recovery endpoint mandatory.
+- [ ] Observe the eligible expected PID/start independently before dispatch,
+  retaining raw stat, source, parsed identity and monotonic query window.
+  Predispatch disappearance sends no keys and replans within the same remaining
+  deadline; malformed/permission/PID-reuse evidence fails. Reuse stat-only
+  observation/parser helpers and preserve generic process reads.
+- [ ] Add an explicit interrupted/unverified outcome only after fresh coherent
+  complete strict unique/current native evidence, no instantiated selection,
+  expected snapshot absence, surviving controlled identity, and independent
+  terminal ENOENT/ESRCH. Retain before/terminal and frozen issue evidence;
+  revalidate publication/membership after terminal observation. Never turn
+  absence into selected acknowledgement or model-clear evidence, including
+  existing post-ack absence journals. Keep other wait callers unchanged.
+- [ ] Recover physically with Home/End and exact new endpoint proof under the
+  SAME remaining eight-second batch and 180-second total deadlines. Do not
+  recursively excuse recovery loss, reset time during replanning/interruption,
+  or dispatch after evidence journaling exhausts the deadline. Retain final
+  target/inspection/metric/exit proof and held-input evidence unchanged.
+- [ ] Test live endpoint omission, PID reuse, missing/wrong identity baseline,
+  permissions, malformed/reversed windows, target loss, selected competitors,
+  stale/incomplete/detached/duplicate trees, before-dispatch disappearance,
+  late journaling, budget exhaustion and failed recovery acknowledgement.
+  Run focused/full checks, then independent SPEC and QUALITY reviews.
+- [ ] Run fresh untraced native process and committed aggregate acceptance;
+  retain actual observation costs and every interrupted batch as unverified.
+
 ### Retain freshness read identity and timing
 
 Independent review found the latest failure cannot distinguish delayed
