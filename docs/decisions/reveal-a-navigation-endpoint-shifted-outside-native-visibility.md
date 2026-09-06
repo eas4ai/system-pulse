@@ -29,3 +29,4 @@ still use the successful final frame and its current positive index.
 - 485c5129c2e95ddff27b2ec78fcdbcc8ff65a7cc fix: reveal displaced native navigation endpoints
 - d4452f8f38c7734ec70567e47a6f2ca56305c7ed fix: discard rejected navigation reveal eligibility
 - bb733beb7c45a1cfc7e1a49d976098e89bc5a44d fix: enforce navigation deadline at wheel dispatch
+- 4cb9981a32cdb0412c9a37df716a46306892d4d0 fix: retain issued endpoint in final navigation proof

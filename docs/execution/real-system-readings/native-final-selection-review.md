@@ -26,3 +26,32 @@ passed 97 navigation/inspection tests. Neither reviewer edited source or
 ran a live app or build. The offline timing is a reproduction under fixture
 costs, not a native performance measurement. The [retained capture](native-final-selection-failure.md)
 supports the displacement scenario but does not expose every failed retry.
+
+## Implementation reviews
+
+Candidate: `4cb9981a32cdb0412c9a37df716a46306892d4d0`. Independent SPEC
+then QUALITY review passed. The final-call endpoint omission is closed.
+Only the retained endpoint_index argument was added to the final call.
+Final discovery, reconciliation, eligibility, current membership/coherence,
+selection, deadlines, and final-frame callback data remain unchanged.
+
+The worker passed 76 navigation, 101 navigation/inspection, and 308 full
+Python tests, Ruff lint, changed-file formatting, document links, and diff
+checks. Broad formatting identified three unchanged baseline files, listed
+in the [implementation note](native-final-selection-implementation.md).
+
+SPEC independently passed 76 navigation and 25 inspection tests, scoped
+Ruff, and diff checks. Four additional probes checked Home/End issue-index
+provenance, total-deadline exhaustion preventing final acknowledgement,
+and journal exhaustion preventing input and acknowledgement.
+
+QUALITY independently passed 204 native tests, scoped Ruff, and diff checks.
+Four additional probes covered the original final-entry displacement,
+Home/End provenance, and post-scroll selection-transfer rejection. The
+original reproduction passed on actual committed source with one
+nonselecting wheel, no extra keys, and fresh final acknowledgement within
+the unchanged proof deadline. Both reviewers examined the exact candidate
+above and performed no edits, live runs, builds, or Cairn mutations.
+
+No findings remain for this correction. Fresh native and aggregate
+acceptance and final commitment review remain pending.

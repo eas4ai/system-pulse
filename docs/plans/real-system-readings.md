@@ -432,10 +432,10 @@ retains a one-row displacement after intermediate exact-target acknowledgement.
 The final proof omits the issued endpoint index required by the existing
 navigation recovery decision. This correction completes that decision.
 
-- [ ] Pass the existing immutable endpoint_index into final navigation proof.
+- [x] Pass the existing immutable endpoint_index into final navigation proof.
   Preserve fresh_panel, reconciliation, the existing batch deadline, every
   recovery guard, and current final-frame inspection acknowledgement.
-- [ ] Reproduce displacement between intermediate and final acknowledgement.
+- [x] Reproduce displacement between intermediate and final acknowledgement.
   Verify index provenance, unchanged-index/original-slot-outside-span
   rejection, and fresh uniqueness after final-proof retries. Run focused/full
   checks and independent SPEC then QUALITY reviews.
