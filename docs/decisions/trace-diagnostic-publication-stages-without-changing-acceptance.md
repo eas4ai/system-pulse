@@ -17,7 +17,10 @@ Retain opt-in trace artifacts and instrumented metadata in the existing native h
 Independent SPEC and QUALITY reviews passed; see the
 [implementation](../execution/real-system-readings/diagnostic-publication-timing-implementation.md)
 and [review record](../execution/real-system-readings/diagnostic-publication-timing-review.md).
-The instrumented diagnostic and fresh untraced full acceptance remain pending.
+The [instrumented diagnostic](../execution/real-system-readings/native-publication-diagnostic-failure.md)
+failed on an intermediate navigation deadline. Its retained publication stages
+do not explain the earlier stale frame; no performance remedy is inferred.
+Fresh untraced full acceptance remains pending.
 
 ## Realized by
 

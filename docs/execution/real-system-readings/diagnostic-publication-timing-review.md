@@ -65,7 +65,11 @@ eight local paths in the implementation and review notes successfully.
 
 - [x] Correct and verify the bounded-reporting finding; repeat SPEC review.
 - [x] Complete independent QUALITY review after SPEC passes.
-- [ ] Run the separately identified instrumented diagnostic and record its result.
+- [x] Run the separately identified instrumented diagnostic and record its result.
+
+The [instrumented diagnostic](native-publication-diagnostic-failure.md) failed on
+an intermediate navigation deadline. Its publication stages do not explain the
+earlier stale frame. Navigation diagnosis remains open.
 
 The previous full aggregate remains FAIL. This review does not establish a
 publication-delay cause or replace fresh untraced full acceptance.

@@ -129,5 +129,6 @@ its previously passing suite and lint/format checks were not repeated.
 The production-rules self-audit found no remaining implementation revision
 needed. Independent SPEC then QUALITY review subsequently passed, as recorded
 in the [review](diagnostic-publication-timing-review.md). The coordinator's single
-instrumented diagnostic remains pending. Fresh untraced full acceptance is still
-required.
+[instrumented diagnostic](native-publication-diagnostic-failure.md) subsequently
+failed on a navigation deadline. Its retained stages do not explain the earlier
+stale frame. Fresh untraced full acceptance is still required.

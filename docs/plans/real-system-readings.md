@@ -551,6 +551,11 @@ The failed aggregate remains failed. This is diagnostic instrumentation.
   failure/cleanup/error precedence and traced-acceptance rejection cases. Run
   relevant Python/Rust checks, formatting and strict Clippy, then independent
   SPEC and QUALITY review. No source performance remedy is inferred yet.
-- [ ] Run one instrumented diagnostic, preserve all outcomes, and identify the
+- [x] Run one instrumented diagnostic, preserve all outcomes, and identify the
   observed delay only to the extent recorded timings support. Record any remedy
-  separately; fresh untraced full acceptance and final review remain required.
+    separately; fresh untraced full acceptance and final review remain required.
+
+The [instrumented capture](../execution/real-system-readings/native-publication-diagnostic-failure.md)
+failed on an intermediate navigation deadline. Its retained publication stages
+do not explain the earlier stale frame; no performance remedy is inferred.
+Navigation diagnosis and fresh untraced full acceptance remain open.
