@@ -1064,6 +1064,286 @@ fn process_navigation_burst_repaints_once_after_all_movements(cx: &mut TestAppCo
     assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
 }
 
+fn pending_reveal_snapshot() -> system_pulse_collectors::Snapshot {
+    use system_pulse_collectors::{Availability, ProcessIdentity, ProcessRow, Reading, Snapshot};
+    let reading = Reading {
+        sensor_id: "controlled-process-reading".into(),
+        value: Some(1.),
+        total: None,
+        availability: Availability::Available,
+        reason: None,
+        observations: vec![],
+    };
+    Snapshot {
+        sequence: 1,
+        capture_finished_ns: 20_000_000_000,
+        processes: (0..1300)
+            .map(|index| ProcessRow {
+                identity: ProcessIdentity {
+                    pid: index + 1,
+                    start_time_ticks: 1,
+                },
+                name: format!("controlled process {index}"),
+                user: Some("user".into()),
+                user_reason: None,
+                cpu_percent: reading.clone(),
+                memory_bytes: reading.clone(),
+                read_bytes_per_second: reading.clone(),
+                write_bytes_per_second: reading.clone(),
+                threads: reading.clone(),
+            })
+            .collect(),
+        ..Default::default()
+    }
+}
+
+fn accept_pending_reveal_snapshot(
+    view: &Entity<WorkspaceView>,
+    snapshot: &mut system_pulse_collectors::Snapshot,
+    cx: &mut VisualTestContext,
+) {
+    snapshot.sequence += 1;
+    snapshot.capture_finished_ns += 1_000_000_000;
+    cx.update(|window, cx| {
+        view.update(cx, |this, cx| {
+            this.accept_snapshot(snapshot.clone(), window, cx)
+        })
+    });
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(data.snapshot.as_ref().unwrap().sequence, snapshot.sequence);
+        assert_eq!(
+            data.processes
+                .iter()
+                .map(|row| &row.identity)
+                .collect::<Vec<_>>(),
+            snapshot
+                .processes
+                .iter()
+                .map(|row| &row.identity)
+                .collect::<Vec<_>>()
+        );
+    });
+}
+
+fn assert_selected_process_in_viewport(
+    processes: &Entity<MonitorPanel>,
+    identity: &system_pulse_collectors::ProcessIdentity,
+    index: usize,
+    selector: &'static str,
+    cx: &mut VisualTestContext,
+) {
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected.clone()).as_ref(),
+        Some(identity)
+    );
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected_index()),
+        Some(index)
+    );
+    let row = cx.debug_bounds(selector).unwrap_or_else(|| {
+        panic!("selected process {identity:?} at index {index} must be instantiated after pending reveal")
+    });
+    let viewport = cx.debug_bounds("process-table").unwrap();
+    // The rendered table has a one-pixel border and one h_7 header; its
+    // process rows also use h_7. Exclude both from the vertical row viewport.
+    assert!(
+        row.top() >= viewport.top() + px(1.) + row.size.height
+            && row.bottom() <= viewport.bottom() - px(1.),
+        "selected process row {row:?} must be inside viewport {viewport:?}"
+    );
+}
+
+fn process_pending_reveal_snapshot_interleaving(cx: &mut TestAppContext, restore_order: bool) {
+    let (view, cx) = harness(cx);
+    let mut snapshot = pending_reveal_snapshot();
+    let original = snapshot.processes.clone();
+    let selected_a = original[1221].identity.clone();
+    let selected_b = original[1219].identity.clone();
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx);
+    });
+    draw(cx);
+    native_key("end", cx);
+    // Approach A from below so it starts at the top of the virtual viewport,
+    // matching the retained failure's instantiated span of 1221–1229.
+    draw(cx);
+    for _ in 0..78 {
+        native_key("up", cx);
+    }
+    draw(cx);
+    assert_selected_process_in_viewport(&processes, &selected_a, 1221, "process-row:1221", cx);
+    assert!(cx.debug_bounds("process-row:1219").is_none());
+    let row = cx.debug_bounds("process-row:1221").unwrap();
+    let table = cx.debug_bounds("process-table").unwrap();
+    assert_eq!(row.top(), table.top() + px(1.) + row.size.height);
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+
+    let mut inserted = original[..2].to_vec();
+    for row in &mut inserted {
+        row.identity.pid += 10_000;
+    }
+    snapshot.processes.splice(0..0, inserted);
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    // Accept first, then draw that publication so key dispatch itself cannot
+    // flush a dirty snapshot between the two coalesced movements.
+    draw(cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected_index()),
+        Some(1223)
+    );
+    native_key("up", cx);
+    native_key("up", cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected.clone()),
+        Some(selected_b.clone())
+    );
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected_index()),
+        Some(1221)
+    );
+    if restore_order {
+        snapshot.processes = original;
+    }
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    let expected_index = if restore_order { 1219 } else { 1221 };
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected_index()),
+        Some(expected_index)
+    );
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+    draw(cx);
+    let selector = if restore_order {
+        "process-row:1219"
+    } else {
+        "process-row:1221"
+    };
+    assert_selected_process_in_viewport(&processes, &selected_b, expected_index, selector, cx);
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
+}
+
+#[gpui::test]
+fn process_pending_reveal_follows_identity_after_snapshot_reordering(cx: &mut TestAppContext) {
+    process_pending_reveal_snapshot_interleaving(cx, true);
+}
+
+#[gpui::test]
+fn process_pending_reveal_preserves_unchanged_snapshot_order(cx: &mut TestAppContext) {
+    process_pending_reveal_snapshot_interleaving(cx, false);
+}
+
+#[gpui::test]
+fn process_pending_reveal_is_consumed_before_manual_scroll_and_passive_snapshots(
+    cx: &mut TestAppContext,
+) {
+    let (view, cx) = harness(cx);
+    let mut snapshot = pending_reveal_snapshot();
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx);
+    });
+    draw(cx);
+    native_key("end", cx);
+    draw(cx);
+    let selected = snapshot.processes[1299].identity.clone();
+    assert_selected_process_in_viewport(&processes, &selected, 1299, "process-row:1299", cx);
+    let table = cx.debug_bounds("process-table").unwrap();
+    cx.simulate_event(ScrollWheelEvent {
+        position: table.origin + point(px(30.), px(60.)),
+        delta: ScrollDelta::Pixels(point(px(0.), px(400.))),
+        ..Default::default()
+    });
+    draw(cx);
+    assert!(
+        cx.debug_bounds("process-row:1299").is_none(),
+        "manual scrolling must leave selection offscreen"
+    );
+    let anchor = cx
+        .debug_bounds("process-row:1280")
+        .expect("wheel exposes an earlier row");
+
+    snapshot.processes.rotate_right(1);
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    draw(cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected.clone()),
+        Some(selected.clone())
+    );
+    assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), Some(0));
+    assert!(
+        cx.debug_bounds("process-row:0").is_none(),
+        "passive snapshots must not reveal the selected identity"
+    );
+    assert_eq!(cx.debug_bounds("process-row:1280"), Some(anchor));
+    native_key("right", cx);
+    draw(cx);
+    assert_eq!(
+        cx.debug_bounds("process-row:1280").unwrap().top(),
+        anchor.top()
+    );
+    assert!(
+        cx.debug_bounds("process-row:0").is_none(),
+        "horizontal navigation must not create a vertical reveal"
+    );
+}
+
+#[gpui::test]
+fn process_pending_reveal_does_not_scroll_to_a_reused_pid(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let mut snapshot = pending_reveal_snapshot();
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx);
+    });
+    draw(cx);
+    native_key("home", cx);
+    draw(cx);
+    let initial = cx.debug_bounds("process-row:0").unwrap();
+    native_key("end", cx);
+    assert_eq!(
+        cx.read(|cx| processes.read(cx).selected_index()),
+        Some(1299)
+    );
+    snapshot.processes[1299].identity.start_time_ticks += 1;
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected.clone()), None);
+    assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 1);
+    draw(cx);
+    assert_eq!(
+        cx.debug_bounds("process-row:0"),
+        Some(initial),
+        "vanished selection must not scroll to its replacement"
+    );
+    assert!(cx.debug_bounds("process-row:1299").is_none());
+    snapshot.processes[1299].identity.start_time_ticks -= 1;
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    draw(cx);
+    assert_eq!(cx.read(|cx| processes.read(cx).selected.clone()), None);
+    assert_eq!(cx.debug_bounds("process-row:0"), Some(initial));
+    native_key("down", cx);
+    draw(cx);
+    assert_selected_process_in_viewport(
+        &processes,
+        &snapshot.processes[0].identity,
+        0,
+        "process-row:0",
+        cx,
+    );
+}
+
 #[gpui::test]
 fn process_horizontal_burst_accumulates_and_repaints_once(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);

@@ -24,6 +24,7 @@ pub(crate) struct MonitorPanel {
     pub(crate) selected: Option<ProcessIdentity>,
     table_horizontal: ScrollHandle,
     keyboard_repaint_pending: bool,
+    process_reveal_pending: bool,
 }
 
 impl MonitorPanel {
@@ -49,6 +50,7 @@ impl MonitorPanel {
             selected: None,
             table_horizontal: ScrollHandle::default(),
             keyboard_repaint_pending: false,
+            process_reveal_pending: false,
         }
     }
 
@@ -306,6 +308,13 @@ impl MonitorPanel {
     }
 
     fn process_table(&mut self, window: &Window, cx: &mut Context<Self>) -> AnyElement {
+        // Snapshot delivery may reorder rows after a key but before layout.
+        // Consume the intent even when reconciliation cleared the selection.
+        if std::mem::take(&mut self.process_reveal_pending)
+            && let Some(index) = self.selected_index()
+        {
+            self.table_scroll.scroll_to_item(index, ScrollStrategy::Top);
+        }
         let handle = self.controls["table"].handle.clone();
         let ring = cx.theme().ring;
         let count = self.shared.borrow().processes.len();
@@ -351,7 +360,7 @@ impl MonitorPanel {
                     "home" => 0, "end" => count - 1, _ => return,
                 };
                 this.selected = Some(this.shared.borrow().processes[next].identity.clone());
-                this.table_scroll.scroll_to_item(next, ScrollStrategy::Top);
+                this.process_reveal_pending = true;
                 controls::reveal(this.table_scroll.base_handle().bounds().dilate(px(1.)), &this.shared.borrow().scroll);
                 this.request_keyboard_repaint(window, cx); cx.stop_propagation();
             }))

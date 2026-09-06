@@ -1,0 +1,444 @@
+{
+  "status": "implemented_locally_verified_independent_reviews_and_native_acceptance_pending",
+  "base_commit": "a1421f5d8beac7012f1aba8b54e4d1de7c686b04",
+  "created_at": "2026-09-06T19:49:45.212751+00:00",
+  "scope": "Application-local pending process reveal correction; no attribution of retained native failures and no whole-GPU acceptance claim.",
+  "source_files": [
+    {
+      "path": "examples/system_pulse/src/panel.rs",
+      "sha256": "ff174b97cf2e8c2db39c7d26b674d4aa958b8b0d6cbab5ac67c92d03a981c24f"
+    },
+    {
+      "path": "examples/system_pulse/src/native_tests.rs",
+      "sha256": "ac29c8542560e3bbcb152bb0a8759dfe5ad6b29864f04afab3fea33d31df5b54"
+    }
+  ],
+  "red_production_panel_sha256": "be26adcb27bb3bacd3ce7a588f43e358ce1400bc3ec3d052bfc87eed1a4a7994",
+  "red_test_source": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-native-tests.rs",
+  "viewport_assertion": "Actual instantiated row bounds inside rendered table bounds excluding its one-pixel border and h_7 header; initial A explicitly asserted at viewport top.",
+  "checks": [
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 101,
+      "elapsed_seconds": 3.7228205470601097,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red.log",
+      "sha256": "104ee78e798308ed45dc85fc7be8751956ba04520ffbe927687fd5bfc97aecb0",
+      "classification": "setup_compile_failure",
+      "test_results": []
+    },
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 101,
+      "elapsed_seconds": 0.6198555220616981,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-regression.log",
+      "sha256": "bceef55f7c9a1060b49be7cfb70dca22accb3bb6f8bc24df3e6cdfdfd6e46aad",
+      "classification": "setup_compile_failure",
+      "test_results": []
+    },
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 101,
+      "elapsed_seconds": 3.733684638980776,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-executed.log",
+      "sha256": "d3014496bb9c9436490a5e6336f9da441f9abf987b35572d7f9a9d4e7264f1a5",
+      "classification": "setup_selector_failure",
+      "test_results": [
+        {
+          "status": "FAILED",
+          "passed": 0,
+          "failed": 2
+        }
+      ]
+    },
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.6908886909950525,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-viewport.log",
+      "sha256": "f5e4129cc06ea98b552f49a370201851116aee8a36a84452e4344549445d64aa",
+      "classification": "passing_bottom_edge_characterization",
+      "test_results": [
+        {
+          "status": "ok",
+          "passed": 2,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 101,
+      "elapsed_seconds": 1.701077587902546,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-top-boundary.log",
+      "sha256": "3e4504e21e1acb77397138b38ed45fecde724b7b1698e78bbb49aa088b96f9f8",
+      "classification": "observed_pre_correction_regression",
+      "test_results": [
+        {
+          "status": "FAILED",
+          "passed": 1,
+          "failed": 1
+        }
+      ]
+    },
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.924984922981821,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/green-top-boundary.log",
+      "sha256": "24d041a8f94050e875afae74f5d0e7f6ec4d1c19810d8e43064696f4371a7bb6",
+      "classification": "same_regression_after_correction",
+      "test_results": [
+        {
+          "status": "ok",
+          "passed": 2,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "process_pending_reveal",
+        "--",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.7841227150056511,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/green-edges.log",
+      "sha256": "8e535f60e25267bd9c46b990020cf0db4d71a6fc4d9099316be1d36e097c5e7d",
+      "classification": "focused_edge_coverage",
+      "test_results": [
+        {
+          "status": "ok",
+          "passed": 4,
+          "failed": 0
+        }
+      ]
+    },
+    {
+      "name": "app-tests",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "--tests"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 5.2547337639844045,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-tests.log",
+      "sha256": "fdbc9d0520dda5d1cd3f254a3b7eee9654280b8d8bb588ac120a7e5c5df20acd",
+      "test_results": [
+        [
+          "ok",
+          "67",
+          "0"
+        ],
+        [
+          "ok",
+          "0",
+          "0"
+        ],
+        [
+          "ok",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "app-fmt",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "fmt",
+        "-p",
+        "system-pulse",
+        "--",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.0977440639398992,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_results": []
+    },
+    {
+      "name": "app-clippy",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.654334904043935,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-clippy.log",
+      "sha256": "48cbab9ef6bd43b587a68bb7f8859db5e0eb613e1411210dbd7afad8b5f08c7e",
+      "test_results": []
+    },
+    {
+      "name": "app-build",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2.862996597075835,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-build.log",
+      "sha256": "101e18aad5dcf400a89b7c7d45f77a485be5e40fec6f368fde3b4897c4306a4b",
+      "test_results": []
+    },
+    {
+      "name": "diff-check",
+      "command": [
+        "rtk",
+        "proxy",
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.007248524925671518,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_results": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-build.json",
+      "bytes": 413,
+      "sha256": "4b8b8c650514501c441ec16c032bb1820e69718f1c70470edf047c27bff33e39"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-build.log",
+      "bytes": 196,
+      "sha256": "101e18aad5dcf400a89b7c7d45f77a485be5e40fec6f368fde3b4897c4306a4b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-clippy.json",
+      "bytes": 473,
+      "sha256": "aba73121694a4ffcaaa796f6a1ce37400e07eb67da625e4d28861560923c29c2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-clippy.log",
+      "bytes": 953,
+      "sha256": "48cbab9ef6bd43b587a68bb7f8859db5e0eb613e1411210dbd7afad8b5f08c7e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-fmt.json",
+      "bytes": 417,
+      "sha256": "14ade8b1a395ae8c8a3248cfaef2939c769e387e1f61369ad9c7e91a940e3243"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-tests.json",
+      "bytes": 582,
+      "sha256": "6a8fee360b7a9a0af3a3aa7d14464589de93e8c53df523a48cd2f0f9076560d7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/app-tests.log",
+      "bytes": 7145,
+      "sha256": "fdbc9d0520dda5d1cd3f254a3b7eee9654280b8d8bb588ac120a7e5c5df20acd"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/diff-check.json",
+      "bytes": 384,
+      "sha256": "f196843204adf9ef1bce6ee2fe2996abb6197bb395b2cedbe710bc8ca507dc1d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/diff-check.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/green-edges.json",
+      "bytes": 442,
+      "sha256": "2c52299a78a6e1cf3ed6f1b9cda60fbc8fb2e738ecd74493df57fbef382a71a3"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/green-edges.log",
+      "bytes": 756,
+      "sha256": "8e535f60e25267bd9c46b990020cf0db4d71a6fc4d9099316be1d36e097c5e7d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/green-top-boundary.json",
+      "bytes": 448,
+      "sha256": "50ec451d4a3edeb6cc531d67e422ce9c180519fc35ead5f0be0ee0d5797ccb83"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/green-top-boundary.log",
+      "bytes": 571,
+      "sha256": "24d041a8f94050e875afae74f5d0e7f6ec4d1c19810d8e43064696f4371a7bb6"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-executed.json",
+      "bytes": 444,
+      "sha256": "641de331267e5f31a58759c8d3b4a730eb10718c407d8e2e1eeeac8e5d26829e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-executed.log",
+      "bytes": 1305,
+      "sha256": "d3014496bb9c9436490a5e6336f9da441f9abf987b35572d7f9a9d4e7264f1a5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-native-tests.rs",
+      "bytes": 47215,
+      "sha256": "4b6a42a1b81a6f8605fadfb789863dfe73b3fad1327183d674ae9d8707d04d9b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-regression.json",
+      "bytes": 447,
+      "sha256": "d9185e3332ec035e54039a21ca822f3009ce6ea592eace93f104dfc3d4d47f8d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-regression.log",
+      "bytes": 1894,
+      "sha256": "bceef55f7c9a1060b49be7cfb70dca22accb3bb6f8bc24df3e6cdfdfd6e46aad"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-top-boundary.json",
+      "bytes": 448,
+      "sha256": "142fd95c4a65d47696049aacec94def1a9370ca6f847ea0d0d56b9c85d6825b8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-top-boundary.log",
+      "bytes": 1106,
+      "sha256": "3e4504e21e1acb77397138b38ed45fecde724b7b1698e78bbb49aa088b96f9f8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-viewport.json",
+      "bytes": 443,
+      "sha256": "8ec7af4545af14493eade5c7113a8db45534f77e5db48f0e8eb0fa49ac16556c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red-viewport.log",
+      "bytes": 571,
+      "sha256": "f5e4129cc06ea98b552f49a370201851116aee8a36a84452e4344549445d64aa"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red.json",
+      "bytes": 436,
+      "sha256": "d1a2cedd04628cb38a663d94a552797a3da1bf306352e5c0523ee20d6745045c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/red.log",
+      "bytes": 553,
+      "sha256": "104ee78e798308ed45dc85fc7be8751956ba04520ffbe927687fd5bfc97aecb0"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-20260906/verification.json",
+      "bytes": 2489,
+      "sha256": "65929152f32e8ffccc5681ec99e6ebbd99111eb669551c8bd3c8632401cf1aa9"
+    }
+  ],
+  "test_count_notes": "67 app tests pass. Linux skips macOS application lifetime cases; dispatcher lifetime and main have zero Linux cases and are not counted as executed tests.",
+  "limits": [
+    "Development checks are not committed Cairn evidence.",
+    "Native/full Linux preservation replay not run for this correction.",
+    "Original Linux freshness failures not resolved or attributed by this regression.",
+    "Mac native proof and missing Intel hardware remain open.",
+    "Independent specification review then fresh quality review pending."
+  ]
+}
