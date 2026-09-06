@@ -684,5 +684,233 @@
         "sha256": "eb368d576f513a2c1bf8b85970097a628d776ba3d65d95db64a2ce69f9d35524"
       }
     ]
+  },
+  "reader_gc_diagnostic": {
+    "verified_utc": "2026-09-06T15:50:30.175326+00:00",
+    "scope": "Reader GC diagnostic, with unchanged publication and freshness logic; instrumented supporting evidence, never acceptance",
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.263s (limit 2.0s)",
+      "failure evidence: accepted frame stale: 2.288s (limit 2.0s)"
+    ],
+    "hypothesis_supported_for_this_reproduction": false,
+    "stale_reads": [
+      {
+        "original": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793431510741524.json",
+        "sequence": 76,
+        "age_seconds": 2.262533388,
+        "limit_seconds": 2.0,
+        "read_duration_ms": 5.203485,
+        "parse_duration_ms": 25.217928,
+        "approximate_age_at_read_start_seconds": 2.232077555,
+        "gc_events_overlapping_read": [],
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222697624
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222697624
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 793431480285691,
+          "read_completed_monotonic_ns": 793431485489176,
+          "parse_completed_monotonic_ns": 793431510707104,
+          "age_checked_monotonic_ns": 793431510741524
+        }
+      },
+      {
+        "original": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793432143667766.json",
+        "sequence": 77,
+        "age_seconds": 2.288014013,
+        "limit_seconds": 2.0,
+        "read_duration_ms": 2.868464,
+        "parse_duration_ms": 27.847089,
+        "approximate_age_at_read_start_seconds": 2.2572666260000003,
+        "gc_events_overlapping_read": [],
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222697636
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222697636
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 793432112920379,
+          "read_completed_monotonic_ns": 793432115788843,
+          "parse_completed_monotonic_ns": 793432143635932,
+          "age_checked_monotonic_ns": 793432143667766
+        }
+      }
+    ],
+    "gc_collection_counts": [
+      0,
+      513,
+      0
+    ],
+    "gc_maximum_duration_ms_by_generation": [
+      0.0,
+      28.514036,
+      0.0
+    ],
+    "gc_callback_errors": [],
+    "gc_evicted_events": 0,
+    "reader_peak_rss_kib": 126608,
+    "outer_process": {
+      "role": "native-reader-gc",
+      "pid": 2920234,
+      "command": [
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/gc-bootstrap.py",
+        "--inside",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+        "--focus",
+        "process"
+      ],
+      "exit_code": 1,
+      "executable_sha256": "97e86a102eee7212bfa3bf87d452b27dd4f16ef6e68658eeae20bca63db2ceee",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [
+        "SIGTERM"
+      ],
+      "started_ns": 793352844665722,
+      "finished_ns": 793432519731994,
+      "started_unix_ns": 1788709118752071202,
+      "finished_unix_ns": 1788709198427139611,
+      "deadline_ns": 793772844665722,
+      "stdout": "native-reader-gc.stdout",
+      "stderr": "native-reader-gc.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "9bb2b0a45e496557d427603a8e8134eed6ffb1212313130f648ad3dbfc7ef333",
+      "stderr_sha256": "2909f52ec5b777cd497b9f7a2d139b6dbd6e9df3a30c7be6aaa6abcd2245df26"
+    },
+    "application_cleanup": [
+      {
+        "pid": 2920328,
+        "exit_code": -15,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2920284,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "root_confirmed_absent_pids_and_groups": [
+      2920234,
+      2920256,
+      2920328,
+      2920284
+    ],
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/run.py",
+        "bytes": 2587,
+        "sha256": "82657aedaca60c399db5f875c4210f1eafe89b23cb25fc77ca35c486aa549c5c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/gc-bootstrap.py",
+        "bytes": 2366,
+        "sha256": "6ff49041d02eb5a98f37e17aa022325286ec0547be32e1e4b1cce498e8d21e5c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/invocation.json",
+        "bytes": 1371,
+        "sha256": "7b6b14a72f7f9600405d666ed184412cd01021ebf4fc31a7d5cfc2a9a1bdc07c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/gc-events.json",
+        "bytes": 79403,
+        "sha256": "3eb7a80b2d615e1f21e49305247c04fafac61451ca279088a4937049277926a6"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc-started.json",
+        "bytes": 703,
+        "sha256": "b2b0f72c8adbd77a14f2d232e1a83fb15e62e3be5f3c1961b659c582d42ed9d8"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc-finished.json",
+        "bytes": 1435,
+        "sha256": "623865655b439d20bbd1cc6eb62801cf4aadb2ca6dd105edd8a43b39a0ab24ca"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc.stdout",
+        "bytes": 657,
+        "sha256": "9bb2b0a45e496557d427603a8e8134eed6ffb1212313130f648ad3dbfc7ef333"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc.stderr",
+        "bytes": 5987,
+        "sha256": "2909f52ec5b777cd497b9f7a2d139b6dbd6e9df3a30c7be6aaa6abcd2245df26"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/result.json",
+        "bytes": 746,
+        "sha256": "ccb9cec68ca7e8f9f99faf3d710783ed90edd5c6a9ec8c5c7639d7c8fdc43117"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/progress.jsonl",
+        "bytes": 657,
+        "sha256": "9bb2b0a45e496557d427603a8e8134eed6ffb1212313130f648ad3dbfc7ef333"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/harness-manifest.json",
+        "bytes": 5109,
+        "sha256": "6f1df3a8d3ebf8705b3e49643a80051b5b89b2d557c487cdc9c70e74f868ac8b"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "1894c6966f343dfa7db7fa8a9e616152b862fccb47f6708d189078e4e8d3d847"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/metadata.json",
+        "bytes": 746,
+        "sha256": "be59128d4415bd0d925414aeb6063c38310e9e7c1920610d65389d12910cbe95"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/cleanup.json",
+        "bytes": 78,
+        "sha256": "de00641ec231331ecb890376c57a59bca9b23283b46dea441aa1b23c38efb106"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/latest.json",
+        "bytes": 6409198,
+        "sha256": "907184697cc44a3a1fdad420e03a3e3ea66723f1fb1c018b2bb743ffe11a8c0e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793431510741524.json",
+        "bytes": 11155931,
+        "sha256": "2f57836e2d02fa011382d5f20ec3bfabb427e9f869931f22e1d6a7bbaf9297b1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793432143667766.json",
+        "bytes": 11059523,
+        "sha256": "cae502fb268056b3e81857b2235db0cb8de9bde73209fefa1c25735b6de2f306"
+      }
+    ]
   }
 }

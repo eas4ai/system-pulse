@@ -123,3 +123,32 @@ groups were absent. The evidence record binds 22 originals, including the trace,
 launcher, failure, timing ring and cleanup. This diagnostic remains failed and
 ineligible for acceptance. No performance correction is justified by it, and
 the original uninstrumented failures remain unresolved.
+
+## Garbage-collection diagnostic
+
+The next bounded run tested whether Python garbage collection accounted for the
+slow read boundary. It used an immutable copy of the `ece89eae` harness and the
+same application binary, with publication tracing disabled. An external bootstrap
+recorded reader GC callbacks; it changed no application, harness or freshness
+logic. This reader instrumentation makes the result supporting evidence only.
+
+It failed during inner scrolling with sequence 76 at age 2.262533388 seconds;
+failure-evidence collection also rejected sequence 77 at 2.288014013 seconds.
+The reads took 5.203485 and 2.868464 ms, with parsing taking 25.217928 and
+27.847089 ms. Both opened-file identities still matched the pathname at the
+age check. Using each check's monotonic read duration, the frames were already
+approximately 2.232 and 2.257 seconds old when reading began. No GC event
+overlapped either read. All 513 recorded collections are retained, without
+callback errors or evictions; the longest collection lasted 28.514036 ms.
+
+This reproduction does not support the GC hypothesis. It establishes that a
+long read is not necessary for a freshness failure, but does not explain the
+earlier 756.549 ms read or identify which application/publication stage delayed
+the newer records. No source correction follows from these observations alone.
+
+Originals remain at `gpu-task4/root-reader-gc-20260906`; the evidence record binds
+17 files, including the immutable harness manifest, instrumentation, both stale
+receipts and GC events. The wrapper exited 1 after 79.675 seconds, within its
+420-second deadline. Failure cleanup terminated the app with exit -15; transport
+exited zero. Root confirmed the wrapper, reader, app and transport PIDs and
+process groups were absent. All previous failures remain retained and unresolved.
