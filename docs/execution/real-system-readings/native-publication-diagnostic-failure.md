@@ -59,6 +59,7 @@ row, with PID 3919454 first visible. These later artifacts support reindexing an
 continued endpoint presence; they do not prove endpoint exit or selection state
 at the deadline. No child metric comparison or controlled exit proof completed.
 
-Independent read-only navigation diagnosis is pending. All freshness, identity,
+The [independent navigation diagnosis](native-publication-navigation-review.md)
+identifies missing per-observation context; the cause remains unproven. All freshness, identity,
 metric and deadline requirements remain unchanged. Fresh untraced full acceptance
 and final review remain required.

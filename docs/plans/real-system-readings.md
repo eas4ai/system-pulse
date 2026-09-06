@@ -559,3 +559,34 @@ The [instrumented capture](../execution/real-system-readings/native-publication-
 failed on an intermediate navigation deadline. Its retained publication stages
 do not explain the earlier stale frame; no performance remedy is inferred.
 Navigation diagnosis and fresh untraced full acceptance remain open.
+
+### Retain bounded navigation observation failures
+
+The [independent traced-failure review](../execution/real-system-readings/native-publication-navigation-review.md)
+cannot distinguish competing selection, incomplete discovery and changing
+publication brackets from the current artifacts. This is observation work only.
+
+- [ ] Add a fixed-capacity history of at most 64 navigation observations, scoped
+  to the active navigation operation. Bound every retained field and collection;
+  retain evicted/observed counts. Capture existing operation/phase, exact issued
+  identity/index and original deadlines, monotonic start/end, discovery and scan
+  durations, before/after publication, panel-validation outcome, native selected
+  identity/count, partial/complete row scan and mapped span, and rejection reason.
+  Null or missing means unobserved. Native selection is not model selection.
+- [ ] Observe existing reads and decisions without adding accessibility/procfs
+  reads, snapshot copies, input, retry, sleep or policy changes. Add no success-path
+  filesystem I/O, thread, polling loop, unbounded log or queue. Serialize bounded
+  failure context through the existing failure artifact path; diagnostic errors
+  must not replace the original failure. Do not retain accessible objects or full
+  process lists in the history. Keep the current freshness and 8/180/5-second
+  deadlines, exact successful acknowledgements, proven-exit requirements, all
+  sixteen child metrics, controlled exit and held-input proofs unchanged.
+- [ ] Write failing tests for complete/rejected/partial observations, wrong or
+  absent native selection, changing publication brackets, original exception and
+  deadline preservation, bounded retention/fields and no added read/input calls.
+  Verify relevant/full Python tests, scoped Ruff and documentation; commit and
+  complete independent SPEC then QUALITY review. No Rust/product change is needed
+  merely to observe existing native decisions.
+- [ ] Run one fresh focused native replay with publication tracing disabled,
+  retain its outcome and new failure context if any. Record any evidence-supported
+  remedy separately. Fresh full aggregate acceptance and final review remain open.
