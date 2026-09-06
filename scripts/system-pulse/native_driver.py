@@ -1184,11 +1184,16 @@ class Native:
         endpoint_index=None,
         *,
         inspection=None,
+        inspection_missing_row=False,
         pending=None,
     ):
         """Observe exact selection in a complete tree within one fresh publication."""
         from native_pending import InterruptedNavigation, publication, validate_stat
 
+        require(
+            not inspection_missing_row or inspection is not None,
+            "missing-row preparation requires inspection evidence",
+        )
         if pending is not None:
             pending = json.loads(json.dumps(pending))
             require(
@@ -1540,9 +1545,11 @@ class Native:
                     and ids.index(expected) != reference_index
                     and mapped[0] <= reference_index <= mapped[-1]
                 ):
-                    if not recovery_preparing:
+                    if not recovery_preparing and not inspection_missing_row:
                         # Establish uniqueness before the fresh eligibility scan
                         # that will authorize the first physical recovery step.
+                        # Missing-row inspection already made that fresh strict
+                        # discovery in this observation, before all guards above.
                         recovery_preparing = True
                         path = None
                         return observation.reject(

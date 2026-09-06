@@ -655,16 +655,25 @@ class InspectionWiringTests(unittest.TestCase):
             )
         )
         calls = []
+        self.app.navigation_selection = Mock()
 
         def metric(aid, name, *, visible, prepare_missing):
             calls.append((aid, name, visible, prepare_missing))
+            prepare_missing(5)
             artifact = self.artifact()
             artifact["entry"]["element_id"] = aid
             return artifact
 
+        def reveal(app, aid, key, deadline, *, prepare_missing):
+            prepare_missing(deadline)
+
         self.app.metric = metric
         context = dict(
-            vars(native_replay), app=self.app, target=cells.TARGET, time=self.f.clock
+            vars(native_replay),
+            app=self.app,
+            target=cells.TARGET,
+            time=self.f.clock,
+            reveal_process_cell=reveal,
         )
         with patch("native_replay.time", self.f.clock):
             exec(
@@ -678,6 +687,13 @@ class InspectionWiringTests(unittest.TestCase):
         )
         self.assertEqual([c[2] for c in calls], [False] * 8 + [True] * 8)
         self.assertTrue(all(callable(c[3]) for c in calls))
+        self.assertEqual(self.app.navigation_selection.call_count, 24)
+        self.assertTrue(
+            all(
+                call.kwargs.get("inspection_missing_row") is True
+                for call in self.app.navigation_selection.call_args_list
+            )
+        )
         self.app.navigate.assert_called_once()
         inspection = context["inspection"]
         self.assertEqual(inspection.reference["source"], "child-right.json")

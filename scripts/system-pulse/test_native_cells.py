@@ -89,7 +89,7 @@ class NativeCellTests(unittest.TestCase):
                 time=self.clock,
                 require=require,
                 inspection=SimpleNamespace(
-                    metric=self.native.metric, preparation=lambda: None
+                    metric=self.native.metric, preparation=lambda **kwargs: None
                 ),
             )
         )

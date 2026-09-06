@@ -52,7 +52,7 @@ class ProcessInspection:
         self.acknowledgement = copy.deepcopy(evidence)
         self.reference = dict(copy.deepcopy(evidence), source="navigation")
 
-    def preparation(self):
+    def preparation(self, *, missing_row=False):
         require(self.acknowledgement is not None, "missing inspection acknowledgement")
         # One frozen observation serves the entire metric or horizontal gesture.
         evidence = copy.deepcopy(
@@ -69,6 +69,7 @@ class ProcessInspection:
                 deadline,
                 fresh_panel=True,
                 inspection=evidence,
+                **({"inspection_missing_row": True} if missing_row else {}),
             )
 
         return prepare
@@ -78,7 +79,10 @@ class ProcessInspection:
             aid.rsplit(":cell:", 1)[0] == self.target, "wrong inspection metric target"
         )
         artifact = self.app.metric(
-            aid, name, visible=visible, prepare_missing=self.preparation()
+            aid,
+            name,
+            visible=visible,
+            prepare_missing=self.preparation(missing_row=True),
         )
         frame = artifact["frame"]
         ids = [
@@ -903,7 +907,7 @@ def main():
                 target + f":cell:{column}",
                 key,
                 deadline,
-                prepare_missing=inspection.preparation(),
+                prepare_missing=inspection.preparation(missing_row=True),
             )
             inspection.metric(target + f":cell:{column}", name)
         app.sequences()
