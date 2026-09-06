@@ -745,3 +745,32 @@ The sole worker adds observation metadata with one content read and the
 existing fail-fast verdict unchanged. Root owns the build-decision marker.
 Independent reviews precede a fresh untraced focused process capture and
 full committed acceptance. Final commitment review and Cairn Done remain.
+
+## 2026-09-05: fresh run reaches cell inspection
+
+Freshness instrumentation `48ab9551` passed SPEC then QUALITY; both reviewers
+ran 175 native tests plus additional probes, and the worker passed all 279
+Python tests. Review record `5a83fd5b` preceded an untraced focused run at
+workspace artifacts/tmp/pulse-process-lookup-pd67p9yj/native.
+
+That run passed the early cases, held Up, the exact 64-Up endpoint, and
+horizontal movement. It independently acknowledged the controlled child,
+discovered all eight cells, and verified visible columns 0–3. Column 4
+then exhausted its original five-second lookup deadline. The last positive
+observation places the child at index 1292 and the viewport top; the failure
+frame retains the same PID/start at index 1291 while the screenshot begins
+at index 1292. No stale artifact was produced. Controlled exit was not
+reached; the run remains FAIL. Source capture record is `008e6b68`.
+
+Independent contract and source assessments support narrowly recorded
+nonselecting preparation for later cell inspection, separate from keyboard
+acknowledgement and product viewport anchoring. Decision/plan `78b101b8`
+requires prior exact acknowledgement and last positive observation,
+fresh strict/current/unique eligibility, original deadlines, and fresh
+selection and cell proof after scrolling. An optional missing-row callback
+avoids adding a preparation scan when lookup succeeds normally. Only
+successful metrics advance the inspection reference.
+
+The sole worker implements this in the native driver/replay and focused
+tests; root owns its build-decision marker and review records. No live run
+is active. Full acceptance, final review, and Cairn Done remain outstanding.
