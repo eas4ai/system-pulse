@@ -102,5 +102,25 @@ No repository edits, native/UI/SSH or Cairn acceptance ran during review.
 
 ## Resolution
 
-The remaining F3 finding needs correction and independent re-review. Task 1 and
-quality review remain open. Native Intel accuracy and GPU-008 remain unverified.
+**SPEC PASS**, independent reviewer `intel_gpu_spec`, 2026-09-06, candidate
+`507a12c0c60e4723800eb815bda81b8796a264a3`.
+The final xe correction enforces non-visible allocation capacity; preceding
+bounds and short-circuit evaluation protect subtraction. All four recorded
+findings are closed for the Intel code subtask.
+
+Final independent verification:
+
+- DRM tests: 8 passed, 68 filtered out.
+- A temporary harness running unchanged production function bodies matched an
+  independent model enumerating 860 physically possible i915/xe page-allocation
+  cases. Both invalid full/small-BAR examples are rejected and valid boundary
+  allocations remain accepted.
+- Collector bytes and lockfile matched the candidate. Only `intel/drm.rs`
+  changed in collector source after the second review.
+- Prior F1/F2/F4 conclusions remain closed. No repository edits, native/UI/SSH,
+  full workspace build or Cairn acceptance occurred in the final review.
+
+The implementer reports the final full collector suite passed 76 tests, formatting,
+strict Clippy and diff checks. Quality review is now in progress with a fresh
+independent reviewer. Task 1 remains open until that review closes. Native Intel
+accuracy and GPU-008 remain unverified.
