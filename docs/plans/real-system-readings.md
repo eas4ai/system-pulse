@@ -596,5 +596,11 @@ failed freshness before the next native scan. Its independent review supports
 one combined diagnostic using the existing publication tracing switch and
 navigation observations; it supports no behavior remedy.
 
-- [ ] Run the combined supporting diagnostic and retain its actual outcome.
+- [x] Run the combined supporting diagnostic and retain its actual outcome.
   Fresh untraced full aggregate acceptance and final review remain required.
+
+The [combined diagnostic](../execution/real-system-readings/native-combined-inspection-failure.md)
+failed during visible-column-five inspection recovery, after thirteen child
+metric artifacts. Publication tracing did not reproduce stale freshness. The
+first recovery scroll used 3.337 seconds of the original five-second budget;
+independent source review is checking repeated discovery before that input.
