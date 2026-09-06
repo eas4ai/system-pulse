@@ -85,11 +85,13 @@ The traversal costs are synthetic. They prove removed work and bounded behavior,
 not a measured contribution to the [combined diagnostic failure](native-combined-inspection-review.md).
 That capture remains FAIL. It does not establish the timeout's cause or explain
 earlier stale-frame failures. No Rust/product changes, builds or native runs
-were performed. Fresh focused untraced replay and full acceptance remain pending.
+were performed. The [fresh untraced replay](native-inspection-eligibility-focused-result.md) failed
+earlier in navigation before inspection. Full acceptance remains pending.
 
 Reviewed all 14 production rules. The source delta adds a narrow opt-in and skips
 one inherited preparation branch; it does not introduce a retry, input policy,
 cache, thread or trace mode. Negative fixtures and full verification preserve
 the acceptance guards and default paths. No known defect remains from this
 self-audit. Independent SPEC and QUALITY reviews subsequently passed. The next
-fresh untraced native replay remains pending.
+[fresh untraced native replay](native-inspection-eligibility-focused-result.md)
+failed earlier in navigation; it did not exercise this preparation change.

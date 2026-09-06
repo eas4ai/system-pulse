@@ -624,5 +624,12 @@ The failed capture does not quantify traversal cost or prove the timeout cause.
   guard, stale/partial/ambiguous/publication-change, rejection-reset, post-wheel
   proof and journal-expiry paths. Run focused/full Python tests, relevant Ruff,
   diff and documentation checks, then independent SPEC followed by QUALITY review.
-- [ ] Run one fresh untraced focused replay and preserve its actual outcome.
+- [x] Run one fresh untraced focused replay and preserve its actual outcome.
   Fresh full aggregate acceptance and final review remain required.
+
+The [fresh untraced result](../execution/real-system-readings/native-inspection-eligibility-focused-result.md)
+failed earlier in an intermediate arrow batch. Cell inspection was not reached.
+Its retained observations identify the exactly prior acknowledged selection as
+the permanent recovery-blocking trigger, followed by complete coherent absence
+and endpoint reindexing. Independent review is evaluating a narrowly bounded
+prior-acknowledgement case; no new behavior is implemented yet.

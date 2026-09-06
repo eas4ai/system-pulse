@@ -13,7 +13,9 @@ For controlled-child missing-row cell preparation only, use the first fresh comp
 Independent SPEC and QUALITY reviews passed with no findings; see the
 [implementation](../execution/real-system-readings/native-inspection-eligibility-implementation.md)
 and [review](../execution/real-system-readings/native-inspection-eligibility-review.md).
-Fresh untraced focused replay and full aggregate acceptance remain pending.
+The [fresh untraced focused replay](../execution/real-system-readings/native-inspection-eligibility-focused-result.md)
+failed earlier in navigation before inspection. Full aggregate acceptance remains
+pending.
 
 ## Realized by
 

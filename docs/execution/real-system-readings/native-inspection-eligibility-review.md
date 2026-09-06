@@ -33,5 +33,7 @@ ran no build, native replay or Cairn action.
 
 Both reviews are complete. The implementer passed all 363 Python tests, Ruff
 lint and changed-file formatting, whitespace and five documentation links.
-Fresh focused untraced replay, full aggregate acceptance and final review
-remain required. No measured live cause is inferred from the synthetic tests.
+The [fresh untraced replay](native-inspection-eligibility-focused-result.md) failed
+earlier in navigation, before this preparation change. Full aggregate acceptance
+and final review remain required. No measured live cause is inferred from the
+synthetic tests.
