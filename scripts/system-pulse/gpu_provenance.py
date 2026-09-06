@@ -418,10 +418,10 @@ def host_facts(original, inventory):
 
     discovered = discover(Path("/"), Sysfs(original["sysfs"]))
     require(
-        {d["monitor_id"] for d in discovered}
-        == {d["monitor_id"] for d in inventory["discovery"]}
+        {d["monitor_id"]: {k: d[k] for k in selected} for d in discovered}
+        == {d["monitor_id"]: d for d in inventory["discovery"]}
         and len(original["devices"]) == len(discovered),
-        "Linux provider census differs from physical inventory",
+        "Linux provider identity differs from independent physical inventory",
     )
     require(
         len({r["identity"]["monitor_id"] for r in original["devices"]})

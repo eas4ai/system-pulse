@@ -4,12 +4,11 @@ Task 4 correction status: DONE_WITH_CONCERNS. Independent SPEC re-review closed 
 
 ## Work tracking
 
-Independent re-review closed F1–F9 at `ece89eae` and recorded F10 before correction. Quality review has not started.
+Independent re-review closed F1–F9 and found a remaining F10 Intel provider identity join at `eccf56b7`; its record was committed at `9e1c2c07` before correction. Quality review has not started.
 
-- Complete: F10 native host/OS build and deployed provider originals; complete Intel and Apple synthetic ingestion with 48 hash-consistent negative controls.
-- Complete: 439 Python tests, seven required GPU groups, strict lint/format, native compilation/readiness and all 14 self-audit rules.
-- Complete: focused correction commit `eccf56b7`; all 711 committed inputs verified.
-- In progress: F10 Intel provider identity join correction, followed by independent re-review.
+- Complete: original replay and four failing full-ingestion identity attacks; minimal inventory join and unchanged regression now pass, including reordered device/alias controls.
+- Complete: 440 Python tests, seven mandatory groups with 57 GPU tests, strict lint/format, unchanged native sources and all 14 self-audit rules.
+- In progress: focused commit, committed-source replay and independent SPEC re-review handoff.
 
 ## Implementation
 
@@ -96,6 +95,16 @@ Apple retains `uname`, original `SystemVersion.plist` and queried `kern.osversio
 For the actual selected Metal registry ID, the helper retains the queried registry provider properties, the loaded GPU kernel extension version/UUID returned for that exact bundle identifier, and the bundle information for the actual Metal device implementation class. It verifies that class against the registry's Metal plugin class. Apple documents the loaded-kext query in [KextManager.h](https://github.com/apple-oss-distributions/IOKitUser/blob/main/kext.subproj/KextManager.h). Actual SDK originals (`KextManager.h`, Mach-O `loader.h`, `dlfcn.h`) and an initial query probe are retained in `f10-corrections-20260906/`. Kext query keys are checked for availability; no host-specific version or UUID is hard-coded in the implementation.
 
 The synthetic fixture explicitly models complete source/binary manifests, native process originals, physical discovery, independently compared readings, consumed values and six native actions for both platforms. It establishes verifier behavior only. The original full-ingestion missing-host regression failed before correction. The final controls reject missing host/provider artifacts, missing OS or provider fields, mismatched OS builds/architectures, wrong physical/native ownership, incompatible provider classes, changed images, absent driver versions, invented API versions and unsupported Vulkan encodings after regenerating internally consistent artifact and process-log hashes.
+
+## F10 follow-up: join Intel provider identities
+
+The independent [F10 re-review](gpu-acceptance-f10-spec-review.md), committed at `9e1c2c07` before correction, showed that matching monitor IDs alone let every host metadata copy consistently name the wrong Intel device ID or driver. Independent sensor discovery and Vulkan work still named the actual device. F1–F9 remained closed.
+
+The correction compares replayed host discovery to independent `inventory.discovery` by stable monitor ID using the existing inventory identity projection: PCI, driver, physical path, monitor ID, vendor and device ID. It covers every physical GPU. The existing provider-to-replayed-discovery check then binds each provider's version originals to that identity. Dictionary comparison preserves discovery order independence; aliases keep their existing native validation and do not become physical identity fields.
+
+The unchanged original review replay reproduced both wrong acceptances. A new full-ingestion regression then failed four cases before the fix: wrong device ID and driver on both selected and secondary GPUs. Each attack consistently changes every nested metadata original and regenerates stream/manifest hashes while preserving independent native device/field and workload originals. The same test passes after the fix, with restored positives and valid device/alias reorder cases. Only the existing identity comparison and its error text change runtime behavior. The verified native helper sources remain byte-identical; no native job was needed.
+
+Final checks passed all 440 Python tests and seven nonempty GPU groups (6/5/6/8/15/10/7, 57 tests total), with no Cairn acceptance output. Ruff lint/format and `git diff --check` passed. The focused [identity correction record](gpu-acceptance-f10-identity-correction.json) links RED/GREEN logs and final checks in `gpu-task4/f10-identity-correction-20260906/`. The post-commit replay uses copies of the frozen review reports, refreshes only source bindings to the committed candidate, and checks that all other originals remain unchanged. Its two Intel/Apple controls must accept and both original identity attacks must reject specifically at the independent-inventory join. Neither synthetic result is native hardware evidence or an independent SPEC verdict.
 
 ## Verification evidence
 

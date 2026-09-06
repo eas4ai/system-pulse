@@ -1,0 +1,177 @@
+{
+  "status": "DONE_WITH_CONCERNS; local correction awaiting independent SPEC re-review",
+  "finding": "Remaining F10 Intel provider identity join",
+  "review_record_commit": "9e1c2c07e388b9edab1dc9642dc07ee269a60baf",
+  "runtime_change": "Compare complete existing inventory identity projections by stable monitor ID instead of monitor-ID sets.",
+  "source_sha256": {
+    "gpu_provenance.py": "74d45aa692d4ac5fe8f6d1ce26d16bd4ab5925085e19f283f5662e08baf28e07",
+    "test_gpu_evidence.py": "a20b3c5e324cda95def473fd3f059c5b090762d2819f5648765354ecbd1fd958"
+  },
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906",
+  "artifact_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/artifact-manifest.json",
+    "sha256": "9ec508b777af8b42f1e14cd97b8b18f51d4763f46ef0b4adcff43cf1323de6e1",
+    "files": 45
+  },
+  "checks": {
+    "original-review-red": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/original-review-red-finished.json",
+      "sha256": "b071701b86437e5a3ba5b5d9c6b15dd382c72a39058c2cb4cfe6f46e2b732aa8",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/f10-eccf56b7/replay-retained-findings.py"
+      ],
+      "exit_code": 0
+    },
+    "targeted-red": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/targeted-red-finished.json",
+      "sha256": "5fccb51db76770a4169008fd7bfef4dea0d7a3d83cea38ee940cb5b0dfa62f15",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_gpu_evidence.py",
+        "-k",
+        "joins_all_intel"
+      ],
+      "exit_code": 1
+    },
+    "targeted-green": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/targeted-green-finished.json",
+      "sha256": "00a68b396519f85ba5d54893993368144ac4df77fe1ba95643e99ab787ac4728",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_gpu_evidence.py"
+      ],
+      "exit_code": 0
+    },
+    "final-python": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/final-python-finished.json",
+      "sha256": "9412d55bf26c9357c95dfe5c63d9a1ed1d2a405a644df24798ed009bd4ac630e",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0
+    },
+    "final-development": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/final-development-finished.json",
+      "sha256": "3bd3a11a445872259986246d7f08e820207e0fae3de226f29eb16601aba45de8",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--development-tests-only",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/development"
+      ],
+      "exit_code": 0
+    },
+    "final-ruff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/final-ruff-finished.json",
+      "sha256": "5815d2c8e23339024b22a6fccf8e7405935ac795058ad3d84f28593aa517f7aa",
+      "command": [
+        "ruff",
+        "check",
+        "scripts/system-pulse/gpu_provenance.py",
+        "scripts/system-pulse/test_gpu_evidence.py"
+      ],
+      "exit_code": 0
+    },
+    "final-format": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/final-format-finished.json",
+      "sha256": "7d6cc77420e896d0ea00028f5476f4f5db8c7f818075d8e380a39d31929df597",
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "scripts/system-pulse/gpu_provenance.py",
+        "scripts/system-pulse/test_gpu_evidence.py"
+      ],
+      "exit_code": 0
+    },
+    "final-diff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/final-diff-finished.json",
+      "sha256": "ba3b6c42ede9be1be643bec16968fbd6b0447517999b45ac7fd920140eebe0ea",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  },
+  "python_tests": 440,
+  "gpu_groups": {
+    "gpu-aggregate": 6,
+    "gpu-apple-capture": 5,
+    "gpu-arithmetic": 6,
+    "gpu-desktop": 8,
+    "gpu-evidence": 15,
+    "gpu-intel": 10,
+    "gpu-native": 7
+  },
+  "regression_cases": {
+    "incorrect_selected_device_id": "RED then GREEN",
+    "incorrect_selected_driver": "RED then GREEN",
+    "incorrect_secondary_device_id": "RED then GREEN",
+    "incorrect_secondary_driver": "RED then GREEN",
+    "reordered_devices": "PASS",
+    "reordered_devices_and_render_alias": "PASS",
+    "restored_intel_controls": "PASS",
+    "existing_complete_apple_controls": "PASS"
+  },
+  "regression_test_unchanged_after_red": true,
+  "native_sources_unchanged": {
+    "scripts/system-pulse/gpu_apple_native.m": "09031de48c6ec922e2d9ff3955b8487aea54373d58cd3de907dfe4f72479bb0e",
+    "scripts/system-pulse/gpu_apple_ax.m": "1b949eb681a63fd729501f79222622cec053232e43aaa048eb6a5aa5d3d1fcef",
+    "scripts/system-pulse/gpu_intel_workload.c": "9b0cfbb25e3d144c287f9a5d595e41012bc07f1f10bdf0b5d887c9ed4eba2cb0"
+  },
+  "post_commit_replay": {
+    "script": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/replay-current-source.py",
+    "sha256": "be5f28faa80695ea2f9416f20d4ce7fc3dfc4ed9f4dfd2fdc5463657eb60504a",
+    "result_path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-identity-correction-20260906/committed-review-replays/results.json",
+    "contract": "Refresh only source files/build/report bindings; retain all non-source originals. Intel/Apple controls accept; original identity attacks reject at the independent inventory join."
+  },
+  "limitations": [
+    "No native jobs needed; verified native helpers and production Rust remain unchanged.",
+    "Intel hardware matrix, Apple GUI, Task 5 pool issue and original Linux preservation failures remain pending.",
+    "Only independent review can declare SPEC pass."
+  ],
+  "self_audit": {
+    "1": "Mapped the recorded remaining F10 cause and preserved closed F1-F9.",
+    "2": "Changed only the existing inventory comparison and focused tests/documentation.",
+    "3": "Reused the authoritative identity projection; added no second model or dependency.",
+    "4": "Joined every native metadata provider through replayed discovery to independent identity.",
+    "5": "Retained original failure evidence and exact rejection context.",
+    "6": "Kept native originals and review reports immutable; copied only into fresh external paths.",
+    "7": "Preserved process/hash reconciliation and restored fixtures after each attack.",
+    "8": "Kept bounded discovery and process lifetimes; no new native work or allocation path.",
+    "9": "Tracked reproduction, correction, verification and delivery with one active step.",
+    "10": "Passed targeted RED/GREEN, 440 Python tests and all seven groups with 57 GPU tests.",
+    "11": "Hardware accuracy, independent SPEC verdict and original Linux preservation remain unaccepted.",
+    "12": "Followed the authorized narrow correction and informed the orchestrator of evidence.",
+    "13": "Audited all 14 rules after verification; no known identity-join revision remains.",
+    "14": "Explained the identity mismatch, fix and limits in plain language."
+  }
+}

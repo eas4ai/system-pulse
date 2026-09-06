@@ -352,6 +352,122 @@ def originals_fixture(root):
 
 
 class EvidenceTests(unittest.TestCase):
+    def test_full_ingestion_joins_all_intel_providers_to_independent_devices(self):
+        from gpu_test_fixtures import full_host_fixture
+        from gpu_evidence import verify_host
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            fixture = full_host_fixture(root)
+            paths = fixture["paths"]
+            expected = verify_host(root, fixture["inputs"])
+            self.assertIn(8, expected[1])
+            originals = {name: path.read_bytes() for name, path in paths.items()}
+
+            def every_host(change):
+                for name in ("host.json", "host-metadata.stdout"):
+                    value = json.loads(originals[name])
+                    change(value)
+                    fixture["put"](name, value)
+                for name in (
+                    "native-inventory.json",
+                    "inventory.stdout",
+                    "native-observer.jsonl",
+                    "observer.stdout",
+                ):
+                    rows = [json.loads(line) for line in originals[name].splitlines()]
+                    for row in rows:
+                        change(row["host"])
+                    fixture["lines"](name, rows)
+                fixture["sync"]()
+
+            def restore():
+                for name, value in originals.items():
+                    paths[name].write_bytes(value)
+                fixture["sync"]()
+                self.assertEqual(verify_host(root, fixture["inputs"]), expected)
+
+            for pci in ("0000:01:00.0", "0000:02:00.0"):
+                for field in ("device_id", "driver"):
+
+                    def corrupt(host):
+                        provider = next(
+                            row
+                            for row in host["devices"]
+                            if row["identity"]["pci"] == pci
+                        )
+                        identity = provider["identity"]
+                        physical = identity["physical_path"]
+                        if field == "device_id":
+                            identity["device_id"] = "0x9999"
+                            host["sysfs"]["files"][physical + "/device"]["data_hex"] = (
+                                b"0x9999".hex()
+                            )
+                        else:
+                            identity["driver"] = "i915"
+                            host["sysfs"]["resolved"][physical + "/driver"] = (
+                                "/sys/bus/pci/drivers/i915"
+                            )
+                            provider["drm"]["strings"]["name"] = b"i915".hex()
+                            for entry in provider["module"].values():
+                                entry["path"] = entry["path"].replace("/xe/", "/i915/")
+
+                    every_host(corrupt)
+                    # Only the nested provider originals change; the independently
+                    # measured physical devices and completed workload stay intact.
+                    self.assertEqual(
+                        paths["workload.stdout"].read_bytes(),
+                        originals["workload.stdout"],
+                    )
+                    for name in ("native-inventory.json", "native-observer.jsonl"):
+                        current = [
+                            json.loads(line)
+                            for line in paths[name].read_bytes().splitlines()
+                        ]
+                        before = [
+                            json.loads(line) for line in originals[name].splitlines()
+                        ]
+                        for a, b in zip(current, before):
+                            a.pop("host")
+                            b.pop("host")
+                            self.assertEqual(a, b)
+                    with (
+                        self.subTest(pci=pci, field=field),
+                        self.assertRaises(AssertionError),
+                    ):
+                        verify_host(root, fixture["inputs"])
+                    restore()
+
+            for add_alias in (False, True):
+
+                def reorder(host):
+                    if add_alias:
+                        provider = next(
+                            row
+                            for row in host["devices"]
+                            if row["identity"]["pci"] == "0000:01:00.0"
+                        )
+                        identity = provider["identity"]
+                        alias = "/sys/class/drm/renderD128"
+                        fs = host["sysfs"]
+                        fs["directories"]["/sys/class/drm"]["names"].append(
+                            "renderD128"
+                        )
+                        fs["resolved"][alias + "/device"] = identity["physical_path"]
+                        fs["files"][alias + "/dev"] = dict(
+                            data_hex=b"226:128".hex(), start=1, end=2
+                        )
+                        identity["aliases"].append(dict(path=alias, dev="226:128"))
+                    host["devices"].reverse()
+                    host["sysfs"]["directories"]["/sys/class/drm"]["names"].reverse()
+                    for row in host["devices"]:
+                        row["identity"]["aliases"].reverse()
+
+                every_host(reorder)
+                with self.subTest(reordered_aliases=add_alias):
+                    self.assertEqual(verify_host(root, fixture["inputs"]), expected)
+                restore()
+
     def test_full_intel_and_apple_provenance_mutations_are_hash_consistent(self):
         from gpu_test_fixtures import full_host_fixture
         from gpu_evidence import verify_host
