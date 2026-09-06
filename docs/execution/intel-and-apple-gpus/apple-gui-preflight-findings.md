@@ -38,6 +38,34 @@ field census, geometry or interaction evidence. Task 4 needs window-rooted,
 cycle-aware readiness and bounded observation. No labels are inferred from the
 failed tree or from diagnostic publication.
 
+### Locked desktop found during follow-up
+
+The Task 4 helper subsequently detected a real element cycle rather than merely
+excluding an unexpected role. `AXWindows` returned success and one entry, but
+that entry had role `AXApplication`, zero geometry and a repeated native identity.
+The console inventory reported `CGSSessionScreenIsLocked=Yes`, with the lock
+timestamp at **11:15:01 UTC**. The user was still logged in and on the console.
+
+A bounded basic AppKit window produced the same unusable window entry and cycle.
+This control supports treating the locked desktop as an environmental blocker;
+it does not establish a GPUI accessibility regression. The GPUI attempts still
+published populated application diagnostics. Those diagnostics cannot replace
+visible desktop observations. GUI retries stopped pending a user unlock; no
+login, trust, debugger permission or security setting was changed.
+
+The AppKit control was **not** clean lifecycle evidence: its application emitted
+**500 missing-pool warnings**, despite a main `@autoreleasepool`. Its compiler
+and accessibility helper had empty stderr. The two retained GPUI follow-ups
+emitted 552 and 551 application warnings. These remain separate, unfiltered
+failures. The control does not identify every warning's origin or relax F1.
+
+Root verified the size and SHA-256 of all 81 transferred originals. The
+[control and session record](apple-locked-desktop-probe.json) retains the manifest,
+selected artifact hashes, exact process outcomes and limitations. Compiler 5117,
+control application 5122 and helper 5127 exited zero and were reaped; GPUI apps
+5021 and 5068 were terminated by their wrappers and reaped. F2 still needs a fresh
+usable desktop capture and the required native interactions.
+
 ## Cleanup and limits
 
 Probe PID 4375 exited zero and was reaped. Root requested SIGTERM for task-owned

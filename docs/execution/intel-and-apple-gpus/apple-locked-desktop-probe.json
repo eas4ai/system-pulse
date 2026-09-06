@@ -1,0 +1,185 @@
+{
+  "status": "Unsuccessful native desktop preparation; not acceptance",
+  "verified_at_utc": "2026-09-06T13:09:03.115432+00:00",
+  "external_artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4",
+  "transfer_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/transferred-20260906T130700Z.json",
+    "sha256": "47f9f458a97acc36f8f301e2a8ff9855b687397c9fd77fdc3266d841f84e53d4",
+    "records_verified": 81
+  },
+  "console": {
+    "screen_locked": true,
+    "on_console": true,
+    "login_done": true,
+    "screen_locked_unix_seconds": 1788693301,
+    "screen_locked_utc": "2026-09-06T11:15:01Z"
+  },
+  "control": {
+    "app_pid": 5122,
+    "app_exit_code": 0,
+    "app_reaped": true,
+    "compiler_pid": 5117,
+    "compiler_exit_code": 0,
+    "compiler_reaped": true,
+    "helper_pid": 5127,
+    "helper_exit_code": 0,
+    "helper_reaped": true,
+    "window_query_return": 0,
+    "window_count": 1,
+    "complete": false,
+    "first_role": "AXApplication",
+    "first_frame": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "cycle_observed": true,
+    "missing_pool_warnings": 500
+  },
+  "gpui_attempts": [
+    {
+      "directory": "ax-20260906T125900Z",
+      "cleanup": {
+        "pid": 5021,
+        "exit_code": -15,
+        "reaped": true,
+        "proc_exists": false
+      },
+      "missing_pool_warnings": 552,
+      "diagnostic": {
+        "original": {
+          "path": "ax-20260906T125900Z/latest.json",
+          "bytes": 2926190,
+          "sha256": "283f41830516e80c09543916842abe0b425f95b9d1f7e6e7be9307347dcd109b"
+        },
+        "application_pid": 5021,
+        "rendered_entries": 6618,
+        "native_visibility_evidence": false
+      }
+    },
+    {
+      "directory": "ax-20260906T130600Z",
+      "cleanup": {
+        "pid": 5068,
+        "exit_code": -15,
+        "reaped": true,
+        "proc_exists": false
+      },
+      "missing_pool_warnings": 551,
+      "diagnostic": {
+        "original": {
+          "path": "ax-20260906T130600Z/latest.json",
+          "bytes": 2929414,
+          "sha256": "6ee491f5f6a91d9a466e36f0beda6117ee4af8d7d4a88c87ad8ce9558c29ff9b"
+        },
+        "application_pid": 5068,
+        "rendered_entries": 6626,
+        "native_visibility_evidence": false
+      }
+    }
+  ],
+  "limitations": [
+    "Both the AppKit control and GPUI returned unusable window geometry while the console was locked; this does not establish a GPUI accessibility regression.",
+    "The AppKit control itself emitted 500 missing-pool warnings despite its main autorelease scope; it is not a clean lifecycle control.",
+    "No screen unlock, trust, login, debugger-permission or security setting was changed.",
+    "GUI retries stopped pending user unlock; corrected application lifecycle and visible interactions remain unverified."
+  ],
+  "originals": [
+    {
+      "path": "appkit-control-20260906T131100Z/app.stderr",
+      "bytes": 87771,
+      "sha256": "0a54985f91c78be749724d870152518b8df48e22f7dd668d007a5706131ba58c"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/app.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/ax-finished.json",
+      "bytes": 638,
+      "sha256": "6e8c1c1d78561e69e0a69649fe545b5533caccefd26eaa4594e63fa13fdc6f73"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/ax-started.json",
+      "bytes": 199,
+      "sha256": "fd0a9e6ca3d15361aa5a8ebd4dc55c73f6efd0ddeb94ad959a3c7de4df74f706"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/ax.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/ax.stdout",
+      "bytes": 15656,
+      "sha256": "6ddf800ba0719ab5be04179022da13c750bfa1daaaa0d2a2c2e1eb5c2b8afc97"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/cleanup.json",
+      "bytes": 45,
+      "sha256": "9dbf83bb44863ef49e7772cc1e4b749812ea933071f3e76df8bbcf741de31460"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/compile-finished.json",
+      "bytes": 871,
+      "sha256": "9b71959495c59f6cf8b9fb7a09ce64ba8d0aafd6fb209cf101630390a524cac5"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/compile-started.json",
+      "bytes": 390,
+      "sha256": "b2c0662b388faec6c6a71c9f999d0338db2e8cf8984903ee3d125120fc1ace3c"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/compile.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/compile.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/control",
+      "bytes": 51864,
+      "sha256": "495c77e5a3e372261500fb8ac20dcdd7791c1e9439cade1a4e4d53b5caadffbd"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/control.m",
+      "bytes": 791,
+      "sha256": "116613eb076f14340d7915379b127e2049d1182ff8cf9b2631326e7e6a298f5b"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/launcher.py",
+      "bytes": 2074,
+      "sha256": "786d2de7143797d44649ee5e48e0668a12859b003926814581eabdafe91552ef"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/ssh.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "appkit-control-20260906T131100Z/ssh.stdout",
+      "bytes": 1417,
+      "sha256": "59a0cf6894c30594d2a645a03a26b0d64cddc1304743d45b49bf71279a9fdf32"
+    },
+    {
+      "path": "console-session-20260906T130700Z/command.json",
+      "bytes": 140,
+      "sha256": "945120b040d5f7d9974bb3c75777eb01e6f34b6f91685acd8b3df3308b33f0f0"
+    },
+    {
+      "path": "console-session-20260906T130700Z/ioreg.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "console-session-20260906T130700Z/ioreg.stdout",
+      "bytes": 90061,
+      "sha256": "ad827971a8e252b93a14bb1ad990f9890ddf783d8633a08ebb3aafe29ca56095"
+    }
+  ]
+}
