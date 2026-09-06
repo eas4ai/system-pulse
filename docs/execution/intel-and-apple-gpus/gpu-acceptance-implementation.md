@@ -1,6 +1,6 @@
 # GPU acceptance implementation
 
-Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The focused correction at `f1e78133` passed independent [specification re-review](gpu-acceptance-q1-spec-review.md); [quality re-review](gpu-acceptance-q1-quality-review.md) found Q1-R1: a stream-close error can replace the original execution error, despite successful cleanup. The Q1-R1 correction at `a0ff315c` passed independent [specification re-review](gpu-acceptance-q1-r1-spec-review.md); quality re-review remains pending. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
+Task 4 is complete at `a0ff315c` after independent [specification](gpu-acceptance-q1-r1-spec-review.md) and [quality](gpu-acceptance-quality-pass.md) reviews. F1–F10, Q1 and Q1-R1 are closed, with no actionable Task 4 findings. All 444 Python methods passed; independent reviewers each passed the 61 GPU methods and actual process-failure probes. Task 5 remains in progress: the Mac application/dispatcher pool correction, original Linux freshness failures and Intel integrated/discrete plus Apple GUI hardware reports remain unfinished.
 
 ## Work tracking
 
@@ -9,7 +9,9 @@ Independent SPEC review closed F1–F10 and the initial Q1 lifecycle correction.
 - Done: reproduced Q1-R1 and corrected first-error priority during stream cleanup. One unchanged regression method moved from nine failing subcases to all twelve cases passing.
 - Done: all 444 Python methods, seven GPU development groups (61 methods), affected lint/format, whitespace and unchanged-source checks.
 - Done: all 14 self-audit rules and retained source/lifecycle evidence for the focused correction.
-- In progress: Task 4 quality re-review; independent Q1-R1 specification review passed.
+- Done: independent specification and quality reviews of the committed correction; all Task 4 findings are closed.
+
+The [implementation plan](../../plans/intel-and-apple-gpus.md) tracks Task 5 as the single item in progress.
 
 ## Implementation
 

@@ -1,0 +1,1144 @@
+{
+  "schema": 1,
+  "verdict": "QUALITY PASS",
+  "assessment": "APPROVED for scoped Task 4 acceptance helper implementation",
+  "candidate": "a0ff315c54155ddbfa7a618c168bb86d0b65c008",
+  "baseline": "f1e781337d0e32f30c7800795864395dd96e2028",
+  "original_complete_quality_baseline": "50ea29d6653d42ceafc8b3f246b9a18ae721b612",
+  "source_head": "882c5e877cfcb1d30ae0e2e661385f7bbbf2ac39",
+  "q1": "CLOSED",
+  "q1_r1": "CLOSED",
+  "findings": [],
+  "critical_findings": [],
+  "important_findings": [],
+  "minor_findings": [],
+  "closure": {
+    "location": "scripts/system-pulse/gpu_capture.py:99,133,135",
+    "explanation": "Each acquired stream is owned explicitly; first execution error is captured before independent reverse-order close attempts. Later close errors are secondary, or the first close error is primary if no execution error occurred. Bounded process cleanup/reaping, reporting and in-memory concurrent cancellation remain intact.",
+    "independent_probes": {
+      "previous": {
+        "mode": "previous",
+        "implementation": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/prior-gpu_capture.py",
+        "cases": [
+          {
+            "case": "normal",
+            "seconds": 0.016613268991932273,
+            "expected_primary_type": "NoneType",
+            "actual_primary_type": "NoneType",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [],
+            "actual_secondary": [],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6694,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6694,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "print(\"normal completion\")"
+              ],
+              "exit_code": 0,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [],
+              "started_ns": 802012615202775,
+              "finished_ns": 802012631626594,
+              "started_unix_ns": 1788717778522608346,
+              "finished_unix_ns": 1788717778539032430,
+              "deadline_ns": 802013615202775,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "da311720d5b09cf4095aadfcfee20d6d898992ae2c8f5613c0cc1c8872e1c370",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "normal_record_valid": true,
+            "passes_contract": true
+          },
+          {
+            "case": "close_only",
+            "seconds": 0.016433982062153518,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": false,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stdout close"
+            ],
+            "actual_secondary": [],
+            "secondary_errors_match": false,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6695,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6695,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "print(\"normal completion\")"
+              ],
+              "exit_code": 0,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [],
+              "started_ns": 802012631879157,
+              "finished_ns": 802012648174303,
+              "started_unix_ns": 1788717778539284490,
+              "finished_unix_ns": 1788717778555580020,
+              "deadline_ns": 802013631879157,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "da311720d5b09cf4095aadfcfee20d6d898992ae2c8f5613c0cc1c8872e1c370",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": false
+          },
+          {
+            "case": "start_and_both_closes",
+            "seconds": 0.021143396967090666,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": false,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stderr close",
+              "[Errno 5] secondary stdout close"
+            ],
+            "actual_secondary": [],
+            "secondary_errors_match": false,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6696,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6696,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "from pathlib import Path; import time; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/previous/start_and_both_closes/ready').write_text(\"ready\"); time.sleep(2)"
+              ],
+              "exit_code": -15,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [
+                "SIGTERM"
+              ],
+              "started_ns": 802012648378196,
+              "finished_ns": 802012669358504,
+              "started_unix_ns": 1788717778555783441,
+              "finished_unix_ns": 1788717778576764519,
+              "deadline_ns": 802013648378196,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": false
+          },
+          {
+            "case": "sigint_and_both_closes_reporting",
+            "seconds": 0.12142060499172658,
+            "expected_primary_type": "KeyboardInterrupt",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": false,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stderr close",
+              "[Errno 5] secondary stdout close",
+              "[Errno 28] secondary completion recording"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "completion recording",
+                "type": "OSError",
+                "message": "[Errno 28] secondary completion recording"
+              }
+            ],
+            "secondary_errors_match": false,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6698,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6698,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "from pathlib import Path; import time; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/previous/sigint_and_both_closes_reporting/ready').write_text(\"ready\"); time.sleep(2)"
+              ],
+              "exit_code": -15,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [
+                "SIGTERM"
+              ],
+              "started_ns": 802012669920731,
+              "finished_ns": 802012791062505,
+              "started_unix_ns": 1788717778577326138,
+              "finished_unix_ns": 1788717778698469665,
+              "deadline_ns": 802013669920731,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": false
+          },
+          {
+            "case": "partial_acquisition",
+            "seconds": 0.000291854958049953,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": false,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stdout close"
+            ],
+            "actual_secondary": [],
+            "secondary_errors_match": false,
+            "close_order": [
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [],
+            "unrelated_sentinel_running": true,
+            "capture_record": null,
+            "passes_contract": false
+          },
+          {
+            "case": "both_closes_hash_failure",
+            "seconds": 0.016498017008416355,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": false,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stdout close",
+              "[Errno 5] secondary log hashing"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "log hashing",
+                "type": "OSError",
+                "message": "[Errno 5] secondary log hashing"
+              }
+            ],
+            "secondary_errors_match": false,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6699,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6699,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "print(\"normal completion\")"
+              ],
+              "exit_code": 0,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [],
+              "started_ns": 802012791844413,
+              "finished_ns": 802012808129164,
+              "started_unix_ns": 1788717778699249679,
+              "finished_unix_ns": 1788717778715535244,
+              "deadline_ns": 802013791844413,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": false
+          }
+        ],
+        "violations": 5,
+        "sentinel_pid": 6693,
+        "sentinel_reaped": true,
+        "sentinel_group_absent": true
+      },
+      "candidate": {
+        "mode": "candidate",
+        "implementation": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_capture.py",
+        "cases": [
+          {
+            "case": "normal",
+            "seconds": 0.016307367011904716,
+            "expected_primary_type": "NoneType",
+            "actual_primary_type": "NoneType",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [],
+            "actual_secondary": [],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6718,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6718,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "print(\"normal completion\")"
+              ],
+              "exit_code": 0,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [],
+              "started_ns": 802012880326112,
+              "finished_ns": 802012896415665,
+              "started_unix_ns": 1788717778787731767,
+              "finished_unix_ns": 1788717778803821710,
+              "deadline_ns": 802013880326112,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "da311720d5b09cf4095aadfcfee20d6d898992ae2c8f5613c0cc1c8872e1c370",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "normal_record_valid": true,
+            "passes_contract": true
+          },
+          {
+            "case": "close_only",
+            "seconds": 0.016375257051549852,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stdout close"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "stdout close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stdout close"
+              }
+            ],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6719,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6719,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "print(\"normal completion\")"
+              ],
+              "exit_code": 0,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [],
+              "started_ns": 802012896722312,
+              "finished_ns": 802012912878080,
+              "started_unix_ns": 1788717778804127817,
+              "finished_unix_ns": 1788717778820284267,
+              "deadline_ns": 802013896722312,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "da311720d5b09cf4095aadfcfee20d6d898992ae2c8f5613c0cc1c8872e1c370",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": true
+          },
+          {
+            "case": "start_and_both_closes",
+            "seconds": 0.02101479610428214,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stderr close",
+              "[Errno 5] secondary stdout close"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "stderr close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stderr close"
+              },
+              {
+                "stage": "stdout close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stdout close"
+              }
+            ],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6720,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6720,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "from pathlib import Path; import time; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/candidate/start_and_both_closes/ready').write_text(\"ready\"); time.sleep(2)"
+              ],
+              "exit_code": -15,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [
+                "SIGTERM"
+              ],
+              "started_ns": 802012913170108,
+              "finished_ns": 802012934019287,
+              "started_unix_ns": 1788717778820575378,
+              "finished_unix_ns": 1788717778841425235,
+              "deadline_ns": 802013913170108,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": true
+          },
+          {
+            "case": "sigint_and_both_closes_reporting",
+            "seconds": 0.12129828496836126,
+            "expected_primary_type": "KeyboardInterrupt",
+            "actual_primary_type": "KeyboardInterrupt",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stderr close",
+              "[Errno 5] secondary stdout close",
+              "[Errno 28] secondary completion recording"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "stderr close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stderr close"
+              },
+              {
+                "stage": "stdout close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stdout close"
+              },
+              {
+                "stage": "completion recording",
+                "type": "OSError",
+                "message": "[Errno 28] secondary completion recording"
+              }
+            ],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6722,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6722,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "from pathlib import Path; import time; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/candidate/sigint_and_both_closes_reporting/ready').write_text(\"ready\"); time.sleep(2)"
+              ],
+              "exit_code": -15,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [
+                "SIGTERM"
+              ],
+              "started_ns": 802012934581939,
+              "finished_ns": 802013055658922,
+              "started_unix_ns": 1788717778841987559,
+              "finished_unix_ns": 1788717778963065217,
+              "deadline_ns": 802013934581939,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "KeyboardInterrupt"
+            },
+            "passes_contract": true
+          },
+          {
+            "case": "partial_acquisition",
+            "seconds": 0.00023408501874655485,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stdout close"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "stdout close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stdout close"
+              }
+            ],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [],
+            "unrelated_sentinel_running": true,
+            "capture_record": null,
+            "passes_contract": true
+          },
+          {
+            "case": "both_closes_hash_failure",
+            "seconds": 0.016235901974141598,
+            "expected_primary_type": "OSError",
+            "actual_primary_type": "OSError",
+            "original_exception_preserved": true,
+            "expected_secondary_messages": [
+              "[Errno 5] secondary stdout close",
+              "[Errno 5] secondary log hashing"
+            ],
+            "actual_secondary": [
+              {
+                "stage": "stdout close",
+                "type": "OSError",
+                "message": "[Errno 5] secondary stdout close"
+              },
+              {
+                "stage": "log hashing",
+                "type": "OSError",
+                "message": "[Errno 5] secondary log hashing"
+              }
+            ],
+            "secondary_errors_match": true,
+            "close_order": [
+              "stderr",
+              "stdout"
+            ],
+            "close_order_correct": true,
+            "all_handles_closed": true,
+            "children": [
+              {
+                "pid": 6723,
+                "reaped": true,
+                "group_exists": false
+              }
+            ],
+            "unrelated_sentinel_running": true,
+            "capture_record": {
+              "role": "probe",
+              "pid": 6723,
+              "command": [
+                "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+                "-c",
+                "print(\"normal completion\")"
+              ],
+              "exit_code": 0,
+              "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+              "timed_out": false,
+              "reaped": true,
+              "proc_exists": false,
+              "cleanup_signals": [],
+              "started_ns": 802013056278486,
+              "finished_ns": 802013072325521,
+              "started_unix_ns": 1788717778963683692,
+              "finished_unix_ns": 1788717778979731375,
+              "deadline_ns": 802014056278486,
+              "stdout": "probe.stdout",
+              "stderr": "probe.stderr",
+              "environment": {
+                "OBJC_DEBUG_MISSING_POOLS": "YES"
+              },
+              "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "capture_error": "OSError"
+            },
+            "passes_contract": true
+          }
+        ],
+        "violations": 0,
+        "sentinel_pid": 6717,
+        "sentinel_reaped": true,
+        "sentinel_group_absent": true
+      }
+    }
+  },
+  "verification": {
+    "gpu_methods": 61,
+    "development_groups": {
+      "gpu-aggregate": 6,
+      "gpu-apple-capture": 5,
+      "gpu-arithmetic": 6,
+      "gpu-desktop": 8,
+      "gpu-evidence": 15,
+      "gpu-intel": 10,
+      "gpu-native": 11
+    },
+    "native_methods": 11,
+    "prior_native_methods": 10,
+    "new_native_methods": 1,
+    "new_native_subcases": 12,
+    "independent_paired_probe_cases": 6,
+    "prior_probe_violations": 5,
+    "candidate_probe_violations": 0,
+    "checks": [
+      {
+        "name": "gpu-python",
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/system-pulse",
+          "-p",
+          "test_gpu_*.py",
+          "-v"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 180,
+        "exit_code": 0,
+        "seconds": 13.842130899429321,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/gpu-python.stdout",
+            "bytes": 17071,
+            "sha256": "53aebd8229c1cdb3de8f297c792e6d4f44a85e790ff294ffcf04a950a408846b"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/gpu-python.stderr",
+            "bytes": 10060,
+            "sha256": "a5fafa5ba4791ce322b59c842a4ffdd630adc4560c3ae2a2ba6debd8cef231b3"
+          }
+        }
+      },
+      {
+        "name": "development-cli",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_verify.py",
+          "--development-tests-only",
+          "--output",
+          "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/development"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 180,
+        "exit_code": 0,
+        "seconds": 14.540783405303955,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/development-cli.stdout",
+            "bytes": 2162,
+            "sha256": "bbdcaeed66d4835e4196e8d19a91e5f7686292d20430d19dbd59f3b556adfe07"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/development-cli.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "ruff-lint",
+        "command": [
+          "ruff",
+          "check",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_host_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_sources.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_linux_ax.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_originals.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_provenance.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_samples.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_test_fixtures.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_verify.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_workload.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_aggregate.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_intel.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_native.py"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.016242265701293945,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/ruff-lint.stdout",
+            "bytes": 19,
+            "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/ruff-lint.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "ruff-format",
+        "command": [
+          "ruff",
+          "format",
+          "--check",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_host_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_sources.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_linux_ax.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_originals.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_provenance.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_samples.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_test_fixtures.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_verify.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_workload.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_aggregate.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_intel.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_native.py"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.016208648681640625,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/ruff-format.stdout",
+            "bytes": 27,
+            "sha256": "37c44e3c541f952bfef4bd8a6bef640b548ef20e76674da09517c0dfcb0e512e"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/ruff-format.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "native-format",
+        "command": [
+          "clang-format",
+          "--dry-run",
+          "--Werror",
+          "scripts/system-pulse/gpu_apple_native.m",
+          "scripts/system-pulse/gpu_apple_ax.m",
+          "scripts/system-pulse/gpu_intel_workload.c"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06422805786132812,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/native-format.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/native-format.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "verify-help",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_verify.py",
+          "--help"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06413149833679199,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/verify-help.stdout",
+            "bytes": 621,
+            "sha256": "4a5c80eeb3a9125f76ee18ce1df309b14931606e60079188eceed3c98b6cd2d2"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/verify-help.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "capture-help",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_host_capture.py",
+          "--help"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06458568572998047,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/capture-help.stdout",
+            "bytes": 701,
+            "sha256": "0d8f044287e8424540f38b4bf1e2bc13224d4e9b090514bf49cb0488be9faf5f"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/capture-help.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "intel-help",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_intel_capture.py",
+          "--help"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06480240821838379,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/intel-help.stdout",
+            "bytes": 543,
+            "sha256": "f8576843586517d483c25004359861f598174ff1d555e5942b50b5f7dc58bd8d"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/intel-help.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "diff-check",
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "f1e781337d0e32f30c7800795864395dd96e2028",
+          "a0ff315c54155ddbfa7a618c168bb86d0b65c008"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.00423884391784668,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/diff-check.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/diff-check.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      }
+    ],
+    "probe_commands": [
+      {
+        "command": [
+          "python3",
+          "-B",
+          "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/actual_close_probes.py",
+          "previous"
+        ],
+        "exit_code": 0,
+        "timeout": 15,
+        "seconds": 0.2647566250525415,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/previous-probes.stdout",
+            "bytes": 10553,
+            "sha256": "b2a52d8c923e0bf11ee37b71067272b8f56ae10e045de5cc3553fddfe35e9210"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/previous-probes.stderr",
+            "bytes": 243,
+            "sha256": "878fb0e92ee03d91c4bec01a9908032d9de227562cfbe4816033757d0115ddbf"
+          }
+        }
+      },
+      {
+        "command": [
+          "python3",
+          "-B",
+          "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/actual_close_probes.py",
+          "candidate"
+        ],
+        "exit_code": 0,
+        "timeout": 15,
+        "seconds": 0.26484567299485207,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/candidate-probes.stdout",
+            "bytes": 11563,
+            "sha256": "1c25f44cedbd9f4195909f305c0bf475c9e4a64a826b1865664ac09465f4ebfc"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/candidate-probes.stderr",
+            "bytes": 957,
+            "sha256": "4e7eb8894f2397774e37cafbc1169db9420edd7d0a81b7c5e8c6d2ca25e2977c"
+          }
+        }
+      }
+    ]
+  },
+  "integrity": {
+    "source_record": "source-after.json",
+    "source_files_unchanged": 60,
+    "committed_inputs_count": 711,
+    "clean_worktree": true,
+    "no_marker": true,
+    "changed_source_files": [
+      "scripts/system-pulse/gpu_capture.py",
+      "scripts/system-pulse/test_gpu_native.py"
+    ],
+    "preserved_sources": {
+      "scripts/system-pulse/gpu_capture.py:CaptureChildren": "00fad0d9f0d6c802482c9466e405c9ee1d6fb92deafe81194568bdde6625ee2c",
+      "scripts/system-pulse/gpu_capture.py:clean_group": "095e64f8bcf0af6978aefec695af3a748987c32c24e69cef7cdae54a1c7861b4",
+      "scripts/system-pulse/gpu_capture.py:retain_errors": "0536b08be1717d52752f5b53ca8dd1a53ed4cabdb328b0eae81db2dca6cfe944",
+      "scripts/system-pulse/test_gpu_native.py:interrupt_cleanup_probe": "7784be20babb5d144184f333860dfa471252c0979d9b1bddf62e2aa1f36385a6",
+      "scripts/system-pulse/test_gpu_native.py:test_start_record_failure_reaps_children_and_preserves_original_error": "a0361d07603af9fd3d97fc2714b972a1f917f422279c5e3d2c2447b880659144",
+      "scripts/system-pulse/test_gpu_native.py:test_actual_interrupt_cleans_descendants_before_preserving_exception": "eac89a3da103592100968daf542933feda709c785f2d568b0a0510a0416d2bc3",
+      "scripts/system-pulse/test_gpu_native.py:test_concurrent_cleanup_keeps_ownership_when_start_record_disappears": "c2dee8114f60808ad9e091422a2b3e915b457c8f4727041e84cc866c4f6e0c3e",
+      "scripts/system-pulse/test_gpu_native.py:test_workload_requires_matching_device_completed_commands_and_bounds": "8d9352a2210750152c93171f146f2ae3edb68d7bc62aa14649b03ed9de07e8c1",
+      "scripts/system-pulse/test_gpu_native.py:test_owned_process_deadline_retains_logs_and_reaps": "e77baf1617666c5c18a92e4200412ad4329c74945adfafd95eb08b37fc02f7ce",
+      "scripts/system-pulse/test_gpu_native.py:test_owned_process_cleans_descendants_after_leader_exits": "e9ceca990a7b367f0861e647be34a065134cf4444020443fa000e9f9ce358656",
+      "scripts/system-pulse/test_gpu_native.py:test_ax_cycles_truncation_and_zero_geometry_are_not_display": "e7aaf16ef089c9830fe13a98d3a735c64f53c41a38b7b097c81a1c38d91c6842",
+      "scripts/system-pulse/test_gpu_native.py:test_concurrent_owned_child_is_stopped_when_capture_fails": "3a677df5799f9d55af2261e21c4979e691245fecb30a3ebebb99b3018578eed3",
+      "scripts/system-pulse/test_gpu_native.py:test_locked_or_unavailable_console_never_allows_gui_capture": "bbd832c31f59181977e11a1582b5d694e649e8d930707965156813835fe191fe",
+      "scripts/system-pulse/test_gpu_native.py:test_native_hashing_does_not_require_python_311": "9ce5d027dc519d5ba62f4c75b7c8b47821fecf4ea725f868ff5943940359b5da"
+    },
+    "frozen_manifests": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/artifact-manifest.json",
+        "sha256": "48e5439f0ce77cbb67cb9caa384aa8f8feff8eee1d223fa29cfd0a079caea42b",
+        "files_verified": 51
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-f1e78133/artifact-manifest.json",
+        "sha256": "b3da56a35e972cf230835b2952512eee308da18aadf79cc4a00d72f1a75ec4af",
+        "files_verified": 55
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/post-commit-artifact-manifest.json",
+        "sha256": "fb1dd4392444c421346aa00e0624f2fd58a13a9b828a8216332e8dd7e3cf7973",
+        "files_verified": 83
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/artifact-manifest.json",
+        "sha256": "65a26320265d4a80a56d9cc59d88f08d99b27f020b742d129dafc35dc292e325",
+        "files_verified": 95
+      }
+    ]
+  },
+  "strengths": [
+    "Simple explicit resource ownership and first-error handling",
+    "Both stream closures attempted independently",
+    "Unchanged bounded direct-child/group cleanup and in-memory stop events",
+    "Real-handle tests inject from actual close and preserve unrelated processes"
+  ],
+  "not_run": [
+    "Full 444-method Python suite",
+    "Rust checks",
+    "Native compilation",
+    "Native GPU workload",
+    "Desktop interactions",
+    "Remote Mac commands",
+    "Full Linux preservation",
+    "Cairn acceptance"
+  ],
+  "limits": [
+    "Original Linux 2.0-second freshness failures remain unresolved",
+    "Task 5 Mac application pool correction remains pending",
+    "Intel integrated/discrete and Apple GUI hardware reports remain incomplete",
+    "No BIOS/reboot/unlock activity"
+  ],
+  "self_audit": {
+    "rules_reviewed": 14,
+    "details": "review.md",
+    "review_complete": true,
+    "implementation_quality_approved": true,
+    "hardware_or_commitment_approval": false
+  },
+  "artifacts": {
+    "root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c",
+    "review": "review.md",
+    "manifest": "artifact-manifest.json",
+    "manifest_checksum": "artifact-manifest.sha256"
+  },
+  "root_verified_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-r1-a0ff315c/artifact-manifest.json",
+    "sha256": "9f16725a0301a547923381adb5393f0d225bac0ec0c1d318c5b4f7b892ffe7cc",
+    "bytes": 14556,
+    "files": 87,
+    "root_verified_unix_ns": 1788718087728430076
+  }
+}
