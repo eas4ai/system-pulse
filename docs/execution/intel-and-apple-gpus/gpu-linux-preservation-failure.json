@@ -1586,5 +1586,28 @@
       "No current-source acceptance claim from historical binary or launch-directory HEAD.",
       "No demonstrated production source cause or justification to relax navigation recovery guards."
     ]
+  },
+  "post_reveal_python_budget_failure": {
+    "status": "FAIL",
+    "stage": "mandatory Python suite",
+    "native_reached": false,
+    "aggregate_budget_seconds": 30,
+    "unchanged_complete_suite_tests": 444,
+    "prior_passing_seconds": 34.043404115,
+    "new_supporting_passing_seconds": 34.239934242,
+    "verification_records": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-preservation-3ab14ff0-20260906-root-failure-verification.json",
+        "bytes": 6628,
+        "sha256": "33dee4b18b29b50ab9c034432b23d817ca5475d3ee5fe90793b1c4e292e59522"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-20260906/root-verification.json",
+        "bytes": 1780,
+        "sha256": "f2a3cf6741efb8ecd519b529177db7d4fec9e9964f5ba3f76b6e07364d4729ef"
+      }
+    ],
+    "finding": "linux-python-budget-finding.md",
+    "original_freshness_failures_resolved": false
   }
 }

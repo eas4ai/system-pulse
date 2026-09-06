@@ -294,3 +294,15 @@ an orderly application-close pass. The historical application binary and
 harness remain identified by their original byte hashes; the launch-directory
 HEAD is explicitly qualified and does not establish current-source acceptance.
 All earlier failures remain retained and unresolved.
+
+## Post-correction aggregate budget failure
+
+After the process-reveal correction passed both source reviews, the next full
+preservation attempt stopped before native replay. Its expanded 444-test Python
+suite exceeded the aggregate runner's 30-second deadline. The retained Task 4
+successful suite had taken 34.043 seconds; a new unchanged-suite timing diagnostic
+passed all 444 tests in 34.240 seconds. The [recorded finding](linux-python-budget-finding.md)
+requires correcting only the complete suite's execution budget while preserving
+mandatory coverage and every native freshness, navigation and comparison bound.
+The failed attempt and timing diagnostic remain separately classified; neither
+supplies a native result or resolves the original freshness failures.
