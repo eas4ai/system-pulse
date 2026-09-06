@@ -1,6 +1,7 @@
 # Pending process reveal: identity/index race
 
-Status: Source finding recorded before correction; executable falsifier pending.
+Status: Recorded before correction; executable falsifier subsequently confirmed.
+Correction `3ab14ff0` awaits independent specification and quality review.
 
 Independent read-only investigation of the retained
 [writer-only navigation failure](gpu-linux-preservation-failure.md#writer-only-syscall-diagnostic)
@@ -60,3 +61,15 @@ This is focused Task 5 work under GPU-007 and the preserved LIVE selection and
 scrolling contracts. One implementer owns the correction, followed by independent
 specification review and then fresh quality review. The Mac pool finding,
 original Linux freshness failures and missing hardware evidence remain open.
+
+## Executable follow-up
+
+The [correction record](linux-pending-process-reveal-correction.md) retains the
+actual pre-fix failure: the top-edge reordering case lost the instantiated
+selected row while the unchanged-order control passed (one failed, one passed;
+exit 101). An earlier bottom-edge case passed and is retained as a distinct
+characterization. The correction then passed both cases and four focused
+behavior tests, with 67 application tests passing. Root independently verified
+26 artifact hashes, the 12 recorded check logs, both committed source-file hashes
+and the original production-file hash. Those integrity checks do not substitute
+for the pending independent reviews or native preservation.
