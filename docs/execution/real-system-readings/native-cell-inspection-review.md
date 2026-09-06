@@ -44,3 +44,27 @@ labels without reference advancement, displacement after three sequence
 observations, detached-cache rejection, and eight malformed or foreign-session
 evidence cases. No live capture or build ran. QUALITY review and actual
 native/aggregate acceptance remain pending.
+
+## First quality review
+
+Status: open Important performance finding. Inspection keeps fresh_panel
+true after wheel dispatch and therefore repeats full panel discovery during
+intermediate observations despite having validated local membership links.
+
+An independent probe exercised the actual horizontal helper, recovery, and
+subsequent ordinary cell lookup with explicit synthetic costs: 1.0 second
+per ordinary discovery and 0.6 seconds per strict panel discovery. The
+candidate used two ordinary scans and four strict discoveries, failing the
+five-second deadline at 5.4 seconds. An in-memory correction using established
+local links after dispatch used three strict discoveries and passed at 4.8
+seconds. These costs are illustrative, not measured native timings.
+
+Allow fresh_panel to force discovery until first dispatch completes, then
+permit validated local links. Preserve required discovery for preparation,
+final proof, missing paths, and invalid membership. Do not change deadlines
+or independent metric proof.
+
+The reviewer passed 196 native tests, scoped Ruff lint/format, and diff checks
+on the candidate, plus integrated metric/recovery and success-path probes.
+The in-memory correction passed 93 navigation/inspection regressions. No
+source edit, live capture, build, or Cairn mutation occurred during review.
