@@ -60,3 +60,23 @@ Neither prospective assessment changed source or ran tests, live captures,
 or builds. The new [decision](../../decisions/recover-a-pending-navigation-batch-after-proven-endpoint-exit.md)
 is recorded before implementation; implementation and its reviews remain
 pending. The original failed capture remains failed.
+
+## First implementation specification review
+
+Candidate: `69ac6897f49fef802f27a30999986343ec33d7d0`.
+Status: open P1 terminal revalidation coherence finding. Review is still
+checking the remaining contract; corrective work follows the complete verdict.
+
+An independent actual-navigate probe used fresh one-second publications
+and a synthetic 1.1-second full global discovery cost. Terminal revalidation
+compares a current publication with the frame from before the terminal
+read and a second full discovery. Each attempt therefore rejects otherwise
+valid evidence. Three terminal ENOENT observations and seven discoveries
+exhausted the original deadline without recovery. A zero-cost control passed.
+
+Bracket a fresh complete native eligibility observation after the required
+full discovery. Preserve independent terminal provenance, current uniqueness,
+strict selection/membership checks, target survival, absence and reuse guards,
+and original deadlines. Do not require the global discovery itself to fit
+one collector publication or use helper microbenchmarks as end-to-end proof.
+These costs are a synthetic reproduction, not measured native timings.
