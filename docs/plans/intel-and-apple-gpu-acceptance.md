@@ -15,7 +15,7 @@ Status: Agreed acceptance contract 2026-09-06. The [implementation plan](intel-a
 - [x] Confirm GPU-001 through GPU-009 and their falsifiers.
 - [x] Record the reviewed backend/source decisions, write the executable implementation plan and mechanism declarations, then move the roadmap's Current line to `intel-and-apple-gpus`.
 
-Preparation and activation were completed on 2026-09-06 in commit `66ea860f`. Intel Linux implementation and focused tests are in progress. Read-only [Apple source probes](../execution/intel-and-apple-gpus/apple-source-probe.md) establish source availability; they do not establish production collector accuracy or native acceptance.
+Preparation and activation were completed on 2026-09-06 in commit `66ea860f`. Intel Linux code and focused tests passed independent specification and quality reviews at collector commit `507a12c0`; native Intel evidence remains pending. Apple implementation is in progress. Read-only [Apple source probes](../execution/intel-and-apple-gpus/apple-source-probe.md) establish source availability; they do not establish production collector accuracy or native acceptance.
 
 ## Implementation sequence and owners
 

@@ -13,13 +13,13 @@
 - [x] Confirm the GPU contract and acceptance matrix with the developer.
 - [x] Verify keyed SSH to the M1 Pro MacBook and clean user-authorized stale Cargo outputs.
 - [x] Commit activation, source decision, plan and mechanism declaration; verify spec/link checks and the actual Cairn action (`66ea860f`).
-- [ ] Implement and review Task 1: Intel Linux collection.
+- [x] Implement and review Task 1: Intel Linux collection.
 - [ ] Implement and review Task 2: Apple Silicon collection.
 - [ ] Implement and review Task 3: memory semantics and integration.
 - [ ] Implement and review Task 4: independent GPU acceptance.
 - [ ] Run Task 5: actual native/aggregate evidence and final review.
 
-Task 1, Intel Linux collection, is the single item currently in progress. A task remains open until its code and required verification/reviews are complete. Native hardware evidence is separate from deterministic adapter tests.
+Task 2, Apple Silicon collection, is the single item currently in progress. Task 1 closed at collector commit `507a12c0` after independent [specification](../execution/intel-and-apple-gpus/intel-spec-review.md) and [quality](../execution/intel-and-apple-gpus/intel-quality-review.md) reviews. A task remains open until its code and required verification/reviews are complete. Native hardware evidence is separate from deterministic adapter tests.
 
 ## Task 1: Intel Linux collection
 
@@ -27,7 +27,7 @@ Task 1, Intel Linux collection, is the single item currently in progress. A task
 
 **Preserve:** AMD dispatch and IDs, NVML behavior, process/network/volume collection, the existing snapshot JSON fields, and the single sampling service.
 
-- [ ] Add this host-level discovery regression to `collectors/src/host/tests.rs`, using its existing `Fixture`, `HostCollector::rooted` and `collect_at` helpers, and run it before production edits:
+- [x] Add this host-level discovery regression to `collectors/src/host/tests.rs`, using its existing `Fixture`, `HostCollector::rooted` and `collect_at` helpers, and run it before production edits:
 
 ```rust
 #[test]
@@ -67,13 +67,13 @@ rtk cargo test --locked -p system-pulse-collectors --lib host::tests::intel_pci_
 
 Expected baseline: the assertion fails because the Intel monitor is absent; exactly one test executes.
 
-- [ ] Implement PCI-backed discovery for both drivers. Deduplicate card/render nodes by canonical physical device, preserve nonsequential GT/region identities, and keep the monitor present when an optional field fails. Do not infer integrated/discrete classification from VGA class, card number or a marketing-name table.
-- [ ] Read actual/requested i915 and xe GT frequencies separately. Retain source MHz integers and convert to hertz. Enumerate attributable hwmon temperatures, power/energy and fan readings with their original labels and units; do not relabel package sensors as GPU-die readings.
-- [ ] Add bounded read-only i915/xe device-query decoding for memory regions and topology. Check returned buffer sizes, counts, reserved/layout requirements and each API return before dereferencing. Device-local memory used/total needs valid permission semantics; integrated system-region totals do not become GPU allocation.
-- [ ] Add documented whole-device/engine counter sampling where exposed. Retain previous/current raw counters and query windows, invalidate on failed reads or reset, normalize engine groups by their evidenced capacity and retain exact scope. Avoid duplicate-client accumulation or frequency-as-usage fallbacks. Record inaccessible PMU permissions and unsupported interfaces independently from missing implementation.
-- [ ] Add the complete Intel cases from the [acceptance matrix](intel-and-apple-gpu-acceptance.md). Include reordered same-name devices, aliases, multiple GTs/regions, permission errors, malformed responses, failed recovery and nonuniform intervals. Each new behavior gets an observed failing test before its implementation.
-- [ ] Run the collector suite, collector formatting and strict Clippy. Commit the implementation and source/capability record with exact paths; retain commands and actual counts.
-- [ ] Obtain independent specification review for GPU-001/002/004/006/007 and this task boundary, then independent quality review. Resolve findings through the same implementer before closure. Do not claim Intel hardware acceptance from fixtures or the AMD development host.
+- [x] Implement PCI-backed discovery for both drivers. Deduplicate card/render nodes by canonical physical device, preserve nonsequential GT/region identities, and keep the monitor present when an optional field fails. Do not infer integrated/discrete classification from VGA class, card number or a marketing-name table.
+- [x] Read actual/requested i915 and xe GT frequencies separately. Retain source MHz integers and convert to hertz. Enumerate attributable hwmon temperatures, power/energy and fan readings with their original labels and units; do not relabel package sensors as GPU-die readings.
+- [x] Add bounded read-only i915/xe device-query decoding for memory regions and topology. Check returned buffer sizes, counts, reserved/layout requirements and each API return before dereferencing. Device-local memory used/total needs valid permission semantics; integrated system-region totals do not become GPU allocation.
+- [x] Add documented whole-device/engine counter sampling where exposed. Retain previous/current raw counters and query windows, invalidate on failed reads or reset, normalize engine groups by their evidenced capacity and retain exact scope. Avoid duplicate-client accumulation or frequency-as-usage fallbacks. Record inaccessible PMU permissions and unsupported interfaces independently from missing implementation.
+- [x] Add the complete Intel cases from the [acceptance matrix](intel-and-apple-gpu-acceptance.md). Include reordered same-name devices, aliases, multiple GTs/regions, permission errors, malformed responses, failed recovery and nonuniform intervals. Each new behavior gets an observed failing test before its implementation.
+- [x] Run the collector suite, collector formatting and strict Clippy. Commit the implementation and source/capability record with exact paths; retain commands and actual counts.
+- [x] Obtain independent specification review for GPU-001/002/004/006/007 and this task boundary, then independent quality review. Resolve findings through the same implementer before closure. Do not claim Intel hardware acceptance from fixtures or the AMD development host.
 
 ## Task 2: Apple Silicon collection
 
