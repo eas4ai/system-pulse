@@ -4,6 +4,7 @@ import ast
 import copy
 import inspect
 from pathlib import Path
+from types import SimpleNamespace
 import unittest
 from unittest.mock import Mock, patch
 
@@ -504,6 +505,120 @@ class InspectionWiringTests(unittest.TestCase):
         inspection = context["inspection"]
         self.assertEqual(inspection.reference["source"], "child-right.json")
         self.assertEqual(inspection.acknowledgement, self.ack)
+
+
+class PreExitInspectionTests(unittest.TestCase):
+    def setUp(self):
+        self.f = navigation.NavigationTests()
+        self.f.setUp()
+        self.f.displaced_endpoint()
+        f = self.f
+        self.inspection = native_replay.ProcessInspection(f.native, f.endpoint)
+        self.inspection.acknowledge(
+            {
+                "target": f.endpoint,
+                "index": 5,
+                "publication": {
+                    "application_pid": 500,
+                    "sequence": 1,
+                    "render_revision": 1,
+                    "accepted_unix_ns": 0,
+                },
+            }
+        )
+        # The final successful visible metric is the inspection reference.
+        self.inspection.reference["source"] = "child-right.json"
+        self.reference = copy.deepcopy(self.inspection.reference)
+        self.ack = copy.deepcopy(self.inspection.acknowledgement)
+        f.native.sequences = Mock(side_effect=lambda: setattr(f.clock, "now", 1))
+
+    def replay_boundary(self):
+        """Execute the real post-metric sequence wait and pre-shutdown proof."""
+        source = Path(native_replay.__file__)
+        tree = ast.parse(source.read_text())
+        for node in ast.walk(tree):
+            body = getattr(node, "body", [])
+            if not isinstance(body, list):
+                continue
+            for end, statement in enumerate(body):
+                if not (
+                    isinstance(statement, ast.Assign)
+                    and any(
+                        isinstance(target, ast.Name) and target.id == "before_seq"
+                        for target in statement.targets
+                    )
+                ):
+                    continue
+                start = max(
+                    i
+                    for i in range(end)
+                    if isinstance(body[i], ast.Expr)
+                    and isinstance(body[i].value, ast.Call)
+                    and isinstance(body[i].value.func, ast.Attribute)
+                    and body[i].value.func.attr == "sequences"
+                )
+                context = dict(
+                    vars(native_replay),
+                    app=self.f.native,
+                    target=self.f.endpoint,
+                    inspection=self.inspection,
+                    time=self.f.clock,
+                )
+                exec(
+                    compile(
+                        ast.Module(body=body[start:end], type_ignores=[]),
+                        str(source),
+                        "exec",
+                    ),
+                    context,
+                )
+                return
+        self.fail("controlled-child pre-exit boundary missing")
+
+    def test_detached_cached_selected_target_cannot_override_current_competitor(self):
+        f = self.f
+        cached = cells.Node(f.clock, f.endpoint, role="table row")
+        cached.get_state_set = lambda: SimpleNamespace(
+            contains=lambda state: state == "selected"
+        )
+        f.native.cache[f.endpoint] = cached
+        f.selection = [f.visible_ids[0]]
+        with self.assertRaisesRegex(AssertionError, "inspection selection"):
+            self.replay_boundary()
+        f.native.sequences.assert_called_once_with()
+        f.native.wheel.assert_not_called()
+        self.assertEqual(self.inspection.reference, self.reference)
+        self.assertEqual(self.inspection.acknowledgement, self.ack)
+
+    def test_pre_exit_one_row_shift_recovers_with_original_deadline_and_reference(self):
+        f = self.f
+        f.ids.remove(f.endpoint)
+        f.ids.insert(4, f.endpoint)
+        f.visible_ids = f.ids[5:8]
+        try:
+            self.replay_boundary()
+        except TimeoutError as error:
+            self.fail(
+                f"pre-exit proof cannot reveal displaced acknowledged child: {error}"
+            )
+        f.native.sequences.assert_called_once_with()
+        f.native.wheel.assert_called_once_with([400, 360], down=False, deadline=6)
+        self.assertEqual(self.inspection.reference, self.reference)
+        self.assertEqual(self.inspection.acknowledgement, self.ack)
+        self.assertFalse(any(event[0] == "key" for event in f.events))
+        proof = next(e[1] for e in f.events if e[0] == "inspection-row-reveal-proof")
+        self.assertEqual(proof["reference"], self.reference)
+        self.assertEqual(proof["deadline"], 6)
+        self.assertLess(f.clock.now, 6)
+
+    def test_pre_exit_rejects_shift_without_valid_reference_slot(self):
+        f = self.f
+        self.inspection.reference["index"] = 2
+        before = copy.deepcopy(self.inspection.reference)
+        with self.assertRaises(TimeoutError):
+            self.replay_boundary()
+        f.native.wheel.assert_not_called()
+        self.assertEqual(self.inspection.reference, before)
 
 
 if __name__ == "__main__":

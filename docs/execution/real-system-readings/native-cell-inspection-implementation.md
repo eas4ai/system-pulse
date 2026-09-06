@@ -45,8 +45,11 @@ Preparation returns no cell and does not call `process_cell`. Normal panel, row,
 and cell discovery runs again afterward. All eight preliminary comparisons and
 all eight visible comparisons remain, with their existing independent labels,
 frame coherence, geometry, and clipping checks. Generic callers and held-input
-exercises do not receive preparation callbacks. The later generic `sequences()`
-and `acknowledge()` calls before controlled-child shutdown are unchanged.
+exercises do not receive preparation callbacks. After the existing `sequences()`
+wait, the controlled-child pre-exit check uses that same strict inspection proof
+with a frozen last successful metric reference and the existing five-second
+deadline. Generic acknowledgement, `stop_child`, and strict exit verification
+remain unchanged.
 
 Initial metric discovery retains its original 15-second deadline outside the
 comparison bracket. Preparation and lookup share that same deadline. Horizontal
@@ -59,15 +62,15 @@ TDD runs observed failures for missing acknowledgement/callback/inspection APIs,
 the one-row displacement, the missing prior-ACK entry guard, and missing recovered
 publication evidence before implementing those behaviors. The final checks passed:
 
-- `test_native_inspection.py`: 18 tests, including actual replay wiring through
+- `test_native_inspection.py`: 21 tests, including actual replay wiring through
   sixteen comparisons, success-only reference advancement, original deadline
   propagation, and callback return-value rejection without recursive lookup.
-- `test_native*.py`: 193 tests. Inspection reuses existing behavioral guard tests
+- `test_native*.py`: 196 tests. Inspection reuses existing behavioral guard tests
   for invalid spans, incomplete/stale observations, duplicate membership,
   pre-dispatch invalidation, and rejected provisional permission. Separate cases
   cover identity loss/PID reuse, wrong or missing ACK, competing selection, and
   journal work consuming the physical dispatch deadline.
-- Full Python suite: 297 tests passed in 14.055 seconds with:
+- Full Python suite: 300 tests passed in 14.175 seconds with:
 
 ```sh
 rtk proxy env TMPDIR=/home/shawn/workspace2/task-manager-artifacts/tmp /home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
@@ -76,6 +79,21 @@ rtk proxy env TMPDIR=/home/shawn/workspace2/task-manager-artifacts/tmp /home/lin
 Scoped `ruff check` and `ruff format --check` passed for `native_driver.py`,
 `native_replay.py`, `test_native_cells.py`, and `test_native_inspection.py`.
 `git diff --check` passed. Documentation links were checked locally.
+
+## Connected pre-exit correction
+
+After candidate `b7dd5553`, the separately authorized SPEC finding extended this
+same inspection proof to the controlled-child pre-exit boundary. RED tests
+executed the actual replay statements and reproduced both reported failures:
+a detached cached selected target incorrectly overrode a current selected
+competitor, and a legitimate one-row displacement exhausted the original deadline.
+
+The correction replaces only that generic acknowledgement call with a deadline
+assignment followed by the existing frozen inspection preparation. It adds no
+metadata loop or new selection mechanism. GREEN tests prove both failures are
+fixed, the five-second deadline begins after the existing sequence wait, an invalid
+reference slot still fails, and neither acknowledgement nor the last successful
+metric reference advances during this proof.
 
 ## Limits and self-audit
 

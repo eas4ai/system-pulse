@@ -884,7 +884,8 @@ def main():
             )
             inspection.metric(target + f":cell:{column}", name)
         app.sequences()
-        app.acknowledge(target, time.monotonic() + 5)
+        deadline = time.monotonic() + 5
+        inspection.preparation()(deadline)
         before_seq = app.frame()["snapshot"]["sequence"]
         stop_child(child)
         app.wait_for_process_exit(target, before_seq, time.monotonic() + 5)
