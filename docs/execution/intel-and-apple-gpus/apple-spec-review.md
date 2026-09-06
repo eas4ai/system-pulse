@@ -56,3 +56,32 @@ No source edit, commit, SSH session, workload or UI action occurred during the
 independent review. These checks establish specification compliance and evidence
 consistency for this collector task. External native accuracy, other Apple
 hardware, sleep/wake, UI/persistence and aggregate acceptance remain pending.
+
+## Autorelease correction impact review
+
+Status: SPEC impact PASS on 2026-09-06, after recorded quality finding F1.
+No actionable specification regressions; quality re-review may proceed.
+
+The same independent specification reviewer inspected the correction from
+`df2300f2` to `2a40f069ef3b98856fa7a5ff32e004d48c383fa4`, with evidence HEAD
+`f0b2aa8ad3dd3ccd1395ba3836051016821a5cd8`. The pool is the first local in each
+Apple capture. It drains after capture locals on normal return, early return
+and unwinding. Explicitly retained IOReport/CF objects and owned Rust snapshot
+data remain valid across the drain. Field, identity, arithmetic, availability,
+memory and SMC policy contracts are unchanged.
+
+Independent checks: 96 Linux collector tests passed; all 31 collector/lock
+working files matched corrected source; source trees and lock matched the
+evidence commit; all 42 correction artifact hashes and sizes matched. Original
+native logs contained 46 passing tests, including actual weak-object liveness
+and retained-value regressions. Both collector diagnostic stderr files were
+empty; all 57 separate helper warnings identified workload PID 3666.
+
+Independent arithmetic reconstructed 253 measured values and checked 16 guarded
+temperatures across 40 corrected frames. All 11 sensor identities remained
+stable. The [correction record](apple-autorelease-correction.md) links the
+[original evidence](apple-autorelease-correction-evidence.json).
+
+This read-only impact review performed no edits, commits or native actions.
+F1 closure remains pending quality re-review. Long-term leak rate, external
+accuracy, GUI behavior, other hardware and aggregate acceptance are not claimed.
