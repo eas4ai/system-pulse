@@ -68,3 +68,29 @@ Task 4's mechanism review and the pending
 [Mac lifetime correction](../../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md)
 do not resolve this Linux result. The [implementation plan](../../plans/intel-and-apple-gpus.md)
 keeps complete preservation and native hardware evidence in Task 5.
+
+## Uninstrumented focused follow-up
+
+Root subsequently ran the existing focused process replay without publication
+tracing, using the same application binary hash as the first failed run.
+Originals are retained at `gpu-task4/root-untraced-process-20260906`. It failed
+during process navigation at an accepted frame age of 2.170598230 seconds,
+against the unchanged two-second limit. The earlier held-Up check retained
+53 observations without errors, with maximum age 1.588976673 seconds. The
+freshness failure therefore recurred after passing the earlier failure point.
+
+The retained stale receipt identifies snapshot sequence 159, render revision
+158 and the exact single-read observation. Reading took 756.548678 ms; parsing
+took 18.923204 ms. The opened file had device/inode `66318/222695170`, while
+the pathname check before the age decision saw `66318/222695171`. This proves
+that the pathname referred to a different file by the check. It does not
+establish that replacement's contents or freshness, why the read took that
+long, or a cause in the application. Do not reread to erase the rejected
+observation or change its freshness limit.
+
+The outer replay PID 2285479 exited 1 within its 420-second deadline and was
+reaped with no surviving process group. Failure cleanup terminated application
+PID 2285620 with exit -15 and confirmed its absence; private transport PID
+2285609 exited zero and was absent. No root-owned native job remains from this
+attempt. Both uninstrumented failures remain failed. The observed read boundary
+is a lead for further diagnosis, not a demonstrated performance correction.
