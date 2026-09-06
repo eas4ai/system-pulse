@@ -24,8 +24,10 @@ The retained AX probe separately emitted **two warnings from PID 4375**. Its
 lifetimes need correction in the planned Task 4 helper. App and helper failures
 remain separate. The [native comparison protocol](apple-native-comparison-protocol.md)
 requires diagnostic coverage and cannot accept these warnings as a clean result.
-Root is investigating calling stacks before choosing a correction. The acceptance
-implementer has been told to preserve rejection and continue independent tests.
+The [subsequent isolated investigation](apple-gui-pool-investigation.md) reproduced
+missing pools during GPUI construction and a background callback; full application
+correction remains pending. The acceptance implementer preserves rejection and
+continues independent tests.
 
 ## F2: generic AX traversal did not observe GPU content
 

@@ -1,0 +1,256 @@
+{
+  "status": "partial diagnosis; full application correction pending",
+  "source_commit": "4db68c71304d368977265e31ba365b121fcfd9f0",
+  "gpui_commit": "f66ed399cdde86092af8af3dc7b418abf45f37f8",
+  "foundation": {
+    "report": {
+      "source_sha256": "00ab191b66b588406e09d972079975bb6cbf22ac375746145789f2022f64592e",
+      "binary_sha256": "510a2d092ab39e9389614707cb3778aae86ce1c88b7c963e0736fb7e4e5cf329",
+      "steps": [
+        {
+          "name": "compile",
+          "command": [
+            "/usr/bin/xcrun",
+            "clang",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-framework",
+            "Foundation",
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-foundation-pool-probe.m",
+            "-o",
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-foundation-pool-probe/probe"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "unpooled",
+          "command": [
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-foundation-pool-probe/probe"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c",
+          "stderr_sha256": "b4274dbe74dddd87b3c683b303b57fbcd6bceac78a496122426a1a8f89c0c6c4"
+        },
+        {
+          "name": "pooled",
+          "command": [
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-foundation-pool-probe/probe",
+            "pooled"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c",
+          "stderr_sha256": "fa35bd8e0c2c0c2f1674f393bfc53ba4a8cb4bd08fdb808792a3b9b48684c81e"
+        }
+      ]
+    },
+    "source_path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe.m",
+    "local_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe",
+    "runtime_warning_counts": {
+      "compile": 0,
+      "unpooled": 3,
+      "pooled": 0
+    },
+    "artifacts": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/compile.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/compile.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/pooled.stderr",
+        "bytes": 26,
+        "sha256": "fa35bd8e0c2c0c2f1674f393bfc53ba4a8cb4bd08fdb808792a3b9b48684c81e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/pooled.stdout",
+        "bytes": 29,
+        "sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/report.json",
+        "bytes": 1648,
+        "sha256": "f76a21c743a6e6acee090c2d3bb164ebbf7bdd1e0b54f37cb3e23582b9617e0e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/unpooled.stderr",
+        "bytes": 587,
+        "sha256": "b4274dbe74dddd87b3c683b303b57fbcd6bceac78a496122426a1a8f89c0c6c4"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/foundation-pool-probe/unpooled.stdout",
+        "bytes": 29,
+        "sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c"
+      }
+    ]
+  },
+  "gpui": {
+    "report": {
+      "source_sha256": "a5bf1724dddabb948d9514b0246d0ecfd9e5767cadc994f8360fa6c7ff950881",
+      "gpui_platform_rlib": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui_platform-33568cd5005678c6.rlib",
+      "gpui_platform_sha256": "f30b6b4fbe42d6ed2bd485c631eaae676384f2c54363fa7983af60588541c131",
+      "binary_sha256": "b5b5f1b0780605eb663eebb54cb765a85f51c87da16d08c95b7954795119f5ec",
+      "steps": [
+        {
+          "name": "compile",
+          "command": [
+            "/Users/shawnmcallister/.cargo/bin/rustc",
+            "--edition=2024",
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-gpui-pool-probe.rs",
+            "-L",
+            "dependency=/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps",
+            "--extern",
+            "gpui_platform=/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui_platform-33568cd5005678c6.rlib",
+            "-o",
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-gpui-pool-probe-2/probe"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "b9847815abe6e1b90382c4571ca0b1394fa1bb3bba55c9ce802280aa2459c426"
+        },
+        {
+          "name": "constructor-unpooled",
+          "command": [
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-gpui-pool-probe-2/probe",
+            "constructor-unpooled"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "f1b47592ec5d115e09579a5a0e8674aa5ad15cf783c0573ffd25af572be6ac95"
+        },
+        {
+          "name": "constructor-pooled",
+          "command": [
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-gpui-pool-probe-2/probe",
+            "constructor-pooled"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "808f022a411ada47829cd6cc924907e565f453bd997f3e46ad0bc404fcf624dc"
+        },
+        {
+          "name": "executor-unpooled",
+          "command": [
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-gpui-pool-probe-2/probe",
+            "executor-unpooled"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c",
+          "stderr_sha256": "b4c3b8a6309e2b55396c06da172b3306c776747194c24316d071bd7c55d22a31"
+        },
+        {
+          "name": "executor-pooled",
+          "command": [
+            "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-gpui-pool-probe-2/probe",
+            "executor-pooled"
+          ],
+          "exit_code": 0,
+          "stdout_sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c",
+          "stderr_sha256": "a70def5b36fce6bb74c94efa2a0789f137e06d9b83dde4e12ea19f03ad9f3262"
+        }
+      ]
+    },
+    "source_path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe.rs",
+    "local_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2",
+    "runtime_warning_counts": {
+      "compile": 7,
+      "constructor-unpooled": 24,
+      "constructor-pooled": 0,
+      "executor-unpooled": 1,
+      "executor-pooled": 0
+    },
+    "artifacts": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/compile.stderr",
+        "bytes": 1286,
+        "sha256": "b9847815abe6e1b90382c4571ca0b1394fa1bb3bba55c9ce802280aa2459c426"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/compile.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/constructor-pooled.stderr",
+        "bytes": 103,
+        "sha256": "808f022a411ada47829cd6cc924907e565f453bd997f3e46ad0bc404fcf624dc"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/constructor-pooled.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/constructor-unpooled.stderr",
+        "bytes": 4451,
+        "sha256": "f1b47592ec5d115e09579a5a0e8674aa5ad15cf783c0573ffd25af572be6ac95"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/constructor-unpooled.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/executor-pooled.stderr",
+        "bytes": 80,
+        "sha256": "a70def5b36fce6bb74c94efa2a0789f137e06d9b83dde4e12ea19f03ad9f3262"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/executor-pooled.stdout",
+        "bytes": 29,
+        "sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/executor-unpooled.stderr",
+        "bytes": 266,
+        "sha256": "b4c3b8a6309e2b55396c06da172b3306c776747194c24316d071bd7c55d22a31"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/executor-unpooled.stdout",
+        "bytes": 29,
+        "sha256": "e6d41a1a2654506ba00a40037a33ec014f57e13b0702f05bcc8796836051920c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/gpui-pool-probe-2/report.json",
+        "bytes": 2990,
+        "sha256": "141302094b72243b3b70652fa26a3de39d5a7d6ba26e61e73375d4b90d4ff333"
+      }
+    ]
+  },
+  "denied_debugger": {
+    "command": [
+      "/usr/bin/xcrun",
+      "lldb",
+      "--batch",
+      "-o",
+      "settings set auto-confirm true",
+      "-o",
+      "settings set target.env-vars OBJC_DEBUG_MISSING_POOLS=YES SYSTEM_PULSE_STATE_DIR=/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/integration-4db68c71-pool-trace-first/state",
+      "-o",
+      "breakpoint set --name objc_autoreleaseNoPool",
+      "-o",
+      "run",
+      "-o",
+      "thread backtrace --count 40",
+      "-o",
+      "process kill",
+      "-o",
+      "quit",
+      "--",
+      "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/system-pulse"
+    ],
+    "pid": 4462,
+    "exit_code": 1,
+    "reaped": true,
+    "timed_out": false,
+    "seconds": 9.117300458999999,
+    "log_sha256": "a4f586f6c0033af054d1c48c642c23209358b1e4382f34d80db3bb3d34091af6"
+  }
+}
