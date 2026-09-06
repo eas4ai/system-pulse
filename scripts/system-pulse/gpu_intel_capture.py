@@ -358,7 +358,7 @@ def anchor():
     return dict(monotonic_before_ns=before, monotonic_after_ns=after, unix_ns=wall)
 
 
-def capture_inventory(root=Path("/")):
+def capture_inventory(root=Path("/"), host=None):
     from gpu_intel_sources import (
         Sysfs,
         sysfs_fields,
@@ -449,8 +449,7 @@ def capture_inventory(root=Path("/")):
         pid=os.getpid(),
         devices=rows,
         sysfs=fs.record,
-        os_release=platform.release(),
-        machine=platform.machine(),
+        **({"host": host} if host is not None else {}),
     )
 
 
@@ -732,9 +731,12 @@ def normalize_observer(frame, inventory):
 
 def observe(count, interval, root):
     handles = {}
+    from gpu_provenance import linux_host
+
+    host = linux_host() if Path(root) == Path("/") else None
     try:
         for _ in range(count):
-            frame = capture_inventory(root)
+            frame = capture_inventory(root, host)
             frame["perf"] = []
             live = {
                 f["sensor_id"]: f
@@ -767,7 +769,17 @@ def main():
     parser.add_argument("--count", type=int, default=1)
     parser.add_argument("--interval-ms", type=int, default=100)
     parser.add_argument("--development-root", type=Path)
+    parser.add_argument("--host", action="store_true")
     args = parser.parse_args()
+    if args.host:
+        require(
+            args.development_root is None,
+            "native host metadata cannot use a development root",
+        )
+        from gpu_provenance import linux_host
+
+        print(json.dumps(linux_host()), flush=True)
+        return
     require(
         1 <= args.count <= 100000
         and 10 <= args.interval_ms <= 5000

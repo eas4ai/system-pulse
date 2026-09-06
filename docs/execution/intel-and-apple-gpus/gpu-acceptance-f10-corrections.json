@@ -1,0 +1,586 @@
+{
+  "status": "DONE_WITH_CONCERNS; F10 local correction, independent re-review required",
+  "finding": "F10",
+  "base_commit": "a866deb0d7cf38d0ea055ab656afffde137d4f6b",
+  "parent_at_delivery": "ea43adf08019e449a535a58e87d91317f260704a",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906",
+  "artifact_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906/f10-artifacts-manifest.json",
+    "sha256": "dc8b80ee6b19e2b77060291c2a1c82f75071ff95f9cc4aab76a0dfa769981275",
+    "files": 143
+  },
+  "source_sha256": {
+    "scripts/system-pulse/gpu_apple_native.m": "09031de48c6ec922e2d9ff3955b8487aea54373d58cd3de907dfe4f72479bb0e",
+    "scripts/system-pulse/gpu_evidence.py": "f194b4e5cd4a448f6b26ed4215f336a28049c02d3cd876cc98ef59ed2ece9c1c",
+    "scripts/system-pulse/gpu_host_capture.py": "b186443df5ad58ea1bf21ee745615f9237366a80b0ec0dbecf339a6347f6339f",
+    "scripts/system-pulse/gpu_intel_capture.py": "39d8229b04e4dae442f8c8de585b5b3ba61958976dcfa75a47a1afb90fe1e494",
+    "scripts/system-pulse/gpu_intel_workload.c": "9b0cfbb25e3d144c287f9a5d595e41012bc07f1f10bdf0b5d887c9ed4eba2cb0",
+    "scripts/system-pulse/gpu_originals.py": "628c948c2ffc8bdb882aea4dba7fecae7433a464b8b55bab49b8e740163956d5",
+    "scripts/system-pulse/gpu_provenance.py": "13b311cd910574aaeff98b28b7560953c08c2fc2510ff2c34ad03f67a42d1d73",
+    "scripts/system-pulse/gpu_test_fixtures.py": "69bfd644e0989f5d30855c289f3780fd5bd7500408f8e126ddde271feb69d350",
+    "scripts/system-pulse/test_gpu_evidence.py": "9b650a756d81d67636b4838327a6689c5d7748d129319883b869612c9cfaa791"
+  },
+  "checks": {
+    "final-python": {
+      "role": "final-python",
+      "pid": 3269505,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795241597397320,
+      "finished_ns": 795270219867495,
+      "started_unix_ns": 1788711007504802855,
+      "finished_unix_ns": 1788711036127275459,
+      "deadline_ns": 795361597397320,
+      "stdout": "final-python.stdout",
+      "stderr": "final-python.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "30069eb975c804c816eafa0d88cc3a5a717d04801f3e5a6854efb511b1fce380",
+      "stderr_sha256": "3fd2ba0752701f030c635092e5ce5902afc57d3aafad11867d2312c2cde87e47"
+    },
+    "final-development": {
+      "role": "final-development",
+      "pid": 3274440,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--development-tests-only",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906/development"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795270220274842,
+      "finished_ns": 795278350431895,
+      "started_unix_ns": 1788711036127680557,
+      "finished_unix_ns": 1788711044257839150,
+      "deadline_ns": 795390220274842,
+      "stdout": "final-development.stdout",
+      "stderr": "final-development.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "4c8884d0f0fb1c2ddd93b208ae13fd9408af7822ce8711cec8ef1f66ce182fd1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-ruff": {
+      "role": "final-ruff",
+      "pid": 3275756,
+      "command": [
+        "ruff",
+        "check",
+        "scripts/system-pulse/gpu_capture.py",
+        "scripts/system-pulse/gpu_linux_ax.py",
+        "scripts/system-pulse/gpu_workload.py",
+        "scripts/system-pulse/gpu_originals.py",
+        "scripts/system-pulse/gpu_arithmetic.py",
+        "scripts/system-pulse/gpu_intel_sources.py",
+        "scripts/system-pulse/gpu_intel_capture.py",
+        "scripts/system-pulse/gpu_intel_arithmetic.py",
+        "scripts/system-pulse/gpu_test_fixtures.py",
+        "scripts/system-pulse/gpu_verify.py",
+        "scripts/system-pulse/gpu_host_capture.py",
+        "scripts/system-pulse/gpu_desktop.py",
+        "scripts/system-pulse/gpu_samples.py",
+        "scripts/system-pulse/gpu_provenance.py",
+        "scripts/system-pulse/gpu_evidence.py",
+        "scripts/system-pulse/gpu_apple_capture.py",
+        "scripts/system-pulse/test_gpu_apple_capture.py",
+        "scripts/system-pulse/test_gpu_arithmetic.py",
+        "scripts/system-pulse/test_gpu_desktop.py",
+        "scripts/system-pulse/test_gpu_evidence.py",
+        "scripts/system-pulse/test_gpu_intel.py",
+        "scripts/system-pulse/test_gpu_native.py",
+        "scripts/system-pulse/test_gpu_aggregate.py"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "35b7bb862689c7ebb9ef5e95d0ec9a3ec11f2d04cbb38629c03ec3bfab222838",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795278350864509,
+      "finished_ns": 795278388041759,
+      "started_unix_ns": 1788711044258269923,
+      "finished_unix_ns": 1788711044295448713,
+      "deadline_ns": 795308350864509,
+      "stdout": "final-ruff.stdout",
+      "stderr": "final-ruff.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-python-format": {
+      "role": "final-python-format",
+      "pid": 3275801,
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "scripts/system-pulse/gpu_capture.py",
+        "scripts/system-pulse/gpu_linux_ax.py",
+        "scripts/system-pulse/gpu_workload.py",
+        "scripts/system-pulse/gpu_originals.py",
+        "scripts/system-pulse/gpu_arithmetic.py",
+        "scripts/system-pulse/gpu_intel_sources.py",
+        "scripts/system-pulse/gpu_intel_capture.py",
+        "scripts/system-pulse/gpu_intel_arithmetic.py",
+        "scripts/system-pulse/gpu_test_fixtures.py",
+        "scripts/system-pulse/gpu_verify.py",
+        "scripts/system-pulse/gpu_host_capture.py",
+        "scripts/system-pulse/gpu_desktop.py",
+        "scripts/system-pulse/gpu_samples.py",
+        "scripts/system-pulse/gpu_provenance.py",
+        "scripts/system-pulse/gpu_evidence.py",
+        "scripts/system-pulse/gpu_apple_capture.py",
+        "scripts/system-pulse/test_gpu_apple_capture.py",
+        "scripts/system-pulse/test_gpu_arithmetic.py",
+        "scripts/system-pulse/test_gpu_desktop.py",
+        "scripts/system-pulse/test_gpu_evidence.py",
+        "scripts/system-pulse/test_gpu_intel.py",
+        "scripts/system-pulse/test_gpu_native.py",
+        "scripts/system-pulse/test_gpu_aggregate.py"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "35b7bb862689c7ebb9ef5e95d0ec9a3ec11f2d04cbb38629c03ec3bfab222838",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795278391351996,
+      "finished_ns": 795278423764839,
+      "started_unix_ns": 1788711044298757374,
+      "finished_unix_ns": 1788711044331172158,
+      "deadline_ns": 795308391351996,
+      "stdout": "final-python-format.stdout",
+      "stderr": "final-python-format.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "37c44e3c541f952bfef4bd8a6bef640b548ef20e76674da09517c0dfcb0e512e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "final-native-format": {
+      "role": "final-native-format",
+      "pid": 3275846,
+      "command": [
+        "clang-format",
+        "--dry-run",
+        "--Werror",
+        "scripts/system-pulse/gpu_apple_native.m",
+        "scripts/system-pulse/gpu_apple_ax.m",
+        "scripts/system-pulse/gpu_intel_workload.c"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "8f167931377fb28e478b4d1f674a3dc63e71208a7aa6d1cf3ac424d4038c1ec7",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795278424207478,
+      "finished_ns": 795278489104607,
+      "started_unix_ns": 1788711044331612910,
+      "finished_unix_ns": 1788711044396511507,
+      "deadline_ns": 795308424207478,
+      "stdout": "final-native-format.stdout",
+      "stderr": "final-native-format.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "linux-compile": {
+      "role": "linux-compile",
+      "pid": 3222296,
+      "command": [
+        "/usr/bin/cc",
+        "-std=c11",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-O2",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_workload.c",
+        "-lvulkan",
+        "-o",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906/gpu-intel-workload"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "b5f1b773a7c733738352000c92a077dc5852a1a2fc6d836b1e411be1e9ec5f88",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 794881148773243,
+      "finished_ns": 794881365187697,
+      "started_unix_ns": 1788710647056178857,
+      "finished_unix_ns": 1788710647272594166,
+      "deadline_ns": 794911148773243,
+      "stdout": "linux-compile.stdout",
+      "stderr": "linux-compile.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "linux-host": {
+      "role": "linux-host",
+      "pid": 3234625,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_capture.py",
+        "--host"
+      ],
+      "exit_code": 1,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 794986128674750,
+      "finished_ns": 794986193451956,
+      "started_unix_ns": 1788710752036080230,
+      "finished_unix_ns": 1788710752100858445,
+      "deadline_ns": 795001128674750,
+      "stdout": "linux-host.stdout",
+      "stderr": "linux-host.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6ec8241c84ad5e6d3a5edfe4381ee96502014708ba2bc46114d3debc0ecb33b7"
+    },
+    "linux-os": {
+      "role": "linux-os",
+      "pid": 3238829,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-c",
+        "import sys,json;sys.path.insert(0,'scripts/system-pulse');from gpu_provenance import linux_os;print(json.dumps(linux_os()))"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795014779053198,
+      "finished_ns": 795014811428598,
+      "started_unix_ns": 1788710780686458705,
+      "finished_unix_ns": 1788710780718834790,
+      "deadline_ns": 795029779053198,
+      "stdout": "linux-os.stdout",
+      "stderr": "linux-os.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "d50f5b46373c02a265349b49d7d907eab09fd755ad380892da4245ee688b0cc9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "linux-metadata-unavailable": {
+      "role": "linux-metadata-unavailable",
+      "pid": 3238834,
+      "command": [
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906/gpu-intel-workload",
+        "--metadata",
+        "0000:01:00.0"
+      ],
+      "exit_code": 3,
+      "executable_sha256": "914b60d2e734ed80cdd907d56710aeb375d496240d9c45c458759f0f2e72f1a0",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795014811927577,
+      "finished_ns": 795014876452155,
+      "started_unix_ns": 1788710780719333000,
+      "finished_unix_ns": 1788710780783858863,
+      "deadline_ns": 795029811927577,
+      "stdout": "linux-metadata-unavailable.stdout",
+      "stderr": "linux-metadata-unavailable.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0a5302c5da7a7e1e29643016b0e056f6756d52eed44d09fa6f39fa7f0ee8b757"
+    },
+    "help-gpu-verify": {
+      "role": "help-gpu-verify",
+      "pid": 3297386,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795485592600692,
+      "finished_ns": 795485656978791,
+      "started_unix_ns": 1788711251500006073,
+      "finished_unix_ns": 1788711251564385339,
+      "deadline_ns": 795500592600692,
+      "stdout": "help-gpu-verify.stdout",
+      "stderr": "help-gpu-verify.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "4a5c80eeb3a9125f76ee18ce1df309b14931606e60079188eceed3c98b6cd2d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "help-gpu-host-capture": {
+      "role": "help-gpu-host-capture",
+      "pid": 3297393,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/gpu_host_capture.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795485657197028,
+      "finished_ns": 795485721384505,
+      "started_unix_ns": 1788711251564602608,
+      "finished_unix_ns": 1788711251628792058,
+      "deadline_ns": 795500657197028,
+      "stdout": "help-gpu-host-capture.stdout",
+      "stderr": "help-gpu-host-capture.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "0d8f044287e8424540f38b4bf1e2bc13224d4e9b090514bf49cb0488be9faf5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "help-gpu-intel-capture": {
+      "role": "help-gpu-intel-capture",
+      "pid": 3297394,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/gpu_intel_capture.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 795485721731233,
+      "finished_ns": 795485786115787,
+      "started_unix_ns": 1788711251629136611,
+      "finished_unix_ns": 1788711251693522811,
+      "deadline_ns": 795500721731233,
+      "stdout": "help-gpu-intel-capture.stdout",
+      "stderr": "help-gpu-intel-capture.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "f8576843586517d483c25004359861f598174ff1d555e5942b50b5f7dc58bd8d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "python_test_count": 439,
+  "gpu_test_counts": {
+    "aggregate": 6,
+    "apple_capture": 5,
+    "arithmetic": 6,
+    "desktop": 8,
+    "evidence": 14,
+    "intel": 10,
+    "native": 7
+  },
+  "full_ingestion_negative_mutations": 48,
+  "red": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906/red.stderr",
+    "sha256": "1135909162897dd371f367f8b071fa1ff834eb47dd2a9f09ef09b12e0e140d20"
+  },
+  "native_readiness": {
+    "status": "helper-readiness-only",
+    "source_hashes": {
+      "gpu_apple_native.m": "09031de48c6ec922e2d9ff3955b8487aea54373d58cd3de907dfe4f72479bb0e",
+      "gpu_apple_ax.m": "1b949eb681a63fd729501f79222622cec053232e43aaa048eb6a5aa5d3d1fcef"
+    },
+    "binary_sha256": "1b3dd3c3f3e1b097705d1e0258b45587a9843280acfd630bd989ef14cb0d3571",
+    "pids": {
+      "compile": 6978,
+      "metadata": 6984,
+      "inventory": 6987,
+      "workload": 6988
+    },
+    "registry_id": 4294969787,
+    "facts": {
+      "os": {
+        "system": "Darwin",
+        "release": "25.6.0",
+        "version": "Darwin Kernel Version 25.6.0: Sat Jul 11 15:26:21 PDT 2026; root:xnu-12377.161.13~4/RELEASE_ARM64_T6000",
+        "machine": "arm64",
+        "product": {
+          "BuildID": "82723F9A-8DF6-11F1-A663-42DAE4D1CE1A",
+          "ProductBuildVersion": "25G76",
+          "ProductCopyright": "1983-2026 Apple Inc.",
+          "ProductName": "macOS",
+          "ProductUserVisibleVersion": "26.6.1",
+          "ProductVersion": "26.6.1",
+          "iOSSupportVersion": "26.6"
+        }
+      },
+      "images": [
+        {
+          "api": "Metal",
+          "image_uuid": "E62B6554-CA42-3D79-B048-C5F6DEFA20CC",
+          "loaded_path": "/System/Library/Frameworks/Metal.framework/Versions/A/Metal",
+          "dylib_current_version_raw": 24446720,
+          "dylib_compatibility_version_raw": 65536,
+          "standalone_api_version": null,
+          "version_limitation": "No independent runtime API version query; owning OS and loaded image build retained"
+        },
+        {
+          "api": "IOKit",
+          "image_uuid": "93FF2D40-D3DB-37A6-A827-8C8947B0BDCF",
+          "loaded_path": "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit",
+          "dylib_current_version_raw": 18022400,
+          "dylib_compatibility_version_raw": 65536,
+          "standalone_api_version": null,
+          "version_limitation": "No independent runtime API version query; owning OS and loaded image build retained"
+        },
+        {
+          "api": "IOReport",
+          "image_uuid": "68CCF67B-1C66-30C0-9135-00BA5B75586F",
+          "loaded_path": "/usr/lib/libIOReport.dylib",
+          "dylib_current_version_raw": 65536,
+          "dylib_compatibility_version_raw": 65536,
+          "standalone_api_version": null,
+          "version_limitation": "No independent runtime API version query; owning OS and loaded image build retained"
+        },
+        {
+          "api": "HID",
+          "image_uuid": "93FF2D40-D3DB-37A6-A827-8C8947B0BDCF",
+          "loaded_path": "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit",
+          "dylib_current_version_raw": 18022400,
+          "dylib_compatibility_version_raw": 65536,
+          "standalone_api_version": null,
+          "version_limitation": "No independent runtime API version query; owning OS and loaded image build retained"
+        },
+        {
+          "api": "SMC",
+          "image_uuid": "93FF2D40-D3DB-37A6-A827-8C8947B0BDCF",
+          "loaded_path": "/System/Library/Frameworks/IOKit.framework/Versions/A/IOKit",
+          "dylib_current_version_raw": 18022400,
+          "dylib_compatibility_version_raw": 65536,
+          "standalone_api_version": null,
+          "version_limitation": "No independent runtime API version query; owning OS and loaded image build retained"
+        }
+      ],
+      "devices": [
+        {
+          "registry_id": 4294969787,
+          "metal_class": "AGXG13XDevice",
+          "bundle_path": "/System/Library/Extensions/AGXMetalG13X.bundle",
+          "bundle": {
+            "BuildMachineOSBuild": "23A344017",
+            "CFBundleDevelopmentRegion": "English",
+            "CFBundleExecutable": "AGXMetalG13X",
+            "CFBundleIdentifier": "com.apple.AGXMetalG13X",
+            "CFBundleInfoDictionaryVersion": "6.0",
+            "CFBundleName": "AGXMetalG13X",
+            "CFBundleNumericVersion": 0,
+            "CFBundlePackageType": "BNDL",
+            "CFBundleShortVersionString": "353.14",
+            "CFBundleSignature": "????",
+            "CFBundleSupportedPlatforms": [
+              "MacOSX"
+            ],
+            "CFBundleVersion": "353.14",
+            "DTCompiler": "com.apple.compilers.llvm.clang.1_0",
+            "DTPlatformBuild": "",
+            "DTPlatformName": "macosx",
+            "DTPlatformVersion": "26.6",
+            "DTSDKBuild": "25G66",
+            "DTSDKName": "macosx26.6.internal",
+            "DTXcode": "2630",
+            "DTXcodeBuild": "17E6107",
+            "LSMinimumSystemVersion": "26.6",
+            "NSPrincipalClass": "AGXPrincipalDevice"
+          },
+          "kernel_identifier": "com.apple.AGXG13X",
+          "kernel_version": "353.14",
+          "kernel_uuid": "cf590c804a2d3c4f841b1dff2ca1c574",
+          "registry": {
+            "CFBundleIdentifier": "com.apple.AGXG13X",
+            "CFBundleIdentifierKernel": "com.apple.AGXG13X",
+            "IOClass": "AGXAcceleratorG13X",
+            "IOProviderClass": "AppleARMIODevice",
+            "IOSourceVersion": "353.14",
+            "MetalPluginClassName": "AGXG13XDevice"
+          }
+        }
+      ]
+    },
+    "commands_completed": 898,
+    "duration_ns": 1901997000,
+    "native_normalized_samples": 7
+  },
+  "root_independent_native_verification": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/f10-corrections-20260906/root-native-readiness-verification.json",
+    "sha256": "37e29d9ca34500b4e28d4b98bfa76f9e7149652d6a31f89c4f34cdf6bf435cce"
+  },
+  "native_sources_changed_after_readiness": false,
+  "limitations": [
+    "No supported Intel integrated/discrete hardware; native Intel metadata probes failed their hardware prerequisites.",
+    "Apple console remains locked; no GUI attempt or complete accuracy report.",
+    "Original full Linux preservation failure remains unresolved in Task5; no unchanged full rerun performed.",
+    "Kernel-owned/private APIs have no separate queried version; exact owning OS and available deployed provider builds are retained with explicit limitations."
+  ],
+  "self_audit": {
+    "1": "Mapped F10 at full report ingestion and preserved independently closed F1-F9.",
+    "2": "Confined changes to acceptance metadata, verifier and regression evidence.",
+    "3": "Separated OS/provider parsing from sensor formulas and named synthetic fixtures explicitly.",
+    "4": "Required original ownership, fields, commands and physical/provider consistency.",
+    "5": "Retained missing-hardware failures and bounded output; recorded no secrets.",
+    "6": "Preserved safe artifact/source paths, executable hashes and native identity checks.",
+    "7": "Used fresh external directories; retained failed attempts and cleanup.",
+    "8": "Bounded parsing, native enumeration and owned process deadlines.",
+    "9": "Tracked implementation, verification and delivery with one active step.",
+    "10": "Passed 439 Python tests and 56 GPU tests in 7 groups, native strict compile/readiness and lint/format.",
+    "11": "Fixtures prove verifier behavior only; hardware accuracy and original Linux preservation remain unaccepted.",
+    "12": "Continued authorized corrections and communicated native plans/results.",
+    "13": "Reviewed all 14 rules after verification; no known F10 implementation revision remains.",
+    "14": "Documented actual versions and capability limits in plain technical language."
+  }
+}

@@ -69,7 +69,7 @@ def originals_fixture(root):
             else "collector"
             if name == "collector"
             else "workload"
-            if name == "workload"
+            if name in ("workload", "workload-provider")
             else "observer"
         )
         r = dict(
@@ -149,6 +149,24 @@ def originals_fixture(root):
             str(root / "bin/workload"),
         ],
     )
+    role(
+        "host-metadata",
+        41,
+        [
+            str(root / "bin/observer"),
+            str(root / "source/scripts/system-pulse/gpu_intel_capture.py"),
+            "--host",
+        ],
+    )
+    put("host-metadata.stdout", dict(pid=41))
+    put("host.json", dict(pid=41))
+    role(
+        "workload-provider",
+        42,
+        [str(root / "bin/workload"), "--metadata", "0000:01:00.0"],
+    )
+    put("workload-provider.stdout", dict(pid=42))
+    put("workload-provider.json", dict(pid=42))
     for name in ("collector.stdout", "snapshots.jsonl"):
         lines(name, dict(retained="collector"))
     for name in ("observer.stdout", "native-observer.jsonl"):
@@ -334,6 +352,335 @@ def originals_fixture(root):
 
 
 class EvidenceTests(unittest.TestCase):
+    def test_full_intel_and_apple_provenance_mutations_are_hash_consistent(self):
+        from gpu_test_fixtures import full_host_fixture
+        from gpu_evidence import verify_host
+        import plistlib
+
+        for apple in (False, True):
+            with tempfile.TemporaryDirectory() as directory:
+                root = Path(directory)
+                fixture = full_host_fixture(root, apple=apple)
+                paths = fixture["paths"]
+                put = fixture["put"]
+                lines = fixture["lines"]
+                self.assertIn(8, verify_host(root, fixture["inputs"])[1])
+                originals = {name: path.read_bytes() for name, path in paths.items()}
+
+                def host(change):
+                    value = json.loads(originals["host.json"])
+                    change(value)
+                    for name in ("host.json", "host-metadata.stdout"):
+                        put(name, value)
+
+                def frame(change):
+                    rows = [
+                        json.loads(line)
+                        for line in originals["native-observer.jsonl"].splitlines()
+                    ]
+                    change(rows[-1])
+                    for name in ("observer.stdout", "native-observer.jsonl"):
+                        lines(name, rows)
+
+                def work(change):
+                    value = json.loads(originals["workload.stdout"])
+                    change(value)
+                    put("workload.stdout", value)
+
+                def provider_work(change):
+                    work(change)
+                    value = json.loads(originals["workload-provider.json"])
+                    change(value)
+                    for name in ("workload-provider.json", "workload-provider.stdout"):
+                        put(name, value)
+
+                changes = [
+                    ("missing-host-artifact", lambda: paths["host.json"].unlink()),
+                    (
+                        "wrong-launcher-os",
+                        lambda: put(
+                            "launcher-host.json",
+                            dict(system="wrong", release="wrong", machine="wrong"),
+                        ),
+                    ),
+                    ("missing-os", lambda: host(lambda h: h.pop("os"))),
+                    (
+                        "missing-kernel-build",
+                        lambda: host(lambda h: h["os"]["uname"].pop("version")),
+                    ),
+                    ("wrong-host-owner", lambda: host(lambda h: h.update(pid=999))),
+                    ("missing-provider", lambda: host(lambda h: h["devices"].clear())),
+                    (
+                        "wrong-observer-os",
+                        lambda: frame(
+                            lambda f: f["host"]["os"]["uname"].update(
+                                machine=b"wrong-machine".hex()
+                            )
+                        ),
+                    ),
+                    (
+                        "wrong-native-owner",
+                        lambda: frame(lambda f: f["host"].update(pid=999)),
+                    ),
+                    ("missing-native-host", lambda: frame(lambda f: f.pop("host"))),
+                ]
+                if apple:
+
+                    def plist_change(h, key, change):
+                        row = h["devices"][0]
+                        value = plistlib.loads(bytes.fromhex(row[key]))
+                        change(value)
+                        row[key] = plistlib.dumps(value).hex()
+
+                    changes += [
+                        (
+                            "missing-product-build",
+                            lambda: host(lambda h: h["os"].pop("kern_osversion_hex")),
+                        ),
+                        (
+                            "wrong-product-build",
+                            lambda: host(
+                                lambda h: h["os"].update(
+                                    kern_osversion_hex=b"wrong-build".hex()
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-selected-registry",
+                            lambda: host(
+                                lambda h: h["devices"][0].update(lookup_registry_id=999)
+                            ),
+                        ),
+                        (
+                            "duplicate-provider",
+                            lambda: host(
+                                lambda h: h["devices"].append(
+                                    copy.deepcopy(h["devices"][0])
+                                )
+                            ),
+                        ),
+                        ("missing-image", lambda: host(lambda h: h["images"].pop())),
+                        (
+                            "wrong-image-version",
+                            lambda: host(
+                                lambda h: h["images"][0].update(
+                                    dylib_current_version_raw=999
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-image-uuid",
+                            lambda: host(
+                                lambda h: h["images"][0].update(image_uuid="wrong")
+                            ),
+                        ),
+                        (
+                            "invented-api-version",
+                            lambda: host(
+                                lambda h: h["images"][2].update(
+                                    standalone_api_version="1.0"
+                                )
+                            ),
+                        ),
+                        (
+                            "missing-api-limitation",
+                            lambda: host(
+                                lambda h: h["images"][3].pop("version_limitation")
+                            ),
+                        ),
+                        (
+                            "wrong-provider-class",
+                            lambda: host(
+                                lambda h: h["devices"][0].update(
+                                    metal_class="UnrelatedDevice"
+                                )
+                            ),
+                        ),
+                        (
+                            "missing-bundle-version",
+                            lambda: host(
+                                lambda h: plist_change(
+                                    h,
+                                    "bundle_plist_hex",
+                                    lambda p: p.pop("CFBundleVersion"),
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-kernel-driver",
+                            lambda: host(
+                                lambda h: plist_change(
+                                    h,
+                                    "kernel_plist_hex",
+                                    lambda p: p["fixture.gpu.driver"].update(
+                                        CFBundleIdentifier="wrong"
+                                    ),
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-kernel-version",
+                            lambda: host(
+                                lambda h: plist_change(
+                                    h,
+                                    "kernel_plist_hex",
+                                    lambda p: p["fixture.gpu.driver"].update(
+                                        CFBundleVersion="99"
+                                    ),
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-workload-provider",
+                            lambda: work(
+                                lambda w: w["host"]["images"][0].update(
+                                    image_uuid="wrong"
+                                )
+                            ),
+                        ),
+                    ]
+                else:
+                    changes += [
+                        (
+                            "missing-vulkan-artifact",
+                            lambda: paths["workload-provider.json"].unlink(),
+                        ),
+                        (
+                            "unsupported-vulkan-api",
+                            lambda: provider_work(
+                                lambda w: w.update(api_version_raw=1 << 22)
+                            ),
+                        ),
+                        (
+                            "wrong-vulkan-variant",
+                            lambda: provider_work(
+                                lambda w: w.update(api_version_raw=0x20401000)
+                            ),
+                        ),
+                        (
+                            "invalid-vendor-raw",
+                            lambda: provider_work(
+                                lambda w: w.update(driver_version_raw=-1)
+                            ),
+                        ),
+                        (
+                            "unbounded-provider-query",
+                            lambda: provider_work(
+                                lambda w: w.update(query_finished_ns=99_000_000_000)
+                            ),
+                        ),
+                        (
+                            "missing-product-version",
+                            lambda: host(
+                                lambda h: h["os"]["product"].update(
+                                    raw_hex=b"ID=test\nNAME=test\n".hex()
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-kernel-build",
+                            lambda: host(
+                                lambda h: h["os"]["kernel"].update(
+                                    raw_hex=b"Linux version wrong".hex()
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-drm-provider",
+                            lambda: host(
+                                lambda h: h["devices"][0]["drm"]["strings"].update(
+                                    name=b"unrelated".hex()
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-drm-device",
+                            lambda: host(
+                                lambda h: h["devices"][0]["drm"].update(dev="999:999")
+                            ),
+                        ),
+                        (
+                            "missing-drm-version",
+                            lambda: host(lambda h: h["devices"][0]["drm"].pop("major")),
+                        ),
+                        (
+                            "wrong-module-source",
+                            lambda: host(
+                                lambda h: h["devices"][0]["module"]["version"].update(
+                                    path="/unrelated/version"
+                                )
+                            ),
+                        ),
+                        (
+                            "wrong-legacy-os",
+                            lambda: frame(lambda f: f.update(os_release="wrong")),
+                        ),
+                        (
+                            "missing-vulkan-version",
+                            lambda: work(lambda w: w.pop("api_version_raw")),
+                        ),
+                        (
+                            "wrong-vulkan-version",
+                            lambda: work(lambda w: w.update(driver_version_raw=789)),
+                        ),
+                        (
+                            "wrong-workload-os",
+                            lambda: work(
+                                lambda w: w["os"]["uname"].update(
+                                    machine=b"wrong-machine".hex()
+                                )
+                            ),
+                        ),
+                        (
+                            "fabricated-vendor-encoding",
+                            lambda: work(
+                                lambda w: w.update(
+                                    driver_version_semantics="semantic version 1.2.3"
+                                )
+                            ),
+                        ),
+                    ]
+                for name, change in changes:
+                    change()
+                    fixture["sync"]()
+                    with (
+                        self.subTest(apple=apple, mutation=name),
+                        self.assertRaises((AssertionError, KeyError, ValueError)),
+                    ):
+                        verify_host(root, fixture["inputs"])
+                    for key, value in originals.items():
+                        paths[key].write_bytes(value)
+                fixture["sync"]()
+                self.assertIn(8, verify_host(root, fixture["inputs"])[1])
+
+    def test_full_ingestion_requires_original_host_and_provider_versions(self):
+        from gpu_test_fixtures import full_host_fixture
+        from gpu_evidence import verify_host
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            fixture = full_host_fixture(root)
+            expected = verify_host(root, fixture["inputs"])
+            self.assertIn(8, expected[1])
+            fixture["paths"].pop("host.json").unlink()
+            for name in (
+                "native-inventory.json",
+                "inventory.stdout",
+                "native-observer.jsonl",
+                "observer.stdout",
+            ):
+                rows = [
+                    json.loads(line)
+                    for line in fixture["paths"][name].read_text().splitlines()
+                ]
+                for row in rows:
+                    row.pop("os_release", None)
+                    row.pop("machine", None)
+                fixture["lines"](name, rows)
+            fixture["sync"]()
+            with self.assertRaises(AssertionError):
+                verify_host(root, fixture["inputs"])
+
     def test_apple_commands_bind_observe_workload_and_ax_modes(self):
         from gpu_originals import validate_commands
 
@@ -347,7 +694,12 @@ class EvidenceTests(unittest.TestCase):
             del build["executables"]["workload"]
             policy["device"]["registry_id"] = 123
             put("policy.json", policy)
-            by_role = {r["role"]: r for r in records if r["role"] != "workload-build"}
+            by_role = {
+                r["role"]: r
+                for r in records
+                if r["role"] not in ("workload-build", "workload-provider")
+            }
+            by_role["host-metadata"]["command"] = [root + "/bin/observer", "host"]
             by_role["inventory"]["command"] = [
                 root + "/bin/observer",
                 "observe",

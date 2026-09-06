@@ -18,6 +18,7 @@ ACTIONS = {
     "restore",
 }
 ORIGINALS = {
+    "host.json",
     "policy.json",
     "inventory.json",
     "observer.jsonl",
@@ -401,6 +402,9 @@ def verify_host(root, committed):
     from gpu_originals import validate_originals
 
     lifecycle = validate_originals(paths, report, policy, actions, diagnostics)
+    from gpu_provenance import validate_provenance
+
+    validate_provenance(paths, report, inventory, lifecycle)
     for pid in {d["application_pid"] for d in diagnostics}:
         unique = {
             d["snapshot"]["sequence"]: d["snapshot"]

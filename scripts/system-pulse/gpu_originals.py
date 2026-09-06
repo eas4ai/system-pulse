@@ -27,6 +27,9 @@ def validate_commands(paths, report, build, by_role, actions):
     ]
     expected = {
         "build": build_command,
+        "host-metadata": [binaries["observer"], "host"]
+        if apple
+        else [binaries["observer"], source + "gpu_intel_capture.py", "--host"],
         "application": [binaries["application"]],
         "application-restored": [binaries["application"]],
         "collector": [binaries["collector"], "--count", "60", "--interval-ms", "1000"],
@@ -104,6 +107,11 @@ def validate_commands(paths, report, build, by_role, actions):
             "-lvulkan",
             "-o",
             binaries["workload"],
+        ]
+        expected["workload-provider"] = [
+            binaries["workload"],
+            "--metadata",
+            policy["device"]["pci"],
         ]
         expected["workload"] = [
             binaries["workload"],
@@ -246,13 +254,16 @@ def validate_originals(paths, report, policy, actions, diagnostics):
             else "collector"
             if role == "collector"
             else "workload"
-            if role == "workload" and report["hardware_class"] != "apple-silicon"
+            if role in ("workload", "workload-provider")
+            and report["hardware_class"] != "apple-silicon"
             else "observer"
         )
         runtime = role in (
             "collector",
             "observer",
             "inventory",
+            "host-metadata",
+            "workload-provider",
             "application",
             "application-restored",
         ) or role.startswith("ax")

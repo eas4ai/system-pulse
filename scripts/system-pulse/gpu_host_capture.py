@@ -264,6 +264,21 @@ def native_attempt(output, executables, inputs, args, records):
     observer = [str(output / executables["observer"])]
     if not apple:
         observer += [str(output / "source/scripts/system-pulse/gpu_intel_capture.py")]
+    result = owned_process(
+        output,
+        "host-metadata",
+        [str(output / executables["observer"]), "host"]
+        if apple
+        else observer + ["--host"],
+        15,
+    )
+    records.append(result)
+    require(
+        result["exit_code"] == 0, "native host/provider metadata prerequisite failed"
+    )
+    host = read_lines(output / result["stdout"])
+    require(len(host) == 1, "ambiguous native host metadata")
+    write(output / "host.json", host[0])
     inventory_command = observer + (
         ["observe", "1", "100"] if apple else ["--count", "1"]
     )
@@ -288,6 +303,25 @@ def native_attempt(output, executables, inputs, args, records):
             str(output / "source/scripts/system-pulse/gpu_linux_ax.py"),
         ]
     write(output / "inventory.json", inventory)
+    if not apple:
+        result = owned_process(
+            output,
+            "workload-provider",
+            [
+                str(output / executables["workload"]),
+                "--metadata",
+                inventory["device"]["pci"],
+            ],
+            15,
+        )
+        records.append(result)
+        require(
+            result["exit_code"] == 0,
+            "Vulkan deployed provider version prerequisite failed",
+        )
+        provider = read_lines(output / result["stdout"])
+        require(len(provider) == 1, "ambiguous Vulkan provider metadata")
+        write(output / "workload-provider.json", provider[0])
     if apple:
         result = owned_process(
             output,
@@ -569,7 +603,7 @@ def main():
     try:
         retain_sources(output, inputs)
         write(
-            output / "host.json",
+            output / "launcher-host.json",
             dict(
                 system=platform.system(),
                 release=platform.release(),

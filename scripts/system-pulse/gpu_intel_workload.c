@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/utsname.h>
 #include <time.h>
 #include <unistd.h>
 #include <vulkan/vulkan.h>
@@ -35,6 +36,51 @@ static uint64_t stamp(clockid_t clock) {
   return (uint64_t)value.tv_sec * 1000000000 + (uint64_t)value.tv_nsec;
 }
 
+static void print_hex(const unsigned char *bytes, size_t size) {
+  for (size_t n = 0; n < size; ++n)
+    printf("%02x", bytes[n]);
+}
+
+static void print_file(const char *path) {
+  FILE *stream = fopen(path, "rb");
+  need(stream != NULL, "OS build original unavailable");
+  unsigned char data[16385];
+  size_t size = fread(data, 1, sizeof(data), stream);
+  bool valid = !ferror(stream) && size > 0 && size < sizeof(data);
+  need(fclose(stream) == 0 && valid,
+       "OS build original exceeds bound/read failed");
+  printf("{\"path\":\"%s\",\"raw_hex\":\"", path);
+  print_hex(data, size);
+  printf("\"}");
+}
+
+static void print_provider(VkPhysicalDeviceProperties props, uint32_t loader) {
+  struct utsname names;
+  need(uname(&names) == 0, "uname build query failed");
+  printf("\"api_version_raw\":%u,\"driver_version_raw\":%u,\"loader_api_"
+         "version_raw\":%u,"
+         "\"api_version_semantics\":\"Vulkan "
+         "VkPhysicalDeviceProperties.apiVersion\","
+         "\"driver_version_semantics\":\"vendor-defined raw uint32; no "
+         "semantic decoding\","
+         "\"os\":{\"uname\":{",
+         props.apiVersion, props.driverVersion, loader);
+  const char *keys[] = {"system", "release", "version", "machine"};
+  const char *values[] = {names.sysname, names.release, names.version,
+                          names.machine};
+  for (size_t n = 0; n < 4; ++n) {
+    printf("%s\"%s\":\"", n ? "," : "", keys[n]);
+    print_hex((const unsigned char *)values[n], strlen(values[n]));
+    printf("\"");
+  }
+  printf("},\"product\":");
+  print_file(access("/etc/os-release", R_OK) == 0 ? "/etc/os-release"
+                                                  : "/usr/lib/os-release");
+  printf(",\"kernel\":");
+  print_file("/proc/version");
+  printf("}");
+}
+
 static bool pci_extension(VkPhysicalDevice device) {
   uint32_t count = 0;
   checked(vkEnumerateDeviceExtensionProperties(device, NULL, &count, NULL),
@@ -54,23 +100,27 @@ static bool pci_extension(VkPhysicalDevice device) {
 }
 
 int main(int argc, char **argv) {
-  unsigned domain, bus, slot, function, seconds;
+  unsigned domain, bus, slot, function, seconds = 0;
   int end = 0;
-  need(argc == 3,
-       "usage: gpu_intel_workload DOMAIN:BUS:DEVICE.FUNCTION SECONDS");
-  need(sscanf(argv[1], "%x:%x:%x.%x%n", &domain, &bus, &slot, &function,
+  need(argc == 3, "usage: gpu_intel_workload PCI SECONDS | --metadata PCI");
+  bool metadata_only = strcmp(argv[1], "--metadata") == 0;
+  const char *pci_argument = argv[metadata_only ? 2 : 1];
+  need(sscanf(pci_argument, "%x:%x:%x.%x%n", &domain, &bus, &slot, &function,
               &end) == 4 &&
-           argv[1][end] == '\0' && domain <= 65535 && bus <= 255 &&
+           pci_argument[end] == '\0' && domain <= 65535 && bus <= 255 &&
            slot <= 31 && function <= 7,
        "invalid PCI identity");
   end = 0;
-  need(sscanf(argv[2], "%u%n", &seconds, &end) == 1 && argv[2][end] == '\0' &&
-           seconds >= 1 && seconds <= 12,
+  need(metadata_only || (sscanf(argv[2], "%u%n", &seconds, &end) == 1 &&
+                         argv[2][end] == '\0' && seconds >= 1 && seconds <= 12),
        "duration must be 1 through 12 seconds");
   uint64_t anchor_before = stamp(CLOCK_MONOTONIC);
   uint64_t anchor_unix = stamp(CLOCK_REALTIME);
   uint64_t anchor_after = stamp(CLOCK_MONOTONIC);
   uint64_t query_started = stamp(CLOCK_MONOTONIC);
+  uint32_t loader_api_version = 0;
+  checked(vkEnumerateInstanceVersion(&loader_api_version),
+          "loader API version query");
   VkApplicationInfo application = {.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO,
                                    .pApplicationName =
                                        "system-pulse-gpu-acceptance",
@@ -115,6 +165,18 @@ int main(int argc, char **argv) {
   need(props.vendorID == 0x8086 && props.apiVersion >= VK_API_VERSION_1_1,
        "selected device is not Intel Vulkan 1.1 hardware");
   uint64_t query_finished = stamp(CLOCK_MONOTONIC);
+  if (metadata_only) {
+    printf("{\"schema\":1,\"mode\":\"metadata\",\"pid\":%d,\"pci\":\"%04x:%02x:"
+           "%02x.%x\","
+           "\"vendor_id\":%u,\"device_id\":%u,\"query_started_ns\":%" PRIu64
+           ",\"query_finished_ns\":%" PRIu64 ",",
+           getpid(), domain, bus, slot, function, props.vendorID,
+           props.deviceID, query_started, query_finished);
+    print_provider(props, loader_api_version);
+    printf("}\n");
+    vkDestroyInstance(instance, NULL);
+    return 0;
+  }
   uint32_t queue_count = 0;
   vkGetPhysicalDeviceQueueFamilyProperties(selected, &queue_count, NULL);
   need(queue_count > 0 && queue_count <= MAX_QUEUES, "queue enumeration bound");
@@ -266,6 +328,8 @@ int main(int argc, char **argv) {
              identities[i].pciFunction);
     printf("}");
   }
-  printf("]}\n");
+  printf("],");
+  print_provider(props, loader_api_version);
+  printf("}\n");
   return 0;
 }

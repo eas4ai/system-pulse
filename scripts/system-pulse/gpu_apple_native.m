@@ -6,8 +6,12 @@
 #import <ApplicationServices/ApplicationServices.h>
 #import <Foundation/Foundation.h>
 #import <IOKit/IOKitLib.h>
+#import <IOKit/kext/KextManager.h>
 #import <Metal/Metal.h>
 #include <dlfcn.h>
+#include <mach-o/loader.h>
+#include <sys/sysctl.h>
+#include <sys/utsname.h>
 #include <time.h>
 #include <unistd.h>
 
@@ -50,6 +54,201 @@ static NSDictionary *properties(io_registry_entry_t entry) {
   need(code == KERN_SUCCESS && dictionary != NULL,
        [NSString stringWithFormat:@"IOKit properties return %d", code]);
   return CFBridgingRelease(dictionary);
+}
+
+static NSString *dataHex(NSData *data) {
+  need(data != nil && data.length <= 1024 * 1024,
+       @"Native version original exceeds bound");
+  const unsigned char *bytes = data.bytes;
+  NSMutableString *text = [NSMutableString stringWithCapacity:data.length * 2];
+  for (NSUInteger n = 0; n < data.length; n++)
+    [text appendFormat:@"%02x", bytes[n]];
+  return text;
+}
+
+static NSString *plistHex(id value) {
+  NSError *error = nil;
+  NSData *data = [NSPropertyListSerialization
+      dataWithPropertyList:value
+                    format:NSPropertyListXMLFormat_v1_0
+                   options:0
+                     error:&error];
+  need(data != nil, error.description);
+  return dataHex(data);
+}
+
+static NSDictionary *imageBuild(NSString *api, NSString *path, NSString *name) {
+  void *library = dlopen(path.UTF8String, RTLD_NOW | RTLD_LOCAL);
+  need(library != NULL, @"Native provider version library unavailable");
+  @try {
+    void *address = dlsym(library, name.UTF8String);
+    Dl_info info = {0};
+    need(address != NULL && dladdr(address, &info) && info.dli_fbase &&
+             info.dli_fname,
+         @"Native provider symbol has no loaded image identity");
+    const struct mach_header_64 *header = info.dli_fbase;
+    need(header->magic == MH_MAGIC_64 && header->ncmds > 0 &&
+             header->ncmds <= 512 && header->sizeofcmds <= 1024 * 1024,
+         @"Native image command bounds");
+    const unsigned char *commands = (const unsigned char *)(header + 1);
+    NSUInteger offset = 0;
+    NSString *uuid = nil;
+    NSNumber *current = nil, *compatible = nil;
+    for (uint32_t n = 0; n < header->ncmds; n++) {
+      need(offset + sizeof(struct load_command) <= header->sizeofcmds,
+           @"Truncated image command");
+      const struct load_command *command = (const void *)(commands + offset);
+      need(command->cmdsize >= sizeof(*command) &&
+               offset + command->cmdsize <= header->sizeofcmds,
+           @"Invalid image command size");
+      if (command->cmd == LC_UUID) {
+        need(uuid == nil && command->cmdsize == sizeof(struct uuid_command),
+             @"Invalid image UUID command");
+        uuid =
+            [[NSUUID alloc]
+                initWithUUIDBytes:((const struct uuid_command *)command)->uuid]
+                .UUIDString;
+      } else if (command->cmd == LC_ID_DYLIB) {
+        need(current == nil && command->cmdsize >= sizeof(struct dylib_command),
+             @"Invalid dylib version command");
+        const struct dylib_command *dylib = (const void *)command;
+        current = @(dylib->dylib.current_version);
+        compatible = @(dylib->dylib.compatibility_version);
+      }
+      offset += command->cmdsize;
+    }
+    need(offset == header->sizeofcmds && uuid && current && compatible,
+         @"Missing deployed image build/version");
+    return @{
+      @"api" : api,
+      @"requested_path" : path,
+      @"symbol" : name,
+      @"loaded_path" : @(info.dli_fname),
+      @"header_hex" : dataHex([NSData dataWithBytes:header
+                                             length:sizeof(*header)]),
+      @"commands_hex" : dataHex([NSData dataWithBytes:commands
+                                               length:header->sizeofcmds]),
+      @"image_uuid" : uuid,
+      @"dylib_current_version_raw" : current,
+      @"dylib_compatibility_version_raw" : compatible,
+      @"standalone_api_version" : NSNull.null,
+      @"version_limitation" : @"No independent runtime API version query; "
+                              @"owning OS and loaded image build retained"
+    };
+  } @finally {
+    dlclose(library);
+  }
+}
+
+static NSDictionary *hostMetadata(void) {
+  struct utsname names;
+  need(uname(&names) == 0, @"uname failed");
+  NSMutableDictionary *unameData = [NSMutableDictionary dictionary];
+  NSArray *keys = @[ @"system", @"release", @"version", @"machine" ];
+  const char *values[] = {names.sysname, names.release, names.version,
+                          names.machine};
+  for (NSUInteger n = 0; n < keys.count; n++)
+    unameData[keys[n]] = dataHex([NSData dataWithBytes:values[n]
+                                                length:strlen(values[n])]);
+  char build[256];
+  size_t length = sizeof(build);
+  need(sysctlbyname("kern.osversion", build, &length, NULL, 0) == 0 &&
+           length > 1 && length <= sizeof(build),
+       @"Loaded kernel OS build unavailable");
+  NSString *productPath = @"/System/Library/CoreServices/SystemVersion.plist";
+  NSDictionary *os = @{
+    @"uname" : unameData,
+    @"product" : @{
+      @"path" : productPath,
+      @"raw_hex" : dataHex([NSData dataWithContentsOfFile:productPath])
+    },
+    @"kern_osversion_hex" : dataHex([NSData dataWithBytes:build
+                                                   length:length - 1])
+  };
+  NSArray *specs = @[
+    @[
+      @"Metal", @"/System/Library/Frameworks/Metal.framework/Metal",
+      @"MTLCreateSystemDefaultDevice"
+    ],
+    @[
+      @"IOKit", @"/System/Library/Frameworks/IOKit.framework/IOKit",
+      @"IOServiceGetMatchingService"
+    ],
+    @[ @"IOReport", @"/usr/lib/libIOReport.dylib", @"IOReportCopyAllChannels" ],
+    @[
+      @"HID", @"/System/Library/Frameworks/IOKit.framework/IOKit",
+      @"IOHIDEventSystemClientCreate"
+    ],
+    @[
+      @"SMC", @"/System/Library/Frameworks/IOKit.framework/IOKit",
+      @"IOConnectCallStructMethod"
+    ]
+  ];
+  NSMutableArray *images = [NSMutableArray array];
+  for (NSArray *spec in specs)
+    [images addObject:imageBuild(spec[0], spec[1], spec[2])];
+  NSArray<id<MTLDevice>> *devices = MTLCopyAllDevices();
+  need(devices.count > 0 && devices.count <= 16,
+       @"Unbounded/empty provider device inventory");
+  NSMutableArray *providers = [NSMutableArray array];
+  for (id<MTLDevice> device in devices) {
+    io_registry_entry_t entry = IOServiceGetMatchingService(
+        kIOMainPortDefault, IORegistryEntryIDMatching(device.registryID));
+    need(entry != 0, @"Selected Metal registry provider unavailable");
+    @try {
+      uint64_t registryID = 0;
+      need(IORegistryEntryGetRegistryEntryID(entry, &registryID) ==
+                   KERN_SUCCESS &&
+               registryID == device.registryID,
+           @"Selected provider registry identity changed");
+      NSDictionary *raw = properties(entry);
+      NSMutableDictionary *registry = [NSMutableDictionary dictionary];
+      for (NSString *key in @[
+             @"CFBundleIdentifier", @"CFBundleIdentifierKernel", @"IOClass",
+             @"IOProviderClass", @"IOSourceVersion", @"MetalPluginClassName"
+           ])
+        if (raw[key])
+          registry[key] = raw[key];
+      NSString *identifier = registry[@"CFBundleIdentifierKernel"]
+                                 ?: registry[@"CFBundleIdentifier"];
+      need([identifier isKindOfClass:NSString.class] && identifier.length > 0 &&
+               identifier.length <= 256,
+           @"Selected GPU kernel provider identifier unavailable");
+      NSArray *ids = @[ identifier ], *infoKeys = @[
+        @"CFBundleIdentifier", @"CFBundleVersion", @"OSBundleUUID"
+      ];
+      CFDictionaryRef loaded = KextManagerCopyLoadedKextInfo(
+          (__bridge CFArrayRef)ids, (__bridge CFArrayRef)infoKeys);
+      need(loaded != NULL,
+           @"Selected loaded GPU kernel provider version unavailable");
+      NSDictionary *kernel = CFBridgingRelease(loaded);
+      need(kernel.count == 1 && kernel[identifier] != nil,
+           @"Ambiguous loaded kernel provider version");
+      NSBundle *bundle = [NSBundle bundleForClass:[device class]];
+      need(bundle.bundlePath != nil && bundle.infoDictionary != nil,
+           @"Selected Metal implementation bundle unavailable");
+      [providers addObject:@{
+        @"registry_id" : @(device.registryID),
+        @"lookup_registry_id" : @(registryID),
+        @"name" : device.name,
+        @"metal_class" : NSStringFromClass([device class]),
+        @"bundle_path" : bundle.bundlePath,
+        @"bundle_plist_hex" : plistHex(bundle.infoDictionary),
+        @"registry_plist_hex" : plistHex(registry),
+        @"kernel_plist_hex" : plistHex(kernel)
+      }];
+    } @finally {
+      IOObjectRelease(entry);
+    }
+  }
+  return @{
+    @"schema" : @1,
+    @"pid" : @(getpid()),
+    @"clock_anchor" : anchor(),
+    @"os" : os,
+    @"images" : images,
+    @"devices" : providers
+  };
 }
 static NSArray *inventory(void) {
   NSArray<id<MTLDevice>> *devices = MTLCopyAllDevices();
@@ -478,6 +677,7 @@ static NSDictionary *hid(void) {
 }
 
 static void observe(NSUInteger count, NSUInteger interval) {
+  NSDictionary *host = hostMetadata();
   void *library = dlopen("/usr/lib/libIOReport.dylib", RTLD_NOW | RTLD_LOCAL);
   need(library != NULL, @"IOReport unavailable");
   CFDictionaryRef all = NULL, subscribed = NULL;
@@ -539,6 +739,7 @@ static void observe(NSUInteger count, NSUInteger interval) {
             [thermal addObject:smc(key)];
         emit(@{
           @"schema" : @1,
+          @"host" : host,
           @"pid" : @(getpid()),
           @"clock_anchor" : clock,
           @"devices" : inventory(),
@@ -566,6 +767,7 @@ static void observe(NSUInteger count, NSUInteger interval) {
 }
 
 static void workload(uint64_t registry, double seconds) {
+  NSDictionary *host = hostMetadata();
   NSDictionary *workClock = anchor();
   uint64_t workStarted = 0, workFinished = 0;
   uint64_t start = now(), stop = start + (uint64_t)(seconds * 1e9);
@@ -621,6 +823,7 @@ static void workload(uint64_t registry, double seconds) {
     }
   }
   emit(@{
+    @"host" : host,
     @"clock_anchor" : workClock,
     @"work_started_ns" : @(workStarted),
     @"work_finished_ns" : @(workFinished),
@@ -640,7 +843,10 @@ int main(int argc, const char **argv) {
       need(argc >= 2, @"Expected inventory | observe COUNT INTERVAL_MS | "
                       @"workload REGISTRY_ID SECONDS | ax ...");
       NSString *mode = @(argv[1]);
-      if ([mode isEqual:@"inventory"]) {
+      if ([mode isEqual:@"host"]) {
+        need(argc == 2, @"host takes no arguments");
+        emit(hostMetadata());
+      } else if ([mode isEqual:@"inventory"]) {
         emit(@{
           @"clock_anchor" : anchor(),
           @"devices" : inventory(),
