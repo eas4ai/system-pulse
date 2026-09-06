@@ -888,3 +888,13 @@ statistics. Continue using the supplied examples, including neohtop, as
 implementation and usability references. The focused collection cross-check
 is appended to `docs/superpowers/research/2026-09-04-reference-review.md`.
 The active publication tracing work and agreed GPU coverage are unchanged.
+
+
+### Added AMD and NVIDIA references
+
+The user added nvglances, amdgpu_top 0.11.5, Rust amdtop 0.2.6 and a separate
+NVTOP-derived C amdtop 1.0.0. Root inspected their GPU sources and compared the
+required sensor APIs, units, availability and device lifetime patterns with
+the current adapters. See [GPU reference cross-check](../research/2026-09-06-gpu-reference-cross-check.md).
+No reference was built or modified. Hardware verification and the active
+publication tracing task remain unchanged.
