@@ -34,12 +34,17 @@ artifacts are hashed in source
 `docs/execution/real-system-readings/native-prior-selection-focused-pass.md/json`.
 The app and private transport exited zero with no remaining process.
 
-The full committed Cairn aggregate is now running in
+The full committed Cairn aggregate against `cb406724` completed **FAIL** in
 `/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o`.
-Its source guard passed and automated verification is underway. No source
-implementation or independent review runs alongside this capture. Full acceptance,
-final adversarial review and actual Cairn Done remain pending. Do not poll old
-finished native sessions or reclassify previous failures as passes.
+All 743 automated tests, formatting, strict Clippy, source checks, build and host
+comparisons passed. Native launch, metrics, collapse, charts and inner scrolling
+passed; intermediate process navigation then exhausted its eight-second batch
+budget after the prior selected row set a permanent recovery block. Source
+`docs/execution/real-system-readings/native-prior-selection-full-failure.md/json`
+retains 136 artifact hashes and the actual result. App cleanup exited -15;
+transport exited zero, neither remained. Independent diagnosis is in progress.
+Full acceptance, final adversarial review and actual Cairn Done remain pending.
+Do not poll finished native sessions or reclassify previous failures as passes.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
