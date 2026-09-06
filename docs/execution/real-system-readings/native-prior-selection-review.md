@@ -21,5 +21,28 @@ Actual checks:
 - Scoped Ruff, diff checks and five documentation links passed.
 
 The reviewer changed no source and ran no build, native replay or Cairn action.
-Independent QUALITY review is pending. Fresh focused untraced replay, full
-aggregate acceptance and final review remain required.
+
+## Quality review
+
+Independent reviewer `review_publication_quality` returned **PASS**, with no
+findings. ACK provenance, intermediate-only scope, permanent blocking, irreversible
+prefix expiry and fresh exact endpoint proof remain intact. Partial dispatch
+cannot reach pending observation. Caller mutations cannot alter copied evidence;
+interrupted results can seed later proof only through a separately successful
+boundary acknowledgement.
+
+Actual checks:
+
+- All 18 prior-selection tests passed.
+- Five additional probes passed, including eight malformed-envelope cases:
+  partial dispatch, dispatch expiry, publication advance followed by restoration,
+  nested evidence mutation and invalid bindings. Prohibited paths produced no
+  reveal or endpoint acknowledgement.
+- Scoped Ruff lint and three-file formatting, candidate whitespace checks and
+  five documentation links passed. All four reviewed files matched candidate bytes.
+
+The reviewer made no edits and ran no build, native replay or Cairn action.
+Both reviews are complete. The implementer passed all 381 Python tests against
+final source. Fresh focused untraced replay, full aggregate acceptance and final
+review remain required. The failed capture remains failed; live recovery is
+not yet proven.

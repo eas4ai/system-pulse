@@ -2,7 +2,8 @@
 
 Implemented the [prior-selection decision](../../decisions/recognize-prior-selection-during-intermediate-arrow-observation.md)
 against base `8e392b350682a226d1e622326bbb495c3ba3a28d`.
-Independent SPEC and QUALITY review remain pending.
+Independent SPEC and QUALITY reviews passed; see the
+[review record](native-prior-selection-review.md).
 
 ## Evidence and scope
 
@@ -105,4 +106,5 @@ focused untraced replay and full acceptance remain pending.
 Reviewed all 14 production rules. The implementation is confined to the pending
 arrow evidence and blocking decision, with bounded state, explicit failure
 handling and existing acceptance guards. No known defect remains from this
-self-audit. Independent SPEC, then QUALITY review, precede the next live replay.
+self-audit. Independent SPEC and QUALITY reviews subsequently passed. The fresh
+untraced focused replay remains pending.
