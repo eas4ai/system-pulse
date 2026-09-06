@@ -24,29 +24,21 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-Latest result: bounded navigation observations and their error-preservation
-correction passed independent SPEC and QUALITY reviews through `2df34d14`, with
-all 357 Python tests passing. The untraced focused capture `1rqv69wz` then failed
-freshness at 2.116767208 seconds before the next accessibility scan. Earlier
-observations show successful exact endpoint acknowledgement. Read and parse
-took 22.65 ms through the age check, with an inode replacement during that
-interval. The 1.357-second baseline-to-batch journal interval is unattributed;
-source inspection shows no fsync or extra accessibility/procfs read there.
-Evidence and independent diagnosis are in the
-[source report](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/native-navigation-observation-stale-failure.md).
-The combined supporting diagnostic `pulse-publication-diagnostic-poelu223`
-failed during visible-column-five inspection recovery after thirteen child
-metric artifacts. All 130 artifacts are hashed in source
-`native-combined-inspection-failure.md/json`. Retained publication timings were
-212–248 ms; no stale-frame receipt occurred. Independent read-only diagnosis
-confirmed repeated fresh eligibility discovery before the first recovery wheel,
-which used 3.337 seconds of the original five-second budget. Source plan
-`c5326f3c` records the Judged decision to consolidate that proof only for
-missing-row cell preparation. Worker `trace_publication` owns its implementation
-and tests; independent SPEC then QUALITY review follows. Pre-exit, generic and
-held-input paths and every acceptance bound stay unchanged. The live timeout
-cause is not proven by identifying redundant source work. This instrumented diagnostic cannot count as acceptance.
-Fresh untraced full acceptance, final review and actual Cairn Done remain pending.
+Latest result: missing-row inspection eligibility consolidation `becae4b3`
+passed independent SPEC and QUALITY review and all 363 Python tests. The fresh
+untraced process replay `pulse-navigation-observation-u12hxbrp` against source
+`c7a89e78` failed before inspection in an intermediate arrow batch. Its failure
+history retains the exact previously acknowledged row selected twice immediately
+after dispatch, then forty no-selection observations and five publication-bracket
+rejections. All 47 scans completed in 21–48 ms. A permanent recovery-blocking flag
+remained set from the first previous-selection observation, preventing eligibility
+when the expected row shifted one index above the viewport. No stale-frame receipt
+occurred; no child metric or exit proof completed. All 97 artifacts are hashed in
+source `docs/execution/real-system-readings/native-inspection-eligibility-focused-result.md/json`.
+Independent read-only review is evaluating a bounded prior-acknowledgement case;
+no new behavior is implemented yet. All deadlines and exact final proofs remain
+unchanged. No native app or transport is running. Fresh full aggregate acceptance,
+final review and actual Cairn Done remain pending.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
