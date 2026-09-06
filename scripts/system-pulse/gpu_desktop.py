@@ -167,8 +167,14 @@ def expected_gpu_label(frame, entry, interval_ms):
     require(sample["status"] == status, "display availability/stale mismatch")
     if reading["reason"] is not None:
         text += " · " + reading["reason"]
+    title = monitor["title"]
+    if (
+        monitor.get("kind") == "Gpu"
+        and sum(m["title"] == title for m in snapshot["monitors"]) > 1
+    ):
+        title += " · " + monitor["id"]
     expected = (
-        monitor["title"]
+        title
         + " · "
         + ("" if entry["element_id"].endswith(":summary") else sensor["title"] + " · ")
         + text
@@ -266,6 +272,27 @@ def action_effect(action, policy):
             b["panels"][mid]["sensors"][sid][key],
         )
         require(old != new, "sensor action did not change its saved preference")
+        if name == "sensor-collapse":
+            old_prefix = "Expand " if old else "Collapse "
+            label = selector.get("label", "")
+            require(
+                type(old) is bool
+                and type(new) is bool
+                and label.startswith(old_prefix),
+                "sensor collapse label does not match its prior state",
+            )
+            expected = ("Expand " if new else "Collapse ") + label[len(old_prefix) :]
+            require(
+                visibly_changed
+                and len(after_rows) == 1
+                and all(
+                    after_rows[0].get(k) == selected.get(k)
+                    for k in ("identifier", "parent_key", "role")
+                )
+                and expected
+                in [after_rows[0].get(k) for k in ("title", "description", "value")],
+                "sensor collapse has no corresponding visible native control effect",
+            )
         if name == "meter":
             field = next(f for f in policy["fields"] if f["sensor_id"] == sid)
             allowed = {

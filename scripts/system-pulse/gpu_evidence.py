@@ -298,7 +298,14 @@ def validate_manifest(root, report, committed):
         and build["build_stderr"] in paths,
         "missing original committed native build provenance",
     )
-    for role in ("collector", "application", "observer"):
+    executable_roles = {"collector", "application", "observer"}
+    if report["hardware_class"] != "apple-silicon":
+        executable_roles.add("workload")
+    require(
+        set(build["executables"]) == set(report["executables"]) == executable_roles,
+        "missing/unexpected native executable artifact",
+    )
+    for role in executable_roles:
         name = build["executables"][role]
         require(
             name in paths

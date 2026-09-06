@@ -297,7 +297,11 @@ def verify_reading(
                 ],
                 policy,
             )
-        if gauge_key:
+        if formula == "intel-memory":
+            from gpu_intel_arithmetic import compare_memory
+
+            compare_memory(field, o, mapped, matching, policy)
+        elif gauge_key:
             value = (
                 o["decimals"][gauge_key]
                 if gauge_key == "celsius"

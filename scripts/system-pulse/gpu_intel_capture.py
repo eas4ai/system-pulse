@@ -502,9 +502,21 @@ def independent_inventory(frame, pci):
     from gpu_intel_sources import Sysfs
 
     original_devices = discover(Path(frame["root"]), Sysfs(frame["sysfs"]))
+
+    def canonical(devices):
+        return sorted(
+            [
+                dict(d, aliases=sorted(d["aliases"], key=lambda a: a["path"]))
+                for d in devices
+            ],
+            key=lambda d: d["pci"],
+        )
+
     require(
-        original_devices
-        == [{k: d[k] for k in original_devices[0]} for d in frame["devices"]],
+        canonical(original_devices)
+        == canonical(
+            [{k: d[k] for k in original_devices[0]} for d in frame["devices"]]
+        ),
         "physical Intel inventory differs from original sysfs identities",
     )
     matches = [d for d in frame["devices"] if d["pci"] == pci]
@@ -644,6 +656,10 @@ def independent_inventory(frame, pci):
     return dict(
         hardware_class="intel-integrated" if integrated else "intel-discrete",
         device=device,
+        discovery=[
+            {k: d[k] for k in device}
+            for d in sorted(original_devices, key=lambda d: d["pci"])
+        ],
         fields=fields,
         captured_unix_ns=frame["clock_anchor"]["unix_ns"],
     )
@@ -653,7 +669,8 @@ def normalize_observer(frame, inventory):
     current = independent_inventory(frame, inventory["device"]["pci"])
     require(
         current["device"] == inventory["device"]
-        and current["fields"] == inventory["fields"],
+        and current["fields"] == inventory["fields"]
+        and current["discovery"] == inventory["discovery"],
         "native device/source inventory changed during measurement",
     )
     row = next(d for d in frame["devices"] if d["pci"] == inventory["device"]["pci"])
@@ -706,7 +723,11 @@ def normalize_observer(frame, inventory):
                 ),
             )
         )
-    return dict(clock_anchor=frame["clock_anchor"], samples=samples)
+    return dict(
+        clock_anchor=frame["clock_anchor"],
+        discovery=current["discovery"],
+        samples=samples,
+    )
 
 
 def observe(count, interval, root):

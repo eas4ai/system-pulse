@@ -130,6 +130,26 @@ def build(output, target, inputs, records):
         require(record["exit_code"] == 0, "native helper compilation failed")
     else:
         shutil.copy2(Path("/usr/bin/python3").resolve(), output / "bin/observer")
+        workload = output / "bin/workload"
+        command = [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            str(output / "source/scripts/system-pulse/gpu_intel_workload.c"),
+            "-lvulkan",
+            "-o",
+            str(workload),
+        ]
+        record = owned_process(output, "workload-build", command, 60)
+        records.append(record)
+        require(
+            record["exit_code"] == 0,
+            "Intel Vulkan workload prerequisite unavailable: compiler, headers or loader; see workload-build.stderr",
+        )
+        executables["workload"] = "bin/workload"
     executables["observer"] = "bin/observer"
     write(
         output / "build.json",
@@ -409,17 +429,11 @@ def native_attempt(output, executables, inputs, args, records):
                         str(policy["workload_seconds"]),
                     ]
                 else:
-                    require(
-                        args.load_command,
-                        "Intel load phase requires a bounded task-owned --load-command JSON argv",
-                    )
-                    workload = json.loads(args.load_command)
-                    require(
-                        isinstance(workload, list)
-                        and workload
-                        and all(isinstance(a, str) for a in workload),
-                        "invalid workload argv",
-                    )
+                    workload = [
+                        str(output / executables["workload"]),
+                        inventory["device"]["pci"],
+                        str(policy["workload_seconds"]),
+                    ]
                 children.start("workload", workload, 20)
             for step in [s for s in plan if s.get("phase", "load") == phase]:
                 before = state(output)
@@ -542,7 +556,6 @@ def main():
     parser.add_argument("--action-plan", type=Path, required=True)
     parser.add_argument("--target-dir", type=Path, required=True)
     parser.add_argument("--pci")
-    parser.add_argument("--load-command")
     args = parser.parse_args()
     args.action_plan = args.action_plan.resolve()
     args.target_dir = args.target_dir.resolve()

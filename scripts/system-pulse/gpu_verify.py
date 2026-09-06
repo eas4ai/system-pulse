@@ -21,6 +21,43 @@ from gpu_evidence import CLASSES, read_json, requirement_results, verify_host
 from host_accuracy import require
 
 ROOT = acceptance.ROOT
+GPU_GROUPS = (
+    "aggregate",
+    "apple_capture",
+    "arithmetic",
+    "desktop",
+    "evidence",
+    "intel",
+    "native",
+)
+
+
+def verify_groups(runner):
+    scripts = ROOT / "scripts/system-pulse"
+    for group in GPU_GROUPS:
+        path = scripts / ("test_gpu_" + group + ".py")
+        require(
+            path.is_file() and not path.is_symlink(),
+            "mandatory GPU verifier group missing: " + group,
+        )
+    for group in GPU_GROUPS:
+        runner.step(
+            "gpu-" + group.replace("_", "-"),
+            [
+                sys.executable,
+                "-B",
+                "-m",
+                "unittest",
+                "discover",
+                "-s",
+                "scripts/system-pulse",
+                "-p",
+                "test_gpu_" + group + ".py",
+                "-v",
+            ],
+            "python",
+            60,
+        )
 
 
 def selected_test_count(text):
@@ -50,6 +87,56 @@ def declared_inputs():
     return paths
 
 
+def build_dependency_roots():
+    """Discover local normal/build dependencies without resolving external caches."""
+    metadata = json.loads(
+        subprocess.check_output(
+            [
+                "cargo",
+                "metadata",
+                "--locked",
+                "--offline",
+                "--format-version",
+                "1",
+                "--no-deps",
+            ],
+            cwd=ROOT,
+            text=True,
+            timeout=30,
+        )
+    )
+    packages = {
+        str(Path(p["manifest_path"]).parent.resolve()): p for p in metadata["packages"]
+    }
+    pending = [
+        p
+        for p in metadata["packages"]
+        if p["name"] in ("system-pulse", "system-pulse-collectors")
+    ]
+    require(len(pending) == 2, "native build roots missing from Cargo metadata")
+    roots = set()
+    while pending:
+        package = pending.pop()
+        directory = Path(package["manifest_path"]).parent.resolve()
+        require(
+            directory.is_relative_to(ROOT.resolve()),
+            "unbound external local build dependency",
+        )
+        relative = str(directory.relative_to(ROOT.resolve()))
+        if relative in roots:
+            continue
+        roots.add(relative)
+        for dependency in package["dependencies"]:
+            if dependency["kind"] != "dev" and dependency.get("path"):
+                path = str(Path(dependency["path"]).resolve())
+                require(
+                    path in packages,
+                    "local build dependency missing from Cargo metadata",
+                )
+                pending.append(packages[path])
+    return sorted(roots)
+
+
 def committed_inputs():
     paths = declared_inputs()
     status = subprocess.run(
@@ -73,6 +160,24 @@ def committed_inputs():
     ).stdout.split(b"\0")
     result = {os.fsdecode(p): sha256(ROOT / os.fsdecode(p)) for p in files if p}
     require(result, "empty committed GPU source manifest")
+    roots = build_dependency_roots()
+    required = set(
+        filter(
+            None,
+            subprocess.check_output(
+                ["git", "ls-files", "-z", "--", *roots], cwd=ROOT, timeout=15
+            ).split(b"\0"),
+        )
+    )
+    required = {os.fsdecode(path) for path in required}
+    require(
+        required and required <= set(result),
+        "declared inputs omit first-party build dependencies",
+    )
+    require(
+        {root + "/Cargo.toml" for root in roots} <= set(result),
+        "declared inputs omit a first-party build manifest",
+    )
     return result
 
 
@@ -132,23 +237,7 @@ def main():
     require(len(reports) <= 3, "at most one report per required hardware class")
     print("GPU evidence directory: " + str(output), flush=True)
     try:
-        runner.step(
-            "gpu-verifier-tests",
-            [
-                sys.executable,
-                "-B",
-                "-m",
-                "unittest",
-                "discover",
-                "-s",
-                "scripts/system-pulse",
-                "-p",
-                "test_gpu_*.py",
-                "-v",
-            ],
-            "python",
-            60,
-        )
+        verify_groups(runner)
         automated = True
     except (AssertionError, OSError, ValueError, KeyError, TypeError) as error:
         errors.append("verifier tests: " + str(error))

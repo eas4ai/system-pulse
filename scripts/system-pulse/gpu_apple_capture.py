@@ -248,6 +248,7 @@ def independent_inventory(frame):
     return dict(
         hardware_class="apple-silicon",
         device=device,
+        discovery=[device],
         fields=fields,
         captured_unix_ns=frame["clock_anchor"]["unix_ns"],
     )
@@ -335,4 +336,4 @@ def normalize_observer(frame, inventory):
             row = unique(frame["hid"]["rows"], "product", name)
             require(math.isfinite(row["celsius"]), "invalid HID temperature")
             sample(field, row, dict(celsius=row["celsius"]))
-    return dict(clock_anchor=frame["clock_anchor"], samples=samples)
+    return dict(clock_anchor=frame["clock_anchor"], discovery=[device], samples=samples)

@@ -30,8 +30,34 @@ def verify_series(snapshots, inventory, observer, policy):
     ids = {f["sensor_id"] for f in fields}
     require(len(ids) == len(fields), "duplicate independent field")
     counts = dict.fromkeys(ids, 0)
+    discovery = inventory["discovery"]
+    physical_ids = {d["monitor_id"] for d in discovery}
+    require(
+        physical_ids
+        and len(physical_ids) == len(discovery)
+        and inventory["device"]["monitor_id"] in physical_ids,
+        "missing/duplicate independent physical discovery",
+    )
+    require(
+        all(frame["discovery"] == discovery for frame in observer),
+        "independent physical discovery changed during measurement",
+    )
+    prefix = (
+        "gpu:apple:" if inventory["hardware_class"] == "apple-silicon" else "intel-pci:"
+    )
     for index, snapshot in enumerate(snapshots):
         mid = inventory["device"]["monitor_id"]
+        supported = [
+            m
+            for m in snapshot["monitors"]
+            if m["id"].startswith(prefix) or m["id"] in physical_ids
+        ]
+        require(
+            len(supported) == len(physical_ids)
+            and {m["id"] for m in supported} == physical_ids
+            and all(m["kind"] == "Gpu" for m in supported),
+            "collector differs from complete supported physical GPU discovery",
+        )
         monitors = [m for m in snapshot["monitors"] if m["id"] == mid]
         require(
             len(monitors) == 1 and monitors[0]["kind"] == "Gpu",

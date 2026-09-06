@@ -40,6 +40,62 @@ def delta_bracket(delta, previous, current, samples, policy):
     return lower, upper
 
 
+def compare_memory(field, observation, query, samples, policy):
+    from gpu_arithmetic import gauge
+    from gpu_intel_capture import validate_region
+
+    def operands(region):
+        validate_region(field["driver"], region)
+        require(
+            region["class"] == field["region_class"]
+            and region["instance"] == field["region_instance"],
+            "native memory region identity changed",
+        )
+        values = {
+            key: region[key]
+            for key in (
+                "total_bytes",
+                "count_bytes",
+                "cpu_visible_total_bytes",
+                "cpu_visible_count_bytes",
+            )
+        }
+        # i915 reports free bytes; xe reports allocated bytes. Check the
+        # enclosing and complementary subsets, as well as each raw operand.
+        allocated = (
+            region["total_bytes"] - region["count_bytes"]
+            if field["driver"] == "i915"
+            else region["count_bytes"]
+        )
+        visible = (
+            region["cpu_visible_total_bytes"] - region["cpu_visible_count_bytes"]
+            if field["driver"] == "i915"
+            else region["cpu_visible_count_bytes"]
+        )
+        values.update(
+            allocated=allocated,
+            visible_allocated=visible,
+            nonvisible_allocated=allocated - visible,
+            nonvisible_capacity=region["total_bytes"]
+            - region["cpu_visible_total_bytes"],
+        )
+        return values
+
+    actual = operands(observation["integers"])
+    independent = [(sample, operands(sample["values"])) for sample in samples]
+    for key, value in actual.items():
+        gauge(
+            value,
+            query,
+            [
+                dict(start=sample["start"], end=sample["end"], value=values[key])
+                for sample, values in independent
+            ],
+            policy,
+            field["precision"],
+        )
+
+
 def calculate(field, reading):
     observations = reading["observations"]
     a, b = observations[0], observations[-1]

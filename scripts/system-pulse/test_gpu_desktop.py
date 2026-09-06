@@ -2,7 +2,232 @@ import copy
 import unittest
 
 
+def action_fixture():
+    """All required native actions with one independently checked displayed value."""
+    clock = dict(monotonic_before_ns=0, monotonic_after_ns=0, unix_ns=0)
+
+    def row(key, parent, identifier, title, role="button", size=10):
+        return dict(
+            object_key=key,
+            parent_key=parent,
+            identifier=identifier,
+            title=title,
+            role=role,
+            description="",
+            value="",
+            frame=[0, 0, size, size],
+            clip=[0, 0, 100, 100],
+        )
+
+    field = dict(sensor_id="gpu/usage", unit="Percent", kind="Percentage")
+    reading = dict(
+        sensor_id="gpu/usage",
+        value=50.0,
+        total=None,
+        reason=None,
+        availability="Available",
+        observations=[dict(captured_ns=0)],
+    )
+    label = "Intel GPU · Usage · 50.0 %"
+    rendered = dict(
+        monitor_id="gpu",
+        sensor_id="gpu/usage",
+        element_id="gpu:value:gpu/usage",
+        label=label,
+        sample=dict(
+            value=50.0, total=None, reason=None, text="50.0", unit="%", status="current"
+        ),
+    )
+    snapshot = dict(
+        monitors=[
+            dict(id="gpu", kind="Gpu", title="Intel GPU", summary_sensor_id="gpu/usage")
+        ],
+        sensors=[dict(id="gpu/usage", monitor_id="gpu", title="Usage", unit="Percent")],
+        readings=[reading],
+    )
+    rows = [
+        row("panel", None, "gpu", "gpu", "AXWindow", 100),
+        row("panelcontrol", "panel", "", "Collapse Intel GPU"),
+        row("viewport", "panel", "gpu:viewport", "viewport", "AXScrollArea", 100),
+        row("sensorcontrol", "viewport", "", "Collapse Usage"),
+        row("value", "viewport", "gpu:value:gpu/usage", label),
+        row("metercontrol", "viewport", "", "Meter: Number"),
+        row("timer", "panel", "timer", "10:00:00"),
+        row("interval", "panel", "workspace:interval:500", "500 ms"),
+    ]
+    native = dict(
+        complete=True,
+        elements=rows,
+        target_pid=1,
+        observed_ns=100,
+        clock_anchor=clock,
+        census_monitor="gpu",
+    )
+    state = dict(
+        interval_ms=1000,
+        panels=dict(
+            gpu=dict(
+                collapsed=False,
+                sensors={"gpu/usage": dict(collapsed=False, meter="number")},
+            )
+        ),
+    )
+    actions = []
+    for name, target, selector, key, method in (
+        (
+            "panel-collapse",
+            "gpu:collapse",
+            dict(within="gpu", label="Collapse Intel GPU"),
+            "panelcontrol",
+            "AXPress",
+        ),
+        (
+            "sensor-collapse",
+            "gpu:row:gpu/usage",
+            dict(within="gpu:viewport", label="Collapse Usage"),
+            "sensorcontrol",
+            "AXPress",
+        ),
+        (
+            "scroll",
+            "gpu:viewport",
+            dict(identifier="gpu:viewport"),
+            "viewport",
+            "CGEventScroll",
+        ),
+        (
+            "interval",
+            "workspace:interval:500",
+            dict(identifier="workspace:interval:500"),
+            "interval",
+            "AXPress",
+        ),
+        (
+            "meter",
+            "gpu:meter:gpu/usage",
+            dict(
+                within="gpu:viewport",
+                label="Meter: Number",
+                after="gpu:value:gpu/usage",
+            ),
+            "metercontrol",
+            "AXPress",
+        ),
+        ("restore", "", {}, None, "restart"),
+    ):
+        action = dict(
+            name=name,
+            target=target,
+            selector=selector,
+            method=method,
+            return_code=0,
+            started_ns=101,
+            finished_ns=103,
+            before=copy.deepcopy(native),
+            after=copy.deepcopy(native),
+            state_before=copy.deepcopy(state),
+            state_after=copy.deepcopy(state),
+        )
+        action["after"]["observed_ns"] = 102
+        if key:
+            action["resolved_element"] = next(
+                e for e in action["before"]["elements"] if e["object_key"] == key
+            )
+        by_key = {e["object_key"]: e for e in action["after"]["elements"]}
+        if name != "restore":
+            by_key["timer"]["title"] = "10:00:01"
+        if name == "panel-collapse":
+            action["state_after"]["panels"]["gpu"]["collapsed"] = True
+            by_key[key]["title"] = "Expand Intel GPU"
+        elif name == "sensor-collapse":
+            action["state_after"]["panels"]["gpu"]["sensors"]["gpu/usage"][
+                "collapsed"
+            ] = True
+            by_key[key]["title"] = "Expand Usage"
+        elif name == "scroll":
+            by_key["value"]["frame"] = [1, 0, 10, 10]
+        elif name == "interval":
+            action["state_after"]["interval_ms"] = 500
+        elif name == "meter":
+            action["state_after"]["panels"]["gpu"]["sensors"]["gpu/usage"]["meter"] = (
+                "bar"
+            )
+            by_key[key]["title"] = "Meter: Bar"
+        else:
+            action["after"]["target_pid"] = 2
+        actions.append(action)
+    diagnostics = [
+        dict(
+            snapshot=snapshot,
+            rendered_at_collector_ms=0,
+            rendered=[rendered],
+            application_pid=pid,
+            accepted_unix_ns=90,
+        )
+        for pid in (1, 2)
+    ]
+    return (
+        actions,
+        diagnostics,
+        dict(freshness_ns=100, device=dict(monitor_id="gpu"), fields=[field]),
+    )
+
+
 class DesktopTests(unittest.TestCase):
+    def test_same_name_gpu_labels_keep_full_identity_across_reordering(self):
+        from gpu_desktop import expected_gpu_label
+
+        _, diagnostics, _ = action_fixture()
+        frame = copy.deepcopy(diagnostics[0])
+        entry = copy.deepcopy(frame["rendered"][0])
+        first = frame["snapshot"]["monitors"][0]
+        second = dict(first, id="gpu-second-physical-id")
+        frame["snapshot"]["monitors"].append(second)
+        for order in ([first, second], [second, first]):
+            frame["snapshot"]["monitors"] = order
+            for element_id, label in (
+                ("gpu:value:gpu/usage", "Intel GPU · gpu · Usage · 50.0 %"),
+                ("gpu:summary", "Intel GPU · gpu · 50.0 %"),
+            ):
+                selected = dict(entry, element_id=element_id, label=label)
+                with self.subTest(order=order[0]["id"], element=element_id):
+                    self.assertEqual(expected_gpu_label(frame, selected, 1000), label)
+                wrong = dict(
+                    selected,
+                    label=label.replace(" · gpu · ", " · gpu-second-physical-id · "),
+                )
+                with self.assertRaises(AssertionError):
+                    expected_gpu_label(frame, wrong, 1000)
+        frame["snapshot"]["monitors"] = [first]
+        self.assertEqual(expected_gpu_label(frame, entry, 1000), entry["label"])
+
+    def test_sensor_collapse_requires_its_corresponding_native_effect(self):
+        from gpu_evidence import validate_actions
+
+        actions, diagnostics, policy = action_fixture()
+        validate_actions(actions, diagnostics, policy)
+        for replacement in (
+            "Collapse Usage",
+            "unrelated timer update",
+            "Expand Other GPU",
+        ):
+            changed = copy.deepcopy(actions)
+            sensor = next(a for a in changed if a["name"] == "sensor-collapse")
+            next(
+                e
+                for e in sensor["after"]["elements"]
+                if e["object_key"] == "sensorcontrol"
+            )["title"] = replacement
+            with self.subTest(label=replacement), self.assertRaises(AssertionError):
+                validate_actions(changed, diagnostics, policy)
+        changed = copy.deepcopy(actions)
+        sensor = next(a for a in changed if a["name"] == "sensor-collapse")
+        next(
+            e for e in sensor["after"]["elements"] if e["object_key"] == "sensorcontrol"
+        )["object_key"] = "another-native-object"
+        with self.assertRaises(AssertionError):
+            validate_actions(changed, diagnostics, policy)
+
     def test_scoped_selector_preserves_empty_native_id_and_rejects_ambiguity(self):
         from gpu_desktop import resolve_selector
 

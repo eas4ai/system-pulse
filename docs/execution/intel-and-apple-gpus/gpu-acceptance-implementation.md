@@ -1,12 +1,22 @@
 # GPU acceptance implementation
 
-Task 4 implementation status: DONE_WITH_CONCERNS. The independent acceptance mechanism is ready for review; the failed Linux preservation run remains unresolved. Hardware accuracy acceptance remains pending for Intel integrated, Intel discrete and Apple Silicon. The available AMD host supplies preservation and native transport evidence only.
+Task 4 correction status: DONE_WITH_CONCERNS. Nine independent SPEC findings have local corrections; a fresh independent review is required before they close. The failed Linux preservation run remains unresolved. Hardware accuracy acceptance remains pending for Intel integrated, Intel discrete and Apple Silicon. The available AMD host supplies preservation and native transport evidence only.
 
 ## Work tracking
 
-- Complete: independent raw collectors, arithmetic replay, adversarial verifier tests, and native helper readiness.
-- Complete: mechanism tests, native helper compile/readiness, scoped lint/format and self-audit.
-- In progress: Task 4 independent SPEC then QUALITY review and the unresolved preservation concern, owned by the orchestrator.
+Independent SPEC review found nine gaps. Corrections remain unreviewed until a fresh independent review closes them.
+
+- Complete (local regression pass): F1, compare all Intel memory operands against the physical region.
+- Complete (local regression pass): F2, require targeted visible sensor-collapse effect.
+- Complete (local regression pass): F3, retain complete first-party build inputs.
+- Complete (local regression pass): F4, match same-name GPU label disambiguation.
+- Complete (local regression pass): F5, require every mandatory verifier group.
+- Complete (local regression pass): F6, compare complete supported physical discovery.
+- Complete (local regression pass): F7, reconcile all started/completed native processes and logs.
+- Complete (local regression pass): F8, bind native stream PIDs and complete role-specific commands.
+- Complete (local regression pass and native helper readiness): F9, require selected-device completed Intel work and measurement overlap.
+- Complete: full Python/CLI/lint verification and correction self-audit.
+- Complete: correction implementation and verification; independent SPEC re-review and QUALITY review remain pending.
 
 ## Implementation
 
@@ -24,7 +34,8 @@ The modules separate these responsibilities:
 | gpu_intel_capture.py, gpu_intel_sources.py | Native i915/xe DRM, sysfs, perf and source metadata |
 | gpu_host_capture.py, gpu_capture.py | Build/source retention, capture phases and owned process cleanup |
 | gpu_apple_ax.m, gpu_linux_ax.py, gpu_desktop.py | Native desktop census, actions, clipping and displayed values |
-| gpu_originals.py | Bind normalized actions, states, phases and runtime binaries to originals |
+| gpu_originals.py | Bind normalized actions, states, phases, complete process census and runtime commands to originals |
+| gpu_intel_workload.c, gpu_workload.py | Fixed-buffer serial Vulkan work and completed-work measurement overlap |
 
 Apple checks use the predeclared [comparison protocol](apple-native-comparison-protocol.md). Residency and energy counters are bracketed by entirely preceding/following independent queries after clock-domain mapping. Power uses measured endpoints; frequency uses validated per-state mapping and active residency. Shared allocation and in-use remain separate scalar byte measurements. The [SMC software guard](../../decisions/report-unvalidated-apple-smc-temperatures-as-unavailable.md) retains raw bytes and withholds attributed values below 15 C; independent HID temperatures are unaffected. Every enumerated HID service is retained, including missing product attributes.
 
@@ -32,7 +43,7 @@ Native controls have a semantic control name and a separate native selector. Emp
 
 Linux clipping uses the uniquely matched same-PID X11 top-level window when AT-SPI reports invalid window geometry. It retains the native window ID, raw geometry and translated screen position, then replays descendant viewport clipping from native ancestry. It does not substitute screen dimensions. Apple uses AX window and viewport geometry. Neither diagnostic publication nor a zero-size/truncated accessibility tree establishes display.
 
-Every child has an external deadline, retained stdout/stderr, executable hash, PID and cleanup record. Descendants remaining after a leader exits are terminated within a bounded cleanup period. Apple setup and observation/workload loops drain autorelease pools; `OBJC_DEBUG_MISSING_POOLS=YES` is retained for every native process and missing-pool warnings reject a host report.
+Every child has an external deadline, retained stdout/stderr, executable hash, PID and cleanup record. The verifier reconciles every top-level started/completed process and log on disk with the manifest and lifecycle; removing a lifecycle row cannot hide a retained helper warning. It checks entire role-specific commands, including interpreter script paths and modes, and binds raw native stream PIDs to their executed owners. Descendants remaining after a leader exits are terminated within a bounded cleanup period. Apple setup and observation/workload loops drain autorelease pools; `OBJC_DEBUG_MISSING_POOLS=YES` is retained for every native process and missing-pool warnings reject a host report.
 
 ## Commands and capture contract
 
@@ -54,7 +65,7 @@ On the native host, use `gpu_host_capture.py` with fresh output outside the chec
 rtk proxy python3 -B scripts/system-pulse/gpu_host_capture.py --output /absolute/fresh/native-attempt --target-dir /absolute/build-cache --action-plan /absolute/action-plan.json
 ```
 
-Intel additionally requires the independently selected PCI address via `--pci` and a finite task-owned workload argv encoded as JSON via `--load-command`. Its command must finish successfully inside the declared load phase and 20-second process deadline. Apple creates its own serial 4 MiB Metal workload on the independently matched registry ID. A locked Mac console rejects capture before application launch.
+Intel additionally requires the independently selected PCI address via `--pci`, a C compiler, Vulkan headers/loader supporting Vulkan 1.1 and a physical device exposing `VK_EXT_pci_bus_info`. The capture builds `gpu_intel_workload.c` and runs its exact selected-PCI command for 12 seconds within a 20-second process deadline. There is no arbitrary workload-command option. Missing workload prerequisites fail native validation explicitly. Apple creates its own serial 4 MiB Metal workload on the independently matched registry ID. A locked Mac console rejects capture before application launch.
 
 The action plan is a JSON array of 6–60 steps. Each step has `name`, semantic `target`, `selector`, `method` and optional `phase`/scroll `value`. It must cover panel collapse, sensor collapse, scrolling, interval and meter changes. The capture adds the restart/restoration action. For example, the interval step is:
 
@@ -68,9 +79,26 @@ Before measurement, the capture retains inventory, the action-plan hash, field f
 
 Failed attempts remain on disk. The report manifest retains original source files, native binaries, commands, logs, inventories, samples, native actions, saved states and lifecycle records. A copied PASS flag or helper-readiness report cannot substitute for this report format.
 
+## Correction details
+
+The [bounded Vulkan workload decision](../../decisions/verify-intel-gpu-load-with-a-bounded-native-vulkan-helper.md) governs the Intel load correction. The native helper queries PCI identity on each device advertising the extension, requires exactly one match and Intel vendor ID, allocates a fixed 4 MiB transfer buffer with at most 64 MiB backing allocation, and submits one buffer-fill command at a time. Each submission must complete its fence before reuse. Enumeration, submissions, memory, fence waits and process lifetime are bounded. The source, build command/logs, binary hash, exact runtime command, selected PCI census and completion receipt are retained.
+
+Khronos documents the physical PCI properties and per-device extension query in [VkPhysicalDevicePCIBusInfoPropertiesEXT](https://docs.vulkan.org/refpages/latest/refpages/source/VkPhysicalDevicePCIBusInfoPropertiesEXT.html) and [VK_EXT_pci_bus_info](https://docs.vulkan.org/refpages/latest/refpages/source/VK_EXT_pci_bus_info.html). The helper follows the buffer usage/alignment and completed-fence contracts in [vkCmdFillBuffer](https://docs.vulkan.org/refpages/latest/refpages/source/vkCmdFillBuffer.html) and [vkWaitForFences](https://docs.vulkan.org/refpages/latest/refpages/source/vkWaitForFences.html). Primary source chapters and installed Vulkan 1.4.341 headers are retained under `spec-corrections-20260906/vulkan-api-evidence/` with hashes. These are prerequisite/API evidence, not Intel hardware accuracy evidence.
+
+Both platforms retain an actual completed-work interval and clock anchor. A load result requires a consumed selected-GPU source query and an independently captured matching source measurement inside that interval after conservative clock mapping. Acceptance time alone cannot turn a query collected before work into a load observation. No utilization-rise threshold is inferred.
+
+The other corrections compare every memory-region operand, require the targeted native sensor control to visibly change, retain the full transitive first-party build input directories, honor full-ID same-name GPU labels, require each of the seven nonempty verifier groups, and reconcile every supported physical GPU separately from selected-device field accuracy. Reordered devices and card/render aliases keep stable physical IDs.
+
 ## Verification evidence
 
 The task-owned artifact root is `/home/shawn/workspace2/task-manager-artifacts/gpu-task4`.
+
+Correction evidence is retained under `spec-corrections-20260906/`. The original failing review reproductions remain unchanged; per-finding RED/GREEN logs record the boundary regressions. Final checks passed all 437 Python tests, including 54 GPU verifier tests. The development CLI passed all seven nonempty groups: aggregate 6, Apple capture 5, arithmetic 6, desktop 8, evidence 12, Intel 10 and native 7. It emitted no Cairn acceptance lines. Ruff lint/format passed for 21 Python files; clang-format checked all three native sources. Exact commands, logs and hashes are retained in [the correction record](gpu-acceptance-corrections.json) and `final-checks/`.
+
+- Vulkan native compile: PID 2579289 exited 0, reaped/absent, empty stderr. Exact-PCI missing-Intel probe PID 2579302 exited 3, reaped/absent, with an explicit selected-device/PCI-extension prerequisite failure. Its radv warnings are retained. This host supplied no positive Intel work or accuracy result.
+- Updated Metal work timing: compile 6337, inventory 6346 and workload 6352 exited 0, reaped/absent, with empty stderr and pool diagnostics enabled. The task-owned 4 MiB workload completed 1,337 serial commands; actual work start/finish and wall anchor place the interval inside its owned process. The 31-file `apple-work-timing-manifest.json` retains the originals. Root independently rehashed the transfer and verified process absence in `root-workload-readiness-verification.json`. No GUI interaction or acceptance capture ran.
+
+The initial implementation checks below predate these corrections:
 
 - GPU verifier suite: 42 tests passed, including actual bounded child/descendant cleanup.
 - Ruff lint and format checks passed for the 20 new Python modules/tests; clang-format dry-run with warnings as errors passed for both Objective-C sources. Final development CLI verification retained 42 passing tests at `development-final-20260906/gpu-verifier-tests.log`, SHA-256 `b4c882c0d40b3a266bedfeb3d20aa91c7812dbffdc0d8c71436c273fe11d5a0c`, and emitted no Cairn acceptance lines.
@@ -85,4 +113,4 @@ Intel integrated and discrete hardware are unavailable in this task. Apple obser
 
 ## Self-audit
 
-The implementation was checked against all 14 production rules. The mechanism preserves existing source and acceptance contracts, rejects unsupported evidence, bounds its children and native traversals, retains failures, and has no known remaining helper-source defect. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.
+The correction was checked against all 14 production rules after final verification. The changes are confined to the acceptance mechanism and its tests, native helpers and documentation. They preserve production collector behavior, bound workload and process resources, reject missing provenance and retain failures. New Vulkan prerequisites and the workload-command replacement are documented. No further helper-source revision was identified by the self-audit; the nine findings remain open for independent re-review. The known full-preservation failure is disclosed above and is not converted into a pass. Independent review, a demonstrated cause for that failure, fresh untraced preservation and final hardware-class acceptance remain required.

@@ -7,12 +7,210 @@ from gpu_evidence import read_json, read_lines, strict_json
 from host_accuracy import require
 
 
+def validate_commands(paths, report, build, by_role, actions):
+    apple = report["hardware_class"] == "apple-silicon"
+    root = report["capture_root"]
+    binaries = {role: root + "/" + name for role, name in build["executables"].items()}
+    source = root + "/source/scripts/system-pulse/"
+    build_command = [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--bin",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "--bin",
+        "pulse-snapshot",
+    ]
+    expected = {
+        "build": build_command,
+        "application": [binaries["application"]],
+        "application-restored": [binaries["application"]],
+        "collector": [binaries["collector"], "--count", "60", "--interval-ms", "1000"],
+        "inventory": [binaries["observer"]]
+        + (
+            ["observe", "1", "100"]
+            if apple
+            else [source + "gpu_intel_capture.py", "--count", "1"]
+        ),
+        "observer": [binaries["observer"]]
+        + (
+            ["observe", "600", "100"]
+            if apple
+            else [
+                source + "gpu_intel_capture.py",
+                "--count",
+                "600",
+                "--interval-ms",
+                "100",
+            ]
+        ),
+    }
+    require(
+        build["command"] == build_command,
+        "retained build command differs from required build",
+    )
+    if apple:
+        expected["helper-build"] = [
+            "/usr/bin/clang",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-fobjc-arc",
+            "-framework",
+            "Foundation",
+            "-framework",
+            "Metal",
+            "-framework",
+            "IOKit",
+            "-framework",
+            "ApplicationServices",
+            source + "gpu_apple_native.m",
+            source + "gpu_apple_ax.m",
+            "-o",
+            binaries["observer"],
+        ]
+        expected["console-session"] = [
+            "/usr/sbin/ioreg",
+            "-a",
+            "-l",
+            "-w",
+            "0",
+            "-d",
+            "1",
+            "-k",
+            "IOConsoleUsers",
+        ]
+        policy = read_json(paths["policy.json"])
+        expected["workload"] = [
+            binaries["observer"],
+            "workload",
+            str(policy["device"]["registry_id"]),
+            str(policy["workload_seconds"]),
+        ]
+    else:
+        policy = read_json(paths["policy.json"])
+        expected["workload-build"] = [
+            "/usr/bin/cc",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            source + "gpu_intel_workload.c",
+            "-lvulkan",
+            "-o",
+            binaries["workload"],
+        ]
+        expected["workload"] = [
+            binaries["workload"],
+            policy["device"]["pci"],
+            str(policy["workload_seconds"]),
+        ]
+    require(set(expected) <= set(by_role), "missing executed native command role")
+    for role, command in expected.items():
+        require(
+            by_role[role]["command"] == command, "wrong complete command for " + role
+        )
+    for role, name in [
+        ("inventory", "native-inventory.json"),
+        ("observer", "native-observer.jsonl"),
+    ]:
+        frames = (
+            [read_json(paths[name])] if role == "inventory" else read_lines(paths[name])
+        )
+        require(
+            all(
+                type(f["pid"]) is int and f["pid"] == by_role[role]["pid"]
+                for f in frames
+            ),
+            "raw native stream PID differs from owned " + role,
+        )
+    pids = {by_role[r]["pid"] for r in ("application", "application-restored")}
+    action_paths = {a["native_path"] for a in actions if a["name"] != "restore"}
+    for role, record in by_role.items():
+        if role in expected or role == "workload":
+            continue
+        require(role.startswith("ax"), "unknown retained native process role")
+        command = record["command"]
+        require(
+            len(command) >= 3
+            and command[:2]
+            == [binaries["observer"], "ax" if apple else source + "gpu_linux_ax.py"]
+            and command[2] in {str(pid) for pid in pids},
+            "wrong native accessibility implementation or target",
+        )
+        original = read_json(paths[record["stdout"]])
+        if record["stdout"] in action_paths:
+            continue  # Exact plan/action suffix and before/after PIDs are checked below.
+        if len(command) == 3:
+            frames = [original]
+        else:
+            require(
+                command[3:] == ["close"]
+                and original["return_code"] == 0
+                and original["target_pid"] == int(command[2])
+                and original["method"]
+                == ("AXPressCloseButton" if apple else "WM_DELETE_WINDOW"),
+                "unbound native census/close command or result",
+            )
+            frames = [original["before"]]
+        require(
+            all(
+                f["observer_pid"] == record["pid"]
+                and f["target_pid"] == int(command[2])
+                for f in frames
+            ),
+            "native readiness/close/restore census PID differs from executed helper",
+        )
+
+
 def validate_originals(paths, report, policy, actions, diagnostics):
     from gpu_capture import validate_workload
 
     lifecycle = read_json(paths["lifecycle.json"])
     by_role = {r["role"]: r for r in lifecycle}
     require(len(by_role) == len(lifecycle), "duplicate native process role")
+    roles = set(by_role)
+    root = paths["lifecycle.json"].parent
+    actual = list(root.iterdir())
+    require(len(actual) <= 10000, "native artifact directory exceeds bound")
+    for suffix in ("-started.json", "-finished.json", ".stdout", ".stderr"):
+        manifested = {
+            name for name in paths if "/" not in name and name.endswith(suffix)
+        }
+        retained = {path.name for path in actual if path.name.endswith(suffix)}
+        require(
+            manifested == retained
+            and {name[: -len(suffix)] for name in manifested} == roles,
+            "retained process census differs from manifest/lifecycle: " + suffix,
+        )
+    for role, record in by_role.items():
+        start = read_json(paths[role + "-started.json"])
+        require(
+            start
+            == {
+                k: record[k]
+                for k in (
+                    "pid",
+                    "command",
+                    "started_ns",
+                    "started_unix_ns",
+                    "deadline_ns",
+                )
+            },
+            "process start differs from completion/lifecycle",
+        )
+        for stream in ("stdout", "stderr"):
+            name = role + "." + stream
+            require(
+                record[stream] == name
+                and sha256(paths[name]) == record[stream + "_sha256"],
+                "process log identity or original digest differs",
+            )
     build = read_json(paths["build.json"])
     require(
         read_lines(paths["collector.stdout"]) == read_lines(paths["snapshots.jsonl"])
@@ -47,6 +245,8 @@ def validate_originals(paths, report, policy, actions, diagnostics):
             if role.startswith("application")
             else "collector"
             if role == "collector"
+            else "workload"
+            if role == "workload" and report["hardware_class"] != "apple-silicon"
             else "observer"
         )
         runtime = role in (
@@ -56,7 +256,7 @@ def validate_originals(paths, report, policy, actions, diagnostics):
             "application",
             "application-restored",
         ) or role.startswith("ax")
-        if report["hardware_class"] == "apple-silicon" and role == "workload":
+        if role == "workload":
             runtime = True
         if runtime:
             require(
@@ -65,6 +265,7 @@ def validate_originals(paths, report, policy, actions, diagnostics):
                 == report["capture_root"] + "/" + build["executables"][executable],
                 "executed native binary differs from committed build artifact",
             )
+    validate_commands(paths, report, build, by_role, actions)
     if report["hardware_class"] == "apple-silicon":
         from gpu_host_capture import console_session
 
@@ -76,14 +277,28 @@ def validate_originals(paths, report, policy, actions, diagnostics):
             and session["locked"] is False,
             "native visible capture used unavailable/locked desktop",
         )
-        workload = read_lines(paths["workload.stdout"])
-        require(
-            len(workload) == 1 and workload[0]["pid"] == by_role["workload"]["pid"],
-            "wrong workload PID/original",
-        )
+    workload = read_lines(paths["workload.stdout"])
+    require(
+        len(workload) == 1 and workload[0]["pid"] == by_role["workload"]["pid"],
+        "wrong workload PID/original",
+    )
+    if report["hardware_class"] == "apple-silicon":
         validate_workload(
             workload[0], policy["device"]["registry_id"], policy["workload_seconds"]
         )
+    else:
+        from gpu_workload import validate_intel_work
+
+        validate_intel_work(workload[0], policy["device"], policy["workload_seconds"])
+    from gpu_workload import validate_overlap
+
+    validate_overlap(
+        workload[0],
+        by_role["workload"],
+        diagnostics,
+        read_lines(paths["observer.jsonl"]),
+        policy,
+    )
     application_pids = {
         by_role[r]["pid"] for r in ("application", "application-restored")
     }

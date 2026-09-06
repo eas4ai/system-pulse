@@ -9,6 +9,174 @@ except ImportError:
 
 
 class AggregateTests(unittest.TestCase):
+    def test_actual_cli_rejects_each_missing_or_empty_mandatory_group(self):
+        import gpu_verify
+        import shutil
+        import subprocess
+        import sys
+        import json
+
+        groups = (
+            "aggregate",
+            "apple_capture",
+            "arithmetic",
+            "desktop",
+            "evidence",
+            "intel",
+            "native",
+        )
+        specimen = "import unittest\nclass Specimen(unittest.TestCase):\n    def test_nonempty(self): self.assertEqual(1,1)\n"
+        with tempfile.TemporaryDirectory() as tmp:
+            base = Path(tmp)
+            project = base / "project"
+            scripts = project / "scripts/system-pulse"
+            shutil.copytree(
+                gpu_verify.ROOT / "scripts/system-pulse",
+                scripts,
+                ignore=shutil.ignore_patterns("__pycache__"),
+            )
+            for path in scripts.glob("test_gpu_*.py"):
+                path.write_text(specimen)
+
+            def cli(label):
+                output = base / label
+                result = subprocess.run(
+                    [
+                        sys.executable,
+                        "-B",
+                        str(scripts / "gpu_verify.py"),
+                        "--development-tests-only",
+                        "--output",
+                        str(output),
+                    ],
+                    cwd=project,
+                    text=True,
+                    capture_output=True,
+                    timeout=30,
+                )
+                self.assertNotIn("cairn:", result.stdout)
+                return result, json.loads((output / "development.json").read_text())
+
+            baseline, record = cli("baseline")
+            self.assertEqual(baseline.returncode, 0, baseline.stdout + baseline.stderr)
+            self.assertFalse(record["errors"])
+            for group in groups:
+                path = scripts / ("test_gpu_" + group + ".py")
+                for operation in ("missing", "empty"):
+                    if operation == "missing":
+                        path.unlink()
+                    else:
+                        path.write_text("import unittest\n")
+                    try:
+                        result, record = cli(group + "-" + operation)
+                        with self.subTest(group=group, operation=operation):
+                            self.assertNotEqual(result.returncode, 0, result.stdout)
+                            self.assertTrue(record["errors"])
+                    finally:
+                        path.write_text(specimen)
+
+    def test_all_first_party_build_dependencies_are_declared(self):
+        import gpu_verify
+        import subprocess
+
+        self.assertTrue(
+            hasattr(gpu_verify, "build_dependency_roots"),
+            "build dependency closure is not validated",
+        )
+        roots = gpu_verify.build_dependency_roots()
+        self.assertTrue(
+            {"crates/base", "crates/ui", "crates/assets", "crates/macros"} <= set(roots)
+        )
+        tracked = set(
+            subprocess.check_output(
+                ["git", "ls-files", "--", *roots], cwd=gpu_verify.ROOT, text=True
+            ).splitlines()
+        )
+        declared = set(
+            subprocess.check_output(
+                ["git", "ls-files", "--", *gpu_verify.declared_inputs()],
+                cwd=gpu_verify.ROOT,
+                text=True,
+            ).splitlines()
+        )
+        self.assertTrue(tracked <= declared, sorted(tracked - declared))
+
+    def test_changed_or_removed_real_build_inputs_reject_committed_binding(self):
+        import gpu_verify
+        import subprocess
+        import shutil
+        from unittest.mock import patch
+
+        original = gpu_verify.ROOT
+        package_roots = ["crates/base", "crates/ui", "crates/assets", "crates/macros"]
+        selected = (
+            [root + "/Cargo.toml" for root in package_roots]
+            + [root + "/src/lib.rs" for root in package_roots]
+            + ["crates/assets/build.rs", "crates/ui/build.rs"]
+        )
+        selected += [
+            str(
+                sorted((original / "crates/assets/assets/icons").glob("*.svg"))[
+                    0
+                ].relative_to(original)
+            )
+        ]
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            for name in [
+                ".cairn/mechanisms/gpu-acceptance",
+                "Cargo.toml",
+                "Cargo.lock",
+                *selected,
+            ]:
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(original / name, root / name)
+
+            def git(*args):
+                return subprocess.check_output(
+                    ["git", *args], cwd=root, stderr=subprocess.DEVNULL
+                )
+
+            git("init", "-q")
+            git("add", ".")
+            git(
+                "-c",
+                "user.name=GPU verifier test",
+                "-c",
+                "user.email=gpu-test@localhost",
+                "-c",
+                "commit.gpgsign=false",
+                "commit",
+                "-qm",
+                "isolated input specimen",
+            )
+            with (
+                patch.object(gpu_verify, "ROOT", root),
+                patch.object(
+                    gpu_verify,
+                    "build_dependency_roots",
+                    return_value=package_roots,
+                    create=True,
+                ),
+            ):
+                gpu_verify.committed_inputs()
+                for name in selected:
+                    path = root / name
+                    raw = path.read_bytes()
+                    for operation in ("edit", "remove"):
+                        if operation == "edit":
+                            path.write_bytes(raw + b"\nchanged build input\n")
+                        else:
+                            path.unlink()
+                        try:
+                            with (
+                                self.subTest(path=name, operation=operation),
+                                self.assertRaises(AssertionError),
+                            ):
+                                gpu_verify.committed_inputs()
+                        finally:
+                            path.write_bytes(raw)
+
     def test_empty_or_wrong_test_selection_fails(self):
         self.assertIsNotNone(selected_test_count, "GPU nonempty selection gate missing")
         self.assertEqual(selected_test_count("Ran 4 tests in 0.1s\n\nOK\n"), 4)

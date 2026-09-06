@@ -566,6 +566,8 @@ static void observe(NSUInteger count, NSUInteger interval) {
 }
 
 static void workload(uint64_t registry, double seconds) {
+  NSDictionary *workClock = anchor();
+  uint64_t workStarted = 0, workFinished = 0;
   uint64_t start = now(), stop = start + (uint64_t)(seconds * 1e9);
   NSUInteger completed = 0;
   id<MTLDevice> selected = nil;
@@ -608,14 +610,20 @@ static void workload(uint64_t registry, double seconds) {
                                         pipeline.maxTotalThreadsPerThreadgroup),
                                     1, 1)];
       [encoder endEncoding];
+      if (!workStarted)
+        workStarted = now();
       [command commit];
       [command waitUntilCompleted];
       need(command.status == MTLCommandBufferStatusCompleted,
            command.error.description);
+      workFinished = now();
       completed++;
     }
   }
   emit(@{
+    @"clock_anchor" : workClock,
+    @"work_started_ns" : @(workStarted),
+    @"work_finished_ns" : @(workFinished),
     @"registry_id" : @(registry),
     @"pid" : @(getpid()),
     @"bytes" : @(bytes),
