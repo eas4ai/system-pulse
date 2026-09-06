@@ -41,8 +41,12 @@ idle values remain a validity question: both are approximately 9.2 when the
 companion keys are zero, and each pair differs by approximately 9.2 under load.
 This suggests a source offset or inactive-state behavior, but the probe does
 not establish its firmware meaning. Do not invent an offset subtraction, a
-temperature floor, or a cached current temperature. Task 2 must preserve raw
-values and establish a defensible inactive-source outcome.
+temperature floor, or a cached current temperature. The subsequent
+[temperature decision](../../decisions/report-unvalidated-apple-smc-temperatures-as-unavailable.md)
+adopts OSHI's documented conservative SMC plausibility guard, preserves raw
+values and states its cold-reading limitation. This is a software policy, not
+a discovered firmware validity bit. The [pinned upstream source record](apple-temperature-policy-source.json)
+retains its commit, blob and source-file hash.
 
 HID still exposed no GPU-named temperature service. System fan keys `F0Ac` and
 `F1Ac` remained zero; this does not establish GPU fan attribution.
