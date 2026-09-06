@@ -1,15 +1,15 @@
 # GPU acceptance implementation
 
-Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent quality review is pending. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
+Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The finding is recorded before correction. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
 
 ## Work tracking
 
-The remaining F10 identity finding was recorded at `9e1c2c07` before correction at `50ea29d6`. Independent specification review now closes all F1–F10; quality review follows.
+The remaining F10 identity finding was recorded at `9e1c2c07` before correction at `50ea29d6`. Independent specification review now closes all F1–F10; quality review now requires Q1 correction.
 
 - Complete: original replay and four failing full-ingestion identity attacks; minimal inventory join and unchanged regression now pass, including reordered device/alias controls.
 - Complete: 440 Python tests, seven mandatory groups with 57 GPU tests, strict lint/format, unchanged native sources and all 14 self-audit rules.
 - Complete: focused commit `50ea29d6`, committed-source replay, 711 input bindings and independent specification review.
-- In progress: independent quality review.
+- In progress: correct recorded quality finding Q1, then complete independent specification and quality re-review.
 
 ## Implementation
 
