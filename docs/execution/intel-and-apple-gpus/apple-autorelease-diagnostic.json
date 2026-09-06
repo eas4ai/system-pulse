@@ -1,0 +1,93 @@
+{
+  "purpose": "Native diagnostic retained before correcting quality finding F1; not GPU accuracy acceptance",
+  "native_report": {
+    "directory": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/root-autorelease-1thyc5x8",
+    "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+    "binary_sha256": "8e250888c1e05326b70365da32e7ed374ca53e2a347cca7f1bc926f7b48e015c",
+    "control_source_sha256": "0646a130c271cf1ff54db5ff3608c1c6fe9dd3875e1356d09b7b4d533348ac3b",
+    "environment": {
+      "OBJC_DEBUG_MISSING_POOLS": "YES"
+    },
+    "results": [
+      {
+        "name": "compile",
+        "command": [
+          "/usr/bin/xcrun",
+          "clang",
+          "-fno-objc-arc",
+          "-framework",
+          "Foundation",
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/root-autorelease-1thyc5x8/pool-control.m",
+          "-o",
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/root-autorelease-1thyc5x8/pool-control"
+        ],
+        "pid": 3149,
+        "exit": 0,
+        "timed_out": false,
+        "seconds": 0.490452417,
+        "stderr_bytes": 0,
+        "stdout_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "without-pool",
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/root-autorelease-1thyc5x8/pool-control"
+        ],
+        "pid": 3153,
+        "exit": 0,
+        "timed_out": false,
+        "seconds": 0.37591774999999994,
+        "stderr_bytes": 0,
+        "stdout_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "with-pool",
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/root-autorelease-1thyc5x8/pool-control",
+          "pool"
+        ],
+        "pid": 3154,
+        "exit": 0,
+        "timed_out": false,
+        "seconds": 0.014441915999999999,
+        "stderr_bytes": 0,
+        "stdout_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "name": "collector",
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/apple-df2300f2-pulse-snapshot",
+          "--count",
+          "3",
+          "--interval-ms",
+          "500"
+        ],
+        "pid": 3155,
+        "exit": 0,
+        "timed_out": false,
+        "seconds": 1.2888421250000002,
+        "stderr_bytes": 3057,
+        "stdout_bytes": 4576647,
+        "stderr_sha256": "ae56cdb0a2969f4512e86f011ed8dca416e44f4c1b4a648199976a4f11b603e9",
+        "stdout_sha256": "1b1e1f696f610a9754efec2acc08dfdbaad7c819ed03701d698c30f64cdeacea"
+      }
+    ],
+    "all_owned_processes_reaped": true
+  },
+  "transfer_verification": {
+    "directory": "/home/shawn/workspace2/task-manager-artifacts/apple-collector/root-autorelease-1thyc5x8",
+    "report_sha256": "21b5d967faf5dfb2022fd131fc3f82928cd14dda4d81b368df88d728e4726c65",
+    "verified_output_hashes": 8,
+    "native_missing_pool_warning_count": 17,
+    "collector_exit": 0,
+    "all_owned_processes_reaped": true,
+    "control_limitation": "Both initial NSObject controls emitted no warnings; they did not establish a positive control. The collector itself emitted explicit missing-pool diagnostics. No leak rate or long-running growth was measured."
+  },
+  "original_collector_stderr": "objc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c70e42a0 of class NSUserDefaults autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c69250e0 of class __NSSingleEntryDictionaryI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x1057ea7e0 of class NSBundle autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c6925320 of class __NSDictionaryM autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c70e42a0 of class NSUserDefaults autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x1057ea7e0 of class NSBundle autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c6925320 of class __NSDictionaryM autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c70e42a0 of class NSUserDefaults autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x1057eeb10 of class __NSSingleObjectArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c691b630 of class __NSCFString autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c691b4b0 of class __NSCFString autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x1057eec00 of class __NSSingleObjectArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c6255950 of class __NSCFString autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c6254f60 of class __NSCFString autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x1057e3d90 of class __NSSingleObjectArrayI autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c62687b0 of class __NSCFString autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\nobjc[3155]: MISSING POOLS: (0x1fa85e180) Object 0x9c6268570 of class __NSCFString autoreleased with no pool in place - just leaking - break on objc_autoreleaseNoPool() to debug\n"
+}
