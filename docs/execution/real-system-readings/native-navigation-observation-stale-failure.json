@@ -1,0 +1,1842 @@
+{
+  "status": "FAIL",
+  "kind": "focused untraced supporting replay, not full acceptance",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-navigation-observation-1rqv69wz/native",
+  "metadata": {
+    "application_pid": 1198513,
+    "publication_timing_instrumented": false,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "7dbcd3adfae54db64e3ed5f32cf728ee55684fd1429c95c1bbd1e72a770340e7",
+    "proc_exe_sha256": "7dbcd3adfae54db64e3ed5f32cf728ee55684fd1429c95c1bbd1e72a770340e7",
+    "source_commit": "57aec38298abdf84b04f31827b5f7d21f17c11c3",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.117s (limit 2.0s)"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "publication_timing_instrumented": false,
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "stale": {
+    "checked_unix_ns": 1788667204166737800,
+    "age_seconds": 2.116767208,
+    "limit_seconds": 2.0,
+    "observation": {
+      "opened_file": {
+        "device": 66318,
+        "inode": 222692849
+      },
+      "pathname_before_check": {
+        "device": 66318,
+        "inode": 222692852
+      },
+      "errors": {},
+      "read_started_monotonic_ns": 751438236679214,
+      "read_completed_monotonic_ns": 751438240709750,
+      "parse_completed_monotonic_ns": 751438259056030,
+      "age_checked_monotonic_ns": 751438259332078
+    },
+    "frame": {
+      "application_pid": 1198513,
+      "render_revision": 94,
+      "accepted_unix_ns": 1788667202049970592,
+      "sequence": 95
+    },
+    "durations": {
+      "read_ms": 4.030536,
+      "parse_ms": 18.34628,
+      "read_through_check_ms": 22.652864
+    }
+  },
+  "navigation": {
+    "target": "process:1205904:75143246",
+    "phase": "next batch",
+    "original_deadline_monotonic": 751613.367213196,
+    "last_acknowledged_identity": "process:4012042:74522983",
+    "target_index": 1136,
+    "population": 1423,
+    "distance": 280,
+    "error": "accepted frame stale: 2.117s (limit 2.0s)",
+    "observed_monotonic": 751438.385750851,
+    "observations": {
+      "capacity": 64,
+      "observed": 13,
+      "evicted": 0,
+      "clock": "Python time.monotonic_ns",
+      "records": [
+        {
+          "observation_id": 1,
+          "phase": "panel discovery",
+          "active_phase": "panel discovery",
+          "target": "process:1205904:75143246",
+          "expected": null,
+          "endpoint_index": null,
+          "batch_deadline_monotonic": 751441.732818748,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751433732847013,
+          "ended_monotonic_ns": 751434821610770,
+          "elapsed_ns": 1088763757,
+          "outcome": null,
+          "rejection_reason": null,
+          "exception": null,
+          "publications": [],
+          "publication_count": 0,
+          "panel_checks": [
+            {
+              "phase": "discovery membership",
+              "current": true
+            }
+          ],
+          "panel_check_count": 1,
+          "scans": [],
+          "scan_count": 0,
+          "discoveries": [
+            {
+              "started_monotonic_ns": 751433732856523,
+              "completed_monotonic_ns": 751434821604472,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 1088747949,
+              "complete": true
+            }
+          ],
+          "discovery_count": 1,
+          "recovery": null,
+          "navigation_phase": "enter table"
+        },
+        {
+          "observation_id": 2,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4191478:74600199",
+          "endpoint_index": 1413,
+          "batch_deadline_monotonic": 751441.732818748,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751434849988374,
+          "ended_monotonic_ns": 751434991828027,
+          "elapsed_ns": 141839653,
+          "outcome": "retry",
+          "rejection_reason": "competing instantiated selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751434927867078,
+              "completed_monotonic_ns": 751434953249469,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 25382391,
+              "complete": true,
+              "row_count": 9,
+              "row_identity_sample": [
+                "process:1:31",
+                "process:2:31",
+                "process:3:31",
+                "process:4:31",
+                "process:5:31",
+                "process:6:31",
+                "process:7:31",
+                "process:8:31"
+              ],
+              "last_row_identity": "process:11:31",
+              "selection_check_count": 9,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:1:31"
+              ],
+              "mapped_span": [
+                0,
+                8
+              ],
+              "mapped_count": 9,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 2,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "initial boundary acknowledgement"
+        },
+        {
+          "observation_id": 3,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4191478:74600199",
+          "endpoint_index": 1413,
+          "batch_deadline_monotonic": 751441.732818748,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751435016967762,
+          "ended_monotonic_ns": 751435165463048,
+          "elapsed_ns": 148495286,
+          "outcome": "returned selection",
+          "rejection_reason": null,
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751435108471539,
+              "completed_monotonic_ns": 751435133883213,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 25411674,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4191478:74600199"
+              ],
+              "mapped_span": [
+                1406,
+                1413
+              ],
+              "mapped_count": 8,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 2,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "initial boundary acknowledgement"
+        },
+        {
+          "observation_id": 4,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4122413:70937163",
+          "endpoint_index": 1411,
+          "batch_deadline_monotonic": 751443.16558509,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751435197632354,
+          "ended_monotonic_ns": 751435330349070,
+          "elapsed_ns": 132716716,
+          "outcome": "retry",
+          "rejection_reason": "competing instantiated selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751435269094444,
+              "completed_monotonic_ns": 751435292603053,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 23508609,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4191478:74600199"
+              ],
+              "mapped_span": [
+                1406,
+                1413
+              ],
+              "mapped_count": 8,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 4,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 5,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4122413:70937163",
+          "endpoint_index": 1411,
+          "batch_deadline_monotonic": 751443.16558509,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751435355537317,
+          "ended_monotonic_ns": 751435504906265,
+          "elapsed_ns": 149368948,
+          "outcome": "returned selection",
+          "rejection_reason": null,
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751435443277430,
+              "completed_monotonic_ns": 751435469347482,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 26070052,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4122413:70937163"
+              ],
+              "mapped_span": [
+                1406,
+                1413
+              ],
+              "mapped_count": 8,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 4,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 6,
+          "phase": "selection observation",
+          "active_phase": "publication after selection",
+          "target": "process:1205904:75143246",
+          "expected": "process:4043070:74546225",
+          "endpoint_index": 1409,
+          "batch_deadline_monotonic": 751443.507706818,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751435543834162,
+          "ended_monotonic_ns": 751435713856602,
+          "elapsed_ns": 170022440,
+          "outcome": "retry",
+          "rejection_reason": "publication changed during selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 92,
+              "accepted_unix_ns": 1788667200087382073,
+              "sequence": 93
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751435628536396,
+              "completed_monotonic_ns": 751435665896174,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 37359778,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4122413:70937163"
+              ],
+              "mapped_span": null,
+              "mapped_count": null,
+              "mapping_source": null,
+              "mapping_error": null,
+              "complete_span": null
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": false,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": null,
+            "blocked_reason": null
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 7,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4043070:74546225",
+          "endpoint_index": 1409,
+          "batch_deadline_monotonic": 751443.507706818,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751435739103258,
+          "ended_monotonic_ns": 751435902625944,
+          "elapsed_ns": 163522686,
+          "outcome": "retry",
+          "rejection_reason": "competing instantiated selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751435829180565,
+              "completed_monotonic_ns": 751435862775702,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 33595137,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4122413:70937163"
+              ],
+              "mapped_span": [
+                1406,
+                1413
+              ],
+              "mapped_count": 8,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 7,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 8,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4043070:74546225",
+          "endpoint_index": 1409,
+          "batch_deadline_monotonic": 751443.507706818,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751435927740057,
+          "ended_monotonic_ns": 751436102016511,
+          "elapsed_ns": 174276454,
+          "outcome": "returned selection",
+          "rejection_reason": null,
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751436006983399,
+              "completed_monotonic_ns": 751436059411124,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 52427725,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4043070:74546225"
+              ],
+              "mapped_span": [
+                1406,
+                1413
+              ],
+              "mapped_count": 8,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 7,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 9,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4012042:74522983",
+          "endpoint_index": 1407,
+          "batch_deadline_monotonic": 751444.104908465,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751436151599974,
+          "ended_monotonic_ns": 751436305212684,
+          "elapsed_ns": 153612710,
+          "outcome": "retry",
+          "rejection_reason": "competing instantiated selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751436240374285,
+              "completed_monotonic_ns": 751436267330407,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 26956122,
+              "complete": true,
+              "row_count": 8,
+              "row_identity_sample": [
+                "process:4011981:74522958",
+                "process:4012042:74522983",
+                "process:4036322:68186217",
+                "process:4043070:74546225",
+                "process:4122362:70937149",
+                "process:4122413:70937163",
+                "process:4130985:74583630",
+                "process:4191478:74600199"
+              ],
+              "last_row_identity": "process:4191478:74600199",
+              "selection_check_count": 8,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4043070:74546225"
+              ],
+              "mapped_span": [
+                1406,
+                1413
+              ],
+              "mapped_count": 8,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 9,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 10,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4012042:74522983",
+          "endpoint_index": 1407,
+          "batch_deadline_monotonic": 751444.104908465,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751436330409468,
+          "ended_monotonic_ns": 751436484159199,
+          "elapsed_ns": 153749731,
+          "outcome": "retry",
+          "rejection_reason": "no instantiated selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 93,
+              "accepted_unix_ns": 1788667201360825653,
+              "sequence": 94
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751436420967841,
+              "completed_monotonic_ns": 751436445608982,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 24641141,
+              "complete": true,
+              "row_count": 10,
+              "row_identity_sample": [
+                "process:4010712:74522573",
+                "process:4011190:74522630",
+                "process:4011200:74522630",
+                "process:4011203:74522630",
+                "process:4011233:74522630",
+                "process:4011246:74522630",
+                "process:4011968:74522957",
+                "process:4011969:74522957"
+              ],
+              "last_row_identity": "process:4011981:74522958",
+              "selection_check_count": 10,
+              "instantiated_selected_count": 0,
+              "instantiated_selected": [],
+              "mapped_span": [
+                1406,
+                1415
+              ],
+              "mapped_count": 10,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 9,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 11,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4012042:74522983",
+          "endpoint_index": 1407,
+          "batch_deadline_monotonic": 751444.104908465,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751436509379464,
+          "ended_monotonic_ns": 751436643009747,
+          "elapsed_ns": 133630283,
+          "outcome": "retry",
+          "rejection_reason": "no instantiated selection",
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751436583190912,
+              "completed_monotonic_ns": 751436605753933,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 22563021,
+              "complete": true,
+              "row_count": 10,
+              "row_identity_sample": [
+                "process:4010712:74522573",
+                "process:4011190:74522630",
+                "process:4011200:74522630",
+                "process:4011203:74522630",
+                "process:4011233:74522630",
+                "process:4011246:74522630",
+                "process:4011968:74522957",
+                "process:4011969:74522957"
+              ],
+              "last_row_identity": "process:4011981:74522958",
+              "selection_check_count": 10,
+              "instantiated_selected_count": 0,
+              "instantiated_selected": [],
+              "mapped_span": [
+                1406,
+                1415
+              ],
+              "mapped_count": 10,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 9,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 12,
+          "phase": "selection observation",
+          "active_phase": "reveal eligibility",
+          "target": "process:1205904:75143246",
+          "expected": "process:4012042:74522983",
+          "endpoint_index": 1407,
+          "batch_deadline_monotonic": 751444.104908465,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751436668218916,
+          "ended_monotonic_ns": 751436822213149,
+          "elapsed_ns": 153994233,
+          "outcome": "returned selection",
+          "rejection_reason": null,
+          "exception": null,
+          "publications": [
+            {
+              "phase": "initial",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            },
+            {
+              "phase": "before selection",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            },
+            {
+              "phase": "after selection",
+              "application_pid": 1198513,
+              "render_revision": 94,
+              "accepted_unix_ns": 1788667202049970592,
+              "sequence": 95
+            }
+          ],
+          "publication_count": 3,
+          "panel_checks": [
+            {
+              "phase": "retained",
+              "current": true
+            },
+            {
+              "phase": "before scan",
+              "current": true
+            },
+            {
+              "phase": "after scan",
+              "current": true
+            }
+          ],
+          "panel_check_count": 3,
+          "scans": [
+            {
+              "started_monotonic_ns": 751436755558672,
+              "completed_monotonic_ns": 751436784802696,
+              "aborted_monotonic_ns": null,
+              "elapsed_ns": 29244024,
+              "complete": true,
+              "row_count": 10,
+              "row_identity_sample": [
+                "process:4011203:74522630",
+                "process:4011233:74522630",
+                "process:4011246:74522630",
+                "process:4011968:74522957",
+                "process:4011969:74522957",
+                "process:4011980:74522958",
+                "process:4011981:74522958",
+                "process:4012042:74522983"
+              ],
+              "last_row_identity": "process:4043070:74546225",
+              "selection_check_count": 10,
+              "instantiated_selected_count": 1,
+              "instantiated_selected": [
+                "process:4012042:74522983"
+              ],
+              "mapped_span": [
+                1409,
+                1418
+              ],
+              "mapped_count": 10,
+              "mapping_source": "after selection",
+              "mapping_error": null,
+              "complete_span": true
+            }
+          ],
+          "scan_count": 1,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": true,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": 9,
+            "blocked_reason": "competing instantiated selection"
+          },
+          "navigation_phase": "next batch"
+        },
+        {
+          "observation_id": 13,
+          "phase": "selection observation",
+          "active_phase": "initial publication",
+          "target": "process:1205904:75143246",
+          "expected": "process:4011980:74522958",
+          "endpoint_index": 1414,
+          "batch_deadline_monotonic": 751444.824749764,
+          "navigation_deadline_monotonic": 751613.367213196,
+          "started_monotonic_ns": 751438236671828,
+          "ended_monotonic_ns": 751438385734375,
+          "elapsed_ns": 149062547,
+          "outcome": "exception",
+          "rejection_reason": null,
+          "exception": "AssertionError: accepted frame stale: 2.117s (limit 2.0s)",
+          "publications": [],
+          "publication_count": 0,
+          "panel_checks": [],
+          "panel_check_count": 0,
+          "scans": [],
+          "scan_count": 0,
+          "discoveries": [],
+          "discovery_count": 0,
+          "recovery": {
+            "blocked": false,
+            "preparing": false,
+            "started": false,
+            "proof": false,
+            "blocked_at_observation": null,
+            "blocked_reason": null
+          },
+          "navigation_phase": "next batch"
+        }
+      ]
+    }
+  },
+  "baseline_journal": {
+    "op": "navigation-baseline-stat",
+    "monotonic_ns": 751436879264901,
+    "expected": "process:4011980:74522958",
+    "observation": {
+      "source": "/proc/4011980/stat",
+      "start": 751436879156865,
+      "end": 751436879217899,
+      "errno": null,
+      "raw": "4011980 (sh) S 4011246 4011246 1220005 34820 4010712 4194304 122 0 0 0 0 0 0 0 20 0 1 0 74522958 2957312 355 18446744073709551615 98790055690240 98790055775917 140732077490176 0 0 0 0 0 65538 1 0 0 17 2 0 0 0 0 0 98790055800272 98790055805472 98790524178432 140732077495286 140732077495305 140732077495305 140732077498348 0\n",
+      "namespace": {
+        "device": 26,
+        "inode": 1,
+        "pid_namespace": "pid:[4026531836]",
+        "application_pid_namespace": "pid:[4026531836]"
+      },
+      "identity": "process:4011980:74522958"
+    },
+    "query_started_monotonic_ns": 751436879094074,
+    "query_completed_monotonic_ns": 751436879236244
+  },
+  "batch_journal": {
+    "op": "navigation-batch",
+    "monotonic_ns": 751438236313959,
+    "target": "process:1205904:75143246",
+    "selected": "process:4012042:74522983",
+    "expected": "process:4011980:74522958",
+    "endpoint_index": 1414,
+    "count": 2,
+    "distance": 280,
+    "sequence": 95,
+    "deadline": 751613.367213196,
+    "batch_deadline": 751444.824749764,
+    "publication": {
+      "sequence": 95,
+      "application_pid": 1198513,
+      "render_revision": 94,
+      "accepted_unix_ns": 1788667202049970592
+    },
+    "keys": [
+      "Up",
+      "Up"
+    ]
+  },
+  "journal_timestamp_gap_seconds": 1.357049058,
+  "later_failure_frame": {
+    "application_pid": 1198513,
+    "render_revision": 95,
+    "accepted_unix_ns": 1788667203263114870,
+    "sequence": 96
+  },
+  "later_latest_frame": {
+    "application_pid": 1198513,
+    "render_revision": 96,
+    "accepted_unix_ns": 1788667204055742671,
+    "sequence": 97
+  },
+  "cleanup": [
+    {
+      "pid": 1198513,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 1198431,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "files": [
+    {
+      "path": "harness/acceptance.py",
+      "bytes": 21872,
+      "sha256": "2c0e3348adcb6f7b0c37cec7258f674c41669918fe1ab952ee74e78b2d837ffd"
+    },
+    {
+      "path": "harness/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "harness/host_capture.py",
+      "bytes": 65140,
+      "sha256": "6669acafb71601ba200149547d5832f527a10f6e6672ae256f76222917e90d76"
+    },
+    {
+      "path": "harness/native_contract.py",
+      "bytes": 5759,
+      "sha256": "25daddd3e7868321593143dca3943443c7d823d21850f96c91c18b0e1e697050"
+    },
+    {
+      "path": "harness/native_driver.py",
+      "bytes": 85826,
+      "sha256": "401293a23542e33347885f2d9f070ffea343d83257b065e57f635e013aa6cf35"
+    },
+    {
+      "path": "harness/native_input.py",
+      "bytes": 3150,
+      "sha256": "13733c81d15ffcf292aa5c62797dda8aa8d6c0bad9696f3c3a50e392d782e0e4"
+    },
+    {
+      "path": "harness/native_observations.py",
+      "bytes": 11368,
+      "sha256": "234f395dcbaf1c668da7ee8ac90f168b3103b0b7d75f79db9314e790ba090d3f"
+    },
+    {
+      "path": "harness/native_pending.py",
+      "bytes": 3733,
+      "sha256": "be237c80c0051c6d71a13e1ea7b7196cfc3ae3338d5508d68a8c3644de6b217e"
+    },
+    {
+      "path": "harness/native_replay.py",
+      "bytes": 43987,
+      "sha256": "3107e01f53725e872b400d728c6ce5b65da74d9cb8c2f5894ac3c94641aceaf2"
+    },
+    {
+      "path": "harness/process_evidence.py",
+      "bytes": 7674,
+      "sha256": "651d64bbbcea5ee9c2b8ea214bb7c33ca5aec30004c172122273aec7ce682c37"
+    },
+    {
+      "path": "harness/test_acceptance.py",
+      "bytes": 5546,
+      "sha256": "289d827ec1e3e08d62eeaa0298dc1110bc7060cfda4ebaec1455cca0a8f4e08f"
+    },
+    {
+      "path": "harness/test_capture_stream.py",
+      "bytes": 3707,
+      "sha256": "a135ba58e93b15eb484047f7c6792d2de26f39e19f2e90b64cb7174b225b4657"
+    },
+    {
+      "path": "harness/test_host_accuracy.py",
+      "bytes": 12236,
+      "sha256": "938a0806e144f4ec64b6e401712d8ea2f490a28adee6f3dc4a87e905f596ddb9"
+    },
+    {
+      "path": "harness/test_host_inventory.py",
+      "bytes": 12649,
+      "sha256": "f9a90584f97efe408fefde2331ccd312f958fa7aa5a992285e0fff710f157712"
+    },
+    {
+      "path": "harness/test_missing_device_specimen.py",
+      "bytes": 5845,
+      "sha256": "fd381c97f8c9a159eedaac00cb4616f1a1b787f1fbab234bed2e1a5481c5099a"
+    },
+    {
+      "path": "harness/test_native_cells.py",
+      "bytes": 22879,
+      "sha256": "73d80f4b8189eb6e624b4bf8b3e4647890cb2675e0b19069e9be44ab180cd2d9"
+    },
+    {
+      "path": "harness/test_native_cleanup.py",
+      "bytes": 3648,
+      "sha256": "b666c065a66a3fbe4b00779f57029a37f349c42d3efbca920321e831a5c77779"
+    },
+    {
+      "path": "harness/test_native_exit.py",
+      "bytes": 15981,
+      "sha256": "9bee0d9ee4f148089abd9af59adab79dfe593c198fba726745ac12465dedf218"
+    },
+    {
+      "path": "harness/test_native_frame.py",
+      "bytes": 12153,
+      "sha256": "b0a76c5e1528eb35d877df3e2bdda6a8b5e3b2baf66883278b893c70242b184c"
+    },
+    {
+      "path": "harness/test_native_input.py",
+      "bytes": 13781,
+      "sha256": "666feab12e4b8f473e43fd9f8ead85dbe11d58e13dbde0df0d9a4d8e0ea577a1"
+    },
+    {
+      "path": "harness/test_native_inspection.py",
+      "bytes": 33394,
+      "sha256": "b9eb370cd168fc5749951bd347ae0ba2844eb390ebd9bdb888821e20c1d5f3d8"
+    },
+    {
+      "path": "harness/test_native_navigation.py",
+      "bytes": 56495,
+      "sha256": "44096de900153a11868a89f3096669ec73c7fb2bb81b26b695642f1812e5e93c"
+    },
+    {
+      "path": "harness/test_native_observations.py",
+      "bytes": 20728,
+      "sha256": "ea85dd2fe3600621ff695110d2617c8cd5b1060d5ac06f057aa5f222a226c15e"
+    },
+    {
+      "path": "harness/test_native_pending_endpoint.py",
+      "bytes": 35029,
+      "sha256": "bc73dc6888f307580cf301181ffa4423b8f20c310da55b811e08e5455f027c92"
+    },
+    {
+      "path": "harness/test_process_attribution.py",
+      "bytes": 5852,
+      "sha256": "687b207d8df6731b97f286620e2f3b220a56ed88e4546e0889b93325d86f37ea"
+    },
+    {
+      "path": "harness/test_process_coverage_gate.py",
+      "bytes": 6962,
+      "sha256": "fdd81057df64202ff30418a432296a964aed42eed99d172cb13c701eadd89bf6"
+    },
+    {
+      "path": "harness/test_process_exit_policy.py",
+      "bytes": 14985,
+      "sha256": "3e8c9378fd0c389f7f8edc5cb3982d1500173f68f8765af955d1067348005d1c"
+    },
+    {
+      "path": "harness/test_publication_timing.py",
+      "bytes": 8330,
+      "sha256": "50a637cea57bc8a12737158d87c2c11fec91e673fd805f8572b9aed5e35482e8"
+    },
+    {
+      "path": "harness/test_requirement_verdicts.py",
+      "bytes": 17862,
+      "sha256": "cd734cc36411f5a2ac4bba80daacfda0a2f5d7a508f10fbc48c9fd6e1155aaed"
+    },
+    {
+      "path": "harness/test_supplemental_processes.py",
+      "bytes": 14114,
+      "sha256": "aa810c563fb01fb83c26fe91a8b7bff056950a18a93bc37959b07fabfa32972f"
+    },
+    {
+      "path": "harness/verify.py",
+      "bytes": 482,
+      "sha256": "2d7db9f4cb6e76af895b0ff5b18c43d4066a11755d5ee26bde1f65df407ba236"
+    },
+    {
+      "path": "harness-manifest.json",
+      "bytes": 2962,
+      "sha256": "22a4d562db6267ca3cebdbb11eea1661f1373a9f69a5694f4e4e0d26537dd980"
+    },
+    {
+      "path": "private-session.json",
+      "bytes": 649,
+      "sha256": "ee2817fecdf44f0be3022fd1769b154af34fdf4e0b189e5c689b5682aaf01581"
+    },
+    {
+      "path": "private-session.log",
+      "bytes": 7809,
+      "sha256": "0df073621279d14d620e5b0d64194cd2a0c1a4f3bf6044d324b281faac43f4ed"
+    },
+    {
+      "path": "progress.jsonl",
+      "bytes": 884,
+      "sha256": "d3b78b8adf1f2c00345b1679c4867d11c4406d905ff6a102d07bfebf352851eb"
+    },
+    {
+      "path": "result.json",
+      "bytes": 705,
+      "sha256": "acef8d101c6c6abad25389d9a50fe0045a10809a4d9ecb0589564ab136e33791"
+    },
+    {
+      "path": "session-01/application.log",
+      "bytes": 467,
+      "sha256": "b46fe48d4c34a6b2ee52632bbee71f24a88d7880bda54755ae9ac4e35c6b99b7"
+    },
+    {
+      "path": "session-01/chart-history-evidence.json",
+      "bytes": 524,
+      "sha256": "e50e600740ac05983198074c1d485f1c73c9bb5e92b681654b900a3864e8c822"
+    },
+    {
+      "path": "session-01/chart-physical-value-ancestors.json",
+      "bytes": 647,
+      "sha256": "87df6ded1cd041372739eef99f6b00892100134c0033dc8f6a283e2f379af4cb"
+    },
+    {
+      "path": "session-01/chart-physical-value.json",
+      "bytes": 10202142,
+      "sha256": "79829c2ddc68f386ab6f3b843a8d6e6676db882bae821fc64bb6f7d53c19427e"
+    },
+    {
+      "path": "session-01/chart-physical-value.png",
+      "bytes": 119998,
+      "sha256": "ab3bfc69476b653cc7331cc4ded229f5cabf60103b98e873f0f8b63ad2b2b85b"
+    },
+    {
+      "path": "session-01/cleanup.json",
+      "bytes": 78,
+      "sha256": "3d3693bc9d73b12d282a60df687468cbd7186de3b6890b4c0989aec67b42c8f0"
+    },
+    {
+      "path": "session-01/collapse-after-state.json",
+      "bytes": 540151,
+      "sha256": "1309b09189489b5ec5d3a52874463c6ac7f7dca56ef487264a3bd11aa8b6a752"
+    },
+    {
+      "path": "session-01/collapse-baseline-state.json",
+      "bytes": 540154,
+      "sha256": "0b1211a3f49042e4c18d03448481a2ba52334565ae4302d5af05fbb740e0ac04"
+    },
+    {
+      "path": "session-01/collapsed-sequences.json",
+      "bytes": 293,
+      "sha256": "d3e0ec3004d879b7dc677e7c42ed9b2a4fa6ee0656370bc424f843168ad73747"
+    },
+    {
+      "path": "session-01/cpu-visible-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "session-01/cpu-visible.json",
+      "bytes": 10179824,
+      "sha256": "783faabc73940edf40d85258c6f61052113326424a346d60cd2025a0cced8de1"
+    },
+    {
+      "path": "session-01/cpu-visible.png",
+      "bytes": 130050,
+      "sha256": "6809d1cb0e921f46e2e516c3240b5ccfbe449781b0c138b5cdb35a4bcb474566"
+    },
+    {
+      "path": "session-01/exact-64-up.json",
+      "bytes": 1652,
+      "sha256": "2262d9be93042fc721850103824ad970b647e8a92393aff90098dea1a4b5ca32"
+    },
+    {
+      "path": "session-01/expanded-chart.png",
+      "bytes": 119998,
+      "sha256": "ab3bfc69476b653cc7331cc4ded229f5cabf60103b98e873f0f8b63ad2b2b85b"
+    },
+    {
+      "path": "session-01/failure-frame.json",
+      "bytes": 9560349,
+      "sha256": "71b81f908a1b00956b7eeb43c32b5fd150f4bd43399565e59a8cae5c668859ec"
+    },
+    {
+      "path": "session-01/failure-panels.json",
+      "bytes": 175,
+      "sha256": "e4bb11a4fe98addd25b7368cecfabb503c9e55ed75954c2b18dc6789be3100e5"
+    },
+    {
+      "path": "session-01/failure.png",
+      "bytes": 160511,
+      "sha256": "981441055feb1b75dc258a197aed1df013e3c0d5779d844d9d9cc74cc3cc0973"
+    },
+    {
+      "path": "session-01/gpu-0-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "b9afa03f194da6d2a4b63dc53e5b9e406d2fb8234147d08f6fb1c9fed0570f06"
+    },
+    {
+      "path": "session-01/gpu-0-temperature-chart.png",
+      "bytes": 114876,
+      "sha256": "9f5ea2bc53dc4876273d2dc16a1544113d636b572156c264ab6ebf597fdbd86b"
+    },
+    {
+      "path": "session-01/gpu-0-temperature.json",
+      "bytes": 10200968,
+      "sha256": "302f2848c923c660cc05cd397e13893c19294d5b1ec7f7377818a1be43f98825"
+    },
+    {
+      "path": "session-01/gpu-0-temperature.png",
+      "bytes": 114876,
+      "sha256": "9f5ea2bc53dc4876273d2dc16a1544113d636b572156c264ab6ebf597fdbd86b"
+    },
+    {
+      "path": "session-01/gpu-0-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "e5cad9bf55a336895151bf8a25123e2ed019c84453d81f272d8dc6134d2a7585"
+    },
+    {
+      "path": "session-01/gpu-0-visible.json",
+      "bytes": 10192370,
+      "sha256": "55b0fd1454f216a96f6fab240e6176ce08c738f03af4183eb8b0a77db36df16f"
+    },
+    {
+      "path": "session-01/gpu-0-visible.png",
+      "bytes": 130362,
+      "sha256": "992a218b448b207002406ed4db68d94f02bdd3e954bc28e8113b77a6c268ddf3"
+    },
+    {
+      "path": "session-01/gpu-1-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "0ca4a9d8c580ccf374a37b170ab5804903336fa3cb54f12b9048d7d502577639"
+    },
+    {
+      "path": "session-01/gpu-1-temperature-chart.png",
+      "bytes": 125310,
+      "sha256": "1e7dead68365c2620938f91768feafcd476bf8315bd6cd64b57448aeb06baade"
+    },
+    {
+      "path": "session-01/gpu-1-temperature.json",
+      "bytes": 10199870,
+      "sha256": "16128d0ad0b4458bd5b5e0bc27ea1ca1a46a10a4f73961ffd884af648e079347"
+    },
+    {
+      "path": "session-01/gpu-1-temperature.png",
+      "bytes": 125310,
+      "sha256": "1e7dead68365c2620938f91768feafcd476bf8315bd6cd64b57448aeb06baade"
+    },
+    {
+      "path": "session-01/gpu-1-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "417e27a7eb1af4cd6663cd1a5676eabf2d0efcbf4030ab82d0366027cbf30fe5"
+    },
+    {
+      "path": "session-01/gpu-1-visible.json",
+      "bytes": 10190884,
+      "sha256": "9b671ae7c3a64860f405c970c8060137a23ce240cc6523905d28a66f05399441"
+    },
+    {
+      "path": "session-01/gpu-1-visible.png",
+      "bytes": 135153,
+      "sha256": "9b994897fbca908986a9db9fc60c12571f1d16f095888bf70fd444902cd66580"
+    },
+    {
+      "path": "session-01/held-table-left.json",
+      "bytes": 3927,
+      "sha256": "8aec37d238f1165e4b1bc9aa2173c4bd9e8bc88418f174cae269d028ac8858d1"
+    },
+    {
+      "path": "session-01/held-table-right.json",
+      "bytes": 3991,
+      "sha256": "b05f300d98e2a661778b55a627e04063dbc003607b6b2f281c7718358e829280"
+    },
+    {
+      "path": "session-01/held-up-25hz.json",
+      "bytes": 3608,
+      "sha256": "fd725f951d42736952839ac43f6cc4bb320b519dde2f0a3f45215fcfa93f1d2b"
+    },
+    {
+      "path": "session-01/inner-edge-wheel.json",
+      "bytes": 211,
+      "sha256": "905788f5ac9bcee740cf651a64db027e08d9bca9d909f16fc3bf83740b6377e7"
+    },
+    {
+      "path": "session-01/inner-scroll.png",
+      "bytes": 174623,
+      "sha256": "bad3dac06d8713187f7b62c4248d03c83aa2a2d389b4e9adb030d4b89e6d547b"
+    },
+    {
+      "path": "session-01/journal.jsonl",
+      "bytes": 47291,
+      "sha256": "4c1376ae50ffb0a87ef5fa6bb5a88853f6d500fe0366a7bacb98a061f120ffb5"
+    },
+    {
+      "path": "session-01/latest.json",
+      "bytes": 5942401,
+      "sha256": "e89eb0522cd070812d356bb38f34c5003f7aeeb193ab1cde98266336bb34cf69"
+    },
+    {
+      "path": "session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "session-01/launch-no-tabs.png",
+      "bytes": 174120,
+      "sha256": "defc93948a453b35d2310bc4cf9d03fb0605f45ec06f720b9ecd0b1c81af9234"
+    },
+    {
+      "path": "session-01/metadata.json",
+      "bytes": 746,
+      "sha256": "a4c8aadae413b8f278941e7c3bed018e4ceb14648ae55f18799b07f464d7abe8"
+    },
+    {
+      "path": "session-01/navigation-failure-751438385974873.json",
+      "bytes": 37705,
+      "sha256": "1c79baf273d5e13b26edab56fdc6fb1556ec1253f18f5ec9dd8f2d6ead09098f"
+    },
+    {
+      "path": "session-01/navigation-start-process-1-31.json",
+      "bytes": 37731,
+      "sha256": "0b2a91c4d3ee95946fe0a36dca6047df3e4aee3d348453590a8d6948d346608d"
+    },
+    {
+      "path": "session-01/navigation-start-process-1205904-75143246.json",
+      "bytes": 37810,
+      "sha256": "9d8e7938d7aa835d41fda37883ce908c07685622119ff1a2d5113b891caeb794"
+    },
+    {
+      "path": "session-01/panel-compact-ancestors.json",
+      "bytes": 505,
+      "sha256": "bbf411cfc45495e74006fe22853bdcf30907f7c3d5506f0049f03f22f6fff7aa"
+    },
+    {
+      "path": "session-01/panel-compact.json",
+      "bytes": 10190906,
+      "sha256": "826507cc77f4ea590b2e146211b2e0aa2628592d543c383189838f8e4eb95841"
+    },
+    {
+      "path": "session-01/panel-compact.png",
+      "bytes": 127356,
+      "sha256": "466b4a661d88a06ed19fd2f16c75d7d1b6a9e09edf708fffd8d9f0f67d8d0592"
+    },
+    {
+      "path": "session-01/ram-capacity-ancestors.json",
+      "bytes": 653,
+      "sha256": "61c6c0f61b9bc96cd73b64451d29534bc842d142f2bc952d7cf9fcf582cb9041"
+    },
+    {
+      "path": "session-01/ram-capacity-chart.png",
+      "bytes": 114106,
+      "sha256": "f1700fa95a5d307995e798aa2f61ffcda5591b91d835eea809cb5a77bb32d262"
+    },
+    {
+      "path": "session-01/ram-capacity.json",
+      "bytes": 10200742,
+      "sha256": "a118129d044181fed8ca902e1c9076208109f42f30c5a049f035e9ed41480a81"
+    },
+    {
+      "path": "session-01/ram-capacity.png",
+      "bytes": 114106,
+      "sha256": "f1700fa95a5d307995e798aa2f61ffcda5591b91d835eea809cb5a77bb32d262"
+    },
+    {
+      "path": "session-01/ram-visible-ancestors.json",
+      "bytes": 509,
+      "sha256": "ae8675b5c7f22f47eff16f96e2b178627ec135f58c6caffc1e6901e6aaeec67c"
+    },
+    {
+      "path": "session-01/ram-visible.json",
+      "bytes": 10191603,
+      "sha256": "acd39bd1e9e911f0a927818f75442014b9c37fa616d169da598b05ea2293bde6"
+    },
+    {
+      "path": "session-01/ram-visible.png",
+      "bytes": 130239,
+      "sha256": "35f17ef61a3b9692baa1664ad29b83cb7482f16c85fcc0dd75dd1767200619b2"
+    },
+    {
+      "path": "session-01/real-child-start.json",
+      "bytes": 840,
+      "sha256": "f62c51b2859f2da0176440bbbd5592ecba5104fc5ffecd4c80dcf8e472fda306"
+    },
+    {
+      "path": "session-01/row-compact-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "session-01/row-compact.json",
+      "bytes": 10207733,
+      "sha256": "ca2530b4898c21622b08a933cb8d4413033b147a669b1ac5048f0edc857d6fab"
+    },
+    {
+      "path": "session-01/row-compact.png",
+      "bytes": 130662,
+      "sha256": "30319a05ffe4d07655970cb7a6df5d4d6f30e69f5cd40a9a955f5e7e205e21f8"
+    },
+    {
+      "path": "session-01/stale-frame-751438259332078.json",
+      "bytes": 10235958,
+      "sha256": "60d7eb45def5c95004495109642c7edda2c9af004195427f3c428e29507fc431"
+    },
+    {
+      "path": "state/workspace.json",
+      "bytes": 540152,
+      "sha256": "8907e4b55092a21badf5c0e3553cfc982980da97f23922d936542399f7417ef4"
+    },
+    {
+      "path": "transport-cleanup.json",
+      "bytes": 102,
+      "sha256": "ef88613574b911515981c40536a1fb591d358057e2dd6538f4b34cc55509bc89"
+    }
+  ]
+}
