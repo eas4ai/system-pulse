@@ -1,6 +1,6 @@
 # Resume: real system collection
 
-The user restarted the harness and invoked `/existing-project`. Resume the real-collection task through the adoption drafts; do not repeat the completed workspace implementation.
+The real-collection commitment is complete. Cairn returned Done after full committed acceptance and independent final review. The history below preserves the implementation and verification path; the developer names the next commitment.
 
 ## User direction
 
@@ -24,23 +24,34 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-Latest result: visible-endpoint correction `a5a8908a` passed independent SPEC and
-QUALITY reviews, 383 Python tests, relevant Ruff/formatting and source checks.
-Fresh untraced process replay `pulse-navigation-observation-gygy8bab` against
-`85c3dee6` passed all sixteen controlled-child comparisons, exact pre-exit selection,
-verified exit, held-input freshness and exact 64-key identity. Both app and transport
-exited zero. Source `docs/execution/real-system-readings/native-prior-visible-endpoint-focused-pass.md/json`
-retains all 138 artifact hashes. Inspection recovery used fifteen-second discovery;
-no intermediate navigation recovery occurred, so counterfactual success is unproven.
+Latest result: the full committed aggregate against `bb87134b` passed **745 tests**,
+formatting, strict Clippy, source checks, build, independent host comparisons and
+all native cases. Actual Cairn receipts `20260906T060609244Z` pass LIVE-001 through
+LIVE-013. Root verified all 154 declared artifact hashes, 242 total file hashes,
+sixteen native child comparisons, eight held-input artifacts and seven clean
+application exits. The four ordinary-process CPU endpoint gaps are independently
+explained exits and remain explicitly unverified under the agreed policy.
 
-The full committed Cairn aggregate against source `bb87134b` is now running in
+Source `docs/execution/real-system-readings/final-acceptance-pass.md/json` retains
+the complete result and limits. Artifact directory:
 `/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-7bza_d7_/system-pulse-acceptance-pr8gjqwq`.
-Source guard passed; automated verification is underway. No source implementation,
-independent review or extra native session runs alongside this capture. Full
-acceptance, final adversarial review and actual Cairn Done remain pending. The
-previous full aggregate `20luq4dm/z4iqe4_o` remains FAIL with its 136 artifact hashes
-and actual Cairn receipts retained in source `native-prior-selection-full-failure.md/json`.
-Do not poll finished sessions or reclassify previous failures as passes.
+The full run exercised two intermediate process navigation recoveries with fresh
+exact endpoint proof. It also exercised inspection recovery under fifteen-second
+discovery; no five-second inspection timing claim is made. NVIDIA hardware,
+macOS/Windows native behavior and physical device removal remain unverified.
+
+Current Cairn verdict: **Done: real-system-readings**, exit zero after final review
+commit `a8528ff1`. The independent final code review passed sixteen negative cases
+with no actionable findings, and the fourteen-rule production self-audit is complete.
+Source [completion record](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/completion.md)
+retains the actual verdict, accepted source, evidence and limits. Source completion
+documentation is committed as `9846a298`. All requested work in LIVE-001–013 is
+complete; all historical failures retain their original results.
+
+The feature branch/worktree remains available. No merge, push or deployment was
+performed. Styling, process operations, full preset CRUD and packaging remain
+separate product work. Do not restart finished native sessions or continue the
+completed commitment without a new user task.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
@@ -49,7 +60,7 @@ The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then
 3. Complete: real devices/readings/process rows, physical meters, stable state and test-only fixtures, with independent spec and quality review.
 4. Complete: shared connection-attribution raw evidence and malformed-row privacy fixes, independently spec/quality reviewed.
 5. Complete: native keyboard repaint coalescing, eight focused native cases, independent spec/quality reviews.
-6. **In progress:** executable independent host/native acceptance, then final review.
+6. Complete: executable independent host/native acceptance, final adversarial review, production self-audit and actual Cairn Done.
 
 Activation is committed as `55087aa6` in the source worktree. Read `docs/spec/live-collection.md`, `docs/plans/real-system-readings.md`, and `docs/commitments/real-system-readings.md` there. Historical READ/VIEW/STATE specs remain Observed. The new source-root AGENTS working agreement was created from the existing-project skill's template; the design repository's existing AGENTS remains untouched.
 
