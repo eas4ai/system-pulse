@@ -1,6 +1,6 @@
 # GPU acceptance implementation
 
-Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The focused correction below passed local verification and awaits independent SPEC then quality re-review. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
+Task 4 status: independent [specification review passed](gpu-acceptance-spec-pass.md) at `50ea29d6`, closing F1–F10. Independent [quality review](gpu-acceptance-quality-review.md) found Q1: exceptional capture exits can leave owned processes alive. The focused correction at `f1e78133` passed independent [specification re-review](gpu-acceptance-q1-spec-review.md); quality re-review remains pending. The failed Linux preservation run remains unresolved. Native hardware accuracy remains pending for Intel integrated, Intel discrete and Apple Silicon. The workstation is a [potential integrated Intel host](intel-integrated-host-candidate.md) after BIOS enablement, but currently exposes only AMD GPUs.
 
 ## Work tracking
 
@@ -9,7 +9,7 @@ Independent SPEC review closed F1–F10 at `50ea29d6`. Independent quality revie
 - Done: reproduced Q1 with real bounded processes and corrected exceptional ownership. The unchanged regression file moved from seven failing fault cases to all ten methods passing.
 - Done: 443 Python tests, all seven development groups (60 tests), strict Python checks and unchanged native-source verification.
 - Done: all 14 self-audit rules and retained source/lifecycle evidence for the focused correction.
-- In progress: Task 4 review handoff; independent SPEC and quality verdicts remain required.
+- In progress: Task 4 quality re-review; independent Q1 specification review passed.
 
 ## Implementation
 
