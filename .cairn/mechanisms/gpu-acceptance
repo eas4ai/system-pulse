@@ -11,6 +11,9 @@ inputs:
   - crates/ui/src/dock/
   - vendor/accesskit_atspi_common/
   - scripts/system-pulse/
+  - .cairn/mechanisms/gpu-acceptance
+  - docs/execution/intel-and-apple-gpus/apple-native-comparison-protocol.md
+  - docs/decisions/report-unvalidated-apple-smc-temperatures-as-unavailable.md
 requirements:
   - GPU-001
   - GPU-002
