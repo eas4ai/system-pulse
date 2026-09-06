@@ -1,0 +1,190 @@
+{
+  "status": "FAIL",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-b9safeex/native",
+  "metadata": {
+    "application_pid": 3569532,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "proc_exe_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "source_commit": "6a23389228da70e46fa81481803a5ce63aaece9e",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "last_batch": {
+    "op": "navigation-batch",
+    "monotonic_ns": 740889497684248,
+    "target": "process:3576994:74087154",
+    "selected": "process:3592741:22147376",
+    "expected": "process:3578380:74088807",
+    "endpoint_index": 1321,
+    "count": 2,
+    "distance": 6,
+    "sequence": 105,
+    "deadline": 741052.568124415
+  },
+  "failure": {
+    "target": "process:3576994:74087154",
+    "phase": "next batch",
+    "original_deadline_monotonic": 741052.568124415,
+    "last_acknowledged_identity": "process:3592741:22147376",
+    "target_index": 1317,
+    "population": 1372,
+    "distance": 6,
+    "error": "native discovery deadline exceeded; incomplete tree",
+    "observed_monotonic": 740897.462730754
+  },
+  "seconds_after_batch_journal": 7.965046506025828,
+  "failure_publication": {
+    "sequence": 113,
+    "render_revision": 112,
+    "accepted_unix_ns": 1788656662199708355
+  },
+  "failure_target_index": 1316,
+  "failure_population": 1370,
+  "expected_present_in_failure_snapshot": false,
+  "screenshot_first_visible_pid": 3592542,
+  "screenshot_first_pid_snapshot_index": 1320,
+  "post_batch_journal": [
+    {
+      "op": "key",
+      "monotonic_ns": 740889497745271,
+      "keys": [
+        "Up"
+      ],
+      "pressed": null
+    },
+    {
+      "op": "key",
+      "monotonic_ns": 740889498056125,
+      "keys": [
+        "Up"
+      ],
+      "pressed": null
+    },
+    {
+      "op": "screenshot",
+      "monotonic_ns": 740897490681577,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-b9safeex/native/session-01/failure.png",
+      "sha256": "b1f64fbe626c6bd257feef7d59ebd740131555278078f1e1633c96ebd37e3e8b"
+    }
+  ],
+  "stale_artifacts": [],
+  "cleanup": [
+    {
+      "pid": 3569532,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 3569506,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "artifacts": {
+    "result.json": {
+      "bytes": 671,
+      "sha256": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887"
+    },
+    "private-session.log": {
+      "bytes": 8388,
+      "sha256": "98ec08e0b382c4d639ea8d07b03ba7d7431320ce26eb37335b9b35fee45dc07d"
+    },
+    "harness-manifest.json": {
+      "bytes": 2469,
+      "sha256": "3e4d00165444c2561c0c79407b33ade04040e65200c4beb00db3cdb67413c14a"
+    },
+    "transport-cleanup.json": {
+      "bytes": 102,
+      "sha256": "1c8b42f354ad1f52c4930b212b9588019619e273ba9ef7f2e6745c09e55cf6b5"
+    },
+    "session-01/metadata.json": {
+      "bytes": 702,
+      "sha256": "ddaa7cf2e3eceb7c8159855b893401d712880ab0810d5b403b78e5f81920b58a"
+    },
+    "session-01/cleanup.json": {
+      "bytes": 78,
+      "sha256": "2a79c7b96d0aaa8c43960987257a7c25c121516ae40e4721a55ebd4178fde3e9"
+    },
+    "session-01/real-child-start.json": {
+      "bytes": 835,
+      "sha256": "1ef488aeec42245ae9da4539911c902c185a7f04e85379c1d285daa6a34b4864"
+    },
+    "session-01/journal.jsonl": {
+      "bytes": 54298,
+      "sha256": "5781503520936b79898aacab1783760259dba0a0f7786fde6c5ea6a3c58f63a7"
+    },
+    "session-01/navigation-failure-740897462732497.json": {
+      "bytes": 349,
+      "sha256": "999ffe9e80a8bdd8e4841d1f493211f1593f1c4b97ff6ce9bea3a0c3e9bf03d3"
+    },
+    "session-01/failure-frame.json": {
+      "bytes": 9272617,
+      "sha256": "d4b1a6ecfa678939f011ba337e92d62b030f28e6c2f0aa652b70671e4c85e5d7"
+    },
+    "session-01/failure.png": {
+      "bytes": 168794,
+      "sha256": "b1f64fbe626c6bd257feef7d59ebd740131555278078f1e1633c96ebd37e3e8b"
+    },
+    "session-01/held-up-25hz.json": {
+      "bytes": 3669,
+      "sha256": "7bd45cb876b45b0da8191eca4f7f3fcd43db1ba69b3baccc3e206d50fe5f8171"
+    },
+    "session-01/exact-64-up.json": {
+      "bytes": 1654,
+      "sha256": "511cc970c327f92df1a82f9e733e31611e5d3b63403d38758d288699f46594ca"
+    },
+    "session-01/held-table-left.json": {
+      "bytes": 3321,
+      "sha256": "99896ea02b6200463bc9185467087de6dcde78ca6307e2083e1485bc2fd34a2a"
+    },
+    "session-01/held-table-right.json": {
+      "bytes": 3451,
+      "sha256": "04cc8c435f480b5f12ff929cfb7c34b09122015a9657d2e7ffabb8d099f11dc6"
+    }
+  }
+}
