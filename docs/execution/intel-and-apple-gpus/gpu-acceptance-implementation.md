@@ -1,6 +1,6 @@
 # GPU acceptance implementation
 
-Task 4 correction status: DONE_WITH_CONCERNS. Independent SPEC re-review closed F1–F9. F10 now has a local correction requiring independent re-review. The failed Linux preservation run remains unresolved. Hardware accuracy acceptance remains pending for Intel integrated, Intel discrete and Apple Silicon. The available AMD host supplies preservation and native transport evidence only.
+Task 4 correction status: DONE_WITH_CONCERNS. Independent SPEC re-review closed F1–F9. F10 correction is committed at `eccf56b7` and is undergoing independent re-review. The failed Linux preservation run remains unresolved. Hardware accuracy acceptance remains pending for Intel integrated, Intel discrete and Apple Silicon. The available AMD host supplies preservation and native transport evidence only.
 
 ## Work tracking
 
@@ -8,7 +8,8 @@ Independent re-review closed F1–F9 at `ece89eae` and recorded F10 before corre
 
 - Complete: F10 native host/OS build and deployed provider originals; complete Intel and Apple synthetic ingestion with 48 hash-consistent negative controls.
 - Complete: 439 Python tests, seven required GPU groups, strict lint/format, native compilation/readiness and all 14 self-audit rules.
-- In progress: focused correction commit and independent re-review handoff.
+- Complete: focused correction commit `eccf56b7`; all 711 committed inputs verified.
+- In progress: independent specification re-review of F10.
 
 ## Implementation
 
