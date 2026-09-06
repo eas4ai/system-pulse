@@ -1,0 +1,526 @@
+{
+  "status": "Correction candidate ready for independent SPEC impact and QUALITY re-review; F1 not closed here.",
+  "recorded_at_utc": "2026-09-06T11:45:03.949779+00:00",
+  "source": {
+    "commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+    "collector_tree": "5c8fafda1192ea27f153f12a20bee8befaa65b7c",
+    "archive_sha256": "35b6c2f735024abaa0ab3cd6adf8a1b794fa5832f0e7fced5fe7ed201b911aee",
+    "lock_sha256": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+    "binary_sha256": "e5f98049f7bef2de237bc6f81bdbd177f5d07c1a6e48e769cad54214ff7e99b6"
+  },
+  "native_host": {
+    "hardware": "Apple M1 Pro",
+    "ssh": "shawnmcallister@10.66.231.181",
+    "artifact_directory": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7",
+    "source_directory": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/source-2a40f069"
+  },
+  "artifacts_local_directory": "/home/shawn/workspace2/task-manager-artifacts/apple-collector/autorelease-correction",
+  "prior_failure": {
+    "record": "apple-autorelease-diagnostic.json",
+    "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+    "collector_missing_pool_warnings": 17,
+    "leak_rate_measured": false,
+    "tiny_NSObject_diagnostic_controls": "Ineffective; not positive controls."
+  },
+  "native_checks": {
+    "tests_passed": 46,
+    "commands": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "system-pulse-collectors"
+        ],
+        "pid": 3552,
+        "exit": 0,
+        "elapsed_seconds": 3.9000626250000003,
+        "source_commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+        "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "log_sha256": "03e84158e56977632fb4f3d90730e91f64eadd8058deef2149c3589f73c67d78"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "-p",
+          "system-pulse-collectors",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "pid": 3605,
+        "exit": 0,
+        "elapsed_seconds": 1.2210445,
+        "source_commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+        "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "log_sha256": "89ca97861f81ec52191e5aaffbe084cf69b78c0fd6c5d7f9b3419d6a6cde92f9"
+      },
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "-p",
+          "system-pulse-collectors",
+          "--",
+          "--check"
+        ],
+        "pid": 3625,
+        "exit": 0,
+        "elapsed_seconds": 0.21030004200000008,
+        "source_commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+        "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "command": [
+          "cargo",
+          "build",
+          "--locked",
+          "-p",
+          "system-pulse-collectors",
+          "--bin",
+          "pulse-snapshot"
+        ],
+        "pid": 3628,
+        "exit": 0,
+        "elapsed_seconds": 0.558789,
+        "source_commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+        "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+        "log_sha256": "b2a714193dacda703f7225e0b7294a3d1a90e8afc82429550f0a02bc701816c7"
+      }
+    ]
+  },
+  "linux_checks": {
+    "tests": 96,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "system-pulse-collectors"
+        ],
+        "exit": 0,
+        "sha256": "9951325129f85d14bad24bedc4ef2e1851b9e66f050e6fe2e5fac55ce74f229d"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "-p",
+          "system-pulse-collectors",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit": 0,
+        "sha256": "f4403412cb20dc7d8a0a94c08c9c8853e4bac9b3e8489158834f30512311ed97"
+      },
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "-p",
+          "system-pulse-collectors",
+          "--",
+          "--check"
+        ],
+        "exit": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "intermediate_attempt": {
+    "source_commit": "286c668f938713a5035b5131ba5463a073f4dd08",
+    "native_tests_passed": 46,
+    "clippy": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse-collectors",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "pid": 3469,
+      "exit": 101,
+      "elapsed_seconds": 1.2235565409999998,
+      "source_commit": "286c668f938713a5035b5131ba5463a073f4dd08",
+      "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "log_sha256": "602b379a2553d80d921314c35f618f431f0ab5a672623cb94a8629dc35e76835"
+    },
+    "correction": "Replaced err().expect() with expect_err(); final native checks pass at corrected source."
+  },
+  "same_diagnostic_corrected": {
+    "source_commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+    "command": [
+      "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/apple-2a40f069-pulse-snapshot",
+      "--count",
+      "3",
+      "--interval-ms",
+      "500"
+    ],
+    "environment": {
+      "OBJC_DEBUG_MISSING_POOLS": "YES"
+    },
+    "pid": 3654,
+    "exit": 0,
+    "seconds": 1.6800815,
+    "reaped": true,
+    "binary_sha256": "e5f98049f7bef2de237bc6f81bdbd177f5d07c1a6e48e769cad54214ff7e99b6",
+    "stdout_sha256": "9e1196d2766f43c76f3b9d7bf713a1c2481acec4f5d2fd74995b72c1baf806a5",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr_bytes": 0,
+    "missing_pool_warnings": 0,
+    "snapshot_count": 3
+  },
+  "repeated_capture_load": {
+    "source_commit": "2a40f069ef3b98856fa7a5ff32e004d48c383fa4",
+    "binary_sha256": "e5f98049f7bef2de237bc6f81bdbd177f5d07c1a6e48e769cad54214ff7e99b6",
+    "workload_sha256": "0410b18e08443aa1ab0d6905c772e739374b9155a9f7994641b31160477a91de",
+    "collector_command": [
+      "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/apple-2a40f069-pulse-snapshot",
+      "--count",
+      "40",
+      "--interval-ms",
+      "500"
+    ],
+    "collector_pid": 3664,
+    "collector_exit": 0,
+    "workload_pid": 3666,
+    "workload_exit": 0,
+    "elapsed_seconds": 19.803024041999997,
+    "workload_started_after_seconds": 2.011691875,
+    "wall_start_unix_ns": 1788694834424884000,
+    "all_owned_processes_exited": true,
+    "lock_sha256": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+    "files": {
+      "apple-2a40f069-pulse-snapshot": {
+        "sha256": "e5f98049f7bef2de237bc6f81bdbd177f5d07c1a6e48e769cad54214ff7e99b6",
+        "bytes": 6376288
+      },
+      "apple-2a40f069-load.jsonl": {
+        "sha256": "9042ae299c7cdf2a52fbfd5cfe488db20bf84590cdb768937695512819e62d0d",
+        "bytes": 65195140
+      },
+      "apple-2a40f069-load.stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "apple-2a40f069-workload.stdout": {
+        "sha256": "08245e825cf211786bc13493ee76a6121a8c182a81e3861953a643c8670a6d1f",
+        "bytes": 285
+      },
+      "apple-2a40f069-workload.stderr": {
+        "sha256": "3b00ab880f01c61d2ff662df6f8e9edc85ecbd0f1c0097a31c7d9a5c8fb6864b",
+        "bytes": 10324
+      }
+    },
+    "environment": {
+      "OBJC_DEBUG_MISSING_POOLS": "YES"
+    },
+    "snapshot_count": 40,
+    "stable_sensor_identity_across_all_snapshots": true,
+    "collector_missing_pool_warnings": 0,
+    "workload_missing_pool_warnings": 57,
+    "workload_report": {
+      "buffer_bytes": 1048576,
+      "commands": 11865,
+      "device": "Apple M1 Pro",
+      "elapsed_seconds": 15.000874291639775,
+      "first_gpu_start": 520251.1794859167,
+      "last_gpu_end": 520266.178002625,
+      "pid": 3666,
+      "registry_id": 4294969787,
+      "sample": 0.8234434127807617
+    },
+    "sensor_summary": {
+      "usage": {
+        "snapshots": 40,
+        "available": 39,
+        "reasons": [
+          "Waiting for second native observation"
+        ],
+        "min": 0.0,
+        "max": 100.0
+      },
+      "frequency": {
+        "snapshots": 40,
+        "available": 31,
+        "reasons": [
+          "Waiting for second native observation",
+          "No active residency"
+        ],
+        "min": 1146389621.8642077,
+        "max": 1296000000.0
+      },
+      "power": {
+        "snapshots": 40,
+        "available": 39,
+        "reasons": [
+          "Waiting for second native observation"
+        ],
+        "min": 0.0,
+        "max": 9.855545413701197
+      },
+      "shared-allocated": {
+        "snapshots": 40,
+        "available": 40,
+        "reasons": [],
+        "min": 799244288.0,
+        "max": 824033280.0
+      },
+      "shared-in-use": {
+        "snapshots": 40,
+        "available": 40,
+        "reasons": [],
+        "min": 10797056.0,
+        "max": 48889856.0
+      },
+      "temperature-smc-Tg05": {
+        "snapshots": 40,
+        "available": 32,
+        "reasons": [
+          "Conservative SMC software plausibility guard: below 15 Celsius; not a hardware validity signal"
+        ],
+        "min": 44.891319274902344,
+        "max": 51.66522216796875
+      },
+      "temperature-smc-Tg0D": {
+        "snapshots": 40,
+        "available": 32,
+        "reasons": [
+          "Conservative SMC software plausibility guard: below 15 Celsius; not a hardware validity signal"
+        ],
+        "min": 41.880977630615234,
+        "max": 48.64466094970703
+      },
+      "temperature-smc-Tg0L": {
+        "snapshots": 40,
+        "available": 0,
+        "reasons": [
+          "SMC key absent (native result 0x84)"
+        ],
+        "min": null,
+        "max": null
+      },
+      "temperature-smc-Tg0T": {
+        "snapshots": 40,
+        "available": 0,
+        "reasons": [
+          "SMC key absent (native result 0x84)"
+        ],
+        "min": null,
+        "max": null
+      },
+      "temperature-hid": {
+        "snapshots": 40,
+        "available": 0,
+        "reasons": [
+          "No attributable GPU MTR Temp Sensor HID service"
+        ],
+        "min": null,
+        "max": null
+      },
+      "fan": {
+        "snapshots": 40,
+        "available": 0,
+        "reasons": [
+          "SMC system fans have no established GPU attribution"
+        ],
+        "min": null,
+        "max": null
+      }
+    }
+  },
+  "limitations": [
+    "The standalone Swift load helper emitted missing-pool warnings from PID 3666; stderr retained unmodified. It is separate from collector PID 3664, whose stderr is empty. Helper lifecycle work belongs to Task 4.",
+    "Diagnostic silence and bounded repeated captures do not measure a leak rate or establish long-run behavior.",
+    "Existing SMC below-15-Celsius software guard and hardware availability limits remain as previously recorded; no native accuracy or UI claim."
+  ],
+  "artifact_sha256_and_bytes": {
+    "apple-286c668f-clippy.json": {
+      "sha256": "cfb725727e4e6b0e087ef0d948bd71da6efcf59a280e8422ec603fcd86ab3921",
+      "bytes": 550
+    },
+    "apple-286c668f-clippy.log": {
+      "sha256": "602b379a2553d80d921314c35f618f431f0ab5a672623cb94a8629dc35e76835",
+      "bytes": 828
+    },
+    "apple-286c668f-test.json": {
+      "sha256": "32a72985018f53e87cf13811f17aadda9cb7b73edabf39332e438c9d064376fb",
+      "bytes": 482
+    },
+    "apple-286c668f-test.log": {
+      "sha256": "71b5749c28bb6f095d339bef784209f0f61f73baef625a379697a704a13d398e",
+      "bytes": 4588
+    },
+    "apple-2a40f069-build.json": {
+      "sha256": "81ab146b4e3607df3a08b0379899c9745fa93ce95a3cd362b1eb46b03a8942b3",
+      "bytes": 515
+    },
+    "apple-2a40f069-build.log": {
+      "sha256": "b2a714193dacda703f7225e0b7294a3d1a90e8afc82429550f0a02bc701816c7",
+      "bytes": 227
+    },
+    "apple-2a40f069-clippy.json": {
+      "sha256": "a56feb1d5299420af10ef15e166417f71a7bcd0646095ac71d62c7039412cbfb",
+      "bytes": 539
+    },
+    "apple-2a40f069-clippy.log": {
+      "sha256": "89ca97861f81ec52191e5aaffbe084cf69b78c0fd6c5d7f9b3419d6a6cde92f9",
+      "bytes": 227
+    },
+    "apple-2a40f069-diagnostic.json": {
+      "sha256": "de9426c756d9c913c703897ff4b06e7fb36f512fef43bfefc31a5ad0c00c419f",
+      "bytes": 705
+    },
+    "apple-2a40f069-diagnostic.jsonl": {
+      "sha256": "9e1196d2766f43c76f3b9d7bf713a1c2481acec4f5d2fd74995b72c1baf806a5",
+      "bytes": 4641444
+    },
+    "apple-2a40f069-diagnostic.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-2a40f069-fmt.json": {
+      "sha256": "62cb523645c972c10cb8af4fc34616a9abfc0aa4d6521dc0436a7006e8ba8f4e",
+      "bytes": 498
+    },
+    "apple-2a40f069-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-2a40f069-load.json": {
+      "sha256": "2315e401a78f9f1c262afea38fe114b36c6be4a548028953f845e84925ffec04",
+      "bytes": 1543
+    },
+    "apple-2a40f069-load.jsonl": {
+      "sha256": "9042ae299c7cdf2a52fbfd5cfe488db20bf84590cdb768937695512819e62d0d",
+      "bytes": 65195140
+    },
+    "apple-2a40f069-load.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-2a40f069-pulse-snapshot": {
+      "sha256": "e5f98049f7bef2de237bc6f81bdbd177f5d07c1a6e48e769cad54214ff7e99b6",
+      "bytes": 6376288
+    },
+    "apple-2a40f069-test.json": {
+      "sha256": "02c97f5cf037ef796c9de0a5c5f14078b7019ec3b947b5adf8e11a49d170234e",
+      "bytes": 489
+    },
+    "apple-2a40f069-test.log": {
+      "sha256": "03e84158e56977632fb4f3d90730e91f64eadd8058deef2149c3589f73c67d78",
+      "bytes": 4588
+    },
+    "apple-2a40f069-workload.stderr": {
+      "sha256": "3b00ab880f01c61d2ff662df6f8e9edc85ecbd0f1c0097a31c7d9a5c8fb6864b",
+      "bytes": 10324
+    },
+    "apple-2a40f069-workload.stdout": {
+      "sha256": "08245e825cf211786bc13493ee76a6121a8c182a81e3861953a643c8670a6d1f",
+      "bytes": 285
+    },
+    "archive-286c668f.json": {
+      "sha256": "b19a7423905dd70a295d70e1e4adc1a877a8c248b102e134e8cc2826d0e777c6",
+      "bytes": 280
+    },
+    "corrected-source.json": {
+      "sha256": "00109d683dc10ac044e68e8e8e36dafd56d3a008223c7adc34eb469d71178488",
+      "bytes": 170
+    },
+    "diagnostic-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "diagnostic-launch.stdout": {
+      "sha256": "2f1f7f05cc6189bbfd8857028b01507b8cbc2f26de30f8957ed6ddb206f300c8",
+      "bytes": 646
+    },
+    "linux-checks.json": {
+      "sha256": "4b8ae21639d85d79a0285731e247327c7b311da687840282c3f486a8eb9d3153",
+      "bytes": 849
+    },
+    "linux-clippy.log": {
+      "sha256": "f4403412cb20dc7d8a0a94c08c9c8853e4bac9b3e8489158834f30512311ed97",
+      "bytes": 72
+    },
+    "linux-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "linux-test.log": {
+      "sha256": "9951325129f85d14bad24bedc4ef2e1851b9e66f050e6fe2e5fac55ce74f229d",
+      "bytes": 8847
+    },
+    "load-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "load-launch.stdout": {
+      "sha256": "c98d4a703c3a768a889c90b4388c23844ed05f9124276e0e3e6a35edb563380c",
+      "bytes": 14185
+    },
+    "native-checks-286c668f-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-checks-286c668f-launch.stdout": {
+      "sha256": "39bb6f548c728fad0d88205e0639ba1ab00b5433d8f974c0fd8f6e3019608957",
+      "bytes": 6387
+    },
+    "native-checks-2a40f069.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-checks-2a40f069.stdout": {
+      "sha256": "e35add5afa7fd96f0e4332f3170de2647c0ae0eee7a2736c9554d24b9db5dee6",
+      "bytes": 6927
+    },
+    "remote-artifact-manifest.json": {
+      "sha256": "8c659551ef1997f4d398e178d3aa03198342eb4be032744474cd6beb31a209cf",
+      "bytes": 2914
+    },
+    "run-diagnostic.py": {
+      "sha256": "28d961017eee0398448a03fe72c0b08e7fac646b559aa859fdba050402c3337e",
+      "bytes": 1479
+    },
+    "run-native-checks-286c668f.py": {
+      "sha256": "cb47b4e6aa89d14449605d1728ad1a3980c5f045adcfed7ac4d48fab763145e4",
+      "bytes": 1896
+    },
+    "run-native-checks-2a40f069.py": {
+      "sha256": "694feab67a4d8c0104bca9c52a4c05168385d6a4346f58c1b914a160ea621856",
+      "bytes": 1896
+    },
+    "run-native-load.py": {
+      "sha256": "e619c8d3acc7c60b32c4c41cda3c88fd1275af3acf1d6cb097d7604c8c0684bf",
+      "bytes": 3392
+    },
+    "source-286c668f.tar": {
+      "sha256": "965a314eee9c834f1d3399835be0907873937d42d4de41b3f685910634015ba9",
+      "bytes": 24750080
+    },
+    "source-2a40f069.tar": {
+      "sha256": "35b6c2f735024abaa0ab3cd6adf8a1b794fa5832f0e7fced5fe7ed201b911aee",
+      "bytes": 24750080
+    }
+  }
+}
