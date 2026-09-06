@@ -205,7 +205,9 @@ class Native:
             json.dump(value, out, indent=2)
         return path
 
-    def wait(self, fn, seconds=5, message="condition", deadline=None):
+    def wait(
+        self, fn, seconds=5, message="condition", deadline=None, *, acknowledge=True
+    ):
         deadline = deadline if deadline is not None else time.monotonic() + seconds
         last = None
         while time.monotonic() < deadline:
@@ -220,7 +222,8 @@ class Native:
                         time.monotonic() < deadline,
                         "condition completed after deadline",
                     )
-                    self.journal("ack", condition=message)
+                    if acknowledge:
+                        self.journal("ack", condition=message)
                     return value
             except (
                 IncompleteNativeTree,
@@ -536,11 +539,15 @@ class Native:
         xtest.fake_input(self.d, X.ButtonRelease, 1)
         self.d.sync()
 
-    def key(self, *keys, pressed=None):
+    def key(self, *keys, pressed=None, deadline=None):
         self.journal("key", keys=keys, pressed=pressed)
         codes = [self.d.keysym_to_keycode(XK.string_to_keysym(k)) for k in keys]
         require(all(codes), "invalid keysym")
         if pressed is not False:
+            require(
+                deadline is None or time.monotonic() < deadline,
+                "navigation original deadline expired before physical key",
+            )
             for code in codes:
                 xtest.fake_input(self.d, X.KeyPress, code)
         if pressed is not True:
@@ -1125,8 +1132,53 @@ class Native:
         endpoint_index=None,
         *,
         inspection=None,
+        pending=None,
     ):
         """Observe exact selection in a complete tree within one fresh publication."""
+        from native_pending import InterruptedNavigation, publication, validate_stat
+
+        if pending is not None:
+            pending = json.loads(json.dumps(pending))
+            require(
+                not reconcile and inspection is None and expected != target,
+                "pending interruption requires an intermediate arrow batch",
+            )
+            require(
+                pending["expected"] == expected
+                and pending["target"] == target
+                and pending["endpoint_index"] == endpoint_index
+                and pending["batch_deadline"] == deadline <= pending["deadline"]
+                and type(endpoint_index) is int
+                and endpoint_index >= 0
+                and pending["publication"]["application_pid"] == self.app.pid
+                and all(
+                    type(pending["publication"].get(key)) is int
+                    for key in (
+                        "application_pid",
+                        "sequence",
+                        "render_revision",
+                        "accepted_unix_ns",
+                    )
+                )
+                and pending["baseline_completed"]
+                <= pending["dispatch_started"]
+                <= pending["dispatch_completed"]
+                < deadline * 1e9
+                and pending["actual_keys"] == pending["keys"]
+                and pending["keys"]
+                in (["Up"], ["Up", "Up"], ["Down"], ["Down", "Down"]),
+                "invalid frozen pending navigation batch",
+            )
+            require(
+                validate_stat(
+                    pending["baseline"],
+                    expected,
+                    pending["baseline_started"],
+                    pending["baseline_completed"],
+                )
+                == "live",
+                "pending navigation lacks matching independent baseline",
+            )
         reference_index = endpoint_index
         reveal_event = "navigation-endpoint-reveal"
         if inspection is not None:
@@ -1171,6 +1223,7 @@ class Native:
         recovery_preparing = False
         recovery_proof = False
         recovery_started = False
+        pending_preparing = False
 
         def observe():
             nonlocal \
@@ -1179,7 +1232,8 @@ class Native:
                 recovery_blocked, \
                 recovery_preparing, \
                 recovery_proof, \
-                recovery_started
+                recovery_started, \
+                pending_preparing
             before = self.frame()
             require(
                 target in map(identity, before["snapshot"]["processes"]),
@@ -1187,7 +1241,8 @@ class Native:
             )
             retained, path = path, None
             discover_fresh = (
-                fresh_panel
+                pending_preparing
+                or fresh_panel
                 and not recovery_started
                 or recovery_preparing
                 or recovery_proof
@@ -1231,6 +1286,101 @@ class Native:
                 path = retained if not discover_fresh else None
                 return None
             path = retained
+            if pending is not None and expected not in ids:
+                require(
+                    selected is None, "selection transferred during pending navigation"
+                )
+                require(
+                    len(ids) == len(set(ids)), "duplicate pending snapshot identity"
+                )
+                require(
+                    not any(
+                        value.split(":")[1] == expected.split(":")[1] for value in ids
+                    ),
+                    "pending snapshot PID reused",
+                )
+                require(
+                    scan is not None
+                    and len(scan["rows"]) == len(set(scan["rows"]))
+                    and all(value in ids for value in scan["rows"]),
+                    "pending native rows duplicate or outside current snapshot",
+                )
+                if not pending_preparing:
+                    pending_preparing = True
+                    path = None
+                    return None
+                terminal_started = time.monotonic_ns()
+                require(
+                    pending["dispatch_completed"] <= terminal_started,
+                    "terminal navigation stat precedes dispatch",
+                )
+                terminal = self.navigation_stat(expected)
+                terminal_completed = time.monotonic_ns()
+                self.journal(
+                    "navigation-terminal-stat",
+                    expected=expected,
+                    observation=terminal,
+                    query_started_monotonic_ns=terminal_started,
+                    query_completed_monotonic_ns=terminal_completed,
+                )
+                status = validate_stat(
+                    terminal,
+                    expected,
+                    terminal_started,
+                    terminal_completed,
+                    baseline=pending["baseline"],
+                )
+                require(
+                    status == "gone", "live pending endpoint omitted by application"
+                )
+                # Direct stat I/O may span publication or tree replacement. Re-prove
+                # unique current eligibility on the next poll if either changed.
+                if self.navigation_panel(
+                    deadline
+                ) != path or not self.navigation_panel_current(path, deadline):
+                    path = None
+                    return None
+                current_scan = {}
+                current_selection = self.selected(
+                    deadline, strict=True, panel=path[0], scan=current_scan
+                )
+                current = self.frame()
+                if publication(current) != publication(
+                    after
+                ) or not self.navigation_panel_current(path, deadline):
+                    path = None
+                    return None
+                require(
+                    current_selection is None,
+                    "selection transferred during pending navigation",
+                )
+                require(
+                    len(current_scan["rows"]) == len(set(current_scan["rows"]))
+                    and all(value in ids for value in current_scan["rows"]),
+                    "pending native rows duplicate or outside current snapshot",
+                )
+                if publication(current) != publication(self.frame()):
+                    path = None
+                    return None
+                require(
+                    time.monotonic() < deadline, "pending navigation deadline expired"
+                )
+                evidence = {
+                    "status": "interrupted-unverified",
+                    "issue": pending,
+                    "terminal": terminal,
+                    "terminal_started": terminal_started,
+                    "terminal_completed": terminal_completed,
+                    "native": {
+                        "publication": publication(current),
+                        "identities": ids,
+                        "instantiated_identities": current_scan["rows"],
+                        "instantiated_selected": None,
+                        "strict_complete_unique_current": True,
+                    },
+                }
+                self.journal("navigation-batch-interrupted", **evidence)
+                return InterruptedNavigation(current, path, evidence)
             if scan is not None:
                 row_ids = scan["rows"]
                 mapped = [ids.index(value) for value in row_ids if value in ids]
@@ -1400,7 +1550,20 @@ class Native:
                     recovery_preparing = True
                     path = None
 
-        return self.wait(poll, message="selected " + expected, deadline=deadline)
+        result = self.wait(
+            poll, message="selected " + expected, deadline=deadline, acknowledge=False
+        )
+        if not isinstance(result, InterruptedNavigation):
+            if result[0] is not None:
+                self.journal("ack", condition="selected " + expected)
+            else:
+                self.journal(
+                    "navigation-absence",
+                    expected=expected,
+                    publication=publication(result[1]),
+                    status="no instantiated selected identity",
+                )
+        return result
 
     def navigate(self, target, *, on_acknowledged=None):
         deadline = time.monotonic() + 180
@@ -1425,7 +1588,40 @@ class Native:
                 ) from error
             raise
 
+    def navigation_stat(self, expected):
+        from native_pending import read_stat
+
+        return read_stat(expected, self.app.pid)
+
+    def navigation_boundary(self, target, frame, path, batch_deadline, deadline):
+        from native_pending import publication
+
+        ids = list(map(identity, frame["snapshot"]["processes"]))
+        require(target in ids, "navigation target absent: " + target)
+        key = "Home" if ids.index(target) < len(ids) / 2 else "End"
+        index = 0 if key == "Home" else len(ids) - 1
+        self.journal(
+            "navigation-boundary-recovery",
+            target=target,
+            expected=ids[index],
+            endpoint_index=index,
+            keys=[key],
+            publication=publication(frame),
+            batch_deadline=batch_deadline,
+            deadline=deadline,
+        )
+        require(
+            time.monotonic() < batch_deadline, "navigation original deadline expired"
+        )
+        self.key(key, deadline=batch_deadline)
+        selected, observed, path = self.navigation_selection(
+            ids[index], target, batch_deadline, path=path, endpoint_index=index
+        )
+        return selected, observed, path, index
+
     def _navigate(self, target, deadline, *, on_acknowledged=None):
+        from native_pending import InterruptedNavigation, publication, validate_stat
+
         self.enter_processes()
         batch_deadline = min(deadline, time.monotonic() + 8)
         path = self.wait(
@@ -1466,11 +1662,14 @@ class Native:
             path=path,
             endpoint_index=endpoint_index,
         )
+        new_batch = True
         while True:
             self.navigation_context.update(
                 last_acknowledged_identity=selected[0], phase="next batch"
             )
-            batch_deadline = min(deadline, time.monotonic() + 8)
+            if new_batch:
+                batch_deadline = min(deadline, time.monotonic() + 8)
+                new_batch = False
             require(
                 time.monotonic() < batch_deadline,
                 "navigation original deadline expired",
@@ -1504,21 +1703,10 @@ class Native:
                 )
                 ids = list(map(identity, frame["snapshot"]["processes"]))
                 if selected is None:
-                    index = ids.index(target)
-                    key = "Home" if index < len(ids) / 2 else "End"
-                    require(
-                        time.monotonic() < batch_deadline,
-                        "navigation original deadline expired",
+                    selected, observed, path, endpoint_index = self.navigation_boundary(
+                        target, frame, path, batch_deadline, deadline
                     )
-                    self.key(key)
-                    endpoint_index = 0 if key == "Home" else len(ids) - 1
-                    selected, observed, path = self.navigation_selection(
-                        ids[endpoint_index],
-                        target,
-                        batch_deadline,
-                        path=path,
-                        endpoint_index=endpoint_index,
-                    )
+                    new_batch = True
                     continue
             if selected[0] == target:
                 # Intermediate acknowledgements pace input. Success independently
@@ -1561,32 +1749,97 @@ class Native:
                 count > 0 and time.monotonic() < deadline,
                 "navigation original deadline expired",
             )
-            endpoint_index = ids.index(selected[0]) + (count if delta > 0 else -count)
-            expected = ids[endpoint_index]
+            planned_index = ids.index(selected[0]) + (count if delta > 0 else -count)
+            expected = ids[planned_index]
+            keys = ["Down" if delta > 0 else "Up"] * count
+            pending = None
+            if expected != target:
+                baseline_started = time.monotonic_ns()
+                baseline = self.navigation_stat(expected)
+                baseline_completed = time.monotonic_ns()
+                self.journal(
+                    "navigation-baseline-stat",
+                    expected=expected,
+                    observation=baseline,
+                    query_started_monotonic_ns=baseline_started,
+                    query_completed_monotonic_ns=baseline_completed,
+                )
+                status = validate_stat(
+                    baseline, expected, baseline_started, baseline_completed
+                )
+                if status == "gone":
+                    self.journal(
+                        "navigation-predispatch-replan",
+                        expected=expected,
+                        endpoint_index=planned_index,
+                        publication=publication(frame),
+                        keys=keys,
+                        baseline=baseline,
+                        batch_deadline=batch_deadline,
+                        deadline=deadline,
+                        status="not dispatched",
+                    )
+                    require(
+                        time.monotonic() < batch_deadline,
+                        "navigation original deadline expired",
+                    )
+                    spin()
+                    continue
+                pending = {
+                    "expected": expected,
+                    "target": target,
+                    "endpoint_index": planned_index,
+                    "publication": publication(frame),
+                    "keys": keys,
+                    "batch_deadline": batch_deadline,
+                    "deadline": deadline,
+                    "baseline": baseline,
+                    "baseline_started": baseline_started,
+                    "baseline_completed": baseline_completed,
+                    "actual_keys": [],
+                }
             self.journal(
                 "navigation-batch",
                 target=target,
                 selected=selected[0],
                 expected=expected,
-                endpoint_index=endpoint_index,
+                endpoint_index=planned_index,
                 count=count,
                 distance=abs(delta),
                 sequence=frame["snapshot"]["sequence"],
                 deadline=deadline,
+                batch_deadline=batch_deadline,
+                publication=publication(frame),
+                keys=keys,
             )
-            for _ in range(count):
+            if pending is not None:
+                pending["dispatch_started"] = time.monotonic_ns()
+            for key in keys:
                 require(
                     time.monotonic() < batch_deadline,
                     "navigation original deadline expired",
                 )
-                self.key("Down" if delta > 0 else "Up")
-            selected, observed, path = self.navigation_selection(
+                self.key(key, deadline=batch_deadline)
+                if pending is not None:
+                    pending["actual_keys"].append(key)
+            endpoint_index = planned_index
+            if pending is not None:
+                pending["dispatch_completed"] = time.monotonic_ns()
+            result = self.navigation_selection(
                 expected,
                 target,
                 batch_deadline,
                 path=path,
                 endpoint_index=endpoint_index,
+                pending=pending,
             )
+            if isinstance(result, InterruptedNavigation):
+                selected, observed, path, endpoint_index = self.navigation_boundary(
+                    target, result.frame, result.path, batch_deadline, deadline
+                )
+            else:
+                selected, observed, path = result
+            new_batch = True
 
     def shutdown(self):
         if self.app.poll() is not None:

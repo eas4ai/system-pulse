@@ -31,6 +31,7 @@ class NavigationTests(unittest.TestCase):
         self.native.enter_processes = Mock()
         self.native.journal = self.journal
         self.native.key = self.key
+        self.native.navigation_stat = self.stat
         self.native.latest = SimpleNamespace(
             open=lambda: nullcontext(
                 SimpleNamespace(read=self.frame_text, fileno=lambda: 0)
@@ -66,6 +67,27 @@ class NavigationTests(unittest.TestCase):
         self.panel.get_index_in_parent = lambda: 0
         self.native.root = Mock(return_value=self.root)
         self.native.cache = {"__panel:processes": self.panel}
+
+    def stat(self, expected):
+        pid, start = map(int, expected.split(":")[1:])
+        fields = ["S"] + ["0"] * 21
+        fields[19] = str(start)
+        raw = f"{pid} (synthetic fixture) " + " ".join(fields) + "\n"
+        gone = expected not in self.ids
+        return {
+            "source": f"/proc/{pid}/stat",
+            "raw": None if gone else raw,
+            "identity": None if gone else expected,
+            "errno": 2 if gone else None,
+            "start": self.clock.monotonic_ns(),
+            "end": self.clock.monotonic_ns(),
+            "namespace": {
+                "device": 1,
+                "inode": 2,
+                "pid_namespace": "pid:[1]",
+                "application_pid_namespace": "pid:[1]",
+            },
+        }
 
     def row(self, identity):
         node = Node(self.clock, identity, role="table row")
@@ -115,7 +137,7 @@ class NavigationTests(unittest.TestCase):
             }
         )
 
-    def key(self, key):
+    def key(self, key, *, deadline=None):
         self.publish_selection()
         # Two keys in a batch are allowed; another batch must wait for its ACK.
         before = self.pending[1] if self.pending else (self.selection or [None])[0]
@@ -479,8 +501,8 @@ class NavigationTests(unittest.TestCase):
         self.target = aid(2)
         key = self.native.key
 
-        def moved(value):
-            key(value)
+        def moved(value, **kwargs):
+            key(value, **kwargs)
             if self.pending[1] == self.target:
                 self.ids.remove(self.target)
                 self.ids.insert(0, self.target)
@@ -519,8 +541,8 @@ class NavigationTests(unittest.TestCase):
         self.native.navigation_context = {}
         key = self.native.key
 
-        def issued(value):
-            key(value)
+        def issued(value, **kwargs):
+            key(value, **kwargs)
             if self.pending[1] == self.target and ack_index != 2:
                 self.ids.remove(self.target)
                 self.ids.insert(ack_index, self.target)
@@ -1275,8 +1297,8 @@ class NavigationTests(unittest.TestCase):
         duplicate = Node(self.clock, name="processes")
         key = self.native.key
 
-        def add_duplicate(value):
-            key(value)
+        def add_duplicate(value, **kwargs):
+            key(value, **kwargs)
             if self.pending[1] == self.target:
                 self.root.children = lambda: [self.panel, duplicate]
 
