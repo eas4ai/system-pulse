@@ -688,3 +688,8 @@ identify an initial valid prior-selected prefix containing the unselected endpoi
 - [ ] Run one fresh untraced focused replay and full committed aggregate, preserving
   actual outcomes and all mandatory metrics/exit. Final adversarial review follows
   only when the full requirement set passes.
+
+The [fresh focused run](../execution/real-system-readings/native-prior-visible-endpoint-focused-pass.md)
+passed all sixteen child comparisons, verified exit and held/exact input. It
+exercised inspection recovery under a fifteen-second discovery deadline, without
+intermediate navigation recovery. Full committed acceptance remains in progress.
