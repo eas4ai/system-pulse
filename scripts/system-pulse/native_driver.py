@@ -1188,7 +1188,12 @@ class Native:
         pending=None,
     ):
         """Observe exact selection in a complete tree within one fresh publication."""
-        from native_pending import InterruptedNavigation, publication, validate_stat
+        from native_pending import (
+            InterruptedNavigation,
+            PriorSelectionPrefix,
+            publication,
+            validate_stat,
+        )
 
         require(
             not inspection_missing_row or inspection is not None,
@@ -1236,6 +1241,7 @@ class Native:
                 == "live",
                 "pending navigation lacks matching independent baseline",
             )
+        prior_selection = PriorSelectionPrefix(pending)
         reference_index = endpoint_index
         reveal_event = "navigation-endpoint-reveal"
         if inspection is not None:
@@ -1297,6 +1303,7 @@ class Native:
                 pending_preparing
             observation.phase("initial publication")
             before = self.frame()
+            prior_selection.publication(before)
             observation.publication("initial", before)
             require(
                 target in map(identity, before["snapshot"]["processes"]),
@@ -1328,6 +1335,7 @@ class Native:
             # itself with one fresh publication after discovery has completed.
             observation.phase("publication before selection")
             before = self.frame()
+            prior_selection.publication(before)
             observation.publication("before selection", before)
             scan = {} if reference_index is not None else None
             try:
@@ -1360,6 +1368,7 @@ class Native:
                 return observation.reject("invalid selected link")
             observation.phase("publication after selection")
             after = self.frame()
+            prior_selection.publication(after)
             observation.publication("after selection", after)
             ids = list(map(identity, after["snapshot"]["processes"]))
             require(target in ids, "navigation target absent: " + target)
@@ -1370,6 +1379,9 @@ class Native:
                 path = retained if not discover_fresh else None
                 return observation.reject("publication changed during selection")
             path = retained
+            observed_prior = prior_selection.selection(
+                selected[0] if selected else None
+            )
             if pending is not None and expected not in ids:
                 require(
                     selected is None, "selection transferred during pending navigation"
@@ -1521,6 +1533,7 @@ class Native:
                 if (
                     selected
                     and selected[0] != expected
+                    and not (observed_prior and expected not in row_ids)
                     or selected is None
                     and expected in row_ids
                 ):
@@ -1822,7 +1835,13 @@ class Native:
         return selected, observed, path, index
 
     def _navigate(self, target, deadline, *, on_acknowledged=None):
-        from native_pending import InterruptedNavigation, publication, validate_stat
+        from native_pending import (
+            InterruptedNavigation,
+            capture_acknowledgement,
+            prepare_prior_acknowledgement,
+            publication,
+            validate_stat,
+        )
 
         self.enter_processes()
         batch_deadline = min(deadline, time.monotonic() + 8)
@@ -1864,6 +1883,7 @@ class Native:
             path=path,
             endpoint_index=endpoint_index,
         )
+        acknowledgement = capture_acknowledgement(selected[0], observed)
         new_batch = True
         while True:
             self.navigation_context.update(
@@ -1908,8 +1928,10 @@ class Native:
                     selected, observed, path, endpoint_index = self.navigation_boundary(
                         target, frame, path, batch_deadline, deadline
                     )
+                    acknowledgement = capture_acknowledgement(selected[0], observed)
                     new_batch = True
                     continue
+                acknowledgement = capture_acknowledgement(selected[0], frame)
             if selected[0] == target:
                 # Intermediate acknowledgements pace input. Success independently
                 # rediscovers the unique current panel and exact selected target.
@@ -2000,6 +2022,13 @@ class Native:
                     "baseline_completed": baseline_completed,
                     "actual_keys": [],
                 }
+                if acknowledgement is not None:
+                    pending["issued_selection"] = acknowledgement["identity"]
+                prior_acknowledgement = prepare_prior_acknowledgement(
+                    acknowledgement, pending, ids
+                )
+                if prior_acknowledgement is not None:
+                    pending["prior_acknowledgement"] = prior_acknowledgement
             self.journal(
                 "navigation-batch",
                 target=target,
@@ -2027,6 +2056,11 @@ class Native:
             endpoint_index = planned_index
             if pending is not None:
                 pending["dispatch_completed"] = time.monotonic_ns()
+                if "prior_acknowledgement" in pending:
+                    pending["prior_acknowledgement"].update(
+                        dispatch_started=pending["dispatch_started"],
+                        dispatch_completed=pending["dispatch_completed"],
+                    )
             result = self.navigation_selection(
                 expected,
                 target,
@@ -2041,6 +2075,7 @@ class Native:
                 )
             else:
                 selected, observed, path = result
+            acknowledgement = capture_acknowledgement(selected[0], observed)
             new_batch = True
 
     def shutdown(self):
