@@ -11,6 +11,8 @@ inputs:
   - crates/assets/
   - crates/macros/
   - vendor/accesskit_atspi_common/
+  - vendor/gpui_macos/
+  - docs/decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md
   - scripts/system-pulse/
   - .cairn/mechanisms/gpu-acceptance
   - docs/execution/intel-and-apple-gpus/apple-native-comparison-protocol.md

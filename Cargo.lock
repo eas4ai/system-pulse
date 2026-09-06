@@ -3797,7 +3797,6 @@ dependencies = [
 [[package]]
 name = "gpui_macos"
 version = "0.1.0"
-source = "git+https://github.com/zed-industries/zed#f66ed399cdde86092af8af3dc7b418abf45f37f8"
 dependencies = [
  "accesskit",
  "accesskit_macos",
@@ -9393,10 +9392,20 @@ dependencies = [
 name = "system-pulse"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
+ "async-task",
+ "dispatch2",
+ "futures",
  "gpui",
  "gpui-base",
  "gpui-component",
  "gpui_platform",
+ "gpui_util",
+ "libc",
+ "mach2",
+ "objc",
+ "objc2 0.6.4",
+ "objc2-foundation 0.3.2",
  "serde",
  "serde_json",
  "smol",

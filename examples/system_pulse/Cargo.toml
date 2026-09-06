@@ -21,3 +21,22 @@ gpui = { workspace = true, features = ["test-support"] }
 
 [lints]
 workspace = true
+
+[target.'cfg(target_os = "macos")'.dependencies]
+objc2 = "0.6"
+
+[[test]]
+name = "macos_application_lifetime"
+path = "tests/macos_application_lifetime.rs"
+harness = false
+
+[target.'cfg(target_os = "macos")'.dev-dependencies]
+anyhow.workspace = true
+async-task = "4.7"
+dispatch2 = "0.3.1"
+futures = "0.3.32"
+gpui_util = { git = "https://github.com/zed-industries/zed" }
+libc = "0.2"
+mach2 = "0.5"
+objc = "0.2"
+objc2-foundation = { version = "=0.3.2", default-features = false, features = ["NSObject", "NSProcessInfo", "NSString", "std"] }

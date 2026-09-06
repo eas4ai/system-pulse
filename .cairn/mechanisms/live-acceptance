@@ -10,6 +10,8 @@ inputs:
   - crates/base/src/resizable/
   - crates/ui/src/dock/
   - vendor/accesskit_atspi_common/
+  - vendor/gpui_macos/
+  - docs/decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md
   - scripts/system-pulse/
 requirements:
   - LIVE-001

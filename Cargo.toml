@@ -32,7 +32,7 @@ members = [
     "crates/shell",
     "crates/component-shell",
 ]
-exclude = ["vendor/accesskit_atspi_common"]
+exclude = ["vendor/accesskit_atspi_common", "vendor/gpui_macos"]
 resolver = "2"
 
 [workspace.package]
@@ -161,3 +161,7 @@ ignored = ["log", "anyhow", "serde"]
 # Preserve the pinned adapter while fixing native expansion state exposure.
 [patch.crates-io]
 accesskit_atspi_common = { path = "vendor/accesskit_atspi_common" }
+
+# Keep the locked Zed graph; patch only the macOS dispatcher lifetime boundary.
+[patch."https://github.com/zed-industries/zed"]
+gpui_macos = { path = "vendor/gpui_macos" }

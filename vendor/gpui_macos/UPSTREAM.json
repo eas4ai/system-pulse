@@ -1,0 +1,369 @@
+{
+  "purpose": "Original pinned package inventory and inherited declarations before local normalization",
+  "commit": "f66ed399cdde86092af8af3dc7b418abf45f37f8",
+  "upstream_workspace_package": {
+    "publish": false,
+    "edition": "2024"
+  },
+  "inherited_dependencies": {
+    "dependencies:gpui": {
+      "upstream_workspace": {
+        "path": "crates/gpui",
+        "default-features": false
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:accesskit": {
+      "upstream_workspace": {
+        "version": "0.24.0",
+        "features": [
+          "enumn"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:accesskit_macos": {
+      "upstream_workspace": "0.26.0",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:anyhow": {
+      "upstream_workspace": "1.0.86",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:async-task": {
+      "upstream_workspace": "4.7",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:block": {
+      "upstream_workspace": "0.1",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:block2": {
+      "upstream_workspace": "0.6",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:cocoa": {
+      "upstream_workspace": "=0.26.0",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:collections": {
+      "upstream_workspace": {
+        "path": "crates/collections",
+        "version": "0.1.0"
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:core-foundation": {
+      "upstream_workspace": "0.10",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:core-foundation-sys": {
+      "upstream_workspace": "0.8.6",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:core-graphics": {
+      "upstream_workspace": "0.24",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:core-text": {
+      "upstream_workspace": "21",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:ctor": {
+      "upstream_workspace": "1.0.12",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:foreign-types": {
+      "upstream_workspace": "0.5",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:futures": {
+      "upstream_workspace": "0.3.32",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:gpui_apple": {
+      "upstream_workspace": {
+        "path": "crates/gpui_apple"
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:gpui_util": {
+      "upstream_workspace": {
+        "path": "crates/gpui_util"
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:image": {
+      "upstream_workspace": {
+        "version": "0.25.1",
+        "default-features": false,
+        "features": [
+          "bmp",
+          "dds",
+          "exr",
+          "ff",
+          "gif",
+          "hdr",
+          "ico",
+          "jpeg",
+          "png",
+          "pnm",
+          "qoi",
+          "rayon",
+          "tga",
+          "tiff",
+          "webp"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:itertools": {
+      "upstream_workspace": "0.14.0",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:libc": {
+      "upstream_workspace": "0.2",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:log": {
+      "upstream_workspace": {
+        "version": "0.4.16",
+        "features": [
+          "kv_unstable_serde",
+          "serde"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:mach2": {
+      "upstream_workspace": "0.5",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:media": {
+      "upstream_workspace": {
+        "path": "crates/media"
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:metal": {
+      "upstream_workspace": "0.33",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:objc": {
+      "upstream_workspace": "0.2",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:objc2": {
+      "upstream_workspace": "0.6",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:objc2-app-kit": {
+      "upstream_workspace": {
+        "version": "0.3.2",
+        "default-features": false,
+        "features": [
+          "NSButton",
+          "NSControl",
+          "NSGraphics",
+          "NSResponder",
+          "NSView",
+          "NSWindow",
+          "objc2-core-foundation"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:objc2-foundation": {
+      "upstream_workspace": {
+        "version": "=0.3.2",
+        "default-features": false,
+        "features": [
+          "NSArray",
+          "NSAttributedString",
+          "NSBundle",
+          "NSCoder",
+          "NSData",
+          "NSDate",
+          "NSDictionary",
+          "NSEnumerator",
+          "NSError",
+          "NSGeometry",
+          "NSNotification",
+          "NSNull",
+          "NSObjCRuntime",
+          "NSObject",
+          "NSProcessInfo",
+          "NSRange",
+          "NSRunLoop",
+          "NSSet",
+          "NSString",
+          "NSURL",
+          "NSUndoManager",
+          "NSValue",
+          "objc2-core-foundation",
+          "std"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:objc2-user-notifications": {
+      "upstream_workspace": "0.3",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:parking_lot": {
+      "upstream_workspace": "0.12.1",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:pathfinder_geometry": {
+      "upstream_workspace": "0.5",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:raw-window-handle": {
+      "upstream_workspace": "0.6",
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:semver": {
+      "upstream_workspace": {
+        "version": "1.0",
+        "features": [
+          "serde"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:smallvec": {
+      "upstream_workspace": {
+        "version": "1.6",
+        "features": [
+          "union",
+          "const_new"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:strum": {
+      "upstream_workspace": {
+        "version": "0.28",
+        "features": [
+          "derive"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dependencies:uuid": {
+      "upstream_workspace": {
+        "version": "1.1.2",
+        "features": [
+          "v4",
+          "v5",
+          "v7",
+          "serde"
+        ]
+      },
+      "member_overrides": {}
+    },
+    "target.cfg(target_os = \"macos\").dev-dependencies:gpui": {
+      "upstream_workspace": {
+        "path": "crates/gpui",
+        "default-features": false
+      },
+      "member_overrides": {
+        "features": [
+          "test-support"
+        ]
+      }
+    },
+    "target.cfg(target_os = \"macos\").dev-dependencies:gpui_apple": {
+      "upstream_workspace": {
+        "path": "crates/gpui_apple"
+      },
+      "member_overrides": {
+        "features": [
+          "test-support"
+        ]
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "crates/gpui_macos/Cargo.toml",
+      "size": 2245,
+      "sha256": "62110866d0483c5ba8d295793d5a6f5088efaf2c825e9763c1f2e4de16bf6e59"
+    },
+    {
+      "path": "crates/gpui_macos/LICENSE-APACHE",
+      "size": 10768,
+      "sha256": "752daf2fb234ca4a1fa372c073fe127f44b7b90fd2529ae44273a64f9d53da7a"
+    },
+    {
+      "path": "crates/gpui_macos/src/dispatcher.rs",
+      "size": 6133,
+      "sha256": "373364fca8181f4445dcfc1baec26a000af3ed6ffafdade0e93d2c8be5062fcc"
+    },
+    {
+      "path": "crates/gpui_macos/src/display.rs",
+      "size": 6026,
+      "sha256": "b5434a2c041c97a239eba23eb6ee433244138f54f3fbf790b7bccdf5fa1c4624"
+    },
+    {
+      "path": "crates/gpui_macos/src/display_link.rs",
+      "size": 18018,
+      "sha256": "77a1dfdab87f6d84daca48780b6386429d899a7614a8e517c360cbde973aec8f"
+    },
+    {
+      "path": "crates/gpui_macos/src/events.rs",
+      "size": 24578,
+      "sha256": "a4027cd12e14953b0954c5c04981148125ff85e8460a7219200dbcc3e93d50f7"
+    },
+    {
+      "path": "crates/gpui_macos/src/gpui_macos.rs",
+      "size": 3141,
+      "sha256": "e8f79ead1633ffa1e75952b577cde5e8327b44b4300864d3b168548a2ac5161e"
+    },
+    {
+      "path": "crates/gpui_macos/src/keyboard.rs",
+      "size": 39203,
+      "sha256": "d6cbb1b91f11a67836a094689989b1ea7d79df60d7fa7b1829e6e78e9a01ad2b"
+    },
+    {
+      "path": "crates/gpui_macos/src/open_type.rs",
+      "size": 7172,
+      "sha256": "44e8e2180363111982ec6a0dcbcb7b75362806a40eadf4aff565c9a8943f357b"
+    },
+    {
+      "path": "crates/gpui_macos/src/pasteboard.rs",
+      "size": 18848,
+      "sha256": "66744f8c74061c999547400dc9e3dccbc40ddd5c4749c60856ee3d5ce2b77a23"
+    },
+    {
+      "path": "crates/gpui_macos/src/platform.rs",
+      "size": 60703,
+      "sha256": "0842a6c6fa840e05b6157805e4ab58ba0a50f94685a0cb6f0adcf46a937d4a8e"
+    },
+    {
+      "path": "crates/gpui_macos/src/screen_capture.rs",
+      "size": 12742,
+      "sha256": "1ecb30eef1dbd67a2664f26faef89a295d7f156c95bbfcb4f41b1e88e1fea86a"
+    },
+    {
+      "path": "crates/gpui_macos/src/system_notifications.rs",
+      "size": 12437,
+      "sha256": "df8374f075932996d58b99c043d97a82e1cefebab79e5b0f4648c8a3776ea5fe"
+    },
+    {
+      "path": "crates/gpui_macos/src/text_system.rs",
+      "size": 33554,
+      "sha256": "727a9c1961c7cbc3991d223a5337a9b70e611b4eea4480ff755a2da9f22ebc46"
+    },
+    {
+      "path": "crates/gpui_macos/src/window.rs",
+      "size": 136766,
+      "sha256": "dc2c2496300374f57ec9504517b6ccd0b5d855d65f50aba83c9882be75005885"
+    },
+    {
+      "path": "crates/gpui_macos/src/window_appearance.rs",
+      "size": 1085,
+      "sha256": "b8a1950175c0184469606447fca9450ab39a194fde04b80da3f0ad468ce2bd03"
+    }
+  ]
+}

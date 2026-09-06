@@ -198,6 +198,7 @@ def validate_automated_steps(runner):
         "python",
         "fmt",
         "fmt-atspi",
+        "fmt-gpui-macos",
         "clippy",
         "build",
         "diff",
@@ -523,6 +524,7 @@ def main():
         "python",
         "fmt",
         "fmt-atspi",
+        "fmt-gpui-macos",
         "clippy",
         "build",
         "diff",
@@ -565,6 +567,17 @@ def main():
                 "fmt",
                 "--manifest-path",
                 "vendor/accesskit_atspi_common/Cargo.toml",
+                "--",
+                "--check",
+            ],
+        )
+        runner.step(
+            "fmt-gpui-macos",
+            [
+                "cargo",
+                "fmt",
+                "--manifest-path",
+                "vendor/gpui_macos/Cargo.toml",
                 "--",
                 "--check",
             ],
