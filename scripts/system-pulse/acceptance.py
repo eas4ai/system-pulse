@@ -552,7 +552,7 @@ def main():
                 "-v",
             ],
             "python",
-            30,
+            60,
         )
         for name, package, extra in SUITES:
             runner.step(

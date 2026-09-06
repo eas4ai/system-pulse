@@ -1,0 +1,197 @@
+{
+  "status": "DONE_WITH_CONCERNS; development correction awaiting independent SPEC then quality review",
+  "source_base": "906c9f611b1875b1fab9f1f3b7026856c90d6756",
+  "change": {
+    "path": "scripts/system-pulse/acceptance.py",
+    "before_seconds": 30,
+    "after_seconds": 60,
+    "before_sha256": "b93b56435c2c7b42a9bb57198bd1509523a5f217114b9d73da21c70a05acf327",
+    "after_sha256": "b7c3a948322105fc4a921be3f48bbbe181c86a129d3d45e1ec921add6c4dc009",
+    "only_one_execution_budget_changed": true
+  },
+  "historical_failure_verification": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-preservation-3ab14ff0-20260906-root-failure-verification.json",
+    "sha256": "33dee4b18b29b50ab9c034432b23d817ca5475d3ee5fe90793b1c4e292e59522",
+    "originals_verified": 11
+  },
+  "supporting_timing_verification": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-20260906/root-verification.json",
+    "sha256": "f2a3cf6741efb8ecd519b529177db7d4fec9e9964f5ba3f76b6e07364d4729ef"
+  },
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906",
+  "runner_stage": {
+    "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/python-stage-result.json",
+    "sha256": "459c93bc27f0079d035f79f19c8c9107d0ebc5e3a3a145752aef329bd48c0f08",
+    "scope": "Development verification of the complete Python stage only; no aggregate or Cairn acceptance",
+    "source_path": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py",
+    "source_sha256": "b7c3a948322105fc4a921be3f48bbbe181c86a129d3d45e1ec921add6c4dc009",
+    "source_call": "runner.step(\n            \"python\",\n            [\n                sys.executable,\n                \"-B\",\n                \"-m\",\n                \"unittest\",\n                \"discover\",\n                \"-s\",\n                \"scripts/system-pulse\",\n                \"-p\",\n                \"test_*.py\",\n                \"-v\",\n            ],\n            \"python\",\n            60,\n        )",
+    "timeout_seconds": 60,
+    "runner_step": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "seconds": 34.573,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/python-stage/python.log",
+      "sha256": "0d2cb346cba5720428696c9b795c1645a61699d167b2a2cdee1f51bace7beecf",
+      "test_count": 444
+    },
+    "actual_argv": [
+      "rtk",
+      "proxy",
+      "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/system-pulse",
+      "-p",
+      "test_*.py",
+      "-v"
+    ],
+    "child_pid": 1212286,
+    "reaped": true,
+    "group_absent": true,
+    "started_ns": 810217505580939,
+    "finished_ns": 810252080055826,
+    "elapsed_seconds": 34.574474887
+  },
+  "checks": {
+    "aggregate-tests": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/aggregate-tests-finished.json",
+      "sha256": "eb211fd7cfff786617a97070d831971c0eb2360d605be8a1d70f14f70c5ce285",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_acceptance.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "pid": 1212569,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "format": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/format-finished.json",
+      "sha256": "ef2d0657ae2e36e51ed8c751ffe8910fcf91d9fe07949d5dc7db7653ae771e2e",
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "scripts/system-pulse/acceptance.py"
+      ],
+      "exit_code": 0,
+      "pid": 1212524,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "gpu-aggregate-tests": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/gpu-aggregate-tests-finished.json",
+      "sha256": "376e7fc3798823cf09f39bad93ffac385cab554f38bd517290a161e830348cc9",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_gpu_aggregate.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "pid": 1212574,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "python-stage-owner": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/python-stage-owner-finished.json",
+      "sha256": "875faf4b8a2b0a3a09d8798d21057f077d7a110086e2f58f2837a75742b04751",
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/run_python_stage.py"
+      ],
+      "exit_code": 0,
+      "pid": 1212267,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "ruff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/ruff-finished.json",
+      "sha256": "51272b323ab466b8311dec9703f8b21a0ee7a51f8ce0fa7e099e8b21ab4055a1",
+      "command": [
+        "ruff",
+        "check",
+        "scripts/system-pulse/acceptance.py"
+      ],
+      "exit_code": 0,
+      "pid": 1212479,
+      "reaped": true,
+      "group_absent_now": true
+    },
+    "diff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/diff-finished.json",
+      "sha256": "778fe5e80fdc3eff5974bdee67a3a71994a3a6ced5ce7c044ee3b02988476b2c",
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0,
+      "pid": 1225035,
+      "reaped": true,
+      "group_absent_now": true
+    }
+  },
+  "focused_method_counts": {
+    "test_acceptance.py": 7,
+    "test_gpu_aggregate.py": 6
+  },
+  "limitations": [
+    "Development verification only; no full preservation or Cairn acceptance.",
+    "Original failed aggregate and Linux freshness failures remain failed/unresolved.",
+    "Mac F1 and incomplete Intel/Apple hardware evidence remain pending.",
+    "Independent SPEC then quality review is required before root reruns full preservation."
+  ],
+  "self_audit": {
+    "1": "Read recorded cause and bounded decision; verified prior failed and successful originals.",
+    "2": "Changed one full-suite timeout value only.",
+    "3": "Kept the existing runner and command; no new production abstraction or numeric-constant test.",
+    "4": "Preserved full discovery, mandatory steps and nonempty test validation.",
+    "5": "Kept failure propagation and process cleanup unchanged; retained original failure evidence.",
+    "6": "Ran only task-owned development processes and retained no environment or secret dumps.",
+    "7": "Preserved prior failed attempts and all other source inputs.",
+    "8": "Kept a finite 60-second suite budget above measured 34-second passes; native bounds unchanged.",
+    "9": "Tracked correction, actual verification and review handoff with one active step.",
+    "10": "Ran the actual main Python stage through Runner: 444 PASS; focused 7/6, lint/format/diff PASS.",
+    "11": "Reported development scope and all pending native/preservation work without acceptance claims.",
+    "12": "Followed the authorized one-line correction and reported measured evidence to the orchestrator.",
+    "13": "Audited all 14 rules after verification; no known budget-correction revision remains.",
+    "14": "Explained the measured mismatch, one-line fix, test scope and limits directly."
+  },
+  "artifact_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-correction-20260906/artifact-manifest.json",
+    "sha256": "b7b1500053579c938ac0c60f4318af84ada228120e269c188fd9f2dfcb128073",
+    "files": 29
+  }
+}
