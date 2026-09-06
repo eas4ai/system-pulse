@@ -111,6 +111,183 @@ class InspectionTests(unittest.TestCase):
         self.assertEqual(proof["current_span"], [2, 5])
         self.assertEqual(proof["deadline"], 8)
 
+    def test_costed_gesture_reuses_only_established_recovery_links(self):
+        # Illustrative costs, not measured native timings. The extra retry case
+        # also charges a post-wheel publication rejection to the same five seconds.
+        for ordinary_cost, strict_cost, rejection in (
+            (1.0, 0.6, None),
+            (0.95, 0.55, "publication"),
+            (0.95, 0.55, "selected node"),
+        ):
+            with self.subTest(rejection=rejection):
+                self.setUp()
+                f = self.f
+                f.displaced_endpoint()
+                cell_id = f.endpoint + ":cell:4"
+                cell = cells.Node(f.clock, cell_id)
+                row = f.nodes[f.endpoint]
+                row.get_child_count = lambda: 1
+                row.get_child_at_index = lambda index: cell if index == 0 else None
+                f.native.visible = lambda node: node is cell
+                ordinary_scans = []
+                walk = f.native.walk
+
+                def costed_walk(root=None, deadline=None, **kwargs):
+                    if root is None and not kwargs.get("strict"):
+                        ordinary_scans.append(deadline)
+                        f.clock.now += ordinary_cost
+                    yield from walk(root, deadline, **kwargs)
+
+                f.native.walk = costed_walk
+                discover = f.native.navigation_panel
+
+                def costed_discovery(deadline):
+                    f.clock.now += strict_cost
+                    return discover(deadline)
+
+                f.native.navigation_panel = Mock(side_effect=costed_discovery)
+                selected = f.native.selected
+                rejected = False
+
+                def changing(*args, **kwargs):
+                    nonlocal rejected
+                    result = selected(*args, **kwargs)
+                    if rejection and f.native.wheel.called and not rejected:
+                        rejected = True
+                        if rejection == "publication":
+                            f.sequence += 1
+                        else:
+                            result[1].defunct = True
+                            replacement = f.nodes[f.endpoint] = f.row(f.endpoint)
+                            replacement.get_child_count = lambda: 1
+                            replacement.get_child_at_index = (
+                                lambda index: cell if index == 0 else None
+                            )
+                    return result
+
+                f.native.selected = changing
+                inspection = native_replay.ProcessInspection(f.native, f.endpoint)
+                inspection.acknowledge(self.evidence()["acknowledgement"])
+                before = copy.deepcopy(inspection.reference)
+                try:
+                    with patch("native_replay.time", f.clock):
+                        result = native_replay.reveal_process_cell(
+                            f.native,
+                            cell_id,
+                            "Right",
+                            5,
+                            prepare_missing=inspection.preparation(),
+                        )
+                except (TimeoutError, AssertionError) as error:
+                    self.fail(
+                        f"redundant discovery exhausted synthetic five-second gesture: {error}; "
+                        f"ordinary={len(ordinary_scans)}, "
+                        f"strict={f.native.navigation_panel.call_count}, elapsed={f.clock.now}"
+                    )
+                self.assertIs(result, cell)
+                self.assertEqual(ordinary_scans, [5, 5])
+                self.assertEqual(f.native.navigation_panel.call_count, 3)
+                self.assertAlmostEqual(f.clock.now, 4.8)
+                self.assertEqual(rejected, rejection is not None)
+                self.assertEqual(inspection.reference, before)
+                f.native.wheel.assert_called_once_with(
+                    [400, 360], down=False, deadline=5
+                )
+                self.assertTrue(
+                    any(e[0] == "inspection-row-reveal-proof" for e in f.events)
+                )
+                self.assertFalse(any(e[0] == "key" for e in f.events))
+
+    def test_initial_and_final_coherence_retries_rediscover_unique_panel(self):
+        for rejected_scan in (1, 4):
+            with self.subTest(rejected_scan=rejected_scan):
+                self.setUp()
+                f = self.f
+                f.displaced_endpoint()
+                selected = f.native.selected
+                scans = 0
+                discoveries_at_rejection = None
+
+                def duplicate(*args, **kwargs):
+                    nonlocal scans, discoveries_at_rejection
+                    result = selected(*args, **kwargs)
+                    scans += 1
+                    if scans == rejected_scan:
+                        discoveries_at_rejection = f.native.navigation_panel.call_count
+                        f.sequence += 1
+                        extra = cells.Node(f.clock, name="processes")
+                        f.root.children = lambda: [f.panel, extra]
+                    return result
+
+                f.native.selected = duplicate
+                with self.assertRaisesRegex(
+                    AssertionError, "nonunique native Processes panel"
+                ):
+                    self.observe()
+                self.assertEqual(scans, rejected_scan)
+                self.assertEqual(
+                    f.native.navigation_panel.call_count, discoveries_at_rejection + 1
+                )
+                self.assertEqual(
+                    f.native.wheel.call_count, 0 if rejected_scan == 1 else 1
+                )
+                self.assertFalse(
+                    any(e[0] == "inspection-row-reveal-proof" for e in f.events)
+                )
+
+    def test_post_wheel_incomplete_scan_requires_new_unique_discovery(self):
+        f = self.f
+        f.displaced_endpoint()
+        selected = f.native.selected
+        rejected = False
+        discoveries_at_rejection = None
+
+        def incomplete(*args, **kwargs):
+            nonlocal rejected, discoveries_at_rejection
+            if f.native.wheel.called and not rejected:
+                rejected = True
+                discoveries_at_rejection = f.native.navigation_panel.call_count
+                child_at_index = f.viewport.get_child_at_index
+                f.viewport.get_child_at_index = lambda index: None
+                try:
+                    return selected(*args, **kwargs)
+                finally:
+                    f.viewport.get_child_at_index = child_at_index
+                    extra = cells.Node(f.clock, name="processes")
+                    f.root.children = lambda: [f.panel, extra]
+            return selected(*args, **kwargs)
+
+        f.native.selected = incomplete
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.observe()
+        self.assertTrue(rejected)
+        self.assertEqual(
+            f.native.navigation_panel.call_count, discoveries_at_rejection + 1
+        )
+        f.native.wheel.assert_called_once()
+        self.assertFalse(any(e[0] == "inspection-row-reveal-proof" for e in f.events))
+
+    def test_post_wheel_broken_membership_reacquires_replacement_panel(self):
+        f = self.f
+        f.displaced_endpoint()
+        original = f.panel
+
+        def replace(point, down, *, deadline):
+            f.reveal_wheel(point, down, deadline=deadline)
+            f.panel = cells.Node(
+                f.clock, name="processes", children=lambda: [f.viewport]
+            )
+            f.panel.get_parent = lambda: f.root
+            f.panel.get_index_in_parent = lambda: 0
+
+        f.native.wheel.side_effect = replace
+        selected, _, path = self.observe()
+        self.assertEqual(selected[0], f.endpoint)
+        self.assertIs(path[0], f.panel)
+        self.assertIsNot(path[0], original)
+        self.assertEqual(f.native.navigation_panel.call_count, 4)
+        f.native.wheel.assert_called_once()
+
     def test_missing_or_wrong_acknowledgement_cannot_scroll(self):
         for invalid in ("missing", "wrong", "wrong reference", "missing publication"):
             with self.subTest(invalid=invalid):

@@ -1186,10 +1186,14 @@ class Native:
                 "navigation target absent: " + target,
             )
             retained, path = path, None
-            if (
+            discover_fresh = (
                 fresh_panel
+                and not recovery_started
                 or recovery_preparing
                 or recovery_proof
+            )
+            if (
+                discover_fresh
                 or retained is None
                 or not self.navigation_panel_current(retained, deadline)
             ):
@@ -1215,7 +1219,7 @@ class Native:
             ):
                 # The complete scan and post-scan links still validate this panel
                 # for pacing, even though the selected row must be observed again.
-                path = retained if not fresh_panel else None
+                path = retained if not discover_fresh else None
                 return None
             after = self.frame()
             ids = list(map(identity, after["snapshot"]["processes"]))
@@ -1224,7 +1228,7 @@ class Native:
                 after["snapshot"]["sequence"],
                 after["render_revision"],
             ):
-                path = retained if not fresh_panel else None
+                path = retained if not discover_fresh else None
                 return None
             path = retained
             if scan is not None:

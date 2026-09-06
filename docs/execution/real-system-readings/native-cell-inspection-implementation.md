@@ -35,7 +35,11 @@ Keyboard acknowledgement keeps its existing polling behavior.
 Recovery uses bounded nonselecting vertical wheel steps inside the clipped rows
 viewport. Rejected pre-input observations discard provisional permission;
 permission can be reused only after successful physical dispatch. Recovery then
-requires fresh exact selected identity and unique current membership. Inspection
+requires fresh exact selected identity and unique current membership. Initial
+eligibility and final proof force fresh discovery on every retry. After physical
+dispatch succeeds, intermediate observations may reuse validated local membership
+links, including after a publication or selected-node rejection. An incomplete
+scan or broken membership still requires rediscovery. Inspection
 journal events retain the original acknowledgement, frozen reference, eligibility
 publication/index/span, action, and absolute deadline. The proof event also records
 the recovered publication, selected identity, current index, and instantiated span.
@@ -62,15 +66,15 @@ TDD runs observed failures for missing acknowledgement/callback/inspection APIs,
 the one-row displacement, the missing prior-ACK entry guard, and missing recovered
 publication evidence before implementing those behaviors. The final checks passed:
 
-- `test_native_inspection.py`: 21 tests, including actual replay wiring through
+- `test_native_inspection.py`: 25 tests, including actual replay wiring through
   sixteen comparisons, success-only reference advancement, original deadline
   propagation, and callback return-value rejection without recursive lookup.
-- `test_native*.py`: 196 tests. Inspection reuses existing behavioral guard tests
+- `test_native*.py`: 200 tests. Inspection reuses existing behavioral guard tests
   for invalid spans, incomplete/stale observations, duplicate membership,
   pre-dispatch invalidation, and rejected provisional permission. Separate cases
   cover identity loss/PID reuse, wrong or missing ACK, competing selection, and
   journal work consuming the physical dispatch deadline.
-- Full Python suite: 300 tests passed in 14.175 seconds with:
+- Full Python suite: 304 tests passed in 14.347 seconds with:
 
 ```sh
 rtk proxy env TMPDIR=/home/shawn/workspace2/task-manager-artifacts/tmp /home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
@@ -94,6 +98,31 @@ metadata loop or new selection mechanism. GREEN tests prove both failures are
 fixed, the five-second deadline begins after the existing sequence wait, an invalid
 reference slot still fails, and neither acknowledgement nor the last successful
 metric reference advances during this proof.
+
+## Established-recovery discovery correction
+
+The recorded QUALITY finding at `55b6a12c` identified avoidable full panel discovery
+during an intermediate observation after successful wheel dispatch. The correction
+uses one fresh-discovery predicate for initial discovery and both retry branches:
+pre-dispatch observations, recovery preparation, and final proof remain fresh;
+established intermediate observations may retain validated membership links.
+Missing paths, incomplete scans, and broken links still require discovery.
+
+A regression runs the actual horizontal helper, strict recovery, and subsequent
+ordinary cell lookup under explicit synthetic costs. With 1.0 second per ordinary
+scan and 0.6 seconds per strict discovery, RED used two ordinary scans and four
+strict discoveries, failing at 5.4 seconds. GREEN uses two ordinary scans and three
+strict discoveries and finishes at 4.8 seconds within the same five-second deadline.
+These are illustrative costs, not measured native timings.
+
+Two further cases reject the first post-wheel observation because its publication
+changed or its selected node was replaced. With synthetic costs of 0.95 second per
+ordinary scan and 0.55 seconds per strict discovery, RED used five strict discoveries
+and failed at 5.9 seconds. GREEN retains validated intermediate links, uses three
+strict discoveries, and finishes at 4.8 seconds. Neither retry advances the metric
+reference. Separate tests preserve fresh uniqueness after initial/final coherence
+retries, force rediscovery after a real incomplete native scan, and reacquire a
+replacement panel after post-wheel membership breaks.
 
 ## Limits and self-audit
 
