@@ -1365,5 +1365,126 @@
       "Selection was observed in intermediate scans, but the required final proof did not complete.",
       "No source correction or acceptance-bound change is justified by this analysis alone."
     ]
+  },
+  "writer_syscall_diagnostic": {
+    "status": "FAIL",
+    "scope": "Supporting instrumented diagnostic; collector ptrace overhead prevents original-failure causality",
+    "analysis": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-syscalls-guarded-20260906/root-analysis.json",
+      "bytes": 69674,
+      "sha256": "628ac0725a406301b2039a4fa322154fb68e97661f7153ba4c85b3fc6165efa6"
+    },
+    "original_files_bound": 151,
+    "writer_completed_calls": 76,
+    "writer_maxima_seconds": {
+      "rename": 0.248508,
+      "write": 0.003101
+    },
+    "stale_receipts": [
+      {
+        "path": "native/session-01/stale-frame-805755804026531.json",
+        "checked_unix_ns": 1788721521711432378,
+        "age_seconds": 2.029702256,
+        "limit_seconds": 2.0,
+        "accepted_unix_ns": 1788721519681730122,
+        "sequence": 15,
+        "render_revision": 37,
+        "capture_started_ns": 28002026255,
+        "capture_finished_ns": 29351164975,
+        "clock_anchor": {
+          "unix_ns": 1788721518292569228,
+          "monotonic_before_ns": 28002027704,
+          "monotonic_after_ns": 28002028467
+        },
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222710891
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222710891
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 805755748188226,
+          "read_completed_monotonic_ns": 805755754296660,
+          "parse_completed_monotonic_ns": 805755803945809,
+          "age_checked_monotonic_ns": 805755804026531
+        }
+      },
+      {
+        "path": "native/session-01/stale-frame-805756131799605.json",
+        "checked_unix_ns": 1788721522039205618,
+        "age_seconds": 2.357475496,
+        "limit_seconds": 2.0,
+        "accepted_unix_ns": 1788721519681730122,
+        "sequence": 15,
+        "render_revision": 37,
+        "capture_started_ns": 28002026255,
+        "capture_finished_ns": 29351164975,
+        "clock_anchor": {
+          "unix_ns": 1788721518292569228,
+          "monotonic_before_ns": 28002027704,
+          "monotonic_after_ns": 28002028467
+        },
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222710891
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222710894
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 805756099584800,
+          "read_completed_monotonic_ns": 805756102671956,
+          "parse_completed_monotonic_ns": 805756131473604,
+          "age_checked_monotonic_ns": 805756131799605
+        }
+      }
+    ],
+    "sampled_states": {
+      "main": {
+        "R": 204,
+        "S": 93,
+        "Z": 1
+      },
+      "collector": {
+        "S": 109,
+        "R": 71,
+        "t": 113,
+        "D": 4
+      },
+      "writer": {
+        "S": 183,
+        "R": 111,
+        "D": 3
+      }
+    },
+    "limits": [
+      "Collector has frequent observed ptrace stops; tracing altered collection timing despite requested seccomp filtering.",
+      "This failure cannot establish the cause of the earlier uninstrumented failures.",
+      "Only write/rename/flush syscall durations were selected; other writer stages remain unmeasured.",
+      "No production source correction or comparison-bound change is justified by this run."
+    ],
+    "traced_ids_verified_absent": 290,
+    "process_groups_verified_absent": [
+      674308,
+      674476,
+      674419
+    ],
+    "configuration_attempts": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-syscalls-20260906/root-cancellation-verification.json",
+        "bytes": 23834,
+        "sha256": "1960cf147990f3caeda1e473bcd9d24fe61a42c4dd1a7f61efa6e25a9ffa7696"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-syscalls-filtered-20260906/root-cancellation-verification.json",
+        "bytes": 23707,
+        "sha256": "ad7e05df6313b3acfe8c175c7749dc21e933d839a6f7158ea603e2d025ee97e8"
+      }
+    ]
   }
 }

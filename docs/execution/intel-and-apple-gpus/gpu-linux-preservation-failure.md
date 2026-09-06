@@ -215,3 +215,39 @@ and preserved the sampled waits and navigation observations. The structured
 record binds both. This supporting diagnostic remains failed and does not clear
 either original freshness failure. No acceptance limit or production behavior
 has changed in response to it.
+
+## Writer syscall diagnostic and tracing limits
+
+A later diagnostic traced descendant write, rename and flush calls, with internal
+publication timing disabled. Two setup attempts were retained separately. The
+first was canceled when strace reported that the syscall-count limit disabled
+its requested seccomp filtering. The second failed before session metadata:
+the diagnostic's inherited file-size limit terminated the required source
+identification helper with `SIGXFSZ`. These are diagnostic configuration failures,
+not application performance evidence. Root verified cleanup and retained 140 and
+139 original files respectively.
+
+The third attempt removed both incompatible limits and guarded only the trace
+output externally. It reproduced stale sequence 15, revision 37 during metric
+comparison, at ages 2.029702256 and 2.357475496 seconds. It retained 76 completed
+writer syscalls, reconciling interleaved unfinished/resumed calls. Maximum write
+duration was 3.101 ms; maximum rename duration was 248.508 ms, well before the
+rejected observations. No flush call appeared on the writer thread.
+
+This run has a material tracing limitation: the collector was observed in a
+ptrace stop in 113 of its 297 complete samples. Its last two retained collections
+took 1.349 and 1.242 seconds, and the service skipped missed sampling slots.
+Tracing therefore changed the collection timing. The reproduced stale frame
+cannot establish the cause of the earlier uninstrumented failures, and does not
+justify a storage or sampling correction. Any further syscall investigation
+needs to isolate the writer from the collector and UI threads.
+
+The third run remains at `gpu-task5/linux-writer-syscalls-guarded-20260906`;
+the earlier configuration attempts use the adjacent `linux-writer-syscalls-20260906`
+and `linux-writer-syscalls-filtered-20260906` directories. After the native replay
+failed, app and transport cleanup completed. Root then stopped the tracer still
+following private-session descendants, preserving that distinction in its
+lifecycle record. All 290 traced process/thread IDs and the application,
+transport and tracer process groups were absent. The observer joined without
+errors. The structured record binds the reproducible analysis and all three
+attempts; no original failed result has been replaced.
