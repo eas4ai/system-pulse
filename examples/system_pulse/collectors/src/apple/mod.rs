@@ -444,6 +444,21 @@ fn scalar(
         {
             return Err("Accelerator memory device mismatch".into());
         }
+        if !temperature {
+            let counter = if id.ends_with("/shared-allocated") {
+                "Alloc system memory"
+            } else {
+                "In use system memory"
+            };
+            if !observation.source.starts_with("IOKit/")
+                || !observation
+                    .source
+                    .ends_with(&format!("/PerformanceStatistics/{counter};bytes"))
+                || integer(&observation, "has_unified_memory")? != 1
+            {
+                return Err("Accelerator memory source, unit or memory-model mismatch".into());
+            }
+        }
         let value = if temperature {
             *observation
                 .decimals
@@ -452,7 +467,7 @@ fn scalar(
         } else {
             integer(&observation, "bytes")? as f64
         };
-        if !value.is_finite() || value < 0.0 {
+        if !value.is_finite() || (!temperature && value < 0.0) {
             return Err("Invalid physical scalar".into());
         }
         Ok(value)
@@ -541,3 +556,27 @@ fn attributed_hid(name: &str) -> bool {
 mod native;
 #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 pub(crate) use native::AppleCollector;
+
+fn smc_keys(name: &str) -> &'static [&'static str] {
+    // Exact profiles from pinned Stats source; see NOTICE.md. Names select only
+    // the source profile, never device identity. No guessed key prefixes.
+    match name {
+        "Apple M1" | "Apple M1 Pro" | "Apple M1 Max" | "Apple M1 Ultra" => {
+            &["Tg05", "Tg0D", "Tg0L", "Tg0T"]
+        }
+        "Apple M2" | "Apple M2 Pro" | "Apple M2 Max" | "Apple M2 Ultra" => &["Tg0f", "Tg0j"],
+        "Apple M3" | "Apple M3 Pro" | "Apple M3 Max" | "Apple M3 Ultra" => &[
+            "Tf14", "Tf18", "Tf19", "Tf1A", "Tf24", "Tf28", "Tf29", "Tf2A",
+        ],
+        "Apple M4" => &[
+            "Tg0G", "Tg0H", "Tg0K", "Tg0L", "Tg0d", "Tg0e", "Tg0j", "Tg0k",
+        ],
+        "Apple M4 Pro" | "Apple M4 Max" | "Apple M4 Ultra" => &[
+            "Tg1U", "Tg1k", "Tg0K", "Tg0L", "Tg0d", "Tg0e", "Tg0j", "Tg0k",
+        ],
+        "Apple M5" | "Apple M5 Pro" | "Apple M5 Max" | "Apple M5 Ultra" => &[
+            "Tg0U", "Tg0X", "Tg0d", "Tg0g", "Tg0j", "Tg1Y", "Tg1c", "Tg1g",
+        ],
+        _ => &[],
+    }
+}

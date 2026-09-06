@@ -175,7 +175,11 @@ fn device(path: &str, runtime: u64, end: u64) -> DeviceInput {
             "IOKit/PerformanceStatistics/Alloc system memory;bytes",
             end,
             end,
-            [("bytes", 8192), ("driver_id", runtime)],
+            [
+                ("bytes", 8192),
+                ("driver_id", runtime),
+                ("has_unified_memory", 1),
+            ],
         )),
         in_use: Err("In use system memory absent".into()),
         temperatures: vec![(
@@ -367,4 +371,123 @@ fn hid_names_require_the_attributed_gpu_sensor_family() {
     assert!(!attributed_hid("CPU MTR Temp Sensor0"));
     assert!(!attributed_hid("GPU temperature guess"));
     assert!(!attributed_hid("GPU MTR Temp Sensor anything"));
+}
+
+#[test]
+fn finite_negative_celsius_obeys_only_the_source_specific_smc_guard() {
+    let mut observation = raw_window("temperature Celsius", 1, 2, []);
+    observation.decimals.insert("celsius".into(), -5.0);
+    assert_eq!(
+        smc_temperature("smc", Ok(observation.clone())).availability,
+        Availability::Unavailable
+    );
+    assert_eq!(scalar("hid", Ok(observation), None, true).value, Some(-5.0));
+}
+fn states(end: u64, inactive: u64, active: u64) -> RawObservation {
+    raw_window(
+        "IOReport/GPUPH;24Mticks",
+        end.saturating_sub(1),
+        end,
+        [
+            ("driver_id", 55),
+            ("channel_id", 12),
+            ("format", 2),
+            ("encoded_unit", RESIDENCY_UNIT),
+            ("state_count", 2),
+            ("ticks/OFF", inactive),
+            ("ticks/P1", active),
+        ],
+    )
+}
+#[test]
+fn counter_raw_operands_and_missing_table_preserve_independent_fields() {
+    let mut counter = Baseline::default();
+    counter.read("gpu/usage", Ok(states(1, 0, 0)), 55, true);
+    let (usage, frequency) = counter.read("gpu/usage", Ok(states(1001, 250, 750)), 55, true);
+    assert_eq!(usage.value, Some(75.0));
+    assert_eq!(frequency.unwrap().value, None);
+    assert_eq!(usage.observations.len(), 2);
+    assert_eq!(usage.observations[1].integers["ticks/P1"], 750);
+    assert_eq!(usage.observations[0].read_started_ns, Some(0));
+    let mut collector = Collector::default();
+    let mut snapshot = Snapshot::default();
+    let path = "IODeviceTree:/arm-io/sgx@1";
+    collector.append(&mut snapshot, Ok(vec![device(path, 55, 1)]));
+    collector.append(&mut snapshot, Ok(vec![device(path, 55, 1_000_000_001)]));
+    assert_eq!(
+        snapshot
+            .readings
+            .iter()
+            .rev()
+            .find(|r| r.sensor_id.ends_with("/power"))
+            .unwrap()
+            .value,
+        Some(1.0)
+    );
+}
+#[test]
+fn changed_state_count_names_and_query_windows_reset_without_current_value() {
+    for mutation in 0..3 {
+        let mut counter = Baseline::default();
+        counter.read("gpu/usage", Ok(states(1, 0, 0)), 55, true);
+        let mut current = states(2, 1, 1);
+        match mutation {
+            0 => {
+                current.integers.insert("state_count".into(), 3);
+            }
+            1 => {
+                current.integers.remove("ticks/P1");
+                current.integers.insert("ticks/UNKNOWN".into(), 1);
+            }
+            _ => current.read_started_ns = Some(3),
+        }
+        let readings = counter.read("gpu/usage", Ok(current), 55, true);
+        assert!(readings.0.value.is_none());
+        assert!(readings.1.unwrap().value.is_none());
+        assert_eq!(
+            counter
+                .read("gpu/usage", Ok(states(3, 2, 2)), 55, true)
+                .0
+                .availability,
+            Availability::WarmingUp
+        );
+    }
+}
+
+#[test]
+fn memory_rejects_system_ram_wrong_units_and_different_counter_meaning() {
+    for source in [
+        "sysinfo/total RAM;bytes",
+        "IOKit/PerformanceStatistics/Alloc system memory;MiB",
+        "IOKit/PerformanceStatistics/In use system memory;bytes",
+    ] {
+        let mut d = device("IODeviceTree:/arm-io/sgx@1", 55, 1);
+        d.allocated.as_mut().unwrap().source = source.into();
+        let mut collector = Collector::default();
+        let mut snapshot = Snapshot::default();
+        collector.append(&mut snapshot, Ok(vec![d]));
+        assert!(
+            snapshot
+                .readings
+                .iter()
+                .find(|r| r.sensor_id.ends_with("/shared-allocated"))
+                .unwrap()
+                .value
+                .is_none(),
+            "{source}"
+        );
+    }
+}
+
+#[test]
+fn smc_source_profiles_are_explicit_and_do_not_guess_from_prefixes() {
+    assert_eq!(smc_keys("Apple M1 Pro"), &["Tg05", "Tg0D", "Tg0L", "Tg0T"]);
+    assert_eq!(smc_keys("Apple M2"), &["Tg0f", "Tg0j"]);
+    assert_eq!(smc_keys("Apple M3 Max").len(), 8);
+    assert!(smc_keys("Apple M4").contains(&"Tg0G"));
+    assert!(!smc_keys("Apple M4 Pro").contains(&"Tg0G"));
+    assert!(smc_keys("Apple M4 Pro").contains(&"Tg1U"));
+    assert!(smc_keys("Apple M5").contains(&"Tg0U"));
+    assert!(smc_keys("Apple M10").is_empty());
+    assert!(smc_keys("Generic GPU").is_empty());
 }

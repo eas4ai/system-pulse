@@ -9,6 +9,7 @@ pub(super) type Ptr = *const c_void;
 #[link(name = "CoreFoundation", kind = "framework")]
 unsafe extern "C" {
     fn CFRelease(value: Ptr);
+    fn CFRetain(value: Ptr) -> Ptr;
     fn CFGetTypeID(value: Ptr) -> usize;
     fn CFStringGetTypeID() -> usize;
     fn CFArrayGetTypeID() -> usize;
@@ -55,7 +56,12 @@ unsafe extern "C" {
     fn IORegistryEntryGetName(entry: u32, name: *mut c_char) -> i32;
     fn IORegistryEntryGetRegistryEntryID(entry: u32, id: *mut u64) -> i32;
     fn IORegistryEntryGetParentEntry(entry: u32, plane: *const c_char, parent: *mut u32) -> i32;
-    fn IORegistryEntryCreateCFProperty(entry: u32, key: Ptr, allocator: Ptr, options: u32) -> Ptr;
+    fn IORegistryEntryCreateCFProperties(
+        entry: u32,
+        properties: *mut Ptr,
+        allocator: Ptr,
+        options: u32,
+    ) -> i32;
     pub(super) fn IOServiceOpen(service: u32, task: u32, kind: u32, connection: *mut u32) -> i32;
     pub(super) fn IOServiceClose(connection: u32) -> i32;
     pub(super) fn IOConnectCallStructMethod(
@@ -322,13 +328,21 @@ impl Io {
         parent
     }
     pub(super) fn property(&self, key: &str) -> Outcome<Option<Cf>> {
-        let key = Cf::string(key)?;
-        let value = unsafe { IORegistryEntryCreateCFProperty(self.0, key.ptr(), ptr::null(), 0) };
-        if value.is_null() {
-            Ok(None)
-        } else {
-            unsafe { Cf::owned(value).map(Some) }
-        }
+        let mut properties = ptr::null();
+        let code =
+            unsafe { IORegistryEntryCreateCFProperties(self.0, &mut properties, ptr::null(), 0) };
+        // Adopt before checking the status so partial native output is released on failure.
+        let properties = unsafe { Cf::owned(properties) };
+        check(code, "IORegistryEntryCreateCFProperties")?;
+        let properties = properties?;
+        properties
+            .borrow()
+            .get(key)?
+            .map(|value| {
+                // SAFETY: the value remains borrowed from properties until CFRetain gives it an owner.
+                unsafe { Cf::owned(CFRetain(value.ptr())) }
+            })
+            .transpose()
     }
 }
 impl Drop for Io {

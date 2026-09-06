@@ -300,6 +300,8 @@ mod tests {
     #[test]
     fn core_foundation_types_and_create_failures_are_checked() {
         assert!(unsafe { Cf::owned(std::ptr::null()) }.is_err());
+        // The null registry entry must report its native failure, not look like an absent key.
+        assert!(Io(0).property("PerformanceStatistics").is_err());
         let value = Cf::string("native boundary").unwrap();
         assert_eq!(value.borrow().text().unwrap(), "native boundary");
         assert!(value.borrow().array(4).is_err());

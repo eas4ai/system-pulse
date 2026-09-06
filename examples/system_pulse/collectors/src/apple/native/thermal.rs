@@ -1,5 +1,5 @@
 //! Independent optional SMC and HID temperature queries. No writes or fan controls.
-use super::super::{Outcome, RawObservation, SourceFailure, SourceResult, decode_smc, raw_window};
+use super::super::{RawObservation, SourceFailure, SourceResult, decode_smc, raw_window};
 use super::{ffi::*, now};
 use libloading::Library;
 use std::{collections::BTreeMap, ptr, time::Instant};
@@ -183,20 +183,19 @@ impl Connection {
 }
 pub(super) type Temperatures = Vec<(String, String, SourceResult<RawObservation>)>;
 pub(super) fn smc(name: &str, origin: Instant) -> Temperatures {
-    // The pinned Stats table identifies these four M1-family GPU keys. Other generations
-    // need their own native attribution evidence; a Tg prefix alone is not sufficient.
-    if !name.starts_with("Apple M1") {
+    let keys = super::super::smc_keys(name);
+    if keys.is_empty() {
         return vec![(
             "smc".into(),
             "SMC/GPU temperature".into(),
             Err(SourceFailure::unavailable(
-                "No native-validated SMC key mapping for this Apple GPU generation",
+                "No evidenced SMC key profile for this Metal GPU model",
             )),
         )];
     }
     let connection = Connection::open();
-    ["Tg05", "Tg0D", "Tg0L", "Tg0T"]
-        .into_iter()
+    keys.iter()
+        .copied()
         .map(|key| {
             let reading = match &connection {
                 Ok(connection) => connection.temperature(key, origin),
@@ -265,7 +264,7 @@ impl HidApi {
             let reading = event
                 .and_then(|event| {
                     let value = unsafe { (self.value)(event.ptr(), 15 << 16) };
-                    if !value.is_finite() || value < 0.0 {
+                    if !value.is_finite() {
                         return Err("Invalid HID temperature event".into());
                     }
                     let mut observation = raw_window(
