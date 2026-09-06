@@ -1,0 +1,57 @@
+{
+  "candidate": "c4a6aab106826a5c20c8f48a49e6617a14a2b57b",
+  "base": "4f9bc456d2aeae34776a313e09ee08678a04bee7",
+  "verdict": "Focused source correction complies; required native verification OPEN",
+  "unconditional_spec_pass": false,
+  "quality_review": "Pending complete specification verification",
+  "findings": [
+    {
+      "id": "F1",
+      "severity": "high",
+      "status": "open",
+      "summary": "Sixteen unresolved native background missing-pool warnings; required full-app diagnostic, interactions and orderly shutdown remain unperformed",
+      "required_action": "Obtain unlocked native desktop replay with unfiltered warnings and investigate any remaining warning at its actual origin before acceptance"
+    }
+  ],
+  "new_actionable_source_contract_mismatches": [],
+  "reviewer_local_tests": 7,
+  "original_native_results_reviewed": true,
+  "new_native_execution_by_reviewer": false,
+  "artifacts": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/dispatcher-upstream.diff",
+      "bytes": 1113,
+      "sha256": "5f9375ff1195405d325c6ae47d512fd43c04b6a46fc39b7f57102f7a91270007"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/evidence-verification.json",
+      "bytes": 6790,
+      "sha256": "6f52b4d7e20971fd36bd7611d880979883d85f44f3a7f4b8ac71a7def43c555c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/report.md",
+      "bytes": 9592,
+      "sha256": "e0e9e5c4d184bf7456a47ffca8a9059d23644cb98cf2a8a57f2fb26dd3a8b799"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/source-verification.json",
+      "bytes": 3975,
+      "sha256": "48f88c44ad5f89793e66fae55c5a7b7880202170ecce88ac615f1ba3db64f612"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/todo.md",
+      "bytes": 220,
+      "sha256": "964674f6136d4c9eb7d08e8228c33c7f62edcdc536dad402a07e853fa99cf02e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/verify-evidence.py",
+      "bytes": 2792,
+      "sha256": "cb8bd86a45571867654cca3dfdf0f0b514cd52ece85fb2e2bb8f405e50b30dda"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/spec-review-c4a6aab1/verify-source.py",
+      "bytes": 3432,
+      "sha256": "40ca68dbb6b7b9a58f434ae6d84e3f45d67f8b4c0ba690e553ebf87906046d3a"
+    }
+  ]
+}

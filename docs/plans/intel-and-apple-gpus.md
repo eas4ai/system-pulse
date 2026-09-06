@@ -112,6 +112,17 @@ Task 4 closure covers the implemented and independently reviewed acceptance tool
 
 ## Task 5: Committed acceptance and closure
 
+The focused Mac pool correction is committed at `c4a6aab1`; its
+[evidence record](../execution/intel-and-apple-gpus/apple-pool-correction.md)
+retains nine native lifetime regressions passing after observed failures.
+Independent [specification review](../execution/intel-and-apple-gpus/apple-pool-spec-review.md)
+found the two source scopes and pinned dependency changes compliant, with no
+additional source-contract mismatch. It did not grant unconditional acceptance:
+F1 remains high severity because 16 background warnings are unexplained and the
+required unfiltered full-application replay, interactions and orderly shutdown
+are still missing. Quality approval and source-decision realization remain
+pending that specification proof. Task 5 is still the only item in progress.
+
 - [ ] Complete and independently review the [recorded Mac application/dispatcher lifetime correction](../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md) as focused single-implementer work. Commit the reviewed implementation and remove its in-progress marker; update each applicable source decision's single `Realized by` entry with its actual resolving commit and exact subject.
 - [ ] Run `cairn wake` and the named committed mechanism. Preserve failed attempts. Fix evidence failures at their cause without relaxing coverage or comparison bounds. Resolve the recorded [full-app Apple pool and AX findings](../execution/intel-and-apple-gpus/apple-gui-preflight-findings.md), with focused corrections and independent reviews, before accepting native GUI evidence. The [isolated pool investigation](../execution/intel-and-apple-gpus/apple-gui-pool-investigation.md) identifies startup and callback boundaries; it does not clear the full application.
 - [ ] Resolve the retained [Linux native freshness failure](../execution/intel-and-apple-gpus/gpu-linux-preservation-failure.md) through demonstrated cause and fresh uninstrumented full preservation; an instrumented diagnostic cannot clear it. Obtain actual Intel integrated Linux, Intel discrete Linux and Apple Silicon reports, plus the complete Linux preservation replay. If a required host is unavailable, record that exact external dependency; the commitment stays incomplete.
