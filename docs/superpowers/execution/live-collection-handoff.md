@@ -774,3 +774,34 @@ successful metrics advance the inspection reference.
 The sole worker implements this in the native driver/replay and focused
 tests; root owns its build-decision marker and review records. No live run
 is active. Full acceptance, final review, and Cairn Done remain outstanding.
+
+## Child inspection reviewed; final navigation endpoint omission
+
+Inspection candidates `b7dd5553`, `adfd96a7`, and `f8b9eb1b` passed
+independent SPEC then QUALITY review, recorded at source `0cf236c2`.
+The controlled-child pre-exit proof now requires current strict selection;
+established recovery avoids redundant full discovery while initial and
+final uniqueness remain mandatory. The worker passed all 304 Python tests.
+Both final reviewers independently passed 200 native tests and extra probes.
+
+Fresh untraced capture `pulse-process-lookup-lhicc91e/native` then passed
+the early cases and reached child navigation. Its last two-key batch
+acknowledged PID/start `3472632:73981302`, issued at index 1310. Final
+confirmation failed about eight seconds later; the retained frame places
+the same child at 1309, and the screenshot begins at 1310. No recovery
+input or stale artifact followed acknowledgement. Cell inspection and exit
+were not reached. Failure evidence is committed at source `1c8457df`.
+
+The final navigation proof omits the saved key-issued endpoint index that
+the existing recovery decision requires. Independent SPEC assessment
+confirmed a pass-through of that original index completes the approved
+decision. A separate QUALITY probe reproduced timeout after intermediate
+acknowledgement and succeeded with that one argument, one nonselecting wheel,
+and a fresh exact final acknowledgement under the same deadline. It is an
+offline reproduction, not a live acceptance result.
+
+Source plan `9c216290` records the correction and regressions. One fresh
+worker owns the final call and tests; root owns the existing navigation
+build-decision marker. Re-reviews precede another untraced process capture
+and full committed acceptance. No live process is running. Final commitment
+review and actual Cairn Done remain outstanding.
