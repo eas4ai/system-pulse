@@ -24,31 +24,23 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-Latest result: prior-selection correction `a4cab9f7` passed independent SPEC and
-QUALITY review and all 381 Python tests. Fresh untraced process replay
-`pulse-navigation-observation-ahs5so4_` against source `243f2eae` then passed all
-sixteen child metric comparisons, controlled exit, held-input freshness and
-exact 64-key identity. It exercised inspection recovery under a fifteen-second
-discovery deadline; no navigation recovery/interruption event occurred. All 138
-artifacts are hashed in source
-`docs/execution/real-system-readings/native-prior-selection-focused-pass.md/json`.
-The app and private transport exited zero with no remaining process.
+Latest result: visible-endpoint correction `a5a8908a` passed independent SPEC and
+QUALITY reviews, 383 Python tests, relevant Ruff/formatting and source checks.
+Fresh untraced process replay `pulse-navigation-observation-gygy8bab` against
+`85c3dee6` passed all sixteen controlled-child comparisons, exact pre-exit selection,
+verified exit, held-input freshness and exact 64-key identity. Both app and transport
+exited zero. Source `docs/execution/real-system-readings/native-prior-visible-endpoint-focused-pass.md/json`
+retains all 138 artifact hashes. Inspection recovery used fifteen-second discovery;
+no intermediate navigation recovery occurred, so counterfactual success is unproven.
 
-The full committed Cairn aggregate against `cb406724` completed **FAIL** in
-`/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o`.
-All 743 automated tests, formatting, strict Clippy, source checks, build and host
-comparisons passed. Native launch, metrics, collapse, charts and inner scrolling
-passed; intermediate process navigation then exhausted its eight-second batch
-budget after the prior selected row set a permanent recovery block. Source
-`docs/execution/real-system-readings/native-prior-selection-full-failure.md/json`
-retains 136 artifact hashes and the actual result. App cleanup exited -15;
-transport exited zero, neither remained. Independent diagnosis found the verifier
-blocks the valid prior-selected prefix when the unselected expected row is also
-instantiated. Judged decision `defer-visible-endpoint-blocking-during-proven-prior-selection`
-authorizes only deferring that initial block. One implementer is working from
-`826dca7b`; SPEC then QUALITY and fresh focused/full acceptance follow.
-Full acceptance, final adversarial review and actual Cairn Done remain pending.
-Do not poll finished native sessions or reclassify previous failures as passes.
+The full committed Cairn aggregate against source `bb87134b` is now running in
+`/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-7bza_d7_/system-pulse-acceptance-pr8gjqwq`.
+Source guard passed; automated verification is underway. No source implementation,
+independent review or extra native session runs alongside this capture. Full
+acceptance, final adversarial review and actual Cairn Done remain pending. The
+previous full aggregate `20luq4dm/z4iqe4_o` remains FAIL with its 136 artifact hashes
+and actual Cairn receipts retained in source `native-prior-selection-full-failure.md/json`.
+Do not poll finished sessions or reclassify previous failures as passes.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
