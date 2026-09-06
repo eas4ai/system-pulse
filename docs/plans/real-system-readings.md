@@ -425,6 +425,22 @@ visibility retries recovered and the separate freshness limit still holds.
   and independent SPEC then QUALITY review.
 - [ ] Run fresh untraced native and full committed acceptance.
 
+### Retain the issued endpoint through final navigation proof
+
+The [fresh final-confirmation failure](../execution/real-system-readings/native-final-selection-failure.md)
+retains a one-row displacement after intermediate exact-target acknowledgement.
+The final proof omits the issued endpoint index required by the existing
+navigation recovery decision. This correction completes that decision.
+
+- [ ] Pass the existing immutable endpoint_index into final navigation proof.
+  Preserve fresh_panel, reconciliation, the existing batch deadline, every
+  recovery guard, and current final-frame inspection acknowledgement.
+- [ ] Reproduce displacement between intermediate and final acknowledgement.
+  Verify index provenance, unchanged-index/original-slot-outside-span
+  rejection, and fresh uniqueness after final-proof retries. Run focused/full
+  checks and independent SPEC then QUALITY reviews.
+- [ ] Run fresh untraced native process and full committed acceptance.
+
 ### Retain freshness read identity and timing
 
 Independent review found the latest failure cannot distinguish delayed
