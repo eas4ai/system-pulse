@@ -460,6 +460,11 @@ bounded nonselecting inspection preparation, not product viewport anchoring.
   proof, then repeat normal cell lookup and all metric comparisons. Keep
   generic callers and held input unchanged. Share the original 15-second
   initial-discovery and five-second gesture/reacquisition deadlines.
+- [ ] After the existing three-sequence wait, use the same inspection-owned
+  strict exact-selection proof before child shutdown, with the frozen last
+  successful metric reference and existing five-second deadline. Reproduce
+  detached-cache false acknowledgement and displaced-row timeout. Preserve
+  generic/held acknowledgement, stop_child, and the strict exit check.
 - [ ] Reproduce the one-row displacement and reject missing/wrong prior
   acknowledgement, unchanged indices, reference slot outside span, selected
   competitors, instantiated unselected target, identity loss/reuse, stale or

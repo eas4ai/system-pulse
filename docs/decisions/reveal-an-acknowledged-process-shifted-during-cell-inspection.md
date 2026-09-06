@@ -10,6 +10,18 @@ History: The prior reversal corrected an overclaim about virtualized selection. 
 
 Support only controlled-child cell inspection after successful independent navigation. Capture explicit caller-owned acknowledgement evidence from the coherent final navigation proof without another read or deadline. Retain the last positive native observation index and publication, initially that proof and subsequently only successfully verified metric artifacts. Freeze the evidence for each inspection call. An optional missing-row preparation callback may trigger after ordinary lookup finds no row, but that non-strict absence cannot authorize input. Reuse existing recovery machinery to establish a fresh coherent frame, complete strict scan, unique current Processes panel and current membership; target identity must still exist outside the mapped instantiated span, its index must have changed, and the last positive numeric index must lie inside the span. Reject any instantiated selected competitor or instantiated unselected target. Use only nonselecting vertical wheel inside the clipped rows viewport; discard provisional eligibility after rejection before first dispatch and retain established gesture evidence only after dispatch. Require fresh exact selected identity afterward, then retry ordinary unique panel/row/cell lookup and retain every original independent metric comparison and clipping check. Callback cannot return a cell or recursively invoke cell lookup. Share the existing absolute deadline: initial metric discovery 15 seconds, horizontal gesture and metric reacquisition their existing five seconds; the independent five-second comparison bracket stays unchanged. Keep ordinary callers and held-input measurements unchanged. Record prior acknowledgement, last positive observation, original/current indices, span, publication, action and deadline with inspection-specific terminology. Test the observed displacement and all guard, membership, failure and deadline paths, then complete independent SPEC and QUALITY reviews before fresh live and aggregate acceptance. Preserve the failed capture and do not claim product viewport anchoring or a cause for earlier unrelated failures.
 
+## Connected pre-exit proof
+
+Independent SPEC probes reproduced a detached-cache false acknowledgement
+and displaced-row timeout in the existing call after app.sequences and
+before stop_child. The selected-child exit case requires that live selection
+premise. Extend this same inspection-owned proof to that one boundary,
+using the frozen last successful metric evidence and its existing five-second
+deadline. Keep generic and held-input acknowledgement, stop_child, and
+strict exit verification unchanged. This closes a connected verifier gap;
+it does not broaden allowed scrolling or product behavior. The Judged level
+and recorded reversal reasoning remain unchanged. See the inspection review.
+
 ## Realized by
 
 (none yet: recorded, not built)
