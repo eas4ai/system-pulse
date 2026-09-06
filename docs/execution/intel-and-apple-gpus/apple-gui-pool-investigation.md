@@ -58,3 +58,8 @@ Root verified transferred logs and source hashes. The full application's 551
 warnings remain unresolved: a correction must cover native startup and actual
 callback ownership, then pass a fresh unfiltered full-app diagnostic and native
 workspace observations. Helper lifetime corrections alone cannot close F1.
+
+The [recorded corrective decision](../../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md)
+assigns startup and per-dispatch scopes, preserving the locked GPUI dependency
+identities through a narrow platform-package patch. Its implementation and
+independent reviews follow the current acceptance-helper task. F1 remains open.

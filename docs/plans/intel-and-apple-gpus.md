@@ -108,7 +108,7 @@ Expected baseline: the assertion fails because the Intel monitor is absent; exac
 
 ## Task 5: Committed acceptance and closure
 
-- [ ] Commit reviewed implementation and remove its in-progress marker; update the source decision's single `Realized by` entry with the actual resolving commit and exact subject.
+- [ ] Complete and independently review the [recorded Mac application/dispatcher lifetime correction](../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md) as focused single-implementer work. Commit the reviewed implementation and remove its in-progress marker; update each applicable source decision's single `Realized by` entry with its actual resolving commit and exact subject.
 - [ ] Run `cairn wake` and the named committed mechanism. Preserve failed attempts. Fix evidence failures at their cause without relaxing coverage or comparison bounds. Resolve the recorded [full-app Apple pool and AX findings](../execution/intel-and-apple-gpus/apple-gui-preflight-findings.md), with focused corrections and independent reviews, before accepting native GUI evidence. The [isolated pool investigation](../execution/intel-and-apple-gpus/apple-gui-pool-investigation.md) identifies startup and callback boundaries; it does not clear the full application.
 - [ ] Obtain actual Intel integrated Linux, Intel discrete Linux and Apple Silicon reports, plus the complete Linux preservation replay. If a required host is unavailable, record that exact external dependency; the commitment stays incomplete.
 - [ ] Complete a final independent adversarial review in `.cairn/reviews/intel-and-apple-gpus.md`, recording attacks and findings before any fixes. Complete the production self-audit and documentation checks.
