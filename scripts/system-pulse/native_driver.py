@@ -1333,20 +1333,24 @@ class Native:
                 require(
                     status == "gone", "live pending endpoint omitted by application"
                 )
-                # Direct stat I/O may span publication or tree replacement. Re-prove
-                # unique current eligibility on the next poll if either changed.
+                # Discovery may span collector publications. Bracket the fresh
+                # strict eligibility scan only after global discovery completes;
+                # the independently terminal stat remains prior evidence.
                 if self.navigation_panel(
                     deadline
                 ) != path or not self.navigation_panel_current(path, deadline):
                     path = None
                     return None
+                current_before = self.frame()
                 current_scan = {}
                 current_selection = self.selected(
                     deadline, strict=True, panel=path[0], scan=current_scan
                 )
                 current = self.frame()
+                current_ids = list(map(identity, current["snapshot"]["processes"]))
+                require(target in current_ids, "navigation target absent: " + target)
                 if publication(current) != publication(
-                    after
+                    current_before
                 ) or not self.navigation_panel_current(path, deadline):
                     path = None
                     return None
@@ -1355,8 +1359,23 @@ class Native:
                     "selection transferred during pending navigation",
                 )
                 require(
+                    expected not in current_ids,
+                    "pending endpoint returned after terminal stat",
+                )
+                require(
+                    len(current_ids) == len(set(current_ids)),
+                    "duplicate pending snapshot identity",
+                )
+                require(
+                    not any(
+                        value.split(":")[1] == expected.split(":")[1]
+                        for value in current_ids
+                    ),
+                    "pending snapshot PID reused",
+                )
+                require(
                     len(current_scan["rows"]) == len(set(current_scan["rows"]))
-                    and all(value in ids for value in current_scan["rows"]),
+                    and all(value in current_ids for value in current_scan["rows"]),
                     "pending native rows duplicate or outside current snapshot",
                 )
                 if publication(current) != publication(self.frame()):
@@ -1373,7 +1392,7 @@ class Native:
                     "terminal_completed": terminal_completed,
                     "native": {
                         "publication": publication(current),
-                        "identities": ids,
+                        "identities": current_ids,
                         "instantiated_identities": current_scan["rows"],
                         "instantiated_selected": None,
                         "strict_complete_unique_current": True,

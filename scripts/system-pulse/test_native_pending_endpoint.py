@@ -357,11 +357,179 @@ class PendingEndpointTests(unittest.TestCase):
                 f.native.navigation_stat = observation
                 if change == "publication":
                     self.assertEqual(f.navigate()[0], f.target)
-                    self.assertEqual(len(terminal_calls), 2)
+                    # A new complete native bracket proves the new publication;
+                    # it need not reread an already terminal independent stat.
+                    self.assertEqual(len(terminal_calls), 1)
                 else:
                     with self.assertRaises((AssertionError, TimeoutError)):
                         f.navigate()
                     self.assert_no_interruption()
+
+    def ticking_collector_with_discovery_cost(self, seconds):
+        f = self.f
+        original_text = f.frame_text
+        tick = [int(f.clock.now)]
+
+        def collector_tick():
+            current = int(f.clock.now)
+            if current != tick[0]:
+                tick[0] = current
+                f.sequence += 1
+                f.revision += 1
+
+        def frame_text():
+            frame = fixture.json.loads(original_text())
+            frame["accepted_unix_ns"] = int(f.clock.now) * 1_000_000_000
+            return fixture.json.dumps(frame)
+
+        f.before_frame = collector_tick
+        f.frame_text = frame_text
+        discover = f.native.navigation_panel
+        self.discoveries = []
+
+        def slow_discovery(deadline):
+            self.discoveries.append((f.clock.now, deadline))
+            if self.endpoint not in f.ids:
+                f.clock.now += seconds
+            return discover(deadline)
+
+        f.native.navigation_panel = slow_discovery
+
+    def test_post_terminal_discovery_may_span_collector_publications(self):
+        for cost in (0, 0.3, 1.1):
+            with self.subTest(discovery_seconds=cost):
+                self.setUp()
+                self.disappear_before_ack()
+                self.ticking_collector_with_discovery_cost(cost)
+                f = self.f
+                self.assertEqual(f.navigate()[0], f.target)
+                terminal = [e for e in f.events if e[0] == "navigation-terminal-stat"]
+                self.assertEqual(len(terminal), 1)
+                interrupted = next(
+                    e for e in f.events if e[0] == "navigation-batch-interrupted"
+                )
+                recovery = next(
+                    e for e in f.events if e[0] == "navigation-boundary-recovery"
+                )
+                self.assertLess(interrupted[2], 8.5)
+                self.assertEqual(recovery[1]["batch_deadline"], 8.5)
+                self.assertEqual(recovery[1]["deadline"], 180)
+                self.assertEqual(
+                    interrupted[1]["terminal"], terminal[0][1]["observation"]
+                )
+
+    def test_post_terminal_bracket_recomputes_current_identity_and_native_guards(self):
+        for invalid in (
+            "target_lost",
+            "expected_returned",
+            "reused_pid",
+            "competitor",
+            "multiple_selected",
+            "duplicate_snapshot",
+            "duplicate_row",
+            "foreign_row",
+            "stale",
+            "detached",
+            "incomplete",
+        ):
+            with self.subTest(invalid=invalid):
+                self.setUp()
+                self.disappear_before_ack()
+                f = self.f
+                selected = f.native.selected
+                changed = []
+
+                def scan(*args, **kwargs):
+                    terminal_seen = any(
+                        e[0] == "navigation-terminal-stat" for e in f.events
+                    )
+                    if terminal_seen and not changed:
+                        changed.append(True)
+                        if invalid == "target_lost":
+                            f.ids.remove(f.target)
+                        elif invalid == "expected_returned":
+                            f.ids.insert(17, self.endpoint)
+                        elif invalid == "reused_pid":
+                            f.ids.insert(17, aid(17, 101))
+                        elif invalid == "competitor":
+                            f.selection = [aid(18)]
+                        elif invalid == "multiple_selected":
+                            f.selection = [aid(18), aid(19)]
+                        elif invalid == "duplicate_snapshot":
+                            f.ids.append(aid(18))
+                        elif invalid == "duplicate_row":
+                            f.nodes["duplicate"] = f.row(aid(18))
+                        elif invalid == "foreign_row":
+                            f.nodes["foreign"] = f.row(aid(42))
+                        elif invalid == "stale":
+                            f.stale = True
+                        elif invalid == "detached":
+                            f.root.children = lambda: []
+                        else:
+                            f.panel.get_child_at_index = lambda index: None
+                    return selected(*args, **kwargs)
+
+                f.native.selected = scan
+                with self.assertRaises((AssertionError, TimeoutError)):
+                    f.navigate()
+                self.assertEqual(changed, [True])
+                self.assert_no_interruption()
+
+    def test_changed_post_terminal_scan_publication_requires_another_complete_proof(
+        self,
+    ):
+        self.disappear_before_ack()
+        f = self.f
+        selected = f.native.selected
+        rejected = []
+
+        def scan(*args, **kwargs):
+            result = selected(*args, **kwargs)
+            if (
+                any(e[0] == "navigation-terminal-stat" for e in f.events)
+                and not rejected
+            ):
+                rejected.append(True)
+                f.sequence += 1
+                f.revision += 1
+            return result
+
+        f.native.selected = scan
+        self.assertEqual(f.navigate()[0], f.target)
+        self.assertEqual(rejected, [True])
+        self.assertEqual(sum(e[0] == "navigation-terminal-stat" for e in f.events), 2)
+        interrupted = next(
+            e[1] for e in f.events if e[0] == "navigation-batch-interrupted"
+        )
+        self.assertEqual(interrupted["native"]["publication"]["sequence"], 3)
+
+    def test_post_terminal_evidence_uses_the_new_snapshot_membership(self):
+        self.disappear_before_ack()
+        f = self.f
+        discover = f.native.navigation_panel
+        changed = []
+
+        def replace_publication(deadline):
+            if (
+                any(e[0] == "navigation-terminal-stat" for e in f.events)
+                and not changed
+            ):
+                changed.append(True)
+                f.ids.remove(aid(0))
+                del f.nodes[aid(0)]
+                f.sequence += 1
+                f.revision += 1
+            return discover(deadline)
+
+        f.native.navigation_panel = replace_publication
+        self.assertEqual(f.navigate()[0], f.target)
+        interrupted = next(
+            e[1] for e in f.events if e[0] == "navigation-batch-interrupted"
+        )
+        self.assertEqual(sum(e[0] == "navigation-terminal-stat" for e in f.events), 1)
+        self.assertNotIn(aid(0), interrupted["native"]["identities"])
+        self.assertNotIn(aid(0), interrupted["native"]["instantiated_identities"])
+        self.assertEqual(interrupted["native"]["publication"]["sequence"], 3)
 
     def test_predispatch_exit_sends_no_old_batch_and_shares_deadline(self):
         f = self.f
