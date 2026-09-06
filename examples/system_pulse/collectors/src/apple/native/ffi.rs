@@ -81,9 +81,28 @@ unsafe extern "C" {
 unsafe extern "C" {
     fn sel_registerName(name: *const c_char) -> Ptr;
     fn objc_msgSend();
+    fn objc_autoreleasePoolPush() -> *mut c_void;
+    fn objc_autoreleasePoolPop(context: *mut c_void);
 }
 unsafe extern "C" {
     pub(super) fn mach_task_self() -> u32;
+}
+
+/// A thread-local runtime pool. Declare before capture locals so they drop first.
+/// Its raw token is neither Send nor Sync; pools must drain on their creation thread.
+#[must_use]
+pub(super) struct AutoreleasePool(*mut c_void);
+impl AutoreleasePool {
+    pub(super) fn new() -> Self {
+        // SAFETY: the runtime creates a non-null token for this thread's pool stack.
+        Self(unsafe { objc_autoreleasePoolPush() })
+    }
+}
+impl Drop for AutoreleasePool {
+    fn drop(&mut self) {
+        // SAFETY: this guard owns the token and drains exactly once, in stack order.
+        unsafe { objc_autoreleasePoolPop(self.0) }
+    }
 }
 
 pub(super) struct Cf(NonNull<c_void>);

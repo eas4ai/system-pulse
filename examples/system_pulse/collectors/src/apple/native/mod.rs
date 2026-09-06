@@ -17,6 +17,8 @@ pub(crate) struct AppleCollector {
 }
 impl AppleCollector {
     pub(crate) fn collect(&mut self, snapshot: &mut Snapshot, origin: Instant) {
+        // First local, last dropped: drain native temporaries on every return and unwind.
+        let _pool = AutoreleasePool::new();
         let devices = match inventory() {
             Ok(devices) => devices,
             Err(e) => {
@@ -317,3 +319,6 @@ mod tests {
         );
     }
 }
+
+#[cfg(test)]
+mod pool_tests;
