@@ -532,22 +532,22 @@ The [independent investigation](../execution/real-system-readings/native-full-st
 identifies missing downstream timing after a retained stale old-inode read.
 The failed aggregate remains failed. This is diagnostic instrumentation.
 
-- [ ] Add opt-in timing in the existing diagnostic writer: bounded clock and
+- [x] Add opt-in timing in the existing diagnostic writer: bounded clock and
   memory bookkeeping around acceptance/model/record construction, submission,
   dequeue, JSON conversion/serialization, temporary write and rename. Correlate
   app/session, sequence/revision and original acceptance time. Document monotonic
   clock identity and bounded wall-clock anchors; do not compare unrelated clocks.
-- [ ] Keep a fixed-capacity history (at most 64 records) with bounded fields,
+- [x] Keep a fixed-capacity history (at most 64 records) with bounded fields,
   overwritten-record counts and partial stage failures. Retain byte count,
   temporary device/inode and rename start/completion. Publish its optional
   sidecar only on the existing worker, with no new UI filesystem I/O, fsync,
   thread, polling loop or unbounded queue. Trace errors are distinct and never
   replace primary publication errors. Preserve atomic replacement and cleanup.
-- [ ] Retain trace artifacts through the existing native harness only when
+- [x] Retain trace artifacts through the existing native harness only when
   explicitly enabled. Mark instrumented metadata and reject traced sessions as
   final aggregate acceptance. Keep Native.frame's single read, fail-fast age
   check, PID checks, all deadlines and every mandatory native proof unchanged.
-- [ ] Reproduce stage-order, bounded-history, overwritten-record, disabled-path,
+- [x] Reproduce stage-order, bounded-history, overwritten-record, disabled-path,
   failure/cleanup/error precedence and traced-acceptance rejection cases. Run
   relevant Python/Rust checks, formatting and strict Clippy, then independent
   SPEC and QUALITY review. No source performance remedy is inferred yet.

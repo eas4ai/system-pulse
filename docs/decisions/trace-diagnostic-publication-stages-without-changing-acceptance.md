@@ -16,4 +16,9 @@ Retain opt-in trace artifacts and instrumented metadata in the existing native h
 
 ## Realized by
 
-(none yet: recorded, not built)
+Implemented in `c69a0598ff4b16b3bd6d77a04ae212ab537bd234`, with bounded
+sidecar reporting corrected in `f7c45638ba5367c620eae14bf2ceec00ae75d40e`.
+Independent SPEC and QUALITY reviews passed; see the
+[implementation](../execution/real-system-readings/diagnostic-publication-timing-implementation.md)
+and [review record](../execution/real-system-readings/diagnostic-publication-timing-review.md).
+The instrumented diagnostic and fresh untraced full acceptance remain pending.

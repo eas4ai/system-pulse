@@ -127,6 +127,7 @@ The SPEC correction reran the focused regression, full Rust app suite, strict
 Clippy, Rustfmt, diff and local-link checks. Python source did not change;
 its previously passing suite and lint/format checks were not repeated.
 The production-rules self-audit found no remaining implementation revision
-needed. Independent SPEC then QUALITY review and the coordinator's single
-instrumented diagnostic remain pending. Fresh untraced full acceptance is
-still required.
+needed. Independent SPEC then QUALITY review subsequently passed, as recorded
+in the [review](diagnostic-publication-timing-review.md). The coordinator's single
+instrumented diagnostic remains pending. Fresh untraced full acceptance is still
+required.
