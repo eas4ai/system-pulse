@@ -2,8 +2,8 @@
 
 The committed aggregate against `bb87134b978f8c2400ff1cbed755ca5ee9615d28`
 passed on 2026-09-06. Cairn receipts `20260906T060609244Z` record **PASS for
-LIVE-001 through LIVE-013**. The referee now requires final commitment review;
-this acceptance result alone is not the final Done verdict.
+LIVE-001 through LIVE-013**. The final independent review subsequently passed and Cairn returned Done;
+see the [completion record](completion.md).
 
 [Complete record](final-acceptance-pass.json): commands, test counts, native cases,
 seven session identities and cleanup, sixteen controlled-child metrics, eight

@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. Steps use checkbox syntax for tracking.
 
+**Status:** Complete on 2026-09-06. All thirteen LIVE requirements pass; independent final review is clean and Cairn reports Done. See [completion](../execution/real-system-readings/completion.md).
+
 **Goal:** Replace runtime simulation with accurately attributed host readings while preserving the approved workspace.
 
 **Architecture:** A pure collector crate produces immutable, typed snapshots. One background sampling service owns OS handles and counter baselines and exposes only its latest result. GPUI applies snapshots, retains presentation by stable identity, and renders physical quantities; deterministic injection is test-only.
@@ -206,7 +208,7 @@ Independent samples bracket each collector observation except the explicitly unv
 - [x] Implement host capture and comparison using Python standard library proc/sysfs readers independent of Rust collector logic. Launch and exit a harmless named child and verify its real PID/identity appears/disappears in snapshots and the actual native Processes table. Record every required field's actual backend and permission/attribution limits.
 - [x] Reuse the proven private Xvfb/DBus/AT-SPI harness from the design repository artifact. Native replay proves no fixture controls/tabs, live numeric values, collapsed panel and sensor summaries/history, both-axis overflow, independent collapse, focus and keyboard navigation, mixed-state persistence and recovery while sampling continues.
 - [x] Make aggregate verification run collector/model/app tests, affected base dock/resizable and UI dock suites, vendored accessibility regression tests, formatting, strict Clippy, native build, verifier regressions, host capability/accuracy checks and native replay. Require nonzero test counts and fail on missing artifacts or steps.
-- [ ] Commit the reviewed candidate before `rtk proxy cairn check`. Preserve baseline failing receipts. Fix any new finding with focused checks before rerunning the aggregate. Record a final independent adversarial review against the candidate and require `cairn wake` Done. Update glossary/recon/handoff to distinguish new observed live behavior from historical fixture evidence. Keep the feature branch/worktree; do not merge or push without instruction.
+- [x] Commit the reviewed candidate before `rtk proxy cairn check`. Preserve baseline failing receipts. Fix any new finding with focused checks before rerunning the aggregate. Record a final independent adversarial review against the candidate and require `cairn wake` Done. Update glossary/recon/handoff to distinguish new observed live behavior from historical fixture evidence. Keep the feature branch/worktree; do not merge or push without instruction.
 
 ## Coverage self-review
 
@@ -685,7 +687,7 @@ identify an initial valid prior-selected prefix containing the unselected endpoi
 - [x] Cover success, persistent prefix, lost keys, expiry, malformed/missing proof,
   arbitrary selection, existing blocks, defaults and deadlines. Run focused/full
   Python, relevant Ruff, whitespace and documentation checks; SPEC then QUALITY.
-- [ ] Run one fresh untraced focused replay and full committed aggregate, preserving
+- [x] Run one fresh untraced focused replay and full committed aggregate, preserving
   actual outcomes and all mandatory metrics/exit. Final adversarial review follows
   only when the full requirement set passes.
 
@@ -698,4 +700,4 @@ The [full committed aggregate](../execution/real-system-readings/final-acceptanc
 passed 745 tests and all host/native stages; actual Cairn receipts pass all thirteen
 LIVE requirements. Earlier unchecked fresh focused/full verification items are
 now satisfied by the retained current runs, not by reclassifying historical failures.
-Final adversarial review and actual Cairn Done remain in progress.
+Final adversarial review passed and Cairn returned Done.

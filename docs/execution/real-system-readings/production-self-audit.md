@@ -6,8 +6,8 @@ at `bb87134b978f8c2400ff1cbed755ca5ee9615d28`; later acceptance documentation
 and receipts do not change those inputs.
 
 The [full acceptance](final-acceptance-pass.md) and its [retained record](final-acceptance-pass.json)
-provide the verification below. Final independent review passed with no actionable findings; the referee's Done
-verdict remains pending. This audit is not a substitute for that verdict.
+provide the verification below. Final independent review passed with no actionable findings. Cairn subsequently
+returned Done with exit zero; the [completion record](completion.md) retains it.
 
 | Rule | Review and evidence |
 | --- | --- |
@@ -19,12 +19,12 @@ verdict remains pending. This audit is not a substitute for that verdict.
 | 6. Security | Process source/identity joins reject substitution and PID reuse; malformed saved state remains protected. NVIDIA loading is an optional backend boundary; missing driver does not become a hardware-accuracy pass. |
 | 7. Surviving state changes | Stable device/sensor choices survive discovery and restart. Invalid schema and malformed JSON recovery, preserved originals and missing saved-device restoration passed the complete native replay. |
 | 8. Performance and reliability | Host collection runs outside UI updates through one bounded latest-only service. History keys are evicted for absent devices. Held input, scrolling, collapse and normal cleanup passed with active sampling; native observers and retries retain declared limits. |
-| 9. Track multi-step work | The implementation plan and handoff distinguish completed code/verification from the one active acceptance-and-final-review task. Historical failed work remains recorded. Final checkboxes await the actual review/Done gates. |
+| 9. Track multi-step work | The implementation plan and handoff now mark all authorized code and verification complete after actual review/Done gates passed. Historical failed work remains recorded. |
 | 10. Verify what matters | 745 executed tests, formatting, strict Clippy, native build, independent host comparisons, sixteen controlled-child native comparisons and every full replay stage passed. Root checked all 154 declared artifact hashes, all command logs and 242 retained file hashes. |
 | 11. Report honestly | Four independently explained ordinary-process counter gaps remain unverified. NVIDIA hardware accuracy, other native platforms, physical unplug and direct diagnostic access to every history point retain explicit limits. Historical failures were not relabeled. |
 | 12. Technical partnership | The confirmed real-reading and NVIDIA scope, process-exit policy and preserved no-tab/collapse requirements govern delivery. Implementation/review proceeded without repeating settled permission questions. |
-| 13. Release gate | Independent final review passed with no actionable finding. Completion still requires actual current Cairn Done; record it before delivery. |
+| 13. Release gate | Independent final review passed with no actionable finding and actual current Cairn Done was recorded with exit zero. |
 | 14. Simple technical English | Current overview, glossary, acceptance report and handoff name observed behavior, actual checks and limits directly. Historical records retain their original scope and dates. |
 
 The completed implementation and independent review satisfy the production rules.
-No revision is needed. The final referee verdict and completion records remain.
+No revision is needed. The final referee verdict and completion records are retained.

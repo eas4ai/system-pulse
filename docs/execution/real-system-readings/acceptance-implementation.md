@@ -3,7 +3,7 @@
 The [full committed aggregate](final-acceptance-pass.md) passed all 745 tests,
 independent host comparisons and the complete native replay on 2026-09-06.
 Actual Cairn receipts record LIVE-001 through LIVE-013 pass. Final adversarial
-review is in progress before the referee's Done verdict.
+review passed and Cairn returned Done; see [completion](completion.md).
 
 The sections below preserve implementation history and earlier failures; old
 preparation counts and pending statements describe those runs. Current comparison

@@ -7,7 +7,7 @@ System Pulse's reviewed implementation uses real host collector snapshots in a n
 The [full committed acceptance](../execution/real-system-readings/final-acceptance-pass.md)
 passed 745 tests, independent Linux host comparisons and the complete native replay
 on 2026-09-06. Cairn records passes for LIVE-001 through LIVE-013. Final adversarial
-commitment review passed with no actionable findings. The record discloses four independently
+commitment review passed with no actionable findings, and Cairn returned Done. The record discloses four independently
 explained ordinary-process exit gaps and the NVIDIA hardware, other native
 platform and physical device-removal limits. The developer rejected simulated
 production readings and confirmed real collection; the [handoff](/home/shawn/workspace2/task-manager/docs/superpowers/execution/live-collection-handoff.md)
