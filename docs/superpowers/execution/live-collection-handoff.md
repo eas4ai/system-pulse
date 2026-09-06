@@ -863,3 +863,19 @@ LIVE-012 and LIVE-013 have passing aggregate receipts; the other ten are
 unverified. No source marker or native session remains active. Complete the
 freshness diagnosis, any separately recorded implementation and reviews,
 then full acceptance and final adversarial review before claiming Done.
+
+
+### Publication tracing implementation
+
+Independent read-only diagnosis confirmed replacement during the stale read,
+short parsing, and normally spaced acceptance of sequences 125–127. It could
+not identify downstream diagnostic publication latency. Source plan/decision
+`25674119` records opt-in tracing through the existing worker, with at most
+64 bounded records, distinct trace/primary errors and no UI filesystem I/O.
+The source marker now names that build-decision. Worker `trace_publication`
+is the only source implementer; SPEC then QUALITY review follows its commit.
+The planned harness switch is `--trace-publication`, with instrumented
+metadata excluded from final aggregate acceptance. Root prepared
+`/tmp/run-pulse-publication-diagnostic.py`; run it only after implementation,
+checks, reviews and binary build, passing the explicit trace switch. This
+supporting diagnostic does not replace the required untraced full run.
