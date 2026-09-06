@@ -306,3 +306,9 @@ requires correcting only the complete suite's execution budget while preserving
 mandatory coverage and every native freshness, navigation and comparison bound.
 The failed attempt and timing diagnostic remain separately classified; neither
 supplies a native result or resolves the original freshness failures.
+
+## External supervisor correction after the budget fix
+
+The fresh run `gpu-task5/linux-preservation-61e8ceef-20260906` completed 444 Python tests in 38.016 seconds, within the corrected deadline, with one failure: `test_owned_process_cleans_descendants_after_leader_exits`. Rust, host and native stages were not reached. Root retained all 12 original files and verified the four owned process IDs/groups absent in the adjacent `-root-verification.json`.
+
+The cause was root's external task supervisor. It acted as a child subreaper but waited until the complete command exited to reap adopted children. A terminated orphan therefore retained its zombie process group while the unchanged test checked cleanup. The isolated existing test reproduced the failure in 4.049 seconds under the original helper. Root's external `preservation-owner-reap.py` reaps adopted children during execution while leaving the direct command to Popen; the same test then passed in 0.053 seconds. Both owners and all recorded children/groups were absent afterward. `gpu-task5/owner-reap-verification.json` retains commands, streams and hashes. No repository source, test, freshness limit or acceptance condition changed. The original helper and failed runs remain intact. Fresh full preservation is still required.
