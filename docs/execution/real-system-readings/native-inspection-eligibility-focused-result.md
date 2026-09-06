@@ -42,8 +42,8 @@ and the controlled child at 1153. The screenshot after failure shows no highligh
 row and starts with PID 3023539. It cannot prove hidden model selection or that
 recovery would have succeeded.
 
-Independent review is examining the blocking flag's historical purpose and
-whether the exactly previously acknowledged row is a distinct transient case.
-No new behavior or acceptance relaxation is inferred until that review and a
-separate decision. The current failed capture remains failed; fresh full
+The [independent review](native-prior-acknowledgement-review.md) supports a bounded
+initial prior-ACK case in the same issued publication, for intermediate arrows
+only. A separate decision records that correction; later strict input guards and
+successful counterfactual recovery remain unproven. The current failed capture remains failed; fresh full
 aggregate acceptance and final review remain required.

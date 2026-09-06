@@ -633,3 +633,32 @@ Its retained observations identify the exactly prior acknowledged selection as
 the permanent recovery-blocking trigger, followed by complete coherent absence
 and endpoint reindexing. Independent review is evaluating a narrowly bounded
 prior-acknowledgement case; no new behavior is implemented yet.
+
+### Recognize prior selection during intermediate arrow observation
+
+The [independent review](../execution/real-system-readings/native-prior-acknowledgement-review.md)
+and [decision](../decisions/recognize-prior-selection-during-intermediate-arrow-observation.md)
+distinguish only an initial exactly prior-ACK selection in the issued publication.
+The failed capture proves blocked qualification, not successful recovery.
+
+- [ ] Capture bounded prior positive ACK identity/index/publication from the
+  already returned coherent proof. Bind it to the frozen intermediate arrow
+  envelope, unique issue-frame identities/indices, expected endpoint, direction,
+  count and dispatch. Add no reads, full snapshot copies or native retention.
+  Do not derive proof from diagnostic selection, observation history or journals.
+- [ ] Exempt only the initial prior-selection prefix in the same issued
+  publication from setting a new block. Expire on coherent absence, another
+  selection or publication advance. Missing evidence keeps old behavior;
+  malformed/mismatched supplied evidence fails closed. Never clear an existing
+  block or authorize input/ACK from an exempt observation.
+- [ ] Preserve permanent blocking for distinct competitors and instantiated
+  unselected expected rows. Keep all fresh strict qualification and post-wheel
+  exact proof, journal/input deadline checks, and default Home/End/reconcile/
+  final-target/inspection/pre-exit/held behavior. Keep every mandatory comparison
+  and controlled exit; do not infer hidden model selection.
+- [ ] Reproduce the retained prefix/absence/reindex sequence and test binding,
+  prefix expiry, publication advance, hard-block, existing-block, wrong final
+  selection and deadline cases. Run focused/full Python tests, relevant Ruff,
+  whitespace/doc links, then independent SPEC followed by QUALITY review.
+- [ ] Run one fresh untraced focused replay and retain its actual outcome.
+  Fresh full aggregate acceptance and final review remain required.
