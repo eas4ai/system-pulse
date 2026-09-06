@@ -24,24 +24,22 @@ User layout requirements remain: **no UI tabs**, scroll to panels, explicit inde
 
 ## Current task state
 
-Latest result: missing-row inspection eligibility consolidation `becae4b3`
-passed independent SPEC and QUALITY review and all 363 Python tests. The fresh
-untraced process replay `pulse-navigation-observation-u12hxbrp` against source
-`c7a89e78` failed before inspection in an intermediate arrow batch. Its failure
-history retains the exact previously acknowledged row selected twice immediately
-after dispatch, then forty no-selection observations and five publication-bracket
-rejections. All 47 scans completed in 21–48 ms. A permanent recovery-blocking flag
-remained set from the first previous-selection observation, preventing eligibility
-when the expected row shifted one index above the viewport. No stale-frame receipt
-occurred; no child metric or exit proof completed. All 97 artifacts are hashed in
-source `docs/execution/real-system-readings/native-inspection-eligibility-focused-result.md/json`.
-Independent review supports a bounded initial prior-ACK case for intermediate
-arrow batches only. Source plan/decision `8e392b35` records the implementation,
-with proof bound to the prior coherent ACK and exact issued publication. Worker
-`trace_publication` is the sole implementer; SPEC then QUALITY review follows.
-The exception grants no input or ACK and never clears a justified block. All deadlines and exact final proofs remain
-unchanged. No native app or transport is running. Fresh full aggregate acceptance,
-final review and actual Cairn Done remain pending.
+Latest result: prior-selection correction `a4cab9f7` passed independent SPEC and
+QUALITY review and all 381 Python tests. Fresh untraced process replay
+`pulse-navigation-observation-ahs5so4_` against source `243f2eae` then passed all
+sixteen child metric comparisons, controlled exit, held-input freshness and
+exact 64-key identity. It exercised inspection recovery under a fifteen-second
+discovery deadline; no navigation recovery/interruption event occurred. All 138
+artifacts are hashed in source
+`docs/execution/real-system-readings/native-prior-selection-focused-pass.md/json`.
+The app and private transport exited zero with no remaining process.
+
+The full committed Cairn aggregate is now running in
+`/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o`.
+Its source guard passed and automated verification is underway. No source
+implementation or independent review runs alongside this capture. Full acceptance,
+final adversarial review and actual Cairn Done remain pending. Do not poll old
+finished native sessions or reclassify previous failures as passes.
 
 The developer explicitly **confirmed** LIVE-001–013 and their falsifiers, then added NVIDIA support despite having no NVIDIA GPU installed. No further scope approval is needed for these collectors or subagents.
 
