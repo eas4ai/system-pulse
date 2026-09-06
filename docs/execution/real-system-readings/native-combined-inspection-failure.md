@@ -35,7 +35,9 @@ The screenshot timestamp is 752040746972796, approximately 29 ms after the
 deadline. It shows the child partly clipped beneath the table header. The later
 failure frame, sequence 199/revision 198, retains that exact child at index 1138.
 These later observations do not establish selection or complete row visibility
-at the deadline. Independent source/evidence diagnosis is pending.
+at the deadline. The [independent diagnosis](native-combined-inspection-review.md)
+identifies repeated fresh eligibility discovery before the first wheel; the
+artifacts do not quantify its contribution to the timeout.
 
 No stale-frame receipt was generated. No navigation-failure history exists:
 the active Navigate operation had already completed before this inspection.

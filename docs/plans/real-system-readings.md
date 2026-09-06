@@ -604,3 +604,25 @@ failed during visible-column-five inspection recovery, after thirteen child
 metric artifacts. Publication tracing did not reproduce stale freshness. The
 first recovery scroll used 3.337 seconds of the original five-second budget;
 independent source review is checking repeated discovery before that input.
+
+### Consolidate fresh missing-row inspection eligibility
+
+The [independent review](../execution/real-system-readings/native-combined-inspection-review.md)
+establishes that missing-row inspection repeats fresh strict uniqueness before
+its first wheel. The [decision](../decisions/consolidate-fresh-missing-row-inspection-eligibility.md)
+removes that inherited duplicate proof only from the explicit missing-row callback.
+The failed capture does not quantify traversal cost or prove the timeout cause.
+
+- [ ] Let one fresh complete strict unique coherent inspection observation both
+  establish all existing eligibility guards and dispatch the first nonselecting
+  reveal. Keep final publication/membership/clipped-viewport checks and original
+  post-journal dispatch deadlines. Rejection must discard provisional permission.
+- [ ] Retain separate fresh strict exact selected-child proof after the wheel,
+  ordinary unique cell lookup and every metric/clipping comparison. Keep pre-exit,
+  generic navigation, pending-exit recovery and held-input defaults unchanged.
+- [ ] Reproduce duplicate traversal with bounded simulated costs, and cover all
+  guard, stale/partial/ambiguous/publication-change, rejection-reset, post-wheel
+  proof and journal-expiry paths. Run focused/full Python tests, relevant Ruff,
+  diff and documentation checks, then independent SPEC followed by QUALITY review.
+- [ ] Run one fresh untraced focused replay and preserve its actual outcome.
+  Fresh full aggregate acceptance and final review remain required.
