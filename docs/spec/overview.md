@@ -4,7 +4,14 @@ Status: Observed
 
 System Pulse's reviewed implementation uses real host collector snapshots in a native GPUI workspace with separate panels, scrolling, independent panel/sensor collapse and persistent recovery. Physical quantities, actual process identities and test-only fixture isolation are implemented. Evidence: [collector](../../examples/system_pulse/collectors/src/host/mod.rs), [live mapping](../../examples/system_pulse/src/live.rs), [workspace](../../examples/system_pulse/src/workspace.rs), [module boundary](../../examples/system_pulse/src/lib.rs).
 
-The active commitment still requires executable independent host/native acceptance and final Cairn evidence. Collector, integration, attribution and native repaint tasks have passed focused checks and independent reviews; those results do not substitute for the remaining acceptance suite. See [execution records](../execution/real-system-readings/) and the [implementation plan](../plans/real-system-readings.md). The developer rejected simulated production readings and confirmed real collection; the [handoff](/home/shawn/workspace2/task-manager/docs/superpowers/execution/live-collection-handoff.md) preserves that direction.
+The [full committed acceptance](../execution/real-system-readings/final-acceptance-pass.md)
+passed 745 tests, independent Linux host comparisons and the complete native replay
+on 2026-09-06. Cairn records passes for LIVE-001 through LIVE-013. Final adversarial
+commitment review passed with no actionable findings. The record discloses four independently
+explained ordinary-process exit gaps and the NVIDIA hardware, other native
+platform and physical device-removal limits. The developer rejected simulated
+production readings and confirmed real collection; the [handoff](/home/shawn/workspace2/task-manager/docs/superpowers/execution/live-collection-handoff.md)
+preserves that direction.
 
 The cited [recon report](/home/shawn/workspace2/task-manager/docs/recon.md) distinguishes observed behavior, documented intent, contradictions, and unverified claims. The historical fixture acceptance remains valid for its stated scope; it is not evidence of live metric accuracy.
 
@@ -24,4 +31,4 @@ Read [glossary](glossary.md), the relevant domain below, and [the agreed real-co
 | Process actions, full presets, styling, settings and packaging | Product scope | Retained in the [product specification](/home/shawn/workspace2/task-manager/docs/feature-spec-dockable-system-monitor.md:164); no claim that collection completes these areas. |
 | Other framework examples, shell, website and reference projects | Outside this work | Workspace membership is defined in [Cargo.toml](../../Cargo.toml:3); this adoption does not redefine those products. |
 
-READ/VIEW/STATE sections record the original fixture baseline; their behavior is not proposed as the target. The glossary and this overview describe the current reviewed implementation, with final acceptance explicitly pending. The developer confirmed LIVE-001 through LIVE-013 on 2026-09-04. The [roadmap](roadmap.md) names the active commitment; historical fixture-specific observations are not promoted into the target contract.
+READ/VIEW/STATE sections record the original fixture baseline; their behavior is not proposed as the target. The glossary and this overview describe the verified live implementation, with final commitment review passed. The developer confirmed LIVE-001 through LIVE-013 on 2026-09-04. The [roadmap](roadmap.md) names the active commitment; historical fixture-specific observations are not promoted into the target contract.

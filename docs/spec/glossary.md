@@ -2,7 +2,11 @@
 
 Status: Observed
 
-These definitions describe the reviewed live implementation through `5d38680e`, not final acceptance. Historical fixture observations remain in the earlier READ/VIEW/STATE records; the current LIVE commitment still requires independent host/native acceptance.
+These definitions describe the live implementation verified by the
+[full committed acceptance](../execution/real-system-readings/final-acceptance-pass.md)
+on 2026-09-06. All thirteen LIVE requirements have passing host/native and
+automated evidence; final commitment review passed with no actionable findings. Historical fixture
+observations remain in the earlier READ/VIEW/STATE records.
 
 | Term | Meaning and evidence |
 | --- | --- |
