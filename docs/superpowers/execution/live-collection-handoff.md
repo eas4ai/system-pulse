@@ -31,7 +31,9 @@ Its last 64 complete publication records took 214–340 ms from acceptance to
 rename, with no pending overwrite or trace error. This does not explain the
 previous stale frame and does not justify a performance change. The expected
 navigation process remains present in the later failure snapshot at a changed
-index; independent diagnosis of the missing selection acknowledgement is active.
+index. Independent diagnosis identified missing scan and rejection context; a
+bounded harness failure history is being implemented under source decision
+`retain-bounded-navigation-observation-failures` at plan commit `883724fb`.
 All 97 capture files are hashed in the
 [source evidence record](/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/docs/execution/real-system-readings/native-publication-diagnostic-failure.md),
 committed as `671ca9f5`. This is supporting diagnosis, not aggregate acceptance.
