@@ -12,14 +12,14 @@
 
 - [x] Confirm the GPU contract and acceptance matrix with the developer.
 - [x] Verify keyed SSH to the M1 Pro MacBook and clean user-authorized stale Cargo outputs.
-- [ ] Commit activation, source decision, plan and mechanism declaration; verify spec/link checks and the actual Cairn action.
+- [x] Commit activation, source decision, plan and mechanism declaration; verify spec/link checks and the actual Cairn action (`66ea860f`).
 - [ ] Implement and review Task 1: Intel Linux collection.
 - [ ] Implement and review Task 2: Apple Silicon collection.
 - [ ] Implement and review Task 3: memory semantics and integration.
 - [ ] Implement and review Task 4: independent GPU acceptance.
 - [ ] Run Task 5: actual native/aggregate evidence and final review.
 
-Activation is the single item currently in progress. A task remains open until its code and required verification/reviews are complete. Native hardware evidence is separate from deterministic adapter tests.
+Task 1, Intel Linux collection, is the single item currently in progress. A task remains open until its code and required verification/reviews are complete. Native hardware evidence is separate from deterministic adapter tests.
 
 ## Task 1: Intel Linux collection
 

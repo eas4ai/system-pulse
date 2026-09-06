@@ -13,9 +13,9 @@ Status: Agreed acceptance contract 2026-09-06. The [implementation plan](intel-a
 - [x] Inspect existing collector boundaries and supplied reference implementations; verify findings against source.
 - [x] Reach the authorized MacBook and inspect hardware/build-tool availability without modifying it.
 - [x] Confirm GPU-001 through GPU-009 and their falsifiers.
-- [ ] Record the reviewed backend/source decisions, write the executable implementation plan and mechanism declarations, then move the roadmap's Current line to `intel-and-apple-gpus`.
+- [x] Record the reviewed backend/source decisions, write the executable implementation plan and mechanism declarations, then move the roadmap's Current line to `intel-and-apple-gpus`.
 
-The first three checks were completed on 2026-09-06. Code implementation, test execution and native GPU acceptance have not begun.
+Preparation and activation were completed on 2026-09-06 in commit `66ea860f`. Code implementation, test execution and native GPU acceptance have not begun.
 
 ## Implementation sequence and owners
 
