@@ -35,8 +35,11 @@ remained set from the first previous-selection observation, preventing eligibili
 when the expected row shifted one index above the viewport. No stale-frame receipt
 occurred; no child metric or exit proof completed. All 97 artifacts are hashed in
 source `docs/execution/real-system-readings/native-inspection-eligibility-focused-result.md/json`.
-Independent read-only review is evaluating a bounded prior-acknowledgement case;
-no new behavior is implemented yet. All deadlines and exact final proofs remain
+Independent review supports a bounded initial prior-ACK case for intermediate
+arrow batches only. Source plan/decision `8e392b35` records the implementation,
+with proof bound to the prior coherent ACK and exact issued publication. Worker
+`trace_publication` is the sole implementer; SPEC then QUALITY review follows.
+The exception grants no input or ACK and never clears a justified block. All deadlines and exact final proofs remain
 unchanged. No native app or transport is running. Fresh full aggregate acceptance,
 final review and actual Cairn Done remain pending.
 
