@@ -29,6 +29,8 @@ pub struct HostCollector {
     pub(crate) system: sysinfo::System,
     pub(crate) networks: sysinfo::Networks,
     nvidia: crate::nvidia::NvidiaCollector,
+    #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+    apple: crate::apple::AppleCollector,
     #[cfg(target_os = "linux")]
     intel: crate::intel::IntelCollector,
 }
@@ -52,6 +54,8 @@ impl HostCollector {
             system: sysinfo::System::new(),
             networks: sysinfo::Networks::new(),
             nvidia: crate::nvidia::NvidiaCollector::new(),
+            #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+            apple: crate::apple::AppleCollector::default(),
             #[cfg(target_os = "linux")]
             intel: crate::intel::IntelCollector::new(),
         }
@@ -89,6 +93,8 @@ impl HostCollector {
         if self.root == Path::new("/") {
             self.nvidia.collect_at_origin(&mut s, self.origin);
         }
+        #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+        self.apple.collect(&mut s, self.origin);
         self.counters.finish();
         s.capture_finished_ns = self.now();
         s

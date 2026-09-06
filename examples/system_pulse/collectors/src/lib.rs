@@ -8,3 +8,6 @@ mod intel;
 mod nvidia;
 mod service;
 pub use service::{DEFAULT_INTERVAL, SUPPORTED_INTERVALS, SamplingService};
+
+#[cfg(any(test, all(target_os = "macos", target_arch = "aarch64")))]
+mod apple;

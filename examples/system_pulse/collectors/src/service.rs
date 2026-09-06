@@ -60,7 +60,7 @@ impl SamplingService {
     fn spawn<F, C>(interval: Duration, factory: F) -> Result<Self, String>
     where
         F: FnOnce() -> C + Send + 'static,
-        C: FnMut() -> Snapshot + Send + 'static,
+        C: FnMut() -> Snapshot + 'static,
     {
         let shared = Arc::new(Shared {
             state: Mutex::new(State {
@@ -139,6 +139,44 @@ mod tests {
         atomic::{AtomicU64, AtomicUsize, Ordering},
         mpsc,
     };
+    #[test]
+    fn non_send_collector_is_created_used_and_dropped_on_worker() {
+        struct Local {
+            owner: thread::ThreadId,
+            events: mpsc::Sender<(&'static str, thread::ThreadId)>,
+        }
+        impl Drop for Local {
+            fn drop(&mut self) {
+                self.events.send(("drop", thread::current().id())).unwrap();
+                assert_eq!(self.owner, thread::current().id());
+            }
+        }
+        let caller = thread::current().id();
+        let (tx, rx) = mpsc::channel();
+        let service = SamplingService::spawn(Duration::from_secs(5), move || {
+            let local = std::rc::Rc::new(Local {
+                owner: thread::current().id(),
+                events: tx,
+            });
+            local
+                .events
+                .send(("create", thread::current().id()))
+                .unwrap();
+            move || {
+                local.events.send(("use", thread::current().id())).unwrap();
+                Snapshot::default()
+            }
+        })
+        .unwrap();
+        let created = rx.recv_timeout(Duration::from_secs(1)).unwrap();
+        let used = rx.recv_timeout(Duration::from_secs(1)).unwrap();
+        drop(service);
+        let dropped = rx.recv_timeout(Duration::from_secs(1)).unwrap();
+        assert_ne!(created.1, caller);
+        assert_eq!(created.0, "create");
+        assert_eq!(used, ("use", created.1));
+        assert_eq!(dropped, ("drop", created.1));
+    }
     #[test]
     fn rejects_other_intervals() {
         assert!(SamplingService::start(Duration::from_millis(42)).is_err());
