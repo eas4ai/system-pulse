@@ -10,3 +10,7 @@ mod panel;
 mod processes;
 mod storage;
 pub mod workspace;
+
+mod assets;
+mod settings;
+pub use assets::install as install_assets;

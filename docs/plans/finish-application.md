@@ -8,8 +8,8 @@ Implement directly in this worktree. Keep changes in feature-sized commits, run 
 
 - [x] Inspect the product specification and current source; verify the remaining feature gaps against the implementation.
 - [x] Process search/sort, pointer selection and identity-bound End task/Force quit with confirmation and visible errors; affected Rust/GPUI tests and strict Clippy pass. Native desktop replay remains in the final acceptance item.
-- [ ] **In progress:** docked settings, bundled fonts and dark/light appearance with durable state.
-- [ ] Named preset CRUD, protected built-ins and legacy single-preset import.
+- [x] Docked settings, bundled fonts and dark/light appearance with durable state; affected tests and strict Clippy pass.
+- [ ] **In progress:** named preset CRUD, protected built-ins and legacy single-preset import.
 - [ ] Context menus for monitor/sensor visibility, ordering and explicit compatible meter selection.
 - [ ] Balanced first-launch layout, CPU core view and memory composition using existing physical readings.
 - [ ] Linux package, launcher, icon, installation/removal instructions and isolated packaged launch.
@@ -33,3 +33,5 @@ Exactly one todo is active. A feature is checked only after its implementation a
 The starting tree passed [870 tests and full Linux preservation](../execution/intel-and-apple-gpus/linux-preservation-pass.md). The product gaps are directly visible in `src/panel.rs` (static process headers and Settings placeholder), `src/workspace.rs` (one preset slot and all-monitor vertical default), and `model/src/presentation.rs` (no appearance or named presets). Paths are relative to `examples/system_pulse/` unless fully qualified above. Source edits will make relevant prior acceptance stale and require the final replay.
 
 Process slice verification (2026-09-06): `cargo test --locked -p system-pulse -p system-pulse-collectors --lib` passed 72 application and 98 collector tests. Focused GPUI tests exercise pointer selection, search, header sorting, confirmation identity, Cancel and visible fixture-operation rejection. Backend tests signal only task-owned child processes and reject wrong/exited/protected identities. `cargo fmt -p system-pulse -p system-pulse-collectors` and strict all-target Clippy for both packages passed. Actual native replay and committed Cairn evidence remain pending in final application acceptance.
+
+Settings slice verification (2026-09-06): `cargo test --locked -p system-pulse -p system-pulse-model --all-targets` passed 100 tests (74 app, 26 model); native macOS cases correctly reported unavailable on Linux. GPUI tests click the actual docked theme/font/interval controls, verify live theme state, reveal offscreen keyboard focus and restore serialized choices. Fontconfig decoded the four embedded families; sources, hashes and original OFL notices are bundled. Package formatting and strict all-target Clippy passed. Native screenshots and isolated packaged font loading remain in final acceptance.

@@ -140,6 +140,8 @@ pub struct Workspace {
     pub monitors: BTreeMap<String, MonitorDescriptor>,
     #[serde(default = "default_interval_ms")]
     pub interval_ms: u64,
+    #[serde(default)]
+    pub appearance: crate::Appearance,
 }
 
 impl Workspace {
@@ -150,6 +152,7 @@ impl Workspace {
             panels: BTreeMap::new(),
             monitors: BTreeMap::new(),
             interval_ms: default_interval_ms(),
+            appearance: crate::Appearance::default(),
         }
     }
 

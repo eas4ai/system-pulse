@@ -10,6 +10,7 @@ gpui.workspace = true
 gpui_platform.workspace = true
 gpui-base.workspace = true
 gpui-component.workspace = true
+gpui-component-assets.workspace = true
 serde.workspace = true
 serde_json.workspace = true
 system-pulse-collectors = { path = "collectors" }

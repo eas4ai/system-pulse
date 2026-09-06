@@ -6,8 +6,13 @@ mod application;
 
 fn main() {
     application::with_application(|app| {
-        app.run(|cx| {
+        app.with_assets(gpui_component_assets::Assets).run(|cx| {
             gpui_component::init(cx);
+            if let Err(error) = system_pulse::install_assets(cx) {
+                eprintln!("{error}");
+                cx.quit();
+                return;
+            }
             cx.on_window_closed(|cx, _| {
                 if cx.windows().is_empty() {
                     cx.quit();

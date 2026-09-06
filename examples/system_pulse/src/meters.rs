@@ -39,7 +39,10 @@ pub(crate) fn meter(
     cx: &App,
 ) -> AnyElement {
     if kind == Meter::Number {
-        return div().child(value(samples.last())).into_any_element();
+        return div()
+            .font_family(cx.theme().mono_font_family.clone())
+            .child(value(samples.last()))
+            .into_any_element();
     }
     let color = cx.theme().primary;
     let height = if kind == Meter::Sparkline {
@@ -162,6 +165,7 @@ pub(crate) fn meter(
     div()
         .flex()
         .flex_col()
+        .font_family(cx.theme().mono_font_family.clone())
         .child(scale_label)
         .child(chart)
         .into_any_element()

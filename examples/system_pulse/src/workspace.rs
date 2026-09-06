@@ -54,6 +54,7 @@ pub(crate) enum Command {
     #[cfg(test)]
     ToggleGpu,
     Interval(u64),
+    Appearance(system_pulse_model::Appearance),
     Scroll(f32, f32),
 }
 
@@ -356,6 +357,7 @@ impl WorkspaceView {
         } else {
             None
         };
+        crate::settings::apply(session.workspace.appearance, window, cx);
         let shared = Rc::new(RefCell::new(Data {
             session,
             history: HistoryStore::new(120).expect("valid history capacity"),
@@ -616,6 +618,9 @@ impl WorkspaceView {
                 if let Some(group) = &panel.group {
                     let _ = group.update(cx, |_, cx| cx.notify());
                 }
+                if let Some(settings) = &panel.settings {
+                    settings.update(cx, |_, cx| cx.notify());
+                }
                 cx.notify();
             });
         }
@@ -687,6 +692,7 @@ impl WorkspaceView {
         if !self.fixture_mode {
             self.shared.borrow_mut().catalog = live::catalog(&session.workspace);
         }
+        crate::settings::apply(session.workspace.appearance, window, cx);
         self.shared.borrow_mut().session = session;
         let state = serde_json::from_value(self.shared.borrow().session.workspace.dock.clone())
             .expect("validated/default dock");
@@ -904,6 +910,10 @@ impl WorkspaceView {
                 self.dock
                     .update(cx, |dock, cx| dock.refresh_geometry(window, cx));
             }
+            Command::Appearance(appearance) => {
+                self.shared.borrow_mut().session.workspace.appearance = appearance;
+                crate::settings::apply(appearance, window, cx);
+            }
             Command::Interval(ms) => {
                 if let Some(service) = &self.service {
                     if let Err(error) = service.set_interval(Duration::from_millis(ms)) {
@@ -1021,7 +1031,7 @@ impl Render for WorkspaceView {
                         })
                 }));
         div().size_full().flex().flex_col().gap_2().p_2().bg(cx.theme().background)
-            .text_color(cx.theme().foreground).track_focus(&self.focus).tab_group()
+            .font_family(cx.theme().font_family.clone()).text_color(cx.theme().foreground).track_focus(&self.focus).tab_group()
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
                 if event.keystroke.modifiers.alt {
                     let command = match event.keystroke.key.as_str() {

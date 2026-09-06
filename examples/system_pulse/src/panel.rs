@@ -29,6 +29,7 @@ pub(crate) struct MonitorPanel {
     keyboard_repaint_pending: bool,
     process_reveal_pending: bool,
     process_state: process_panel::ProcessPanelState,
+    pub(crate) settings: Option<Entity<crate::settings::SettingsPanel>>,
 }
 
 impl MonitorPanel {
@@ -56,6 +57,7 @@ impl MonitorPanel {
             keyboard_repaint_pending: false,
             process_reveal_pending: false,
             process_state: process_panel::ProcessPanelState::default(),
+            settings: None,
         }
     }
 
@@ -138,6 +140,7 @@ impl MonitorPanel {
             ))
             .child(
                 meters::metric_label(format!("{}:summary", self.monitor.id), title)
+                    .font_family(cx.theme().mono_font_family.clone())
                     .flex_1()
                     .min_w_0()
                     .overflow_hidden()
@@ -230,6 +233,7 @@ impl MonitorPanel {
                                 format!("{}:value:{sensor}", self.monitor.id),
                                 current,
                             )
+                            .font_family(cx.theme().mono_font_family.clone())
                             .flex_1(),
                         )
                         .child(self.control(
@@ -331,13 +335,12 @@ pub(crate) fn process_row(
         .aria_selected(selected)
         .when(selected, |row| row.bg(cx.theme().muted))
         .debug_selector(move || format!("process-row:{index}").into())
-        .children(
-            process
-                .cells
-                .iter()
-                .enumerate()
-                .map(|(column, _)| process_cell(process, column, widths[column])),
-        )
+        .children(process.cells.iter().enumerate().map(|(column, _)| {
+            process_cell(process, column, widths[column])
+                .when(column == 0 || (2..7).contains(&column), |cell| {
+                    cell.font_family(cx.theme().mono_font_family.clone())
+                })
+        }))
 }
 
 impl Panel for MonitorPanel {
@@ -391,12 +394,18 @@ impl Render for MonitorPanel {
         }
         let content = match self.monitor.id.as_str() {
             "processes" => self.process_table(window, cx),
-            "settings" => div().p_3().child("Choose the global sampling interval and panel visibility above. Sensor meters use physical units. CPU process percentages use one core and may exceed 100%.").into_any_element(),
+            "settings" => {
+                let settings = self.settings.get_or_insert_with(|| {
+                    cx.new(|cx| crate::settings::SettingsPanel::new(self.shared.clone(), cx))
+                });
+                settings.clone().into_any_element()
+            }
             _ => self.sensor_rows(cx),
         };
         div()
             .size_full()
             .track_focus(&self.focus)
+            .font_family(cx.theme().font_family.clone())
             .child(content)
             .into_any_element()
     }

@@ -11,3 +11,6 @@ mod persistence;
 pub use persistence::{
     MAX_CONFIGURATION_BYTES, RejectedInput, Session, validate_configuration_size,
 };
+
+mod settings;
+pub use settings::{Appearance, ColorTheme, NumericFont, UiFont};

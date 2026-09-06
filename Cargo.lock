@@ -9399,6 +9399,7 @@ dependencies = [
  "gpui",
  "gpui-base",
  "gpui-component",
+ "gpui-component-assets",
  "gpui_platform",
  "gpui_util",
  "libc",
