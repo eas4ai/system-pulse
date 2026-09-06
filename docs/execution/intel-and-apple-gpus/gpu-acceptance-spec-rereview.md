@@ -1,6 +1,8 @@
 # GPU acceptance specification re-review
 
-Status: **FINDINGS — F10 open.** Independent read-only re-review of correction
+Status: **Historical findings — F10 was open at `ece89eae`.** The
+[later F10 review](gpu-acceptance-f10-spec-review.md) records the remaining identity
+join after the missing-version correction. Independent read-only re-review of correction
 `ece89eaec5c7e0775b44583dcefaa92661cc46ca` closes F1–F9 from the
 [initial review](gpu-acceptance-spec-review.md). Quality review has not started.
 The [structured record](gpu-acceptance-spec-rereview.json) retains the complete
