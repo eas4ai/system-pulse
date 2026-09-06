@@ -17,3 +17,6 @@ pub use settings::{Appearance, ColorTheme, NumericFont, UiFont};
 
 mod presets;
 pub use presets::{BuiltinPreset, PresetLibrary};
+
+mod sensor_controls;
+pub use sensor_controls::SensorMove;

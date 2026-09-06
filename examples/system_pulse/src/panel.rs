@@ -8,7 +8,7 @@ use gpui_base::{
     ElementExt, ScrollableMask, Scrollbar, ScrollbarMode, Table, TableCell, TableRow,
     VirtualListScrollHandle, dock::*, v_virtual_list,
 };
-use gpui_component::ActiveTheme;
+use gpui_component::{ActiveTheme, menu::ContextMenuExt};
 use std::{collections::BTreeMap, rc::Rc, sync::Arc};
 
 #[path = "process_panel.rs"]
@@ -117,7 +117,13 @@ impl MonitorPanel {
             .then(|| group.drag_panel(0, cx))
             .flatten();
         let preview = title.clone();
+        let context_shared = self.shared.clone();
+        let context_id = self.monitor.id.clone();
         div()
+            .id(SharedString::from(format!(
+                "monitor-header:{}",
+                self.monitor.id
+            )))
             .flex()
             .items_center()
             .gap_1()
@@ -152,6 +158,10 @@ impl MonitorPanel {
                         })
                     }),
             )
+            .child(crate::panel_context::monitor_button(
+                self.monitor.id.clone(),
+                self.shared.clone(),
+            ))
             .child(self.control(
                 "close",
                 format!("Hide {}", self.monitor.title),
@@ -160,6 +170,9 @@ impl MonitorPanel {
                 false,
                 cx,
             ))
+            .context_menu(move |menu, _, _| {
+                crate::panel_context::monitor(menu, &context_id, &context_shared)
+            })
             .into_any_element()
     }
 
@@ -203,7 +216,11 @@ impl MonitorPanel {
             let id = self.monitor.id.to_owned();
             let sensor = sensor.to_owned();
             let selector = format!("{}:meter-body:{sensor}", self.monitor.id);
+            let context_shared = self.shared.clone();
+            let context_monitor = id.clone();
+            let context_sensor = sensor.clone();
             let row = div()
+                .id(SharedString::from(format!("sensor-row:{id}:{sensor}")))
                 .flex()
                 .flex_col()
                 .gap_1()
@@ -236,6 +253,11 @@ impl MonitorPanel {
                             .font_family(cx.theme().mono_font_family.clone())
                             .flex_1(),
                         )
+                        .child(crate::panel_context::sensor_button(
+                            id.clone(),
+                            sensor.clone(),
+                            self.shared.clone(),
+                        ))
                         .child(self.control(
                             &format!("visible:{sensor}"),
                             format!("Hide {label}"),
@@ -267,7 +289,17 @@ impl MonitorPanel {
                             .child(meters::meter(actual_meter, samples, descriptor.unit, cx)),
                     )
                 });
-            rows.push(row.into_any_element());
+            rows.push(
+                row.context_menu(move |menu, _, _| {
+                    crate::panel_context::sensors(
+                        menu,
+                        &context_monitor,
+                        &context_sensor,
+                        &context_shared,
+                    )
+                })
+                .into_any_element(),
+            );
         }
         for descriptor in &self.monitor.sensors {
             let sensor = &descriptor.id;

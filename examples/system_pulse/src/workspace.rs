@@ -9,7 +9,7 @@ use crate::{
 };
 use gpui::*;
 use gpui_base::{Button, ElementExt, Scrollbar, ScrollbarMode, dock::*};
-use gpui_component::ActiveTheme;
+use gpui_component::{ActiveTheme, menu::ContextMenuExt};
 use std::{
     cell::RefCell,
     collections::{BTreeMap, BTreeSet},
@@ -48,6 +48,8 @@ pub(crate) enum Command {
     PanelVisible(String),
     RowCollapse(String, String),
     SensorVisible(String, String),
+    SensorMove(String, String, system_pulse_model::SensorMove),
+    SensorMeter(String, String, system_pulse_model::Meter),
     Meter(String, String),
     #[cfg(test)]
     Tick,
@@ -822,6 +824,42 @@ impl WorkspaceView {
                 let row = data.session.workspace.panel_mut(&id).sensor_mut(&sensor);
                 row.visible = !row.visible;
             }
+            Command::SensorMove(id, sensor, direction) => {
+                let result = self
+                    .shared
+                    .borrow_mut()
+                    .session
+                    .workspace
+                    .panels
+                    .get_mut(&id)
+                    .ok_or_else(|| "The monitor no longer exists".to_owned())
+                    .and_then(|panel| panel.move_sensor(&sensor, direction));
+                if let Err(error) = result {
+                    self.notice = error;
+                }
+            }
+            Command::SensorMeter(id, sensor, meter) => {
+                let mut data = self.shared.borrow_mut();
+                let quantity = data
+                    .catalog
+                    .iter()
+                    .find(|monitor| monitor.id == id)
+                    .and_then(|monitor| monitor.sensors.iter().find(|s| s.id == sensor))
+                    .map(|s| s.quantity);
+                let result = quantity
+                    .ok_or_else(|| "The sensor no longer exists".to_owned())
+                    .and_then(|quantity| {
+                        data.session
+                            .workspace
+                            .panels
+                            .get_mut(&id)
+                            .ok_or_else(|| "The monitor no longer exists".to_owned())?
+                            .select_meter(&sensor, quantity, meter)
+                    });
+                if let Err(error) = result {
+                    self.notice = error;
+                }
+            }
             Command::Meter(id, sensor) => {
                 let mut data = self.shared.borrow_mut();
                 let quantity = data
@@ -1050,7 +1088,8 @@ impl Render for WorkspaceView {
                             }
                         })
                 }));
-        div().size_full().flex().flex_col().gap_2().p_2().bg(cx.theme().background)
+        let menu_shared = self.shared.clone();
+        div().id("workspace-context").size_full().flex().flex_col().gap_2().p_2().bg(cx.theme().background)
             .font_family(cx.theme().font_family.clone()).text_color(cx.theme().foreground).track_focus(&self.focus).tab_group()
             .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
                 if event.keystroke.modifiers.alt {
@@ -1061,7 +1100,8 @@ impl Render for WorkspaceView {
                     this.command(command, window, cx); cx.stop_propagation();
                 }
             }))
-            .child("System Pulse · live host readings")
+            .child(div().id("workspace-title").child("System Pulse · live host readings")
+                .context_menu(move |menu, _, _| crate::panel_context::workspace(menu, &menu_shared)))
             .child("Alt+PageUp/PageDown: workspace · Alt+Left/Right: horizontal · table arrows/Home/End · Tab: next control")
             .child(toolbar)
             .child(div().h(px(96.)).flex_none().relative()

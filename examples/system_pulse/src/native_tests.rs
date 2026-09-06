@@ -1491,3 +1491,84 @@ fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestA
         assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
     }
 }
+
+#[gpui::test]
+fn sensor_menus_choose_meter_reorder_and_restore_visibility_by_identity(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let cpu = panel(&view, "cpu", cx);
+    cx.update(|window, cx| {
+        cpu.read(cx).controls["row:core0"]
+            .handle
+            .clone()
+            .focus(window, cx)
+    });
+    draw(cx);
+    let options = cx.debug_bounds("cpu:options:core0").unwrap();
+    cx.simulate_event(gpui::MouseDownEvent {
+        button: MouseButton::Right,
+        position: options.center(),
+        modifiers: Modifiers::none(),
+        click_count: 1,
+        first_mouse: false,
+    });
+    cx.simulate_event(gpui::MouseUpEvent {
+        button: MouseButton::Right,
+        position: options.center(),
+        modifiers: Modifiers::none(),
+        click_count: 1,
+    });
+    draw(cx);
+    // The menu contains visibility, collapse, movement and only compatible meters.
+    for _ in 0..6 {
+        cx.simulate_keystrokes("down");
+    }
+    cx.simulate_keystrokes("enter");
+    draw(cx);
+    assert_eq!(
+        cx.read(|cx| {
+            view.read(cx).shared.borrow().session.workspace.panels["cpu"].sensors["core0"].meter
+        }),
+        system_pulse_model::Meter::Line
+    );
+    let options = cx.debug_bounds("cpu:options:core0").unwrap();
+    cx.simulate_click(options.center(), Modifiers::none());
+    draw(cx);
+    for _ in 0..3 {
+        cx.simulate_keystrokes("down");
+    }
+    cx.simulate_keystrokes("enter");
+    draw(cx);
+    assert_eq!(
+        cx.read(
+            |cx| view.read(cx).shared.borrow().session.workspace.panels["cpu"].visible_sensors()[0]
+                .0
+                .to_string()
+        ),
+        "core0"
+    );
+    let options = cx.debug_bounds("cpu:options:core0").unwrap();
+    cx.simulate_click(options.center(), Modifiers::none());
+    draw(cx);
+    cx.simulate_keystrokes("down enter");
+    draw(cx);
+    assert!(!cx.read(|cx| {
+        view.read(cx).shared.borrow().session.workspace.panels["cpu"].sensors["core0"].visible
+    }));
+    let raw = cx.read(|cx| {
+        view.read(cx)
+            .shared
+            .borrow()
+            .session
+            .autosave_json()
+            .unwrap()
+    });
+    cx.update(|window, cx| view.update(cx, |view, cx| view.restore(&raw, window, cx)));
+    draw(cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        let sensor = &data.session.workspace.panels["cpu"].sensors["core0"];
+        assert_eq!(sensor.meter, system_pulse_model::Meter::Line);
+        assert_eq!(sensor.order, 0);
+        assert!(!sensor.visible);
+    });
+}
