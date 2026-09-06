@@ -11,8 +11,11 @@ pub(crate) struct FocusEntry {
 }
 impl FocusEntry {
     pub(crate) fn new(cx: &mut App) -> Self {
+        Self::from_handle(cx.focus_handle().tab_stop(true))
+    }
+    pub(crate) fn from_handle(handle: FocusHandle) -> Self {
         Self {
-            handle: cx.focus_handle().tab_stop(true),
+            handle,
             was_focused: Rc::new(Cell::new(false)),
         }
     }

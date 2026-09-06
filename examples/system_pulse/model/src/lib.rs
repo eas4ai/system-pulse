@@ -14,3 +14,6 @@ pub use persistence::{
 
 mod settings;
 pub use settings::{Appearance, ColorTheme, NumericFont, UiFont};
+
+mod presets;
+pub use presets::{BuiltinPreset, PresetLibrary};

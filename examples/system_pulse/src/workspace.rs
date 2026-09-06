@@ -1,3 +1,5 @@
+#[path = "presets.rs"]
+pub(crate) mod presets;
 #[cfg(test)]
 use crate::fixture;
 use crate::{
@@ -34,6 +36,10 @@ pub(crate) struct Data {
     pub(crate) allow_process_actions: bool,
     pub(crate) snapshot: Option<std::sync::Arc<Snapshot>>,
     pub(crate) live: LiveState,
+    pub(crate) presets: system_pulse_model::PresetLibrary,
+    pub(crate) preset_error: Option<String>,
+    pub(crate) preset_notice: String,
+    pub(crate) preset_busy: bool,
 }
 
 #[derive(Clone)]
@@ -55,6 +61,7 @@ pub(crate) enum Command {
     ToggleGpu,
     Interval(u64),
     Appearance(system_pulse_model::Appearance),
+    Preset(presets::PresetCommand),
     Scroll(f32, f32),
 }
 
@@ -94,7 +101,10 @@ pub(crate) fn validate_dock(value: &serde_json::Value) -> Result<(), String> {
     validate_dock_mode(value, false)
 }
 
-fn validate_dock_mode(value: &serde_json::Value, allow_fixture: bool) -> Result<(), String> {
+pub(crate) fn validate_dock_mode(
+    value: &serde_json::Value,
+    allow_fixture: bool,
+) -> Result<(), String> {
     let state: DockAreaState = serde_json::from_value(value.clone()).map_err(|e| e.to_string())?;
     PanelPolicy::Separate
         .validate_state(&state)
@@ -331,6 +341,8 @@ impl WorkspaceView {
                 }
             }
         }
+        let (presets, preset_error) =
+            presets::load(directory.as_deref(), preset.as_deref(), fixture_mode);
         let catalog = if fixture_mode {
             initial
         } else {
@@ -367,6 +379,10 @@ impl WorkspaceView {
             allow_process_actions: live && !fixture_mode,
             snapshot: None,
             live: LiveState::default(),
+            presets,
+            preset_error,
+            preset_notice: String::new(),
+            preset_busy: false,
             owner: Some(cx.weak_entity()),
             views: BTreeMap::new(),
             bounds: BTreeMap::new(),
@@ -619,7 +635,7 @@ impl WorkspaceView {
                     let _ = group.update(cx, |_, cx| cx.notify());
                 }
                 if let Some(settings) = &panel.settings {
-                    settings.update(cx, |_, cx| cx.notify());
+                    settings.update(cx, |settings, cx| settings.refresh(cx));
                 }
                 cx.notify();
             });
@@ -909,6 +925,10 @@ impl WorkspaceView {
                 drop(data);
                 self.dock
                     .update(cx, |dock, cx| dock.refresh_geometry(window, cx));
+            }
+            Command::Preset(command) => {
+                self.preset_command(command, window, cx);
+                return;
             }
             Command::Appearance(appearance) => {
                 self.shared.borrow_mut().session.workspace.appearance = appearance;

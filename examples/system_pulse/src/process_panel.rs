@@ -167,7 +167,8 @@ impl MonitorPanel {
                                     .debug_selector(|| "process-action:cancel".into())
                                     .child("Cancel"),
                             )
-                            .on_click(cx.listener(|this, _, _, cx| {
+                            .on_click(cx.listener(|this, _, window, cx| {
+                                this.controls["table"].handle.focus(window, cx);
                                 this.process_state.confirmation = None;
                                 cx.notify();
                             })),
@@ -186,9 +187,10 @@ impl MonitorPanel {
                                     .debug_selector(|| "process-action:confirm".into())
                                     .child(if force { "Force quit" } else { "End task" }),
                             )
-                            .on_click(
-                                cx.listener(|this, _, _, cx| this.confirm_process_action(cx)),
-                            ),
+                            .on_click(cx.listener(|this, _, window, cx| {
+                                this.controls["table"].handle.focus(window, cx);
+                                this.confirm_process_action(cx);
+                            })),
                     ),
             );
         }

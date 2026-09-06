@@ -27,6 +27,7 @@ pub(crate) struct SettingsPanel {
     shared: Shared,
     scroll: ScrollHandle,
     controls: BTreeMap<&'static str, FocusEntry>,
+    pub(crate) presets: Option<Entity<crate::workspace::presets::PresetManager>>,
 }
 impl SettingsPanel {
     pub(crate) fn new(shared: Shared, cx: &mut App) -> Self {
@@ -49,7 +50,15 @@ impl SettingsPanel {
             shared,
             scroll: ScrollHandle::default(),
             controls,
+            presets: None,
         }
+    }
+
+    pub(crate) fn refresh(&mut self, cx: &mut Context<Self>) {
+        if let Some(presets) = &self.presets {
+            presets.update(cx, |_, cx| cx.notify());
+        }
+        cx.notify();
     }
 
     fn choice(
@@ -111,6 +120,14 @@ impl SettingsPanel {
 
 impl Render for SettingsPanel {
     fn render(&mut self, _: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
+        if self.presets.is_none() {
+            self.presets = Some(cx.new(|_| {
+                crate::workspace::presets::PresetManager::new(
+                    self.shared.clone(),
+                    self.scroll.clone(),
+                )
+            }));
+        }
         let appearance = self.shared.borrow().session.workspace.appearance;
         let interval = self.shared.borrow().session.workspace.interval_ms;
         let content = div().flex().flex_col().gap_4().p_3()
@@ -140,6 +157,7 @@ impl Render for SettingsPanel {
             ].into_iter().map(|(id, ms, label)| self.choice(id, label, interval == ms, Command::Interval(ms), cx))))
             .child(div().text_sm().text_color(cx.theme().muted_foreground)
                 .child("Changes apply immediately and save automatically. Process CPU uses one core and may exceed 100%."));
+        let content = content.child(self.presets.as_ref().unwrap().clone());
         div()
             .size_full()
             .relative()
