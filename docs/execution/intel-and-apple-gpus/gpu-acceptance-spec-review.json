@@ -1,0 +1,90 @@
+{
+  "status": "FAIL",
+  "reviewed_source": "c014522d23aae011cfe2e88627320e07740b4ebc",
+  "recorded_before_corrections": true,
+  "verified_utc": "2026-09-06T14:32:15.163726+00:00",
+  "open_findings": [
+    "F1",
+    "F2",
+    "F3",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8"
+  ],
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review",
+  "review_manifest_sha256": "afb743fca46fb6110bc68e4c1cc445f3a2ae0cf8fea6634d1ede1f9f7623eb71",
+  "all_manifest_records_verified": 17,
+  "selected_originals": {
+    "attacks.py": {
+      "bytes": 9795,
+      "sha256": "cf1cfb6f3dd062c7dd8cea7c710ab5d1fe4d131ff5956d945c3160211edc1b1d"
+    },
+    "attacks.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "attacks.stdout": {
+      "bytes": 653,
+      "sha256": "f837714165fee1517e1d0a40216e33e420fa69d259749f98943767c6d5a071b3"
+    },
+    "cargo-metadata.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "cargo-metadata.stdout": {
+      "bytes": 122110,
+      "sha256": "8a3dd1302206506113d63959145935c20e7a66742f952043c38948161144afdb"
+    },
+    "commands.json": {
+      "bytes": 3226,
+      "sha256": "19d6d0d5f5418d678fce170906732a9310a3b5b585afed2dd62f6a0c37eae713"
+    },
+    "committed-tests.stderr": {
+      "bytes": 6457,
+      "sha256": "785c6b9c1b4b008aa58f936c3b3c9572e85032deb7a8efba17810fe4931d8f02"
+    },
+    "committed-tests.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "inventory-attack.py": {
+      "bytes": 3145,
+      "sha256": "e3bec93b69dc14103a2f50df8da6ea047ef7d99669ffb1a0913ce3e38f5c1249"
+    },
+    "inventory-attack.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "inventory-attack.stdout": {
+      "bytes": 453,
+      "sha256": "7914d4bb09efa4404fcd7e52219b4cdb43d3f7352d63795b9cc7d7f2002a00af"
+    },
+    "omitted-arithmetic-suite.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "omitted-arithmetic-suite.stdout": {
+      "bytes": 531,
+      "sha256": "9df0dd82044fe020d07fe9057ff8f2ba6048df453d76d06fe583016d99b0dd37"
+    },
+    "originals-attack.py": {
+      "bytes": 4954,
+      "sha256": "9efc50762d0503fd9bfebc1407905473f162557dd357545ff5936b37e89b99cc"
+    },
+    "originals-attack.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "originals-attack.stdout": {
+      "bytes": 216,
+      "sha256": "d4f82eca1d03d9c4d9e71eaad4e96e344c62095c00b91b6236eacfde1916186d"
+    },
+    "unbound-build-dependencies.json": {
+      "bytes": 27059,
+      "sha256": "a4ee1bbce0d895a720babfa65dbe2d187466834fad576cb3f77a1f031b4ed20c"
+    }
+  },
+  "scope": "Independent synthetic SPEC attacks and source inspection; no native hardware or Cairn acceptance"
+}
