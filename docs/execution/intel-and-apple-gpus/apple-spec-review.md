@@ -83,5 +83,5 @@ stable. The [correction record](apple-autorelease-correction.md) links the
 [original evidence](apple-autorelease-correction-evidence.json).
 
 This read-only impact review performed no edits, commits or native actions.
-F1 closure remains pending quality re-review. Long-term leak rate, external
+F1 closure is recorded in the [quality re-review](apple-quality-review.md). Long-term leak rate, external
 accuracy, GUI behavior, other hardware and aggregate acceptance are not claimed.

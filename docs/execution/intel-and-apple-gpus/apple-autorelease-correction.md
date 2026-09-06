@@ -1,14 +1,14 @@
-# Apple autorelease-pool correction candidate
+# Apple autorelease-pool correction
 
-Status: Correction candidate implemented and verified; independent re-review pending.
-F1 remains owned by the recorded quality review and root orchestration.
+Status: Implemented, natively verified and independently approved.
+F1 is closed in the [quality re-review](apple-quality-review.md); specification impact review also passed.
 
 ## Working state
 
 - Complete: scoped pool and native object-lifetime regression, verified by 46 native tests.
 - Complete: Linux checks, native Clippy/formatting/build and corrected missing-pool diagnostic.
 - Complete: repeated native capture/load, artifact transfer and SHA-256 verification.
-- In progress: independent SPEC impact and QUALITY re-review handoff; root owns closure.
+- Complete: independent SPEC impact and QUALITY re-review; F1 closed by root orchestration.
 
 ## Recorded failure and correction scope
 

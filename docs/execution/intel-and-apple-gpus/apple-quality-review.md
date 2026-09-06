@@ -1,7 +1,8 @@
 # Apple collector quality review
 
-Status: CHANGES REQUIRED on 2026-09-06. F1 is open.
-This review is recorded before corrective source work.
+Status: APPROVED for Task 2 after independent re-review on 2026-09-06.
+F1 is resolved; no actionable findings remain. The initial finding below was
+recorded in `cd012c9b` before corrective source work.
 
 ## Scope and strengths
 
@@ -64,3 +65,37 @@ No Critical or Minor findings were recorded. The review performed no source
 edits, commits, SSH or native actions; root performed the diagnostic and retained
 its original results. External hardware accuracy, other Apple platforms,
 sleep/wake, UI/persistence and aggregate acceptance remain pending.
+
+## F1 resolution and independent re-review
+
+Corrected production pool: `286c668f938713a5035b5131ba5463a073f4dd08`
+(`fix: drain autoreleased objects after each Apple capture`). Final native-tested
+source: `2a40f069ef3b98856fa7a5ff32e004d48c383fa4`; evidence candidate:
+`f0b2aa8ad3dd3ccd1395ba3836051016821a5cd8`.
+
+After independent specification impact review passed, the same quality reviewer
+approved the correction. The pool guard is the first capture local, drains
+after local native references on normal/early/unwind paths, and uses signatures
+matching Apple's runtime declarations. Retained CF/IOReport handles and owned
+Rust snapshots remain valid. Native regressions use stationary weak references
+to prove deallocation and test retained CF/Rust survival.
+
+The reviewer independently ran 96 Linux collector tests, strict Clippy and
+formatting; all passed. All 31 collector/lock files matched corrected source and
+all 42 artifact hashes/sizes matched. Original native logs showed 46 passing
+tests, including both lifecycle regressions. The three-capture diagnostic and
+40-capture run both had empty collector stderr under
+`OBJC_DEBUG_MISSING_POOLS=YES`. All 40 frames parsed with 11 stable sensor
+identities, 39 post-warmup activity/power readings and 31 frequency readings.
+
+The [correction record](apple-autorelease-correction.md) and
+[retained evidence](apple-autorelease-correction-evidence.json) preserve each
+attempt. Root independently checked the 42 artifacts, regenerated the source
+archive, matched source/lock and parsed the actual 96/46 test counts. The
+standalone Swift workload's 57 warnings identify PID 3666 and remain separate
+from the empty collector stderr; its helper lifetime is Task 4 work.
+
+No Critical, Important or Minor findings remain in this correction. Re-review
+was read-only and inspected native evidence without rerunning it. Task 2 quality
+approval does not complete Tasks 3–5 or establish external accuracy, other
+hardware, sleep/wake, native UI behavior or a long-term leak rate.

@@ -19,4 +19,4 @@ Falsifiers include idle 9.2 becoming current, failure being reported as a low va
 
 ## Realized by
 
-(none yet: recorded, not built)
+- df2300f2a6af5a9e6bf0ebe60d725379096c2b46 fix: validate Apple scalar sources and temperature profiles

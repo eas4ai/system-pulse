@@ -4,7 +4,9 @@
 
 - Complete: pure conversion, failure, identity and service tests; 96 collector tests passed on Linux.
 - Complete: native IOReport, Metal/IOKit, SMC/HID implementation; Linux and arm64 Mac verification.
-- In progress: candidate handoff for independent SPEC then QUALITY review (root orchestration).
+- Complete: independent SPEC, correction impact and QUALITY reviews at source `2a40f069`; see [quality closure](apple-quality-review.md).
+
+The [autorelease correction](apple-autorelease-correction.md) resolves the native lifetime defect found during independent review. Final task verification passed 96 Linux and 46 Mac tests plus native diagnostics and repeated capture/load. The initial checkpoints below remain historical evidence; native accuracy and UI acceptance are later tasks.
 
 ## Native source selection before implementation
 
@@ -57,7 +59,7 @@ This implementation checkpoint is not GPU-008 accuracy acceptance, a full GPUI b
 6. Loads native APIs from fixed system paths; no monitoring wrappers or remote production calls.
 7. Clears invalid baselines and absent devices; re-enumerates and retries optional sources each capture.
 8. Uses bounded loops and scoped native ownership inside the existing one-slot worker pipeline.
-9. Maintains the working-state list above; native verification is complete and independent review is next.
+9. Maintains the working-state list above; native verification and independent reviews are complete for Task 2.
 10. Exercises arithmetic, lifecycle, failure/recovery, attribution and worker ownership; records actual native commands and logs separately.
 11. Distinguishes preliminary compile/run evidence from native accuracy and untested hardware profiles.
 12. Escalated ambiguous SMC semantics and followed the documented resolution without inventing a hardware flag.
@@ -72,4 +74,4 @@ rtk cargo clippy --locked -p system-pulse-collectors --all-targets -- -D warning
 rtk cargo fmt -p system-pulse-collectors -- --check
 ```
 
-These passed on Linux (96 tests) and natively on the Mac (44 tests). The native build also ran `cargo build --locked -p system-pulse-collectors --bin pulse-snapshot` with two build jobs and the dedicated shared target cache. Native commands ran through bounded SSH Python launchers with task-owned process groups; the exact commands, launcher hashes and bounds are retained in the evidence bundle. The actual immutable collector command was `apple-df2300f2-pulse-snapshot --count 40 --interval-ms 500`. The workload retained its verified original hash and 15-second limit. No full application build, GUI action, Cairn acceptance or GPU hardware-accuracy pass was claimed here.
+These initial checkpoint commands passed on Linux (96 tests) and natively on the Mac (44 tests); the subsequent autorelease correction passed 96 Linux and 46 native tests, as linked above. The native build also ran `cargo build --locked -p system-pulse-collectors --bin pulse-snapshot` with two build jobs and the dedicated shared target cache. Native commands ran through bounded SSH Python launchers with task-owned process groups; the exact commands, launcher hashes and bounds are retained in the evidence bundle. The actual immutable collector command was `apple-df2300f2-pulse-snapshot --count 40 --interval-ms 500`. The workload retained its verified original hash and 15-second limit. No full application build, GUI action, Cairn acceptance or GPU hardware-accuracy pass was claimed here.
