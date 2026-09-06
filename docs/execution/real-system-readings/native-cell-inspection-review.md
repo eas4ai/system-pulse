@@ -24,3 +24,23 @@ generic/held acknowledgement, stop_child, and strict exit verification
 unchanged. Permit only the recorded nonselecting displacement preparation.
 
 No live capture, build, or repository mutation occurred during assessment.
+
+## Implementation specification review
+
+Candidates: `b7dd5553` and `adfd96a7`. Independent SPEC review passed with
+no findings; the connected pre-exit premise finding is closed.
+
+The reviewer verified acknowledgement capture from the existing coherent
+proof, frozen caller-owned inspection evidence, and success-only reference
+advancement. Preparation retains the caller's deadline, cannot supply a
+cell, and requires independent strict eligibility and fresh selection proof.
+All sixteen comparisons remain wired. Generic/held behaviour and strict
+exit verification are unchanged.
+
+Independent verification passed 21 inspection, 196 focused native, and
+300 full Python tests, scoped Ruff lint/format, and whitespace checks.
+Extra probes covered integrated lookup/recovery/metric validation, wrong
+labels without reference advancement, displacement after three sequence
+observations, detached-cache rejection, and eight malformed or foreign-session
+evidence cases. No live capture or build ran. QUALITY review and actual
+native/aggregate acceptance remain pending.
