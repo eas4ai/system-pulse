@@ -490,8 +490,10 @@ verdict; do not add a freshness retry or wait based on this evidence.
 - [x] Verify timing/order and unchanged freshness failures, including an
   atomic replacement fixture. Metadata failures must not replace the
   original verdict. Run focused/full checks and independent reviews.
-- [ ] Use the next actual failure, if any, to distinguish the observation
-  cases. Do not claim a publication stall or prior false verdict.
+- [x] Use the next actual failure, if any, to distinguish the observation
+  cases. Full capture 78w90voc proves replacement during the read and short
+  parsing; publication stage latency remains unmeasured. No prior false
+  verdict or specific publication stall is claimed.
 
 ### Reveal the acknowledged child during later cell inspection
 
@@ -523,3 +525,32 @@ bounded nonselecting inspection preparation, not product viewport anchoring.
   Prove successful metrics alone advance the inspection reference. Run
   focused/full checks, then independent SPEC and QUALITY reviews.
 - [ ] Run fresh untraced process acceptance and full committed acceptance.
+
+### Trace diagnostic publication stages without changing acceptance
+
+The [independent investigation](../execution/real-system-readings/native-full-stale-frame-review.md)
+identifies missing downstream timing after a retained stale old-inode read.
+The failed aggregate remains failed. This is diagnostic instrumentation.
+
+- [ ] Add opt-in timing in the existing diagnostic writer: bounded clock and
+  memory bookkeeping around acceptance/model/record construction, submission,
+  dequeue, JSON conversion/serialization, temporary write and rename. Correlate
+  app/session, sequence/revision and original acceptance time. Document monotonic
+  clock identity and bounded wall-clock anchors; do not compare unrelated clocks.
+- [ ] Keep a fixed-capacity history (at most 64 records) with bounded fields,
+  overwritten-record counts and partial stage failures. Retain byte count,
+  temporary device/inode and rename start/completion. Publish its optional
+  sidecar only on the existing worker, with no new UI filesystem I/O, fsync,
+  thread, polling loop or unbounded queue. Trace errors are distinct and never
+  replace primary publication errors. Preserve atomic replacement and cleanup.
+- [ ] Retain trace artifacts through the existing native harness only when
+  explicitly enabled. Mark instrumented metadata and reject traced sessions as
+  final aggregate acceptance. Keep Native.frame's single read, fail-fast age
+  check, PID checks, all deadlines and every mandatory native proof unchanged.
+- [ ] Reproduce stage-order, bounded-history, overwritten-record, disabled-path,
+  failure/cleanup/error precedence and traced-acceptance rejection cases. Run
+  relevant Python/Rust checks, formatting and strict Clippy, then independent
+  SPEC and QUALITY review. No source performance remedy is inferred yet.
+- [ ] Run one instrumented diagnostic, preserve all outcomes, and identify the
+  observed delay only to the extent recorded timings support. Record any remedy
+  separately; fresh untraced full acceptance and final review remain required.
