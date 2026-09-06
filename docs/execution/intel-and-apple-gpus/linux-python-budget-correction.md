@@ -1,12 +1,13 @@
 # Full Python suite budget correction
 
-Status: local development verification passed; independent SPEC and quality review remain required. This is not full preservation or Cairn acceptance.
+Status: correction committed at `61e8ceef`; independent [SPEC and QUALITY reviews passed](linux-python-budget-reviews.md). This is not full preservation or Cairn acceptance.
 
 ## Work tracking
 
 - Done: changed the single complete-suite execution budget and ran its exact stage through the real runner.
 - Done: focused aggregate checks, affected lint/format, source/evidence binding and all 14 self-audit rules.
-- In progress: focused commit and independent review handoff; full preservation follows review.
+- Done: focused commit and independent specification and quality reviews.
+- In progress: Task 5 full preservation and remaining native evidence.
 
 ## Change and cause
 

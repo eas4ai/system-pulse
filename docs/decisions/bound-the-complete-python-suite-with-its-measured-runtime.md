@@ -11,4 +11,4 @@ Correct the runner budget mismatch recorded in docs/execution/intel-and-apple-gp
 
 ## Realized by
 
-(none yet: recorded, not built)
+61e8ceef4db8ce4c6f3114cc25437f9cd9ad3e5a fix: allow the complete Python suite a measured execution budget

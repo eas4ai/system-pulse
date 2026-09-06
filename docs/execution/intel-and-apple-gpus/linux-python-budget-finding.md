@@ -1,6 +1,6 @@
 # Full preservation: Python suite budget mismatch
 
-Status: F1 recorded before correction. Full preservation remains failed.
+Status: F1 closed by correction `61e8ceef` and independent [SPEC and QUALITY passes](linux-python-budget-reviews.md). Full preservation remains pending; original failures are retained.
 
 The first full uninstrumented Linux preservation attempt after the reviewed
 process-reveal correction stopped in its mandatory Python stage. It ran from
