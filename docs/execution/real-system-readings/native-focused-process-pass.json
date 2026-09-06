@@ -1,0 +1,507 @@
+{
+  "status": "PASS",
+  "scope": "focused process preparation and process case; not full aggregate",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-6z8tnj4m/native",
+  "result": {
+    "status": "PASS",
+    "errors": [],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true,
+      "process": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "metadata": {
+    "application_pid": 3962819,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "proc_exe_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "source_commit": "b1663306393a7183b90ab0c50ed05deafaddb334",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "target": "process:3971079:74489217",
+  "metric_comparisons": [
+    {
+      "artifact": "child-cell-0.json",
+      "element_id": "process:3971079:74489217:cell:0",
+      "label": "3971079",
+      "visible": false,
+      "sequence": 95,
+      "revision": 94
+    },
+    {
+      "artifact": "child-cell-1.json",
+      "element_id": "process:3971079:74489217:cell:1",
+      "label": "pulse ) probe",
+      "visible": false,
+      "sequence": 97,
+      "revision": 96
+    },
+    {
+      "artifact": "child-cell-2.json",
+      "element_id": "process:3971079:74489217:cell:2",
+      "label": "0.0 %",
+      "visible": false,
+      "sequence": 98,
+      "revision": 97
+    },
+    {
+      "artifact": "child-cell-3.json",
+      "element_id": "process:3971079:74489217:cell:3",
+      "label": "10.3 MiB",
+      "visible": false,
+      "sequence": 99,
+      "revision": 98
+    },
+    {
+      "artifact": "child-cell-4.json",
+      "element_id": "process:3971079:74489217:cell:4",
+      "label": "0.0 B/s",
+      "visible": false,
+      "sequence": 100,
+      "revision": 99
+    },
+    {
+      "artifact": "child-cell-5.json",
+      "element_id": "process:3971079:74489217:cell:5",
+      "label": "0.0 B/s",
+      "visible": false,
+      "sequence": 101,
+      "revision": 100
+    },
+    {
+      "artifact": "child-cell-6.json",
+      "element_id": "process:3971079:74489217:cell:6",
+      "label": "1 count",
+      "visible": false,
+      "sequence": 102,
+      "revision": 101
+    },
+    {
+      "artifact": "child-cell-7.json",
+      "element_id": "process:3971079:74489217:cell:7",
+      "label": "shawn",
+      "visible": false,
+      "sequence": 103,
+      "revision": 102
+    },
+    {
+      "artifact": "child-left.json",
+      "element_id": "process:3971079:74489217:cell:0",
+      "label": "3971079",
+      "visible": true,
+      "sequence": 105,
+      "revision": 104
+    },
+    {
+      "artifact": "child-visible-1.json",
+      "element_id": "process:3971079:74489217:cell:1",
+      "label": "pulse ) probe",
+      "visible": true,
+      "sequence": 107,
+      "revision": 106
+    },
+    {
+      "artifact": "child-visible-2.json",
+      "element_id": "process:3971079:74489217:cell:2",
+      "label": "0.0 %",
+      "visible": true,
+      "sequence": 109,
+      "revision": 108
+    },
+    {
+      "artifact": "child-visible-3.json",
+      "element_id": "process:3971079:74489217:cell:3",
+      "label": "10.3 MiB",
+      "visible": true,
+      "sequence": 111,
+      "revision": 110
+    },
+    {
+      "artifact": "child-visible-4.json",
+      "element_id": "process:3971079:74489217:cell:4",
+      "label": "0.0 B/s",
+      "visible": true,
+      "sequence": 113,
+      "revision": 112
+    },
+    {
+      "artifact": "child-visible-5.json",
+      "element_id": "process:3971079:74489217:cell:5",
+      "label": "0.0 B/s",
+      "visible": true,
+      "sequence": 116,
+      "revision": 115
+    },
+    {
+      "artifact": "child-visible-6.json",
+      "element_id": "process:3971079:74489217:cell:6",
+      "label": "1 count",
+      "visible": true,
+      "sequence": 119,
+      "revision": 118
+    },
+    {
+      "artifact": "child-right.json",
+      "element_id": "process:3971079:74489217:cell:7",
+      "label": "shawn",
+      "visible": true,
+      "sequence": 121,
+      "revision": 120
+    }
+  ],
+  "input_evidence": {
+    "held-up-25hz.json": {
+      "max_observed_age_seconds": 1.319997519,
+      "distinct_sequences": 6,
+      "observer_joined": true,
+      "key_count": null,
+      "expected_identity": null,
+      "after_identity": "process:3919367:65379831"
+    },
+    "exact-64-up.json": {
+      "max_observed_age_seconds": 1.254679068,
+      "distinct_sequences": 3,
+      "observer_joined": true,
+      "key_count": 64,
+      "expected_identity": "process:3919230:65379802",
+      "after_identity": "process:3919230:65379802"
+    },
+    "held-table-left.json": {
+      "max_observed_age_seconds": 1.360615176,
+      "distinct_sequences": 6,
+      "observer_joined": true,
+      "key_count": null,
+      "expected_identity": null,
+      "after_identity": null
+    },
+    "held-table-right.json": {
+      "max_observed_age_seconds": 1.271223317,
+      "distinct_sequences": 6,
+      "observer_joined": true,
+      "key_count": null,
+      "expected_identity": null,
+      "after_identity": null
+    }
+  },
+  "navigation_batches": [
+    {
+      "op": "navigation-batch",
+      "monotonic_ns": 744894909874835,
+      "target": "process:3971079:74489217",
+      "selected": "process:4122413:70937163",
+      "expected": "process:4036322:68186217",
+      "endpoint_index": 1385,
+      "count": 2,
+      "distance": 4,
+      "sequence": 92,
+      "deadline": 745073.134539398,
+      "batch_deadline": 744902.874980481,
+      "publication": {
+        "sequence": 92,
+        "application_pid": 3962819,
+        "render_revision": 91,
+        "accepted_unix_ns": 1788660659733390868
+      },
+      "keys": [
+        "Up",
+        "Up"
+      ]
+    },
+    {
+      "op": "navigation-batch",
+      "monotonic_ns": 744895632824890,
+      "target": "process:3971079:74489217",
+      "selected": "process:4036322:68186217",
+      "expected": "process:3971079:74489217",
+      "endpoint_index": 1383,
+      "count": 2,
+      "distance": 2,
+      "sequence": 93,
+      "deadline": 745073.134539398,
+      "batch_deadline": 744903.595677233,
+      "publication": {
+        "sequence": 93,
+        "application_pid": 3962819,
+        "render_revision": 92,
+        "accepted_unix_ns": 1788660660801793775
+      },
+      "keys": [
+        "Up",
+        "Up"
+      ]
+    }
+  ],
+  "baseline_observations": [
+    {
+      "op": "navigation-baseline-stat",
+      "monotonic_ns": 744894909795290,
+      "expected": "process:4036322:68186217",
+      "observation": {
+        "source": "/proc/4036322/stat",
+        "start": 744894909699433,
+        "end": 744894909751472,
+        "errno": null,
+        "raw": "4036322 (psimon) S 2 0 0 0 -1 2129984 0 0 0 0 0 0 0 0 -2 0 1 0 68186217 0 0 18446744073709551615 0 0 0 0 0 0 0 2147483647 0 0 0 0 17 20 1 1 0 0 0 0 0 0 0 0 0 0 0\n",
+        "namespace": {
+          "device": 26,
+          "inode": 1,
+          "pid_namespace": "pid:[4026531836]",
+          "application_pid_namespace": "pid:[4026531836]"
+        },
+        "identity": "process:4036322:68186217"
+      },
+      "query_started_monotonic_ns": 744894909635706,
+      "query_completed_monotonic_ns": 744894909769678
+    }
+  ],
+  "interruption_or_reveal_events": [],
+  "child_exit": {
+    "independent_before": {
+      "stat": {
+        "source": "/proc/3971079/stat",
+        "start": 744892199546143,
+        "end": 744892199615040,
+        "value": {
+          "pid": 3971079,
+          "name": "pulse ) probe",
+          "state": "S",
+          "ppid": 3962765,
+          "start_ticks": 74489217,
+          "utime": 0,
+          "stime": 0,
+          "rss_pages": 2641,
+          "threads": 1
+        },
+        "errno": null
+      },
+      "uid": {
+        "source": "/proc/3971079/status",
+        "start": 744892199621059,
+        "end": 744892199649800,
+        "value": 1000,
+        "errno": null
+      },
+      "io": {
+        "source": "/proc/3971079/io",
+        "start": 744892199653160,
+        "end": 744892199667901,
+        "value": {
+          "read_bytes": 0,
+          "write_bytes": 0
+        },
+        "errno": null
+      }
+    },
+    "pid": 3971079,
+    "exit_code": -15,
+    "after": {
+      "stat": {
+        "source": "/proc/3971079/stat",
+        "start": 744928207810888,
+        "end": 744928207833922,
+        "value": null,
+        "errno": 2,
+        "error": "No such file or directory"
+      },
+      "uid": {
+        "source": "/proc/3971079/status",
+        "start": 744928207839548,
+        "end": 744928207845802,
+        "value": null,
+        "errno": 2,
+        "error": "No such file or directory"
+      },
+      "io": {
+        "source": "/proc/3971079/io",
+        "start": 744928207849372,
+        "end": 744928207853448,
+        "value": null,
+        "errno": 2,
+        "error": "No such file or directory"
+      }
+    }
+  },
+  "native_exit_ack": {
+    "op": "ack",
+    "monotonic_ns": 744928207746360,
+    "condition": "child exit snapshot and native tree"
+  },
+  "cleanup": [
+    {
+      "pid": 3962819,
+      "exit_code": 0,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 3962786,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "artifacts": {
+    "result.json": {
+      "bytes": 631,
+      "sha256": "60ad9e6f4fa6f7dc8bdef4e8f12daef066fd1bd45a4424eab8079e7a0b59fd9f"
+    },
+    "harness-manifest.json": {
+      "bytes": 2665,
+      "sha256": "bef0a50374b4954c9b1234ce414e3035ff1cd618a0777c63c030d2aee1c53769"
+    },
+    "transport-cleanup.json": {
+      "bytes": 102,
+      "sha256": "327ee16e2738873266be88b2ac3fd05b728d1a328e638139884e466f44ea3539"
+    },
+    "session-01/child-cell-0.json": {
+      "bytes": 10000256,
+      "sha256": "a757f4a1886d4ef060728bddaba6d862a0ba8313fc09ffdeab99c681b4d3808a"
+    },
+    "session-01/child-cell-1.json": {
+      "bytes": 10000102,
+      "sha256": "b035526d7fd4c84b36a7162cc2ef613b096c6c19962597bc6d2bcbf60140d971"
+    },
+    "session-01/child-cell-2.json": {
+      "bytes": 10000001,
+      "sha256": "f3d0ae26fca928775f4fdc0dbd73fe7d157befb12320f12eb1927dc302e564de"
+    },
+    "session-01/child-cell-3.json": {
+      "bytes": 10000883,
+      "sha256": "eb0d38b211a6364ad672ba0e79de8affec5f1094fb2dbce6e96b6dec9bbd8478"
+    },
+    "session-01/child-cell-4.json": {
+      "bytes": 9999829,
+      "sha256": "9192723b473803fb0f36b5418cb6d0595bd9dc20d01e837f0259bbe2658c0ce8"
+    },
+    "session-01/child-cell-5.json": {
+      "bytes": 10012741,
+      "sha256": "e736c029a97494e8dc24aea32918594611da2e933601f2b7c752202a57a0c277"
+    },
+    "session-01/child-cell-6.json": {
+      "bytes": 10017611,
+      "sha256": "96402563a47a9b32f8d0ae530c4fb8ad99fb5b48392a580e1e66cfcdeb208311"
+    },
+    "session-01/child-cell-7.json": {
+      "bytes": 10018133,
+      "sha256": "909ba868621d2e1b0b6c7db7b0934c80d0c266b103c48563f452f93b91ae2a6a"
+    },
+    "session-01/child-left.json": {
+      "bytes": 10017339,
+      "sha256": "9334709b64a8c4751098773cd20bf03d8dc044b182ca7798e1c68bc579e085a7"
+    },
+    "session-01/child-visible-1.json": {
+      "bytes": 10018241,
+      "sha256": "3e97ab58de8a5623fff9eaab6f22ca91f6ad95da6bda4d0bfafa2fe81c4033b2"
+    },
+    "session-01/child-visible-2.json": {
+      "bytes": 10017565,
+      "sha256": "7b1f46a09f5e155fa1cb283324301feeb5057808f916e7da3eb28656bc31a248"
+    },
+    "session-01/child-visible-3.json": {
+      "bytes": 10018818,
+      "sha256": "cc40164d82485e3ebcfd561b8053f97bfc9c52a919ef4bb449c9bf85c57f211a"
+    },
+    "session-01/child-visible-4.json": {
+      "bytes": 10019347,
+      "sha256": "d2fae24df4b63169efce90c5680512a1c9943d1227bf939e6e6cb5714f05e4a8"
+    },
+    "session-01/child-visible-5.json": {
+      "bytes": 10018301,
+      "sha256": "bf7753cb50eb873929b8c9fd4e2de9556ef0e837dce5db331e9778be1e8cea95"
+    },
+    "session-01/child-visible-6.json": {
+      "bytes": 10013809,
+      "sha256": "378e0b4de4284d46aa47a99a7036c0b2cfd1846e81d560fa7ca7689c5106ad16"
+    },
+    "session-01/child-right.json": {
+      "bytes": 10013645,
+      "sha256": "93a18bf7e22df8ed18db9fd513625eb9852765b611a37ab9d0527e78413bd57a"
+    },
+    "session-01/held-up-25hz.json": {
+      "bytes": 3552,
+      "sha256": "ad42b10c2b21c41c49e744ccd2aea23404e264efe52f25a996f796049ad08aa1"
+    },
+    "session-01/exact-64-up.json": {
+      "bytes": 1651,
+      "sha256": "29f0840011e2a84ee0e92cb33a665e4ccca4f45905ed7d1f0ce4d04608fe8b01"
+    },
+    "session-01/held-table-left.json": {
+      "bytes": 3925,
+      "sha256": "be3f30bf9fd81b87e9e893952829c09747fb35357e0aa264fa966af10cef2015"
+    },
+    "session-01/held-table-right.json": {
+      "bytes": 3444,
+      "sha256": "bbedd0bde2d15556abd12336736b132dd86f21b73f3f2bf7a3c99420282576eb"
+    },
+    "session-01/metadata.json": {
+      "bytes": 702,
+      "sha256": "016972aa60610a3613ae61fbbf04fbcd78ecfc6dcf32b4490fb93453bb71e485"
+    },
+    "session-01/real-child-start.json": {
+      "bytes": 835,
+      "sha256": "2c9f73b4865d3c5ccce1c821e53b4bb3590ba647a732491afc3f4c4beddfd895"
+    },
+    "session-01/real-child.json": {
+      "bytes": 1461,
+      "sha256": "d96930716bdb4bbd05a47292c28fa3a7fc2434af02356f0c0433c40be72b2bc1"
+    },
+    "session-01/real-child-cell-discovery.json": {
+      "bytes": 623,
+      "sha256": "8349ff073a47f060355ea02ed409c0a5ada70a14efe2bf68cc3a8a7602ccbed3"
+    },
+    "session-01/child-left.png": {
+      "bytes": 174420,
+      "sha256": "ec3d5d6495a2e8101a4746df4268512269faa185b9137a96580070dcd1999a74"
+    },
+    "session-01/child-right.png": {
+      "bytes": 153244,
+      "sha256": "729fac668d13a9c37400f8c681d1898b9741edf7a9066175d064c21e4d765b60"
+    },
+    "session-01/child-exited.png": {
+      "bytes": 164557,
+      "sha256": "a1d4701085236a4331ca15aa727a76386696af56e0e3ff85123b93981d6d4ec3"
+    },
+    "session-01/cleanup.json": {
+      "bytes": 76,
+      "sha256": "670cca3e584345683c6f9d44741ccc89f037f92183499d2d0c49d938ca252821"
+    },
+    "session-01/journal.jsonl": {
+      "bytes": 49783,
+      "sha256": "dea6e18a34e3d08ba94fe61c5a3faf887d1b1dcdbf4a826e72b7287bbe98e437"
+    }
+  }
+}
