@@ -1,16 +1,16 @@
 # Acceptance implementation work
 
-- In progress: root committed aggregate, including fresh host and complete native execution.
-- Verified preparation: executable aggregate and independent host/native harness;
-  49 Python regressions, retained host re-analysis, 13 full-run native cases and
-  focused final missing-device correction. The complete native run remains FAIL.
-- Verified delivery preparation: documentation, self-audit and all listed manifest
-  artifact paths, sizes and SHA256 hashes.
-- Verified review: independent SPEC and QUALITY passed source `322b05d9`.
-- Pending: full aggregate receipts and final adversarial review before Cairn Done.
+The [full committed aggregate](final-acceptance-pass.md) passed all 745 tests,
+independent host comparisons and the complete native replay on 2026-09-06.
+Actual Cairn receipts record LIVE-001 through LIVE-013 pass. Final adversarial
+review is in progress before the referee's Done verdict.
 
-Preparation checks are not final committed Cairn receipts. No aggregate acceptance
-receipt has been earned by this implementation yet.
+The sections below preserve implementation history and earlier failures; old
+preparation counts and pending statements describe those runs. Current comparison
+semantics include the [agreed process-exit policy](../../spec/live-collection.md#process-exit-observation-policy):
+only independently proven ordinary-process exits can explain a missing after
+bracket, which remains unverified. Controlled workload and all other mandatory
+comparisons must pass. The successful full run discloses four such endpoints.
 
 ## Commands and evidence
 

@@ -202,10 +202,10 @@ Static device IDs, units, total quantities and formulas compare exactly to the s
 
 Independent samples bracket each collector observation except the explicitly unverified after-counter gaps allowed by the agreed process-exit policy in LIVE-013. For monotonic cumulative counters, the collector raw counter must lie within independent before/after counters. For memory and instantaneous GPU gauges, verify exact captured raw observations, parsing and conversions, then exact rendering of the consumed snapshot. Independent contemporaneous gauge samples provide supporting observations, not proof of equality at a different instant; never invent a percentage tolerance. Derived arithmetic is separately checked exactly from raw inputs. Capture source path, identity, monotonic times, raw values and bound before judging the output. Compare native formatted values to the snapshot at their capture sequence/age, allowing only documented rounding and explicitly captured later snapshots. Bind displayed snapshot identity to opt-in bounded diagnostic evidence of consumed snapshots, serialized off the UI path, and give metric text a natural-language accessible label identical to its visible formatted value. See ../execution/real-system-readings/verification-design.md.
 
-- [ ] Write verifier regressions before implementation. Mutated byte unit (1000 versus 1024), CPU normalization, elapsed interval and out-of-bound gauge each fail; correct known observations pass. A capability missing any accessible required field fails. NVIDIA absence is recorded separately from adapter tests; it never produces a hardware-accuracy pass.
-- [ ] Implement host capture and comparison using Python standard library proc/sysfs readers independent of Rust collector logic. Launch and exit a harmless named child and verify its real PID/identity appears/disappears in snapshots and the actual native Processes table. Record every required field's actual backend and permission/attribution limits.
-- [ ] Reuse the proven private Xvfb/DBus/AT-SPI harness from the design repository artifact. Native replay proves no fixture controls/tabs, live numeric values, collapsed panel and sensor summaries/history, both-axis overflow, independent collapse, focus and keyboard navigation, mixed-state persistence and recovery while sampling continues.
-- [ ] Make aggregate verification run collector/model/app tests, affected base dock/resizable and UI dock suites, vendored accessibility regression tests, formatting, strict Clippy, native build, verifier regressions, host capability/accuracy checks and native replay. Require nonzero test counts and fail on missing artifacts or steps.
+- [x] Write verifier regressions before implementation. Mutated byte unit (1000 versus 1024), CPU normalization, elapsed interval and out-of-bound gauge each fail; correct known observations pass. A capability missing any accessible required field fails. NVIDIA absence is recorded separately from adapter tests; it never produces a hardware-accuracy pass.
+- [x] Implement host capture and comparison using Python standard library proc/sysfs readers independent of Rust collector logic. Launch and exit a harmless named child and verify its real PID/identity appears/disappears in snapshots and the actual native Processes table. Record every required field's actual backend and permission/attribution limits.
+- [x] Reuse the proven private Xvfb/DBus/AT-SPI harness from the design repository artifact. Native replay proves no fixture controls/tabs, live numeric values, collapsed panel and sensor summaries/history, both-axis overflow, independent collapse, focus and keyboard navigation, mixed-state persistence and recovery while sampling continues.
+- [x] Make aggregate verification run collector/model/app tests, affected base dock/resizable and UI dock suites, vendored accessibility regression tests, formatting, strict Clippy, native build, verifier regressions, host capability/accuracy checks and native replay. Require nonzero test counts and fail on missing artifacts or steps.
 - [ ] Commit the reviewed candidate before `rtk proxy cairn check`. Preserve baseline failing receipts. Fix any new finding with focused checks before rerunning the aggregate. Record a final independent adversarial review against the candidate and require `cairn wake` Done. Update glossary/recon/handoff to distinguish new observed live behavior from historical fixture evidence. Keep the feature branch/worktree; do not merge or push without instruction.
 
 ## Coverage self-review
@@ -228,7 +228,7 @@ and [decision](../decisions/scope-process-cell-discovery-to-its-native-row.md).
 - [x] Test stale cells and rows, unrelated branches, duplicate and missing
   cells, PID reuse, and exhaustion of the original deadline. Verify the actual
   replay call boundary, then pass independent SPEC and QUALITY reviews.
-- [ ] Run focused native process acceptance and fresh committed aggregate
+- [x] Run focused native process acceptance and fresh committed aggregate
   acceptance. Preserve failed receipts; final review remains pending.
 
 
@@ -247,7 +247,7 @@ and [trace limits](../execution/real-system-readings/diagnostic-publication-trac
 - [x] Verify publication policies, failed replacement, stale revisions,
   and complete JSON; run scoped Rust checks/build, then independent
   specification and quality review.
-- [ ] Run fresh untraced native and committed aggregate acceptance.
+- [x] Run fresh untraced native and committed aggregate acceptance.
   Do not claim the earlier stalled syscall has been identified.
 
 
@@ -264,7 +264,7 @@ during panel discovery. See [observations](../execution/real-system-readings/nat
 - [x] Test valid and malformed boundaries, duplicate sibling panels,
   detached membership, and shared deadline/node bounds. Complete focused
   and full Python checks, then independent SPEC and QUALITY reviews.
-- [ ] Verify fresh native timing and complete committed acceptance.
+- [x] Verify fresh native timing and complete committed acceptance.
   Earlier intermittent freshness failures remain unexplained.
 
 
@@ -279,7 +279,7 @@ See [the observed failure](../execution/real-system-readings/native-cell-gesture
   the final metric call's fresh membership and comparison checks intact.
 - [x] Reproduce the three-step cost failure, test replacement and timeout
   behavior, run focused/full checks, and pass independent reviews.
-- [ ] Verify the native process case and full committed acceptance.
+- [x] Verify the native process case and full committed acceptance.
 
 ### Navigate independently of collector cadence
 
@@ -306,7 +306,7 @@ controlled target remained present. See the judged decision
 - [x] Test lifecycle, unchanged-sequence, freshness, acknowledgement ordering,
   current membership, realistic lookup cost, and deadline cases; run
   focused/full checks and independent reviews.
-- [ ] Run fresh untraced native and full committed acceptance. Earlier
+- [x] Run fresh untraced native and full committed acceptance. Earlier
   intermittent focus, burst, and freshness failures remain unproven.
 
 ### Respect the native application root boundary
@@ -322,7 +322,7 @@ the same way causes repeated complete discovery until timeout.
 - [x] Reproduce actual root semantics and reject missing/replaced/duplicate
   or incomplete registration, wrong PID, and deadline exhaustion. Pass
   focused/full checks and independent SPEC then QUALITY review.
-- [ ] Run fresh untraced native and committed aggregate acceptance.
+- [x] Run fresh untraced native and committed aggregate acceptance.
 
 ### Retain validated membership during pacing retries
 
@@ -338,7 +338,7 @@ the diagnostic stopped at an earlier held-input failure.
   Preserve fresh full uniqueness on final proof retries; reject duplicate
   panels, target loss, PID reuse, transfer, and deadline overruns.
 - [x] Pass focused/full checks and independent SPEC then QUALITY reviews.
-- [ ] Resolve the separate virtualized-selection evidence limitation, then
+- [x] Resolve the separate virtualized-selection evidence limitation, then
   verify actual untraced navigation and full committed acceptance.
 
 ### Observe held movement before subsequent collection
@@ -354,7 +354,7 @@ the failed capture and avoid attributing its cause without evidence.
 - [x] Preserve all movement/freshness budgets, three fresh sequences, exact
   64-key burst count and expected endpoint acknowledgement. Test failures
   as well as ordering and finish independent SPEC then QUALITY review.
-- [ ] Run fresh untraced native and full committed acceptance.
+- [x] Run fresh untraced native and full committed acceptance.
 
 ### Prove selection state at the correct boundary
 
@@ -371,7 +371,7 @@ keeps explicit Home/End recovery and all existing rejection/budget rules.
   further input and within the original five-second deadline. Test this
   rejection without treating unrendered rows as observed.
 - [x] Run relevant Python/Rust checks and independent SPEC then QUALITY review.
-- [ ] Run fresh untraced native and full committed acceptance.
+- [x] Run fresh untraced native and full committed acceptance.
 
 ### Require current panel membership for native exit
 
@@ -386,7 +386,7 @@ panel while the current panel still contained the child. See the recorded
   incomplete membership under the original five-second deadline. Preserve
   newer child-free snapshots and visible-transfer rejection.
 - [x] Pass focused/full checks and independent SPEC then QUALITY review.
-- [ ] Run fresh untraced native and full committed acceptance.
+- [x] Run fresh untraced native and full committed acceptance.
 
 ### Retain both existing input sequence observations
 
@@ -401,7 +401,7 @@ completes the existing held-observation plan without changing its bounds.
   after merging. Preserve three actual distinct sequences, freshness,
   original reads/wait, and all non-input sequences callers. Complete
   focused/full checks and independent SPEC then QUALITY review.
-- [ ] Run fresh untraced native and full committed acceptance.
+- [x] Run fresh untraced native and full committed acceptance.
 
 ### Reveal an endpoint displaced by collection
 
@@ -423,7 +423,7 @@ visibility retries recovered and the separate freshness limit still holds.
   unselected endpoints, foreign selection, identity loss/reuse, stale or
   incomplete membership, and deadline exhaustion. Pass focused/full checks
   and independent SPEC then QUALITY review.
-- [ ] Run fresh untraced native and full committed acceptance.
+- [x] Run fresh untraced native and full committed acceptance.
 
 ### Retain the issued endpoint through final navigation proof
 
@@ -439,7 +439,7 @@ navigation recovery decision. This correction completes that decision.
   Verify index provenance, unchanged-index/original-slot-outside-span
   rejection, and fresh uniqueness after final-proof retries. Run focused/full
   checks and independent SPEC then QUALITY reviews.
-- [ ] Run fresh untraced native process and full committed acceptance.
+- [x] Run fresh untraced native process and full committed acceptance.
 
 ### Distinguish interrupted pending batches from successful endpoints
 
@@ -473,7 +473,7 @@ The old capture stays failed; the new protocol is prospective.
   stale/incomplete/detached/duplicate trees, before-dispatch disappearance,
   late journaling, budget exhaustion and failed recovery acknowledgement.
   Run focused/full checks, then independent SPEC and QUALITY reviews.
-- [ ] Run fresh untraced native process and committed aggregate acceptance;
+- [x] Run fresh untraced native process and committed aggregate acceptance;
   retain actual observation costs and every interrupted batch as unverified.
 
 ### Retain freshness read identity and timing
@@ -524,7 +524,7 @@ bounded nonselecting inspection preparation, not product viewport anchoring.
   incomplete membership, provisional permission reuse, and late dispatch.
   Prove successful metrics alone advance the inspection reference. Run
   focused/full checks, then independent SPEC and QUALITY reviews.
-- [ ] Run fresh untraced process acceptance and full committed acceptance.
+- [x] Run fresh untraced process acceptance and full committed acceptance.
 
 ### Trace diagnostic publication stages without changing acceptance
 
@@ -693,3 +693,9 @@ The [fresh focused run](../execution/real-system-readings/native-prior-visible-e
 passed all sixteen child comparisons, verified exit and held/exact input. It
 exercised inspection recovery under a fifteen-second discovery deadline, without
 intermediate navigation recovery. Full committed acceptance remains in progress.
+
+The [full committed aggregate](../execution/real-system-readings/final-acceptance-pass.md)
+passed 745 tests and all host/native stages; actual Cairn receipts pass all thirteen
+LIVE requirements. Earlier unchecked fresh focused/full verification items are
+now satisfied by the retained current runs, not by reclassifying historical failures.
+Final adversarial review and actual Cairn Done remain in progress.
