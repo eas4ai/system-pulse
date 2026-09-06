@@ -1,0 +1,1456 @@
+{
+  "source_commit": "c5eae7ca384c1c9a32e0d25bb66f39a7fb82bc83",
+  "aggregate_status": "FAIL",
+  "automated_tests": {
+    "python": 338,
+    "rust": 355,
+    "total": 693
+  },
+  "completed_steps": {
+    "source-guard": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py",
+        "--source-guard"
+      ],
+      "seconds": 0.064,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/source-guard.log",
+      "sha256": "5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be"
+    },
+    "python": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "seconds": 17.195,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/python.log",
+      "sha256": "7cfad1a8499c0cf2067e6848d53435ccf81fde93a4d2d7e99570dfb6d9ad18f4",
+      "test_count": 338
+    },
+    "base-dock": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-base",
+        "--lib",
+        "dock::"
+      ],
+      "seconds": 1.368,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/base-dock.log",
+      "sha256": "d04b0f22f41aeafbc2d1dab6080eb66547c99d2a3ff7575f9a9c0e4677ef957c",
+      "test_count": 205
+    },
+    "base-resizable": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-base",
+        "--lib",
+        "resizable::"
+      ],
+      "seconds": 0.365,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/base-resizable.log",
+      "sha256": "a291dfff26f5d7aeb509dbf6f0979c9c394095725cde81e391eca508756ece0d",
+      "test_count": 13
+    },
+    "component-dock": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "dock::"
+      ],
+      "seconds": 0.715,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/component-dock.log",
+      "sha256": "198904d69d4ea50a523a149f3f1b1a866a093034afe1ce0c2c5d1ac083a44056",
+      "test_count": 19
+    },
+    "model": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse-model"
+      ],
+      "seconds": 0.615,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/model.log",
+      "sha256": "325fccd7d676261c649e5bc83b6f4b3ded3e8cd5f4e35a18defd21df66f9e89f",
+      "test_count": 24
+    },
+    "app": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib"
+      ],
+      "seconds": 1.166,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/app.log",
+      "sha256": "69db1e807daa9616ad2048e6c7cab585cc872c73eb1c04eef565a4733a4b5134",
+      "test_count": 49
+    },
+    "collectors": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse-collectors"
+      ],
+      "seconds": 1.017,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/collectors.log",
+      "sha256": "c23858866883c737c085fce156f108a728b30718e8c73baec89375e63ec5ec64",
+      "test_count": 43
+    },
+    "atspi": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "accesskit_atspi_common",
+        "--lib"
+      ],
+      "seconds": 0.566,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/atspi.log",
+      "sha256": "9f90f9d3d88299919c53f7ec6d21d7cc4e21c130d39e5b38bd98bc7a37d401fc",
+      "test_count": 2
+    },
+    "fmt": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "-p",
+        "gpui-base",
+        "-p",
+        "gpui-component",
+        "-p",
+        "system-pulse-model",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "--",
+        "--check"
+      ],
+      "seconds": 1.618,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fmt-atspi": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "vendor/accesskit_atspi_common/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "seconds": 0.065,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/fmt-atspi.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "clippy": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "gpui-base",
+        "-p",
+        "gpui-component",
+        "-p",
+        "system-pulse-model",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "-p",
+        "accesskit_atspi_common",
+        "--all-targets",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "seconds": 5.778,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/clippy.log",
+      "sha256": "00e9f9f683f7543da424f68faa9384b5d8a829138137ed4ba9728866342281d7"
+    },
+    "build": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "--bins"
+      ],
+      "seconds": 0.415,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/build.log",
+      "sha256": "a178c7902ac24dda0e2c0cd4cf0e47a2a6976ef30481cb4015f2f71620380d8b"
+    },
+    "diff": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "seconds": 0.016,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/diff.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/host_capture.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/pulse-snapshot"
+      ],
+      "seconds": 6.076,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host.log",
+      "sha256": "58106bbcff5ce269339628da4dac12ae14943af977fc1f668798a4ebe188d0a2"
+    },
+    "native": {
+      "exit_code": 1,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/native_replay.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse"
+      ],
+      "seconds": 127.681,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native.log",
+      "sha256": "c75e9633933e8107493e0db5b1457afc7fb2d78ef8c81edb74f56b6b926f19c9"
+    }
+  },
+  "native_result": {
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.197s (limit 2.0s)"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": null,
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "stale": {
+    "checked_unix_ns": 1788661094682613962,
+    "age_seconds": 2.197136708,
+    "limit_seconds": 2.0,
+    "observation": {
+      "opened_file": {
+        "device": 66318,
+        "inode": 222692645
+      },
+      "pathname_before_check": {
+        "device": 66318,
+        "inode": 222692644
+      },
+      "errors": {},
+      "read_started_monotonic_ns": 745328747510219,
+      "read_completed_monotonic_ns": 745328751312952,
+      "parse_completed_monotonic_ns": 745328774700475,
+      "age_checked_monotonic_ns": 745328775207966
+    }
+  },
+  "stale_publication": {
+    "application_pid": 4008058,
+    "accepted_unix_ns": 1788661092485477254,
+    "render_revision": 124,
+    "rendered_at_collector_ms": 124245
+  },
+  "stale_snapshot_sequence": 125,
+  "metrics": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-0.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-1.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-2.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-3.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-4.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-5.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-6.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-7.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": false,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-left.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-1.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-2.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-3.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-4.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-5.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-6.json",
+      "keys": [
+        "entry",
+        "bounds",
+        "clip_ancestors",
+        "visible",
+        "attempts",
+        "frame",
+        "after_metadata"
+      ],
+      "label": null,
+      "visible": true,
+      "stable": null
+    }
+  ],
+  "metadata": {
+    "application_pid": 4008058,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "proc_exe_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "source_commit": "c5eae7ca384c1c9a32e0d25bb66f39a7fb82bc83",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "cleanup": [
+    {
+      "pid": 4008058,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 4008029,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "artifacts": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/cairn.log",
+      "bytes": 1109,
+      "sha256": "b523709b458f0e3a065cfa6b79e2a0bcc729e80daa2f3828d2db9e8dbcb47fd0"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/app.log",
+      "bytes": 4707,
+      "sha256": "69db1e807daa9616ad2048e6c7cab585cc872c73eb1c04eef565a4733a4b5134"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/atspi.log",
+      "bytes": 467,
+      "sha256": "9f90f9d3d88299919c53f7ec6d21d7cc4e21c130d39e5b38bd98bc7a37d401fc"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/base-dock.log",
+      "bytes": 18235,
+      "sha256": "d04b0f22f41aeafbc2d1dab6080eb66547c99d2a3ff7575f9a9c0e4677ef957c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/base-resizable.log",
+      "bytes": 1481,
+      "sha256": "a291dfff26f5d7aeb509dbf6f0979c9c394095725cde81e391eca508756ece0d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/build.log",
+      "bytes": 72,
+      "sha256": "a178c7902ac24dda0e2c0cd4cf0e47a2a6976ef30481cb4015f2f71620380d8b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/clippy.log",
+      "bytes": 842,
+      "sha256": "00e9f9f683f7543da424f68faa9384b5d8a829138137ed4ba9728866342281d7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/collectors.log",
+      "bytes": 4125,
+      "sha256": "c23858866883c737c085fce156f108a728b30718e8c73baec89375e63ec5ec64"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/component-dock.log",
+      "bytes": 1860,
+      "sha256": "198904d69d4ea50a523a149f3f1b1a866a093034afe1ce0c2c5d1ac083a44056"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/failure.json",
+      "bytes": 9142,
+      "sha256": "39021b66c5a6148a4b2a2c7e85054de8270d5d46495bb241c16ab50d94a2a410"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/fmt-atspi.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/after-exit.jsonl",
+      "bytes": 2754932,
+      "sha256": "342a7655da8e642a21c383537b2087c3293aa8843e4f0281d5b37140399ce764"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/capabilities.json",
+      "bytes": 424103,
+      "sha256": "744809eff08412531b67f4ff0aec6ace02a79c5d3b2d1b2303b51d8e8855dd74"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/child.json",
+      "bytes": 15647,
+      "sha256": "97ede19d232dad48717267e4fd17722a2ff90529909f42031d1e9a38674ebd2e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/cleanup.json",
+      "bytes": 192,
+      "sha256": "d71fc54d71d1d52e725a9dd115072791672972794737d9e4f2e5318a236a1e1c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/collector-exec-gate",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/collector-lifecycle.json",
+      "bytes": 2714,
+      "sha256": "962ed84467f1466cbfe560a7ca55993ced615a396c2c38c2db6d2517bf73f796"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/collector-start.json",
+      "bytes": 699,
+      "sha256": "49dc26f965c54fb6413a814e09050ee15dd4b40b4fae2b7c6d6bda9af855088a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/collector-stopped.json",
+      "bytes": 711,
+      "sha256": "19db861a8d369083a3a2897bf8ac009f19fc2c718ffae819ef070e207e3c4267"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/collector.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/counter-brackets.json",
+      "bytes": 21307503,
+      "sha256": "f8b46e54a81015248695c4f64458abfb42584be8752d04c839a6404a9e5b7a5a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/external-observations.json",
+      "bytes": 25627121,
+      "sha256": "5d8801eab69ea47aa46fbb1afeec860266164deeb4caba8d430083e979049e88"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/final-inventory.json",
+      "bytes": 424036,
+      "sha256": "4ccfb18db6fe85025d0e60aee4927aff40e811b3ad3cdce2ab59c033aba1da1c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/missing-brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/process-coverage.json",
+      "bytes": 3710,
+      "sha256": "cebcd4004f97132cec5fff7b9cfc69f3011031d21b02d68f92c99e70e2378fec"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/process-policy.json",
+      "bytes": 712,
+      "sha256": "f7c35b172089ef52776b202573882f082118ec3b7a2c3a06d008fae1e3ee49d7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/result.json",
+      "bytes": 741,
+      "sha256": "eb955572c03ddd4521544044e1badc288a90d0800401e9b77883368cb280c9f1"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/snapshots.jsonl",
+      "bytes": 12217165,
+      "sha256": "8bda4879a0dab458525cde27dba133d7dd123c68ce5de7b7026c5cffb8e0e41b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/stable-totals.json",
+      "bytes": 310098,
+      "sha256": "19c178b6a1975500778a58a102cd6780e76c35f4095fc150ace0b65182fe5581"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host/unverified-exit-gaps.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/host.log",
+      "bytes": 624,
+      "sha256": "58106bbcff5ce269339628da4dac12ae14943af977fc1f668798a4ebe188d0a2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/model.log",
+      "bytes": 2730,
+      "sha256": "325fccd7d676261c649e5bc83b6f4b3ded3e8cd5f4e35a18defd21df66f9e89f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/acceptance.py",
+      "bytes": 21305,
+      "sha256": "58533d2ff695e4cd5c2e7b752b777eb5fd33366914bc51465100dd354c986305"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/host_capture.py",
+      "bytes": 65140,
+      "sha256": "6669acafb71601ba200149547d5832f527a10f6e6672ae256f76222917e90d76"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/native_contract.py",
+      "bytes": 5759,
+      "sha256": "25daddd3e7868321593143dca3943443c7d823d21850f96c91c18b0e1e697050"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/native_driver.py",
+      "bytes": 76833,
+      "sha256": "c9c72b6a213e3a0fdc71d3781cf7ebfbb77d00b2ff34e9269a4b295da1d1bc73"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/native_input.py",
+      "bytes": 3150,
+      "sha256": "13733c81d15ffcf292aa5c62797dda8aa8d6c0bad9696f3c3a50e392d782e0e4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/native_pending.py",
+      "bytes": 3733,
+      "sha256": "be237c80c0051c6d71a13e1ea7b7196cfc3ae3338d5508d68a8c3644de6b217e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/native_replay.py",
+      "bytes": 43005,
+      "sha256": "52ac95de7d84d67c72fb89f044086a4ce6d76c393d29d75419ee82b6e4a04c23"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/process_evidence.py",
+      "bytes": 7674,
+      "sha256": "651d64bbbcea5ee9c2b8ea214bb7c33ca5aec30004c172122273aec7ce682c37"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_acceptance.py",
+      "bytes": 5546,
+      "sha256": "289d827ec1e3e08d62eeaa0298dc1110bc7060cfda4ebaec1455cca0a8f4e08f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_capture_stream.py",
+      "bytes": 3707,
+      "sha256": "a135ba58e93b15eb484047f7c6792d2de26f39e19f2e90b64cb7174b225b4657"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_host_accuracy.py",
+      "bytes": 12236,
+      "sha256": "938a0806e144f4ec64b6e401712d8ea2f490a28adee6f3dc4a87e905f596ddb9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_host_inventory.py",
+      "bytes": 12649,
+      "sha256": "f9a90584f97efe408fefde2331ccd312f958fa7aa5a992285e0fff710f157712"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_missing_device_specimen.py",
+      "bytes": 5845,
+      "sha256": "fd381c97f8c9a159eedaac00cb4616f1a1b787f1fbab234bed2e1a5481c5099a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_cells.py",
+      "bytes": 22879,
+      "sha256": "73d80f4b8189eb6e624b4bf8b3e4647890cb2675e0b19069e9be44ab180cd2d9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_cleanup.py",
+      "bytes": 3648,
+      "sha256": "b666c065a66a3fbe4b00779f57029a37f349c42d3efbca920321e831a5c77779"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_exit.py",
+      "bytes": 15658,
+      "sha256": "f420c38e56f55c17b979bab4d936d605574b88568ce567eaf86482837158807b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_frame.py",
+      "bytes": 12153,
+      "sha256": "b0a76c5e1528eb35d877df3e2bdda6a8b5e3b2baf66883278b893c70242b184c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_input.py",
+      "bytes": 13781,
+      "sha256": "666feab12e4b8f473e43fd9f8ead85dbe11d58e13dbde0df0d9a4d8e0ea577a1"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_inspection.py",
+      "bytes": 33394,
+      "sha256": "b9eb370cd168fc5749951bd347ae0ba2844eb390ebd9bdb888821e20c1d5f3d8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_navigation.py",
+      "bytes": 56495,
+      "sha256": "44096de900153a11868a89f3096669ec73c7fb2bb81b26b695642f1812e5e93c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_native_pending_endpoint.py",
+      "bytes": 35029,
+      "sha256": "bc73dc6888f307580cf301181ffa4423b8f20c310da55b811e08e5455f027c92"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_process_attribution.py",
+      "bytes": 5852,
+      "sha256": "687b207d8df6731b97f286620e2f3b220a56ed88e4546e0889b93325d86f37ea"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_process_coverage_gate.py",
+      "bytes": 6962,
+      "sha256": "fdd81057df64202ff30418a432296a964aed42eed99d172cb13c701eadd89bf6"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_process_exit_policy.py",
+      "bytes": 14985,
+      "sha256": "3e8c9378fd0c389f7f8edc5cb3982d1500173f68f8765af955d1067348005d1c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_requirement_verdicts.py",
+      "bytes": 17862,
+      "sha256": "cd734cc36411f5a2ac4bba80daacfda0a2f5d7a508f10fbc48c9fd6e1155aaed"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/test_supplemental_processes.py",
+      "bytes": 14114,
+      "sha256": "aa810c563fb01fb83c26fe91a8b7bff056950a18a93bc37959b07fabfa32972f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness/verify.py",
+      "bytes": 482,
+      "sha256": "2d7db9f4cb6e76af895b0ff5b18c43d4066a11755d5ee26bde1f65df407ba236"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/harness-manifest.json",
+      "bytes": 2665,
+      "sha256": "bef0a50374b4954c9b1234ce414e3035ff1cd618a0777c63c030d2aee1c53769"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/private-session.json",
+      "bytes": 685,
+      "sha256": "53678e60d680faf34b94551cfd81005cc7ecd21854c55cbf0b889cade2f6e034"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/private-session.log",
+      "bytes": 7075,
+      "sha256": "e1a257c2b089c6baa4317f964a26f0850333148d7be6e82f85e528c8d2db496b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/progress.jsonl",
+      "bytes": 884,
+      "sha256": "9d8796aea69d9abcad4e8d990f0bb9bb563a02abefd877fa8d189d28de35ae7d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/result.json",
+      "bytes": 656,
+      "sha256": "ff53c054dddab035c96cca8a5e84f8058010f1eac0e47569b667b354cc3d0f8c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/application.log",
+      "bytes": 467,
+      "sha256": "6eec87856ec855557c2edfd7f8097586ee431ad5f6fd33ddaad3b2b6061f4243"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/chart-history-evidence.json",
+      "bytes": 524,
+      "sha256": "7155e0ff52abb359117e2678953a887e53f2ab3dd425ceafa53458dc22d2a3e1"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/chart-physical-value-ancestors.json",
+      "bytes": 647,
+      "sha256": "87df6ded1cd041372739eef99f6b00892100134c0033dc8f6a283e2f379af4cb"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/chart-physical-value.json",
+      "bytes": 10188031,
+      "sha256": "90acff23be460be432f545bd31a40aa86564f478321a6c11cf7d020de1618385"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/chart-physical-value.png",
+      "bytes": 120278,
+      "sha256": "46489ca1d6c1c657b81ab4c6a6c1962b98471a620bbd7c29355cc068a422e86d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-0-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5f67bf8de5b7011a5cf183c06fcde62932694287d090c5730f6306846bc2844c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-0.json",
+      "bytes": 10159262,
+      "sha256": "3163f711f434a98b292941ff7f813608ff30875a8c86387c4b9841b40833b6be"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-1-ancestors.json",
+      "bytes": 1151,
+      "sha256": "de4259bd74793bb64beb64d2a8101bfebe07bb3c20e940f37da13e1770a66c93"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-1.json",
+      "bytes": 10217454,
+      "sha256": "ae1d6501c104f9bdd5f7fb30b0cc016c397d6312332939fb2e5f9d0eeaca4220"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-2-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5f67bf8de5b7011a5cf183c06fcde62932694287d090c5730f6306846bc2844c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-2.json",
+      "bytes": 10176924,
+      "sha256": "bffe02c42ac22c3dc7158872aede5ab6b9c9f83ef113dd434e2dbee91c505749"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-3-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5f67bf8de5b7011a5cf183c06fcde62932694287d090c5730f6306846bc2844c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-3.json",
+      "bytes": 10177390,
+      "sha256": "90a3495e94110a85ba68a27c4be796d22d6cf96e81dfe51724eb2ff361f80977"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-4-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5f67bf8de5b7011a5cf183c06fcde62932694287d090c5730f6306846bc2844c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-4.json",
+      "bytes": 10176516,
+      "sha256": "7e24a7b6d8f5d73719cdc40abca863ad7b107c548957d04331a16a8ad69f6092"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-5-ancestors.json",
+      "bytes": 1151,
+      "sha256": "4a79b91627c4b8024f0859a75c01273085ab0b9f3d75bc545864010a9e991037"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-5.json",
+      "bytes": 10176695,
+      "sha256": "cdffa40cdfb53b8f778839bb0dfdf0d27b35097c9f3a3af273a3b1edd949e8c9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-6-ancestors.json",
+      "bytes": 1151,
+      "sha256": "3910bc97167ab8616c7bfe8df99afb94cf855a441c36ea0ae5209e0536729266"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-6.json",
+      "bytes": 10188709,
+      "sha256": "de619880bcc8e7964dc48603a2d8631fd818073f46680fc2bb4d9aae80f18279"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-7-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5f67bf8de5b7011a5cf183c06fcde62932694287d090c5730f6306846bc2844c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-cell-7.json",
+      "bytes": 10177651,
+      "sha256": "5377ca5595e0e137944c03ce64d919266a690ad94bc01cf0a6ab5fa409b2f8a4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-left-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5f67bf8de5b7011a5cf183c06fcde62932694287d090c5730f6306846bc2844c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-left.json",
+      "bytes": 10177249,
+      "sha256": "7b7b4bb7a4e6e3eaa12f0c1186a590b9490506c8cf3411299331f1165d8ca2b5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-left.png",
+      "bytes": 168008,
+      "sha256": "d7b28190596cee0720093b4e70010cf08055da355924d43a9b24daffbb7aa233"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-right-ancestors.json",
+      "bytes": 1160,
+      "sha256": "4d91654e5e671a5cc485e6a3a093da34dc1553b3e1e3a04598447aecf3644cdf"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-1-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5af2923bdbfa3da995fd1d706abba51796663476662376c520c1c12c50365c95"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-1.json",
+      "bytes": 10177650,
+      "sha256": "dc2fdcc42a8781e75a52bea0a4097fa21118913ba59ac91c6e945c16d821914d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-1.png",
+      "bytes": 169139,
+      "sha256": "c5075197da244555575966495832361c714f25f1930e5d7239ab033a5f7f6dd8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-2-ancestors.json",
+      "bytes": 1151,
+      "sha256": "eea504e83b9ebae6b70a73e33c4e1787426b15335eae3e5e6a382cf0fb3def92"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-2.json",
+      "bytes": 10172238,
+      "sha256": "951f75fa7b64c71bb41c0272a805d251720eadbacab2fea4970ade09fa41bffd"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-2.png",
+      "bytes": 167531,
+      "sha256": "5f3c22ce9d3821b909f5e69c4ca415ba1e4e69da2421dbcf3b3953b100278da8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-3-ancestors.json",
+      "bytes": 1151,
+      "sha256": "b10453ccb74d19a64ca1f436a8fd6dfe2518c6a0921e23a12bd6695b228636d9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-3.json",
+      "bytes": 10182651,
+      "sha256": "c252f0097a86d152a35b16f133d0af6855bb8f26a88791b765bb16411cd91683"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-3.png",
+      "bytes": 173892,
+      "sha256": "12fb501b6192d1acdc55eaff68fd7e2a4089f8d6da7c4eea8ed8ded60e7928e5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-4-ancestors.json",
+      "bytes": 1151,
+      "sha256": "eea504e83b9ebae6b70a73e33c4e1787426b15335eae3e5e6a382cf0fb3def92"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-4.json",
+      "bytes": 10170915,
+      "sha256": "16f21826ad3cdd35afbf9dfcdcb160798ffc9691cb2f31d1381e998b3354b736"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-4.png",
+      "bytes": 167531,
+      "sha256": "5f3c22ce9d3821b909f5e69c4ca415ba1e4e69da2421dbcf3b3953b100278da8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-5-ancestors.json",
+      "bytes": 1160,
+      "sha256": "c7ac9840552c4cc709ed460c9389fcc06ff56beb15e56f1496cdf4fdc7cc9e9e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-5.json",
+      "bytes": 10215435,
+      "sha256": "d8a858b51d5dbc236750d33a183598865fef3bfc2a0a2999a9d8e37ca23850f8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-5.png",
+      "bytes": 145221,
+      "sha256": "c775472f717c1ff8f9d8f72b00909fc4fa0b7048604cdd44ddd93fa4054ab02d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-6-ancestors.json",
+      "bytes": 1160,
+      "sha256": "a6f36bf85dcb3f7a7f6f69ced56bf5fe0eba06448af61042e85f96fe3b7c57d3"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-6.json",
+      "bytes": 10169915,
+      "sha256": "e9d2701654b892fe24b09e374fc140b08c3951faaa735547124d96731fd9a688"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/child-visible-6.png",
+      "bytes": 149705,
+      "sha256": "fdb545c92bba49884cf5f9657105d2d0e9ec48cc227ab33387b9ade500f59a07"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/cleanup.json",
+      "bytes": 78,
+      "sha256": "8253a74d1b206f764fddf14c7c2bc516e1c744932f1def85771ff0409e02273f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/collapse-after-state.json",
+      "bytes": 540151,
+      "sha256": "1309b09189489b5ec5d3a52874463c6ac7f7dca56ef487264a3bd11aa8b6a752"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/collapse-baseline-state.json",
+      "bytes": 540154,
+      "sha256": "0b1211a3f49042e4c18d03448481a2ba52334565ae4302d5af05fbb740e0ac04"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/collapsed-sequences.json",
+      "bytes": 293,
+      "sha256": "cb117eac0612aa1823601d140018b5a0c1389b582886f52145bdc3d224c4a36f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/cpu-visible-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/cpu-visible.json",
+      "bytes": 10087726,
+      "sha256": "032adc2cba184a52dd06063561ad9258cc2a59c7ff14ea42474fdc10482736a4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/cpu-visible.png",
+      "bytes": 130483,
+      "sha256": "3c9be7ba4d810d7afc0acff0736eacc8b32d252be92afe6c66bee7480c72de37"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/exact-64-up.json",
+      "bytes": 1592,
+      "sha256": "24d49c783d7799606229f85d97eb819fc3c19d020a1ac04929acd27b70b959dc"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/expanded-chart.png",
+      "bytes": 120278,
+      "sha256": "46489ca1d6c1c657b81ab4c6a6c1962b98471a620bbd7c29355cc068a422e86d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/failure-frame.json",
+      "bytes": 9523533,
+      "sha256": "c14a427381e9b70e6a655e2d6444ce03d89d9fe1445a7e6ceb53397e1dfa49d4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/failure-panels.json",
+      "bytes": 175,
+      "sha256": "e4bb11a4fe98addd25b7368cecfabb503c9e55ed75954c2b18dc6789be3100e5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/failure.png",
+      "bytes": 152871,
+      "sha256": "a947fefb90daaf5de9dfd2c8b930100b74ce7d7e2bf9e3f90c4cda3b98befc97"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "b9afa03f194da6d2a4b63dc53e5b9e406d2fb8234147d08f6fb1c9fed0570f06"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-temperature-chart.png",
+      "bytes": 114589,
+      "sha256": "93247d8a7a14a0ea869c5f7e58a3d70f7dd535509609b8437bc8937d89b0f2aa"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-temperature.json",
+      "bytes": 10149956,
+      "sha256": "0071e41a064871c0dcea753f9a8e66e77d19c06c954902dc13779270554c2994"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-temperature.png",
+      "bytes": 114589,
+      "sha256": "93247d8a7a14a0ea869c5f7e58a3d70f7dd535509609b8437bc8937d89b0f2aa"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "e5cad9bf55a336895151bf8a25123e2ed019c84453d81f272d8dc6134d2a7585"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-visible.json",
+      "bytes": 10095599,
+      "sha256": "f8503e821667704418073c84b0d27cc44937f39ae1b632712c337019aeb6089e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-0-visible.png",
+      "bytes": 130634,
+      "sha256": "f4116cee50058cba813c255daf47b014ab2938ea60d29fe422c31ea094497a31"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "0ca4a9d8c580ccf374a37b170ab5804903336fa3cb54f12b9048d7d502577639"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-temperature-chart.png",
+      "bytes": 124956,
+      "sha256": "91b62235415736d902e298172b96bfce550f1619b0a636179527f921188089d5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-temperature.json",
+      "bytes": 10157696,
+      "sha256": "c6b00b532c8952d2dcf92872ca6ae6571776a193c31af8cd8d1befd05ef04393"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-temperature.png",
+      "bytes": 124956,
+      "sha256": "91b62235415736d902e298172b96bfce550f1619b0a636179527f921188089d5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "417e27a7eb1af4cd6663cd1a5676eabf2d0efcbf4030ab82d0366027cbf30fe5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-visible.json",
+      "bytes": 10111937,
+      "sha256": "9719fd706a0eefe85c8b4d39755ad4047921e73381b161bccdbc24e058fbf087"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/gpu-1-visible.png",
+      "bytes": 135476,
+      "sha256": "6df110490a9ba4f48591ea689317cb7787467cd56f8b930a106360f7b688ea95"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/held-table-left.json",
+      "bytes": 3924,
+      "sha256": "130eabcf6188f5ee0b68535973bdc7fecf3f609798ce2d39fbe11e1fb8133574"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/held-table-right.json",
+      "bytes": 3871,
+      "sha256": "58dbe7ff78293832bac53d2db79c23bd3bcf9b024a5b744fa47be531b8b80c1e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/held-up-25hz.json",
+      "bytes": 3672,
+      "sha256": "1ce504bb3ca59d7d2956d1b2ab1ceb6f6230e6b8dfe66ae9cceb17f84f47bbf6"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/inner-edge-wheel.json",
+      "bytes": 211,
+      "sha256": "905788f5ac9bcee740cf651a64db027e08d9bca9d909f16fc3bf83740b6377e7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/inner-scroll.png",
+      "bytes": 179800,
+      "sha256": "b4b8e354dcf71b246e6cc7de8ad50c7570108683cf398c694d2798dd1aa88a7e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/journal.jsonl",
+      "bytes": 59705,
+      "sha256": "72a63728d0a91e39eb2c335aa7087c0ef42727a551a40ea3bba119fd8721a6f1"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/latest.json",
+      "bytes": 5927638,
+      "sha256": "8a6cf14edba66a4e24f4b056182f349eacd5340e2b2920e517b1e0016a071db5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/launch-no-tabs.png",
+      "bytes": 179587,
+      "sha256": "cd97772a555e80a3f453e32825641ad9cbee0670b1e0f1b1f181359876b9a1fe"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/metadata.json",
+      "bytes": 702,
+      "sha256": "c9a76d82564e20545a0f6cb5d30fd8d9d8a003cf37c68a74115f04fcb56d04d3"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/navigation-start-process-1-31.json",
+      "bytes": 37783,
+      "sha256": "ba8bc4a0d02e33c0bde08906f532aa6a01f7b5456861e756967e35c295f86dd0"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/navigation-start-process-4019314-74529488.json",
+      "bytes": 37830,
+      "sha256": "dfb97722ec4b9091a110a34baa20f5cc8049fb4c5d49aac23e833a0b2ab867fb"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/panel-compact-ancestors.json",
+      "bytes": 505,
+      "sha256": "bbf411cfc45495e74006fe22853bdcf30907f7c3d5506f0049f03f22f6fff7aa"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/panel-compact.json",
+      "bytes": 10203228,
+      "sha256": "6a2f6970ec23361a07f53121dbd459cb80131d4be9fe09db23918a608295a03c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/panel-compact.png",
+      "bytes": 126649,
+      "sha256": "b700d1c711cd3e594aa533fc436aa7ae654475f94493749c6eae2de6df8b3873"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-capacity-ancestors.json",
+      "bytes": 653,
+      "sha256": "61c6c0f61b9bc96cd73b64451d29534bc842d142f2bc952d7cf9fcf582cb9041"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-capacity-chart.png",
+      "bytes": 114068,
+      "sha256": "8d800c01ac97abab7152c95969a29bbb5337267bcd4140057538f48f72c9279f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-capacity.json",
+      "bytes": 10181839,
+      "sha256": "44215e67953e2496b4f4ee8a01e31d605265acd7ceed1f62272a215a31f77e68"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-capacity.png",
+      "bytes": 114068,
+      "sha256": "8d800c01ac97abab7152c95969a29bbb5337267bcd4140057538f48f72c9279f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-visible-ancestors.json",
+      "bytes": 509,
+      "sha256": "ae8675b5c7f22f47eff16f96e2b178627ec135f58c6caffc1e6901e6aaeec67c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-visible.json",
+      "bytes": 10106797,
+      "sha256": "40634231c98ad0a0dadabc199525f0958867ae5aa9154cec32784ca61e75a8e4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/ram-visible.png",
+      "bytes": 130586,
+      "sha256": "4459b8492c9cc8523a56c6398538698f59ef6e89823188da07d4496d54e14909"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/real-child-cell-discovery.json",
+      "bytes": 623,
+      "sha256": "af54714cdf555a3bda3ef7c79c4f61442b97e52ad54d638ccd42cbdebe33f308"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/real-child-start.json",
+      "bytes": 835,
+      "sha256": "d921de3712b360bc84b726d7519fc68d0c3b924c2d8e315187e10708789b82e3"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/row-compact-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/row-compact.json",
+      "bytes": 10177562,
+      "sha256": "a95aad574ed6360b9527f109995773df30a6aa369381b1b31aadb5325f837be7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/row-compact.png",
+      "bytes": 129793,
+      "sha256": "1d1f53f8d5272c56bd8f1fde2721c04350c266dc122f17d14e25ac02b93bfbeb"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/session-01/stale-frame-745328775207966.json",
+      "bytes": 10163628,
+      "sha256": "2ae37bd01b325244a52b117bd23344583919d0a0443dadc28fae6171df21ae45"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/state/workspace.json",
+      "bytes": 540152,
+      "sha256": "8907e4b55092a21badf5c0e3553cfc982980da97f23922d936542399f7417ef4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native/transport-cleanup.json",
+      "bytes": 102,
+      "sha256": "c65989b751138e986fb0c26343cafa59ed79ce38ca846cb9231f67cedab38a8b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native.log",
+      "bytes": 1841,
+      "sha256": "c75e9633933e8107493e0db5b1457afc7fb2d78ef8c81edb74f56b6b926f19c9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/progress.jsonl",
+      "bytes": 9386,
+      "sha256": "32758349d996683abe2a0160f901a457ad5b8339165d1bc395c09c5ea8af8c97"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/python.log",
+      "bytes": 54983,
+      "sha256": "7cfad1a8499c0cf2067e6848d53435ccf81fde93a4d2d7e99570dfb6d9ad18f4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/source-guard.log",
+      "bytes": 62,
+      "sha256": "5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be"
+    }
+  ]
+}
