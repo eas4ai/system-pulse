@@ -506,6 +506,183 @@ class NavigationTests(unittest.TestCase):
         self.assertEqual(recovery["eligibility_index"], 0)
         self.assertEqual(recovery["eligibility_span"], [2, 4])
 
+    def final_navigation_shift(self, current_index=1, span_start=2, ack_index=2):
+        """Shift only on entry to real final proof, after the batch was acknowledged."""
+        self.displaced_endpoint()
+        self.ids = [aid(pid) for pid in range(20)]
+        self.visible_ids = list(self.ids)
+        self.selection = None
+        self.target = self.endpoint = aid(2)
+        self.final_entry = None
+        self.final_frame = None
+        self.acknowledged = Mock()
+        self.native.navigation_context = {}
+        key = self.native.key
+
+        def issued(value):
+            key(value)
+            if self.pending[1] == self.target and ack_index != 2:
+                self.ids.remove(self.target)
+                self.ids.insert(ack_index, self.target)
+                self.visible_ids = list(self.ids)
+                self.sequence += 1
+
+        self.native.key = issued
+        self.native.wheel.side_effect = lambda point, down, *, deadline: setattr(
+            self, "visible_ids", list(self.ids)
+        )
+        observe = self.native.navigation_selection
+
+        def final_shift(*args, **kwargs):
+            final = kwargs.get("fresh_panel", False)
+            if final:
+                self.assertIsNone(self.final_entry)
+                self.assertEqual(self.selection, [self.target])
+                self.assertEqual(self.ids.index(self.target), ack_index)
+                self.assertTrue(
+                    any(
+                        e[0] == "ack" and e[1]["condition"] == "selected " + self.target
+                        for e in self.events
+                    )
+                )
+                self.final_entry = (args, kwargs, self.clock.now)
+                self.ids.remove(self.target)
+                self.ids.insert(current_index, self.target)
+                self.visible_ids = self.ids[span_start : span_start + 3]
+                self.sequence += 1
+                self.revision += 1
+            result = observe(*args, **kwargs)
+            if final:
+                self.final_frame = result[1]
+            return result
+
+        self.native.navigation_selection = final_shift
+
+    def test_final_navigation_reveal_retains_issued_index_and_exports_current_proof(
+        self,
+    ):
+        # The intermediate ACK can itself be at a different index from key issue.
+        for ack_index in (2, 3):
+            with self.subTest(ack_index=ack_index):
+                self.setUp()
+                self.final_navigation_shift(ack_index=ack_index)
+                result = self.native._navigate(
+                    self.target, 180, on_acknowledged=self.acknowledged
+                )
+                self.assertEqual(result[0], self.target)
+                args, kwargs, started = self.final_entry
+                self.assertEqual(args, (self.target, self.target, 9))
+                self.assertEqual(started, 1)
+                self.assertEqual(kwargs["endpoint_index"], 2)
+                self.assertTrue(kwargs["reconcile"])
+                self.assertTrue(kwargs["fresh_panel"])
+                self.assertEqual(
+                    [e[1] for e in self.events if e[0] == "key"],
+                    ["Home", "Down", "Down"],
+                )
+                self.native.wheel.assert_called_once_with(
+                    [400, 360], down=False, deadline=9
+                )
+                recovery = next(
+                    e[1] for e in self.events if e[0] == "navigation-endpoint-reveal"
+                )
+                self.assertEqual(recovery["original_index"], 2)
+                self.assertEqual(recovery["eligibility_index"], 1)
+                self.assertEqual(recovery["eligibility_span"], [2, 4])
+                final = self.final_frame
+                self.acknowledged.assert_called_once_with(
+                    {
+                        "target": self.target,
+                        "index": 1,
+                        "publication": {
+                            "sequence": final["snapshot"]["sequence"],
+                            **{
+                                key: final[key]
+                                for key in (
+                                    "application_pid",
+                                    "render_revision",
+                                    "accepted_unix_ns",
+                                )
+                            },
+                        },
+                    }
+                )
+                self.assertEqual(self.clock.now, 1.75)
+
+    def test_final_navigation_rejects_unchanged_index_and_original_slot_outside_span(
+        self,
+    ):
+        for current_index in (2, 1):
+            with self.subTest(current_index=current_index):
+                self.setUp()
+                self.final_navigation_shift(current_index=current_index, span_start=3)
+                with self.assertRaises(TimeoutError):
+                    self.native._navigate(
+                        self.target, 180, on_acknowledged=self.acknowledged
+                    )
+                self.assertEqual(self.final_entry[0][2], 9)
+                self.assertEqual(self.clock.now, 9)
+                self.native.wheel.assert_not_called()
+                self.acknowledged.assert_not_called()
+
+    def test_final_navigation_rejected_scan_rechecks_freshness_uniqueness_and_membership(
+        self,
+    ):
+        for invalid in ("duplicate", "detached", "stale"):
+            with self.subTest(invalid=invalid):
+                self.setUp()
+                self.final_navigation_shift()
+                selected = self.native.selected
+                rejected = []
+
+                def reject(*args, **kwargs):
+                    result = selected(*args, **kwargs)
+                    if self.final_entry and not rejected:
+                        rejected.append(self.native.navigation_panel.call_count)
+                        self.sequence += 1
+                        if invalid == "duplicate":
+                            extra = Node(self.clock, name="processes")
+                            self.root.children = lambda: [self.panel, extra]
+                        elif invalid == "detached":
+                            self.root.children = lambda: []
+                        else:
+                            self.stale = True
+                    return result
+
+                self.native.selected = reject
+                error = {
+                    "duplicate": "nonunique native Processes panel",
+                    "detached": "Processes panel absent",
+                    "stale": "accepted frame stale",
+                }[invalid]
+                with self.assertRaisesRegex((AssertionError, TimeoutError), error):
+                    self.native._navigate(
+                        self.target, 180, on_acknowledged=self.acknowledged
+                    )
+                self.assertEqual(len(rejected), 1)
+                if invalid != "stale":
+                    self.assertGreater(
+                        self.native.navigation_panel.call_count, rejected[0]
+                    )
+                self.native.wheel.assert_not_called()
+                self.acknowledged.assert_not_called()
+                self.assertLessEqual(self.clock.now, 9)
+
+    def test_final_navigation_reveal_still_requires_unique_panel_after_wheel(self):
+        self.final_navigation_shift()
+        reveal = self.native.wheel.side_effect
+
+        def duplicate(*args, **kwargs):
+            reveal(*args, **kwargs)
+            extra = Node(self.clock, name="processes")
+            self.root.children = lambda: [self.panel, extra]
+
+        self.native.wheel.side_effect = duplicate
+        with self.assertRaisesRegex(AssertionError, "nonunique native Processes panel"):
+            self.native._navigate(self.target, 180, on_acknowledged=self.acknowledged)
+        self.native.wheel.assert_called_once()
+        self.acknowledged.assert_not_called()
+
     def test_reveal_rejects_duplicate_current_panel_before_any_wheel(self):
         self.displaced_endpoint()
         extra = Node(self.clock, name="processes")

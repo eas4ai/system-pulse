@@ -1524,7 +1524,12 @@ class Native:
                 # Intermediate acknowledgements pace input. Success independently
                 # rediscovers the unique current panel and exact selected target.
                 selected, acknowledged, _ = self.navigation_selection(
-                    target, target, batch_deadline, reconcile=True, fresh_panel=True
+                    target,
+                    target,
+                    batch_deadline,
+                    reconcile=True,
+                    fresh_panel=True,
+                    endpoint_index=endpoint_index,
                 )
                 if on_acknowledged is not None:
                     on_acknowledged(
