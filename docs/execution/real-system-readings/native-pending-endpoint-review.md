@@ -132,3 +132,35 @@ passed, a foreign application namespace failed before stat reading, and
 changed procfs identity failed after the read. No further finding was
 established. Source remained identical to the candidate throughout review;
 no edits, live app runs, builds, or Cairn mutations occurred.
+
+## Final implementation reviews
+
+Candidate: `63883e2be8ceec3526f29d295cd179ba05ec76df`. Independent SPEC
+then QUALITY re-review passed. The outcome-journal deadline finding is
+closed; no implementation review findings remain.
+
+The navigation-only guard checks the original deadline after ACK/absence
+journaling and before returning. Late recovery cannot reset a batch or
+dispatch more input; late final acknowledgement cannot export the callback
+or return success. Other wait callers retain their behavior. Two existing
+total-budget fixtures move synthetic clock jumps after selection returns,
+preserving their original reconciliation and slow-link timeout assertions.
+
+The worker passed 30 pending, 234 native, and 338 full Python tests, Ruff
+lint, scoped formatting, documentation links and diff checks. SPEC
+independently passed 30 pending and 234 native tests, five deadline probes,
+scoped Ruff and diff checks, including review of the fixture changes.
+
+QUALITY independently passed 30 pending and 234 native tests, broad Ruff
+lint, four-file formatting and diff checks. Its four original late-journal
+probes failed without further input, budget reset or final callback. Two
+on-time controls succeeded with exact callback evidence. Discovery controls
+at 0.0, 0.3 and 1.1 seconds succeeded; 4.0 seconds failed without recovery.
+Both reviewers examined the exact candidate above and performed no edits,
+native app runs, builds or Cairn mutations. Their final re-reviews did not
+rerun the full Python suite. Known unrelated formatting differences remain
+listed in the implementation report.
+
+Fresh native process acceptance, committed aggregate acceptance, and final
+adversarial commitment review remain required. The earlier failed captures
+remain failed and are not retrospectively covered by this protocol.

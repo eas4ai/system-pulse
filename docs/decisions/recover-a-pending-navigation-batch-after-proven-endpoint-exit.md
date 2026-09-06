@@ -20,4 +20,6 @@ Keep the b9safeex capture failed: it lacks the independent before/terminal evide
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 69ac6897f49fef802f27a30999986343ec33d7d0 fix: distinguish interrupted pending navigation endpoints
+- fb546f1562ff20377ea315b38f2fb6eaf6f1aed4 fix: bracket pending exit proof after native discovery
+- 63883e2be8ceec3526f29d295cd179ba05ec76df fix: enforce navigation deadline after outcome journals
