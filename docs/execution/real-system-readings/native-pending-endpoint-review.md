@@ -87,3 +87,37 @@ passed; the 1.1-second case failed with fixed per-publication acceptance
 timestamps. No other finding was established. No source edits, live runs,
 builds, or Cairn mutations occurred during review; the full Python suite
 was not independently rerun.
+
+## Corrected implementation specification review
+
+Candidate: `fb546f1562ff20377ea315b38f2fb6eaf6f1aed4`. Independent SPEC
+re-review passed and closed the terminal revalidation coherence finding.
+The strict scan now brackets fresh frames after global discovery and
+recomputes current identity, selection, membership, absence and target guards.
+The 1.1-second discovery probe used one terminal observation, began recovery
+at 2.95 seconds under the original 8.5-second deadline, and finished target
+proof at 6.05 seconds. These are synthetic times.
+
+SPEC independently passed 27 pending and 231 native tests, scoped Ruff,
+and diff checks. Four additional probes prevented coherent competing
+selection or PID reuse from being erased by later observations. No edits,
+live execution, builds or Cairn mutations occurred during re-review.
+
+## First quality review
+
+Status: open deadline finding; review is checking the remaining boundaries.
+The navigation-selection acknowledgement/absence journal now runs after
+wait has checked its deadline. There is no check after that journal before
+returning the outcome.
+
+An independent actual-navigate interruption probe delayed only the recovery
+selected-acknowledgement journal from 1.25 to 8.75 seconds against the original
+8.5-second batch deadline. The candidate reset its budget, dispatched more
+Up keys at 8.75, and succeeded at 10.25 seconds. Another probe delayed only
+the final fresh controlled-target acknowledgement journal from 2.75 to
+180.25 seconds; navigation returned success after its total deadline.
+
+Check the original deadline after navigation outcome journaling and before
+returning to a budget reset or final callback. Preserve exact evidence,
+other wait callers, release behavior and every existing budget. These
+synthetic delays are failure probes, not measured live journal costs.
