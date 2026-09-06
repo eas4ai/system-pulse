@@ -428,5 +428,261 @@
         "sha256": "25bb842cd19010341dc77df1bda815bee7cba642832a298702dd0af2f99cacfb"
       }
     ]
+  },
+  "reader_syscall_diagnostic": {
+    "verified_utc": "2026-09-06T15:23:37.853511+00:00",
+    "scope": "Supporting diagnosis with syscall and publication instrumentation; never acceptance evidence or a cause claim for the original failures",
+    "status": "FAIL",
+    "native_error": "native discovery deadline exceeded; incomplete tree",
+    "original_freshness_failure_reproduced": false,
+    "stale_receipts": 0,
+    "reader_syscalls": {
+      "openat": {
+        "completed_calls": 980,
+        "max_duration_ms": 2.6641120000000003
+      },
+      "fstat": {
+        "completed_calls": 1852,
+        "max_duration_ms": 1.758734
+      },
+      "read": {
+        "completed_calls": 1852,
+        "max_duration_ms": 8.158083999999999
+      },
+      "close": {
+        "completed_calls": 926,
+        "max_duration_ms": 2.076535
+      },
+      "newfstatat": {
+        "completed_calls": 926,
+        "max_duration_ms": 3.1794100000000003
+      }
+    },
+    "trace_unfinished_calls_reconciled": true,
+    "publication_ring": {
+      "records": 64,
+      "sequence_range": [
+        98,
+        161
+      ],
+      "max_acceptance_to_rename_ms": 465.404725,
+      "overwritten_before_dequeue": 0,
+      "sidecar_errors": 0
+    },
+    "held_input": {
+      "held-up-25hz.json": {
+        "observations": 51,
+        "max_age_seconds": 1.373121191
+      },
+      "held-table-left.json": {
+        "observations": 51,
+        "max_age_seconds": 1.577148661
+      },
+      "held-table-right.json": {
+        "observations": 56,
+        "max_age_seconds": 1.345855109
+      }
+    },
+    "tracing_scope": {
+      "application_pid": 2758735,
+      "application_tracer_pid": 0,
+      "reader_pid": 2758631,
+      "reader_tracer_pid": 2758629
+    },
+    "outer_process": {
+      "role": "native-read-trace",
+      "pid": 2758607,
+      "command": [
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "strace",
+        "-f",
+        "-b",
+        "execve",
+        "--absolute-timestamps=unix,ns",
+        "--syscall-times=ns",
+        "-s",
+        "0",
+        "-y",
+        "-e",
+        "trace=execve,openat,read,pread64,close,newfstatat,fstat",
+        "-P",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/latest.json",
+        "-o",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/read-syscalls.log",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/harness/native_replay.py",
+        "--inside",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+        "--trace-publication",
+        "--focus",
+        "process"
+      ],
+      "exit_code": 1,
+      "executable_sha256": "97e86a102eee7212bfa3bf87d452b27dd4f16ef6e68658eeae20bca63db2ceee",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [
+        "SIGTERM"
+      ],
+      "started_ns": 792142853259208,
+      "finished_ns": 792305593586797,
+      "started_unix_ns": 1788707908760665267,
+      "finished_unix_ns": 1788708071500994076,
+      "deadline_ns": 792562853259208,
+      "stdout": "native-read-trace.stdout",
+      "stderr": "native-read-trace.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "95958feef704cc167e9bdca274ffcf38904e60dff822cea7dc08a33517428505",
+      "stderr_sha256": "ff8d2f903b564ef13d4edf547dc1d0ec4c8d9f08b9160a8c5c9bac85c9b8d6c5"
+    },
+    "application_cleanup": [
+      {
+        "pid": 2758735,
+        "exit_code": -15,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2758664,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "root_confirmed_absent_pids_and_groups": [
+      2758607,
+      2758735,
+      2758664,
+      2758631,
+      2758629
+    ],
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/run.py",
+        "bytes": 2906,
+        "sha256": "79894002c4e58f81d920653047a15307438ca5cb0c7728b8d770f4db1254709a"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/invocation.json",
+        "bytes": 1696,
+        "sha256": "1ddbef2a12bbaa9100f702d5f4502c47a0a5ddff70e1c9bac9a25bac7fe1a8a9"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/tracing-scope.json",
+        "bytes": 121,
+        "sha256": "6a2670f0f6f1b0428be3a780f744d31c670105f76e8dbd3520b03e15fd73bdd5"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace-started.json",
+        "bytes": 1153,
+        "sha256": "d3e7409d58a026dfe72bb95092d841f593568132c1cf087cc4c928cf22b05d2d"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace-finished.json",
+        "bytes": 1952,
+        "sha256": "52a3f0ce4d27d4b1d4ec8ecd8bb211e025e1b748177db325ad4e3095d3e57e25"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace.stdout",
+        "bytes": 884,
+        "sha256": "95958feef704cc167e9bdca274ffcf38904e60dff822cea7dc08a33517428505"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace.stderr",
+        "bytes": 7365,
+        "sha256": "ff8d2f903b564ef13d4edf547dc1d0ec4c8d9f08b9160a8c5c9bac85c9b8d6c5"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/read-syscalls.log",
+        "bytes": 1565355,
+        "sha256": "ae4360bdcddd0d81b77804007bf18c6d6e4da1eded5b21fb327fbc1759dea90e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/result.json",
+        "bytes": 714,
+        "sha256": "861df8c1725f2e3a5fc4387806cb0240404da27921ddcd5026cbf529f98521b3"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/progress.jsonl",
+        "bytes": 884,
+        "sha256": "95958feef704cc167e9bdca274ffcf38904e60dff822cea7dc08a33517428505"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/harness-manifest.json",
+        "bytes": 5109,
+        "sha256": "6f1df3a8d3ebf8705b3e49643a80051b5b89b2d557c487cdc9c70e74f868ac8b"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/publication-timing-metadata.json",
+        "bytes": 512,
+        "sha256": "234b43f2f951ff138333db3c7fa16787c57250a526d47ada9965065b979d6d42"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "1683ac60395f0eea5080acec0c27e6776b7859c35abcc46cb5e88c257f108357"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/metadata.json",
+        "bytes": 745,
+        "sha256": "861a798e2970dfe10f9c73e8df3af303090878add56b273c754649b1c95a83f7"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/cleanup.json",
+        "bytes": 78,
+        "sha256": "f542194bfd3a823d7aac372c2778e020c74671d8760ac89e359a59dc85bafbf2"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/latest.publication-timing.json",
+        "bytes": 50214,
+        "sha256": "d99dbe984a8cbaed12bedeafa44291748d1cef3b95945bde88015ac836cfe2f7"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/latest.json",
+        "bytes": 6268930,
+        "sha256": "58515619fa136f65f1c69706276036f0359b48905606e18e46a1f5dee24e5488"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/failure-frame.json",
+        "bytes": 10100555,
+        "sha256": "d75e8c80a2e21b5d267d2f295be9b92c373a3d4c2bef6b6f5a5276970cf01955"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/held-up-25hz.json",
+        "bytes": 3417,
+        "sha256": "dacedd86405fdfbbaf14a0dedc52543779dc23d9260c847a418381d7ee3e2780"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/held-table-left.json",
+        "bytes": 3316,
+        "sha256": "5763bfa7a8c76b9cdf9bb5cb655cd18fc0d0b14e76a96344561886600f6e5924"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/held-table-right.json",
+        "bytes": 3626,
+        "sha256": "92baf26a1dbec48f8130b41e29d6bf82aafa0642fe58cba5828421e2eea0bfa1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/navigation-failure-792305078567721.json",
+        "bytes": 202023,
+        "sha256": "eb368d576f513a2c1bf8b85970097a628d776ba3d65d95db64a2ce69f9d35524"
+      }
+    ]
   }
 }

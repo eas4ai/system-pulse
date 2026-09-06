@@ -94,3 +94,32 @@ PID 2285620 with exit -15 and confirmed its absence; private transport PID
 2285609 exited zero and was absent. No root-owned native job remains from this
 attempt. Both uninstrumented failures remain failed. The observed read boundary
 is a lead for further diagnosis, not a demonstrated performance correction.
+
+## Reader syscall diagnostic
+
+A later supporting run used the exact `ece89eae` harness and the same application
+binary, with the existing publication-timing diagnostic and `strace` on the
+Python reader and its threads. The tracer detached children at execution; root
+confirmed that the application itself had no syscall tracer. Its external
+launcher retained the original harness bytes, command, seven-minute deadline
+and unchanged two-second freshness limit at `gpu-task4/root-read-syscalls-20260906`.
+
+This run failed with `native discovery deadline exceeded; incomplete tree`
+during process selection. It retained no stale-frame receipt and did not
+reproduce the earlier freshness failure. The held-Up, left and right observations
+contained no errors, with maximum ages of 1.373, 1.577 and 1.346 seconds. Among
+1,852 completed diagnostic-file `read` calls, including reconciled interleaved
+calls, the maximum traced duration was 8.158 ms. The final publication ring
+contained 64 published records, sequences 98–161, with maximum
+acceptance-to-rename duration 465.405 ms and no overwritten pending entries or
+sidecar errors. These observations describe this instrumented attempt; they
+cannot explain the earlier 756.549 ms read boundary or establish an uninstrumented
+accessibility regression.
+
+The private-session wrapper exited 1 within its deadline. Cleanup terminated
+application PID 2758735 with exit -15; transport PID 2758664 exited zero. Root
+confirmed the wrapper, application, transport, reader and tracer PIDs and process
+groups were absent. The evidence record binds 22 originals, including the trace,
+launcher, failure, timing ring and cleanup. This diagnostic remains failed and
+ineligible for acceptance. No performance correction is justified by it, and
+the original uninstrumented failures remain unresolved.
