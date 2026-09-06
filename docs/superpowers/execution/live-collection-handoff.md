@@ -879,3 +879,12 @@ metadata excluded from final aggregate acceptance. Root prepared
 `/tmp/run-pulse-publication-diagnostic.py`; run it only after implementation,
 checks, reviews and binary build, passing the explicit trace switch. This
 supporting diagnostic does not replace the required untraced full run.
+
+
+### Daily-driver reference context
+
+The user reiterated that neohtop is their current task manager and lacks GPU
+statistics. Continue using the supplied examples, including neohtop, as
+implementation and usability references. The focused collection cross-check
+is appended to `docs/superpowers/research/2026-09-04-reference-review.md`.
+The active publication tracing work and agreed GPU coverage are unchanged.

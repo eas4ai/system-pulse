@@ -110,3 +110,31 @@ The first slice is not a redefinition of iteration 001. The full feature set rem
 - [ ] Review approaches and the proposed design boundaries with the user.
 - [ ] Write the agreed design specs and audit consistency, scope, and acceptance criteria.
 - [ ] Obtain review of written specs, then write and verify executable implementation plans.
+
+
+## User baseline and collection cross-check, 2026-09-06
+
+The user identifies neohtop as their current daily task manager and its lack
+of GPU statistics as a gap. Keep it as a usability reference alongside the
+other supplied examples. This is context for the agreed System Pulse work;
+it does not change the LIVE commitment or request a port of neohtop.
+
+A focused source reread of the supplied neohtop 1.2.0 snapshot confirms that
+`src-tauri/src/commands.rs:30` returns processes and system statistics together,
+and `src/lib/stores/processes.ts:54` applies them in one store update while
+reattaching selection by PID. `src/routes/+page.svelte:56` handles filtering,
+sorting and pagination; lines 101–109 schedule collection separately from
+those presentation choices. The one-second setting is mapped to 1.5 seconds
+in this snapshot, so that timing is not System Pulse's sampling contract.
+System Pulse retains the agreed PID/start identity and physical GPU coverage.
+
+TuxManager 1.0.7 supplies a complementary scheduling example:
+`src/os/processrefreshservice.cpp:135` puts collection on a worker thread,
+and `src/processeswidget.cpp:357` coalesces requests when one is already in
+flight. These references support coherent snapshots, bounded work and
+interaction-state preservation. They do not establish the cause of System
+Pulse's current diagnostic publication delay. That separate investigation
+retains its failed capture and opt-in stage-tracing plan.
+
+This reread used local snapshots only. No reference application was modified,
+built or runtime-tested, and no upstream-current claim is made.
