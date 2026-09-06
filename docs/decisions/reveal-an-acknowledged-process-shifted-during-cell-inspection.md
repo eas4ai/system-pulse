@@ -24,4 +24,6 @@ and recorded reversal reasoning remain unchanged. See the inspection review.
 
 ## Realized by
 
-(none yet: recorded, not built)
+- b7dd5553dea48b257b853cda9608b77b31d676e0 fix: prepare acknowledged child inspection after row displacement
+- adfd96a70e11a4a4a4abcef1e3e9715a41953fa3 fix: prove current selected child before exit
+- f8b9eb1b69786e9493c31fbc4fcb386462fd602c fix: reuse current panel during established inspection recovery

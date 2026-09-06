@@ -68,3 +68,30 @@ The reviewer passed 196 native tests, scoped Ruff lint/format, and diff checks
 on the candidate, plus integrated metric/recovery and success-path probes.
 The in-memory correction passed 93 navigation/inspection regressions. No
 source edit, live capture, build, or Cairn mutation occurred during review.
+
+## Correction reviews
+
+Candidate: `f8b9eb1b69786e9493c31fbc4fcb386462fd602c`. Independent SPEC
+then QUALITY review passed. The repeated-discovery finding is closed.
+One discovery predicate now also governs both retry branches. Validated
+links can be retained after dispatch; initial, preparation, and final
+proof still require fresh uniqueness. Incomplete observations and broken
+membership still discard retained paths.
+
+The worker passed 25 inspection, 200 native, and 304 full Python tests,
+scoped Ruff lint/format, documentation links, and whitespace checks.
+SPEC independently passed 25 inspection and 200 native tests, scoped Ruff,
+and diff checks. Five additional probes covered duplicate panels after
+selected-node retries in initial/preparation/final phases, two-step recovery
+across a coherence retry, and competing selection during intermediate reuse.
+
+QUALITY independently passed 200 native tests, scoped Ruff, and diff checks.
+Its original synthetic cost probe completed at 4.8 seconds with two ordinary
+scans and three strict discoveries, followed by successful independent
+metric validation. Three additional probes rejected duplicate panels during
+initial, preparation, and final retries. Both reviews examined the exact
+candidate above; neither ran a native app or build or changed source.
+
+No review findings remain for this change. Synthetic timings are not native
+measurements. Fresh process and aggregate acceptance, followed by final
+commitment review, remain required.

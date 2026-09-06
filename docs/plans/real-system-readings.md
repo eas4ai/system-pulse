@@ -450,22 +450,22 @@ navigation and column 3 comparison. The separately recorded decision
 `reveal-an-acknowledged-process-shifted-during-cell-inspection` permits
 bounded nonselecting inspection preparation, not product viewport anchoring.
 
-- [ ] Capture explicit caller-owned target acknowledgement evidence from
+- [x] Capture explicit caller-owned target acknowledgement evidence from
   the existing coherent final navigation proof. Seed the positive observation
   there; update it only after successful metric verification, and freeze it
   during each inspection. Distinguish its index from a key-issued endpoint.
-- [ ] Add opt-in missing-row preparation to controlled-child lookup paths.
+- [x] Add opt-in missing-row preparation to controlled-child lookup paths.
   Non-strict lookup absence only triggers independent strict, coherent,
   unique eligibility. Reuse bounded vertical recovery and exact selected
   proof, then repeat normal cell lookup and all metric comparisons. Keep
   generic callers and held input unchanged. Share the original 15-second
   initial-discovery and five-second gesture/reacquisition deadlines.
-- [ ] After the existing three-sequence wait, use the same inspection-owned
+- [x] After the existing three-sequence wait, use the same inspection-owned
   strict exact-selection proof before child shutdown, with the frozen last
   successful metric reference and existing five-second deadline. Reproduce
   detached-cache false acknowledgement and displaced-row timeout. Preserve
   generic/held acknowledgement, stop_child, and the strict exit check.
-- [ ] Reproduce the one-row displacement and reject missing/wrong prior
+- [x] Reproduce the one-row displacement and reject missing/wrong prior
   acknowledgement, unchanged indices, reference slot outside span, selected
   competitors, instantiated unselected target, identity loss/reuse, stale or
   incomplete membership, provisional permission reuse, and late dispatch.
