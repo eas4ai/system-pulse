@@ -163,6 +163,7 @@ class PriorSelectionTests(unittest.TestCase):
             self.assertEqual(proof[field], self.pending[field])
 
     def test_absent_proof_keeps_the_original_blocking_behavior(self):
+        self.before_selection = self.visible_prior_prefix
         self.mutate_pending = lambda pending: pending.pop("prior_acknowledgement", None)
         with self.assertRaises(TimeoutError):
             self.f.navigate()
@@ -185,6 +186,47 @@ class PriorSelectionTests(unittest.TestCase):
         f.native.wheel.assert_not_called()
         self.assert_no_endpoint_ack()
 
+    def visible_prior_prefix(self):
+        if not self.shifted:
+            self.f.visible_ids = self.f.ids[17:20]
+
+    def test_visible_expected_with_persistent_prior_times_out_without_input_or_ack(
+        self,
+    ):
+        f = self.f
+        self.shift_after = None
+        # A valid supported interval keeps the immutable issue frame fresh through
+        # the original eight-second batch deadline; no stale-frame shortcut.
+        f.native.interval_ms = 5000
+
+        def prior():
+            self.visible_prior_prefix()
+            f.pending = None
+            f.selection = [self.prior]
+
+        self.before_selection = prior
+        with self.assertRaises(TimeoutError):
+            f.navigate()
+        self.assertTrue(self.scans and all(value == self.prior for value in self.scans))
+        self.assertEqual(f.clock.now, 8.5)
+        f.native.wheel.assert_not_called()
+        self.assert_no_endpoint_ack()
+
+    def test_visible_expected_without_selection_blocks_later_prior_and_absence(self):
+        f = self.f
+
+        def returning():
+            f.pending = None
+            self.visible_prior_prefix()
+            f.selection = [self.prior] if len(self.scans) == 1 else []
+
+        self.before_selection = returning
+        with self.assertRaises(TimeoutError):
+            f.navigate()
+        self.assertEqual(self.scans[:3], [None, self.prior, None])
+        f.native.wheel.assert_not_called()
+        self.assert_no_endpoint_ack()
+
     def test_prior_returning_after_coherent_absence_stays_blocked(self):
         f = self.f
         self.shift_after = None
@@ -193,6 +235,7 @@ class PriorSelectionTests(unittest.TestCase):
             f.pending = None
             step = len(self.scans)
             f.selection = [self.prior] if step in (0, 2) else []
+            f.visible_ids = f.ids[17:20] if step in (0, 2) else [self.prior]
             if step == 3:
                 self.shift()
 
@@ -207,6 +250,7 @@ class PriorSelectionTests(unittest.TestCase):
         f = self.f
 
         def returning():
+            self.visible_prior_prefix()
             if self.shifted:
                 f.pending = None
                 f.selection = [self.prior] if len(self.scans) == 2 else []
@@ -218,36 +262,47 @@ class PriorSelectionTests(unittest.TestCase):
         f.native.wheel.assert_not_called()
         self.assert_no_endpoint_ack()
 
-    def test_visible_unselected_expected_sets_a_block_the_prefix_cannot_clear(self):
+    def test_visible_expected_prior_prefix_defers_until_fresh_exact_ack(self):
         f = self.f
+        prefix = []
 
         def visible():
-            if not self.scans:
+            if not self.shifted:
                 f.visible_ids = f.ids[17:20]
-            elif not self.shifted:
-                f.visible_ids = [self.prior]
+                prefix.append((list(f.visible_ids), f.native.wheel.call_count))
 
         self.before_selection = visible
-        with self.assertRaises(TimeoutError):
-            f.navigate()
-        f.native.wheel.assert_not_called()
-        self.assert_no_endpoint_ack()
+        self.assertEqual(f.navigate()[0], f.target)
+        self.assertEqual(self.scans[:2], [self.prior, self.prior])
+        self.assertEqual(prefix, [([aid(17), aid(18), self.prior], 0)] * 2)
+        self.assertIn(None, self.scans[2:])
+        self.assertEqual(self.scans[-1], f.endpoint)
+        f.native.wheel.assert_called_once_with([400, 360], down=False, deadline=8.5)
+        self.assertEqual(
+            [entry["identity"] for entry in self.acknowledgements[:2]],
+            [self.prior, f.endpoint],
+        )
+        self.assertEqual(self.acknowledgements[1]["index"], 16)
+        self.assertNotEqual(
+            self.acknowledgements[0]["publication"],
+            self.acknowledgements[1]["publication"],
+        )
 
     def test_distinct_competitor_cannot_be_excused_as_a_prior_prefix(self):
         f = self.f
 
         def competitor():
+            self.visible_prior_prefix()
             if not self.scans:
                 f.pending = None
                 f.selection = [aid(18)]
-                f.visible_ids = f.ids[18:20]
             else:
-                f.selection = []
+                f.selection = [self.prior] if len(self.scans) == 1 else []
 
         self.before_selection = competitor
         with self.assertRaises(TimeoutError):
             f.navigate()
-        self.assertEqual(self.scans[0], aid(18))
+        self.assertEqual(self.scans[:3], [aid(18), self.prior, None])
         f.native.wheel.assert_not_called()
         self.assert_no_endpoint_ack()
 
@@ -255,6 +310,7 @@ class PriorSelectionTests(unittest.TestCase):
         f = self.f
 
         def hidden_prior():
+            self.visible_prior_prefix()
             if self.shifted:
                 f.pending = None
                 f.selection = [self.prior]
@@ -301,6 +357,7 @@ class PriorSelectionTests(unittest.TestCase):
             with self.subTest(malformed=name):
                 self.setUp()
                 self.mutate_pending = mutate
+                self.before_selection = self.visible_prior_prefix
                 with self.assertRaisesRegex(AssertionError, "prior.*acknowledgement"):
                     self.f.navigate()
                 self.assertEqual(self.scans, [])
@@ -322,6 +379,7 @@ class PriorSelectionTests(unittest.TestCase):
                     f.sequence = 1
 
         def advance():
+            self.visible_prior_prefix()
             f.pending = None
             if not self.scans:
                 f.sequence = 2  # Reject the first scan's publication bracket.
@@ -342,6 +400,7 @@ class PriorSelectionTests(unittest.TestCase):
             with self.subTest(event=event):
                 self.setUp()
                 f = self.f
+                self.before_selection = self.visible_prior_prefix
                 f.physical_wheel()
 
                 def journal(name, **fields):

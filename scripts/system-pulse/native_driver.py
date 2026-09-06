@@ -1533,7 +1533,7 @@ class Native:
                 if (
                     selected
                     and selected[0] != expected
-                    and not (observed_prior and expected not in row_ids)
+                    and not observed_prior
                     or selected is None
                     and expected in row_ids
                 ):
