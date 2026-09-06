@@ -2,7 +2,8 @@
 
 Implemented the [navigation observation decision](../../decisions/retain-bounded-navigation-observation-failures.md)
 against base `883724fb9d3761ffb513d19e1192f76dff53853c`.
-Independent SPEC and QUALITY review remain pending.
+Initial SPEC review passed. The QUALITY correction below awaits independent
+review of the delta.
 
 ## Behavior
 
@@ -67,8 +68,30 @@ rtk proxy ruff format --check scripts/system-pulse/native_driver.py scripts/syst
 rtk proxy git diff --check
 ```
 
-All 355 Python tests passed. Ruff lint, changed-file formatting, whitespace and
+All 355 initial Python tests passed. Ruff lint, changed-file formatting, whitespace and
 this note's local Markdown links passed.
+
+## Quality correction
+
+The [initial QUALITY review](native-navigation-observations-review.md) found that
+both interrupted-scan handlers extracted `snapshot.processes` before entering
+the diagnostic helper's guard. A malformed preceding publication could replace
+the original scan exception. Regression tests first reproduced this on both the
+initial selection scan and the fresh pending-exit scan: missing `processes`
+raised `KeyError`, while a null snapshot became a transient `TypeError` and
+retried until timeout.
+
+Both handlers now pass the already-read publication reference into the helper.
+The helper extracts `snapshot.processes` inside the same guard as mapping.
+Extraction and mapping errors therefore produce a bounded `mapping_error` while
+preserving the exact original scan exception. The helper does not copy or retain
+the publication, and the fix adds no reads or changes to acceptance policy.
+
+All 13 focused observation tests passed after the correction. The full suite
+passed all 357 Python tests using the command above with Python's `-B` option.
+All-script Ruff lint, formatting for the three changed Python files, whitespace
+and this note's five local Markdown links passed. The production self-audit
+found no further known defect; independent delta reviews remain pending.
 
 ## Limits and self-audit
 

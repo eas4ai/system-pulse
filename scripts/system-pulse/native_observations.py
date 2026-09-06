@@ -224,7 +224,7 @@ class Observation:
                 mapping_source=bounded_text(source),
             )
 
-    def partial_mapping(self, rows, processes):
+    def partial_mapping(self, rows, frame):
         # Only used after an interrupted scan. Derive a span from already-read
         # inputs, without retaining them or issuing a new publication/native read.
         if self.data is None or not self.data["scans"] or rows is None:
@@ -232,6 +232,7 @@ class Observation:
         low = high = None
         count = 0
         try:
+            processes = frame["snapshot"]["processes"]
             row_ids = set(rows)
             for index, process in enumerate(processes):
                 identity = process["identity"]

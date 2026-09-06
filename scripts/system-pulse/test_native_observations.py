@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 import test_native_navigation as fixtures
+import test_native_pending_endpoint as pending_fixtures
 from test_native_navigation import aid
 from native_observations import NavigationObservations, navigation_observation
 
@@ -227,13 +228,98 @@ class NavigationObservationTests(unittest.TestCase):
                     with record.stage("scan"):
                         raise original
                 except BaseException:
-                    record.partial_mapping([aid(0)], [{}])
+                    record.partial_mapping([aid(0)], {"snapshot": {"processes": [{}]}})
                     raise
         self.assertIs(caught.exception, original)
         scan = history.snapshot()["records"][-1]["scans"][-1]
         self.assertIsNone(scan["mapped_span"])
         self.assertIsNone(scan["complete_span"])
         self.assertIn("KeyError", scan["mapping_error"])
+
+    def assert_malformed_scan_publication_preserves_error(self, *, pending, malformed):
+        if pending:
+            fixture = pending_fixtures.PendingEndpointTests(methodName="runTest")
+            fixture.setUp()
+            fixture.disappear_before_ack()
+            self.fixture, self.native = fixture.f, fixture.f.native
+        else:
+            self.native._navigate = (
+                lambda target, deadline, **kwargs: self.native.navigation_selection(
+                    aid(2),
+                    target,
+                    8,
+                    path=[self.fixture.panel, self.fixture.root],
+                    endpoint_index=2,
+                )
+            )
+        phase = (
+            "publication before pending scan"
+            if pending
+            else "publication before selection"
+        )
+        publication_phase = "before pending scan" if pending else "before selection"
+        original = AssertionError("primary strict scan failure")
+        frame, walk = self.native.frame, self.native.walk
+        interrupted = 0
+
+        def preceding_frame():
+            result = frame()
+            observation = self.native.navigation_observations.current
+            if observation is not None and observation.data["active_phase"] == phase:
+                if malformed == "missing processes":
+                    result["snapshot"].pop("processes")
+                else:
+                    result["snapshot"] = None
+            return result
+
+        def interrupted_walk(*args, **kwargs):
+            nonlocal interrupted
+            observation = self.native.navigation_observations.current
+            if (
+                observation is not None
+                and observation.data["active_phase"] == "selection scan"
+                and observation.data["publications"][-1]["phase"] == publication_phase
+            ):
+                interrupted += 1
+                yield self.fixture.nodes[aid(0)]
+                raise original
+            yield from walk(*args, **kwargs)
+
+        self.native.frame, self.native.walk = preceding_frame, interrupted_walk
+        with self.assertRaises(AssertionError) as caught:
+            self.native.navigate(self.fixture.target)
+        self.assertIs(caught.exception, original)
+        self.assertEqual(interrupted, 1)
+        record = self.native.save.call_args.args[1]["observations"]["records"][-1]
+        self.assertEqual(
+            record["exception"], "AssertionError: primary strict scan failure"
+        )
+        scan = record["scans"][-1]
+        self.assertFalse(scan["complete"])
+        self.assertEqual(scan["row_count"], 1)
+        self.assertIsNone(scan["mapped_span"])
+        self.assertIsNone(scan["complete_span"])
+        self.assertIn(
+            "KeyError" if malformed == "missing processes" else "TypeError",
+            scan["mapping_error"],
+        )
+        self.assertLessEqual(len(scan["mapping_error"]), 512)
+
+    def test_interrupted_initial_scan_preserves_error_with_malformed_publication(self):
+        for malformed in ("missing processes", "null snapshot"):
+            with self.subTest(malformed=malformed):
+                self.setUp()
+                self.assert_malformed_scan_publication_preserves_error(
+                    pending=False, malformed=malformed
+                )
+
+    def test_interrupted_pending_scan_preserves_error_with_malformed_publication(self):
+        for malformed in ("missing processes", "null snapshot"):
+            with self.subTest(malformed=malformed):
+                self.setUp()
+                self.assert_malformed_scan_publication_preserves_error(
+                    pending=True, malformed=malformed
+                )
 
     def test_serialization_failure_preserves_original_180_second_wrapper(self):
         original = RuntimeError("underlying navigation failure")

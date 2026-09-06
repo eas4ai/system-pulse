@@ -1335,7 +1335,7 @@ class Native:
             except BaseException:
                 observation.partial_mapping(
                     scan.get("rows") if scan is not None else None,
-                    before["snapshot"]["processes"],
+                    before,
                 )
                 raise
             observation.phase("panel validation after scan")
@@ -1436,7 +1436,7 @@ class Native:
                 except BaseException:
                     observation.partial_mapping(
                         current_scan.get("rows"),
-                        current_before["snapshot"]["processes"],
+                        current_before,
                     )
                     raise
                 observation.phase("publication after pending scan")
