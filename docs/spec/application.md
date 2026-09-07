@@ -3,7 +3,7 @@
 Status: Agreed 2026-09-06
 Prefix: APP
 
-The developer asked to finish the application on 2026-09-06. These requirements make the remaining behavior in the original [product specification](../../../../task-manager/docs/feature-spec-dockable-system-monitor.md) executable. They preserve the existing LIVE and GPU contracts; no missing hardware is declared verified. Linux is the first usable build, consistent with the original development platform. Cross-platform and GPU verification obligations remain open until their evidence exists or the developer changes that release boundary.
+The developer asked to finish the application on 2026-09-06. These requirements make the remaining behavior in the original [product specification](../feature-spec-dockable-system-monitor.md) executable. They preserve the existing LIVE and GPU contracts; no missing hardware is declared verified. Linux is the first usable build, consistent with the original development platform. Cross-platform and GPU verification obligations remain open until their evidence exists or the developer changes that release boundary.
 
 [APP-001] The process table MUST support case-insensitive name, PID and user search and sorting by every displayed column using physical numeric values, with CPU descending as the default.
 Falsifier: A numeric column sorts formatted text lexically, unavailable values outrank measured values, a search shows unrelated rows, or changing order selects a different process identity.

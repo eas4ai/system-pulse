@@ -9,9 +9,9 @@ The baseline evidence links below describe the original fixture implementation a
 
 ## Scope and metric contract
 
-This work replaces the fixture producer, discovery, process rows, and demonstration meter scaling in System Pulse. Linux is the first host-verification platform, following the [product specification](../../../../task-manager/docs/feature-spec-dockable-system-monitor.md:13). Cross-platform system collection uses the pinned sysinfo dependency where supported. Native macOS/Windows acceptance retains separate evidence needs; Linux success is not a claim about them. The developer explicitly added NVIDIA support on 2026-09-04 despite having no NVIDIA GPU installed: an NVML adapter is included in this commitment. Its conversion, discovery, and failure paths require deterministic backend tests; this AMD-only host verifies graceful NVIDIA absence. Live NVIDIA hardware accuracy remains explicitly unverified until tested on such hardware.
+This work replaces the fixture producer, discovery, process rows, and demonstration meter scaling in System Pulse. Linux is the first host-verification platform, following the [product specification](../feature-spec-dockable-system-monitor.md:13). Cross-platform system collection uses the pinned sysinfo dependency where supported. Native macOS/Windows acceptance retains separate evidence needs; Linux success is not a claim about them. The developer explicitly added NVIDIA support on 2026-09-04 despite having no NVIDIA GPU installed: an NVML adapter is included in this commitment. Its conversion, discovery, and failure paths require deterministic backend tests; this AMD-only host verifies graceful NVIDIA absence. Live NVIDIA hardware accuracy remains explicitly unverified until tested on such hardware.
 
-The required monitor families and fields come from the [product's monitor definitions](../../../../task-manager/docs/feature-spec-dockable-system-monitor.md:41):
+The required monitor families and fields come from the [product's monitor definitions](../feature-spec-dockable-system-monitor.md:41):
 
 | Monitor | Field coverage to account for |
 | --- | --- |
@@ -49,7 +49,7 @@ Baseline evidence: [synthetic timestamps](../../examples/system_pulse/src/fixtur
 [LIVE-005] The meter layer MUST render readings according to their physical kind, unit, and scale.
 Falsifier: a byte rate above 100 is clipped as a percentage, a capacity bar disagrees with used/total, a chart labels a quantity with the wrong unit, or an incompatible meter option becomes selectable.
 Mechanism: `physical-meter-scales` tests covering percentage, capacity, rate, temperature, counter, and compound summaries, followed by native numeric/chart comparisons.
-Baseline evidence: [percentage clamping](../../examples/system_pulse/src/meters.rs:29), [untyped meter choices](../../examples/system_pulse/model/src/presentation.rs:7); intended kinds: [product matrix](../../../../task-manager/docs/feature-spec-dockable-system-monitor.md:97).
+Baseline evidence: [percentage clamping](../../examples/system_pulse/src/meters.rs:29), [untyped meter choices](../../examples/system_pulse/model/src/presentation.rs:7); intended kinds: [product matrix](../feature-spec-dockable-system-monitor.md:97).
 
 [LIVE-006] The application MUST label unavailable, warming-up, stale, and failed readings without presenting them as successful measurements.
 Falsifier: a failed read becomes an unqualified zero, stale data appears current, an unavailable value loses its unit/reason, or backend failure is hidden behind a synthetic replacement.
@@ -69,12 +69,12 @@ Baseline evidence: the reference performs refresh in [the UI update](../../examp
 [LIVE-009] The sampling service MUST maintain one bounded collection-and-delivery pipeline at the selected global interval.
 Falsifier: changing the interval creates overlapping polling loops, a slow UI accumulates unbounded snapshots, disappearing device identities accumulate unbounded history, or shutdown leaves collection running.
 Mechanism: `collector-lifecycle` tests for interval changes, backpressure, device churn, and shutdown; support the product's 0.5/1/2/5-second values with a one-second default.
-Baseline evidence: [one existing timer](../../examples/system_pulse/src/workspace.rs:322), [per-series history without key eviction](../../examples/system_pulse/model/src/readings.rs:44); intended intervals: [product spec](../../../../task-manager/docs/feature-spec-dockable-system-monitor.md:205).
+Baseline evidence: [one existing timer](../../examples/system_pulse/src/workspace.rs:322), [per-series history without key eviction](../../examples/system_pulse/model/src/readings.rs:44); intended intervals: [product spec](../feature-spec-dockable-system-monitor.md:205).
 
 [LIVE-010] The workspace MUST preserve its existing separate-panel, scroll, collapse, focus, and recovery behavior during real sampling.
 Falsifier: collection or discovery creates a tab group, hides/collapses content without the user's action, stops history because a panel is collapsed, traps focus/scrolling, or breaks saved-state recovery.
 Mechanism: existing model/dock/native regression suites adapted to inject fixtures only in tests, plus `native-live-readings` repeating collapse, overflow, focus, and restart while actual samples advance.
-Baseline evidence: [approved workspace contract](../../../../task-manager/docs/superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified baseline](../../examples/system_pulse/NATIVE_ACCEPTANCE.md).
+Baseline evidence: [approved workspace contract](../superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified baseline](../../examples/system_pulse/NATIVE_ACCEPTANCE.md).
 
 [LIVE-011] The normal application MUST exclude fixture-generation controls and fixture-only device identities from its runtime interface.
 Falsifier: normal launch exposes Advance fixture, fake GPU connect/disconnect, synthetic discovery reversal, or a fake device; a demonstration value is labeled as a live reading.
@@ -84,7 +84,7 @@ Baseline evidence: [runtime toolbar](../../examples/system_pulse/src/workspace.r
 [LIVE-012] The collector MUST implement each listed field for which the target OS and device provide an accessible, attributable measurement.
 Falsifier: the capability report omits such a field or marks it unimplemented while the commitment is considered complete.
 Mechanism: `collector-capability-coverage` check joins the required metric matrix to source/permission probes and adapter tests; an unimplemented accessible field fails the check. Unsupported attribution and denied permissions require recorded source evidence, not an adapter's absence.
-Baseline evidence: the broader [product field list](../../../../task-manager/docs/feature-spec-dockable-system-monitor.md:41) exceeds the [fixture catalog](../../examples/system_pulse/src/fixture.rs:11).
+Baseline evidence: the broader [product field list](../feature-spec-dockable-system-monitor.md:41) exceeds the [fixture catalog](../../examples/system_pulse/src/fixture.rs:11).
 
 [LIVE-013] The host verifier MUST reject unexplained differences or missing mandatory comparisons under the predeclared quantity definitions, comparison bounds, and process-exit observation policy.
 Falsifier: a wrong unit, normalization, counter interval, out-of-bound value, or unexplained missing comparison passes; an exited-process gap counts as a verified comparison; controlled-process brackets are missing; or the verifier chooses its bounds or mandatory coverage after seeing the app's result.

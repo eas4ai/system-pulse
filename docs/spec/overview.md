@@ -10,10 +10,10 @@ on 2026-09-06. Cairn records passes for LIVE-001 through LIVE-013. Final adversa
 commitment review passed with no actionable findings, and Cairn returned Done. The record discloses four independently
 explained ordinary-process exit gaps and the NVIDIA hardware, other native
 platform and physical device-removal limits. The developer rejected simulated
-production readings and confirmed real collection; the [handoff](../../../../task-manager/docs/superpowers/execution/live-collection-handoff.md)
+production readings and confirmed real collection; the [handoff](../superpowers/execution/live-collection-handoff.md)
 preserves that direction.
 
-The cited [recon report](../../../../task-manager/docs/recon.md) distinguishes observed behavior, documented intent, contradictions, and unverified claims. The historical fixture acceptance remains valid for its stated scope; it is not evidence of live metric accuracy.
+The cited [recon report](../recon.md) distinguishes observed behavior, documented intent, contradictions, and unverified claims. The historical fixture acceptance remains valid for its stated scope; it is not evidence of live metric accuracy.
 
 ## Reading order
 
@@ -28,7 +28,7 @@ Read [glossary](glossary.md), the relevant domain below, and [the agreed real-co
 | [Workspace state](workspace-state.md) | STATE | Historical identities, presentation, restore, and storage. |
 | [Real collection](live-collection.md) | LIVE | Completed collection contract and preservation constraints. |
 | [Intel and Apple GPU collection](gpu-collection.md) | GPU | Current agreed collector, memory-scope and native-evidence requirements. |
-| Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](../../../../task-manager/docs/superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../examples/system_pulse/NATIVE_ACCEPTANCE.md). |
+| Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](../superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../examples/system_pulse/NATIVE_ACCEPTANCE.md). |
 | [Application completion](application.md) | APP | Process controls, complete customization, named presets, appearance, first-launch layout and Linux packaging from the original product scope. |
 | Other framework examples, shell, website and reference projects | Outside this work | Workspace membership is defined in [Cargo.toml](../../Cargo.toml:3); this adoption does not redefine those products. |
 
