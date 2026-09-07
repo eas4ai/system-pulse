@@ -134,6 +134,63 @@ fn arrows_home_end_and_control_tab_switch_screens(cx: &mut TestAppContext) {
 }
 
 #[gpui_kit::test]
+fn keyboard_switching_works_immediately_after_application_creation(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    assert_eq!(active(&view, cx), Screen::Summary);
+    native_key("ctrl-tab", cx);
+    draw(cx);
+    assert_eq!(active(&view, cx), Screen::Cpu);
+}
+
+#[gpui_kit::test]
+fn keyboard_switching_survives_builtin_preset_from_settings(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let settings = cx.debug_bounds("screen-tab:settings").unwrap();
+    cx.simulate_click(settings.center(), Modifiers::default());
+    draw(cx);
+    assert_eq!(active(&view, cx), Screen::Settings);
+    let setting = cx.debug_bounds("settings-dark").unwrap();
+    cx.simulate_click(setting.center(), Modifiers::default());
+    draw(cx);
+    command(
+        &view,
+        crate::workspace::Command::Preset(crate::workspace::presets::PresetCommand::Builtin(
+            system_pulse_model::BuiltinPreset::Default,
+        )),
+        cx,
+    );
+    assert_eq!(active(&view, cx), Screen::Summary);
+    native_key("ctrl-tab", cx);
+    draw(cx);
+    assert_eq!(active(&view, cx), Screen::Cpu);
+}
+
+#[gpui_kit::test]
+fn keyboard_switching_survives_accepting_recovered_settings(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    cx.update(|window, cx| {
+        let owner = view.read(cx).shared.borrow().owner.clone().unwrap();
+        owner
+            .update(cx, |owner, cx| {
+                owner.restore("invalid saved workspace", window, cx)
+            })
+            .unwrap();
+    });
+    draw(cx);
+    cx.read(|cx| assert!(view.read(cx).shared.borrow().session.rejected.is_some()));
+    let recovery = cx.debug_bounds("accept-screen-recovery").unwrap();
+    cx.simulate_click(recovery.center(), Modifiers::default());
+    draw(cx);
+    assert!(cx.debug_bounds("accept-screen-recovery").is_none());
+    cx.read(|cx| assert!(view.read(cx).shared.borrow().session.rejected.is_none()));
+    assert_eq!(active(&view, cx), Screen::Summary);
+    // The focused recovery button has disappeared. Do not click a new focus target.
+    native_key("ctrl-tab", cx);
+    draw(cx);
+    assert_eq!(active(&view, cx), Screen::Cpu);
+}
+
+#[gpui_kit::test]
 fn collapsed_hidden_legacy_process_panel_cannot_hide_the_process_screen(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     cx.update(|window, cx| {
@@ -391,6 +448,47 @@ fn hidden_sensors_stay_hidden_after_new_snapshots_and_tab_switches(cx: &mut Test
                 .all(|device| device.id != "cpu:host/power")
         );
         assert_eq!(crate::screen_data::cpu_cores(&data).len(), 3);
+    });
+}
+
+#[gpui_kit::test]
+fn hiding_used_memory_preserves_other_memory_readings(cx: &mut TestAppContext) {
+    use crate::workspace::Command;
+    let (view, cx) = populated(cx);
+    command(&view, Command::Screen(Screen::Memory), cx);
+    assert!(cx.debug_bounds("history:memory:host/used").is_some());
+    command(
+        &view,
+        Command::SensorVisible("memory:host".into(), "memory:host/used".into()),
+        cx,
+    );
+    accept(&view, fixture::snapshot(6), cx);
+    assert!(cx.debug_bounds("history:memory:host/used").is_none());
+    assert!(cx.debug_bounds("level:memory:host/used").is_none());
+    assert!(cx.debug_bounds("screen-stat:memory:host/used").is_none());
+    for selector in [
+        "screen-stat:memory:host/available",
+        "screen-stat:memory:host/cache",
+        "screen-stat:memory:host/swap",
+    ] {
+        let bounds = cx
+            .debug_bounds(selector)
+            .unwrap_or_else(|| panic!("hiding Used also hid {selector}"));
+        assert!(bounds.size.width > gpui_kit::px(0.) && bounds.size.height > gpui_kit::px(0.));
+    }
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        let available = crate::screen_data::find(&data, "memory:host", "available").unwrap();
+        assert_eq!(available.measured(&data), Some(20. * 1024_f64.powi(3)));
+        let swap = crate::screen_data::find(&data, "memory:host", "swap").unwrap();
+        assert_eq!(swap.measured(&data), Some(0.));
+        assert!(
+            data.history
+                .latest("memory:host", "memory:host/used")
+                .unwrap()
+                .chart_value()
+                .is_some()
+        );
     });
 }
 
