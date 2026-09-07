@@ -1,7 +1,7 @@
 import copy
 import unittest
 
-from tabbed_contract import REQUIRED_CASES, check_replay, check_metric, clipped_visible, expected_metric
+from tabbed_contract import REQUIRED_CASES, device_label, check_replay, check_metric, clipped_visible, expected_metric
 
 
 def frame(value=0.0, *, unit="Percent", total=None):
@@ -20,6 +20,13 @@ def frame(value=0.0, *, unit="Percent", total=None):
 
 
 class TabbedContractTests(unittest.TestCase):
+    def test_duplicate_gpu_labels_resolve_to_distinct_stable_identities(self):
+        devices = [{"kind": "Gpu", "title": "Same GPU", "id": "gpu:a"},
+                   {"kind": "Gpu", "title": "Same GPU", "id": "gpu:b"}]
+        self.assertEqual([device_label(m, devices) for m in devices],
+                         ["Same GPU · gpu:a", "Same GPU · gpu:b"])
+        self.assertEqual(device_label(devices[0], devices[:1]), "Same GPU")
+
     def test_replay_rejects_missing_cases_devices_children_and_wrong_binary(self):
         valid = {"status": "PASS", "binary_sha256": "tested", "cases": sorted(REQUIRED_CASES),
                  "checks": ["description"] * 6, "devices": [{"id": "gpu:a", "screen": "gpu", "title": "GPU"}],

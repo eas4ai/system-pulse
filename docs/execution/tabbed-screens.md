@@ -1,6 +1,6 @@
 # Tabbed screens execution record
 
-Status: implementation and native acceptance in progress. This record does not claim delivery or a passing final gate.
+Status: implementation and native replay passed; final harness corrections and package verification are in progress. This record does not claim delivery or a passing final package gate.
 
 The 2026-09-07 developer request replaces the visible dock canvas with screens guided by the eight TMOG reference images. The [design](../superpowers/specs/2026-09-07-tabbed-screens-design.md), [plan](../superpowers/plans/2026-09-07-tabbed-screens.md), [current specification](../feature-spec-dockable-system-monitor.md) and [user guide](../user-guide.md) describe the resulting contract.
 
@@ -10,4 +10,4 @@ Implemented: ten fixed native tabs, device identity persistence, timestamped cha
 
 Observed development checks include chart/model/navigation/populated-screen tests, all application library tests, Clippy and several native previews. Previews caught and drove fixes for duplicate Energy accessibility IDs, ambiguous GPU labels, clipped device menus, small chart labels and unavailable thermal selections. Development previews and failed replays are retained; they do not replace the final source-bound acceptance evidence.
 
-The final source, native/product/package results, screenshot review, installation and integration records will be added after those checks complete. Intel/Apple hardware validation and native Mac GUI review remain outside this Linux redesign proof. GitHub automation remains disabled.
+The committed `9b0e5df3` native replay passed all six required cases and all 149 device selections (`acceptance-r2/preservation`). Its aggregate includes 987 automated tests; the broader workspace run passed 1,507 Rust tests. Independent review then found two harness issues: cleanup after screenshot failure and selection of duplicate GPU labels. These are being corrected before the final package gate. The final source, package, installation and integration records will be added after those checks complete. Intel/Apple hardware validation and native Mac GUI review remain outside this Linux redesign proof. GitHub automation remains disabled.

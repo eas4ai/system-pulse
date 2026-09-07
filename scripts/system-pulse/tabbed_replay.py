@@ -11,7 +11,7 @@ import time
 from application_replay import enter, library, persisted, preset_action, press, process_flows
 from host_accuracy import require
 from native_driver import Atspi, close_transport, digest, spin
-from tabbed_contract import SCREENS, check_metric, expected_metric
+from tabbed_contract import SCREENS, check_metric, expected_metric, device_label
 from tabbed_driver import TabbedNative
 
 
@@ -98,10 +98,11 @@ def screens_and_devices(app, record):
         monitors = [m for m in app.frame()["snapshot"]["monitors"] if m["kind"] == kind]
         expected_devices.extend({"screen": screen, "id": m["id"], "title": m["title"]} for m in monitors)
         for monitor in monitors:
+            label = device_label(monitor, app.frame()["snapshot"]["monitors"])
             picker = app.find(aid="screen-device:" + screen)
             app.click(picker)
             try:
-                choose_menu(app, monitor["title"])
+                choose_menu(app, label)
             except MenuChoiceAbsent:
                 frame = app.frame()
                 require(monitor["id"] not in {m["id"] for m in frame["snapshot"]["monitors"]},
@@ -299,22 +300,30 @@ def main():
         record["error"] = f"{type(error).__name__}: {error}"
         raise
     finally:
-        if app is not None:
-            if not app.closed and app.app is not None and app.app.poll() is None:
-                app.screenshot("failure.png")
-            app.close()
-        for child in children:
-            if child.poll() is None:
-                child.terminate()
+        try:
+            if app is not None:
                 try:
-                    child.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    child.kill()
-                    child.wait(timeout=5)
-        record["children"] = [{"pid": child.pid, "exit_code": child.poll()} for child in children]
-        record["seconds"] = time.monotonic() - started
-        (output / "result.json").write_text(json.dumps(record, indent=2) + "\n")
-        close_transport(output)
+                    if not app.closed and app.app is not None and app.app.poll() is None:
+                        app.screenshot("failure.png")
+                except Exception as error:
+                    record["failure_screenshot_error"] = f"{type(error).__name__}: {error}"
+                finally:
+                    app.close()
+        finally:
+            try:
+                for child in children:
+                    if child.poll() is None:
+                        child.terminate()
+                        try:
+                            child.wait(timeout=5)
+                        except subprocess.TimeoutExpired:
+                            child.kill()
+                            child.wait(timeout=5)
+                record["children"] = [{"pid": child.pid, "exit_code": child.poll()} for child in children]
+                record["seconds"] = time.monotonic() - started
+                (output / "result.json").write_text(json.dumps(record, indent=2) + "\n")
+            finally:
+                close_transport(output)
 
 
 if __name__ == "__main__":

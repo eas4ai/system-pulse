@@ -167,11 +167,17 @@ def main():
         )
         print("Installed package smoke: PASS", flush=True)
     finally:
-        if app is not None:
-            if app.app is not None and app.app.poll() is None:
-                app.screenshot("failure.png")
-            app.close()
-        close_transport(output)
+        try:
+            if app is not None:
+                try:
+                    if app.app is not None and app.app.poll() is None:
+                        app.screenshot("failure.png")
+                except Exception as error:
+                    print(f"Failure screenshot unavailable: {error}", file=sys.stderr)
+                finally:
+                    app.close()
+        finally:
+            close_transport(output)
 
 
 if __name__ == "__main__":

@@ -69,3 +69,10 @@ def check_replay(result, binary_sha256):
             "not every discovered device was selected or independently observed gone")
     require(len(result["children"]) == 3 and all(child["exit_code"] is not None for child in result["children"]),
             "owned process-action children remain running")
+
+
+def device_label(monitor, monitors):
+    """Expected visible identity when hardware reports duplicate product names."""
+    if monitor["kind"] == "Gpu" and sum(m["title"] == monitor["title"] for m in monitors) > 1:
+        return monitor["title"] + " · " + monitor["id"]
+    return monitor["title"]
