@@ -565,6 +565,68 @@ class PendingEndpointTests(unittest.TestCase):
         )
         self.assertFalse(any(e[0] == "navigation-batch-interrupted" for e in f.events))
 
+    def test_passive_reconcile_uses_positive_ack_index_after_predispatch_exit(self):
+        f = self.f
+        f.displaced_endpoint()
+        f.ids = [aid(pid) for pid in range(20)]
+        f.selection = None
+        f.visible_ids = f.ids[:]
+        transient = [aid(100), aid(101)]
+        inserted, removed, recovered = [], [], []
+        key = f.native.key
+        stat = f.native.navigation_stat
+
+        def issue(value, **kwargs):
+            key(value, **kwargs)
+            if f.pending[1] == self.endpoint and not inserted:
+                inserted.append(True)
+                f.ids[17:17] = transient
+                f.nodes.update({identity: f.row(identity) for identity in transient})
+                f.sequence += 1
+                f.revision += 1
+            f.visible_ids = f.ids[f.ids.index(f.pending[1]):]
+
+        def observation(expected):
+            if expected == transient[0] and not removed:
+                removed.append(len([e for e in f.events if e[0] == "key"]))
+                for identity in transient:
+                    f.ids.remove(identity)
+                    del f.nodes[identity]
+                f.sequence += 1
+                f.revision += 1
+                # The viewport stays at the last acknowledged index, 19.
+                f.visible_ids = f.ids[19:]
+            return stat(expected)
+
+        def reveal(point, down, *, deadline=None):
+            self.assertFalse(down)
+            self.assertLess(f.clock.now, deadline)
+            self.assertEqual(len([e for e in f.events if e[0] == "key"]), removed[0])
+            recovered.append(deadline)
+            f.visible_ids = f.ids[17:]
+
+        f.native.key = issue
+        f.native.navigation_stat = observation
+        f.native.wheel = Mock(side_effect=reveal)
+        selection = Mock(wraps=f.native.navigation_selection)
+        f.native.navigation_selection = selection
+        self.assertEqual(f.navigate()[0], f.target)
+        self.assertEqual(inserted, [True])
+        self.assertEqual(removed, [3])  # End, Up, Up; no proposed transient batch.
+        self.assertEqual(len(recovered), 1)
+        first_ack = next(c for c in selection.call_args_list if c.kwargs.get("pending"))
+        self.assertEqual(first_ack.kwargs["endpoint_index"], 17)
+        reconcile = next(
+            c for c in selection.call_args_list
+            if c.args[0] == self.endpoint and c.kwargs.get("reconcile")
+        )
+        self.assertEqual(reconcile.kwargs["endpoint_index"], 19)
+        replan = next(e[1] for e in f.events if e[0] == "navigation-predispatch-replan")
+        self.assertEqual(recovered, [replan["batch_deadline"]])
+        proof = next(e[1] for e in f.events if e[0] == "navigation-endpoint-reveal-proof")
+        self.assertEqual(proof["original_index"], 19)
+        self.assertEqual(f.selection, [f.target])
+
     def test_predispatch_exit_never_resets_budget_even_with_unchanged_snapshot(self):
         f = self.f
         live = f.stat(self.endpoint)

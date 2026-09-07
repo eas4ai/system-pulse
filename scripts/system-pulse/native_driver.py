@@ -1973,13 +1973,20 @@ class Native:
                 or not current
             ):
                 self.navigation_context["phase"] = "reconcile previous selection"
+                # A positive ACK may observe the identity at a different index
+                # from the issued key. Its recorded index is the last proven
+                # viewport reference for subsequent passive snapshot changes.
                 selected, frame, path = self.navigation_selection(
                     selected[0],
                     target,
                     batch_deadline,
                     reconcile=True,
                     path=None if selected[0] == target else path,
-                    endpoint_index=endpoint_index,
+                    endpoint_index=(
+                        acknowledgement["index"]
+                        if acknowledgement is not None
+                        else endpoint_index
+                    ),
                 )
                 ids = list(map(identity, frame["snapshot"]["processes"]))
                 if selected is None:

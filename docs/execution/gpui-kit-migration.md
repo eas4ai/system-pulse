@@ -48,14 +48,28 @@ The Unix adapter is now vendored with one structured-argument wrapper at the
 cache emitter. Two wire-level regressions fail against the original framing and
 pass with the correction. All seven Unix and nine common adapter tests pass.
 The acceptance command includes the new adapter's tests, formatting and lint;
-the build-source guard binds its files. A fresh native/package run is required.
+the build-source guard binds its files. The standalone native replay passed all 14 cases with zero malformed cache
+warnings after this correction. A final native/package run is required.
 
 Native macOS checks passed on the migrated application: build, 90 application
 tests, five dispatcher tests and fresh-process application success, error,
 unwind and background cases. Direct test binaries emitted no missing-pool
 diagnostics. The Mac desktop session was locked, so GUI replay was not run.
-These checks preceded the Linux-only cache patch; final source equivalence
-must be checked before applying this evidence to the delivered revision.
+The checks were repeated successfully on cache-patch revision `f6fcffc`; all
+551 runtime input hashes remained unchanged and owned processes were cleaned up.
+
+The final native run then found a separate replay bookkeeping defect during
+real-child navigation. A positive native acknowledgement observed a selected
+identity at index 1275, while the driver retained the earlier issued index 1273.
+After passive process exits moved that identity offscreen, this old index no
+longer supplied the historical viewport proof required by the recovery guard.
+Passive reconciliation now uses the index already captured with the positive
+acknowledgement. First pending-input acknowledgement and the final target proof
+retain their issued index; selection, recovery and deadline checks remain unchanged.
+A regression reproduces the same timeout before the correction and passes
+afterward, requiring no arrows for the disappeared proposed endpoint, a guarded
+nonselecting wheel and a fresh exact target acknowledgement. Application code
+is unchanged; the original failed run remains recorded.
 
 The plan is [GPUI Kit migration](../superpowers/plans/2026-09-07-gpui-kit-migration.md).
 Detailed logs are retained outside the checkout in
