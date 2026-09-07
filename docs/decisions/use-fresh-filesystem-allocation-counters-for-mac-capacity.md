@@ -11,4 +11,4 @@ The developer approved actual filesystem used/total bytes on macOS, matching the
 
 ## Realized by
 
-(none yet: recorded, not built)
+- a5af944f2573b60ab4df4d2fa98de238dbd43b1a Read fresh Mac filesystem allocation and add paired CPU measurements
