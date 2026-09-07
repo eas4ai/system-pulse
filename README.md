@@ -23,7 +23,9 @@ Linux is the verified platform. The [Linux checkpoint](docs/execution/linux-appl
 ## Verify
 
 ```sh
-cargo test --locked -p system-pulse
+cargo fmt --all -- --check
+cargo test --locked --workspace
+cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
 python3 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
 python3 -B scripts/system-pulse/application_acceptance.py
 ```

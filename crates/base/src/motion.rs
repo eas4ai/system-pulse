@@ -141,6 +141,15 @@ impl Transition {
         self.easing.sample(progress)
     }
 
+    fn scaled_duration(&self, factor: f32) -> Duration {
+        // Converting the full duration to f32 seconds can extend its deadline.
+        if factor == 1.0 {
+            self.duration
+        } else {
+            self.duration.mul_f64(f64::from(factor))
+        }
+    }
+
     fn progress(&self, elapsed: Duration, duration: Duration) -> (f32, MotionStatus) {
         let Some(active_elapsed) = self.delay.active_elapsed(elapsed) else {
             return (0.0, MotionStatus::Delayed);
@@ -314,7 +323,7 @@ where
         } else {
             1.0
         };
-        let duration = policy.duration.mul_f32(reversing_factor);
+        let duration = policy.scaled_duration(reversing_factor);
         state.update(cx, |state, _| {
             state.from = sampled.clone();
             state.target = target.clone();

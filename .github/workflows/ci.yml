@@ -25,8 +25,8 @@ jobs:
           sudo apt-get install -y clang lld pkg-config libfontconfig-dev libwayland-dev libxkbcommon-x11-dev libx11-xcb-dev libssl-dev libzstd-dev libvulkan1 python3-xlib python3-pyatspi python3-pil
       - name: Check formatting
         run: cargo fmt --all -- --check
-      - name: Test application, collectors and model
-        run: cargo test --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model
+      - name: Test application and bundled libraries
+        run: cargo test --locked --workspace
       - name: Lint application, collectors and model
         run: cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
       - name: Test verification and packaging tools
