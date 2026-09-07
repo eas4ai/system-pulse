@@ -297,6 +297,17 @@ pub(crate) fn history_chart(
     } else {
         150.
     };
+    let compact = height < 140.;
+    let visible_scale = if compact {
+        scale_label.trim_start_matches("Scale: ").to_owned()
+    } else {
+        scale_label
+    };
+    let visible_elapsed = if compact {
+        elapsed.trim_end_matches(" history").to_owned()
+    } else {
+        elapsed
+    };
     div()
         .id(id.clone())
         .accessibility_id(id.to_string())
@@ -307,18 +318,20 @@ pub(crate) fn history_chart(
         .h(px(height))
         .flex()
         .flex_col()
-        .gap_1()
-        .when(height >= 140., |this| {
-            this.child(
-                div()
-                    .flex()
-                    .justify_between()
-                    .text_size(px(10.))
-                    .text_color(cx.theme().muted_foreground)
-                    .child(scale_label)
-                    .child(elapsed),
-            )
-        })
+        .gap(px(if compact { 2. } else { 4. }))
+        .child(
+            div()
+                .flex()
+                .flex_shrink_0()
+                .justify_between()
+                .gap(px(4.))
+                .h(px(if compact { 12. } else { 14. }))
+                .line_height(px(if compact { 12. } else { 14. }))
+                .text_size(px(if compact { 9. } else { 10. }))
+                .text_color(cx.theme().muted_foreground)
+                .child(visible_scale)
+                .child(visible_elapsed),
+        )
         .child(
             div()
                 .relative()
@@ -354,7 +367,7 @@ pub(crate) fn segmented_meter(
     color: Hsla,
     vertical: bool,
     cx: &App,
-) -> AnyElement {
+) -> Stateful<Div> {
     let id = id.into();
     let ratio = meter_ratio(ratio);
     let label = ratio.map_or_else(
@@ -403,7 +416,6 @@ pub(crate) fn segmented_meter(
                     }])
                 })
         }))
-        .into_any_element()
 }
 
 #[cfg(test)]
