@@ -52,13 +52,17 @@ def main():
         run(install, output, "repeat-install.log")
         desktop = prefix / "share/applications/org.systempulse.SystemPulse.desktop"
         run(["desktop-file-validate", str(desktop)], output, "desktop-validation.log")
-        from gi.repository import Gio
+        import gi
 
-        launcher = Gio.DesktopAppInfo.new_from_filename(str(desktop))
+        gi.require_version("GioUnix", "2.0")
+        from gi.repository import GioUnix, GLib
+
+        launcher = GioUnix.DesktopAppInfo.new_from_filename(str(desktop))
         require(launcher is not None, "desktop launcher could not be parsed")
         binary = prefix / "lib/system-pulse/system-pulse"
+        parsed, arguments = GLib.shell_parse_argv(launcher.get_commandline())
         require(
-            launcher.get_executable() == str(binary),
+            parsed and arguments == [str(binary)],
             "desktop Exec did not preserve the installation path",
         )
         require(
