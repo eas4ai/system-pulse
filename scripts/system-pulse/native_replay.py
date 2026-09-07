@@ -636,6 +636,14 @@ def main():
         gpus = [m for m in app.frame()["snapshot"]["monitors"] if m["kind"] == "Gpu"]
         gpu_temperature_artifacts = []
         for index, gpu in enumerate(gpus):
+            # First launch shows one GPU. Explicitly enable every discovered
+            # adapter before preserving the original all-GPU accuracy checks.
+            if not app.state()["panels"][gpu["id"]]["visible"]:
+                app.click(app.find("Show " + gpu["title"], "button"))
+                app.wait(
+                    lambda: app.state()["panels"][gpu["id"]]["visible"],
+                    message="enable GPU for physical comparison",
+                )
             app.focus(
                 app.find(
                     "Collapse " + gpu["title"], "button", root=app.panel(gpu["id"])
@@ -750,6 +758,10 @@ def main():
             },
         )
         progress("inner-scroll", "RUNNING")
+        # Navigation preservation uses the canonical PID census. The product
+        # defaults to CPU descending, so choose PID ascending through its UI.
+        app.focus(app.find("Sort by PID", "button", root=app.panel("processes")))
+        app.key("Return")
         app.enter_processes()
         rows = app.frame()["snapshot"]["processes"]
         first = identity(rows[0])
