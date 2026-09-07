@@ -7,6 +7,7 @@ publish = false
 
 [dependencies]
 gpui-kit = "=0.6.0"
+gpui-tray = { git = "https://github.com/eas4ai/gpui-kit-tray", rev = "5e0f637069e6d5ba8bdee6872f1ed935348642a0" }
 serde.workspace = true
 serde_json.workspace = true
 system-pulse-collectors = { path = "crates/collectors" }

@@ -1,5 +1,7 @@
 #[path = "presets.rs"]
 pub(crate) mod presets;
+#[path = "window_lifetime.rs"]
+mod window_lifetime;
 #[cfg(test)]
 use crate::fixture;
 use crate::{
@@ -258,6 +260,7 @@ fn capture_preferences(shared: &Shared, dock: &DockAreaState) {
 }
 
 pub struct WorkspaceView {
+    attached_window: Option<AnyWindowHandle>,
     pub(crate) shared: Shared,
     pub(crate) screen_view: Option<WeakEntity<crate::screens::ScreenView>>,
     pub(crate) dock: Entity<DockArea>,
@@ -424,30 +427,9 @@ impl WorkspaceView {
             bounds: BTreeMap::new(),
             scroll: ScrollHandle::default(),
         }));
-        let dock = cx.new(|cx| {
-            DockArea::new("system-pulse", Some(1), window, cx)
-                .with_renderer(Rc::new(WorkspaceSkin(shared.clone())))
-        });
-        panel::register(shared.clone(), cx);
-        let state = serde_json::from_value(shared.borrow().session.workspace.dock.clone())
-            .expect("validated/default dock");
-        dock.update(cx, |dock, cx| {
-            dock.set_panel_policy(PanelPolicy::Separate, window, cx)
-                .expect("empty dock accepts policy");
-            dock.load(state, window, cx)
-                .expect("validated/default dock loads");
-            dock.refresh_geometry(window, cx);
-        });
-        ensure_enabled_regions(&shared, &dock, window, cx);
-        cx.subscribe_in(&dock, window, |this, _, event, _, cx| {
-            if matches!(event, DockEvent::LayoutChanged) {
-                this.record(cx);
-                this.queue_save(cx);
-                cx.notify();
-            }
-        })
-        .detach();
+        let dock = Self::create_dock(&shared, window, cx);
         let mut view = Self {
+            attached_window: Some(window.window_handle()),
             shared,
             screen_view: None,
             dock,
@@ -481,26 +463,14 @@ impl WorkspaceView {
             view.advance(cx);
         }
         if live {
-            view.timer = Some(cx.spawn_in(window, async move |weak, window| {
-                loop {
-                    window
-                        .background_executor()
-                        .timer(Duration::from_millis(100))
-                        .await;
-                    if weak
-                        .update_in(window, |this, window, cx| this.deliver(window, cx))
-                        .is_err()
-                    {
-                        break;
-                    }
-                }
-            }));
+            view.timer = Some(Self::sampling_timer(cx));
             // The final native window closes before App quits. Retain this view
             // until the App-level callback snapshots it; a weak entity callback
             // can otherwise disappear with the window before writing state.
             let owner = cx.entity();
             App::on_app_quit(cx, move |cx| {
                 let (path, storage, json, preset) = owner.update(cx, |this, cx| {
+                    this.timer.take();
                     this.record(cx);
                     let data = this.shared.borrow();
                     let json = if this.read_blocked {
@@ -540,6 +510,10 @@ impl WorkspaceView {
     }
 
     fn deliver(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self.deliver_optional(Some(window), cx);
+    }
+
+    fn deliver_optional(&mut self, window: Option<&mut Window>, cx: &mut Context<Self>) {
         if let Some(writer) = &self.diagnostics {
             if let Some(error) = writer.take_error() {
                 self.notice = error;
@@ -547,7 +521,11 @@ impl WorkspaceView {
             }
         }
         if let Some(snapshot) = self.service.as_ref().and_then(SamplingService::take_latest) {
-            self.accept_snapshot(snapshot, window, cx);
+            if let Some(window) = window {
+                self.accept_snapshot(snapshot, window, cx);
+            } else {
+                self.accept_background_snapshot(snapshot, cx);
+            }
         } else if let Some((accepted, collector_ms)) = self.accepted_clock {
             let now = collector_ms.saturating_add(accepted.elapsed().as_millis() as u64);
             let mut data = self.shared.borrow_mut();
@@ -568,6 +546,23 @@ impl WorkspaceView {
         &mut self,
         snapshot: Snapshot,
         window: &mut Window,
+        cx: &mut Context<Self>,
+    ) {
+        self.accept_snapshot_optional(snapshot, Some(window), cx);
+    }
+
+    pub(crate) fn accept_background_snapshot(
+        &mut self,
+        snapshot: Snapshot,
+        cx: &mut Context<Self>,
+    ) {
+        self.accept_snapshot_optional(snapshot, None, cx);
+    }
+
+    fn accept_snapshot_optional(
+        &mut self,
+        snapshot: Snapshot,
+        window: Option<&mut Window>,
         cx: &mut Context<Self>,
     ) {
         let model_started = self
@@ -622,11 +617,13 @@ impl WorkspaceView {
         data.snapshot = Some(snapshot);
         let changed = old_catalog != data.catalog;
         let catalog = data.catalog.clone();
-        let initial_dock = crate::layout::initialize(
-            &mut data.session.workspace,
-            &catalog,
-            &mut self.initial_layout_pending,
-        );
+        let initial_dock = window.as_ref().and_then(|_| {
+            crate::layout::initialize(
+                &mut data.session.workspace,
+                &catalog,
+                &mut self.initial_layout_pending,
+            )
+        });
         let updates: Vec<_> = data
             .catalog
             .iter()
@@ -651,18 +648,22 @@ impl WorkspaceView {
                 live::reconcile_selection(&mut panel.selected, &identities);
             });
         }
-        if let Some(state) = initial_dock {
-            self.shared.borrow_mut().bounds.clear();
-            self.dock.update(cx, |dock, cx| {
-                dock.load(state, window, cx)
-                    .expect("first-launch template is valid");
-                dock.refresh_geometry(window, cx);
-            });
+        if let Some(window) = window {
+            if let Some(state) = initial_dock {
+                self.shared.borrow_mut().bounds.clear();
+                self.dock.update(cx, |dock, cx| {
+                    dock.load(state, window, cx)
+                        .expect("first-launch template is valid");
+                    dock.refresh_geometry(window, cx);
+                });
+            }
+            if changed {
+                self.capture_sizes(cx);
+                ensure_enabled_regions(&self.shared, &self.dock, window, cx);
+                self.record(cx);
+            }
         }
         if changed {
-            self.capture_sizes(cx);
-            ensure_enabled_regions(&self.shared, &self.dock, window, cx);
-            self.record(cx);
             self.queue_save(cx);
         }
         self.accepted_clock = Some((std::time::Instant::now(), now_ms));

@@ -29,3 +29,4 @@ mod screen_summary;
 #[cfg(test)]
 mod screen_tests;
 pub mod screens;
+pub mod tray;

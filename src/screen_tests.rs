@@ -82,6 +82,54 @@ fn active(view: &Entity<ScreenView>, cx: &VisualTestContext) -> Screen {
 }
 
 #[gpui_kit::test]
+fn detached_workspace_keeps_cpu_history_and_preferences(cx: &mut TestAppContext) {
+    let (view, cx) = populated(cx);
+    command(&view, crate::workspace::Command::Screen(Screen::Memory), cx);
+    let owner = cx.read(|cx| view.read(cx).shared.borrow().owner.clone().unwrap());
+    cx.update(|_, cx| {
+        owner
+            .update(cx, |owner, cx| owner.detach_window(cx))
+            .unwrap();
+        for sequence in 6..=130 {
+            owner
+                .update(cx, |owner, cx| {
+                    owner.accept_background_snapshot(fixture::snapshot(sequence), cx)
+                })
+                .unwrap();
+        }
+    });
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(data.snapshot.as_ref().unwrap().sequence, 130);
+        assert_eq!(
+            data.history
+                .samples("cpu:host", "cpu:host/usage")
+                .unwrap()
+                .len(),
+            120
+        );
+        assert_eq!(data.session.workspace.screens.active, Screen::Memory);
+    });
+    cx.update(|window, cx| {
+        owner
+            .update(cx, |owner, cx| owner.attach_window(window, cx))
+            .unwrap()
+    });
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(data.snapshot.as_ref().unwrap().sequence, 130);
+        assert_eq!(data.session.workspace.screens.active, Screen::Memory);
+        assert_eq!(
+            data.history
+                .samples("cpu:host", "cpu:host/usage")
+                .unwrap()
+                .len(),
+            120
+        );
+    });
+}
+
+#[gpui_kit::test]
 fn network_default_prefers_route_but_preserves_explicit_selection(cx: &mut TestAppContext) {
     let (view, cx) = populated(cx);
     let mut snapshot = fixture::snapshot(6);

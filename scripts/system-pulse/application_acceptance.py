@@ -112,6 +112,24 @@ def main():
         )
         validate_tabbed(runner, binary, output / "application")
         runner.step(
+            "tray",
+            private_session(
+                harness / "tray_replay.py",
+                "--binary",
+                binary,
+                "--output",
+                output / "tray",
+                log=output / "tray.session.log",
+            ),
+            timeout=120,
+        )
+        tray = json.loads((output / "tray/result.json").read_text())
+        require(
+            tray["status"] == "PASS"
+            and tray["binary_sha256"] == build["binary_sha256"],
+            "native tray replay did not pass against packaged binary",
+        )
+        runner.step(
             "installed",
             private_session(
                 harness / "package_smoke.py",
@@ -138,6 +156,7 @@ def main():
                 output / "preservation/manifest.json"
             ),
             product=runner.artifact(output / "application/result.json"),
+            tray=runner.artifact(output / "tray/result.json"),
             installed=runner.artifact(output / "installed/result.json"),
         )
     except BaseException as error:

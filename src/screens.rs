@@ -28,6 +28,35 @@ impl ApplicationView {
         Self::from_workspace(workspace, window, cx)
     }
 
+    /// Preserve monitoring and saved preferences after the native window closes.
+    pub(crate) fn detach_window(&mut self, cx: &mut Context<Self>) {
+        self._workspace
+            .update(cx, |workspace, cx| workspace.detach_window(cx));
+    }
+
+    /// Recreate controls against the new native window, retaining sampled history.
+    pub(crate) fn attach_window(&mut self, window: &mut Window, cx: &mut Context<Self>) {
+        self._workspace
+            .update(cx, |workspace, cx| workspace.attach_window(window, cx));
+        let shared = self._workspace.read(cx).shared.clone();
+        self.screens = cx.new(|cx| ScreenView::new(shared, window, cx));
+        self._workspace.update(cx, |workspace, _| {
+            workspace.screen_view = Some(self.screens.downgrade())
+        });
+        cx.notify();
+    }
+
+    pub(crate) fn cpu_samples(&self, cx: &App) -> Vec<system_pulse_model::Sample> {
+        self._workspace
+            .read(cx)
+            .shared
+            .borrow()
+            .history
+            .samples("cpu:host", "cpu:host/usage")
+            .map(|samples| samples.iter().cloned().collect())
+            .unwrap_or_default()
+    }
+
     fn from_workspace(
         workspace: Entity<WorkspaceView>,
         window: &mut Window,

@@ -17,6 +17,7 @@ This package is built on Ubuntu 26.04 for x86-64 Linux with glibc. It uses the h
 
 ## Use the workspace
 
+- The tray shows one combined CPU load graph. Closing the window keeps monitoring; click the icon to reopen it, or choose **Quit** from its menu to exit. Without an available tray, closing the window exits normally. If the tray disappears while monitoring in the background, the window reopens.
 - Click a tab, use Left/Right/Home/End while a tab has focus, or cycle screens with Ctrl+Tab and Ctrl+Shift+Tab. Each screen scrolls as needed.
 - Choose a named device above GPU, Disks or Network. Energy and Thermals select measured sensors. Long menus scroll and support Up/Down and Return.
 - Open **Settings** for appearance, sampling and presets. Unavailable sensors reappear when readings recover; failed, stale and warming-up states remain explicit. Network defaults to the Linux main-table default-route interface; an explicit selection takes precedence. Process counters show **No access** when the OS denies access.
