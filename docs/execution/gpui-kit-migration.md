@@ -125,3 +125,8 @@ Detailed logs are retained outside the checkout in
 `/home/shawn/workspace2/task-manager-artifacts/gpui-kit-06-20260907/`.
 Earlier hardware evidence remains bound to its original source and dependencies;
 this work does not claim the outstanding Intel/Apple GPU acceptance complete.
+
+The verified package binary was atomically installed at
+`/home/shawn/.cargo/bin/system-pulse` after integration into application `main`.
+The previous binary is backed up in the evidence directory. User configuration
+and the running desktop session were preserved.
