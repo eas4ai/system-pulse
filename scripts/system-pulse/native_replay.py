@@ -1095,6 +1095,13 @@ def main():
         app.enter_processes()
         app.key("Home")
         app.acknowledge(stable, time.monotonic() + 5)
+        app.key("Alt_L", "Left")
+        first_cell = app.find(aid=stable + ":cell:0")
+        app.wait(
+            lambda: app.visible(first_cell),
+            5,
+            "first process cell visible before held outer scrolling",
+        )
         anchor = app.panel("processes")
         for key, axis, sign in (
             ("Next", 1, -1),
