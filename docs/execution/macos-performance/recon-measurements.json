@@ -1,0 +1,120 @@
+[
+  {
+    "mode": "summary-visible-1280x880-1s",
+    "wall_seconds": 30.024162167000004,
+    "cpu_seconds": 3.8100000000000005,
+    "one_core_percent": 12.689779580885782,
+    "threads": [
+      {
+        "thread": 6173421792,
+        "name": "pulse-collector",
+        "native_time_delta": 2905128000,
+        "percent_if_nanoseconds": 9.675966922377834
+      },
+      {
+        "thread": 8498045536,
+        "name": "main",
+        "native_time_delta": 699297000,
+        "percent_if_nanoseconds": 2.3291141185235387
+      },
+      {
+        "thread": 6174568672,
+        "name": "CVDisplayLink",
+        "native_time_delta": 86094000,
+        "percent_if_nanoseconds": 0.2867490507183151
+      },
+      {
+        "thread": 6170128608,
+        "name": "",
+        "native_time_delta": 40407000,
+        "percent_if_nanoseconds": 0.13458160722437054
+      },
+      {
+        "thread": 6173995232,
+        "name": "",
+        "native_time_delta": 38349000,
+        "percent_if_nanoseconds": 0.12772712786020704
+      },
+      {
+        "thread": 6169555168,
+        "name": "",
+        "native_time_delta": 37905000,
+        "percent_if_nanoseconds": 0.1262483189011747
+      },
+      {
+        "thread": 0,
+        "name": "",
+        "native_time_delta": 4000,
+        "percent_if_nanoseconds": 1.3322603234525754e-05
+      },
+      {
+        "thread": 6171275488,
+        "name": "com.apple.NSEventThread",
+        "native_time_delta": 0,
+        "percent_if_nanoseconds": 0.0
+      }
+    ],
+    "new_threads": [],
+    "exited_threads": []
+  },
+  {
+    "mode": "tray-only-1s",
+    "wall_seconds": 30.022252667000004,
+    "cpu_seconds": 3.4399999999999995,
+    "one_core_percent": 11.458167507134448,
+    "threads": [
+      {
+        "thread": 6173421792,
+        "name": "pulse-collector",
+        "native_time_delta": 2997700000,
+        "percent_if_nanoseconds": 9.984926958179342
+      },
+      {
+        "thread": 8498045536,
+        "name": "main",
+        "native_time_delta": 368425000,
+        "percent_if_nanoseconds": 1.227173070876747
+      },
+      {
+        "thread": 6173995232,
+        "name": "",
+        "native_time_delta": 25583000,
+        "percent_if_nanoseconds": 0.08521345910901762
+      },
+      {
+        "thread": 6169555168,
+        "name": "",
+        "native_time_delta": 25405000,
+        "percent_if_nanoseconds": 0.08462056555777636
+      },
+      {
+        "thread": 6170128608,
+        "name": "",
+        "native_time_delta": 22317000,
+        "percent_if_nanoseconds": 0.07433486170253474
+      },
+      {
+        "thread": 6171275488,
+        "name": "com.apple.NSEventThread",
+        "native_time_delta": 0,
+        "percent_if_nanoseconds": 0.0
+      },
+      {
+        "thread": 6174568672,
+        "name": "",
+        "native_time_delta": 0,
+        "percent_if_nanoseconds": 0.0
+      },
+      {
+        "thread": 0,
+        "name": "",
+        "native_time_delta": 0,
+        "percent_if_nanoseconds": 0.0
+      }
+    ],
+    "new_threads": [],
+    "exited_threads": [
+      6170702048
+    ]
+  }
+]

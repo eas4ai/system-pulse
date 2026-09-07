@@ -29,6 +29,7 @@ Read [glossary](glossary.md), the relevant domain below, and [the agreed real-co
 | [Real collection](live-collection.md) | LIVE | Completed collection contract and preservation constraints. |
 | [Intel and Apple GPU collection](gpu-collection.md) | GPU | Current agreed collector, memory-scope and native-evidence requirements. |
 | Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](../superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../docs/native-fixture-acceptance.md). |
+| [Native monitoring overhead](performance.md) | PERF | Current Mac release CPU reduction and accuracy-preservation contract. |
 | [Application completion](application.md) | APP | Process controls, complete customization, named presets, appearance, first-launch layout and Linux packaging from the original product scope. |
 | Other framework examples, shell, website and reference projects | Outside this work | Workspace membership is defined in [Cargo.toml](../../Cargo.toml:3); this adoption does not redefine those products. |
 

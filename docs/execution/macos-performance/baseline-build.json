@@ -1,0 +1,9 @@
+{
+  "exit_code": 0,
+  "seconds": 358.49,
+  "verified_source_files": 1670,
+  "binary": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/release/system-pulse",
+  "bytes": 25829584,
+  "sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+  "file": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/release/system-pulse: Mach-O 64-bit executable arm64"
+}

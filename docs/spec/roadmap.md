@@ -3,7 +3,7 @@
 > Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
-Current: finish-application
+Current: macos-performance
 
 ## Real system readings
 
@@ -22,3 +22,7 @@ Intel Windows support follows separately; a tablet is available for future valid
 ## Finish the application
 
 The developer asked to finish the application on 2026-09-06. Complete the remaining original product features and a usable Linux package under [finish-application](../commitments/finish-application.md). The GPU work remains incomplete and its requirements remain included; this change of active work does not claim hardware acceptance or change the pending platform-priority decision.
+
+## Reduce Mac monitoring overhead
+
+The developer approved the [Mac performance commitment](../commitments/macos-performance.md) on 2026-09-07: at least 50 percent less release CPU in both Summary and tray-only modes on the same MacBook, preserving one-second readings and behavior. The earlier finish-application and GPU commitments remain incomplete; this new current commitment does not erase their pending evidence or historical scope findings.
