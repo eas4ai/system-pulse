@@ -798,11 +798,14 @@ class Native:
             return self.find(aid=aid, deadline=deadline)
 
         node = lookup()
-        self.save(name + "-ancestors.json", self.ancestors(node))
         deadline = time.monotonic() + 5
         attempts = []
+        ancestors_saved = False
         while time.monotonic() < deadline:
             try:
+                if not ancestors_saved:
+                    self.save(name + "-ancestors.json", self.ancestors(node))
+                    ancestors_saved = True
                 before = self.frame()
                 node.clear_cache()
                 if not self.alive(node):

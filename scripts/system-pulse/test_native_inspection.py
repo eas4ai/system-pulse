@@ -596,6 +596,61 @@ class InspectionWiringTests(unittest.TestCase):
         self.assertEqual(calls, [(15, 0), (6.25, 1.25)])
         self.app.save.assert_any_call("replacement.json", result)
 
+    def metric_fixture(self):
+        self.app.__dict__.pop("metric")
+        self.app.app = Mock(pid=77)
+        self.app.app.poll.return_value = None
+        self.app.save = Mock()
+        self.app.screenshot = Mock()
+        self.app.frame = self.frame
+        self.app.metric.__func__.__globals__["expected_label"] = lambda frame, entry: ""
+        return self.app.metric.__func__.__globals__["GLib"].Error
+
+    def test_metric_ancestor_replacement_uses_original_deadline_and_fresh_cell(self):
+        error = self.metric_fixture()
+        original = self.f.cells[0]
+        observed = []
+
+        def ancestors(node):
+            observed.append(node)
+            if node is original:
+                original.defunct = True
+                self.f.cells[0] = cells.Node(self.f.clock, cells.CELL)
+                self.f.cells[0].x = 0
+                self.f.clock.now += 1
+                raise error("object no longer exists")
+            return [{"id": "current-viewport", "bounds": [0, 0, 20, 20]}]
+
+        self.app.ancestors = ancestors
+        result = self.app.metric(cells.CELL, "replaced-ancestor", visible=False)
+        self.assertIs(observed[0], original)
+        self.assertTrue(all(node is self.f.cells[0] for node in observed[1:]))
+        self.assertEqual(result["entry"]["element_id"], cells.CELL)
+        self.assertLess(self.f.clock.now, 5)
+        self.app.save.assert_any_call(
+            "replaced-ancestor-ancestors.json", result["clip_ancestors"]
+        )
+
+    def test_persistent_metric_ancestor_failure_cannot_restart_five_second_bracket(
+        self,
+    ):
+        error = self.metric_fixture()
+
+        def ancestors(node):
+            self.f.clock.now += 0.5
+            raise error("object no longer exists")
+
+        self.app.ancestors = ancestors
+        with self.assertRaises(TimeoutError):
+            self.app.metric(cells.CELL, "defunct-ancestor", visible=False)
+        self.assertEqual(self.f.clock.now, 5)
+        self.assertFalse(
+            any(
+                call.args[0] == "defunct-ancestor.json"
+                for call in self.app.save.call_args_list
+            )
+        )
+
     def test_reveal_forwards_callback_on_initial_lookup_and_replacement(self):
         f = self.f
         self.assertIn(
