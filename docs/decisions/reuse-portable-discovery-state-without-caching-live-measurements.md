@@ -11,6 +11,8 @@ Start with the measured portable collector. Retain the sysinfo temperature clien
 
 ## Realized by
 
+56038af4b332debc3006db03c3688d78da241011 Reuse Apple temperature connections with failure recovery
+
 The first change retains the Apple Silicon temperature connection in
 `crates/collectors/src/host/temperature.rs`. Every sample refreshes readings and
 discovery, removes absent entries, and schedules a new connection after a failed
