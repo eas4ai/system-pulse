@@ -18,6 +18,14 @@ fn leaf(id: &str) -> PanelState {
         info: PanelInfo::tabs(0),
     }
 }
+fn preferred_height(id: &str) -> f32 {
+    match id {
+        "cpu:host" | "cpu" => 380.,
+        "memory:host" | "memory" => 260.,
+        "processes" => 420.,
+        _ => 300.,
+    }
+}
 fn stack(axis: Axis, children: Vec<PanelState>, extent: f32) -> PanelState {
     PanelState {
         panel_name: "StackPanel".into(),
@@ -71,17 +79,18 @@ pub(crate) fn preset(kind: BuiltinPreset, catalog: &[MonitorDescriptor]) -> Work
     let columns: Vec<_> = [left, right]
         .into_iter()
         .filter(|column| !column.is_empty())
-        .map(|column| {
-            stack(
+        .map(|column| PanelState {
+            panel_name: "StackPanel".into(),
+            info: PanelInfo::stack(
+                column.iter().map(|m| px(preferred_height(&m.id))).collect(),
                 Axis::Vertical,
-                column.iter().map(|m| leaf(&m.id)).collect(),
-                300.,
-            )
+            ),
+            children: column.iter().map(|m| leaf(&m.id)).collect(),
         })
         .collect();
     let dock = DockAreaState {
         version: Some(1),
-        center: stack(Axis::Horizontal, columns, 440.),
+        center: stack(Axis::Horizontal, columns, 580.),
         left_dock: None,
         right_dock: None,
         bottom_dock: None,
@@ -91,6 +100,10 @@ pub(crate) fn preset(kind: BuiltinPreset, catalog: &[MonitorDescriptor]) -> Work
     crate::live::discover(&mut workspace, catalog);
     for (id, panel) in &mut workspace.panels {
         panel.visible = visible.contains(id);
+        panel.expanded_size = system_pulse_model::ExpandedSize {
+            width: 580.,
+            height: preferred_height(id),
+        };
     }
     workspace
 }
@@ -118,5 +131,61 @@ mod tests {
         assert!(gpu.panels["gpu:fixture-a"].visible && gpu.panels["gpu:fixture-b"].visible);
         let developer = preset(BuiltinPreset::Developer, &catalog);
         assert!(developer.panels["interface:fixture-lan"].visible);
+    }
+}
+
+pub(crate) fn initialize(
+    workspace: &mut Workspace,
+    catalog: &[MonitorDescriptor],
+    pending: &mut bool,
+) -> Option<DockAreaState> {
+    if !*pending
+        || !catalog
+            .iter()
+            .any(|m| matches!(m.id.as_str(), "cpu:host" | "cpu" | "memory:host" | "memory"))
+    {
+        return None;
+    }
+    let template = preset(BuiltinPreset::Default, catalog);
+    workspace.dock = template.dock;
+    crate::live::discover(workspace, catalog);
+    for (id, panel) in &mut workspace.panels {
+        if let Some(default) = template.panels.get(id) {
+            panel.visible = default.visible;
+            panel.expanded_size = default.expanded_size;
+        }
+    }
+    *pending = false;
+    Some(serde_json::from_value(workspace.dock.clone()).expect("built-in dock is valid"))
+}
+#[cfg(test)]
+mod first_launch_tests {
+    use super::*;
+    #[test]
+    fn first_snapshot_arranges_primary_monitors_and_keeps_saved_appearance() {
+        let catalog = crate::fixture::catalog();
+        let mut workspace =
+            Workspace::new(serde_json::to_value(crate::workspace::default_dock()).unwrap());
+        workspace.appearance.theme = system_pulse_model::ColorTheme::Light;
+        let mut pending = true;
+        assert!(initialize(&mut workspace, &catalog, &mut pending).is_some());
+        assert!(!pending);
+        assert!(workspace.panels["cpu"].visible && workspace.panels["memory"].visible);
+        assert!(workspace.panels["gpu:fixture-a"].visible && workspace.panels["processes"].visible);
+        assert!(
+            !workspace.panels["settings"].visible
+                && !workspace.panels["interface:fixture-lan"].visible
+        );
+        assert_eq!(
+            workspace.appearance.theme,
+            system_pulse_model::ColorTheme::Light
+        );
+        workspace.panels.get_mut("cpu").unwrap().visible = false;
+        let saved = workspace.clone();
+        assert!(initialize(&mut workspace, &catalog, &mut pending).is_none());
+        assert_eq!(
+            workspace, saved,
+            "saved layout choices must not be reapplied"
+        );
     }
 }

@@ -66,6 +66,7 @@ pub(crate) fn button(
         Command::Meter(id, sensor) => format!("{id}:meter:{sensor}"),
         _ => unreachable!("panel controls only dispatch panel or sensor commands"),
     };
+    let disclosure = matches!(&command, Command::RowCollapse(_, _));
     let target = shared.borrow().owner.clone();
     let outer = shared.borrow().scroll.clone();
     let focus = focus.clone();
@@ -80,6 +81,15 @@ pub(crate) fn button(
         Command::PanelVisible(_) | Command::SensorVisible(_, _) if label.starts_with("Hide ") => {
             "×".into()
         }
+        Command::RowCollapse(id, sensor)
+            if id == "cpu:host" && crate::dashboard::core_number(sensor).is_some() =>
+        {
+            format!(
+                "{} {}",
+                if expanded == Some(true) { "▾" } else { "▸" },
+                crate::dashboard::core_number(sensor).expect("matched core")
+            )
+        }
         Command::RowCollapse(_, _) => format!(
             "{} {}",
             if expanded == Some(true) { "▾" } else { "▸" },
@@ -87,6 +97,7 @@ pub(crate) fn button(
                 .split_once(' ')
                 .map_or(label.as_str(), |(_, rest)| rest)
         ),
+        Command::Meter(_, _) => label.split_whitespace().nth(1).unwrap_or("Meter").into(),
         _ => label.clone(),
     };
     let tooltip = label.clone();
@@ -99,6 +110,9 @@ pub(crate) fn button(
         .h_7()
         .flex_none()
         .text_sm()
+        .when(disclosure, |button| {
+            button.flex_1().min_w_0().overflow_hidden()
+        })
         .border_1()
         .rounded(cx.theme().radius)
         .border_color(cx.theme().border)
@@ -128,6 +142,12 @@ pub(crate) fn button(
         .when_some(expanded, |control, expanded| {
             control.aria_expanded(expanded)
         })
-        .child(visible);
+        .child(
+            div()
+                .min_w_0()
+                .overflow_hidden()
+                .text_ellipsis()
+                .child(visible),
+        );
     control
 }

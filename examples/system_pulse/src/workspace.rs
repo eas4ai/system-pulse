@@ -7,7 +7,7 @@ use crate::{
     panel::{self, MonitorPanel, WorkspaceSkin},
     storage::{self, Storage},
 };
-use gpui::*;
+use gpui::{prelude::FluentBuilder, *};
 use gpui_base::{Button, ElementExt, Scrollbar, ScrollbarMode, dock::*};
 use gpui_component::{ActiveTheme, menu::ContextMenuExt};
 use std::{
@@ -53,6 +53,7 @@ pub(crate) enum Command {
     Meter(String, String),
     #[cfg(test)]
     Tick,
+    ShowSettings,
     Save,
     SavePreset,
     RecallPreset,
@@ -250,6 +251,7 @@ pub struct WorkspaceView {
     #[cfg(test)]
     tick: u64,
     fixture_mode: bool,
+    initial_layout_pending: bool,
     service: Option<SamplingService>,
     accepted_clock: Option<(std::time::Instant, u64)>,
     accepted_unix_ns: u64,
@@ -271,6 +273,7 @@ impl Command {
             Self::PanelVisible(id) => format!("workspace:visible:{id}"),
             #[cfg(test)]
             Self::Tick => "workspace:tick".into(),
+            Self::ShowSettings => "workspace:settings".into(),
             Self::Save => "workspace:save".into(),
             Self::SavePreset => "workspace:save-preset".into(),
             Self::RecallPreset => "workspace:recall-preset".into(),
@@ -298,9 +301,13 @@ impl WorkspaceView {
     fn construct(fixture_mode: bool, window: &mut Window, cx: &mut Context<Self>) -> Self {
         let live = !fixture_mode;
         let initial = initial_catalog(fixture_mode);
-        let mut workspace = Workspace::new(
-            serde_json::to_value(default_dock_for(&initial)).expect("default dock serializes"),
-        );
+        let mut workspace = if fixture_mode {
+            Workspace::new(
+                serde_json::to_value(default_dock_for(&initial)).expect("default dock serializes"),
+            )
+        } else {
+            crate::layout::preset(system_pulse_model::BuiltinPreset::Default, &initial)
+        };
         live::discover(&mut workspace, &initial);
         #[cfg(test)]
         if fixture_mode {
@@ -326,9 +333,13 @@ impl WorkspaceView {
             None
         };
         let mut preset = None;
+        let mut has_saved_workspace = false;
         if let Some(dir) = &directory {
             match storage::read(&dir.join("workspace.json")) {
-                Ok(Some(raw)) => session = restore_session(&raw, workspace, fixture_mode),
+                Ok(Some(raw)) => {
+                    has_saved_workspace = true;
+                    session = restore_session(&raw, workspace, fixture_mode);
+                }
                 Ok(None) => {}
                 Err(e) => {
                     notice = e;
@@ -424,6 +435,7 @@ impl WorkspaceView {
             #[cfg(test)]
             tick: 0,
             fixture_mode,
+            initial_layout_pending: live && !has_saved_workspace && !read_blocked,
             service,
             accepted_clock: None,
             accepted_unix_ns: 0,
@@ -540,6 +552,7 @@ impl WorkspaceView {
         let now_ms = live::collector_now_ms(&snapshot, unix_ns);
         let mut data = self.shared.borrow_mut();
         let old_catalog = data.catalog.clone();
+        let known: BTreeSet<_> = data.session.workspace.panels.keys().cloned().collect();
         let interval = data.session.workspace.interval_ms;
         let Data {
             session,
@@ -554,12 +567,41 @@ impl WorkspaceView {
             cx.notify();
             return;
         }
+        if !self.fixture_mode {
+            let mut visible_gpu = snapshot.monitors.iter().any(|m| {
+                crate::layout::is_gpu(&m.id)
+                    && known.contains(&m.id)
+                    && data
+                        .session
+                        .workspace
+                        .panels
+                        .get(&m.id)
+                        .is_some_and(|p| p.visible)
+            });
+            for monitor in &snapshot.monitors {
+                if !known.contains(&monitor.id) {
+                    let primary = matches!(
+                        monitor.id.as_str(),
+                        "cpu:host" | "memory:host" | "processes"
+                    );
+                    let gpu = crate::layout::is_gpu(&monitor.id) && !visible_gpu;
+                    data.session.workspace.panel_mut(&monitor.id).visible = primary || gpu;
+                    visible_gpu |= gpu;
+                }
+            }
+        }
         data.catalog = live::catalog(&data.session.workspace);
         data.processes = live::process_views(&snapshot, now_ms, interval * 2);
         data.process_widths = live::process_widths(&data.processes);
         let snapshot = std::sync::Arc::new(snapshot);
         data.snapshot = Some(snapshot);
         let changed = old_catalog != data.catalog;
+        let catalog = data.catalog.clone();
+        let initial_dock = crate::layout::initialize(
+            &mut data.session.workspace,
+            &catalog,
+            &mut self.initial_layout_pending,
+        );
         let updates: Vec<_> = data
             .catalog
             .iter()
@@ -582,6 +624,14 @@ impl WorkspaceView {
             let _ = view.update(cx, |panel, cx| {
                 panel.refresh(monitor, cx);
                 live::reconcile_selection(&mut panel.selected, &identities);
+            });
+        }
+        if let Some(state) = initial_dock {
+            self.shared.borrow_mut().bounds.clear();
+            self.dock.update(cx, |dock, cx| {
+                dock.load(state, window, cx)
+                    .expect("first-launch template is valid");
+                dock.refresh_geometry(window, cx);
             });
         }
         if changed {
@@ -691,6 +741,7 @@ impl WorkspaceView {
     }
 
     pub(crate) fn restore(&mut self, raw: &str, window: &mut Window, cx: &mut Context<Self>) {
+        self.initial_layout_pending = false;
         let catalog = self.shared.borrow().catalog.clone();
         let mut fallback = Workspace::new(
             serde_json::to_value(default_dock_for(&catalog)).expect("default serializes"),
@@ -742,7 +793,45 @@ impl WorkspaceView {
         window: &mut Window,
         cx: &mut Context<Self>,
     ) {
+        if matches!(
+            &command,
+            Command::PanelVisible(_)
+                | Command::PanelCollapse(_)
+                | Command::Save
+                | Command::SavePreset
+                | Command::RecallPreset
+                | Command::Preset(_)
+        ) {
+            self.initial_layout_pending = false;
+        }
         match command {
+            Command::ShowSettings => {
+                if !self.shared.borrow().session.workspace.panels["settings"].visible {
+                    self.command(Command::PanelVisible("settings".into()), window, cx);
+                }
+                let panel = self
+                    .shared
+                    .borrow()
+                    .views
+                    .get("settings")
+                    .and_then(|view| view.upgrade());
+                if let Some(panel) = panel {
+                    panel.read(cx).controls["collapse"]
+                        .handle
+                        .clone()
+                        .focus(window, cx);
+                }
+                cx.on_next_frame(window, |this, window, cx| {
+                    let data = this.shared.borrow();
+                    if let Some(bounds) = data.bounds.get("settings") {
+                        crate::controls::reveal(*bounds, &data.scroll);
+                    }
+                    window.refresh();
+                    cx.notify();
+                });
+                cx.notify();
+                return;
+            }
             #[cfg(test)]
             Command::Tick => {
                 self.advance(cx);
@@ -1035,6 +1124,7 @@ impl Render for WorkspaceView {
             })
             .collect::<Vec<_>>();
         let mut commands = vec![
+            ("Settings & presets".into(), Command::ShowSettings),
             ("Save".into(), Command::Save),
             ("Save preset".into(), Command::SavePreset),
             ("Recall preset".into(), Command::RecallPreset),
@@ -1100,19 +1190,20 @@ impl Render for WorkspaceView {
                     this.command(command, window, cx); cx.stop_propagation();
                 }
             }))
-            .child(div().id("workspace-title").child("System Pulse · live host readings")
-                .context_menu(move |menu, _, _| crate::panel_context::workspace(menu, &menu_shared)))
-            .child("Alt+PageUp/PageDown: workspace · Alt+Left/Right: horizontal · table arrows/Home/End · Tab: next control")
-            .child(toolbar)
-            .child(div().h(px(96.)).flex_none().relative()
+            .child(div().flex().flex_wrap().items_center().gap_3()
+                .child(div().id("workspace-title").text_lg().font_weight(FontWeight::SEMIBOLD).child("System Pulse")
+                    .context_menu(move |menu, _, _| crate::panel_context::workspace(menu, &menu_shared)))
+                .child(toolbar))
+            .child(div().h(px(64.)).flex_none().relative()
                 .child(div().id("visibility-controls").size_full().overflow_y_scroll().track_scroll(&self.visibility_scroll).child(visibility))
                 .child(Scrollbar::vertical(&self.visibility_scroll).mode(ScrollbarMode::Always)))
-            .child(message)
+            .when(!message.is_empty(), |el| el.child(div().text_sm().child(message)))
             .child(div().flex_1().min_h_0().min_w_0().relative()
                 .child(scroll_viewport("workspace-scroll", "workspace:viewport".into()).size_full().overflow_scroll().track_scroll(&scroll)
                     .debug_selector(|| "workspace-viewport".into())
                     .child(div().w(extent.width).h(extent.height).min_w_full().child(self.dock.clone())))
                 .child(Scrollbar::new(&scroll).mode(ScrollbarMode::Always)))
+            .child(div().text_xs().text_color(cx.theme().muted_foreground).child("Alt+PageUp/PageDown: scroll workspace · Alt+Left/Right: horizontal · Tab: next control"))
     }
 }
 

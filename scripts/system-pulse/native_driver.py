@@ -171,6 +171,16 @@ class Native:
             message="new session native PID root",
             deadline=startup_deadline,
         )
+        # Replay pointer coordinates use the window origin. The application may
+        # choose a centered first window; place only this private test window.
+        self.window().configure(x=0, y=0)
+        self.d.sync()
+        self.wait(
+            lambda: self.window().get_geometry().x == 0
+            and self.window().get_geometry().y == 0,
+            message="private window at screen origin",
+            deadline=startup_deadline,
+        )
         self.window().set_input_focus(X.RevertToParent, X.CurrentTime)
         self.d.sync()
         metadata = {

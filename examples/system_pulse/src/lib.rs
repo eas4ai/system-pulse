@@ -18,3 +18,5 @@ pub use assets::install as install_assets;
 mod layout;
 
 mod panel_context;
+
+mod dashboard;

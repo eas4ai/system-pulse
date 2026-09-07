@@ -19,9 +19,11 @@ fn main() {
                 }
             })
             .detach();
+            let bounds = Bounds::centered(None, size(px(1280.), px(880.)), cx);
             cx.spawn(async move |cx| {
                 let opened = cx.open_window(
                     WindowOptions {
+                        window_bounds: Some(WindowBounds::Windowed(bounds)),
                         window_min_size: Some(size(px(960.), px(640.))),
                         ..WindowOptions::default()
                     },

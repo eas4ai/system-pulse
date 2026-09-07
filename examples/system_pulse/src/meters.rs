@@ -243,13 +243,17 @@ pub(crate) fn sensor_label(
 }
 
 pub(crate) fn metric_label(id: String, text: String) -> Stateful<Div> {
+    metric_text(id, text.clone(), text)
+}
+
+pub(crate) fn metric_text(id: String, text: String, visible: String) -> Stateful<Div> {
     div()
         .id(SharedString::from(id.clone()))
         .accessibility_id(id)
         .role(Role::Label)
         .aria_label(text.clone())
-        .aria_value(text.clone())
-        .child(text)
+        .aria_value(text)
+        .child(visible)
 }
 #[cfg(test)]
 mod accessibility_tests {

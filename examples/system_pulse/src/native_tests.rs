@@ -1572,3 +1572,141 @@ fn sensor_menus_choose_meter_reorder_and_restore_visibility_by_identity(cx: &mut
         assert!(!sensor.visible);
     });
 }
+
+#[gpui::test]
+fn physical_cpu_core_tiles_wrap_and_keep_meter_collapse_and_order(cx: &mut TestAppContext) {
+    use system_pulse_collectors as c;
+    let (view, cx) = harness(cx);
+    let mut snapshot = c::Snapshot {
+        sequence: 1,
+        capture_finished_ns: 20_000_000_000,
+        ..Default::default()
+    };
+    snapshot.monitors.push(c::MonitorDescriptor {
+        id: "cpu:host".into(),
+        title: "CPU".into(),
+        kind: c::MonitorKind::Cpu,
+        summary_sensor_id: "cpu:host/usage".into(),
+    });
+    for (suffix, title, value) in [
+        ("usage", "Total", Some(25.)),
+        ("core-0-usage", "Core 0", Some(25.)),
+        ("core-1-usage", "Core 1", None),
+        ("core-2-usage", "Core 2", Some(50.)),
+    ] {
+        let id = format!("cpu:host/{suffix}");
+        snapshot.sensors.push(c::SensorDescriptor {
+            id: id.clone(),
+            monitor_id: "cpu:host".into(),
+            title: title.into(),
+            kind: c::SensorKind::Percentage,
+            unit: c::Unit::Percent,
+            source: "owned test".into(),
+            scope: "host".into(),
+            scale: None,
+        });
+        snapshot.readings.push(c::Reading {
+            sensor_id: id,
+            value,
+            total: None,
+            availability: if value.is_some() {
+                c::Availability::Available
+            } else {
+                c::Availability::Unavailable
+            },
+            reason: value.is_none().then(|| "Core unavailable".into()),
+            observations: vec![],
+        });
+    }
+    cx.update(|window, cx| view.update(cx, |this, cx| this.accept_snapshot(snapshot, window, cx)));
+    command(
+        &view,
+        Command::Preset(crate::workspace::presets::PresetCommand::Builtin(
+            system_pulse_model::BuiltinPreset::Minimal,
+        )),
+        cx,
+    );
+    let cpu = panel(&view, "cpu:host", cx);
+    cx.update(|window, cx| {
+        cpu.read(cx).controls["row:cpu:host/core-0-usage"]
+            .handle
+            .clone()
+            .focus(window, cx)
+    });
+    draw(cx);
+    let first = cx
+        .debug_bounds("cpu:core:0")
+        .expect("physical cores render as tiles");
+    let second = cx.debug_bounds("cpu:core:1").unwrap();
+    assert_eq!(
+        first.top(),
+        second.top(),
+        "adjacent cores share a compact row"
+    );
+    assert!(first.right() <= second.left());
+    assert!(first.size.width <= px(160.));
+    command(
+        &view,
+        Command::RowCollapse("cpu:host".into(), "cpu:host/core-0-usage".into()),
+        cx,
+    );
+    assert!(
+        cx.debug_bounds("cpu:host:meter-body:cpu:host/core-0-usage")
+            .is_none()
+    );
+    command(
+        &view,
+        Command::SensorMeter(
+            "cpu:host".into(),
+            "cpu:host/core-2-usage".into(),
+            system_pulse_model::Meter::Sparkline,
+        ),
+        cx,
+    );
+    assert!(
+        cx.debug_bounds("cpu:host:meter-body:cpu:host/core-2-usage")
+            .is_some()
+    );
+    command(
+        &view,
+        Command::SensorMove(
+            "cpu:host".into(),
+            "cpu:host/core-0-usage".into(),
+            system_pulse_model::SensorMove::Up,
+        ),
+        cx,
+    );
+    draw(cx);
+    let core = cx.debug_bounds("cpu:core:0").unwrap();
+    let total = cx.debug_bounds("cpu:host:row:cpu:host/usage").unwrap();
+    assert!(
+        core.bottom() <= total.top(),
+        "moving across a non-core row splits the grid in saved order"
+    );
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        let sample = data
+            .history
+            .latest("cpu:host", "cpu:host/core-1-usage")
+            .unwrap();
+        assert!(sample.value.is_none());
+        assert!(crate::meters::value(Some(sample)).contains("Unavailable"));
+    });
+}
+
+#[gpui::test]
+fn settings_shortcut_reveals_the_panel_body(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    command(&view, Command::PanelVisible("settings".into()), cx);
+    let shortcut = cx.debug_bounds("workspace:settings").unwrap();
+    cx.simulate_click(shortcut.center(), Modifiers::none());
+    draw(cx);
+    let light = cx
+        .debug_bounds("settings-light")
+        .expect("settings body exists");
+    let viewport = cx.debug_bounds("workspace-viewport").unwrap();
+    assert!(
+        viewport.contains(&light.origin) && viewport.contains(&light.bottom_right()),
+        "shortcut must bring settings controls into view: {light:?} within {viewport:?}"
+    );
+}
