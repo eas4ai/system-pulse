@@ -1,6 +1,6 @@
 # Tabbed screens execution record
 
-Status: Linux implementation, native replay, package verification and local executable installation passed. Publication is recorded in the external delivery record.
+Status: delivered on Linux. Implementation, native replay, package verification and local executable installation passed. Package revision `eead635a17500fa91d8466d8fee97c6f9a3c55ee` was pushed to application main; the final documentation receipt is tracked separately in the external delivery record.
 
 The 2026-09-07 developer request replaces the visible dock canvas with screens guided by the eight TMOG reference images. The [design](../superpowers/specs/2026-09-07-tabbed-screens-design.md), [plan](../superpowers/plans/2026-09-07-tabbed-screens.md), [current specification](../feature-spec-dockable-system-monitor.md) and [user guide](../user-guide.md) describe the contract.
 
@@ -22,7 +22,7 @@ Independent specification, chart and UI quality reviews approved the implementat
 
 The final gate initially stopped before packaging because cargo-about was outside PATH. `continue-package.py` verifies the unchanged source, retained passing logs and artifact hashes, then executes the existing package/product/installed gate statements with the installed cargo-about 0.9.2 path. The original failed manifest remains intact; the continuation records the completed steps explicitly. Earlier failed development runs are retained separately and are not counted as passes.
 
-A final metadata-only package refresh includes this record and the Michroma font inventory hashes; its executable must match the already verified release byte-for-byte. The final archive, installed smoke and publication hashes are recorded in `final-package.json` and `delivery.json` under the evidence directory.
+The final metadata-only package refresh includes this record and the Michroma font inventory hashes. Its executable matches the verified release byte-for-byte, and the refreshed archive passed installed smoke again. The final archive, installed smoke and publication hashes are recorded in `final-package.json` and `delivery.json` under the evidence directory.
 
 ## Limits
 
