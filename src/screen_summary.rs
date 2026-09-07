@@ -1,7 +1,7 @@
 use crate::{
-    screen_charts::segmented_meter,
+    screen_charts::{history_chart, segmented_meter},
     screen_data::{self as data, Channel},
-    screen_pages::chart,
+    screen_pages::{chart, series},
     screen_style::{accent, heading, palette, section},
     workspace::Data,
 };
@@ -91,9 +91,35 @@ fn subsystem(
         .as_ref()
         .map(|channel| channel.device.clone())
         .unwrap_or_else(|| "No available sensor".into());
-    let ratio = channel
-        .as_ref()
-        .and_then(|channel| data::current_ratio(channel, state));
+    let channels: Vec<_> = if matches!(screen, Screen::Disks | Screen::Network) {
+        data::selected_device(state, screen)
+            .map(|id| {
+                let suffixes = if screen == Screen::Disks {
+                    ["read", "write"]
+                } else {
+                    ["rx", "tx"]
+                };
+                suffixes
+                    .into_iter()
+                    .filter_map(|suffix| data::find(state, &id, suffix))
+                    .collect()
+            })
+            .unwrap_or_default()
+    } else {
+        channel.into_iter().collect()
+    };
+    let secondary_color = accent(Screen::Thermals, cx);
+    let chart_series = channels
+        .iter()
+        .enumerate()
+        .map(|(index, channel)| {
+            series(
+                channel,
+                state,
+                if index == 0 { color } else { secondary_color },
+            )
+        })
+        .collect();
     section(cx)
         .gap_2()
         .p_2()
@@ -111,7 +137,7 @@ fn subsystem(
                 .child(
                     crate::meters::metric_label(format!("summary-value:{}", screen.id()), label)
                         .font_family(cx.theme().mono_font_family.clone())
-                        .text_size(px(16.))
+                        .text_size(px(if screen == Screen::Disks { 12. } else { 16. }))
                         .text_color(color),
                 ),
         )
@@ -123,13 +149,34 @@ fn subsystem(
                 .text_ellipsis()
                 .child(detail),
         )
-        .child(segmented_meter(
-            format!("summary-strip:{}", screen.id()),
-            ratio,
-            color,
-            false,
+        .child(history_chart(
+            format!("summary-history:{}", screen.id()),
+            chart_series,
+            120.,
+            (screen == Screen::Gpu).then_some((0., 100.)),
             cx,
         ))
+        .when(matches!(screen, Screen::Disks | Screen::Network), |view| {
+            view.child(
+                div()
+                    .flex()
+                    .flex_wrap()
+                    .gap_3()
+                    .children(channels.iter().enumerate().map(|(index, channel)| {
+                        crate::meters::metric_label(
+                            format!("summary-rate:{}", channel.sensor),
+                            format!("{} · {}", channel.label, channel.value(state)),
+                        )
+                        .text_size(px(11.))
+                        .font_family(cx.theme().mono_font_family.clone())
+                        .text_color(if index == 0 {
+                            color
+                        } else {
+                            secondary_color
+                        })
+                    })),
+            )
+        })
         .into_any_element()
 }
 

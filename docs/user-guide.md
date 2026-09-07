@@ -18,7 +18,7 @@ Click a tab to open Summary, CPU, Memory, GPU, Disks, Network, Energy, Thermals,
 
 Choose a named device above GPU, Disks or Network. Energy and Thermals select an individual measured sensor. Long selectors scroll and support Up/Down and Return. A disconnected saved device stays unavailable instead of silently selecting another. Thermals identifies the hottest current sensor even when a different or unavailable sensor is selected.
 
-Charts show physical units and the actual captured time span. Gaps represent missing or delayed data. Percentage and capacity meters use their known scale; frequency, temperature, power and throughput meters follow the observed chart range. Hover Summary's compact meters for their sensor names and scale notes. Disk capacity describes a filesystem; its read/write history describes the backing block device. Energy is a named sensor reading, not an inferred system total.
+Charts show physical units and the actual captured time span. Gaps represent missing or delayed data. Percentage and capacity meters use their known scale; frequency, temperature, power and throughput meters follow the observed chart range. Hover Summary's compact meters for their sensor names and scale notes. The five subsystem cards show history graphs; Disks plots read/write I/O and retains used/total space above the graph. Network plots receive and transmit throughput. Disk capacity describes a filesystem; its read/write history describes the backing block device. Energy is a named sensor reading, not an inferred system total.
 
 Unavailable sensor rows stay hidden until they recover. Failed, stale and warming-up readings retain explicit labels.
 
