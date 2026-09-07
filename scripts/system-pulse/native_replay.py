@@ -720,6 +720,9 @@ def main():
             )
         app.key("Alt_L", "Next")
         app.sequences()
+        # The compact dashboard puts this value above the outer-scroll landing
+        # point. Bring its row back into view before the unchanged visible read.
+        app.focus(row_control)
         app.metric("cpu:host:value:cpu:host/usage", "chart-physical-value")
         app.screenshot("expanded-chart.png")
         app.save(
