@@ -8,7 +8,7 @@ homepage = "https://longbridge.github.io/gpui-component"
 repository = "https://github.com/longbridge/gpui-component"
 readme = "README.md"
 edition.workspace = true
-publish = true
+publish = false
 version = "0.5.1"
 
 # `links` is the documented cargo mechanism for sharing build-time metadata

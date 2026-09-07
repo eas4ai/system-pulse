@@ -4,6 +4,7 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
-    allow:
-      - dependency-name: gpui
-      - dependency-name: wry
+    # Zed and AccessKit updates must carry the local native adapter patches.
+    ignore:
+      - dependency-name: "gpui*"
+      - dependency-name: "accesskit*"

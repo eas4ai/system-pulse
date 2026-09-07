@@ -3,7 +3,6 @@ description = "Behavior, interaction, and infrastructure foundations for GPUI ap
 keywords = ["desktop", "gpui", "ui", "foundation"]
 license = "Apache-2.0"
 name = "gpui-base"
-default-run = "components"
 repository = "https://github.com/longbridge/gpui-component"
 homepage = "https://longbridge.github.io/gpui-component"
 documentation = "https://docs.rs/gpui-base"
@@ -13,10 +12,6 @@ edition.workspace = true
 
 [lib]
 doctest = false
-
-[[bench]]
-name = "motion"
-harness = false
 
 [features]
 inspector = ["gpui_macros/inspector", "gpui/inspector"]

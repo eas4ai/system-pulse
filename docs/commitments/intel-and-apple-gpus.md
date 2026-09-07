@@ -12,7 +12,7 @@ The developer confirmed the detailed requirements and falsifiers on 2026-09-06. 
 
 ## Deliverables
 
-1. Focused Intel and Apple adapters under `examples/system_pulse/collectors/src/`, integrated through `HostCollector`; physical types and the current service remain the common boundary.
+1. Focused Intel and Apple adapters under `crates/collectors/src/`, integrated through `HostCollector`; physical types and the current service remain the common boundary.
 2. GPU memory/source semantics in descriptors and existing model/UI formatting, including additive persistence compatibility where required.
 3. Deterministic adapter and integration tests; a separate GPU acceptance entry point under `scripts/system-pulse/` with explicit results per requirement.
 4. Cited API/capability decisions, independent reviews, native captures and reproducible commands under `docs/execution/intel-and-apple-gpus/`.

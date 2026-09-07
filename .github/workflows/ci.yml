@@ -1,190 +1,35 @@
-name: CI
+name: System Pulse
 on:
   pull_request:
   push:
-    branches:
-      - main
-    tags:
-      - "*"
+    branches: [main]
+
+permissions:
+  contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.ref_name == 'main' && github.sha || 'anysha' }}
+  group: system-pulse-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test:
-    name: Test
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - target: aarch64-apple-darwin
-            run_on: macos-latest
-          - target: x86_64-linux-gnu
-            run_on: ubuntu-latest
-          - target: x86_64-windows-msvc
-            run_on: windows-latest
-    runs-on: ${{ matrix.run_on }}
+  linux:
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions-rust-lang/setup-rust-toolchain@v1
         with:
-          components: clippy
-      - name: Install system dependencies
-        if: ${{ matrix.run_on != 'windows-latest' }}
-        run: script/bootstrap
-      - name: Machete
-        if: ${{ matrix.run_on == 'macos-latest' }}
-        uses: bnjbvr/cargo-machete@v0.9.1
-      - name: Setup | Cache Cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: test-cargo-${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
-      - name: Typo check
-        if: ${{ matrix.run_on == 'macos-latest' }}
+          components: rustfmt, clippy
+      - name: Install build and test dependencies
         run: |
-          command -v typos >/dev/null || cargo install typos-cli
-          typos
-      - name: Skill guides are in sync
-        if: ${{ matrix.run_on == 'macos-latest' }}
-        run: |
-          for guide in coding-guides design-guides; do
-            if ! diff -u "website/docs/$guide.md" "skills/gpui-component/references/$guide.md"; then
-              echo "::error::skills/gpui-component/references/$guide.md is stale."
-              echo "Run: cp website/docs/$guide.md skills/gpui-component/references/$guide.md"
-              exit 1
-            fi
-          done
-      - name: Lint
-        if: ${{ matrix.run_on == 'macos-latest' }}
-        run: |
-          cargo clippy -p gpui-component -p gpui-component-story -p gpui-component-assets -- --deny warnings
-      - name: Check without default features (tree-sitter disabled)
-        if: ${{ matrix.run_on == 'ubuntu-latest' }}
-        run: |
-          cargo check -p gpui-component --no-default-features
-      - name: Test Linux
-        if: ${{ matrix.run_on == 'ubuntu-latest' }}
-        run: |
-          cargo test --workspace --exclude gpui-shell --features gpui-component-story/test-support
-      - name: Test Windows
-        if: ${{ matrix.run_on == 'windows-latest' }}
-        run: |
-          cargo test --workspace --exclude gpui-shell --features gpui-component-story/test-support
-      - name: Test MacOS
-        if: ${{ matrix.run_on == 'macos-latest' }}
-        run: |
-          cargo test --workspace --exclude gpui-shell --features gpui-component-story/test-support
-          cargo test -p gpui-component --doc
-
-  gpui-shell-core:
-    name: GPUI Shell Core
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          components: clippy
-      - name: Install system dependencies
-        run: script/bootstrap
-      - name: Setup | Cache Cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: shell-core-cargo-x86_64-linux-gnu-${{ hashFiles('**/Cargo.lock') }}
-      - name: Test runtime core without standard-library integration cases
-        run: |
-          cargo test -p gpui-shell --release --lib -- \
-            --skip tests::standard_runtime \
-            --skip tests::network \
-            --skip tests::fs \
-            --skip tests::process \
-            --skip tests::benchmark
-          cargo test -p gpui-shell --release tests::benchmark
-          cargo test -p gpui-shell --doc
-      - name: Lint GPUI Shell
-        run: cargo clippy -p gpui-shell --all-targets -- -D warnings
-
-  gpui-component-shell:
-    name: GPUI Component Shell
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          components: clippy
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - name: Install system dependencies
-        run: script/bootstrap
-      - name: Setup | Cache Cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: component-shell-cargo-x86_64-linux-gnu-${{ hashFiles('**/Cargo.lock') }}
-      - name: Test component bindings
-        run: cargo test -p gpui-component-shell --all-targets
-      - name: Lint component bindings
-        run: cargo clippy -p gpui-component-shell --all-targets -- -D warnings
-      # The inventory test proves every public component is registered or
-      # explicitly deferred; this proves the JavaScript gallery covers what the
-      # inventory claims. Without it the two drift silently.
-      - name: Verify story coverage against the component inventory
-        run: node examples/js_story/fixtures/verify-coverage.mjs
-
-  gpui-shell-standard-runtime:
-    name: GPUI Shell Standard Runtime (${{ matrix.target }})
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - target: aarch64-apple-darwin
-            run_on: macos-latest
-          - target: x86_64-linux-gnu
-            run_on: ubuntu-latest
-          - target: x86_64-windows-msvc
-            run_on: windows-latest
-    runs-on: ${{ matrix.run_on }}
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
-      - name: Install system dependencies
-        if: ${{ matrix.run_on != 'windows-latest' }}
-        run: script/bootstrap
-      - name: Setup | Cache Cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: shell-standard-cargo-${{ matrix.target }}-${{ hashFiles('**/Cargo.lock') }}
-      - name: Test LLRT module integration
-        run: |
-          cargo test -p gpui-shell --release tests::standard_runtime
-          cargo test -p gpui-shell --release tests::fs
-          cargo test -p gpui-shell --release tests::process
-          cargo test -p gpui-shell --release tests::network
-          cargo test -p gpui-shell --release tests::render
-          cargo test -p gpui-shell --release tests::snapshot
-          cargo test -p gpui-shell --release tests::host_api
-          cargo test -p gpui-shell --release tests::http_request
+          sudo apt-get update
+          sudo apt-get install -y clang lld pkg-config libfontconfig-dev libwayland-dev libxkbcommon-x11-dev libx11-xcb-dev libssl-dev libzstd-dev libvulkan1 python3-xlib python3-pyatspi python3-pil
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+      - name: Test application, collectors and model
+        run: cargo test --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model
+      - name: Lint application, collectors and model
+        run: cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
+      - name: Test verification and packaging tools
+        run: /usr/bin/python3 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
+      - name: Build application
+        run: cargo build --locked

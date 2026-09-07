@@ -2,7 +2,7 @@
 
 Status: Observed
 
-System Pulse's reviewed implementation uses real host collector snapshots in a native GPUI workspace with separate panels, scrolling, independent panel/sensor collapse and persistent recovery. Physical quantities, actual process identities and test-only fixture isolation are implemented. Evidence: [collector](../../examples/system_pulse/collectors/src/host/mod.rs), [live mapping](../../examples/system_pulse/src/live.rs), [workspace](../../examples/system_pulse/src/workspace.rs), [module boundary](../../examples/system_pulse/src/lib.rs).
+System Pulse's reviewed implementation uses real host collector snapshots in a native GPUI workspace with separate panels, scrolling, independent panel/sensor collapse and persistent recovery. Physical quantities, actual process identities and test-only fixture isolation are implemented. Evidence: [collector](../../crates/collectors/src/host/mod.rs), [live mapping](../../src/live.rs), [workspace](../../src/workspace.rs), [module boundary](../../src/lib.rs).
 
 The [full committed acceptance](../execution/real-system-readings/final-acceptance-pass.md)
 passed 745 tests, independent Linux host comparisons and the complete native replay
@@ -28,7 +28,7 @@ Read [glossary](glossary.md), the relevant domain below, and [the agreed real-co
 | [Workspace state](workspace-state.md) | STATE | Historical identities, presentation, restore, and storage. |
 | [Real collection](live-collection.md) | LIVE | Completed collection contract and preservation constraints. |
 | [Intel and Apple GPU collection](gpu-collection.md) | GPU | Current agreed collector, memory-scope and native-evidence requirements. |
-| Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](../superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../examples/system_pulse/NATIVE_ACCEPTANCE.md). |
+| Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](../superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../docs/native-fixture-acceptance.md). |
 | [Application completion](application.md) | APP | Process controls, complete customization, named presets, appearance, first-launch layout and Linux packaging from the original product scope. |
 | Other framework examples, shell, website and reference projects | Outside this work | Workspace membership is defined in [Cargo.toml](../../Cargo.toml:3); this adoption does not redefine those products. |
 

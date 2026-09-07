@@ -16,8 +16,8 @@ The contract is [LIVE-001–013](../spec/live-collection.md). NVIDIA support was
 
 Only one source implementer works at a time. Give each fresh implementer its full task and relevant interfaces. Every implementation receives independent spec review followed by independent quality review; resolve findings before the next source task. Root may investigate host measurements and prepare evidence alongside an implementer. Preserve the existing reference example and framework patches.
 
-- Collector worker: `examples/system_pulse/collectors/`, workspace membership and lockfile.
-- Integration worker: `examples/system_pulse/src/`, `examples/system_pulse/model/`, app manifest and lockfile changes needed for its collector dependency.
+- Collector worker: `crates/collectors/`, workspace membership and lockfile.
+- Integration worker: `src/`, `crates/model/`, app manifest and lockfile changes needed for its collector dependency.
 - Acceptance worker: `scripts/system-pulse/`, `docs/execution/real-system-readings/`, updated app README/acceptance instructions.
 
 ## Task 1: Host collectors, physical snapshot schema, and bounded service
@@ -68,7 +68,7 @@ Modify app `src/lib.rs`, `main.rs`, `workspace.rs`, `panel.rs`, `meters.rs`, `st
 
 ## Task 2a: Close the connection-attribution evidence finding
 
-Read-only acceptance preparation found that connection readings preserve only the derived count. Before building the independent verifier, the collector worker owns a focused follow-up in `examples/system_pulse/collectors/`; first finish Task 2's spec and quality reviews. This is required evidence for the existing LIVE-013 contract, not new product scope.
+Read-only acceptance preparation found that connection readings preserve only the derived count. Before building the independent verifier, the collector worker owns a focused follow-up in `crates/collectors/`; first finish Task 2's spec and quality reviews. This is required evidence for the existing LIVE-013 contract, not new product scope.
 
 - [x] Write a failing regression proving that one shared snapshot observation preserves interface/local-address ownership and TCP4/TCP6 local-address/state inputs, with source query windows and actual errors. Preserve raw local-address/state tokens before filtering so independent Python code can challenge byte order, established-state selection, mapped IPv6, wildcard exclusion and distinct-interface ownership. Omit ports, remote endpoints and socket owners.
 - [x] Add an optional defaulted snapshot field for the shared observation. Derive per-interface connection counts from those captured inputs without duplicating the tables in each reading. Preserve unavailable/failed semantics; no fake zero on input failure. Verify serialization and full app/model compatibility. Correct the README's overly broad passwd-lookup failure claim or implement the promised distinction; a truthful numeric UID fallback is acceptable when described accurately.

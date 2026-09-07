@@ -5,7 +5,12 @@ inputs:
   - Cargo.toml
   - Cargo.lock
   - AGENTS.md
-  - examples/system_pulse/
+  - src/
+  - tests/
+  - assets/
+  - package/
+  - crates/model/
+  - crates/collectors/
   - crates/base/
   - crates/ui/
   - crates/assets/

@@ -115,6 +115,7 @@ def build_dependency_roots():
     ]
     require(len(pending) == 2, "native build roots missing from Cargo metadata")
     roots = set()
+    visited = set()
     while pending:
         package = pending.pop()
         directory = Path(package["manifest_path"]).parent.resolve()
@@ -123,9 +124,17 @@ def build_dependency_roots():
             "unbound external local build dependency",
         )
         relative = str(directory.relative_to(ROOT.resolve()))
-        if relative in roots:
+        if relative in visited:
             continue
-        roots.add(relative)
+        visited.add(relative)
+        if relative == ".":
+            # The application lives at the workspace root. Bind its build
+            # inputs without treating historical evidence as application code.
+            roots.update(("Cargo.toml", "src", "tests", "assets", "package"))
+            for target in package["targets"]:
+                roots.add(str(Path(target["src_path"]).relative_to(ROOT.resolve())))
+        else:
+            roots.add(relative)
         for dependency in package["dependencies"]:
             if dependency["kind"] != "dev" and dependency.get("path"):
                 path = str(Path(dependency["path"]).resolve())

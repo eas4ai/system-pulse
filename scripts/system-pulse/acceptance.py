@@ -162,7 +162,7 @@ class Runner:
 
 
 def source_guard():
-    lib = (ROOT / "examples/system_pulse/src/lib.rs").read_text()
+    lib = (ROOT / "src/lib.rs").read_text()
     require(
         "mod fixture;" not in lib or "#[cfg(test)]\nmod fixture;" in lib,
         "production fixture module included",

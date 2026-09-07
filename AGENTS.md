@@ -7,7 +7,8 @@
 
 The application belongs in `/home/shawn/workspace2/task-manager`. This is its source repository and publication home. Do not use the GPUI framework fork as the application's primary repository.
 
-- `examples/system_pulse/`: application, model, collectors, bundled assets and package support.
+- `src/`, `assets/`, `package/`: application, bundled assets and package support.
+- `crates/model/`, `crates/collectors/`: application model and host collectors.
 - `crates/`: the local GPUI components used by the application.
 - `vendor/`: retained native adapter patches and their license notices.
 - `docs/feature-spec-dockable-system-monitor.md`: original product specification.

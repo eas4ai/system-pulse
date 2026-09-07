@@ -8,7 +8,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-MODULE = Path(__file__).parents[2] / "examples/system_pulse/package/install.py"
+MODULE = Path(__file__).parents[2] / "package/install.py"
 spec = importlib.util.spec_from_file_location("pulse_install", MODULE)
 installer = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(installer)

@@ -9,8 +9,8 @@ Normal System Pulse launch displays measurements from this machine, with no runt
 
 ## Deliverables and ownership
 
-1. `examples/system_pulse/collectors/`: typed descriptors, physical readings, process identities, capability/source records, counter arithmetic, real OS adapters including AMD sysfs and optional-runtime NVIDIA NVML, and a diagnostic snapshot command. NVIDIA tests cover the backend boundary without asserting hardware verification.
-2. `examples/system_pulse/src/` and `model/`: background snapshot delivery, dynamic discovery/state restoration, real process rows, physical meters, test-only fixture injection, and preserved workspace behavior.
+1. `crates/collectors/`: typed descriptors, physical readings, process identities, capability/source records, counter arithmetic, real OS adapters including AMD sysfs and optional-runtime NVIDIA NVML, and a diagnostic snapshot command. NVIDIA tests cover the backend boundary without asserting hardware verification.
+2. `src/` and `model/`: background snapshot delivery, dynamic discovery/state restoration, real process rows, physical meters, test-only fixture injection, and preserved workspace behavior.
 3. `scripts/system-pulse/`: source guard, automated acceptance runner, and independently checked host/native evidence. All host comparisons state source semantics, sampling windows, and bounds before measuring.
 4. `docs/execution/real-system-readings/`: capability matrix, native observations, command logs/results, source commit/binary hashes, and independent reviews.
 

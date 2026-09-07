@@ -84,6 +84,8 @@ class AggregateTests(unittest.TestCase):
             "build dependency closure is not validated",
         )
         roots = gpu_verify.build_dependency_roots()
+        self.assertNotIn(".", roots)
+        self.assertTrue({"Cargo.toml", "src", "assets", "crates/model", "crates/collectors"} <= set(roots))
         self.assertTrue(
             {"crates/base", "crates/ui", "crates/assets", "crates/macros"} <= set(roots)
         )

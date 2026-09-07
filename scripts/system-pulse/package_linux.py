@@ -14,7 +14,7 @@ import tarfile
 import time
 
 ROOT = Path(__file__).resolve().parents[2]
-APP = ROOT / "examples/system_pulse"
+APP = ROOT
 
 
 def capture(command):
@@ -171,8 +171,8 @@ def main():
         if source.is_file() and source.suffix.lower() not in (".ttf", ".otf"):
             shutil.copyfile(source, notices / source.name)
     for source, name in [
-        (APP / "collectors/src/intel/UAPI-NOTICE", "Intel-UAPI-NOTICE"),
-        (APP / "collectors/src/apple/NOTICE.md", "Apple-NOTICE.md"),
+        (ROOT / "crates/collectors/src/intel/UAPI-NOTICE", "Intel-UAPI-NOTICE"),
+        (ROOT / "crates/collectors/src/apple/NOTICE.md", "Apple-NOTICE.md"),
     ]:
         shutil.copyfile(source, notices / name)
     run(

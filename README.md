@@ -12,9 +12,11 @@ From this repository root:
 cargo run --locked
 ```
 
+Install the executable with `cargo install --path . --locked --force`.
+
 Build an optimized executable with `cargo build --release --locked -p system-pulse`. The executable is `target/release/system-pulse`.
 
-Application source is in [examples/system_pulse](examples/system_pulse/). The model and collectors are separate crates beneath that directory. [Application documentation](examples/system_pulse/README.md) describes controls, configuration and diagnostics; the [package guide](examples/system_pulse/package/README.md) covers installation and removal.
+Application source is in [src](src/), with separate [model](crates/model/) and [collector](crates/collectors/) crates. [Application documentation](docs/user-guide.md) describes controls, configuration and diagnostics; the [package guide](package/README.md) covers installation and removal.
 
 Linux is the verified platform. The [Linux checkpoint](docs/execution/linux-application-checkpoint.md) records 932 passing tests, fourteen native preservation cases and packaged/installed verification against its named source commit. Intel/Apple native hardware validation and the Mac F1 review remain open.
 
@@ -22,10 +24,11 @@ Linux is the verified platform. The [Linux checkpoint](docs/execution/linux-appl
 
 ```sh
 cargo test --locked -p system-pulse
+python3 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
 python3 -B scripts/system-pulse/application_acceptance.py
 ```
 
-The full acceptance command requires the native Linux tools and pinned cargo-about generator described in the [application guide](examples/system_pulse/README.md). It runs against a committed tree and writes evidence outside the checkout. The repository relocation is documented in [the publication record](docs/execution/task-manager-repository-publication.md).
+The full acceptance command requires the native Linux tools and pinned cargo-about generator described in the [application guide](docs/user-guide.md). It runs against a committed tree and writes evidence outside the checkout. The repository relocation is documented in [the publication record](docs/execution/task-manager-repository-publication.md).
 
 ## Project records
 

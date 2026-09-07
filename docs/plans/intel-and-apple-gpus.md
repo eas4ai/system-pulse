@@ -25,7 +25,7 @@ Task 4's first implementation is committed at `c014522d`. Independent [specifica
 
 ## Task 1: Intel Linux collection
 
-**Own:** New `examples/system_pulse/collectors/src/intel/` modules and their tests; Linux hooks in `collectors/src/lib.rs` and `collectors/src/host/mod.rs`; focused host integration tests; collector dependencies/lockfile only when a required native interface needs them; Intel source/capability notes in `docs/execution/intel-and-apple-gpus/`.
+**Own:** New `crates/collectors/src/intel/` modules and their tests; Linux hooks in `collectors/src/lib.rs` and `collectors/src/host/mod.rs`; focused host integration tests; collector dependencies/lockfile only when a required native interface needs them; Intel source/capability notes in `docs/execution/intel-and-apple-gpus/`.
 
 **Preserve:** AMD dispatch and IDs, NVML behavior, process/network/volume collection, the existing snapshot JSON fields, and the single sampling service.
 
@@ -91,7 +91,7 @@ Expected baseline: the assertion fails because the Intel monitor is absent; exac
 
 ## Task 3: Memory semantics and integration
 
-**Own:** `examples/system_pulse/src/live.rs`, existing meter/formatter code, model presentation/persistence tests, and additive collector metadata only if the current source/scope fields cannot express a required fact.
+**Own:** `src/live.rs`, existing meter/formatter code, model presentation/persistence tests, and additive collector metadata only if the current source/scope fields cannot express a required fact.
 
 - [x] Add focused tests for shared GPU allocation without a capacity total, dedicated VRAM with a valid total, and rejected system-RAM/process-footprint substitutions. Assert both the physical quantity and visible label; a string-only test is insufficient. Record existing correct behavior as passing baseline coverage. For a reproduced defect, retain a failing regression before its correction; do not change working behavior to manufacture a failure.
 - [x] Map byte-valued shared allocations through the existing scalar/counter-compatible meters. Capacity rendering requires a valid known total. Keep historical AMD/NVIDIA IDs and saved presentation choices unchanged.
