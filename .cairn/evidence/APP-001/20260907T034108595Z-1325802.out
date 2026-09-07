@@ -1,0 +1,42 @@
+RUNNING preservation
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log
+PASS preservation exit_code=0 seconds=286.349 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/preservation.log sha256=2850ea253af2dba91e78341b6033d2f81c498748ac24a71f97f9e352411aaf0b
+cairn: LIVE-001: pass
+cairn: LIVE-002: pass
+cairn: LIVE-003: pass
+cairn: LIVE-004: pass
+cairn: LIVE-005: pass
+cairn: LIVE-006: pass
+cairn: LIVE-007: pass
+cairn: LIVE-008: pass
+cairn: LIVE-009: pass
+cairn: LIVE-010: pass
+cairn: LIVE-011: pass
+cairn: LIVE-012: pass
+cairn: LIVE-013: pass
+RUNNING input-focus
+PASS input-focus test_count=10 exit_code=0 seconds=0.365 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/input-focus.log sha256=489eee924130f4fcadbc52e2901984ce0b93b263c34a0e09f3de47049681d8c0
+RUNNING package
+PASS package exit_code=0 seconds=12.556 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/package.log sha256=439af35887824519424a72e6679055276dfbd4e77e8694e47f1b268c107ac44c
+RUNNING application
+RUNNING application log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/application.log
+PASS application exit_code=0 seconds=46.2 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/application.log sha256=426df2c72a508572317d8026055e1e6b10b974e84f63c9c033cd556e51634188
+RUNNING installed
+PASS installed exit_code=0 seconds=8.43 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence/installed.log sha256=f9c568c768ec2ccd757b12a01f5cd1490a422a640a7ff4e89b8028f9b8b5c65a
+cairn: APP-001: pass
+cairn: APP-002: pass
+cairn: APP-003: pass
+cairn: APP-004: pass
+cairn: APP-005: pass
+cairn: APP-006: pass
+cairn: APP-007: pass
+cairn: APP-008: pass
+Application acceptance: PASS; evidence=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-inventory-repeat-20260907/evidence

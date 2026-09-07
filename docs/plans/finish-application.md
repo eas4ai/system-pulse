@@ -13,9 +13,10 @@ Implement directly in this worktree. Keep changes in feature-sized commits, run 
 - [x] Context menus for monitor/sensor visibility, ordering and explicit compatible meter selection; affected tests and strict Clippy pass.
 - [x] Balanced first-launch layout, CPU core tiles and physical memory composition; affected tests, strict Clippy and native fresh/minimum-window and appearance smoke pass.
 - [x] Linux package, launcher, icon, installation/removal instructions and isolated packaged launch; installer tests and installed launch/restart/removal smoke pass.
-- [ ] **In progress:** Full application/native acceptance, unchanged Linux preservation and final review. Retain the separate missing Intel/Mac evidence and Mac F1 obligations.
+- [x] Full Linux application/native acceptance, preservation, packaged/installed smoke and direct final review; [932 tests and current evidence](../execution/linux-application-checkpoint.md).
+- [ ] **In progress:** Retained Intel/Apple hardware acceptance, Mac F1 proof/review and final GPU commitment review. No cross-platform completion is claimed.
 
-Exactly one todo is active. A feature is checked only after its implementation and affected verification pass. GPU Task 5 is pending within this last item, not a second concurrent implementation task.
+Exactly one todo is active. A feature is checked only after its implementation and affected verification pass. GPU Task 5 remains the sole active item after the usable Linux handoff.
 
 ## Implementation boundaries and checks
 
@@ -93,3 +94,5 @@ The package-streams aggregate passed 918 preservation tests, all fourteen native
 The reviewed aggregate passed 921 preservation tests, strict checks and host comparisons, then exposed a live-layout focus issue at native preset setup: the focused disclosure grew by eight pixels after its adjacent live reading changed. The isolated retained-state probe confirmed focus was delivered but the new edge was clipped. The focused-growth GPUI regression failed before the correction and passed afterward, with deliberate-scroll preservation also asserted. All 86 application tests and strict checks passed. The control now follows layout changes only while the previously visible target's scroll offsets remain unchanged. Final committed native/package/installed acceptance is pending.
 
 The focus-layout aggregate passed 922 automated preservation tests and the repaired native sensor/panel focus and preset save/recall actions. The subsequent complete-tree inventory reached its original 15-second deadline before it could publish a complete snapshot. The same unchanged inventory against the retained saved workspace passed in 4.431 seconds in `inventory-profile-20260907`, with all probe descendants reaped. The timeout did not reproduce; no product or mechanism correction is inferred from this probe. Both artifacts are retained. Repeat committed acceptance with unchanged predicates and deadlines.
+
+The complete committed application acceptance passed against `e5838365931efb6b07ecf412a433c34302ee5c26`: 932 automated tests, all fourteen native preservation cases, independent host comparisons, release packaging, packaged product replay and isolated installation/restart/removal. APP-001–008 and LIVE-001–013 have recorded passes. Direct source/visual review and artifact/source-archive hash verification are complete. [The Linux checkpoint](../execution/linux-application-checkpoint.md) contains the package, evidence, final self-audit and retained hardware limits.
