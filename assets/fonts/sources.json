@@ -28,5 +28,15 @@
     "file": "Inter-JetBrainsMono-OFL.txt",
     "source": "crates/story-web/fonts/OFL.txt",
     "sha256": "3907ac2a3f017acb830950733bf3bb7ecd5c66060b65f9f6d66255267cfad95d"
+  },
+  {
+    "file": "Michroma-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/michroma/Michroma-Regular.ttf",
+    "sha256": "b62301163788bc5b7f8fcac0b74b184e34e1827e577b499ecb724da065098f87"
+  },
+  {
+    "file": "Michroma-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/main/ofl/michroma/OFL.txt",
+    "sha256": "33c39ce59a45bfb0dae3280e98bdb46be59d6d68efc62d4dc5fae90a26d2f393"
   }
 ]

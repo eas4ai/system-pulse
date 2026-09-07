@@ -1,13 +1,29 @@
 # Tabbed screens execution record
 
-Status: implementation and native replay passed; final harness corrections and package verification are in progress. This record does not claim delivery or a passing final package gate.
+Status: Linux implementation, native replay, package verification and local executable installation passed. Publication is recorded in the external delivery record.
 
-The 2026-09-07 developer request replaces the visible dock canvas with screens guided by the eight TMOG reference images. The [design](../superpowers/specs/2026-09-07-tabbed-screens-design.md), [plan](../superpowers/plans/2026-09-07-tabbed-screens.md), [current specification](../feature-spec-dockable-system-monitor.md) and [user guide](../user-guide.md) describe the resulting contract.
+The 2026-09-07 developer request replaces the visible dock canvas with screens guided by the eight TMOG reference images. The [design](../superpowers/specs/2026-09-07-tabbed-screens-design.md), [plan](../superpowers/plans/2026-09-07-tabbed-screens.md), [current specification](../feature-spec-dockable-system-monitor.md) and [user guide](../user-guide.md) describe the contract.
 
-Development uses `design/tabbed-ui` from application main `a9f77ad55f13ae1d4ed71a540a1d0a167a0da1d4`. Evidence is outside the checkout at `/home/shawn/workspace2/task-manager-artifacts/tabbed-ui-20260907/`.
+Implementation started from `a9f77ad55f13ae1d4ed71a540a1d0a167a0da1d4`. The complete application change is `4ad09f95`; final acceptance uses `33e81ad760a5338ac21446fea2d7b9f70ee6164e`. The later harness corrections do not change the 562 tracked runtime inputs. Evidence is retained outside the checkout at `/home/shawn/workspace2/task-manager-artifacts/tabbed-ui-20260907/`.
 
-Implemented: ten fixed native tabs, device identity persistence, timestamped charts and segmented meters, reference-derived layouts, process details and sensor visibility. Existing sampling, identity-safe process operations, configuration ordering, preset imports and malformed-input guards remain in use. Dock metadata and compatibility tests remain; old no-tabs native cases do not validate the new root.
+## Result
 
-Observed development checks include chart/model/navigation/populated-screen tests, all application library tests, Clippy and several native previews. Previews caught and drove fixes for duplicate Energy accessibility IDs, ambiguous GPU labels, clipped device menus, small chart labels and unavailable thermal selections. Development previews and failed replays are retained; they do not replace the final source-bound acceptance evidence.
+Ten fixed native tabs present live measurements, timestamped charts and segmented meters. Device identity persists across discovery order changes and restart. Processes retain search, sort, identity-safe task actions and selected-process details. Settings expose sensor visibility, appearance, sampling and presets. Invalid input remains untouched until explicit recovery. Legacy dock metadata remains compatible; historical no-tabs cases do not validate the current root.
 
-The committed `9b0e5df3` native replay passed all six required cases and all 149 device selections (`acceptance-r2/preservation`). Its aggregate includes 987 automated tests; the broader workspace run passed 1,507 Rust tests. Independent review then found two harness issues: cleanup after screenshot failure and selection of duplicate GPU labels. These are being corrected before the final package gate. The final source, package, installation and integration records will be added after those checks complete. Intel/Apple hardware validation and native Mac GUI review remain outside this Linux redesign proof. GitHub automation remains disabled.
+Independent specification, chart and UI quality reviews approved the implementation after corrections for clipped menus, small chart labels, unavailable memory/thermal readings and focus after restoration. A separate acceptance review closed screenshot-failure cleanup and duplicate GPU label handling. Visual review covered all ten screens, dark/light appearance and 1280×880/960×640 layouts against the supplied references.
+
+## Verification
+
+- `cargo test --locked --workspace`: 1,507 passed, zero failed or ignored (`workspace-tests.log`).
+- Final automated gate: 992 tests, formatting, Clippy, build and independent live source comparisons passed (`acceptance-r3/preservation/manifest.json`).
+- Final debug native replay: all six required product flows and all 149 discovered GPU/volume/interface selections passed, including minimum size, process actions, presets, restart, missing-device state and corrupt-input recovery.
+- Packaged release native replay and isolated install/repeat-install/restart/uninstall passed (`acceptance-r3-continuation/application-manifest.json`). Installation and removal preserved configuration and unowned files.
+- The release binary SHA-256 is `6830b48f41193de79fe0ecd9a9f9bdb1228049793dc96973edd5a430c85c4a25`. These exact bytes were atomically installed at `/home/shawn/.cargo/bin/system-pulse`, with the prior executable backed up. The running user application and its configuration were left untouched.
+
+The final gate initially stopped before packaging because cargo-about was outside PATH. `continue-package.py` verifies the unchanged source, retained passing logs and artifact hashes, then executes the existing package/product/installed gate statements with the installed cargo-about 0.9.2 path. The original failed manifest remains intact; the continuation records the completed steps explicitly. Earlier failed development runs are retained separately and are not counted as passes.
+
+A final metadata-only package refresh includes this record and the Michroma font inventory hashes; its executable must match the already verified release byte-for-byte. The final archive, installed smoke and publication hashes are recorded in `final-package.json` and `delivery.json` under the evidence directory.
+
+## Limits
+
+This is Linux verification. Intel/Apple hardware validation and native Mac GUI review remain separate and unverified for this redesign. GitHub Actions and automatic security fixes remain disabled. No unmeasured energy total, process energy score or thermal health state is fabricated to resemble a reference image.
