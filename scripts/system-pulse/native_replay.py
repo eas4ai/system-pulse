@@ -783,8 +783,9 @@ def main():
         app.key("Left")
         app.wait(lambda: app.bounds(cell)[0] > x, message="inner horizontal left")
         panel = app.panel("processes")
-        before = app.bounds(panel)
         header = app.find("Hide Processes", "button", root=panel)
+        app.focus(header)
+        before = app.bounds(panel)
         hb = app.bounds(header)
         app.wheel([hb[0] + hb[2] / 2, hb[1] + hb[3] / 2], down=True)
         shifted = app.wait(
@@ -811,6 +812,9 @@ def main():
                 "after_edge_up": app.bounds(panel),
             },
         )
+        app.enter_processes()
+        app.key("Home")
+        app.acknowledge(first, time.monotonic() + 5)
         app.key("Tab")
         before = app.bounds(panel)
         app.key("Alt_L", "Next")

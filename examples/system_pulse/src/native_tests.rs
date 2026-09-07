@@ -1253,6 +1253,60 @@ fn process_pending_reveal_follows_identity_after_snapshot_reordering(cx: &mut Te
 }
 
 #[gpui::test]
+fn oversized_process_panel_reveals_selected_rows_inside_the_outer_viewport(
+    cx: &mut TestAppContext,
+) {
+    let (view, cx) = harness(cx);
+    let mut snapshot = pending_reveal_snapshot();
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    let mut dock = cx.read(|cx| view.read(cx).dock.read(cx).dump(cx));
+    let PanelInfo::Stack { sizes, .. } = &mut dock.center.info else {
+        panic!("fixture vertical stack");
+    };
+    sizes.fill(px(1600.));
+    let mut workspace = cx.read(|cx| view.read(cx).shared.borrow().session.workspace.clone());
+    for state in workspace.panels.values_mut() {
+        state.expanded_size.height = 1600.;
+    }
+    workspace.dock = serde_json::to_value(dock).unwrap();
+    let raw = serde_json::to_string(&workspace).unwrap();
+    cx.update(|window, cx| view.update(cx, |view, cx| view.restore(&raw, window, cx)));
+    draw(cx);
+    let processes = panel(&view, "processes", cx);
+    cx.update(|window, cx| {
+        processes.read(cx).controls["table"]
+            .handle
+            .clone()
+            .focus(window, cx)
+    });
+    draw(cx);
+    let outer = cx.read(|cx| view.read(cx).shared.borrow().scroll.clone());
+    assert!(cx.debug_bounds("process-table").unwrap().size.height > outer.bounds().size.height);
+    for (key, index, selector) in [
+        ("home", 0, "process-row:0"),
+        ("end", 1299, "process-row:1299"),
+        ("up", 1298, "process-row:1298"),
+        ("home", 0, "process-row:0"),
+    ] {
+        native_key(key, cx);
+        draw(cx);
+        assert_selected_process_in_viewport(
+            &processes,
+            &snapshot.processes[index].identity,
+            index,
+            selector,
+            cx,
+        );
+        let row = cx.debug_bounds(selector).unwrap();
+        assert!(
+            row.top() >= outer.bounds().top() && row.bottom() <= outer.bounds().bottom(),
+            "{key}: selected row {row:?} is outside outer viewport {:?}",
+            outer.bounds()
+        );
+    }
+}
+
+#[gpui::test]
 fn process_pending_reveal_preserves_unchanged_snapshot_order(cx: &mut TestAppContext) {
     process_pending_reveal_snapshot_interleaving(cx, false);
 }

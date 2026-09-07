@@ -231,11 +231,11 @@ impl MonitorPanel {
         let rows = Rc::new(self.process_projection());
         // Snapshot delivery may reorder rows after a key but before layout.
         // Consume the intent even when reconciliation cleared the selection.
-        if std::mem::take(&mut self.process_reveal_pending)
-            && let Some(index) = self.visible_selected_index(&rows)
-        {
+        let reveal_pending = std::mem::take(&mut self.process_reveal_pending);
+        if reveal_pending && let Some(index) = self.visible_selected_index(&rows) {
             self.table_scroll.scroll_to_item(index, ScrollStrategy::Top);
         }
+        let reveal_identity = reveal_pending.then(|| self.selected.clone()).flatten();
         let handle = self.controls["table"].handle.clone();
         let ring = cx.theme().ring;
         let count = rows.len();
@@ -254,6 +254,8 @@ impl MonitorPanel {
                         let identity = process.identity.clone();
                         let menu_identity = identity.clone();
                         let entity = cx.entity().downgrade();
+                        let reveal = reveal_identity.as_ref() == Some(&identity);
+                        let outer = data.scroll.clone();
                         Some(
                             process_row(
                                 process,
@@ -262,6 +264,20 @@ impl MonitorPanel {
                                 &data.process_widths,
                                 cx,
                             )
+                            .on_prepaint(move |mut bounds, window, _| {
+                                if reveal {
+                                    // A dock region may be taller than the window.
+                                    // Reveal the selected row after virtual layout,
+                                    // preserving the user's horizontal position.
+                                    let viewport = outer.bounds();
+                                    bounds.origin.x = viewport.origin.x;
+                                    bounds.size.width = viewport.size.width;
+                                    let shift = controls::reveal(bounds, &outer);
+                                    if shift.y != px(0.) {
+                                        window.refresh();
+                                    }
+                                }
+                            })
                             .on_click(cx.listener(move |this, _, window, cx| {
                                 this.selected = Some(identity.clone());
                                 this.controls["table"].handle.focus(window, cx);
@@ -320,7 +336,6 @@ impl MonitorPanel {
                 };
                 this.selected = Some(this.shared.borrow().processes[rows[next]].identity.clone());
                 this.process_reveal_pending = true;
-                controls::reveal(this.table_scroll.base_handle().bounds().dilate(px(1.)), &this.shared.borrow().scroll);
                 this.request_keyboard_repaint(window, cx); cx.stop_propagation();
             }))
             .on_prepaint(move |bounds, window, _| {
