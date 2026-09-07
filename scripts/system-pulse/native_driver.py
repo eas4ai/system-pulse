@@ -666,40 +666,54 @@ class Native:
         )
 
     def no_tabs(self, name):
-        rows = []
-        for node in self.walk():
-            role = node.get_role_name()
-            label = node.get_name()
-            aid = node.get_accessible_id() or ""
-            require(
-                role not in ("page tab", "page tab list"), "native tab role present"
-            )
-            require(
-                not any(
-                    token in (label + " " + aid).lower()
-                    for token in (
-                        "advance fixture",
-                        "fixture-a",
-                        "fixture-b",
-                        "fixture-home",
-                        "fixture-lan",
-                        "connect fake",
-                        "reverse discovery",
+        deadline = time.monotonic() + 15
+
+        def inventory():
+            rows = []
+            try:
+                for node in self.walk(deadline=deadline, strict=True):
+                    role = node.get_role_name()
+                    label = node.get_name()
+                    aid = node.get_accessible_id() or ""
+                    require(
+                        role not in ("page tab", "page tab list"),
+                        "native tab role present",
                     )
-                ),
-                "fixture control/identity present",
-            )
-            rows.append(
-                {
-                    "id": aid,
-                    "role": role,
-                    "name": label,
-                    "bounds": self.bounds(node)
-                    if node.get_component_iface() is not None
-                    else None,
-                }
-            )
-        require(rows, "app accessibility tree absent")
+                    require(
+                        not any(
+                            token in (label + " " + aid).lower()
+                            for token in (
+                                "advance fixture",
+                                "fixture-a",
+                                "fixture-b",
+                                "fixture-home",
+                                "fixture-lan",
+                                "connect fake",
+                                "reverse discovery",
+                            )
+                        ),
+                        "fixture control/identity present",
+                    )
+                    rows.append(
+                        {
+                            "id": aid,
+                            "role": role,
+                            "name": label,
+                            "bounds": self.bounds(node)
+                            if node.get_component_iface() is not None
+                            else None,
+                        }
+                    )
+            except (GLib.Error, IncompleteNativeTree):
+                # A live process can disappear between discovery and bounds.
+                # Discard the partial inventory; keep the original deadline.
+                return None
+            require(rows, "app accessibility tree absent")
+            return rows
+
+        rows = self.wait(
+            inventory, message="complete native tree inventory", deadline=deadline
+        )
 
         def check(node):
             if isinstance(node, dict):
