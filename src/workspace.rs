@@ -79,6 +79,8 @@ pub(crate) enum Command {
     ToggleGpu,
     Interval(u64),
     Appearance(system_pulse_model::Appearance),
+    Screen(system_pulse_model::Screen),
+    ScreenDevice(system_pulse_model::Screen, String),
     Preset(presets::PresetCommand),
     Scroll(f32, f32),
 }
@@ -257,6 +259,7 @@ fn capture_preferences(shared: &Shared, dock: &DockAreaState) {
 
 pub struct WorkspaceView {
     pub(crate) shared: Shared,
+    pub(crate) screen_view: Option<WeakEntity<crate::screens::ScreenView>>,
     pub(crate) dock: Entity<DockArea>,
     notice: String,
     directory: Option<PathBuf>,
@@ -446,6 +449,7 @@ impl WorkspaceView {
         .detach();
         let mut view = Self {
             shared,
+            screen_view: None,
             dock,
             notice,
             directory,
@@ -701,6 +705,13 @@ impl WorkspaceView {
     }
 
     fn notify_panels(&self, cx: &mut Context<Self>) {
+        if let Some(view) = self.screen_view.clone() {
+            // A screen command can be issued while that view is being updated.
+            // Refresh after its event callback releases the entity borrow.
+            cx.defer(move |cx| {
+                let _ = view.update(cx, |screen, cx| screen.refresh(cx));
+            });
+        }
         let views: Vec<_> = self.shared.borrow().views.values().cloned().collect();
         for view in views {
             let _ = view.update(cx, |panel, cx| {
@@ -826,6 +837,26 @@ impl WorkspaceView {
             self.initial_layout_pending = false;
         }
         match command {
+            Command::Screen(screen) => {
+                self.shared.borrow_mut().session.workspace.screens.active = screen;
+            }
+            Command::ScreenDevice(screen, id) => {
+                let valid = crate::screen_data::devices(&self.shared.borrow(), screen)
+                    .iter()
+                    .any(|choice| choice.id == id);
+                if !valid {
+                    self.notice = "The selected device is no longer available.".into();
+                    cx.notify();
+                    return;
+                }
+                self.shared
+                    .borrow_mut()
+                    .session
+                    .workspace
+                    .screens
+                    .devices
+                    .insert(screen, id);
+            }
             Command::AskResetLayout => {
                 self.confirm_layout_reset = true;
                 self.cancel_layout_reset_focus.focus(window, cx);
@@ -1135,6 +1166,19 @@ impl WorkspaceView {
         self.record(cx);
         self.queue_save(cx);
         self.notify_panels(cx);
+    }
+}
+
+impl WorkspaceView {
+    pub(crate) fn screen_notice(&self) -> String {
+        if let Some(rejected) = &self.shared.borrow().session.rejected {
+            format!(
+                "Saved settings could not be restored: {}. Original input retained; autosave is paused.",
+                rejected.error
+            )
+        } else {
+            self.notice.clone()
+        }
     }
 }
 

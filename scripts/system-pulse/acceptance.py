@@ -176,6 +176,12 @@ def source_guard():
         "native_driver.py",
         "native_input.py",
         "native_replay.py",
+        "tabbed_replay.py",
+        "tabbed_driver.py",
+        "tabbed_contract.py",
+        "tabbed_acceptance.py",
+        "native_session.py",
+        "test_tabbed_contract.py",
         "test_host_accuracy.py",
         "test_acceptance.py",
         "test_capture_stream.py",
@@ -503,6 +509,102 @@ def emit_requirement_passes(earned):
         print(f"cairn: LIVE-{number:03}: pass", flush=True)
 
 
+def run_automated(runner):
+    runner.step(
+        "source-guard",
+        [sys.executable, "-B", str(ROOT / "scripts/system-pulse/acceptance.py"), "--source-guard"],
+        timeout=10,
+    )
+    runner.step(
+        "python",
+        [
+            sys.executable,
+            "-B",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "scripts/system-pulse",
+            "-p",
+            "test_*.py",
+            "-v",
+        ],
+        "python",
+        60,
+    )
+    for name, package, extra in SUITES:
+        runner.step(
+            name, ["cargo", "test", "--locked", "-p", package, *extra], "rust"
+        )
+    packages = [arg for package in PACKAGES for arg in ("-p", package)]
+    runner.step("fmt", ["cargo", "fmt", *packages, "--", "--check"])
+    runner.step(
+        "fmt-atspi",
+        [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "vendor/accesskit_atspi_common/Cargo.toml",
+            "--",
+            "--check",
+        ],
+    )
+    runner.step(
+        "fmt-atspi-unix",
+        [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "vendor/accesskit_unix/Cargo.toml",
+            "--",
+            "--check",
+        ],
+    )
+    runner.step(
+        "fmt-gpui-macos",
+        [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "vendor/gpui_macos/Cargo.toml",
+            "--",
+            "--check",
+        ],
+    )
+    runner.step(
+        "clippy",
+        [
+            "cargo",
+            "clippy",
+            "--locked",
+            *packages,
+            "-p",
+            "accesskit_atspi_common",
+            "-p",
+            "accesskit_unix",
+            "--all-targets",
+            "--no-deps",
+            "--",
+            "-D",
+            "warnings",
+        ],
+    )
+    runner.step(
+        "build",
+        [
+            "cargo",
+            "build",
+            "--locked",
+            "-p",
+            "system-pulse",
+            "-p",
+            "system-pulse-collectors",
+            "--bins",
+        ],
+    )
+    runner.step("diff", ["git", "diff", "--check"], timeout=30)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", type=Path)
@@ -535,99 +637,7 @@ def main():
         "native",
     } | {s[0] for s in SUITES}
     try:
-        runner.step(
-            "source-guard",
-            [sys.executable, "-B", str(Path(__file__).resolve()), "--source-guard"],
-            timeout=10,
-        )
-        runner.step(
-            "python",
-            [
-                sys.executable,
-                "-B",
-                "-m",
-                "unittest",
-                "discover",
-                "-s",
-                "scripts/system-pulse",
-                "-p",
-                "test_*.py",
-                "-v",
-            ],
-            "python",
-            60,
-        )
-        for name, package, extra in SUITES:
-            runner.step(
-                name, ["cargo", "test", "--locked", "-p", package, *extra], "rust"
-            )
-        packages = [arg for package in PACKAGES for arg in ("-p", package)]
-        runner.step("fmt", ["cargo", "fmt", *packages, "--", "--check"])
-        runner.step(
-            "fmt-atspi",
-            [
-                "cargo",
-                "fmt",
-                "--manifest-path",
-                "vendor/accesskit_atspi_common/Cargo.toml",
-                "--",
-                "--check",
-            ],
-        )
-        runner.step(
-            "fmt-atspi-unix",
-            [
-                "cargo",
-                "fmt",
-                "--manifest-path",
-                "vendor/accesskit_unix/Cargo.toml",
-                "--",
-                "--check",
-            ],
-        )
-        runner.step(
-            "fmt-gpui-macos",
-            [
-                "cargo",
-                "fmt",
-                "--manifest-path",
-                "vendor/gpui_macos/Cargo.toml",
-                "--",
-                "--check",
-            ],
-        )
-        runner.step(
-            "clippy",
-            [
-                "cargo",
-                "clippy",
-                "--locked",
-                *packages,
-                "-p",
-                "accesskit_atspi_common",
-                "-p",
-                "accesskit_unix",
-                "--all-targets",
-                "--no-deps",
-                "--",
-                "-D",
-                "warnings",
-            ],
-        )
-        runner.step(
-            "build",
-            [
-                "cargo",
-                "build",
-                "--locked",
-                "-p",
-                "system-pulse",
-                "-p",
-                "system-pulse-collectors",
-                "--bins",
-            ],
-        )
-        runner.step("diff", ["git", "diff", "--check"], timeout=30)
+        run_automated(runner)
         runner.step(
             "host",
             [

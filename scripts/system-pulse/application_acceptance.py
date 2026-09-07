@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compose unchanged Linux preservation with packaged native product acceptance."""
+"""Compose tabbed-screen verification with packaged native product acceptance."""
 
 import json
 import os
@@ -13,29 +13,8 @@ from acceptance import ROOT, Runner, sha256
 from host_accuracy import require
 
 
-def private_session(script, *arguments, log):
-    return [
-        sys.executable,
-        "-B",
-        str(ROOT / "scripts/system-pulse/run_logged.py"),
-        "--log",
-        str(log),
-        "--",
-        "xvfb-run",
-        "-a",
-        "-s",
-        "-screen 0 1440x1000x24 -nolisten tcp",
-        "dbus-run-session",
-        "--",
-        "env",
-        "WAYLAND_DISPLAY=",
-        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
-        "PYTHONDONTWRITEBYTECODE=1",
-        "/usr/bin/python3",
-        "-B",
-        str(script),
-        *map(str, arguments),
-    ]
+from native_session import private_session
+from tabbed_acceptance import validate_tabbed
 
 
 def main():
@@ -54,7 +33,7 @@ def main():
     runner = Runner(output)
     record = {"status": "FAIL", "source_commit": commit, "steps": runner.steps}
     try:
-        # Preserve the original runner and all of its required cases/validators.
+        # Verify collectors and the current tabbed presentation before packaging.
         runner.step(
             "preservation",
             [
@@ -66,8 +45,6 @@ def main():
             ],
             timeout=2400,
         )
-        for number in range(1, 14):
-            print(f"cairn: LIVE-{number:03}: pass", flush=True)
         runner.step(
             "input-focus",
             [
@@ -118,14 +95,14 @@ def main():
         runner.step(
             "application",
             private_session(
-                harness / "application_replay.py",
+                harness / "tabbed_replay.py",
                 "--binary",
                 binary,
                 "--output",
                 output / "application",
                 log=output / "application.session.log",
             ),
-            timeout=300,
+            timeout=900,
         )
         product = json.loads((output / "application/result.json").read_text())
         require(
@@ -133,6 +110,7 @@ def main():
             and product["binary_sha256"] == build["binary_sha256"],
             "native product replay did not pass against packaged binary",
         )
+        validate_tabbed(runner, binary, output / "application")
         runner.step(
             "installed",
             private_session(

@@ -1,8 +1,11 @@
-//! Docked appearance and sampling controls.
+//! Appearance, sampling, sensor visibility, and preset controls.
 use crate::controls::{self, FocusEntry};
 use crate::workspace::{Command, Shared};
 use gpui_kit::base::{Button, ElementExt, Scrollbar, ScrollbarMode};
-use gpui_kit::component::{ActiveTheme, Theme, ThemeMode};
+use gpui_kit::component::{
+    ActiveTheme, Sizable, Theme, ThemeMode,
+    menu::{DropdownMenu, PopupMenuItem},
+};
 use gpui_kit::*;
 use std::collections::BTreeMap;
 use system_pulse_model::{Appearance, ColorTheme, NumericFont, UiFont};
@@ -59,6 +62,74 @@ impl SettingsPanel {
             presets.update(cx, |_, cx| cx.notify());
         }
         cx.notify();
+    }
+
+    fn sensor_controls(&self, cx: &App) -> AnyElement {
+        let data = self.shared.borrow();
+        let owner = data.owner.clone();
+        let menus = data
+            .catalog
+            .iter()
+            .filter(|monitor| !monitor.sensors.is_empty())
+            .map(|monitor| {
+                let monitor_id = monitor.id.clone();
+                let sensors: Vec<_> = monitor
+                    .sensors
+                    .iter()
+                    .map(|sensor| {
+                        (
+                            sensor.id.clone(),
+                            sensor.title.clone(),
+                            crate::screen_data::sensor_visible(&data, &monitor.id, &sensor.id),
+                        )
+                    })
+                    .collect();
+                let owner = owner.clone();
+                gpui_kit::component::button::Button::new(SharedString::from(format!(
+                    "settings-sensors:{}",
+                    monitor.id
+                )))
+                .accessibility_id(format!("settings-sensors:{}", monitor.id))
+                .accessibility_label(format!("Visible sensors for {}", monitor.title))
+                .small()
+                .label(monitor.title.clone())
+                .dropdown_menu(move |mut menu, _, _| {
+                    menu = menu.scrollable(true).max_h(px(320.));
+                    for (sensor_id, title, visible) in &sensors {
+                        let command = Command::SensorVisible(monitor_id.clone(), sensor_id.clone());
+                        let owner = owner.clone();
+                        menu = menu.item(
+                            PopupMenuItem::new(format!(
+                                "{} {title}",
+                                if *visible { "Hide" } else { "Show" }
+                            ))
+                            .checked(*visible)
+                            .on_click(move |_, window, cx| {
+                                if let Some(owner) = &owner {
+                                    let _ = owner.update(cx, |owner, cx| {
+                                        owner.command(command.clone(), window, cx)
+                                    });
+                                }
+                            }),
+                        );
+                    }
+                    menu
+                })
+            })
+            .collect::<Vec<_>>();
+        div()
+            .flex()
+            .flex_col()
+            .gap_2()
+            .child(div().text_lg().child("Visible sensors"))
+            .child(
+                div()
+                    .text_sm()
+                    .text_color(cx.theme().muted_foreground)
+                    .child("Choose a device to show or hide its readings across the screens."),
+            )
+            .child(div().flex().flex_wrap().gap_2().children(menus))
+            .into_any_element()
     }
 
     fn choice(
@@ -157,13 +228,14 @@ impl Render for SettingsPanel {
             ].into_iter().map(|(id, ms, label)| self.choice(id, label, interval == ms, Command::Interval(ms), cx))))
             .child(div().text_sm().text_color(cx.theme().muted_foreground)
                 .child("Changes apply immediately and save automatically. Process CPU uses one core and may exceed 100%."));
-        let content = content.child(self.presets.as_ref().unwrap().clone());
+        let content = content
+            .child(self.sensor_controls(cx))
+            .child(self.presets.as_ref().unwrap().clone());
         div()
             .size_full()
             .relative()
             .child(
-                div()
-                    .id("settings-scroll")
+                crate::workspace::scroll_viewport("settings-scroll", "settings:viewport".into())
                     .size_full()
                     .overflow_y_scroll()
                     .track_scroll(&self.scroll)

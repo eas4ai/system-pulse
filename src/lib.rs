@@ -20,3 +20,12 @@ mod layout;
 mod panel_context;
 
 mod dashboard;
+
+mod screen_charts;
+mod screen_data;
+mod screen_pages;
+mod screen_style;
+mod screen_summary;
+#[cfg(test)]
+mod screen_tests;
+pub mod screens;

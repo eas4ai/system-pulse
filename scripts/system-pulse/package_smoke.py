@@ -9,7 +9,8 @@ import subprocess
 import sys
 import tarfile
 
-from native_driver import Native, close_transport, digest, spin
+from native_driver import close_transport, digest, spin
+from tabbed_driver import TabbedNative as Native
 from host_accuracy import require
 
 
@@ -76,14 +77,14 @@ def main():
         state = output / "state"
         app = Native(binary, output / "native", state, working_directory=working)
         spin(2)
-        app.find(aid="cpu:host:hero")
-        app.find(aid="memory:host:hero")
+        app.find(aid="summary-cpu")
+        app.find(aid="summary-memory")
         app.screenshot("installed-first-launch.png")
         app.resize(960, 640)
         spin(0.5)
         app.screenshot("installed-minimum.png")
         app.resize(1280, 880)
-        app.click(app.find("Settings & presets", "button"))
+        app.select_screen("settings")
         spin(0.5)
         app.click(app.find("Light"))
         app.wait(
@@ -102,7 +103,7 @@ def main():
         require(
             app.state()["appearance"]["theme"] == "light", "restart lost appearance"
         )
-        app.find(aid="cpu:host:hero")
+        require(app.selected_screen() == "settings", "restart lost active tab")
         app.screenshot("restarted-light.png")
         app.shutdown()
         app.close()

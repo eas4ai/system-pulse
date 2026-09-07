@@ -32,6 +32,9 @@ def press(app, name, *, root=None, role=None):
 def enter(app, placeholder, value):
     node = app.find(placeholder)
     require(node.get_component_iface().grab_focus(), "input focus rejected")
+    # The AT-SPI focus request and X11 typing use different event queues.
+    # Let the native focus action reach the editor before dispatching a key burst.
+    spin(0.1)
     # Focus transfers from the semantic frame to its internal text editor.
     # AT-SPI does not expose that internal focus node; actual typing below
     # must produce the expected projection or stored preset name.

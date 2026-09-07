@@ -11,7 +11,7 @@ The application belongs in `/home/shawn/workspace2/task-manager`. This is its so
 - `crates/model/`, `crates/collectors/`: application model and host collectors.
 - `crates/base/`, `crates/ui/`: patched GPUI Kit 0.6 libraries used by the application. Unmodified macros and icon assets come from Cargo dependencies.
 - `vendor/`: retained native adapter patches and their license notices.
-- `docs/feature-spec-dockable-system-monitor.md`: original product specification.
+- `docs/feature-spec-dockable-system-monitor.md`: current tabbed-screen product specification.
 - `docs/spec/`, `docs/commitments/`, `docs/plans/`: current contract and execution state.
 - `scripts/system-pulse/`: verification, native replay and packaging.
 - `reference/`: local third-party design/reference snapshots; keep these separate from application source and preserve notices.

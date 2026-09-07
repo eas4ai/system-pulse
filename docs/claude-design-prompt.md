@@ -1,5 +1,6 @@
 # Claude Design Prompt: Dockable System Monitor
 
+> Current UI direction (2026-09-07): [reference-based tabbed screens](superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 ## Project Context
 
 Design a UI concept for a cross-platform desktop system monitor application — the first task manager with a fully user-customizable dockable panel layout. Built with Rust and a GPU-accelerated UI framework that renders at 120fps. This is a native desktop application, not a web app. The design should communicate performance, density, and precision.

@@ -1,6 +1,6 @@
 # System Pulse for Linux
 
-A native desktop monitor with live CPU, memory, GPU, disk, network and process readings. The first workspace keeps CPU, memory, the first discovered GPU and processes in separate dock panels.
+A native desktop monitor with live CPU, memory, GPU, disk, network and process readings. Summary opens first, with fixed tabs for CPU, Memory, GPU, Disks, Network, Energy, Thermals, Processes and Settings.
 
 ## Run or install
 
@@ -17,15 +17,13 @@ This package is built on Ubuntu 26.04 for x86-64 Linux with glibc. It uses the h
 
 ## Use the workspace
 
-If the arrangement becomes difficult to use, choose **Reset layout** in the top toolbar, then **Restore default layout**. This restores panel positions, sizes, visibility and expansion while keeping sensor choices, appearance, sampling interval and saved presets. Cancel or Escape leaves the layout unchanged.
+- Click a tab, use Left/Right/Home/End while a tab has focus, or cycle screens with Ctrl+Tab and Ctrl+Shift+Tab. Each screen scrolls as needed.
+- Choose a named device above GPU, Disks or Network. Energy and Thermals select measured sensors. Long menus scroll and support Up/Down and Return.
+- Open **Settings → Visible sensors** to show or hide readings by device. Unavailable sensors reappear when readings recover; failed, stale and warming-up states remain explicit.
+- Search processes by name, PID or user and click headings to sort. Select a row for current details and confirmed End task or Force quit actions. Process arrows/Home/End move the selection; Left/Right scroll columns.
+- **Settings** also provides themes, interface/numeric fonts, sampling intervals and named presets. Screen selection, device identities and preferences save automatically and restore on restart. Older docked configurations retain their preferences and open Summary.
 
-- Drag a panel title to split or move it. Use its arrow to collapse it or × to hide it. Monitor buttons across the top show hidden hardware; that strip scrolls when the host has many devices.
-- Right-click a sensor, or open its ⋯ menu, to change its compatible meter, visibility or order. CPU core tiles retain the same controls. Unavailable sensor rows hide until readings recover; failed, stale and warming-up readings remain explicit.
-- Search processes by name, PID or user. Click a column heading to sort. Select a row, then use End task or Force quit; confirmation identifies the process. End task requests graceful termination. Force quit stops it immediately. Failures appear in the panel.
-- Open **Settings & presets** for themes, interface/numeric fonts, sampling intervals and named presets. Settings scroll independently of the workspace. Save current creates a named preset; Use recalls one. Rename, overwrite and delete ask for confirmation where appropriate. Default, Minimal, GPU Focus and Developer are protected templates. The top Save preset/Recall preset buttons retain the separate legacy quick slot.
-- Layout and settings save automatically. **Save** writes immediately. Alt+PageUp/PageDown scrolls the workspace; Alt+Left/Right scrolls it horizontally. Tab moves between controls. Process arrows and Home/End move the selection.
-
-Configuration lives in `$XDG_CONFIG_HOME/system-pulse`, or `~/.config/system-pulse`. `SYSTEM_PULSE_STATE_DIR=/another/directory ./system-pulse` runs with isolated state. Invalid saved input is retained until you explicitly accept a recovered layout.
+Configuration lives in `$XDG_CONFIG_HOME/system-pulse`, or `~/.config/system-pulse`. `SYSTEM_PULSE_STATE_DIR=/another/directory ./system-pulse` runs with isolated state. Invalid saved input is retained until you explicitly accept recovered settings.
 
 ## Remove or update
 

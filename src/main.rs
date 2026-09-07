@@ -1,6 +1,6 @@
 use gpui_kit::component::{ActiveTheme, Root};
 use gpui_kit::*;
-use system_pulse::workspace::WorkspaceView;
+use system_pulse::screens::ApplicationView;
 
 mod application;
 
@@ -30,7 +30,7 @@ fn main() {
                     |window, cx| {
                         window.set_window_title("System Pulse");
                         window.set_app_id("org.systempulse.SystemPulse");
-                        let view = cx.new(|cx| WorkspaceView::new(window, cx));
+                        let view = cx.new(|cx| ApplicationView::new(window, cx));
                         cx.new(|cx| Root::new(view, window, cx).bg(cx.theme().background))
                     },
                 );

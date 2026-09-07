@@ -1,5 +1,6 @@
 # System Pulse roadmap
 
+> Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
 Current: finish-application

@@ -2,7 +2,7 @@
 
 A native desktop system monitor built with Rust and GPUI Kit 0.6. This repository contains the application and the patched base/component libraries it uses; unmodified framework packages are ordinary Cargo dependencies.
 
-System Pulse provides live CPU, memory, GPU, disk, network and process readings in separate dockable panels. It includes process search and sorting, confirmed task actions, configurable sensor meters, named presets, bundled fonts, dark/light themes and persistent layouts.
+System Pulse provides Summary, CPU, Memory, GPU, Disks, Network, Energy, Thermals, Processes and Settings screens in a fixed tab strip. Native charts and segmented meters follow the supplied TMOG references. Device selectors, process search and sorting, confirmed task actions, sensor visibility, named presets and dark/light themes use live host data and saved preferences.
 
 ## Run
 
@@ -18,7 +18,7 @@ Build an optimized executable with `cargo build --release --locked -p system-pul
 
 Application source is in [src](src/), with separate [model](crates/model/) and [collector](crates/collectors/) crates. [Application documentation](docs/user-guide.md) describes controls, configuration and diagnostics; the [package guide](package/README.md) covers installation and removal.
 
-Linux is the verified platform. The [Linux checkpoint](docs/execution/linux-application-checkpoint.md) records 932 passing tests, fourteen native preservation cases and packaged/installed verification against its named source commit. Intel/Apple native hardware validation and the Mac F1 review remain open.
+Linux is the primary verification platform. The [tabbed screen record](docs/execution/tabbed-screens.md) tracks the current redesign and its evidence. The [earlier Linux checkpoint](docs/execution/linux-application-checkpoint.md) applies to its named docked-UI revision. Intel/Apple hardware validation and native Mac GUI review remain separate.
 
 ## Verify
 
@@ -34,7 +34,7 @@ The full acceptance command requires the native Linux tools and pinned cargo-abo
 
 ## Project records
 
-Start with the [product specification](docs/feature-spec-dockable-system-monitor.md), [current roadmap](docs/spec/roadmap.md) and [execution plan](docs/plans/finish-application.md). Historical records retain their original worktree paths and source commits.
+Start with the [product specification](docs/feature-spec-dockable-system-monitor.md), [current roadmap](docs/spec/roadmap.md) and [tabbed implementation plan](docs/superpowers/plans/2026-09-07-tabbed-screens.md). Historical records retain their original worktree paths and source commits.
 
 ## Licenses
 

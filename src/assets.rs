@@ -1,8 +1,9 @@
 //! Fonts are embedded so an installed application never reads from the checkout.
 use std::borrow::Cow;
 
-const FONTS: [&[u8]; 4] = [
+const FONTS: [&[u8]; 5] = [
     include_bytes!("../assets/fonts/Inter-Regular.ttf"),
+    include_bytes!("../assets/fonts/Michroma-Regular.ttf"),
     include_bytes!("../assets/fonts/IBMPlexSans-Regular.ttf"),
     include_bytes!("../assets/fonts/JetBrainsMono-Regular.ttf"),
     include_bytes!("../assets/fonts/IBMPlexMono-Regular.ttf"),
@@ -24,6 +25,7 @@ mod tests {
         }
         for license in [
             include_str!("../assets/fonts/IBM-Plex-LICENSE.txt"),
+            include_str!("../assets/fonts/Michroma-OFL.txt"),
             include_str!("../assets/fonts/Inter-JetBrainsMono-OFL.txt"),
         ] {
             assert!(license.contains("SIL OPEN FONT LICENSE"));

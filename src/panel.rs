@@ -32,6 +32,7 @@ pub(crate) struct MonitorPanel {
     process_reveal_pending: bool,
     process_state: process_panel::ProcessPanelState,
     pub(crate) settings: Option<Entity<crate::settings::SettingsPanel>>,
+    standalone: bool,
 }
 
 impl MonitorPanel {
@@ -60,7 +61,14 @@ impl MonitorPanel {
             process_reveal_pending: false,
             process_state: process_panel::ProcessPanelState::default(),
             settings: None,
+            standalone: false,
         }
+    }
+
+    pub(crate) fn new_standalone(monitor: Monitor, shared: Shared, cx: &mut Context<Self>) -> Self {
+        let mut panel = Self::new(monitor, shared, cx);
+        panel.standalone = true;
+        panel
     }
 
     pub(crate) fn refresh(&mut self, monitor: Monitor, cx: &mut Context<Self>) {
@@ -225,10 +233,30 @@ pub(crate) fn process_row(
         .flex()
         .h_7()
         .aria_selected(selected)
+        .when(!selected && index % 2 == 0, |row| {
+            row.bg(crate::screen_style::accent(system_pulse_model::Screen::Cpu, cx).opacity(0.045))
+        })
         .when(selected, |row| row.bg(cx.theme().muted))
         .debug_selector(move || format!("process-row:{index}").into())
         .children(process.cells.iter().enumerate().map(|(column, _)| {
             process_cell(process, column, widths[column])
+                .when(
+                    column == 2
+                        && process.numeric[0].is_some_and(|value| value.is_finite() && value > 0.)
+                        && process
+                            .cells
+                            .get(2)
+                            .is_some_and(|value| !value.to_lowercase().contains("stale")),
+                    |cell| {
+                        cell.bg(
+                            crate::screen_style::accent(system_pulse_model::Screen::Cpu, cx)
+                                .opacity(
+                                    (process.numeric[0].unwrap_or(0.).clamp(0., 100.) / 100. * 0.22)
+                                        as f32,
+                                ),
+                        )
+                    },
+                )
                 .when(column == 0 || (2..7).contains(&column), |cell| {
                     cell.font_family(cx.theme().mono_font_family.clone())
                 })
@@ -281,7 +309,9 @@ impl Focusable for MonitorPanel {
 }
 impl Render for MonitorPanel {
     fn render(&mut self, window: &mut Window, cx: &mut Context<Self>) -> impl IntoElement {
-        if self.shared.borrow().session.workspace.panels[&self.monitor.id].collapsed {
+        if !self.standalone
+            && self.shared.borrow().session.workspace.panels[&self.monitor.id].collapsed
+        {
             return Empty.into_any_element();
         }
         let content = match self.monitor.id.as_str() {

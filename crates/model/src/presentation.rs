@@ -142,6 +142,8 @@ pub struct Workspace {
     pub interval_ms: u64,
     #[serde(default)]
     pub appearance: crate::Appearance,
+    #[serde(default)]
+    pub screens: crate::ScreenState,
 }
 
 impl Workspace {
@@ -153,6 +155,7 @@ impl Workspace {
             monitors: BTreeMap::new(),
             interval_ms: default_interval_ms(),
             appearance: crate::Appearance::default(),
+            screens: crate::ScreenState::default(),
         }
     }
 
@@ -161,6 +164,7 @@ impl Workspace {
     }
 
     pub fn validate(&self) -> Result<(), String> {
+        self.screens.validate()?;
         if self.schema_version != schema_version() {
             return Err(format!(
                 "Unsupported presentation schema {}",
