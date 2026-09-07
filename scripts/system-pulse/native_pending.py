@@ -28,6 +28,18 @@ def publication(frame):
 
 
 _MAX_VALUE = (1 << 64) - 1
+MAX_ARROW_BATCH = 8
+
+
+def valid_arrow_batch(keys):
+    return (
+        isinstance(keys, list)
+        and 1 <= len(keys) <= MAX_ARROW_BATCH
+        and keys[0] in ("Up", "Down")
+        and all(key == keys[0] for key in keys)
+    )
+
+
 _PRIOR_BINDINGS = (
     "expected",
     "target",
@@ -117,7 +129,7 @@ def prepare_prior_acknowledgement(acknowledgement, pending, issued_ids):
         or not 0 <= endpoint < len(issued_ids)
         or issued_ids[index] != previous
         or issued_ids[endpoint] != expected
-        or keys not in (["Up"], ["Up", "Up"], ["Down"], ["Down", "Down"])
+        or not valid_arrow_batch(keys)
     ):
         return None
     direction = 1 if keys[0] == "Down" else -1
@@ -166,7 +178,7 @@ class PriorSelectionPrefix:
                 _bounded_number(proof[field])
                 for field in ("batch_deadline", "deadline")
             )
-            and proof["keys"] in (["Up"], ["Up", "Up"], ["Down"], ["Down", "Down"])
+            and valid_arrow_batch(proof["keys"])
             and proof["endpoint_index"]
             == proof["index"]
             + (1 if proof["keys"][0] == "Down" else -1) * len(proof["keys"]),

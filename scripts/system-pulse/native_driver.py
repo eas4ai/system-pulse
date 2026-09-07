@@ -1232,6 +1232,7 @@ class Native:
             InterruptedNavigation,
             PriorSelectionPrefix,
             publication,
+            valid_arrow_batch,
             validate_stat,
         )
 
@@ -1267,8 +1268,7 @@ class Native:
                 <= pending["dispatch_completed"]
                 < deadline * 1e9
                 and pending["actual_keys"] == pending["keys"]
-                and pending["keys"]
-                in (["Up"], ["Up", "Up"], ["Down"], ["Down", "Down"]),
+                and valid_arrow_batch(pending["keys"]),
                 "invalid frozen pending navigation batch",
             )
             require(
@@ -1876,6 +1876,7 @@ class Native:
 
     def _navigate(self, target, deadline, *, on_acknowledged=None):
         from native_pending import (
+            MAX_ARROW_BATCH,
             InterruptedNavigation,
             capture_acknowledgement,
             prepare_prior_acknowledgement,
@@ -2008,7 +2009,7 @@ class Native:
             self.navigation_context.update(
                 target_index=ids.index(target), population=len(ids), distance=abs(delta)
             )
-            count = min(abs(delta), 2)
+            count = min(abs(delta), MAX_ARROW_BATCH if abs(delta) > 32 else 2)
             require(
                 count > 0 and time.monotonic() < deadline,
                 "navigation original deadline expired",
