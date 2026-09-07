@@ -992,6 +992,8 @@ def main():
             "split-structure.json",
             {"before": before, "after": app.state()["dock"], "horizontal_pair": split},
         )
+        # Saving focused the global toolbar; the drag does not transfer focus.
+        app.focus(app.find("Collapse CPU", "button", root=app.panel("cpu:host")))
         left = app.bounds(app.panel("memory:host"))
         right = app.bounds(app.panel("cpu:host"))
         if right[0] >= 1400:
@@ -1034,6 +1036,7 @@ def main():
             return
         progress("outer-scroll", "RUNNING")
         app.resize(960, 640)
+        app.focus(app.find("Collapse Memory", "button", root=app.panel("memory:host")))
         anchors = [app.panel("processes"), app.panel("cpu:host")]
         # Establish travel in each direction; signed movements cannot pass at a boundary.
         movement = []
