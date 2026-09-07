@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/application_acceptance.py", line 170, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/application_acceptance.py", line 52, in main
+    runner.step(
+    ~~~~~~~~~~~^
+        "preservation",
+        ^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        timeout=2400,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 149, in step
+    require(
+    ~~~~~~~^
+        child.returncode == 0, f"{name} exited {child.returncode}; full log: {path}"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/host_accuracy.py", line 12, in require
+    raise AssertionError(message)
+AssertionError: preservation exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-row-reveal-20260907/evidence/preservation.log

@@ -770,8 +770,9 @@ def main():
         first = identity(rows[0])
         app.key("Home")
         app.acknowledge(first, time.monotonic() + 8)
-        panel_before = app.bounds(app.panel("processes"))
         cell = app.find(aid=first + ":cell:0")
+        app.wait(lambda: app.visible(cell), message="Home reveals selected row", seconds=5)
+        panel_before = app.bounds(app.panel("processes"))
         x = app.bounds(cell)[0]
         app.key("Right")
         app.wait(lambda: app.bounds(cell)[0] < x, message="inner horizontal right")
