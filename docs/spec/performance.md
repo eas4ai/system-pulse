@@ -13,6 +13,12 @@ The [measurement protocol](../plans/macos-performance.md) fixes the workload and
 comparison before implementation. The preliminary 30-second observations in the
 [recon](../recon.md) locate the cost; they do not satisfy the three-run gate.
 
+The developer also approved actual filesystem used/total bytes for the Mac
+volume meter, matching Linux. Purgeable files remain used until reclaimed.
+This replaces macOS's more expensive estimate of space available for important
+usage; it does not permit cached readings or a slower interval. See the
+[capacity decision](../decisions/use-fresh-filesystem-allocation-counters-for-mac-capacity.md).
+
 [PERF-001] The optimized release MUST consume at most half the reference release's CPU time per elapsed second with Summary visible on the comparison MacBook.
 Falsifier: the aggregate of three valid 60-second candidate observations exceeds 50 percent of the aggregate of three matching reference observations, or a required observation is absent.
 Mechanism: native `macos-performance` paired measurement and comparison, with source and binary hashes, all raw counters, window state, and each repetition retained.

@@ -487,7 +487,14 @@ impl HostCollector {
                 "sysinfo exposes no address-attributed connection counts",
             );
         }
+        #[cfg(not(target_os = "macos"))]
         let (disks, disk_window) = query(clock, sysinfo::Disks::new_with_refreshed_list);
+        #[cfg(target_os = "macos")]
+        let (disks, disk_window) = query(clock, || {
+            sysinfo::Disks::new_with_refreshed_list_specifics(
+                sysinfo::DiskRefreshKind::everything().without_storage(),
+            )
+        });
         for disk in &disks {
             let id = format!(
                 "volume:source:{}:{}",
@@ -500,22 +507,41 @@ impl HostCollector {
                 &disk.mount_point().display().to_string(),
                 MonitorKind::Volume,
             );
-            let source = "sysinfo::Disk capacity bytes";
-            let mut r = api_integer(
-                &format!("{id}/capacity"),
-                source,
-                disk.total_space().saturating_sub(disk.available_space()),
-                disk_window,
-            );
-            r.total = Some(disk.total_space() as f64);
-            r.observations = vec![api_raw(
-                source,
-                disk_window,
-                [
-                    ("total", disk.total_space()),
-                    ("available", disk.available_space()),
-                ],
-            )];
+            #[cfg(not(target_os = "macos"))]
+            let (source, scope, r) = {
+                let source = "sysinfo::Disk capacity bytes";
+                let mut r = api_integer(
+                    &format!("{id}/capacity"),
+                    source,
+                    disk.total_space().saturating_sub(disk.available_space()),
+                    disk_window,
+                );
+                r.total = Some(disk.total_space() as f64);
+                r.observations = vec![api_raw(
+                    source,
+                    disk_window,
+                    [
+                        ("total", disk.total_space()),
+                        ("available", disk.available_space()),
+                    ],
+                )];
+                (source, "Filesystem total - available bytes", r)
+            };
+            #[cfg(target_os = "macos")]
+            let (source, scope, r) = {
+                let (blocks, window) = query(clock, || {
+                    rustix::fs::statvfs(disk.mount_point())
+                        .map(|v| (v.f_blocks, v.f_bfree, v.f_frsize))
+                        .map_err(|error| {
+                            format!("statvfs({}): {error}", disk.mount_point().display())
+                        })
+                });
+                (
+                    "statvfs filesystem capacity",
+                    "(f_blocks - f_bfree) * f_frsize; purgeable files remain used",
+                    filesystem_capacity_reading(&format!("{id}/capacity"), blocks, window),
+                )
+            };
             sensor(
                 s,
                 &id,
@@ -524,7 +550,7 @@ impl HostCollector {
                 SensorKind::Capacity,
                 Unit::Bytes,
                 source,
-                "Filesystem total - available bytes",
+                scope,
                 r,
             );
             for (suffix, total) in [
@@ -569,6 +595,46 @@ impl HostCollector {
         }
         s.diagnostics.push(BackendDiagnostic{backend:"sysinfo".into(),availability:Availability::Available,reason:"sysinfo 0.37.2 common backend; some APIs expose no per-field error channel. Native macOS/Windows accuracy is not validated on Linux. Process identity start value is Unix seconds on this backend.".into()});
     }
+}
+#[cfg(any(test, target_os = "macos"))]
+fn filesystem_capacity_reading(
+    id: &str,
+    blocks: Result<(u64, u64, u64), String>,
+    window: QueryWindow,
+) -> Reading {
+    let (blocks, free_blocks, fragment_size) = match blocks {
+        Ok(values) => values,
+        Err(error) => return missing(id, Availability::Failed, error),
+    };
+    let total = blocks.checked_mul(fragment_size);
+    let used = blocks
+        .checked_sub(free_blocks)
+        .and_then(|used| used.checked_mul(fragment_size));
+    let (Some(total), Some(used)) = (total, used) else {
+        return missing(
+            id,
+            Availability::Failed,
+            "statvfs capacity arithmetic overflow".into(),
+        );
+    };
+    if fragment_size == 0 || total == 0 {
+        return missing(
+            id,
+            Availability::Unavailable,
+            "statvfs reports no filesystem capacity".into(),
+        );
+    }
+    let mut reading = measured(id, used as f64, Some(total as f64));
+    reading.observations.push(api_raw(
+        "statvfs filesystem capacity",
+        window,
+        [
+            ("blocks", blocks),
+            ("free_blocks", free_blocks),
+            ("fragment_size", fragment_size),
+        ],
+    ));
+    reading
 }
 fn api_scalar(id: &str, source: &str, value: f64, window: QueryWindow) -> Reading {
     if !value.is_finite() {
@@ -620,6 +686,45 @@ fn unsupported(
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn filesystem_capacity_uses_fresh_block_operands_and_preserves_query_window() {
+        let window = QueryWindow {
+            started_ns: 10,
+            captured_ns: 20,
+        };
+        let first = filesystem_capacity_reading("volume/capacity", Ok((100, 40, 4096)), window);
+        assert_eq!(first.value, Some(60.0 * 4096.0));
+        assert_eq!(first.total, Some(100.0 * 4096.0));
+        assert_eq!(first.observations[0].integers["free_blocks"], 40);
+        assert_eq!(first.observations[0].read_started_ns, Some(10));
+        assert_eq!(first.observations[0].captured_ns, 20);
+        let second = filesystem_capacity_reading("volume/capacity", Ok((100, 30, 4096)), window);
+        assert_eq!(second.value, Some(70.0 * 4096.0));
+    }
+
+    #[test]
+    fn filesystem_capacity_failure_and_invalid_counters_never_publish_zero_or_old_values() {
+        let window = QueryWindow {
+            started_ns: 10,
+            captured_ns: 20,
+        };
+        for result in [
+            Err("mount disappeared".into()),
+            Ok((10, 11, 4096)),
+            Ok((u64::MAX, 0, 4096)),
+            Ok((10, 0, 0)),
+            Ok((0, 0, 4096)),
+        ] {
+            let reading = filesystem_capacity_reading("volume/capacity", result, window);
+            assert!(reading.value.is_none());
+            assert!(reading.total.is_none());
+            assert_ne!(reading.availability, Availability::Available);
+            assert!(reading.reason.is_some());
+        }
+        let recovered = filesystem_capacity_reading("volume/capacity", Ok((10, 10, 4096)), window);
+        assert_eq!(recovered.value, Some(0.0));
+        assert_eq!(recovered.availability, Availability::Available);
+    }
     #[test]
     fn common_backend_exposes_host_memory_and_real_process_identity() {
         if !sysinfo::IS_SUPPORTED_SYSTEM {
