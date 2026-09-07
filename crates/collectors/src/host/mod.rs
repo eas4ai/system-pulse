@@ -19,6 +19,8 @@ mod portable;
 mod proc;
 #[cfg(target_os = "linux")]
 mod process;
+#[cfg(any(test, all(target_os = "macos", target_arch = "aarch64")))]
+mod temperature;
 
 pub struct HostCollector {
     origin: Instant,
@@ -32,6 +34,8 @@ pub struct HostCollector {
     pub(crate) page_size: u64,
     pub(crate) system: sysinfo::System,
     pub(crate) networks: sysinfo::Networks,
+    #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+    temperatures: temperature::TemperatureInventory,
     nvidia: crate::nvidia::NvidiaCollector,
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     apple: crate::apple::AppleCollector,
@@ -57,6 +61,8 @@ impl HostCollector {
             page_size: rustix::param::page_size() as u64,
             system: sysinfo::System::new(),
             networks: sysinfo::Networks::new(),
+            #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+            temperatures: temperature::TemperatureInventory::default(),
             nvidia: crate::nvidia::NvidiaCollector::new(),
             #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
             apple: crate::apple::AppleCollector::default(),

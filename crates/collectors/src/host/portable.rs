@@ -129,9 +129,12 @@ impl HostCollector {
                 );
             }
         }
+        #[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
         let (components, component_window) =
             query(clock, sysinfo::Components::new_with_refreshed_list);
-        for component in &components {
+        #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
+        let (components, component_window) = query(clock, || self.temperatures.refresh());
+        for component in components.iter() {
             let suffix = format!("temperature:{}", component.label());
             let id = format!("cpu:host/{suffix}");
             let source = "sysinfo::Component::temperature";

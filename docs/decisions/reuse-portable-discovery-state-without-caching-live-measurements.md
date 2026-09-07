@@ -11,4 +11,8 @@ Start with the measured portable collector. Retain the sysinfo temperature clien
 
 ## Realized by
 
-(none yet: recorded, not built)
+The first change retains the Apple Silicon temperature connection in
+`crates/collectors/src/host/temperature.rs`. Every sample refreshes readings and
+discovery, removes absent entries, and schedules a new connection after a failed
+read or empty inventory. Other temperature backends are unchanged. Account-name
+reuse remains unbuilt pending the next whole-application measurement.
