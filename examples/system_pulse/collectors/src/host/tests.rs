@@ -65,6 +65,66 @@ fn reading<'a>(s: &'a Snapshot, id: &str) -> &'a Reading {
         .unwrap_or_else(|| panic!("missing {id}"))
 }
 #[test]
+fn monitor_names_use_host_descriptions_without_changing_identity() {
+    use std::os::unix::fs::symlink;
+    let f = Fixture::new();
+    f.base();
+    let physical = "sys/devices/pci0000:00/0000:03:00.0";
+    f.put(&format!("{physical}/vendor"), "0x1002");
+    f.put(&format!("{physical}/unique_id"), "physical-uuid");
+    fs::create_dir_all(f.0.join("sys/class/drm/card7")).unwrap();
+    symlink(f.0.join(physical), f.0.join("sys/class/drm/card7/device")).unwrap();
+    f.put(
+        "run/udev/data/+pci:0000:03:00.0",
+        "E:ID_MODEL_FROM_DATABASE=Navi 48 [Radeon AI PRO R9700]\n",
+    );
+    for (name, alias) in [
+        ("veth2986d25", ""),
+        ("tap-123abc", ""),
+        ("docker0", ""),
+        ("eth0", "Office LAN"),
+    ] {
+        f.put(&format!("sys/class/net/{name}/ifalias"), alias);
+        f.put(&format!("sys/class/net/{name}/type"), "1");
+    }
+    f.put("sys/class/net/tap-123abc/tun_flags", "0x1002");
+    fs::create_dir_all(f.0.join("sys/class/net/docker0/bridge")).unwrap();
+    let mut c = HostCollector::rooted(f.0.clone());
+    let first = c.collect_at(1);
+    for (id, expected) in [
+        ("amdgpu:physical-uuid", "Radeon AI PRO R9700 (0000:03:00.0)"),
+        ("network:name:veth2986d25", "Virtual Ethernet (veth2986d25)"),
+        ("network:name:tap-123abc", "Virtual TAP (tap-123abc)"),
+        ("network:name:docker0", "Docker bridge (docker0)"),
+        ("network:name:eth0", "Office LAN (eth0)"),
+    ] {
+        assert_eq!(
+            first.monitors.iter().find(|m| m.id == id).unwrap().title,
+            expected
+        );
+    }
+    f.put("sys/class/net/eth0/ifalias", "Renamed LAN");
+    let second = c.collect_at(2);
+    let ethernet = second
+        .monitors
+        .iter()
+        .find(|m| m.id == "network:name:eth0")
+        .unwrap();
+    assert_eq!(ethernet.title, "Renamed LAN (eth0)");
+    fs::remove_file(f.0.join("run/udev/data/+pci:0000:03:00.0")).unwrap();
+    let third = c.collect_at(3);
+    assert_eq!(
+        third
+            .monitors
+            .iter()
+            .find(|m| m.id == "amdgpu:physical-uuid")
+            .unwrap()
+            .title,
+        "AMD GPU (0000:03:00.0)"
+    );
+}
+
+#[test]
 fn intel_pci_device_is_discovered_without_card_index_identity() {
     use std::os::unix::fs::symlink;
     let f = Fixture::new();
@@ -812,14 +872,18 @@ fn network_duplicate_hardware_parent_keeps_identity_after_port_removal() {
     let before = s
         .monitors
         .iter()
-        .find(|m| m.title == "eth1")
+        .find(|m| m.title == "Network interface (eth1)")
         .unwrap()
         .id
         .clone();
     fs::remove_dir_all(f.0.join("sys/class/net/eth0")).unwrap();
     let s = c.collect_at(2);
     assert_eq!(
-        s.monitors.iter().find(|m| m.title == "eth1").unwrap().id,
+        s.monitors
+            .iter()
+            .find(|m| m.title == "Network interface (eth1)")
+            .unwrap()
+            .id,
         before
     );
 }
@@ -945,14 +1009,14 @@ fn shared_mac_interfaces_keep_independent_rates_through_discovery_churn() {
         let id10 = first
             .monitors
             .iter()
-            .find(|m| m.title == "eth0.10")
+            .find(|m| m.title == "Network interface (eth0.10)")
             .unwrap()
             .id
             .clone();
         let id20 = first
             .monitors
             .iter()
-            .find(|m| m.title == "eth0.20")
+            .find(|m| m.title == "Network interface (eth0.20)")
             .unwrap()
             .id
             .clone();
@@ -978,7 +1042,7 @@ fn shared_mac_interfaces_keep_independent_rates_through_discovery_churn() {
             reordered
                 .monitors
                 .iter()
-                .find(|m| m.title == "eth0.10")
+                .find(|m| m.title == "Network interface (eth0.10)")
                 .unwrap()
                 .id,
             id10
@@ -987,7 +1051,7 @@ fn shared_mac_interfaces_keep_independent_rates_through_discovery_churn() {
             reordered
                 .monitors
                 .iter()
-                .find(|m| m.title == "eth0.20")
+                .find(|m| m.title == "Network interface (eth0.20)")
                 .unwrap()
                 .id,
             id20
@@ -1012,7 +1076,7 @@ fn shared_mac_interfaces_keep_independent_rates_through_discovery_churn() {
             restored
                 .monitors
                 .iter()
-                .find(|m| m.title == "eth0.10")
+                .find(|m| m.title == "Network interface (eth0.10)")
                 .unwrap()
                 .id,
             id10

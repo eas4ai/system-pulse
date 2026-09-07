@@ -504,7 +504,7 @@ pub(crate) const PROCESS_COLUMNS: [&str; 8] = [
     "Threads",
     "User",
 ];
-pub(crate) const PROCESS_WIDTHS: [f32; 8] = [85., 240., 200., 180., 320., 320., 160., 240.];
+pub(crate) const PROCESS_WIDTHS: [f32; 8] = [88., 200., 152., 112., 128., 128., 112., 128.];
 pub(crate) fn process_views(
     snapshot: &Snapshot,
     now_ms: u64,
@@ -615,7 +615,7 @@ mod observation_tests {
         assert_eq!(sample.at_ms, 1000);
     }
     #[test]
-    fn process_columns_preserve_full_denied_reasons_with_horizontal_access() {
+    fn process_columns_remain_compact_with_long_denied_reasons() {
         let mut cells = vec![String::new(); 8];
         cells[4] = "Unavailable · Permission denied: ".repeat(12);
         let row = ProcessView {
@@ -627,7 +627,14 @@ mod observation_tests {
             numeric: [None; 5],
         };
         let widths = process_widths(std::slice::from_ref(&row));
-        assert!(widths[4] >= row.cells[4].chars().count() as f32 * 8.);
+        assert!(
+            widths.iter().sum::<f32>() <= 1150.,
+            "ordinary process columns must fit a desktop window"
+        );
+        assert!(
+            widths[4] <= 160.,
+            "an error must not expand the disk column"
+        );
     }
 }
 
@@ -635,7 +642,16 @@ pub(crate) fn process_widths(rows: &[ProcessView]) -> [f32; 8] {
     let mut widths = PROCESS_WIDTHS;
     for row in rows {
         for (index, text) in row.cells.iter().enumerate().take(8) {
-            widths[index] = widths[index].max(text.chars().count() as f32 * 8. + 24.);
+            // Only labels need modest extra room. Detailed status/reason text
+            // stays available through cell tooltips and accessibility labels.
+            let limit = match index {
+                1 => 220.,
+                7 => 140.,
+                _ => PROCESS_WIDTHS[index],
+            };
+            widths[index] = widths[index]
+                .max(text.chars().count() as f32 * 8. + 24.)
+                .min(limit);
         }
     }
     widths

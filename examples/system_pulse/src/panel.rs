@@ -184,13 +184,29 @@ pub(crate) fn process_cell(process: &live::ProcessView, column: usize, width: f3
         "process:{}:{}:cell:{column}",
         process.identity.pid, process.identity.start_time_ticks
     );
+    let tooltip = process.cells[column].clone();
+    let numeric = column == 0 || (2..7).contains(&column);
     TableCell::new(SharedString::from(cell_id.clone()), column + 1)
-        .accessibility_id(cell_id)
+        .accessibility_id(cell_id.clone())
         .aria_label(process.cells[column].clone())
         .w(px(width))
         .flex_none()
+        .px_2()
+        .flex()
+        .items_center()
         .overflow_hidden()
-        .child(process.cells[column].clone())
+        .tooltip(move |window, cx| {
+            gpui_component::tooltip::Tooltip::new(tooltip.clone()).build(window, cx)
+        })
+        .child(
+            div()
+                .w_full()
+                .overflow_hidden()
+                .text_ellipsis()
+                .when(numeric, |cell| cell.text_right())
+                .debug_selector(move || format!("{cell_id}:text").into())
+                .child(process.cells[column].clone()),
+        )
 }
 
 pub(crate) fn process_row(

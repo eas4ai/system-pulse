@@ -175,7 +175,7 @@ pub(crate) fn button(
         .flex_none()
         .text_sm()
         .when(disclosure, |button| {
-            button.flex_1().min_w_0().overflow_hidden()
+            button.flex_1().min_w_0().overflow_hidden().justify_start()
         })
         .border_1()
         .rounded(cx.theme().radius)

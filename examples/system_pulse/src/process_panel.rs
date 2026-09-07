@@ -357,8 +357,8 @@ impl MonitorPanel {
                         .children(live::PROCESS_COLUMNS.iter().enumerate().map(|(column, title)| {
                             TableCell::new(("process-heading", column), column + 1).role(Role::ColumnHeader)
                                 .aria_label(format!("Sort by {title}")).w(px(widths[column])).flex_none()
-                                .child(Button::new(("sort-process", column)).accessibility_label(format!("Sort by {title}")).ghost().small()
-                                    .child(div().debug_selector(move || format!("process-sort:{column}").into()).child(format!("{title}{}", if self.process_state.sort.column == column {
+                                .child(Button::new(("sort-process", column)).accessibility_label(format!("Sort by {title}")).ghost().small().w_full().px_2().justify_start()
+                                    .child(div().w_full().when(column == 0 || (2..7).contains(&column), |label| label.text_right()).debug_selector(move || format!("process-sort:{column}").into()).child(format!("{title}{}", if self.process_state.sort.column == column {
                                         if self.process_state.sort.descending { " ↓" } else { " ↑" }
                                     } else { "" })))
                                     .on_click(cx.listener(move |this, _, _, cx| {

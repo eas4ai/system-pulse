@@ -52,6 +52,48 @@ fn leaf_nodes(node: &PaneNode) -> Vec<(NodeId, PanelId)> {
 }
 
 #[gpui::test]
+fn number_sensor_pointer_disclosure_folds_a_visible_body(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    command(
+        &view,
+        Command::SensorMeter(
+            "cpu".into(),
+            "overall".into(),
+            system_pulse_model::Meter::Number,
+        ),
+        cx,
+    );
+    let expanded_next = cx.debug_bounds("cpu:row:core0").unwrap().top();
+    let disclosure = cx.debug_bounds("cpu:row:overall").unwrap();
+    cx.simulate_click(disclosure.center(), Modifiers::none());
+    draw(cx);
+    assert!(
+        cx.read(|cx| {
+            view.read(cx).shared.borrow().session.workspace.panels["cpu"].sensors["overall"]
+                .collapsed
+        }),
+        "pointer click must collapse the sensor"
+    );
+    let collapsed_next = cx.debug_bounds("cpu:row:core0").unwrap().top();
+    assert!(
+        collapsed_next < expanded_next,
+        "collapse must fold visible content, not just change the arrow"
+    );
+    assert!(cx.debug_bounds("cpu:meter-body:overall").is_none());
+    assert!(cx.debug_bounds("cpu:value:overall").is_some());
+    let disclosure = cx.debug_bounds("cpu:row:overall").unwrap();
+    cx.simulate_click(disclosure.center(), Modifiers::none());
+    draw(cx);
+    assert!(!cx.read(|cx| {
+        view.read(cx).shared.borrow().session.workspace.panels["cpu"].sensors["overall"].collapsed
+    }));
+    assert_eq!(
+        cx.debug_bounds("cpu:row:core0").unwrap().top(),
+        expanded_next
+    );
+}
+
+#[gpui::test]
 fn collapse_keeps_a_header_and_continuous_history(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let before = cx.debug_bounds("panel:cpu").unwrap().size;
@@ -1473,6 +1515,31 @@ fn process_columns_stay_aligned_when_long_status_rows_exit(cx: &mut TestAppConte
         Some("The process exited before its CPU counters could be read".into());
     accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
     draw(cx);
+    // PID 1 has a failed CPU reading, so PID 2 is the first sorted live row.
+    for (column, (heading, cell)) in [
+        ("process-sort:0", "process:2:1:cell:0:text"),
+        ("process-sort:1", "process:2:1:cell:1:text"),
+        ("process-sort:2", "process:2:1:cell:2:text"),
+        ("process-sort:3", "process:2:1:cell:3:text"),
+        ("process-sort:4", "process:2:1:cell:4:text"),
+        ("process-sort:5", "process:2:1:cell:5:text"),
+        ("process-sort:6", "process:2:1:cell:6:text"),
+        ("process-sort:7", "process:2:1:cell:7:text"),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let heading = cx.debug_bounds(heading).unwrap();
+        let cell = cx.debug_bounds(cell).unwrap();
+        assert!(
+            (heading.left() - cell.left()).abs() <= px(1.),
+            "heading and data must share a left edge: {column} {heading:?} {cell:?}"
+        );
+        assert!(
+            (heading.right() - cell.right()).abs() <= px(1.),
+            "numeric headings and data must share a right edge: {column}"
+        );
+    }
     let before = cx.debug_bounds("process-sort:4").unwrap();
     snapshot.processes.remove(0);
     accept_pending_reveal_snapshot(&view, &mut snapshot, cx);

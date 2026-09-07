@@ -98,6 +98,7 @@ impl MonitorPanel {
         let selector = format!("{id}:meter-body:{sensor}");
         let current = meters::sensor_label(&self.monitor, descriptor, sample);
         let tooltip = current.clone();
+        let value_selector = format!("{id}:value:{sensor}");
         let value = meters::metric_text(
             format!("{id}:value:{sensor}"),
             current,
@@ -108,13 +109,17 @@ impl MonitorPanel {
         .min_w_0()
         .overflow_hidden()
         .text_ellipsis()
+        .debug_selector(move || value_selector.clone().into())
         .tooltip(move |window, cx| {
             gpui_component::tooltip::Tooltip::new(tooltip.clone()).build(window, cx)
         })
-        .when(!state.collapsed && actual_meter == Meter::Number, |value| {
-            let selector = selector.clone();
-            value.debug_selector(move || selector.clone().into())
-        });
+        .when(
+            core.is_some() && !state.collapsed && actual_meter == Meter::Number,
+            |value| {
+                let selector = selector.clone();
+                value.debug_selector(move || selector.clone().into())
+            },
+        );
         let disclosure = self.control(
             &format!("row:{sensor}"),
             format!(
@@ -205,13 +210,24 @@ impl MonitorPanel {
                     )),
             );
         }
-        row.when(!state.collapsed && actual_meter != Meter::Number, |row| {
-            row.child(
-                div()
-                    .debug_selector(move || selector.clone().into())
-                    .child(meters::meter(actual_meter, samples, descriptor.unit, cx)),
-            )
-        })
+        row.when(
+            !state.collapsed && (actual_meter != Meter::Number || core.is_none()),
+            |row| {
+                row.child(div().debug_selector(move || selector.clone().into()).child(
+                    if actual_meter == Meter::Number {
+                        div()
+                            .px_2()
+                            .py_2()
+                            .text_lg()
+                            .font_family(cx.theme().mono_font_family.clone())
+                            .child(meters::value(Some(sample)))
+                            .into_any_element()
+                    } else {
+                        meters::meter(actual_meter, samples, descriptor.unit, cx)
+                    },
+                ))
+            },
+        )
         .context_menu({
             let shared = self.shared.clone();
             move |menu, _, _| crate::panel_context::sensors(menu, &id, &sensor, &shared)

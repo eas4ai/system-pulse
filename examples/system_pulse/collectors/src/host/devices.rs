@@ -36,7 +36,7 @@ impl HostCollector {
                 .ok()
                 .and_then(|p| p.file_name().map(|n| n.to_string_lossy().into_owned()))
                 .filter(|n| n.contains(':'));
-            let Some(identity) = unique.or(pci) else {
+            let Some(identity) = unique.or(pci.clone()) else {
                 diagnostic(
                     s,
                     "amdgpu",
@@ -48,21 +48,8 @@ impl HostCollector {
             if !seen.insert(id.clone()) {
                 continue;
             }
-            let product = self
-                .read(&format!("{base}/product_name"))
-                .ok()
-                .filter(|s| !s.trim().is_empty())
-                .map(|s| s.trim().to_string())
-                .unwrap_or_else(|| "AMD GPU".into());
-            monitor(
-                s,
-                &id,
-                &format!(
-                    "{product} · {}",
-                    &identity[identity.len().saturating_sub(8)..]
-                ),
-                MonitorKind::Gpu,
-            );
+            let title = self.amd_name(&base, pci.as_deref(), &identity);
+            monitor(s, &id, &title, MonitorKind::Gpu);
             let path = format!("{base}/gpu_busy_percent");
             sensor(
                 s,
@@ -232,7 +219,12 @@ impl HostCollector {
                 .map(|v| v.trim().to_string())
                 .filter(|v| !v.is_empty() && v != "00:00:00:00:00:00");
             let id = network_identity(&name, mac.as_deref(), physical.as_deref());
-            monitor(s, &id, &name, MonitorKind::Network);
+            monitor(
+                s,
+                &id,
+                &self.network_name(&name, &base),
+                MonitorKind::Network,
+            );
             for (suffix, file, title) in [
                 ("rx", "rx_bytes", "Receive"),
                 ("tx", "tx_bytes", "Transmit"),
