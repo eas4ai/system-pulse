@@ -52,6 +52,113 @@ fn leaf_nodes(node: &PaneNode) -> Vec<(NodeId, PanelId)> {
 }
 
 #[gpui::test]
+fn toolbar_layout_reset_recovers_hidden_panels_without_replacing_preferences(
+    cx: &mut TestAppContext,
+) {
+    let (view, cx) = harness(cx);
+    let mut appearance = cx.read(|cx| view.read(cx).shared.borrow().session.workspace.appearance);
+    appearance.theme = system_pulse_model::ColorTheme::Light;
+    command(&view, Command::Appearance(appearance), cx);
+    command(&view, Command::Interval(2000), cx);
+    command(
+        &view,
+        Command::RowCollapse("cpu".into(), "overall".into()),
+        cx,
+    );
+    command(&view, Command::SavePreset, cx);
+    let ids = cx.read(|cx| {
+        view.read(cx)
+            .shared
+            .borrow()
+            .catalog
+            .iter()
+            .map(|m| m.id.clone())
+            .collect::<Vec<_>>()
+    });
+    for id in ids {
+        command(&view, Command::PanelVisible(id), cx);
+    }
+    let before = cx.read(|cx| view.read(cx).shared.borrow().session.workspace.clone());
+    assert!(before.panels.values().all(|panel| !panel.visible));
+    let click = |selector: &'static str, cx: &mut VisualTestContext| {
+        let bounds = cx
+            .debug_bounds(selector)
+            .unwrap_or_else(|| panic!("missing recovery control: {selector}"));
+        cx.simulate_click(bounds.center(), Modifiers::default());
+        draw(cx);
+    };
+    click("workspace:reset-layout", cx);
+    assert!(cx.debug_bounds("workspace:confirm-reset-layout").is_some());
+    cx.read(|cx| assert_eq!(view.read(cx).shared.borrow().session.workspace, before));
+    cx.simulate_keystrokes("escape");
+    draw(cx);
+    assert!(cx.debug_bounds("workspace:confirm-reset-layout").is_none());
+    cx.read(|cx| assert_eq!(view.read(cx).shared.borrow().session.workspace, before));
+    click("workspace:reset-layout", cx);
+    click("workspace:cancel-reset-layout", cx);
+    assert!(cx.debug_bounds("workspace:confirm-reset-layout").is_none());
+    cx.read(|cx| assert_eq!(view.read(cx).shared.borrow().session.workspace, before));
+    click("workspace:reset-layout", cx);
+    click("workspace:confirm-reset-layout", cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        let after = &data.session.workspace;
+        let expected =
+            crate::layout::preset(system_pulse_model::BuiltinPreset::Default, &data.catalog);
+        assert_eq!(after.appearance, before.appearance);
+        assert_eq!(after.interval_ms, before.interval_ms);
+        for (id, panel) in &after.panels {
+            assert_eq!(
+                panel.sensors, before.panels[id].sensors,
+                "sensor choices changed for {id}"
+            );
+            assert_eq!(panel.visible, expected.panels[id].visible);
+            assert!(!panel.collapsed);
+        }
+        assert!(after.panels["cpu"].visible && after.panels["memory"].visible);
+        assert!(after.panels["gpu:fixture-a"].visible && after.panels["processes"].visible);
+        assert_eq!(
+            after.dock["center"]["children"].as_array().unwrap().len(),
+            2
+        );
+        assert_eq!(data.scroll.offset(), point(px(0.), px(0.)));
+        assert!(data.session.autosave_json().is_ok());
+    });
+    // The saved quick preset is independent of autosave and reset.
+    command(&view, Command::RecallPreset, cx);
+    cx.read(|cx| {
+        assert!(
+            view.read(cx)
+                .shared
+                .borrow()
+                .session
+                .workspace
+                .panels
+                .values()
+                .all(|p| p.visible)
+        )
+    });
+}
+
+#[gpui::test]
+fn layout_reset_preserves_rejected_input_and_the_autosave_guard(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let raw = "{broken layout";
+    cx.update(|window, cx| view.update(cx, |this, cx| this.restore(raw, window, cx)));
+    draw(cx);
+    command(&view, Command::AskResetLayout, cx);
+    command(&view, Command::ResetLayout, cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(data.session.rejected.as_ref().unwrap().original, raw);
+        assert!(data.session.autosave_json().is_err());
+        assert!(data.session.workspace.panels["cpu"].visible);
+        assert!(data.session.workspace.panels["processes"].visible);
+    });
+    assert!(cx.debug_bounds("workspace:recover").is_some());
+}
+
+#[gpui::test]
 fn unavailable_sensor_rows_hide_and_recover_without_changing_user_choices(cx: &mut TestAppContext) {
     use system_pulse_model::{Meter, ReadingStatus};
     let (view, cx) = harness(cx);

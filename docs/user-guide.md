@@ -14,6 +14,8 @@ The mandatory verifier builds and checks the affected packages, exercises indepe
 
 `SYSTEM_PULSE_STATE_DIR` selects an isolated configuration directory. `SYSTEM_PULSE_DIAGNOSTICS_PATH` optionally exports the accepted live snapshot and rendered entries for acceptance inspection. Process arguments and environments are not collected. The process table uses PID and start ticks together, so an exited identity cannot silently become a reused PID.
 
+**Reset layout** in the top toolbar restores the default panel arrangement after confirmation. It shows and expands CPU, the first GPU, Memory and Processes, resets panel sizes, and scrolls back to the top. Sensor choices, appearance, sampling interval and saved presets stay intact. Cancel or Escape leaves the layout unchanged. The restored layout saves automatically.
+
 Drag a panel title to an edge to split it. Panel and sensor disclosure controls respond to Return and Space and retain independent choices. Compact values continue updating; bounded histories continue while hidden or collapsed. Compatible meters retain physical units and scales. Alt+PageUp/PageDown scrolls the workspace vertically and Alt+Left/Right horizontally. The process table uses Up/Down/Home/End and Left/Right; Tab leaves it.
 
 Expanded Number rows show a larger value beneath the compact summary; collapsing folds that detail away. Process headings and cells share compact column widths, with numbers aligned to the right. Hover a clipped cell to read its full value or failure reason.

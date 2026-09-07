@@ -108,6 +108,22 @@ pub(crate) fn preset(kind: BuiltinPreset, catalog: &[MonitorDescriptor]) -> Work
     workspace
 }
 
+pub(crate) fn reset(workspace: &Workspace, catalog: &[MonitorDescriptor]) -> Workspace {
+    let template = preset(BuiltinPreset::Default, catalog);
+    let mut restored = workspace.clone();
+    restored.dock = template.dock;
+    crate::live::discover(&mut restored, catalog);
+    for (id, panel) in &mut restored.panels {
+        panel.visible = false;
+        if let Some(default) = template.panels.get(id) {
+            panel.visible = default.visible;
+            panel.collapsed = false;
+            panel.expanded_size = default.expanded_size;
+        }
+    }
+    restored
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

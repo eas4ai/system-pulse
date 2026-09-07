@@ -66,6 +66,9 @@ pub(crate) enum Command {
     #[cfg(test)]
     Tick,
     ShowSettings,
+    AskResetLayout,
+    CancelResetLayout,
+    ResetLayout,
     Save,
     SavePreset,
     RecallPreset,
@@ -277,6 +280,8 @@ pub struct WorkspaceView {
     visibility_scroll: ScrollHandle,
     keyboard_repaint_pending: bool,
     visibility_controls: BTreeMap<String, crate::controls::FocusEntry>,
+    confirm_layout_reset: bool,
+    cancel_layout_reset_focus: FocusHandle,
 }
 
 impl Command {
@@ -286,6 +291,9 @@ impl Command {
             #[cfg(test)]
             Self::Tick => "workspace:tick".into(),
             Self::ShowSettings => "workspace:settings".into(),
+            Self::AskResetLayout => "workspace:reset-layout".into(),
+            Self::CancelResetLayout => "workspace:cancel-reset-layout".into(),
+            Self::ResetLayout => "workspace:confirm-reset-layout".into(),
             Self::Save => "workspace:save".into(),
             Self::SavePreset => "workspace:save-preset".into(),
             Self::RecallPreset => "workspace:recall-preset".into(),
@@ -461,6 +469,8 @@ impl WorkspaceView {
             visibility_scroll: ScrollHandle::default(),
             keyboard_repaint_pending: false,
             visibility_controls: BTreeMap::new(),
+            confirm_layout_reset: false,
+            cancel_layout_reset_focus: cx.focus_handle(),
         };
         #[cfg(test)]
         if fixture_mode {
@@ -816,6 +826,43 @@ impl WorkspaceView {
             self.initial_layout_pending = false;
         }
         match command {
+            Command::AskResetLayout => {
+                self.confirm_layout_reset = true;
+                self.cancel_layout_reset_focus.focus(window, cx);
+                cx.notify();
+                return;
+            }
+            Command::CancelResetLayout => {
+                self.confirm_layout_reset = false;
+                self.focus.focus(window, cx);
+                cx.notify();
+                return;
+            }
+            Command::ResetLayout => {
+                if !std::mem::take(&mut self.confirm_layout_reset) {
+                    return;
+                }
+                self.record(cx);
+                let restored = {
+                    let data = self.shared.borrow();
+                    crate::layout::reset(&data.session.workspace, &data.catalog)
+                };
+                let initial_layout_pending = self.initial_layout_pending;
+                self.restore(
+                    &serde_json::to_string(&restored).expect("workspace serializes"),
+                    window,
+                    cx,
+                );
+                self.initial_layout_pending = initial_layout_pending;
+                self.shared
+                    .borrow()
+                    .scroll
+                    .set_offset(point(px(0.), px(0.)));
+                self.focus.focus(window, cx);
+                if !self.read_blocked {
+                    self.notice = "Default layout restored".into();
+                }
+            }
             Command::ShowSettings => {
                 if !self.shared.borrow().session.workspace.panels["settings"].visible {
                     self.command(Command::PanelVisible("settings".into()), window, cx);
@@ -1136,6 +1183,7 @@ impl Render for WorkspaceView {
             .collect::<Vec<_>>();
         let mut commands = vec![
             ("Settings & presets".into(), Command::ShowSettings),
+            ("Reset layout".into(), Command::AskResetLayout),
             ("Save".into(), Command::Save),
             ("Save preset".into(), Command::SavePreset),
             ("Recall preset".into(), Command::RecallPreset),
@@ -1192,7 +1240,12 @@ impl Render for WorkspaceView {
         let menu_shared = self.shared.clone();
         div().id("workspace-context").size_full().flex().flex_col().gap_2().p_2().bg(cx.theme().background)
             .font_family(cx.theme().font_family.clone()).text_color(cx.theme().foreground).track_focus(&self.focus).tab_group()
-            .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
+              .on_key_down(cx.listener(|this, event: &KeyDownEvent, window, cx| {
+                  if this.confirm_layout_reset && event.keystroke.key == "escape" {
+                      this.command(Command::CancelResetLayout, window, cx);
+                      cx.stop_propagation();
+                      return;
+                  }
                 if event.keystroke.modifiers.alt {
                     let command = match event.keystroke.key.as_str() {
                         "pageup" => Command::Scroll(0., 300.), "pagedown" => Command::Scroll(0., -300.),
@@ -1204,7 +1257,13 @@ impl Render for WorkspaceView {
             .child(div().flex().flex_wrap().items_center().gap_3()
                 .child(div().id("workspace-title").text_lg().font_weight(FontWeight::SEMIBOLD).child("System Pulse")
                     .context_menu(move |menu, _, _| crate::panel_context::workspace(menu, &menu_shared)))
-                .child(toolbar))
+                  .child(toolbar))
+              .when(self.confirm_layout_reset, |el| el.child(
+                  div().id("layout-reset-confirmation").flex().flex_col().gap_1().p_2().bg(cx.theme().muted)
+                      .child("Restore the default panel arrangement? Sensor choices, appearance and saved presets will be kept.")
+                      .child(div().flex().gap_2()
+                          .child(command_button("Cancel".into(), Command::CancelResetLayout, cx).track_focus(&self.cancel_layout_reset_focus))
+                          .child(command_button("Restore default layout".into(), Command::ResetLayout, cx)))))
             .child(div().h(px(64.)).flex_none().relative()
                 .child(div().id("visibility-controls").size_full().overflow_y_scroll().track_scroll(&self.visibility_scroll).child(visibility))
                 .child(Scrollbar::vertical(&self.visibility_scroll).mode(ScrollbarMode::Always)))

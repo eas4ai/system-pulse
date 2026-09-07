@@ -36,3 +36,9 @@ Mechanism: package contents/license checks, isolated installation and launch/shu
 [APP-008] Application completion MUST retain the complete existing Linux preservation checks and verify the new user flows against committed source before a release claim.
 Falsifier: A missing test, failed native flow or unperformed package launch is counted as a pass, or a previous failed artifact is overwritten to manufacture success.
 Mechanism: application acceptance plus unchanged LIVE acceptance, final review and explicit platform limits.
+
+## Layout recovery amendment (2026-09-07)
+
+At the developer's request, the top toolbar exposes Reset layout independently of docked panels. Confirmation restores the Default panel arrangement, sizes, visibility and panel expansion, then returns workspace scrolling to the origin. It preserves sensor choices, appearance, interval, named presets and the quick preset. Cancel and Escape make no layout change. The restored layout uses the existing autosave path and cannot bypass rejected-input or read-error preservation. The first-discovery default remains pending if reset occurs before the initial inventory.
+
+Verification: pointer and keyboard confirmation/cancellation, empty/hidden-layout recovery, preference and preset preservation, rejected-input guard, and native autosave/restart replay.

@@ -17,6 +17,8 @@ This package is built on Ubuntu 26.04 for x86-64 Linux with glibc. It uses the h
 
 ## Use the workspace
 
+If the arrangement becomes difficult to use, choose **Reset layout** in the top toolbar, then **Restore default layout**. This restores panel positions, sizes, visibility and expansion while keeping sensor choices, appearance, sampling interval and saved presets. Cancel or Escape leaves the layout unchanged.
+
 - Drag a panel title to split or move it. Use its arrow to collapse it or × to hide it. Monitor buttons across the top show hidden hardware; that strip scrolls when the host has many devices.
 - Right-click a sensor, or open its ⋯ menu, to change its compatible meter, visibility or order. CPU core tiles retain the same controls. Unavailable sensor rows hide until readings recover; failed, stale and warming-up readings remain explicit.
 - Search processes by name, PID or user. Click a column heading to sort. Select a row, then use End task or Force quit; confirmation identifies the process. End task requests graceful termination. Force quit stops it immediately. Failures appear in the panel.
