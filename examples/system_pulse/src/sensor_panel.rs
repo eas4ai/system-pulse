@@ -1,11 +1,18 @@
 //! Dense sensor rows and contiguous physical CPU core tiles.
 use super::*;
-use system_pulse_model::{Meter, Sample, SensorDescriptor, SensorState};
+use system_pulse_model::{Meter, ReadingStatus, Sample, SensorDescriptor, SensorState};
 
 impl MonitorPanel {
     pub(super) fn sensor_rows(&mut self, cx: &mut Context<Self>) -> AnyElement {
         let data = self.shared.borrow();
         let panel = &data.session.workspace.panels[&self.monitor.id];
+        // Availability filters presentation only. Keep collection and the user's
+        // visibility, order, collapse and meter preferences intact for recovery.
+        let display_sample = |sensor: &str| {
+            data.history
+                .latest(&self.monitor.id, sensor)
+                .filter(|sample| sample.status != ReadingStatus::Unavailable)
+        };
         let mut rows = Vec::new();
         if let Some(hero) = crate::dashboard::hero(&self.monitor, &data.history, cx) {
             rows.push(hero);
@@ -18,16 +25,9 @@ impl MonitorPanel {
             let Some(descriptor) = self.monitor.sensors.iter().find(|s| s.id == sensor) else {
                 continue;
             };
-            let absent = live::missing(
-                descriptor.quantity,
-                descriptor.unit,
-                "Sensor or device absent",
-                0,
-            );
-            let sample = data
-                .history
-                .latest(&self.monitor.id, sensor)
-                .unwrap_or(&absent);
+            let Some(sample) = display_sample(sensor) else {
+                continue;
+            };
             let actual_meter = descriptor.quantity.compatible(state.meter);
             let samples = if !state.collapsed && actual_meter != Meter::Number {
                 data.history
@@ -50,6 +50,9 @@ impl MonitorPanel {
         }
         flush_cores(&mut rows, &mut cores);
         for descriptor in &self.monitor.sensors {
+            if display_sample(&descriptor.id).is_none() {
+                continue;
+            }
             if panel
                 .sensors
                 .get(&descriptor.id)

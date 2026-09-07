@@ -52,6 +52,92 @@ fn leaf_nodes(node: &PaneNode) -> Vec<(NodeId, PanelId)> {
 }
 
 #[gpui::test]
+fn unavailable_sensor_rows_hide_and_recover_without_changing_user_choices(cx: &mut TestAppContext) {
+    use system_pulse_model::{Meter, ReadingStatus};
+    let (view, cx) = harness(cx);
+    let cpu = panel(&view, "cpu", cx);
+    command(
+        &view,
+        Command::SensorMeter("cpu".into(), "overall".into(), Meter::Number),
+        cx,
+    );
+    command(
+        &view,
+        Command::RowCollapse("cpu".into(), "overall".into()),
+        cx,
+    );
+    let original = cx.read(|cx| {
+        view.read(cx).shared.borrow().session.workspace.panels["cpu"].sensors["overall"].clone()
+    });
+    let publish = |status, cx: &mut VisualTestContext| {
+        cx.update(|_, cx| {
+            cpu.update(cx, |this, cx| {
+                let mut data = this.shared.borrow_mut();
+                let mut sample = data.history.latest("cpu", "overall").unwrap().clone();
+                sample.at_ms += 1;
+                sample.status = status;
+                sample.value = (status == ReadingStatus::Current).then_some(0.);
+                sample.text = if sample.value.is_some() {
+                    "0".into()
+                } else {
+                    String::new()
+                };
+                sample.reason = (status != ReadingStatus::Current)
+                    .then(|| "Source temporarily unavailable".into());
+                data.history.push("cpu", "overall", sample).unwrap();
+                cx.notify();
+            })
+        });
+        draw(cx);
+    };
+    publish(ReadingStatus::Unavailable, cx);
+    assert!(
+        cx.debug_bounds("cpu:row:overall").is_none(),
+        "unavailable sensor must not occupy a row"
+    );
+    assert!(cx.debug_bounds("cpu:value:overall").is_none());
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(
+            data.session.workspace.panels["cpu"].sensors["overall"],
+            original
+        );
+        let sample = data.history.latest("cpu", "overall").unwrap();
+        assert_eq!(sample.status, ReadingStatus::Unavailable);
+        assert!(sample.reason.is_some());
+    });
+    for status in [
+        ReadingStatus::Current,
+        ReadingStatus::Failed,
+        ReadingStatus::Stale,
+        ReadingStatus::WarmingUp,
+    ] {
+        publish(status, cx);
+        assert!(
+            cx.debug_bounds("cpu:row:overall").is_some(),
+            "only unavailable sensors are filtered: {status:?}"
+        );
+    }
+    publish(ReadingStatus::Current, cx);
+    command(
+        &view,
+        Command::SensorVisible("cpu".into(), "overall".into()),
+        cx,
+    );
+    publish(ReadingStatus::Unavailable, cx);
+    assert!(
+        cx.debug_bounds("cpu:visible:overall").is_none(),
+        "unavailable sensors must not become inline Show buttons"
+    );
+    publish(ReadingStatus::Current, cx);
+    assert!(
+        cx.debug_bounds("cpu:row:overall").is_none(),
+        "recovery must preserve explicit Hide"
+    );
+    assert!(cx.debug_bounds("cpu:visible:overall").is_some());
+}
+
+#[gpui::test]
 fn number_sensor_pointer_disclosure_folds_a_visible_body(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     command(
@@ -1785,7 +1871,11 @@ fn physical_cpu_core_tiles_wrap_and_keep_meter_collapse_and_order(cx: &mut TestA
     let first = cx
         .debug_bounds("cpu:core:0")
         .expect("physical cores render as tiles");
-    let second = cx.debug_bounds("cpu:core:1").unwrap();
+    assert!(
+        cx.debug_bounds("cpu:core:1").is_none(),
+        "unavailable cores have no tile"
+    );
+    let second = cx.debug_bounds("cpu:core:2").unwrap();
     assert_eq!(
         first.top(),
         second.top(),

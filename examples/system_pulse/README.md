@@ -18,6 +18,8 @@ Drag a panel title to an edge to split it. Panel and sensor disclosure controls 
 
 Expanded Number rows show a larger value beneath the compact summary; collapsing folds that detail away. Process headings and cells share compact column widths, with numbers aligned to the right. Hover a clipped cell to read its full value or failure reason.
 
+Unavailable sensor rows are omitted from the panel body, including inline Show controls. Collection and saved sensor choices remain intact; a recovered reading restores the row unless you explicitly hid it. Failed, stale and warming-up readings retain their status labels.
+
 Linux AMD GPU labels use driver or udev model names and their PCI locations. Network labels use configured interface aliases or readable interface types, retaining the interface name for identification. These display names do not change saved monitor identities.
 
 The process table searches name, PID and user and sorts every column using physical values. Select a row for identity-bound End task or Force quit with confirmation and visible errors. Linux uses a process handle and verifies its start identity before signaling; unsupported platforms report that explicitly.
