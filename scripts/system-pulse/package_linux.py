@@ -125,7 +125,7 @@ def main():
         )
     output.mkdir(parents=True, exist_ok=False)
     commit = capture(["git", "rev-parse", "HEAD"])
-    name = f"system-pulse-0.1.0-linux-x86_64-{commit[:12]}"
+    name = f"system-pulse-0.3.0-linux-x86_64-{commit[:12]}"
     package = output / name
     package.mkdir()
     print("Building the release executable", flush=True)
