@@ -62,6 +62,13 @@ impl MeasuredNode {
     }
 }
 
+pub(crate) fn growing_child(children: &[MeasuredNode], axis: Axis) -> Option<NodeId> {
+    children
+        .iter()
+        .rfind(|child| axis == Axis::Horizontal || child.extent.height_limit().is_none())
+        .map(|child| child.id)
+}
+
 /// `None` from `panel` means hidden or absent, not a zero-size live panel.
 /// Call with `honor_sizes=false` only for an explicit presentation change.
 pub(crate) fn measure_node(
@@ -113,11 +120,19 @@ pub(crate) fn measure_node(
             let mut preferred = minimum;
             let mut all_height_limited = true;
             let mut height_limit = px(0.);
+            let grows = growing_child(&measured, axis);
             for child in &measured {
                 let extent = child.extent;
+                // Rendering fixes every sibling except the final growing one.
+                // Ancestors must reserve that space instead of clipping it.
+                let allocated_minimum = if Some(child.id) == grows {
+                    extent.minimum
+                } else {
+                    extent.preferred
+                };
                 match axis {
                     Axis::Horizontal => {
-                        minimum.width += extent.minimum.width;
+                        minimum.width += allocated_minimum.width;
                         minimum.height = minimum.height.max(extent.minimum.height);
                         preferred.width += extent.preferred.width;
                         preferred.height = preferred.height.max(extent.preferred.height);
@@ -125,7 +140,7 @@ pub(crate) fn measure_node(
                     }
                     Axis::Vertical => {
                         minimum.width = minimum.width.max(extent.minimum.width);
-                        minimum.height += extent.minimum.height;
+                        minimum.height += allocated_minimum.height;
                         preferred.width = preferred.width.max(extent.preferred.width);
                         preferred.height += extent.preferred.height;
                         height_limit += extent.height_limit.unwrap_or(px(0.));

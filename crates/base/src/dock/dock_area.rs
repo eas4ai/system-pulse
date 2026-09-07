@@ -4825,13 +4825,9 @@ impl DockArea {
     ) -> AnyElement {
         match node.kind() {
             PaneRef::Split { axis, children, .. } => {
-                let grows = children.iter().rposition(|child| {
-                    measured.find(child.id()).is_some_and(|child| {
-                        axis == Axis::Horizontal || child.extent.height_limit().is_none()
-                    })
-                });
+                let grows = super::geometry::growing_child(&measured.children, axis);
                 let mut panels = Vec::with_capacity(children.len());
-                for (ix, child) in children.iter().enumerate() {
+                for child in children {
                     let Some(child_geometry) = measured.find(child.id()) else {
                         panels.push(resizable_panel().visible(false));
                         continue;
@@ -4853,7 +4849,7 @@ impl DockArea {
                         resizable_panel()
                             .size(preferred)
                             .size_range(minimum..maximum)
-                            .when(Some(ix) != grows, |panel| panel.flex_none())
+                            .when(Some(child.id()) != grows, |panel| panel.flex_none())
                             .child(self.render_geometry_node(child, child_geometry, window, cx)),
                     );
                 }

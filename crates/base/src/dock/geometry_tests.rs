@@ -156,3 +156,65 @@ fn nested_collapsed_rows_limit_the_whole_column() {
     assert_eq!(measured.extent.height_limit(), Some(px(72.)));
     assert!(measure_node(&root, &|_| None, true).is_none());
 }
+
+#[test]
+fn ancestor_allocation_includes_fixed_nested_siblings_on_both_axes() {
+    for axis in [Axis::Horizontal, Axis::Vertical] {
+        let cross = if axis == Axis::Horizontal {
+            Axis::Vertical
+        } else {
+            Axis::Horizontal
+        };
+        let inner = PaneNode::new(
+            NodeId::from_u64(10),
+            NodeKind::Split {
+                axis,
+                children: vec![leaf(2), leaf(3)],
+                sizes: vec![Some(px(844.)), Some(px(320.))],
+            },
+        );
+        let column = PaneNode::new(
+            NodeId::from_u64(11),
+            NodeKind::Split {
+                axis: cross,
+                children: vec![inner, leaf(4)],
+                sizes: vec![Some(px(260.)), Some(px(1408.))],
+            },
+        );
+        let root = PaneNode::new(
+            NodeId::from_u64(12),
+            NodeKind::Split {
+                axis,
+                children: vec![leaf(1), column],
+                sizes: vec![Some(px(580.)), Some(px(844.))],
+            },
+        );
+        let measured = measure_node(
+            &root,
+            &|_| {
+                Some(PanelExtent::new(
+                    size(px(320.), px(320.)),
+                    size(px(420.), px(420.)),
+                ))
+            },
+            true,
+        )
+        .unwrap();
+        let extent = measured.extent.preferred();
+        let length = if axis == Axis::Horizontal {
+            extent.width
+        } else {
+            extent.height
+        };
+        assert_eq!(
+            length,
+            px(580. + 844. + 320.),
+            "the saved ancestor allocation must not clip a fixed nested sibling"
+        );
+        assert_eq!(
+            measured.find(NodeId::from_u64(2)).unwrap().extent.minimum(),
+            size(px(320.), px(320.)),
+            "the individual sibling remains resizable to its own minimum"
+        );
+    }
+}
