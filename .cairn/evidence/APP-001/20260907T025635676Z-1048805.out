@@ -1,0 +1,52 @@
+RUNNING preservation
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+RUNNING preservation log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log
+PASS preservation exit_code=0 seconds=315.606 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/preservation.log sha256=8c608ee6f716088d9a1160d07d5824c544616137b80b3537880fa1e98364e77e
+cairn: LIVE-001: pass
+cairn: LIVE-002: pass
+cairn: LIVE-003: pass
+cairn: LIVE-004: pass
+cairn: LIVE-005: pass
+cairn: LIVE-006: pass
+cairn: LIVE-007: pass
+cairn: LIVE-008: pass
+cairn: LIVE-009: pass
+cairn: LIVE-010: pass
+cairn: LIVE-011: pass
+cairn: LIVE-012: pass
+cairn: LIVE-013: pass
+RUNNING input-focus
+PASS input-focus test_count=10 exit_code=0 seconds=0.415 log=/home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/input-focus.log sha256=4afc8f479e7bf2ccf48180f333e6eaf454af8031c98128b5b39f35fdabb696af
+RUNNING package
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/application_acceptance.py", line 170, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/application_acceptance.py", line 78, in main
+    runner.step(
+    ~~~~~~~~~~~^
+        "package",
+        ^^^^^^^^^^
+    ...<9 lines>...
+        timeout=1800,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 149, in step
+    require(
+    ~~~~~~~^
+        child.returncode == 0, f"{name} exited {child.returncode}; full log: {path}"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/host_accuracy.py", line 12, in require
+    raise AssertionError(message)
+AssertionError: package exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-held-column-20260907/evidence/package.log

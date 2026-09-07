@@ -7,6 +7,7 @@ import html
 import json
 from pathlib import Path
 import platform
+import re
 import shutil
 import subprocess
 import tarfile
@@ -85,6 +86,22 @@ def write_licenses(report, package):
     return len(crates)
 
 
+def require_committed_source():
+    status = capture(["git", "status", "--porcelain", "--untracked-files=normal"])
+    # Cairn opens its capture streams before invoking this mechanism. Only
+    # untracked runtime streams are exempt; git archive includes committed files.
+    stream = (
+        r"\?\? \.cairn/evidence/[A-Z]+-[0-9]{3}/[0-9]{8}T[0-9]{9}Z-[0-9]+\.(out|err)"
+    )
+    changes = [
+        line
+        for line in status.splitlines()
+        if line.strip() != "?? .cairn/in-progress" and not re.fullmatch(stream, line)
+    ]
+    if changes:
+        raise ValueError("Commit the source before packaging: " + "; ".join(changes))
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
@@ -93,12 +110,7 @@ def main():
     output = args.output.resolve()
     if output.is_relative_to(ROOT):
         raise ValueError("Package output must be outside the checkout")
-    status = capture(["git", "status", "--porcelain", "--untracked-files=normal"])
-    changes = [
-        line for line in status.splitlines() if line.strip() != "?? .cairn/in-progress"
-    ]
-    if changes:
-        raise ValueError("Commit the source before packaging: " + "; ".join(changes))
+    require_committed_source()
     target = next(
         line.removeprefix("host: ")
         for line in capture(["rustc", "-vV"]).splitlines()
