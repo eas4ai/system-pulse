@@ -290,7 +290,7 @@ def main():
             )
         print(json.dumps(result), flush=True)
         return
-    from native_driver import Native, identity, close_transport
+    from native_driver import Atspi, Native, identity, close_transport
 
     output = args.output
     state = output / "state"
@@ -816,7 +816,14 @@ def main():
         app.enter_processes()
         app.key("Home")
         app.acknowledge(first, time.monotonic() + 5)
+        cell = app.find(aid=first + ":cell:0")
+        app.wait(lambda: app.visible(cell), message="Home reveals row before Tab escape")
+        table = app.find(aid="processes:viewport")
         app.key("Tab")
+        app.wait(
+            lambda: not table.get_state_set().contains(Atspi.StateType.FOCUSED),
+            message="Tab leaves the process viewport",
+        )
         before = app.bounds(panel)
         app.key("Alt_L", "Next")
         app.wait(
