@@ -1005,7 +1005,35 @@ class Native:
 
     def enter_processes(self):
         self.focus(self.find("Hide Processes", "button", root=self.panel("processes")))
-        self.key("Tab")
+        deadline = time.monotonic() + 5
+        panel = self.panel("processes")
+        table = self.find(aid="processes:viewport", root=panel, deadline=deadline)
+
+        def observe():
+            focused = tuple(
+                (node.get_accessible_id(), node.get_name(), node.get_role_name())
+                for node in self.walk(panel, deadline, skip_cells=True, strict=True)
+                if node.get_state_set().contains(Atspi.StateType.FOCUSED)
+            )
+            table.clear_cache()
+            return table.get_state_set().contains(Atspi.StateType.FOCUSED), focused
+
+        previous = self.wait(observe, deadline=deadline, message="process entry focus")
+        # Search and enabled task actions precede the table. Acknowledge each
+        # focus transition rather than assuming one Tab or racing queued keys.
+        for _ in range(8):
+            if previous[0]:
+                return
+            self.key("Tab", deadline=deadline)
+
+            def changed():
+                current = observe()
+                return current if current != previous else None
+
+            previous = self.wait(
+                changed, deadline=deadline, message="Tab focus transition into processes"
+            )
+        require(previous[0], "Tab did not reach the process table")
 
     def acknowledge(self, aid, deadline):
         def poll():
