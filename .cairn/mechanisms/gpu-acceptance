@@ -13,6 +13,7 @@ inputs:
   - crates/collectors/
   - crates/base/
   - crates/ui/
+  - vendor/accesskit_unix/
   - vendor/accesskit_atspi_common/
   - vendor/gpui_macos/
   - docs/decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md

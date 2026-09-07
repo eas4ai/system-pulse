@@ -90,6 +90,7 @@ class AggregateTests(unittest.TestCase):
             {
                 "crates/base",
                 "crates/ui",
+                "vendor/accesskit_unix",
                 "vendor/accesskit_atspi_common",
                 "vendor/gpui_macos",
             } <= set(roots),
@@ -121,6 +122,7 @@ class AggregateTests(unittest.TestCase):
         package_roots = [
             "crates/base",
             "crates/ui",
+            "vendor/accesskit_unix",
             "vendor/accesskit_atspi_common",
             "vendor/gpui_macos",
         ]
@@ -130,6 +132,7 @@ class AggregateTests(unittest.TestCase):
             + ["crates/ui/build.rs"]
         )
         selected += [
+            "vendor/accesskit_unix/src/atspi/bus.rs",
             "vendor/accesskit_atspi_common/src/node.rs",
             "vendor/gpui_macos/src/dispatcher.rs",
             "src/main.rs",

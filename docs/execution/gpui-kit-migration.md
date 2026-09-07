@@ -37,6 +37,26 @@ or malformed identity. The original failed capture remains retained; its 96
 interface comparisons pass the corrected join, and a fresh full acceptance
 run is required. No collector arithmetic or availability rule was changed.
 
+A fresh full host run passed after that verifier correction: 2,218 exact readings,
+96 network interface comparisons, 20,958 process fields and 49,046 counter
+brackets. Native replay then exposed malformed cache signals introduced by
+`accesskit_unix` 0.22.1. Its original run failed the five-second held-input
+acknowledgement and logged 20,166 rejected cache events. The original failure
+remains retained; timing causality is not inferred from the protocol defect.
+
+The Unix adapter is now vendored with one structured-argument wrapper at the
+cache emitter. Two wire-level regressions fail against the original framing and
+pass with the correction. All seven Unix and nine common adapter tests pass.
+The acceptance command includes the new adapter's tests, formatting and lint;
+the build-source guard binds its files. A fresh native/package run is required.
+
+Native macOS checks passed on the migrated application: build, 90 application
+tests, five dispatcher tests and fresh-process application success, error,
+unwind and background cases. Direct test binaries emitted no missing-pool
+diagnostics. The Mac desktop session was locked, so GUI replay was not run.
+These checks preceded the Linux-only cache patch; final source equivalence
+must be checked before applying this evidence to the delivered revision.
+
 The plan is [GPUI Kit migration](../superpowers/plans/2026-09-07-gpui-kit-migration.md).
 Detailed logs are retained outside the checkout in
 `/home/shawn/workspace2/task-manager-artifacts/gpui-kit-06-20260907/`.

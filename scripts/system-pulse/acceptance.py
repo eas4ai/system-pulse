@@ -30,6 +30,7 @@ SUITES = (
     ("app", "system-pulse", ["--lib"]),
     ("collectors", "system-pulse-collectors", []),
     ("atspi", "accesskit_atspi_common", ["--lib"]),
+    ("atspi-unix", "accesskit_unix", ["--lib"]),
 )
 
 
@@ -198,6 +199,7 @@ def validate_automated_steps(runner):
         "python",
         "fmt",
         "fmt-atspi",
+        "fmt-atspi-unix",
         "fmt-gpui-macos",
         "clippy",
         "build",
@@ -524,6 +526,7 @@ def main():
         "python",
         "fmt",
         "fmt-atspi",
+        "fmt-atspi-unix",
         "fmt-gpui-macos",
         "clippy",
         "build",
@@ -572,6 +575,17 @@ def main():
             ],
         )
         runner.step(
+            "fmt-atspi-unix",
+            [
+                "cargo",
+                "fmt",
+                "--manifest-path",
+                "vendor/accesskit_unix/Cargo.toml",
+                "--",
+                "--check",
+            ],
+        )
+        runner.step(
             "fmt-gpui-macos",
             [
                 "cargo",
@@ -591,6 +605,8 @@ def main():
                 *packages,
                 "-p",
                 "accesskit_atspi_common",
+                "-p",
+                "accesskit_unix",
                 "--all-targets",
                 "--no-deps",
                 "--",
