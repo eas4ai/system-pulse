@@ -12,4 +12,6 @@ For remaining distances above 32 rows, issue at most eight same-direction physic
 
 ## Realized by
 
+- 244e62620e96b59e3c3f3230bc65ae8fd6e378d2 test: bound distant process navigation with exact batch acknowledgements
+
 (none yet: recorded, not built)
