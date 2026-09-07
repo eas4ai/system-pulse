@@ -13,8 +13,14 @@ from acceptance import ROOT, Runner, sha256
 from host_accuracy import require
 
 
-def private_session(script, *arguments):
+def private_session(script, *arguments, log):
     return [
+        sys.executable,
+        "-B",
+        str(ROOT / "scripts/system-pulse/run_logged.py"),
+        "--log",
+        str(log),
+        "--",
         "xvfb-run",
         "-a",
         "-s",
@@ -117,6 +123,7 @@ def main():
                 binary,
                 "--output",
                 output / "application",
+                log=output / "application.session.log",
             ),
             timeout=300,
         )
@@ -134,6 +141,7 @@ def main():
                 archive,
                 "--output",
                 output / "installed",
+                log=output / "installed.session.log",
             ),
             timeout=240,
         )

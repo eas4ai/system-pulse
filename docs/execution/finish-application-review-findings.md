@@ -42,3 +42,5 @@ installer path/overwrite/removal handling. No further finding was identified in
 those paths. Final review remains pending resolution and current acceptance.
 
 Developer preset correction: the live-form network visibility assertion first failed, then passed after adding the `network:` prefix alongside existing identities. The regression also requires dock membership. All 85 application tests, formatting, strict all-target application Clippy and diff checks passed. The session-capture finding remains open.
+
+Session-capture correction: `run_logged.py` directs the native session's stdout/stderr into a newly created retained file before invoking Xvfb/DBus. The existing Runner still owns the original 300/240-second deadlines and process group; the external owner retains descendant reaping. The wrapper forwards the native command's exit status. Actual RTK/Xvfb/DBus regressions passed with a still-running descendant holding its output file and with exit status 7; the test reaped its owned descendant. All 465 Python tests, scoped Ruff and diff checks passed. Both source findings are resolved; current full acceptance and final visual/artifact review remain pending.
