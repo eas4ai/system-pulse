@@ -82,6 +82,51 @@ fn active(view: &Entity<ScreenView>, cx: &VisualTestContext) -> Screen {
 }
 
 #[gpui_kit::test]
+fn summary_graphs_fill_rows_when_the_window_resizes(cx: &mut TestAppContext) {
+    let (_, cx) = populated(cx);
+    for (width, columns) in [
+        (1800., 5),
+        (2560., 5),
+        (1280., 3),
+        (960., 3),
+        (1680., 5),
+        (1679., 3),
+    ] {
+        cx.simulate_resize(gpui_kit::size(gpui_kit::px(width), gpui_kit::px(1200.)));
+        draw(cx);
+        let charts: Vec<_> = [
+            "summary-history:disks",
+            "summary-history:network",
+            "summary-history:energy",
+            "summary-history:gpu",
+            "summary-history:thermals",
+        ]
+        .into_iter()
+        .map(|selector| cx.debug_bounds(selector).unwrap())
+        .collect();
+        for row in charts.chunks(columns) {
+            assert!(
+                row.iter().all(|bounds| bounds.origin.y == row[0].origin.y),
+                "Summary cards wrapped before the row was full at {width}px: {charts:?}"
+            );
+            assert_eq!(row[0].origin.x, charts[0].origin.x);
+            let right = row.last().unwrap().right();
+            assert!(
+                (right.as_f32() - (width - 25.)).abs() <= 1.,
+                "Summary row left unused space at {width}px: {charts:?}"
+            );
+            for pair in row.windows(2) {
+                assert!(pair[0].right() < pair[1].origin.x);
+            }
+            assert!(row.iter().all(|bounds| bounds.size.width.as_f32() >= 280.));
+        }
+        if columns < charts.len() {
+            assert!(charts[columns].origin.y > charts[0].bottom());
+        }
+    }
+}
+
+#[gpui_kit::test]
 fn detached_workspace_keeps_cpu_history_and_preferences(cx: &mut TestAppContext) {
     let (view, cx) = populated(cx);
     command(&view, crate::workspace::Command::Screen(Screen::Memory), cx);

@@ -79,7 +79,6 @@ fn subsystem(
     screen: Screen,
     channel: Option<Channel>,
     state: &Data,
-    width: f32,
     cx: &App,
 ) -> AnyElement {
     let color = accent(screen, cx);
@@ -123,8 +122,6 @@ fn subsystem(
     section(cx)
         .gap_2()
         .p_2()
-        .w(px(width))
-        .flex_none()
         .border_color(color.opacity(0.4))
         .bg(color.opacity(0.055))
         .child(
@@ -415,7 +412,6 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
                     }),
             ),
         );
-    let tile_width = (width - 24.) / 3.;
     let disk = data::selected_device(state, Screen::Disks)
         .and_then(|id| data::find(state, &id, "capacity"));
     let network =
@@ -423,6 +419,17 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
     let power = data::selected_channel(state, Screen::Energy);
     let gpu =
         data::selected_device(state, Screen::Gpu).and_then(|id| data::find(state, &id, "usage"));
+    let tiles = [
+        ("Disks", Screen::Disks, disk),
+        ("Network", Screen::Network, network),
+        ("Energy", Screen::Energy, power),
+        ("GPU", Screen::Gpu, gpu),
+        ("Thermals", Screen::Thermals, temperature),
+    ];
+    // Keep each of five cards at least 320px wide. Below that, use balanced
+    // rows of three and two; grid tracks fill each row without rounded widths
+    // causing an extra flex wrap on scaled displays.
+    let columns = if width >= 5. * 320. + 4. * 12. { 5 } else { 3 };
     div()
         .flex()
         .flex_col()
@@ -437,19 +444,20 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
                 .child(processes),
         )
         .child(memory_section)
-        .child(div().flex().flex_wrap().gap_3().children([
-            subsystem("Disks", Screen::Disks, disk, state, tile_width, cx),
-            subsystem("Network", Screen::Network, network, state, tile_width, cx),
-            subsystem("Energy", Screen::Energy, power, state, tile_width, cx),
-            subsystem("GPU", Screen::Gpu, gpu, state, tile_width, cx),
-            subsystem(
-                "Thermals",
-                Screen::Thermals,
-                temperature,
-                state,
-                tile_width,
-                cx,
-            ),
-        ]))
+        .child(
+            div()
+                .flex()
+                .flex_col()
+                .gap_3()
+                .children(tiles.chunks(columns).map(|row| {
+                    div()
+                        .grid()
+                        .grid_cols(row.len() as u16)
+                        .gap_3()
+                        .children(row.iter().map(|(title, screen, channel)| {
+                            subsystem(title, *screen, channel.clone(), state, cx)
+                        }))
+                })),
+        )
         .into_any_element()
 }

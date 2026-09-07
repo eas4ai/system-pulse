@@ -24,6 +24,8 @@ Charts show physical units and the actual captured time span. Gaps represent mis
 
 Unavailable sensor rows stay hidden until they recover. Failed, stale and warming-up readings retain explicit labels.
 
+Summary's five subsystem graphs share one row on wide windows. Smaller windows use full-width rows of three and two cards, with no empty trailing column.
+
 Settings contains appearance, sampling and preset controls. Existing sensor visibility preferences remain part of saved presets.
 
 Network initially follows the Linux main-table default route (IPv4 before IPv6), then a physical interface if no default route is present. Choosing an interface saves your selection and takes precedence over automatic selection.
