@@ -28,6 +28,15 @@ license generation. Independent library preservation review found no lost
 contract behavior. These checks do not yet constitute native or package
 acceptance of the migrated build.
 
+The first full host run exposed an older verifier assumption: it joined socket
+attribution by the monitor's display title, which no longer equals the raw
+interface name after the readable-name change. The verifier now uses the
+stable network identity's name suffix. Four new regressions cover aliases,
+identity forms, zero/unavailable/failed readings and rejection of wrong values
+or malformed identity. The original failed capture remains retained; its 96
+interface comparisons pass the corrected join, and a fresh full acceptance
+run is required. No collector arithmetic or availability rule was changed.
+
 The plan is [GPUI Kit migration](../superpowers/plans/2026-09-07-gpui-kit-migration.md).
 Detailed logs are retained outside the checkout in
 `/home/shawn/workspace2/task-manager-artifacts/gpui-kit-06-20260907/`.

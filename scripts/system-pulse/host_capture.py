@@ -668,7 +668,13 @@ def connections(snapshot):
         if monitor["kind"] != "Network":
             continue
         r = readings[monitor["id"] + "/connections"]
-        name = monitor["title"]
+        # Display labels may be aliases or descriptive hardware names. The
+        # stable monitor key retains the actual interface name used by the OS.
+        prefix, separator, name = monitor["id"].rpartition(":name:")
+        require(
+            separator and name and (prefix == "network" or prefix.startswith("network:")),
+            "missing stable network interface identity",
+        )
         expected = (
             "Unavailable"
             if name not in attributable
