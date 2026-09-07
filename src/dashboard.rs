@@ -1,6 +1,6 @@
 use crate::meters;
-use gpui::*;
-use gpui_component::ActiveTheme;
+use gpui_kit::component::ActiveTheme;
+use gpui_kit::*;
 use system_pulse_model::{HistoryStore, MonitorDescriptor, Quantity};
 
 pub(crate) fn memory_segments(history: &HistoryStore) -> Option<[f64; 4]> {

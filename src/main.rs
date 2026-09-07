@@ -1,13 +1,13 @@
-use gpui::*;
-use gpui_component::{ActiveTheme, Root};
+use gpui_kit::component::{ActiveTheme, Root};
+use gpui_kit::*;
 use system_pulse::workspace::WorkspaceView;
 
 mod application;
 
 fn main() {
     application::with_application(|app| {
-        app.with_assets(gpui_component_assets::Assets).run(|cx| {
-            gpui_component::init(cx);
+        app.with_assets(gpui_kit::assets::Assets).run(|cx| {
+            gpui_kit::init(cx);
             if let Err(error) = system_pulse::install_assets(cx) {
                 eprintln!("{error}");
                 cx.quit();

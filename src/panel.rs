@@ -3,12 +3,12 @@ use crate::{
     live, meters,
     workspace::{Command, Shared},
 };
-use gpui::{prelude::FluentBuilder, *};
-use gpui_base::{
+use gpui_kit::base::{
     ElementExt, ScrollableMask, Scrollbar, ScrollbarMode, Table, TableCell, TableRow,
     VirtualListScrollHandle, dock::*, v_virtual_list,
 };
-use gpui_component::{ActiveTheme, menu::ContextMenuExt};
+use gpui_kit::component::{ActiveTheme, menu::ContextMenuExt};
+use gpui_kit::{prelude::FluentBuilder, *};
 use std::{collections::BTreeMap, rc::Rc, sync::Arc};
 
 #[path = "process_panel.rs"]
@@ -196,7 +196,7 @@ pub(crate) fn process_cell(process: &live::ProcessView, column: usize, width: f3
         .items_center()
         .overflow_hidden()
         .tooltip(move |window, cx| {
-            gpui_component::tooltip::Tooltip::new(tooltip.clone()).build(window, cx)
+            gpui_kit::component::tooltip::Tooltip::new(tooltip.clone()).build(window, cx)
         })
         .child(
             div()

@@ -9,7 +9,7 @@ The application belongs in `/home/shawn/workspace2/task-manager`. This is its so
 
 - `src/`, `assets/`, `package/`: application, bundled assets and package support.
 - `crates/model/`, `crates/collectors/`: application model and host collectors.
-- `crates/`: the local GPUI components used by the application.
+- `crates/base/`, `crates/ui/`: patched GPUI Kit 0.6 libraries used by the application. Unmodified macros and icon assets come from Cargo dependencies.
 - `vendor/`: retained native adapter patches and their license notices.
 - `docs/feature-spec-dockable-system-monitor.md`: original product specification.
 - `docs/spec/`, `docs/commitments/`, `docs/plans/`: current contract and execution state.

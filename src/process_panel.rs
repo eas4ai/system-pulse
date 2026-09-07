@@ -1,7 +1,7 @@
 //! Process table interaction, keeping canonical snapshots separate from the visible order.
 use super::*;
 use crate::processes::{self, ProcessSort};
-use gpui_component::{
+use gpui_kit::component::{
     Disableable, Sizable,
     button::{Button, ButtonVariants},
     input::{Input, InputEvent, InputState},
@@ -390,7 +390,7 @@ impl MonitorPanel {
 mod tests {
     use super::{InputEvent, MonitorPanel, ProcessSignal};
     use crate::native_tests::{draw, harness, native_key, panel};
-    use gpui::{Entity, Modifiers, TestAppContext, VisualTestContext, point, px};
+    use gpui_kit::{Entity, Modifiers, TestAppContext, VisualTestContext, point, px};
 
     fn focus_table(processes: &Entity<MonitorPanel>, cx: &mut VisualTestContext) {
         cx.update(|window, cx| {
@@ -402,7 +402,7 @@ mod tests {
         draw(cx);
     }
 
-    #[gpui::test]
+    #[gpui_kit::test]
     fn search_and_sort_controls_preserve_identity_and_navigate_visible_rows(
         cx: &mut TestAppContext,
     ) {
@@ -466,7 +466,7 @@ mod tests {
         assert!(cx.debug_bounds("process-row:1").is_none());
     }
 
-    #[gpui::test]
+    #[gpui_kit::test]
     fn confirmation_cancel_keeps_identity_and_fixture_execution_reports_error(
         cx: &mut TestAppContext,
     ) {

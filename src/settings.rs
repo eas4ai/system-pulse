@@ -1,9 +1,9 @@
 //! Docked appearance and sampling controls.
 use crate::controls::{self, FocusEntry};
 use crate::workspace::{Command, Shared};
-use gpui::*;
-use gpui_base::{Button, ElementExt, Scrollbar, ScrollbarMode};
-use gpui_component::{ActiveTheme, Theme, ThemeMode};
+use gpui_kit::base::{Button, ElementExt, Scrollbar, ScrollbarMode};
+use gpui_kit::component::{ActiveTheme, Theme, ThemeMode};
+use gpui_kit::*;
 use std::collections::BTreeMap;
 use system_pulse_model::{Appearance, ColorTheme, NumericFont, UiFont};
 
@@ -79,9 +79,9 @@ impl SettingsPanel {
             .accessibility_label(label.clone())
             .track_focus(&focus.handle)
             .aria_toggled(if selected {
-                gpui::accesskit::Toggled::True
+                gpui_kit::accesskit::Toggled::True
             } else {
-                gpui::accesskit::Toggled::False
+                gpui_kit::accesskit::Toggled::False
             })
             .h_7()
             .px_2()
@@ -178,10 +178,10 @@ mod tests {
     use super::{Appearance, ColorTheme, NumericFont, UiFont};
     use crate::native_tests::{draw, harness, panel};
     use crate::workspace::Command;
-    use gpui::{Modifiers, TestAppContext};
-    use gpui_component::{ActiveTheme, ThemeMode};
+    use gpui_kit::component::{ActiveTheme, ThemeMode};
+    use gpui_kit::{Modifiers, TestAppContext};
 
-    #[gpui::test]
+    #[gpui_kit::test]
     fn docked_choices_apply_immediately_restore_and_reveal_keyboard_focus(cx: &mut TestAppContext) {
         let (view, cx) = harness(cx);
         let monitor = panel(&view, "settings", cx);

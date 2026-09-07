@@ -88,7 +88,7 @@ def declared_inputs():
 
 
 def build_dependency_roots():
-    """Discover local normal/build dependencies without resolving external caches."""
+    """Bind local source reached through normal/build edges, including patches."""
     metadata = json.loads(
         subprocess.check_output(
             [
@@ -98,18 +98,16 @@ def build_dependency_roots():
                 "--offline",
                 "--format-version",
                 "1",
-                "--no-deps",
             ],
             cwd=ROOT,
             text=True,
             timeout=30,
         )
     )
-    packages = {
-        str(Path(p["manifest_path"]).parent.resolve()): p for p in metadata["packages"]
-    }
+    packages = {p["id"]: p for p in metadata["packages"]}
+    nodes = {n["id"]: n for n in metadata["resolve"]["nodes"]}
     pending = [
-        p
+        p["id"]
         for p in metadata["packages"]
         if p["name"] in ("system-pulse", "system-pulse-collectors")
     ]
@@ -117,16 +115,24 @@ def build_dependency_roots():
     roots = set()
     visited = set()
     while pending:
-        package = pending.pop()
+        package_id = pending.pop()
+        if package_id in visited:
+            continue
+        visited.add(package_id)
+        package = packages[package_id]
+        for dependency in nodes[package_id]["deps"]:
+            if any(kind["kind"] != "dev" for kind in dependency["dep_kinds"]):
+                pending.append(dependency["pkg"])
+        # Registry/git packages can lead back into patched local packages.
+        # Their immutable source/version is bound by the committed Cargo.lock.
+        if package["source"] is not None:
+            continue
         directory = Path(package["manifest_path"]).parent.resolve()
         require(
             directory.is_relative_to(ROOT.resolve()),
             "unbound external local build dependency",
         )
         relative = str(directory.relative_to(ROOT.resolve()))
-        if relative in visited:
-            continue
-        visited.add(relative)
         if relative == ".":
             # The application lives at the workspace root. Bind its build
             # inputs without treating historical evidence as application code.
@@ -135,14 +141,6 @@ def build_dependency_roots():
                 roots.add(str(Path(target["src_path"]).relative_to(ROOT.resolve())))
         else:
             roots.add(relative)
-        for dependency in package["dependencies"]:
-            if dependency["kind"] != "dev" and dependency.get("path"):
-                path = str(Path(dependency["path"]).resolve())
-                require(
-                    path in packages,
-                    "local build dependency missing from Cargo metadata",
-                )
-                pending.append(packages[path])
     return sorted(roots)
 
 
@@ -183,8 +181,13 @@ def committed_inputs():
         required and required <= set(result),
         "declared inputs omit first-party build dependencies",
     )
+    manifests = {"Cargo.toml"} | {
+        root + "/Cargo.toml"
+        for root in roots
+        if (ROOT / root / "Cargo.toml").is_file()
+    }
     require(
-        {root + "/Cargo.toml" for root in roots} <= set(result),
+        manifests <= set(result),
         "declared inputs omit a first-party build manifest",
     )
     return result

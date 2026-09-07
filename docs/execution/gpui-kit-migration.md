@@ -1,0 +1,35 @@
+# GPUI Kit 0.6 migration
+
+The application uses the released `gpui-kit` 0.6.0 facade and the matching
+GPUI Pre 0.3.2 package family. The retained base/component libraries are
+rebased onto release source `94a313a72a2513aee2780240cd322d552b2395f0` with
+System Pulse's behavior patches. Unmodified macros and icon assets now come
+from registry dependencies. No framework website, examples or automation
+are imported.
+
+All 35 existing local library regressions are preserved. Upstream's new
+proportional split reconciliation remains active for ordinary tabbed layouts;
+Separate layouts retain absolute sizes and keep the new cache synchronized.
+The new sizing regression fails before that correction and passes afterward.
+Sensor collection, persistent workspace format, presets and the product layout
+remain unchanged by this dependency migration.
+
+The Linux adapter is rebased to AccessKit AT-SPI 0.19.1. Both unchanged
+expansion-state regressions fail without the mapping and pass with it; all nine
+adapter tests pass. The macOS dispatcher pool boundary and lifetime tests are
+retained on GPUI Pre macOS 0.3.2. Each adapter records package/archive provenance.
+The build-input verifier now follows resolved dependencies through the facade
+to include local patches in source evidence.
+
+Before native acceptance, local checks passed: 1,479 Rust workspace tests,
+465 Python tests, application all-target compilation, app/model/collector/base
+Clippy with warnings denied, workspace and adapter formatting, and dependency
+license generation. Independent library preservation review found no lost
+contract behavior. These checks do not yet constitute native or package
+acceptance of the migrated build.
+
+The plan is [GPUI Kit migration](../superpowers/plans/2026-09-07-gpui-kit-migration.md).
+Detailed logs are retained outside the checkout in
+`/home/shawn/workspace2/task-manager-artifacts/gpui-kit-06-20260907/`.
+Earlier hardware evidence remains bound to its original source and dependencies;
+this work does not claim the outstanding Intel/Apple GPU acceptance complete.

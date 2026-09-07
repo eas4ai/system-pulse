@@ -3,12 +3,12 @@ use crate::{
     controls::{self, FocusEntry},
     workspace::{Command, Shared},
 };
-use gpui::*;
-use gpui_base::{Button, ElementExt};
-use gpui_component::{
+use gpui_kit::base::{Button, ElementExt};
+use gpui_kit::component::{
     ActiveTheme,
     input::{Input, InputState},
 };
+use gpui_kit::*;
 use std::collections::BTreeMap;
 use system_pulse_model::BuiltinPreset;
 
@@ -270,7 +270,7 @@ mod tests {
     use super::PresetManager;
     use crate::native_tests::{draw, harness, panel};
     use crate::workspace::Command;
-    use gpui::{Entity, Modifiers, TestAppContext, VisualTestContext};
+    use gpui_kit::{Entity, Modifiers, TestAppContext, VisualTestContext};
 
     fn click(manager: &Entity<PresetManager>, id: &'static str, cx: &mut VisualTestContext) {
         cx.update(|window, cx| {
@@ -290,7 +290,7 @@ mod tests {
         draw(cx);
     }
 
-    #[gpui::test]
+    #[gpui_kit::test]
     fn named_preset_controls_confirm_cancel_rename_and_recall(cx: &mut TestAppContext) {
         let (view, cx) = harness(cx);
         let monitor = panel(&view, "settings", cx);

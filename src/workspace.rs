@@ -7,9 +7,9 @@ use crate::{
     panel::{self, MonitorPanel, WorkspaceSkin},
     storage::{self, Storage},
 };
-use gpui::{prelude::FluentBuilder, *};
-use gpui_base::{Button, ElementExt, Scrollbar, ScrollbarMode, dock::*};
-use gpui_component::{ActiveTheme, menu::ContextMenuExt};
+use gpui_kit::base::{Button, ElementExt, Scrollbar, ScrollbarMode, dock::*};
+use gpui_kit::component::{ActiveTheme, menu::ContextMenuExt};
+use gpui_kit::{prelude::FluentBuilder, *};
 use std::{
     cell::RefCell,
     collections::{BTreeMap, BTreeSet},
@@ -1160,7 +1160,7 @@ mod viewport_accessibility_tests {
         ] {
             let element = scroll_viewport(internal, native.into());
             assert_eq!(element.a11y_role(), Some(Role::ScrollView));
-            let mut node = gpui::accesskit::Node::new(Role::ScrollView);
+            let mut node = gpui_kit::accesskit::Node::new(Role::ScrollView);
             element.write_a11y_info(&mut node);
             assert_eq!(node.author_id(), Some(native));
         }
@@ -1416,18 +1416,18 @@ fn command_button(label: String, command: Command, cx: &Context<WorkspaceView>) 
 #[cfg(test)]
 mod diagnostic_delivery_tests {
     use super::{Duration, Snapshot, WorkspaceView};
-    use gpui::{AppContext, Element, Role, TestAppContext};
+    use gpui_kit::{AppContext, Element, Role, TestAppContext};
 
-    #[gpui::test]
+    #[gpui_kit::test]
     fn elapsed_delivery_refreshes_diagnostics_without_refreshing_the_snapshot(
         cx: &mut TestAppContext,
     ) {
-        cx.update(gpui_component::init);
+        cx.update(gpui_kit::component::init);
         let mut view = None;
         let (_, cx) = cx.add_window_view(|window, cx| {
             let workspace = cx.new(|cx| WorkspaceView::new_fixture(window, cx));
             view = Some(workspace.clone());
-            gpui_component::Root::new(workspace, window, cx)
+            gpui_kit::component::Root::new(workspace, window, cx)
         });
         let view = view.unwrap();
         let dir = std::env::temp_dir().join(format!("pulse-stale-delivery-{}", std::process::id()));
@@ -1559,7 +1559,7 @@ mod diagnostic_delivery_tests {
                 initial_history_len
             );
             let label = crate::meters::sensor_label(monitor, &monitor.sensors[0], sample);
-            let mut node = gpui::accesskit::Node::new(Role::Label);
+            let mut node = gpui_kit::accesskit::Node::new(Role::Label);
             crate::meters::metric_label(id.into(), label.clone()).write_a11y_info(&mut node);
             assert_eq!(node.value(), Some(label.as_str()));
             assert_eq!(mapping(&after, id)["label"], label);
@@ -1628,18 +1628,18 @@ mod diagnostic_delivery_tests {
 #[cfg(test)]
 mod preset_bound_tests {
     use super::{Command, WorkspaceView};
-    use gpui::{AppContext, TestAppContext};
+    use gpui_kit::{AppContext, TestAppContext};
 
-    #[gpui::test]
+    #[gpui_kit::test]
     fn oversized_preset_keeps_the_previous_slot_and_reports_the_save_error(
         cx: &mut TestAppContext,
     ) {
-        cx.update(gpui_component::init);
+        cx.update(gpui_kit::component::init);
         let mut view = None;
         let (_, cx) = cx.add_window_view(|window, cx| {
             let workspace = cx.new(|cx| WorkspaceView::new_fixture(window, cx));
             view = Some(workspace.clone());
-            gpui_component::Root::new(workspace, window, cx)
+            gpui_kit::component::Root::new(workspace, window, cx)
         });
         let view = view.unwrap();
         cx.update(|window, cx| {

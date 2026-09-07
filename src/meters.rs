@@ -1,5 +1,5 @@
-use gpui::*;
-use gpui_component::ActiveTheme;
+use gpui_kit::component::ActiveTheme;
+use gpui_kit::*;
 use system_pulse_model::{Meter, ReadingStatus, Sample};
 
 pub(crate) fn value(sample: Option<&Sample>) -> String {
@@ -261,7 +261,7 @@ mod accessibility_tests {
     #[::core::prelude::v1::test]
     fn metric_labels_supply_platform_text_value_and_stable_author_identity() {
         let label = metric_label("cpu:host:value:usage".into(), "CPU · Usage · 42.0 %".into());
-        let mut node = gpui::accesskit::Node::new(Role::Label);
+        let mut node = gpui_kit::accesskit::Node::new(Role::Label);
         label.write_a11y_info(&mut node);
         assert_eq!(node.value(), Some("CPU · Usage · 42.0 %"));
         assert_eq!(node.author_id(), Some("cpu:host:value:usage"));

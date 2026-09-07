@@ -1,6 +1,6 @@
 # System Pulse
 
-A native desktop system monitor built with Rust and GPUI. This repository contains the application and the local framework components it uses.
+A native desktop system monitor built with Rust and GPUI Kit 0.6. This repository contains the application and the patched base/component libraries it uses; unmodified framework packages are ordinary Cargo dependencies.
 
 System Pulse provides live CPU, memory, GPU, disk, network and process readings in separate dockable panels. It includes process search and sorting, confirmed task actions, configurable sensor meters, named presets, bundled fonts, dark/light themes and persistent layouts.
 

@@ -1,6 +1,6 @@
 //! Built-in dock templates resolved against discovered monitor identities.
-use gpui::{Axis, px};
-use gpui_base::dock::{DockAreaState, PanelInfo, PanelState};
+use gpui_kit::base::dock::{DockAreaState, PanelInfo, PanelState};
+use gpui_kit::{Axis, px};
 use system_pulse_model::{BuiltinPreset, MonitorDescriptor, Workspace};
 
 pub(crate) fn is_gpu(id: &str) -> bool {

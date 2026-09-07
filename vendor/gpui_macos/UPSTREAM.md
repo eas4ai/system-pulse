@@ -1,38 +1,37 @@
-# gpui_macos provenance
+# GPUI Pre macOS provenance
 
-Source: <https://github.com/zed-industries/zed/tree/f66ed399cdde86092af8af3dc7b418abf45f37f8/crates/gpui_macos>.
-The package is copied from the application's already locked Zed commit
-`f66ed399cdde86092af8af3dc7b418abf45f37f8`. Its original package-local
-`LICENSE-APACHE` is unchanged. `UPSTREAM.json` records the original 16 file
-sizes/hashes and all 39 inherited dependency declarations before normalization.
+This directory patches the released `gpui-pre-macos` 0.3.2 package used by
+GPUI Kit 0.6.0. The published package records Zed source revision
+`801c087af22dd189dc1aa49e2f370b4f04190b19`. Its normalized registry manifest
+pins the matching GPUI Pre 0.3.2 packages. Root Cargo patches the crates.io
+package name `gpui-pre-macos`; the library name remains `gpui_macos`.
 
-The only production Rust change is the per-invocation autorelease pool in
-`src/dispatcher.rs`. Its unit-test module covers native destruction, retained
-objects, owned results, pending polls, cancellation, and actual native queues.
-All other original Rust files are unchanged.
+Registry archive SHA-256:
+`66a1e7a41b11c83b121b7bf729537c5b46dad91ef0cf221851cfb287cbe0fe33`.
+`UPSTREAM.json` records the original source and manifest hashes. The Apache
+license is retained unchanged. An empty `[workspace]` table keeps standalone
+formatting commands independent of the enclosing application's workspace.
 
-The local Cargo manifest expands inherited edition, publication, lint, and
-dependency metadata. Former upstream workspace path dependencies use the exact
-existing `https://github.com/zed-industries/zed` git SourceId, without a `rev`
-query. Cargo.lock retains their selected commit and versions. Inherited default
-features, explicit features, package aliases and target conditions are preserved.
-The original package features and dev-dependencies are preserved as well.
+The only production source change is the per-invocation autorelease pool in
+`src/dispatcher.rs`. The released upstream dispatcher is byte-identical to
+the previously patched dispatcher before that correction, so the reviewed
+pool boundary and `dispatcher_lifetime_tests.rs` are retained verbatim.
+All other upstream source is copied from the 0.3.2 package.
 
-The root patches only gpui_macos and excludes this package from workspace
-membership. Making it a member would resolve its unrelated benchmark feature and
-add criterion's dependency graph. The System Pulse macOS dispatcher integration
-test instead compiles this exact private dispatcher source, using already locked
-native dependencies. A separate application lifetime test constructs the actual
-linked gpui_platform application and exercises its background executor, so source
-inclusion is not the only production-wiring evidence. Tests add no product API.
+The private-source integration test covers destruction, retained objects,
+owned results, pending polls, cancellation and actual native dispatch queues.
+The separate `macos_application_lifetime` executable constructs the linked
+platform application and checks its real background executor. The application
+also retains its construction/teardown autorelease pool in `src/application.rs`.
 
-Run formatting from the root with:
+Run formatting from the repository root:
 
 ```sh
 cargo fmt --manifest-path vendor/gpui_macos/Cargo.toml -- --check
 ```
 
-Native verification commands and ownership evidence are recorded in
-`docs/execution/intel-and-apple-gpus/apple-pool-correction.md`. Linux formatting or
-compilation does not establish macOS lifetime behavior. The full application
-lifecycle finding remains open until the separately required native replay.
+On macOS, run `cargo test --locked -p system-pulse --test macos_dispatcher_lifetime`
+and the application lifetime cases documented in the migration evidence.
+Linux compilation does not establish macOS behavior. Earlier lifetime evidence
+is recorded in `docs/execution/intel-and-apple-gpus/apple-pool-correction.md`
+against its original dependency graph.

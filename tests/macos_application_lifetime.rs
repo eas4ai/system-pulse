@@ -72,7 +72,7 @@ fn main() {
 }
 
 #[cfg(target_os = "macos")]
-fn linked_background_lifetime(app: &gpui::Application) {
+fn linked_background_lifetime(app: &gpui_kit::Application) {
     use objc2::{AnyThread, DefinedClass, define_class, msg_send};
     use objc2::{rc::Retained, runtime::NSObject};
     use std::{sync::mpsc, thread::ThreadId, time::Duration};

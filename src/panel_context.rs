@@ -1,11 +1,11 @@
 //! The same actions back pointer context menus and keyboard-accessible buttons.
 use crate::workspace::{Command, Shared};
-use gpui::*;
-use gpui_component::{
+use gpui_kit::component::{
     Sizable,
     button::{Button, ButtonVariants},
     menu::{DropdownMenu, PopupMenu, PopupMenuItem},
 };
+use gpui_kit::*;
 use system_pulse_model::SensorMove;
 
 fn item(label: String, command: Command, shared: &Shared) -> PopupMenuItem {

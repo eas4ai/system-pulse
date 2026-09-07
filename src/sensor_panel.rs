@@ -114,7 +114,7 @@ impl MonitorPanel {
         .text_ellipsis()
         .debug_selector(move || value_selector.clone().into())
         .tooltip(move |window, cx| {
-            gpui_component::tooltip::Tooltip::new(tooltip.clone()).build(window, cx)
+            gpui_kit::component::tooltip::Tooltip::new(tooltip.clone()).build(window, cx)
         })
         .when(
             core.is_some() && !state.collapsed && actual_meter == Meter::Number,

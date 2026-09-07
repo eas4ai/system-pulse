@@ -13,7 +13,7 @@
 edition = "2024"
 rust-version = "1.85"
 name = "accesskit_atspi_common"
-version = "0.18.1"
+version = "0.19.1"
 authors = ["The AccessKit contributors"]
 build = false
 autolib = false
@@ -41,10 +41,10 @@ name = "accesskit_atspi_common"
 path = "src/lib.rs"
 
 [dependencies.accesskit]
-version = "0.24.0"
+version = "0.24.1"
 
 [dependencies.accesskit_consumer]
-version = "0.36.0"
+version = "0.38.0"
 
 [dependencies.atspi-common]
 version = "0.13"
@@ -60,3 +60,6 @@ version = "1.0"
 [dependencies.zvariant]
 version = "5.4"
 default-features = false
+
+# This patched dependency is outside the application workspace.
+[workspace]

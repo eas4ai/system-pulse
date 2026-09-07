@@ -87,8 +87,16 @@ class AggregateTests(unittest.TestCase):
         self.assertNotIn(".", roots)
         self.assertTrue({"Cargo.toml", "src", "assets", "crates/model", "crates/collectors"} <= set(roots))
         self.assertTrue(
-            {"crates/base", "crates/ui", "crates/assets", "crates/macros"} <= set(roots)
+            {
+                "crates/base",
+                "crates/ui",
+                "vendor/accesskit_atspi_common",
+                "vendor/gpui_macos",
+            } <= set(roots),
+            "registry facade dependencies must still bind local patched source",
         )
+        self.assertNotIn("crates/assets", roots)
+        self.assertNotIn("crates/macros", roots)
         tracked = set(
             subprocess.check_output(
                 ["git", "ls-files", "--", *roots], cwd=gpu_verify.ROOT, text=True
@@ -110,18 +118,22 @@ class AggregateTests(unittest.TestCase):
         from unittest.mock import patch
 
         original = gpu_verify.ROOT
-        package_roots = ["crates/base", "crates/ui", "crates/assets", "crates/macros"]
+        package_roots = [
+            "crates/base",
+            "crates/ui",
+            "vendor/accesskit_atspi_common",
+            "vendor/gpui_macos",
+        ]
         selected = (
             [root + "/Cargo.toml" for root in package_roots]
-            + [root + "/src/lib.rs" for root in package_roots]
-            + ["crates/assets/build.rs", "crates/ui/build.rs"]
+            + ["crates/base/src/lib.rs", "crates/ui/src/lib.rs"]
+            + ["crates/ui/build.rs"]
         )
         selected += [
-            str(
-                sorted((original / "crates/assets/assets/icons").glob("*.svg"))[
-                    0
-                ].relative_to(original)
-            )
+            "vendor/accesskit_atspi_common/src/node.rs",
+            "vendor/gpui_macos/src/dispatcher.rs",
+            "src/main.rs",
+            "assets/fonts/sources.json",
         ]
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -157,7 +169,7 @@ class AggregateTests(unittest.TestCase):
                 patch.object(
                     gpu_verify,
                     "build_dependency_roots",
-                    return_value=package_roots,
+                    return_value=package_roots + ["Cargo.toml", "src", "assets"],
                     create=True,
                 ),
             ):

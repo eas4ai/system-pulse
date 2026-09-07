@@ -8,7 +8,7 @@ const FONTS: [&[u8]; 4] = [
     include_bytes!("../assets/fonts/IBMPlexMono-Regular.ttf"),
 ];
 
-pub fn install(cx: &mut gpui::App) -> Result<(), String> {
+pub fn install(cx: &mut gpui_kit::App) -> Result<(), String> {
     cx.text_system()
         .add_fonts(FONTS.into_iter().map(Cow::Borrowed).collect())
         .map_err(|error| format!("Load bundled fonts: {error}"))

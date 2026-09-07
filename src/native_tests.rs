@@ -2,20 +2,20 @@ use crate::{
     panel::MonitorPanel,
     workspace::{Command, WorkspaceView, default_dock},
 };
-use gpui::{
+use gpui_kit::base::{Placement, dock::*};
+use gpui_kit::{
     AppContext, Axis, Element, Entity, IntoElement, KeyDownEvent, KeyUpEvent, Keystroke, Modifiers,
     MouseButton, RenderOnce, ScrollDelta, ScrollWheelEvent, TestAppContext, VisualTestContext,
     point, px,
 };
-use gpui_base::{Placement, dock::*};
 
 pub(crate) fn harness(cx: &mut TestAppContext) -> (Entity<WorkspaceView>, &mut VisualTestContext) {
-    cx.update(gpui_component::init);
+    cx.update(gpui_kit::component::init);
     let mut workspace = None;
     let (_, cx) = cx.add_window_view(|window, cx| {
         let view = cx.new(|cx| WorkspaceView::new_fixture(window, cx));
         workspace = Some(view.clone());
-        gpui_component::Root::new(view, window, cx)
+        gpui_kit::component::Root::new(view, window, cx)
     });
     let view = workspace.unwrap();
     draw(cx);
@@ -51,7 +51,7 @@ fn leaf_nodes(node: &PaneNode) -> Vec<(NodeId, PanelId)> {
     }
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn toolbar_layout_reset_recovers_hidden_panels_without_replacing_preferences(
     cx: &mut TestAppContext,
 ) {
@@ -140,7 +140,7 @@ fn toolbar_layout_reset_recovers_hidden_panels_without_replacing_preferences(
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn layout_reset_preserves_rejected_input_and_the_autosave_guard(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let raw = "{broken layout";
@@ -158,7 +158,7 @@ fn layout_reset_preserves_rejected_input_and_the_autosave_guard(cx: &mut TestApp
     assert!(cx.debug_bounds("workspace:recover").is_some());
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn unavailable_sensor_rows_hide_and_recover_without_changing_user_choices(cx: &mut TestAppContext) {
     use system_pulse_model::{Meter, ReadingStatus};
     let (view, cx) = harness(cx);
@@ -244,7 +244,7 @@ fn unavailable_sensor_rows_hide_and_recover_without_changing_user_choices(cx: &m
     assert!(cx.debug_bounds("cpu:visible:overall").is_some());
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn number_sensor_pointer_disclosure_folds_a_visible_body(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     command(
@@ -286,7 +286,7 @@ fn number_sensor_pointer_disclosure_folds_a_visible_body(cx: &mut TestAppContext
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn collapse_keeps_a_header_and_continuous_history(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let before = cx.debug_bounds("panel:cpu").unwrap().size;
@@ -339,7 +339,7 @@ fn collapse_keeps_a_header_and_continuous_history(cx: &mut TestAppContext) {
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn enter_and_space_toggle_without_moving_the_panel(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let cpu = panel(&view, "cpu", cx);
@@ -383,7 +383,7 @@ fn enter_and_space_toggle_without_moving_the_panel(cx: &mut TestAppContext) {
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn workspace_and_long_table_are_independently_reachable(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let viewport = cx.debug_bounds("workspace-viewport").unwrap();
@@ -433,7 +433,7 @@ fn workspace_and_long_table_are_independently_reachable(cx: &mut TestAppContext)
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn restore_preserves_identity_and_rejection_is_not_bypassed_by_preset(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     command(&view, Command::PanelCollapse("gpu:fixture-a".into()), cx);
@@ -492,7 +492,7 @@ fn restore_preserves_identity_and_rejection_is_not_bypassed_by_preset(cx: &mut T
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn edge_move_is_accepted_and_merge_is_rejected_atomically(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let dock = cx.read(|cx| view.read(cx).dock.clone());
@@ -539,7 +539,7 @@ fn edge_move_is_accepted_and_merge_is_rejected_atomically(cx: &mut TestAppContex
     assert_ne!(cx.read(|cx| dock.read(cx).dump(cx)), before);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn older_partial_layout_gets_regions_for_default_enabled_monitors(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let mut dock = default_dock();
@@ -570,7 +570,7 @@ fn older_partial_layout_gets_regions_for_default_enabled_monitors(cx: &mut TestA
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn tab_enters_and_leaves_the_retained_process_table(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let processes = panel(&view, "processes", cx);
@@ -623,7 +623,7 @@ pub(crate) fn native_key(key: &str, cx: &mut VisualTestContext) {
     cx.simulate_event(KeyUpEvent { keystroke });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn divider_drag_snapshot_uses_latest_allocation_without_a_fixture_tick(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let bounds = cx.debug_bounds("panel:cpu").unwrap();
@@ -680,7 +680,7 @@ fn divider_drag_snapshot_uses_latest_allocation_without_a_fixture_tick(cx: &mut 
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn collapsed_panel_beside_tall_neighbor_restores_its_region(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let dock = cx.read(|cx| view.read(cx).dock.clone());
@@ -716,7 +716,7 @@ fn collapsed_panel_beside_tall_neighbor_restores_its_region(cx: &mut TestAppCont
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn wheel_routes_to_table_and_outer_canvas_independently(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let processes = panel(&view, "processes", cx);
@@ -769,7 +769,7 @@ fn wheel_routes_to_table_and_outer_canvas_independently(cx: &mut TestAppContext)
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn disclosure_buttons_expose_expanded_state_and_click_action(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let cpu = panel(&view, "cpu", cx);
@@ -786,19 +786,19 @@ fn disclosure_buttons_expose_expanded_state_and_click_action(cx: &mut TestAppCon
                 None,
                 cx,
             );
-            let mut node = gpui::accesskit::Node::new(gpui::Role::Button);
+            let mut node = gpui_kit::accesskit::Node::new(gpui_kit::Role::Button);
             control
                 .render(window, cx)
                 .into_element()
                 .write_a11y_info(&mut node);
-            assert_eq!(node.role(), gpui::Role::Button);
+            assert_eq!(node.role(), gpui_kit::Role::Button);
             assert_eq!(node.is_expanded(), Some(expanded));
-            assert!(node.supports_action(gpui::AccessibleAction::Click));
+            assert!(node.supports_action(gpui_kit::AccessibleAction::Click));
         });
     }
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn toolbar_focus_stays_with_monitor_identity_when_discovery_order_reverses(
     cx: &mut TestAppContext,
 ) {
@@ -821,7 +821,7 @@ fn toolbar_focus_stays_with_monitor_identity_when_discovery_order_reverses(
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn accepting_recovered_layout_preserves_keyboard_reachability(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     command(&view, Command::SavePreset, cx);
@@ -868,7 +868,7 @@ fn accepting_recovered_layout_preserves_keyboard_reachability(cx: &mut TestAppCo
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn revisiting_offscreen_focus_reveals_both_axes_without_pinning_user_scroll(
     cx: &mut TestAppContext,
 ) {
@@ -939,7 +939,7 @@ fn revisiting_offscreen_focus_reveals_both_axes_without_pinning_user_scroll(
     }
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn live_snapshot_discovery_refreshes_controls_and_keeps_explicit_state(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let mut snapshot = system_pulse_collectors::Snapshot {
@@ -1027,7 +1027,7 @@ fn live_snapshot_discovery_refreshes_controls_and_keeps_explicit_state(cx: &mut 
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn accepted_process_snapshots_preserve_identity_and_clear_removed_selection(
     cx: &mut TestAppContext,
 ) {
@@ -1147,7 +1147,7 @@ fn accepted_process_snapshots_preserve_identity_and_clear_removed_selection(
     assert_eq!(cx.read(|cx| processes.read(cx).selected.clone()), None);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let rows: Vec<_> = (0..1205)
@@ -1216,7 +1216,7 @@ fn real_process_keyboard_bounds_follow_all_rows_and_identity(cx: &mut TestAppCon
     assert_eq!(cx.read(|cx| processes.read(cx).selected_index()), None);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_reuse(
     cx: &mut TestAppContext,
 ) {
@@ -1242,7 +1242,7 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
             };
             let row =
                 crate::panel::process_row(&process, index, true, &crate::live::PROCESS_WIDTHS, cx);
-            let mut node = gpui::accesskit::Node::new(gpui::Role::Row);
+            let mut node = gpui_kit::accesskit::Node::new(gpui_kit::Role::Row);
             row.render(window, cx)
                 .into_element()
                 .write_a11y_info(&mut node);
@@ -1252,7 +1252,7 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
             );
             assert_eq!(node.row_index(), Some(index + 2));
             let cell = crate::panel::process_cell(&process, 2, 200.);
-            let mut node = gpui::accesskit::Node::new(gpui::Role::Cell);
+            let mut node = gpui_kit::accesskit::Node::new(gpui_kit::Role::Cell);
             cell.render(window, cx)
                 .into_element()
                 .write_a11y_info(&mut node);
@@ -1265,7 +1265,7 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_navigation_burst_repaints_once_after_all_movements(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let processes = panel(&view, "processes", cx);
@@ -1482,12 +1482,12 @@ fn process_pending_reveal_snapshot_interleaving(cx: &mut TestAppContext, restore
     assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_pending_reveal_follows_identity_after_snapshot_reordering(cx: &mut TestAppContext) {
     process_pending_reveal_snapshot_interleaving(cx, true);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn oversized_process_panel_reveals_selected_rows_inside_the_outer_viewport(
     cx: &mut TestAppContext,
 ) {
@@ -1547,12 +1547,12 @@ fn oversized_process_panel_reveals_selected_rows_inside_the_outer_viewport(
     }
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_pending_reveal_preserves_unchanged_snapshot_order(cx: &mut TestAppContext) {
     process_pending_reveal_snapshot_interleaving(cx, false);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_pending_reveal_is_consumed_before_manual_scroll_and_passive_snapshots(
     cx: &mut TestAppContext,
 ) {
@@ -1611,7 +1611,7 @@ fn process_pending_reveal_is_consumed_before_manual_scroll_and_passive_snapshots
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_pending_reveal_does_not_scroll_to_a_reused_pid(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let mut snapshot = pending_reveal_snapshot();
@@ -1659,7 +1659,7 @@ fn process_pending_reveal_does_not_scroll_to_a_reused_pid(cx: &mut TestAppContex
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_horizontal_burst_accumulates_and_repaints_once(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     cx.update(|_, cx| {
@@ -1698,7 +1698,7 @@ fn process_horizontal_burst_accumulates_and_repaints_once(cx: &mut TestAppContex
     assert_eq!(cx.update(|window, cx| window.simulate_next_frame(cx)), 0);
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn process_columns_stay_aligned_when_long_status_rows_exit(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let mut snapshot = pending_reveal_snapshot();
@@ -1744,7 +1744,7 @@ fn process_columns_stay_aligned_when_long_status_rows_exit(cx: &mut TestAppConte
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let dock = cx.read(|cx| view.read(cx).dock.clone());
@@ -1833,7 +1833,7 @@ fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestA
     }
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn sensor_menus_choose_meter_reorder_and_restore_visibility_by_identity(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let cpu = panel(&view, "cpu", cx);
@@ -1845,14 +1845,14 @@ fn sensor_menus_choose_meter_reorder_and_restore_visibility_by_identity(cx: &mut
     });
     draw(cx);
     let options = cx.debug_bounds("cpu:options:core0").unwrap();
-    cx.simulate_event(gpui::MouseDownEvent {
+    cx.simulate_event(gpui_kit::MouseDownEvent {
         button: MouseButton::Right,
         position: options.center(),
         modifiers: Modifiers::none(),
         click_count: 1,
         first_mouse: false,
     });
-    cx.simulate_event(gpui::MouseUpEvent {
+    cx.simulate_event(gpui_kit::MouseUpEvent {
         button: MouseButton::Right,
         position: options.center(),
         modifiers: Modifiers::none(),
@@ -1914,7 +1914,7 @@ fn sensor_menus_choose_meter_reorder_and_restore_visibility_by_identity(cx: &mut
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn physical_cpu_core_tiles_wrap_and_keep_meter_collapse_and_order(cx: &mut TestAppContext) {
     use system_pulse_collectors as c;
     let (view, cx) = harness(cx);
@@ -2039,7 +2039,7 @@ fn physical_cpu_core_tiles_wrap_and_keep_meter_collapse_and_order(cx: &mut TestA
     });
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn settings_shortcut_reveals_the_panel_body(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     command(&view, Command::PanelVisible("settings".into()), cx);
@@ -2056,7 +2056,7 @@ fn settings_shortcut_reveals_the_panel_body(cx: &mut TestAppContext) {
     );
 }
 
-#[gpui::test]
+#[gpui_kit::test]
 fn focused_sensor_growth_reveals_without_undoing_deliberate_scroll(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let dock = cx.read(|cx| view.read(cx).dock.clone());

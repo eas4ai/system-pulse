@@ -1,7 +1,7 @@
 use crate::workspace::{Command, Shared};
-use gpui::{prelude::FluentBuilder, *};
-use gpui_base::{Button, ElementExt};
-use gpui_component::{ActiveTheme, tooltip::Tooltip};
+use gpui_kit::base::{Button, ElementExt};
+use gpui_kit::component::{ActiveTheme, tooltip::Tooltip};
+use gpui_kit::{prelude::FluentBuilder, *};
 use std::{cell::Cell, rc::Rc};
 
 #[derive(Clone)]
