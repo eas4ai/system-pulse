@@ -40,3 +40,5 @@ binding, protected targets, preset mutation validation and durable publication,
 first-launch initialization, theme/font application, memory composition, and
 installer path/overwrite/removal handling. No further finding was identified in
 those paths. Final review remains pending resolution and current acceptance.
+
+Developer preset correction: the live-form network visibility assertion first failed, then passed after adding the `network:` prefix alongside existing identities. The regression also requires dock membership. All 85 application tests, formatting, strict all-target application Clippy and diff checks passed. The session-capture finding remains open.

@@ -65,11 +65,11 @@ pub(crate) fn preset(kind: BuiltinPreset, catalog: &[MonitorDescriptor]) -> Work
         BuiltinPreset::Developer => {
             left.extend(cpu);
             left.extend(memory);
-            left.extend(
-                catalog
-                    .iter()
-                    .filter(|m| m.id.starts_with("interface:") || m.id.starts_with("volume:")),
-            );
+            left.extend(catalog.iter().filter(|m| {
+                m.id.starts_with("network:")
+                    || m.id.starts_with("interface:")
+                    || m.id.starts_with("volume:")
+            }));
             right.extend(processes);
             right.extend(gpus.first().copied());
         }
@@ -111,6 +111,32 @@ pub(crate) fn preset(kind: BuiltinPreset, catalog: &[MonitorDescriptor]) -> Work
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn developer_includes_live_network_identities_in_visible_dock_regions() {
+        let mut catalog = crate::fixture::catalog();
+        let network = catalog
+            .iter_mut()
+            .find(|monitor| monitor.id == "interface:fixture-lan")
+            .unwrap();
+        network.id = "network:mac:02:00:00:00:00:01:name:eth0".into();
+        let id = network.id.clone();
+        let workspace = preset(BuiltinPreset::Developer, &catalog);
+        assert!(workspace.panels[&id].visible);
+        fn contains(node: &serde_json::Value, id: &str) -> bool {
+            match node {
+                serde_json::Value::Object(object) => {
+                    object.get("monitor_id").and_then(|value| value.as_str()) == Some(id)
+                        || object.values().any(|value| contains(value, id))
+                }
+                serde_json::Value::Array(values) => values.iter().any(|value| contains(value, id)),
+                _ => false,
+            }
+        }
+        assert!(contains(&workspace.dock, &id));
+        workspace.validate().unwrap();
+        super::super::workspace::validate_dock_mode(&workspace.dock, true).unwrap();
+    }
+
     #[test]
     fn builtins_resolve_independent_valid_dock_panels_and_protect_hidden_devices() {
         let catalog = crate::fixture::catalog();
