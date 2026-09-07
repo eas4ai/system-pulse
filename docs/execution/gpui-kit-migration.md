@@ -71,6 +71,22 @@ afterward, requiring no arrows for the disappeared proposed endpoint, a guarded
 nonselecting wheel and a fresh exact target acknowledgement. Application code
 is unchanged; the original failed run remains recorded.
 
+A later complete-tree inventory exceeded its unchanged 15-second deadline
+following preset recall. Profiling the retained saved layout found redundant
+identity reads and recursive descendant-cache invalidation before geometry
+queries. Removing those redundant operations produced 3.293- and 3.980-second
+complete inventories, bracketed by original traversals that both timed out at
+15 seconds. Changing all cache clears to single-node clears did not reliably
+improve the result and was not adopted.
+
+The walker now optionally returns the identity it already read. Inventory still
+checks every node, forbidden role/fixture identity, bounds, and complete child
+membership. Geometry calls use AT-SPI's live GetExtents RPC without first clearing
+descendant caches; liveness and pre/post traversal refreshes remain unchanged.
+Two new regressions fail before the correction and pass afterward, including
+fresh successive geometry and propagation of a disappearing-node error. Existing
+partial-tree rejection and exact deadline tests remain unchanged.
+
 The plan is [GPUI Kit migration](../superpowers/plans/2026-09-07-gpui-kit-migration.md).
 Detailed logs are retained outside the checkout in
 `/home/shawn/workspace2/task-manager-artifacts/gpui-kit-06-20260907/`.

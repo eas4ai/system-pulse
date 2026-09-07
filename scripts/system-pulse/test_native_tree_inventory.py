@@ -75,6 +75,40 @@ class TreeInventoryTests(unittest.TestCase):
             self.native.no_tabs("inventory")
         self.native.save.assert_not_called()
 
+    def test_inventory_reads_each_identity_once_and_keeps_all_metadata(self):
+        root, child = self.node("root"), self.node("sensor")
+        root.children = lambda: [child]
+        root.get_accessible_id = Mock(return_value="root")
+        child.get_accessible_id = Mock(return_value="sensor")
+        child.name = "Temperature"
+        self.native.root = Mock(return_value=root)
+        self.native.bounds = Mock(return_value=[1, 2, 30, 40])
+        self.native.no_tabs("inventory")
+        root.get_accessible_id.assert_called_once_with()
+        child.get_accessible_id.assert_called_once_with()
+        self.assertEqual(self.native.save.call_args.args[1], [
+            {"id": "root", "role": "panel", "name": "", "bounds": [1, 2, 30, 40]},
+            {"id": "sensor", "role": "panel", "name": "Temperature", "bounds": [1, 2, 30, 40]},
+        ])
+
+    def test_bounds_requests_live_extents_without_invalidating_descendants(self):
+        node = self.node("parent")
+        node.clear_cache = Mock(side_effect=AssertionError("recursive invalidation"))
+        component = SimpleNamespace(get_extents=Mock(side_effect=[
+            SimpleNamespace(x=1, y=2, width=30, height=40),
+            SimpleNamespace(x=5, y=6, width=70, height=80),
+            self.error("object no longer exists"),
+        ]))
+        node.get_component_iface = Mock(return_value=component)
+        self.native.bounds.__globals__["Atspi"].CoordType = SimpleNamespace(SCREEN="screen")
+        self.assertEqual(self.native.bounds(node), [1, 2, 30, 40])
+        self.assertEqual(self.native.bounds(node), [5, 6, 70, 80])
+        with self.assertRaises(self.error):
+            self.native.bounds(node)
+        self.assertEqual(component.get_extents.call_count, 3)
+        self.assertTrue(all(c.args == ("screen",) for c in component.get_extents.call_args_list))
+        node.clear_cache.assert_not_called()
+
 
 if __name__ == "__main__":
     unittest.main()

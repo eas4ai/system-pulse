@@ -403,6 +403,7 @@ class Native:
         skip_cells=False,
         strict=False,
         skip_monitor_bodies=False,
+        with_identity=False,
     ):
         deadline = deadline or time.monotonic() + 15
         stack = [(root if root is not None else self.root(), None)]
@@ -426,7 +427,7 @@ class Native:
             aid = node.get_accessible_id() or ""
             if aid:
                 self.cache[aid] = node
-            yield node
+            yield (node, aid) if with_identity else node
             if skip_cells and aid.startswith("process:") and ":cell:" not in aid:
                 continue
             if (
@@ -489,7 +490,7 @@ class Native:
         return self.cache[key]
 
     def bounds(self, node):
-        node.clear_cache()
+        # GetExtents is a live D-Bus request, not an Accessible cache property.
         b = node.get_component_iface().get_extents(Atspi.CoordType.SCREEN)
         return [b.x, b.y, b.width, b.height]
 
@@ -671,10 +672,11 @@ class Native:
         def inventory():
             rows = []
             try:
-                for node in self.walk(deadline=deadline, strict=True):
+                for node, aid in self.walk(
+                    deadline=deadline, strict=True, with_identity=True
+                ):
                     role = node.get_role_name()
                     label = node.get_name()
-                    aid = node.get_accessible_id() or ""
                     require(
                         role not in ("page tab", "page tab list"),
                         "native tab role present",
