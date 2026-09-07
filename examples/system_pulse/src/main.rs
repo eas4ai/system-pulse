@@ -29,6 +29,7 @@ fn main() {
                     },
                     |window, cx| {
                         window.set_window_title("System Pulse");
+                        window.set_app_id("org.systempulse.SystemPulse");
                         let view = cx.new(|cx| WorkspaceView::new(window, cx));
                         cx.new(|cx| Root::new(view, window, cx).bg(cx.theme().background))
                     },

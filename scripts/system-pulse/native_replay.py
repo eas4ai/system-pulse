@@ -368,7 +368,7 @@ def main():
             node
             for node in app.walk(panel)
             if node.get_name() == "Meter: Number"
-            and row_y < app.bounds(node)[1] < row_y + 120
+              and row_y <= app.bounds(node)[1] < row_y + 120
         ]
         require(meters, "missing chart meter " + sid)
         meter = min(meters, key=lambda node: app.bounds(node)[1])
@@ -696,7 +696,7 @@ def main():
             for n in app.walk(app.panel("cpu:host"))
             if n.get_role_name() == "button"
             and n.get_name() == "Meter: Number"
-            and row_y < app.bounds(n)[1] < row_y + 120
+              and row_y <= app.bounds(n)[1] < row_y + 120
         ]
         require(meters, "CPU usage row meter control absent")
         meter = min(meters, key=lambda n: app.bounds(n)[1])

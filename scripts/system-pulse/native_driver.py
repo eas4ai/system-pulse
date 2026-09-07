@@ -100,7 +100,8 @@ def close_transport(output):
 
 
 class Native:
-    def __init__(self, binary, output, state):
+    def __init__(self, binary, output, state, *, working_directory=None):
+        self.working_directory = working_directory
         self.app = None
         self.a11y = None
         self.d = None
@@ -157,6 +158,7 @@ class Native:
         self.app = subprocess.Popen(
             [str(self.binary)],
             env=application_environment,
+            cwd=getattr(self, "working_directory", None),
             stdout=self.log,
             stderr=self.log,
         )
