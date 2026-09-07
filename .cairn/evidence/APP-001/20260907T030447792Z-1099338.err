@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/application_acceptance.py", line 170, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/application_acceptance.py", line 112, in main
+    runner.step(
+    ~~~~~~~~~~~^
+        "application",
+        ^^^^^^^^^^^^^^
+    ...<7 lines>...
+        timeout=300,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 148, in step
+    require(not timed_out, f"{name} timeout; see {path}")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/host_accuracy.py", line 12, in require
+    raise AssertionError(message)
+AssertionError: application timeout; see /home/shawn/workspace2/task-manager-artifacts/finish-application/final-acceptance-package-streams-20260907/evidence/application.log
