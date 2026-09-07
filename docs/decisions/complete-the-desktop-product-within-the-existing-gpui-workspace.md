@@ -11,4 +11,4 @@ Implement the feature-sized work in docs/plans/finish-application.md directly in
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 6a46f15a204ca31e4258cb408912877e17ba450d Complete product source, native flow replay and composed Linux/package acceptance; final committed execution remains required.
