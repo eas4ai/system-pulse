@@ -82,6 +82,48 @@ fn active(view: &Entity<ScreenView>, cx: &VisualTestContext) -> Screen {
 }
 
 #[gpui_kit::test]
+fn network_default_prefers_route_but_preserves_explicit_selection(cx: &mut TestAppContext) {
+    let (view, cx) = populated(cx);
+    let mut snapshot = fixture::snapshot(6);
+    snapshot
+        .monitors
+        .push(system_pulse_collectors::MonitorDescriptor {
+            id: "network:docker0".into(),
+            title: "Docker bridge".into(),
+            kind: system_pulse_collectors::MonitorKind::Network,
+            summary_sensor_id: "network:docker0/rx".into(),
+        });
+    snapshot.preferred_network_monitor_id = Some("network:eth0".into());
+    accept(&view, snapshot.clone(), cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(
+            crate::screen_data::devices(&data, Screen::Network)[0].id,
+            "network:docker0"
+        );
+        assert_eq!(
+            crate::screen_data::selected_device(&data, Screen::Network).as_deref(),
+            Some("network:eth0")
+        );
+    });
+    command(
+        &view,
+        crate::workspace::Command::ScreenDevice(Screen::Network, "network:docker0".into()),
+        cx,
+    );
+    snapshot.sequence = 7;
+    snapshot.monitors.reverse();
+    accept(&view, snapshot, cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(
+            crate::screen_data::selected_device(&data, Screen::Network).as_deref(),
+            Some("network:docker0")
+        );
+    });
+}
+
+#[gpui_kit::test]
 fn every_tab_is_clickable_and_preserves_the_legacy_layout(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let before = cx.read(|cx| view.read(cx).shared.borrow().session.workspace.dock.clone());

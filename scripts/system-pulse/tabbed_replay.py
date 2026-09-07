@@ -126,16 +126,9 @@ def screens_and_devices(app, record):
 def settings_and_presets(app, record):
     app.select_screen("settings")
     sensor_path = lambda state: state["panels"]["cpu:host"]["sensors"]["cpu:host/usage"]
-    for visible in (False, True):
-        picker = app.find("Visible sensors for CPU")
-        app.focus(picker)
-        app.key("Return")
-        choose_menu(app, ("Hide" if not visible else "Show") + " Overall utilization")
-        persisted(app, lambda state: sensor_path(state)["visible"] == visible, "sensor visibility saved")
-        app.select_screen("cpu")
-        present = any(node.get_accessible_id() == "hero:cpu:host/usage" for node in app.walk(app.panel("cpu"), strict=True))
-        require(present == visible, "CPU screen ignored sensor visibility")
-        app.select_screen("settings")
+    require(not any("Visible sensors" in node.get_name()
+                    for node in app.walk(app.panel("settings"), strict=True)),
+            "removed sensor controls remain in Settings")
     for name in ("Light", "IBM Plex Sans", "IBM Plex Mono", "2 s"):
         press(app, name, root=app.panel("settings"))
     expected = {"theme": "light", "ui_font": "ibm_plex_sans", "numeric_font": "ibm_plex_mono"}
@@ -180,7 +173,7 @@ def settings_and_presets(app, record):
               and state["screens"] == second["screens"] and sensor_path(state) == sensor_path(second),
               "named preset restores screens and sensors")
     app.interval_ms = second["interval_ms"]
-    record["checks"].append("sensor hide/show, appearance/interval, named preset save/rename/overwrite/delete with Cancel, builtin and named recall")
+    record["checks"].append("removed sensor controls, appearance/interval, named preset save/rename/overwrite/delete with Cancel, builtin and named recall")
     record.setdefault("cases", []).append("settings-presets")
     return copy.deepcopy(library(app))
 

@@ -1,6 +1,7 @@
 use super::PresetCommand;
 use crate::{
     controls::{self, FocusEntry},
+    screen_style::{self, heading, palette, section},
     workspace::{Command, Shared},
 };
 use gpui_kit::base::{Button, ElementExt};
@@ -97,15 +98,30 @@ impl PresetManager {
             .clone();
         let outer = self.shared.borrow().scroll.clone();
         let inner = self.scroll.clone();
-        let ring = cx.theme().ring;
+        let colors = palette(cx);
+        let accent = screen_style::accent(system_pulse_model::Screen::Settings, cx);
+        let ring = accent;
+        let primary = id == "preset:create" || id.ends_with(":apply");
+        let visible_label = if id.ends_with(":apply") {
+            "Apply".into()
+        } else {
+            label.clone()
+        };
         Button::new(SharedString::from(id.clone()))
             .accessibility_label(label.clone())
             .track_focus(&focus.handle)
-            .h_7()
-            .px_2()
+            .h_9()
+            .px_3()
             .border_1()
-            .rounded(cx.theme().radius)
-            .border_color(cx.theme().border)
+            .rounded(px(6.))
+            .border_color(if primary { accent } else { colors.border })
+            .bg(if primary {
+                colors.selected
+            } else {
+                colors.raised
+            })
+            .text_color(if primary { accent } else { colors.text })
+            .hover(move |style| style.border_color(accent))
             .focus_visible(move |style| style.border_color(ring))
             .on_click(
                 cx.listener(move |this, _, window, cx| this.dispatch(action.clone(), window, cx)),
@@ -119,7 +135,7 @@ impl PresetManager {
                     window.refresh();
                 }
             })
-            .child(label)
+            .child(visible_label)
     }
 }
 impl Render for PresetManager {
@@ -179,6 +195,7 @@ impl Render for PresetManager {
             Action::Create,
             cx,
         );
+        let colors = palette(cx);
         let mut user_rows = Vec::new();
         for name in names {
             let actions = [
@@ -209,19 +226,54 @@ impl Render for PresetManager {
                 div()
                     .flex()
                     .flex_wrap()
-                    .gap_1()
+                    .gap_2()
+                    .p_2()
+                    .items_center()
+                    .rounded(px(6.))
+                    .bg(colors.background)
+                    .child(div().flex_1().min_w(px(120.)).child(name.clone()))
                     .children(actions.into_iter().map(|(verb, label, action)| {
                         self.button(format!("preset:user:{name}:{verb}"), label, action, cx)
                     })),
             );
         }
-        let mut content = div().flex().flex_col().gap_2()
-            .child(div().text_lg().child("Presets"))
-            .child("Presets include the dock layout, sensors, appearance and sampling interval.")
-            .child(div().flex().flex_wrap().gap_1().children(builtin_buttons))
-            .child(input)
-            .child(save)
-            .child(div().text_sm().text_color(cx.theme().muted_foreground).child("To rename a preset, enter its new name above, then choose Rename beside it."))
+        let mut content = section(cx)
+            .p_4()
+            .gap_3()
+            .child(heading("Presets", 22., cx))
+            .child(
+                div()
+                    .text_sm()
+                    .text_color(colors.muted)
+                    .child("Save your screen, device selections and preferences for later."),
+            )
+            .child(
+                div()
+                    .flex()
+                    .items_center()
+                    .flex_wrap()
+                    .gap_2()
+                    .child(
+                        div()
+                            .text_sm()
+                            .text_color(colors.muted)
+                            .mr_2()
+                            .child("Built-in"),
+                    )
+                    .children(builtin_buttons),
+            )
+            .child(
+                div()
+                    .flex()
+                    .flex_wrap()
+                    .items_center()
+                    .gap_2()
+                    .child(input.flex_1().min_w(px(220.)))
+                    .child(save),
+            )
+            .child(div().text_xs().text_color(colors.muted).child(
+                "To rename a preset, enter its new name above, then choose Rename beside it.",
+            ))
             .children(user_rows);
         if let Some((command, message)) = self.confirmation.clone() {
             let cancel = self.button("preset:cancel".into(), "Cancel".into(), Action::Cancel, cx);
@@ -239,8 +291,11 @@ impl Render for PresetManager {
                     .flex()
                     .flex_col()
                     .gap_1()
-                    .p_2()
-                    .bg(cx.theme().muted)
+                    .p_3()
+                    .rounded(px(6.))
+                    .border_1()
+                    .border_color(colors.border)
+                    .bg(colors.raised)
                     .child(message)
                     .child(div().flex().gap_1().child(cancel).child(confirm)),
             );

@@ -15,6 +15,9 @@ pub struct Snapshot {
     pub diagnostics: Vec<BackendDiagnostic>,
     #[serde(default)]
     pub network_attribution: Option<NetworkAttribution>,
+    /// Linux default-route interface, falling back to a physical interface.
+    #[serde(default)]
+    pub preferred_network_monitor_id: Option<String>,
 }
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ClockAnchor {
@@ -180,8 +183,12 @@ mod tests {
     fn snapshots_without_network_attribution_remain_compatible() {
         let mut old = serde_json::to_value(Snapshot::default()).unwrap();
         old.as_object_mut().unwrap().remove("network_attribution");
+        old.as_object_mut()
+            .unwrap()
+            .remove("preferred_network_monitor_id");
         let restored: Snapshot = serde_json::from_value(old).unwrap();
         assert!(restored.network_attribution.is_none());
+        assert!(restored.preferred_network_monitor_id.is_none());
         assert!(Snapshot::default().network_attribution.is_none());
     }
 }

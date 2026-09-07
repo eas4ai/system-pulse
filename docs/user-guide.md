@@ -20,7 +20,13 @@ Choose a named device above GPU, Disks or Network. Energy and Thermals select an
 
 Charts show physical units and the actual captured time span. Gaps represent missing or delayed data. Percentage and capacity meters use their known scale; frequency, temperature, power and throughput meters follow the observed chart range. Hover Summary's compact meters for their sensor names and scale notes. Disk capacity describes a filesystem; its read/write history describes the backing block device. Energy is a named sensor reading, not an inferred system total.
 
-Unavailable sensor rows stay hidden until they recover. Failed, stale and warming-up readings retain explicit labels. Open **Settings → Visible sensors** and choose a device to show or hide its readings. Collection and history continue while hidden. Sensor visibility also applies to Summary and the performance screens.
+Unavailable sensor rows stay hidden until they recover. Failed, stale and warming-up readings retain explicit labels.
+
+Settings contains appearance, sampling and preset controls. Existing sensor visibility preferences remain part of saved presets.
+
+Network initially follows the Linux main-table default route (IPv4 before IPv6), then a physical interface if no default route is present. Choosing an interface saves your selection and takes precedence over automatic selection.
+
+Process counters marked **No access** could not be read because the OS denied access; hover for the original error.
 
 The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. End task and Force quit require confirmation and report visible errors. Linux verifies the process start identity before signaling. Process CPU uses one core as 100% and can exceed it.
 

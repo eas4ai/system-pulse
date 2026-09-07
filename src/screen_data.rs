@@ -222,6 +222,15 @@ pub(crate) fn selected_device(data: &Data, screen: Screen) -> Option<String> {
         return Some(id.clone());
     }
     let choices = devices(data, screen);
+    if screen == Screen::Network
+        && let Some(id) = data
+            .snapshot
+            .as_ref()
+            .and_then(|snapshot| snapshot.preferred_network_monitor_id.as_ref())
+        && choices.iter().any(|choice| &choice.id == id)
+    {
+        return Some(id.clone());
+    }
     if screen == Screen::Thermals {
         return highest_current(
             data,

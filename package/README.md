@@ -19,7 +19,7 @@ This package is built on Ubuntu 26.04 for x86-64 Linux with glibc. It uses the h
 
 - Click a tab, use Left/Right/Home/End while a tab has focus, or cycle screens with Ctrl+Tab and Ctrl+Shift+Tab. Each screen scrolls as needed.
 - Choose a named device above GPU, Disks or Network. Energy and Thermals select measured sensors. Long menus scroll and support Up/Down and Return.
-- Open **Settings → Visible sensors** to show or hide readings by device. Unavailable sensors reappear when readings recover; failed, stale and warming-up states remain explicit.
+- Open **Settings** for appearance, sampling and presets. Unavailable sensors reappear when readings recover; failed, stale and warming-up states remain explicit. Network defaults to the Linux main-table default-route interface; an explicit selection takes precedence. Process counters show **No access** when the OS denies access.
 - Search processes by name, PID or user and click headings to sort. Select a row for current details and confirmed End task or Force quit actions. Process arrows/Home/End move the selection; Left/Right scroll columns.
 - **Settings** also provides themes, interface/numeric fonts, sampling intervals and named presets. Screen selection, device identities and preferences save automatically and restore on restart. Older docked configurations retain their preferences and open Summary.
 

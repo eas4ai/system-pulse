@@ -65,6 +65,54 @@ fn reading<'a>(s: &'a Snapshot, id: &str) -> &'a Reading {
         .unwrap_or_else(|| panic!("missing {id}"))
 }
 #[test]
+fn network_preference_tracks_route_and_falls_back_to_physical_interface() {
+    use std::os::unix::fs::symlink;
+    let f = Fixture::new();
+    f.base();
+    for name in ["docker0", "enp10s0", "wlan0"] {
+        f.put(&format!("sys/class/net/{name}/statistics/rx_bytes"), "10");
+        f.put(&format!("sys/class/net/{name}/statistics/tx_bytes"), "20");
+    }
+    f.put("sys/devices/ethernet/marker", "");
+    symlink(
+        f.0.join("sys/devices/ethernet"),
+        f.0.join("sys/class/net/enp10s0/device"),
+    )
+    .unwrap();
+    f.put("sys/class/net/enp10s0/operstate", "up");
+    f.put(
+        "proc/net/route",
+        "enp10s0 00000000 0101A8C0 0003 0 0 100 00000000\n",
+    );
+    let mut c = HostCollector::rooted(f.0.clone());
+    let first = c.collect_at(1);
+    let ethernet = first
+        .monitors
+        .iter()
+        .find(|m| m.id.contains("enp10s0"))
+        .unwrap()
+        .id
+        .clone();
+    assert_eq!(
+        first.preferred_network_monitor_id.as_deref(),
+        Some(ethernet.as_str())
+    );
+    f.put(
+        "proc/net/route",
+        "wlan0 00000000 0101A8C0 0003 0 0 100 00000000\n",
+    );
+    assert_eq!(
+        c.collect_at(2).preferred_network_monitor_id.as_deref(),
+        Some("network:name:wlan0")
+    );
+    f.put("proc/net/route", "");
+    assert_eq!(
+        c.collect_at(3).preferred_network_monitor_id.as_deref(),
+        Some(ethernet.as_str())
+    );
+}
+
+#[test]
 fn monitor_names_use_host_descriptions_without_changing_identity() {
     use std::os::unix::fs::symlink;
     let f = Fixture::new();

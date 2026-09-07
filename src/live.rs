@@ -545,6 +545,13 @@ pub(crate) fn process_views(
                     .filter(|value| value.is_finite())
             });
             cells.extend(numeric.map(|(reading, quantity, unit)| {
+                if reading.availability == collectors::Availability::Failed
+                    && let Some(reason) = reading.reason.as_deref()
+                    && (reason.contains("Permission denied")
+                        || reason.contains("Operation not permitted"))
+                {
+                    return format!("No access · {reason}");
+                }
                 let mut sample = convert_value(
                     quantity,
                     unit,
@@ -595,6 +602,49 @@ pub(crate) fn unix_ns() -> u64 {
 #[cfg(test)]
 mod observation_tests {
     use super::*;
+    #[test]
+    fn process_permissions_are_distinct_from_zero_and_other_failures() {
+        let zero = collectors::Reading {
+            sensor_id: "process:1:1/read".into(),
+            value: Some(0.),
+            total: None,
+            availability: Availability::Available,
+            reason: None,
+            observations: vec![],
+        };
+        let denied = collectors::Reading {
+            value: None,
+            availability: Availability::Failed,
+            reason: Some("/proc/1/io: Permission denied (os error 13)".into()),
+            ..zero.clone()
+        };
+        let mut snapshot = Snapshot::default();
+        snapshot.processes.push(collectors::ProcessRow {
+            identity: ProcessIdentity {
+                pid: 1,
+                start_time_ticks: 1,
+            },
+            name: "test".into(),
+            user: Some("root".into()),
+            user_reason: None,
+            cpu_percent: zero.clone(),
+            memory_bytes: zero.clone(),
+            threads: zero.clone(),
+            read_bytes_per_second: denied.clone(),
+            write_bytes_per_second: zero,
+        });
+        let rows = process_views(&snapshot, 0, 2000);
+        assert_eq!(
+            rows[0].cells[4],
+            "No access · /proc/1/io: Permission denied (os error 13)"
+        );
+        assert_eq!(rows[0].cells[5], "0.0 B/s");
+        assert_eq!(rows[0].numeric[2], None);
+        assert_eq!(rows[0].numeric[3], Some(0.));
+        snapshot.processes[0].read_bytes_per_second.reason =
+            Some("/proc/1/io: malformed counter".into());
+        assert!(process_views(&snapshot, 0, 2000)[0].cells[4].starts_with("Failed"));
+    }
     #[test]
     fn stale_source_in_slow_snapshot_does_not_become_current_at_delivery() {
         let reading = collectors::Reading {

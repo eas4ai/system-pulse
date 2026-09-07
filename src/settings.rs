@@ -1,11 +1,9 @@
-//! Appearance, sampling, sensor visibility, and preset controls.
+//! Appearance, sampling, and preset controls.
 use crate::controls::{self, FocusEntry};
+use crate::screen_style::{self, heading, palette, section};
 use crate::workspace::{Command, Shared};
 use gpui_kit::base::{Button, ElementExt, Scrollbar, ScrollbarMode};
-use gpui_kit::component::{
-    ActiveTheme, Sizable, Theme, ThemeMode,
-    menu::{DropdownMenu, PopupMenuItem},
-};
+use gpui_kit::component::{Theme, ThemeMode};
 use gpui_kit::*;
 use std::collections::BTreeMap;
 use system_pulse_model::{Appearance, ColorTheme, NumericFont, UiFont};
@@ -64,74 +62,6 @@ impl SettingsPanel {
         cx.notify();
     }
 
-    fn sensor_controls(&self, cx: &App) -> AnyElement {
-        let data = self.shared.borrow();
-        let owner = data.owner.clone();
-        let menus = data
-            .catalog
-            .iter()
-            .filter(|monitor| !monitor.sensors.is_empty())
-            .map(|monitor| {
-                let monitor_id = monitor.id.clone();
-                let sensors: Vec<_> = monitor
-                    .sensors
-                    .iter()
-                    .map(|sensor| {
-                        (
-                            sensor.id.clone(),
-                            sensor.title.clone(),
-                            crate::screen_data::sensor_visible(&data, &monitor.id, &sensor.id),
-                        )
-                    })
-                    .collect();
-                let owner = owner.clone();
-                gpui_kit::component::button::Button::new(SharedString::from(format!(
-                    "settings-sensors:{}",
-                    monitor.id
-                )))
-                .accessibility_id(format!("settings-sensors:{}", monitor.id))
-                .accessibility_label(format!("Visible sensors for {}", monitor.title))
-                .small()
-                .label(monitor.title.clone())
-                .dropdown_menu(move |mut menu, _, _| {
-                    menu = menu.scrollable(true).max_h(px(320.));
-                    for (sensor_id, title, visible) in &sensors {
-                        let command = Command::SensorVisible(monitor_id.clone(), sensor_id.clone());
-                        let owner = owner.clone();
-                        menu = menu.item(
-                            PopupMenuItem::new(format!(
-                                "{} {title}",
-                                if *visible { "Hide" } else { "Show" }
-                            ))
-                            .checked(*visible)
-                            .on_click(move |_, window, cx| {
-                                if let Some(owner) = &owner {
-                                    let _ = owner.update(cx, |owner, cx| {
-                                        owner.command(command.clone(), window, cx)
-                                    });
-                                }
-                            }),
-                        );
-                    }
-                    menu
-                })
-            })
-            .collect::<Vec<_>>();
-        div()
-            .flex()
-            .flex_col()
-            .gap_2()
-            .child(div().text_lg().child("Visible sensors"))
-            .child(
-                div()
-                    .text_sm()
-                    .text_color(cx.theme().muted_foreground)
-                    .child("Choose a device to show or hide its readings across the screens."),
-            )
-            .child(div().flex().flex_wrap().gap_2().children(menus))
-            .into_any_element()
-    }
-
     fn choice(
         &self,
         id: &'static str,
@@ -145,7 +75,9 @@ impl SettingsPanel {
         let inner = self.scroll.clone();
         let focus = self.controls[id].clone();
         let label = label.into();
-        let ring = cx.theme().ring;
+        let colors = palette(cx);
+        let accent = screen_style::accent(system_pulse_model::Screen::Settings, cx);
+        let ring = accent;
         Button::new(id)
             .accessibility_label(label.clone())
             .track_focus(&focus.handle)
@@ -154,21 +86,23 @@ impl SettingsPanel {
             } else {
                 gpui_kit::accesskit::Toggled::False
             })
-            .h_7()
-            .px_2()
+            .h_9()
+            .px_3()
+            .flex()
+            .items_center()
+            .justify_center()
+            .gap_2()
+            .min_w(px(64.))
             .border_1()
-            .rounded(cx.theme().radius)
-            .border_color(cx.theme().border)
+            .rounded(px(6.))
+            .border_color(if selected { accent } else { colors.border })
             .bg(if selected {
-                cx.theme().primary
+                colors.selected
             } else {
-                cx.theme().background
+                colors.raised
             })
-            .text_color(if selected {
-                cx.theme().primary_foreground
-            } else {
-                cx.theme().foreground
-            })
+            .text_color(if selected { accent } else { colors.text })
+            .hover(move |style| style.border_color(accent))
             .focus_visible(move |style| style.border_color(ring))
             .debug_selector(move || id.into())
             .on_click(move |_, window, cx| {
@@ -201,35 +135,216 @@ impl Render for SettingsPanel {
         }
         let appearance = self.shared.borrow().session.workspace.appearance;
         let interval = self.shared.borrow().session.workspace.interval_ms;
-        let content = div().flex().flex_col().gap_4().p_3()
-            .child(div().text_lg().child("Appearance"))
-            .child(div().flex().flex_col().gap_1().child("Theme")
-                .child(div().flex().flex_wrap().gap_1().children([
-                    ("settings-dark", "Dark", ColorTheme::Dark), ("settings-light", "Light", ColorTheme::Light)
-                ].into_iter().map(|(id, label, theme)| self.choice(id, label, appearance.theme == theme,
-                    Command::Appearance(Appearance { theme, ..appearance }), cx)))))
-            .child(div().flex().flex_col().gap_1().child("Interface font")
-                .child(div().flex().flex_wrap().gap_1().children([
-                    ("settings-inter", UiFont::Inter), ("settings-plex-sans", UiFont::IbmPlexSans)
-                ].into_iter().map(|(id, ui_font)| self.choice(id, ui_font.label(), appearance.ui_font == ui_font,
-                    Command::Appearance(Appearance { ui_font, ..appearance }), cx)))))
-            .child(div().flex().flex_col().gap_1().child("Numeric font")
-                .child(div().flex().flex_wrap().gap_1().children([
-                    ("settings-jetbrains", NumericFont::JetbrainsMono), ("settings-plex-mono", NumericFont::IbmPlexMono)
-                ].into_iter().map(|(id, numeric_font)| self.choice(id, numeric_font.family(), appearance.numeric_font == numeric_font,
-                    Command::Appearance(Appearance { numeric_font, ..appearance }), cx)))))
-            .child(div().p_2().bg(cx.theme().muted).flex().flex_col().gap_1()
-                .child("The quick brown fox jumps over the lazy dog.")
-                .child(div().font_family(appearance.numeric_font.family()).child("0123456789 · 64.2 % · 8.5 GiB")))
-            .child(div().text_lg().child("Sampling"))
-            .child(div().flex().flex_wrap().gap_1().children([
-                ("settings-500", 500, "0.5 s"), ("settings-1000", 1000, "1 s"),
-                ("settings-2000", 2000, "2 s"), ("settings-5000", 5000, "5 s")
-            ].into_iter().map(|(id, ms, label)| self.choice(id, label, interval == ms, Command::Interval(ms), cx))))
-            .child(div().text_sm().text_color(cx.theme().muted_foreground)
-                .child("Changes apply immediately and save automatically. Process CPU uses one core and may exceed 100%."));
-        let content = content
-            .child(self.sensor_controls(cx))
+        let colors = palette(cx);
+        let accent = screen_style::accent(system_pulse_model::Screen::Settings, cx);
+        let appearance_panel = section(cx)
+            .id("settings-appearance-panel")
+            .debug_selector(|| "settings-appearance-panel".into())
+            .flex_basis(px(460.))
+            .flex_grow(1.)
+            .p_4()
+            .gap_4()
+            .child(heading("Appearance", 22., cx))
+            .child(
+                div()
+                    .flex()
+                    .flex_col()
+                    .gap_2()
+                    .child(div().text_sm().text_color(colors.muted).child("Theme"))
+                    .child(
+                        div().flex().flex_wrap().gap_2().children(
+                            [
+                                ("settings-dark", "Dark", ColorTheme::Dark),
+                                ("settings-light", "Light", ColorTheme::Light),
+                            ]
+                            .into_iter()
+                            .map(|(id, label, theme)| {
+                                self.choice(
+                                    id,
+                                    label,
+                                    appearance.theme == theme,
+                                    Command::Appearance(Appearance {
+                                        theme,
+                                        ..appearance
+                                    }),
+                                    cx,
+                                )
+                            }),
+                        ),
+                    ),
+            )
+            .child(
+                div()
+                    .flex()
+                    .flex_wrap()
+                    .gap_4()
+                    .child(
+                        div()
+                            .flex()
+                            .flex_col()
+                            .gap_2()
+                            .child(
+                                div()
+                                    .text_sm()
+                                    .text_color(colors.muted)
+                                    .child("Interface font"),
+                            )
+                            .child(
+                                div().flex().flex_wrap().gap_2().children(
+                                    [
+                                        ("settings-inter", UiFont::Inter),
+                                        ("settings-plex-sans", UiFont::IbmPlexSans),
+                                    ]
+                                    .into_iter()
+                                    .map(|(id, ui_font)| {
+                                        self.choice(
+                                            id,
+                                            ui_font.label(),
+                                            appearance.ui_font == ui_font,
+                                            Command::Appearance(Appearance {
+                                                ui_font,
+                                                ..appearance
+                                            }),
+                                            cx,
+                                        )
+                                    }),
+                                ),
+                            ),
+                    )
+                    .child(
+                        div()
+                            .flex()
+                            .flex_col()
+                            .gap_2()
+                            .child(
+                                div()
+                                    .text_sm()
+                                    .text_color(colors.muted)
+                                    .child("Numeric font"),
+                            )
+                            .child(
+                                div().flex().flex_wrap().gap_2().children(
+                                    [
+                                        ("settings-jetbrains", NumericFont::JetbrainsMono),
+                                        ("settings-plex-mono", NumericFont::IbmPlexMono),
+                                    ]
+                                    .into_iter()
+                                    .map(
+                                        |(id, numeric_font)| {
+                                            self.choice(
+                                                id,
+                                                numeric_font.family(),
+                                                appearance.numeric_font == numeric_font,
+                                                Command::Appearance(Appearance {
+                                                    numeric_font,
+                                                    ..appearance
+                                                }),
+                                                cx,
+                                            )
+                                        },
+                                    ),
+                                ),
+                            ),
+                    ),
+            )
+            .child(
+                div()
+                    .p_3()
+                    .rounded(px(6.))
+                    .bg(colors.background)
+                    .border_l_2()
+                    .border_color(accent)
+                    .flex()
+                    .flex_col()
+                    .gap_2()
+                    .child(
+                        div()
+                            .text_xs()
+                            .text_color(colors.muted)
+                            .child("Typography preview"),
+                    )
+                    .child("The quick brown fox jumps over the lazy dog.")
+                    .child(
+                        div()
+                            .text_size(px(22.))
+                            .font_family(appearance.numeric_font.family())
+                            .text_color(accent)
+                            .child("0123456789 · 64.2 % · 8.5 GiB"),
+                    ),
+            );
+        let sampling_panel = section(cx)
+            .id("settings-sampling-panel")
+            .debug_selector(|| "settings-sampling-panel".into())
+            .flex_basis(px(300.))
+            .flex_grow(1.)
+            .p_4()
+            .gap_4()
+            .child(heading("Sampling", 22., cx))
+            .child(
+                div()
+                    .flex()
+                    .items_baseline()
+                    .gap_2()
+                    .child(
+                        div()
+                            .font_family(appearance.numeric_font.family())
+                            .text_size(px(36.))
+                            .text_color(accent)
+                            .child(format!("{:.1}", interval as f64 / 1000.)),
+                    )
+                    .child(
+                        div()
+                            .text_sm()
+                            .text_color(colors.muted)
+                            .child("seconds between readings"),
+                    ),
+            )
+            .child(
+                div().flex().flex_wrap().gap_2().children(
+                    [
+                        ("settings-500", 500, "0.5 s"),
+                        ("settings-1000", 1000, "1 s"),
+                        ("settings-2000", 2000, "2 s"),
+                        ("settings-5000", 5000, "5 s"),
+                    ]
+                    .into_iter()
+                    .map(|(id, ms, label)| {
+                        self.choice(id, label, interval == ms, Command::Interval(ms), cx)
+                    }),
+                ),
+            )
+            .child(
+                div()
+                    .text_sm()
+                    .text_color(colors.muted)
+                    .child("Shorter intervals update more often and use more CPU."),
+            )
+            .child(
+                div()
+                    .mt_auto()
+                    .pt_3()
+                    .border_t_1()
+                    .border_color(colors.border)
+                    .text_sm()
+                    .text_color(colors.muted)
+                    .child("Changes apply immediately and save automatically."),
+            );
+        let content = div()
+            .flex()
+            .flex_col()
+            .gap_3()
+            .p_1()
+            .pr_3()
+            .text_color(colors.text)
+            .child(
+                div()
+                    .flex()
+                    .flex_wrap()
+                    .gap_3()
+                    .items_stretch()
+                    .child(appearance_panel)
+                    .child(sampling_panel),
+            )
             .child(self.presets.as_ref().unwrap().clone());
         div()
             .size_full()

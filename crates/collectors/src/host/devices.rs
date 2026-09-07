@@ -208,6 +208,11 @@ impl HostCollector {
                 return;
             }
         };
+        let routes = super::network_route::default_routes(
+            &self.read("/proc/net/route").unwrap_or_default(),
+            &self.read("/proc/net/ipv6_route").unwrap_or_default(),
+        );
+        let mut preferred: Option<((usize, String), String)> = None;
         for name in names {
             let base = format!("/sys/class/net/{name}");
             let physical = std::fs::canonicalize(self.path(&format!("{base}/device")))
@@ -219,6 +224,21 @@ impl HostCollector {
                 .map(|v| v.trim().to_string())
                 .filter(|v| !v.is_empty() && v != "00:00:00:00:00:00");
             let id = network_identity(&name, mac.as_deref(), physical.as_deref());
+            let rank = routes.iter().position(|route| route == &name).or_else(|| {
+                physical.as_ref().map(|_| {
+                    routes.len()
+                        + usize::from(
+                            self.read(&format!("{base}/operstate"))
+                                .map_or(true, |state| state.trim() != "up"),
+                        )
+                })
+            });
+            if let Some(rank) = rank {
+                let key = (rank, name.clone());
+                if preferred.as_ref().is_none_or(|(current, _)| key < *current) {
+                    preferred = Some((key, id.clone()));
+                }
+            }
             monitor(
                 s,
                 &id,
@@ -291,6 +311,7 @@ impl HostCollector {
                 r,
             );
         }
+        s.preferred_network_monitor_id = preferred.map(|(_, id)| id);
     }
     fn volumes(&mut self, s: &mut Snapshot) {
         let mounts = match self.read("/proc/self/mountinfo") {

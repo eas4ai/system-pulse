@@ -12,6 +12,8 @@ mod devices;
 mod names;
 #[cfg(target_os = "linux")]
 mod network_attribution;
+#[cfg(target_os = "linux")]
+mod network_route;
 mod portable;
 #[cfg(target_os = "linux")]
 mod proc;

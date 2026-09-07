@@ -2,7 +2,7 @@
 
 A native desktop system monitor built with Rust and GPUI Kit 0.6. This repository contains the application and the patched base/component libraries it uses; unmodified framework packages are ordinary Cargo dependencies.
 
-System Pulse provides Summary, CPU, Memory, GPU, Disks, Network, Energy, Thermals, Processes and Settings screens in a fixed tab strip. Native charts and segmented meters follow the supplied TMOG references. Device selectors, process search and sorting, confirmed task actions, sensor visibility, named presets and dark/light themes use live host data and saved preferences.
+System Pulse provides Summary, CPU, Memory, GPU, Disks, Network, Energy, Thermals, Processes and Settings screens in a fixed tab strip. Native charts and segmented meters follow the supplied TMOG references. Device selectors, process search and sorting, confirmed task actions, named presets and dark/light themes use live host data and saved preferences.
 
 ## Run
 
