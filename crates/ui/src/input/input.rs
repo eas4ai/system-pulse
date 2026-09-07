@@ -558,9 +558,24 @@ impl RenderOnce for Input {
             })
             .when_some(accessibility_value, |this, value| this.aria_value(value))
             .when(!disabled, |this| {
-                this.on_a11y_action(AccessibleAction::SetValue, move |data, window, cx| {
-                    Self::handle_accessibility_set_value(&accessibility_state, data, window, cx);
+                let focus_state = accessibility_state.clone();
+                // The semantic frame and the text editor have separate focus
+                // handles. Native focus must reach the editor so typing and
+                // application scroll-to-focus handlers work immediately.
+                this.on_a11y_action(AccessibleAction::Focus, move |_, window, cx| {
+                    focus_state.focus(window, cx);
                 })
+                .on_a11y_action(
+                    AccessibleAction::SetValue,
+                    move |data, window, cx| {
+                        Self::handle_accessibility_set_value(
+                            &accessibility_state,
+                            data,
+                            window,
+                            cx,
+                        );
+                    },
+                )
             })
             .flex()
             .size_full()

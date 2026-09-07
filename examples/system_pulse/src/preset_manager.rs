@@ -249,7 +249,14 @@ impl Render for PresetManager {
             content = content.child(div().text_color(cx.theme().danger).child(error));
         }
         if !notice.is_empty() {
-            content = content.child(div().id("preset-status").role(Role::Status).child(notice));
+            content = content.child(
+                div()
+                    .id("preset-status")
+                    .role(Role::Status)
+                    .accessibility_id("preset-status")
+                    .aria_label(notice.clone())
+                    .child(notice),
+            );
         }
         if busy {
             content = content.child("Preset actions will be available after saving finishes.");

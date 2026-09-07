@@ -1,5 +1,5 @@
 results: per-requirement
-command: rtk proxy python3 scripts/system-pulse/verify.py
+command: rtk proxy python3 scripts/system-pulse/application_acceptance.py
 inputs:
   - .cargo/config.toml
   - Cargo.toml
@@ -9,11 +9,20 @@ inputs:
   - crates/base/src/dock/
   - crates/base/src/resizable/
   - crates/ui/src/dock/
+  - crates/ui/src/input/
   - vendor/accesskit_atspi_common/
   - vendor/gpui_macos/
   - docs/decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md
   - scripts/system-pulse/
 requirements:
+  - APP-001
+  - APP-002
+  - APP-003
+  - APP-004
+  - APP-005
+  - APP-006
+  - APP-007
+  - APP-008
   - LIVE-001
   - LIVE-002
   - LIVE-003

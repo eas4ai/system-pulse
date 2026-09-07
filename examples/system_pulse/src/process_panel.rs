@@ -200,6 +200,8 @@ impl MonitorPanel {
                     .id("process-action-status")
                     .p_1()
                     .role(Role::Status)
+                    .accessibility_id("process-action-status")
+                    .aria_label(self.process_state.notice.clone())
                     .child(self.process_state.notice.clone()),
             );
         }
