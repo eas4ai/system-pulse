@@ -46,4 +46,4 @@ System Pulse is GPL-3.0-or-later; see [COPYING](COPYING) and the application cra
 
 ## Attribution
 
-Developed by Shawn in collaboration with Sol (OpenAI Codex), with assistance in implementation, testing and documentation.
+Developed by Shawn in collaboration with Astra (OpenAI Codex), with assistance in implementation, testing and documentation.
