@@ -86,6 +86,11 @@ def main():
         app.click(app.find("Settings & presets", "button"))
         spin(0.5)
         app.click(app.find("Light"))
+        app.wait(
+            lambda: app.state()["appearance"]["theme"] == "light",
+            seconds=10,
+            message="light appearance persisted",
+        )
         saved = app.save_state()
         require(
             saved["appearance"]["theme"] == "light", "installed appearance did not save"
