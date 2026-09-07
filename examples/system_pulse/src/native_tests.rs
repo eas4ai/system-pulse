@@ -1791,3 +1791,74 @@ fn settings_shortcut_reveals_the_panel_body(cx: &mut TestAppContext) {
         "shortcut must bring settings controls into view: {light:?} within {viewport:?}"
     );
 }
+
+#[gpui::test]
+fn focused_sensor_growth_reveals_without_undoing_deliberate_scroll(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let dock = cx.read(|cx| view.read(cx).dock.clone());
+    let nodes =
+        cx.read(|cx| leaf_nodes(dock.read(cx).layout(DockPlacement::Center).unwrap().root()));
+    cx.update(|window, cx| {
+        dock.update(cx, |dock, cx| {
+            dock.try_move_panel(
+                nodes[1].1,
+                InsertTarget::Split {
+                    node: nodes[0].0,
+                    placement: Placement::Left,
+                    size: Some(px(2400.)),
+                },
+                window,
+                cx,
+            )
+            .unwrap()
+        })
+    });
+    let cpu = panel(&view, "cpu", cx);
+    let publish = |text: &str, tick: u64, cx: &mut VisualTestContext| {
+        cx.update(|_, cx| {
+            let mut sample = crate::fixture::sample("cpu", "overall", tick);
+            sample.text = text.into();
+            view.read(cx)
+                .shared
+                .borrow_mut()
+                .history
+                .push("cpu", "overall", sample)
+                .unwrap();
+            cpu.update(cx, |_, cx| cx.notify());
+        });
+        draw(cx);
+    };
+    publish("100.0", 100, cx);
+    cx.update(|window, cx| {
+        cpu.read(cx).controls["row:overall"]
+            .handle
+            .clone()
+            .focus(window, cx)
+    });
+    draw(cx);
+    let viewport = cx.debug_bounds("workspace-viewport").unwrap();
+    let before = cx.debug_bounds("cpu:row:overall").unwrap();
+    assert!(
+        before.right() <= viewport.right(),
+        "initial focus must fit: {before:?} {viewport:?}"
+    );
+    publish("1.0", 101, cx);
+    let after = cx.debug_bounds("cpu:row:overall").unwrap();
+    assert!(
+        after.size.width > before.size.width,
+        "shorter reading must grow disclosure: {before:?} {after:?}"
+    );
+    assert!(
+        after.right() <= viewport.right(),
+        "growing focused control must remain visible: {after:?} {viewport:?}"
+    );
+    command(&view, Command::Scroll(100000., -100000.), cx);
+    let away = cx.read(|cx| view.read(cx).shared.borrow().scroll.offset());
+    publish("100.0", 102, cx);
+    publish("1.0", 103, cx);
+    assert_eq!(
+        cx.read(|cx| view.read(cx).shared.borrow().scroll.offset()),
+        away,
+        "live geometry changes must not undo deliberate scrolling"
+    );
+}

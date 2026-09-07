@@ -8,6 +8,7 @@ use std::{cell::Cell, rc::Rc};
 pub(crate) struct FocusEntry {
     pub(crate) handle: FocusHandle,
     was_focused: Rc<Cell<bool>>,
+    reveal_state: Rc<Cell<Option<RevealState>>>,
 }
 impl FocusEntry {
     pub(crate) fn new(cx: &mut App) -> Self {
@@ -17,12 +18,75 @@ impl FocusEntry {
         Self {
             handle,
             was_focused: Rc::new(Cell::new(false)),
+            reveal_state: Rc::new(Cell::new(None)),
         }
     }
     pub(crate) fn entered(&self, window: &Window) -> bool {
         let focused = self.handle.is_focused(window);
         let previous = self.was_focused.replace(focused);
         focused && !previous
+    }
+}
+
+#[derive(Clone, Copy)]
+struct RevealState {
+    visible: bool,
+    inner_offset: Option<Point<Pixels>>,
+    outer_offset: Point<Pixels>,
+}
+
+fn contained(bounds: Bounds<Pixels>, viewport: Bounds<Pixels>) -> bool {
+    bounds.left() >= viewport.left()
+        && bounds.right() <= viewport.right()
+        && bounds.top() >= viewport.top()
+        && bounds.bottom() <= viewport.bottom()
+}
+
+impl FocusEntry {
+    fn reveal_control(
+        &self,
+        mut bounds: Bounds<Pixels>,
+        inner: Option<&ScrollHandle>,
+        outer: &ScrollHandle,
+        window: &mut Window,
+    ) {
+        let entered = self.entered(window);
+        if !self.handle.is_focused(window) {
+            self.reveal_state.set(None);
+            return;
+        }
+        let inner_offset = inner.map(ScrollHandle::offset);
+        let outer_offset = outer.offset();
+        let visible = contained(bounds, outer.bounds())
+            && inner.is_none_or(|scroll| contained(bounds, scroll.bounds()));
+        // A live reading can resize its adjacent disclosure after focus. Follow
+        // that layout change only while the previously visible control's scroll
+        // offsets stay unchanged; deliberate scrolling must remain independent.
+        let layout_clipped = !visible
+            && self.reveal_state.get().is_some_and(|previous| {
+                previous.visible
+                    && previous.inner_offset == inner_offset
+                    && previous.outer_offset == outer_offset
+            });
+        let mut outer_shift = point(px(0.), px(0.));
+        if entered || layout_clipped {
+            if let Some(inner) = inner {
+                bounds.origin += reveal(bounds, inner);
+            }
+            outer_shift = reveal(bounds, outer);
+            bounds.origin += outer_shift;
+            window.refresh();
+        }
+        self.reveal_state.set(Some(RevealState {
+            visible: contained(bounds, outer.bounds())
+                && inner.is_none_or(|scroll| {
+                    let mut viewport = scroll.bounds();
+                    viewport.origin += outer_shift;
+                    contained(bounds, viewport)
+                }),
+            inner_offset: inner.map(ScrollHandle::offset),
+            outer_offset: outer.offset(),
+        }));
     }
 }
 
@@ -127,17 +191,9 @@ pub(crate) fn button(
             }
         })
         .debug_selector(move || id.clone().into())
-        .on_prepaint(move |mut bounds, window, _| {
-            if focus.entered(window) {
-                // The measurement canvas sits inside the one-pixel control border.
-                // Reveal the border box so the visible focus boundary is not clipped.
-                bounds = bounds.dilate(px(1.));
-                if let Some(inner) = &inner {
-                    bounds.origin += reveal(bounds, inner);
-                }
-                reveal(bounds, &outer);
-                window.refresh();
-            }
+        .on_prepaint(move |bounds, window, _| {
+            // The measurement canvas sits inside the one-pixel control border.
+            focus.reveal_control(bounds.dilate(px(1.)), inner.as_ref(), &outer, window);
         })
         .when_some(expanded, |control, expanded| {
             control.aria_expanded(expanded)
