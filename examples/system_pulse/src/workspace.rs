@@ -42,6 +42,18 @@ pub(crate) struct Data {
     pub(crate) preset_busy: bool,
 }
 
+impl Data {
+    fn set_processes(&mut self, processes: Vec<crate::live::ProcessView>) {
+        // Keep inspected columns in place when long status text disappears.
+        // Widths reset with the view and still grow to fit newly observed text.
+        let measured_widths = live::process_widths(&processes);
+        for (width, measured) in self.process_widths.iter_mut().zip(measured_widths) {
+            *width = width.max(measured);
+        }
+        self.processes = processes;
+    }
+}
+
 #[derive(Clone)]
 pub(crate) enum Command {
     PanelCollapse(String),
@@ -528,8 +540,8 @@ impl WorkspaceView {
             let threshold = data.session.workspace.interval_ms * 2;
             if data.history.mark_stale(now, threshold) {
                 if let Some(snapshot) = &data.snapshot {
-                    data.processes = live::process_views(snapshot, now, threshold);
-                    data.process_widths = live::process_widths(&data.processes);
+                    let processes = live::process_views(snapshot, now, threshold);
+                    data.set_processes(processes);
                 }
                 drop(data);
                 self.publish_diagnostics(now);
@@ -591,8 +603,7 @@ impl WorkspaceView {
             }
         }
         data.catalog = live::catalog(&data.session.workspace);
-        data.processes = live::process_views(&snapshot, now_ms, interval * 2);
-        data.process_widths = live::process_widths(&data.processes);
+        data.set_processes(live::process_views(&snapshot, now_ms, interval * 2));
         let snapshot = std::sync::Arc::new(snapshot);
         data.snapshot = Some(snapshot);
         let changed = old_catalog != data.catalog;

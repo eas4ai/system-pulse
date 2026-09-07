@@ -1458,6 +1458,27 @@ fn process_horizontal_burst_accumulates_and_repaints_once(cx: &mut TestAppContex
 }
 
 #[gpui::test]
+fn process_columns_stay_aligned_when_long_status_rows_exit(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    let mut snapshot = pending_reveal_snapshot();
+    snapshot.processes[0].cpu_percent.value = None;
+    snapshot.processes[0].cpu_percent.availability = system_pulse_collectors::Availability::Failed;
+    snapshot.processes[0].cpu_percent.reason =
+        Some("The process exited before its CPU counters could be read".into());
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    draw(cx);
+    let before = cx.debug_bounds("process-sort:4").unwrap();
+    snapshot.processes.remove(0);
+    accept_pending_reveal_snapshot(&view, &mut snapshot, cx);
+    draw(cx);
+    assert_eq!(
+        cx.debug_bounds("process-sort:4").unwrap().origin.x,
+        before.origin.x,
+        "an exiting process must not move the remaining columns horizontally"
+    );
+}
+
+#[gpui::test]
 fn outer_navigation_burst_accumulates_both_axes_and_repaints_once(cx: &mut TestAppContext) {
     let (view, cx) = harness(cx);
     let dock = cx.read(|cx| view.read(cx).dock.clone());
