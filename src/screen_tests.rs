@@ -393,3 +393,80 @@ fn hidden_sensors_stay_hidden_after_new_snapshots_and_tab_switches(cx: &mut Test
         assert_eq!(crate::screen_data::cpu_cores(&data).len(), 3);
     });
 }
+
+#[gpui_kit::test]
+fn unavailable_selected_thermal_sensor_keeps_other_charts_and_hottest_reading(
+    cx: &mut TestAppContext,
+) {
+    use crate::workspace::Command;
+    let (view, cx) = populated(cx);
+    let selected_id = format!("{}/temperature", fixture::GPU_B);
+    command(
+        &view,
+        Command::ScreenDevice(Screen::Thermals, selected_id.clone()),
+        cx,
+    );
+    command(&view, Command::Screen(Screen::Thermals), cx);
+    assert!(cx.debug_bounds("selected-channel-history").is_some());
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        let selected = crate::screen_data::selected_channel(&data, Screen::Thermals).unwrap();
+        assert_eq!(selected.measured(&data), Some(46.));
+    });
+
+    let assert_other_temperatures = |expected_hottest: f64, cx: &mut VisualTestContext| {
+        assert!(cx.debug_bounds("selected-channel-history").is_none());
+        assert!(
+            cx.debug_bounds("history:gpu:pci:0000:02:00.0/temperature")
+                .is_none()
+        );
+        assert!(cx.debug_bounds("history:cpu:host/temperature").is_some());
+        assert!(
+            cx.debug_bounds("history:gpu:pci:0000:01:00.0/temperature")
+                .is_some()
+        );
+        let indicator = cx.debug_bounds("thermal-hottest").unwrap();
+        assert!(indicator.size.width > gpui_kit::px(0.));
+        assert!(indicator.size.height > gpui_kit::px(0.));
+        cx.read(|cx| {
+            let data = view.read(cx).shared.borrow();
+            assert_eq!(
+                crate::screen_data::selected_device(&data, Screen::Thermals).as_deref(),
+                Some(selected_id.as_str())
+            );
+            assert!(crate::screen_data::selected_channel(&data, Screen::Thermals).is_none());
+            let temperatures = crate::screen_data::by_quantity(
+                &data,
+                system_pulse_model::Quantity::Temperature,
+                system_pulse_model::PhysicalUnit::Celsius,
+            );
+            let hottest = crate::screen_data::highest_current(&data, &temperatures).unwrap();
+            assert_eq!(hottest.sensor, "cpu:host/temperature");
+            assert_eq!(hottest.measured(&data), Some(expected_hottest));
+        });
+    };
+
+    command(
+        &view,
+        Command::SensorVisible(fixture::GPU_B.into(), selected_id.clone()),
+        cx,
+    );
+    accept(&view, fixture::snapshot(6), cx);
+    assert_other_temperatures(63., cx);
+
+    command(
+        &view,
+        Command::SensorVisible(fixture::GPU_B.into(), selected_id.clone()),
+        cx,
+    );
+    assert!(cx.debug_bounds("selected-channel-history").is_some());
+    let mut disconnected = fixture::snapshot(7);
+    disconnected
+        .sensors
+        .retain(|sensor| sensor.id != selected_id);
+    disconnected
+        .readings
+        .retain(|reading| reading.sensor_id != selected_id);
+    accept(&view, disconnected, cx);
+    assert_other_temperatures(64., cx);
+}
