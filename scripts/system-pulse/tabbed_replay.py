@@ -15,10 +15,16 @@ from tabbed_contract import SCREENS, check_metric, expected_metric
 from tabbed_driver import TabbedNative
 
 
+class MenuChoiceAbsent(Exception):
+    pass
+
+
 def choose_menu(app, label):
     menu = app.find(role="menu")
     items = [node for node in app.walk(menu, strict=True) if node.get_role_name() == "menu item"]
     matches = [index for index, node in enumerate(items) if node.get_name() == label]
+    if not matches:
+        raise MenuChoiceAbsent(label)
     require(len(matches) == 1, "device menu label must be unique: " + label)
     target = matches[0]
     node = items[target]
@@ -86,7 +92,7 @@ def screens_and_devices(app, record):
         app.wait(lambda: app.selected_screen() == expected, message="keyboard screen " + expected)
     metric(app, "cpu", "cpu:host/usage", "hero:cpu:host/usage")
     metric(app, "memory", "memory:host/used", "hero:memory:host/used")
-    choices, expected_devices = [], []
+    choices, expected_devices, disappeared = [], [], []
     for screen, kind in (("gpu", "Gpu"), ("disks", "Volume"), ("network", "Network")):
         app.select_screen(screen)
         monitors = [m for m in app.frame()["snapshot"]["monitors"] if m["kind"] == kind]
@@ -94,12 +100,22 @@ def screens_and_devices(app, record):
         for monitor in monitors:
             picker = app.find(aid="screen-device:" + screen)
             app.click(picker)
-            choose_menu(app, monitor["title"])
+            try:
+                choose_menu(app, monitor["title"])
+            except MenuChoiceAbsent:
+                frame = app.frame()
+                require(monitor["id"] not in {m["id"] for m in frame["snapshot"]["monitors"]},
+                        "available device absent from menu: " + monitor["id"])
+                disappeared.append({"choice": {"screen": screen, "id": monitor["id"], "title": monitor["title"]},
+                                    "frame": frame})
+                app.key("Escape")
+                continue
             persisted(app, lambda state: state["screens"]["devices"].get(screen) == monitor["id"],
                       "selected stable device " + monitor["id"])
             choices.append({"screen": screen, "id": monitor["id"], "title": monitor["title"]})
         if monitors:
             app.screenshot("selected-" + screen + ".png")
+    record["disappeared_devices"] = disappeared
     record["expected_devices"] = expected_devices
     record["devices"] = choices
     record.setdefault("cases", []).append("screens-devices-metrics")

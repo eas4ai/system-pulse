@@ -59,6 +59,13 @@ def check_replay(result, binary_sha256):
     require(len(result["cases"]) == len(REQUIRED_CASES)
             and set(result["cases"]) == REQUIRED_CASES, "missing tabbed product cases")
     require(len(result["checks"]) == len(REQUIRED_CASES), "missing product check descriptions")
-    require(result["devices"] == result["expected_devices"], "not every discovered device was selected")
+    accounted = list(result["devices"])
+    for lost in result["disappeared_devices"]:
+        require(lost["choice"]["id"] not in {m["id"] for m in lost["frame"]["snapshot"]["monitors"]},
+                "available device incorrectly recorded as disappeared")
+        accounted.append(lost["choice"])
+    key = lambda choice: (choice["screen"], choice["id"], choice["title"])
+    require(sorted(accounted, key=key) == sorted(result["expected_devices"], key=key),
+            "not every discovered device was selected or independently observed gone")
     require(len(result["children"]) == 3 and all(child["exit_code"] is not None for child in result["children"]),
             "owned process-action children remain running")

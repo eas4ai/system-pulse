@@ -22,10 +22,16 @@ def frame(value=0.0, *, unit="Percent", total=None):
 class TabbedContractTests(unittest.TestCase):
     def test_replay_rejects_missing_cases_devices_children_and_wrong_binary(self):
         valid = {"status": "PASS", "binary_sha256": "tested", "cases": sorted(REQUIRED_CASES),
-                 "checks": ["description"] * 6, "devices": [{"id": "gpu:a"}],
-                 "expected_devices": [{"id": "gpu:a"}],
+                 "checks": ["description"] * 6, "devices": [{"id": "gpu:a", "screen": "gpu", "title": "GPU"}],
+                 "expected_devices": [{"id": "gpu:a", "screen": "gpu", "title": "GPU"}], "disappeared_devices": [],
                  "children": [{"exit_code": 0}] * 3}
         check_replay(valid, "tested")
+        lost = {"choice": valid["devices"][0], "frame": {"snapshot": {"monitors": []}}}
+        removed = dict(valid, devices=[], disappeared_devices=[lost])
+        check_replay(removed, "tested")
+        lost["frame"]["snapshot"]["monitors"] = [{"id": "gpu:a"}]
+        with self.assertRaises(AssertionError):
+            check_replay(removed, "tested")
         for key, value in (("status", "FAIL"), ("binary_sha256", "different"),
                            ("cases", ["restart"] * 6), ("devices", []),
                            ("children", [{"exit_code": None}] * 3)):
