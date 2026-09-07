@@ -1282,6 +1282,12 @@ fn oversized_process_panel_reveals_selected_rows_inside_the_outer_viewport(
     draw(cx);
     let outer = cx.read(|cx| view.read(cx).shared.borrow().scroll.clone());
     assert!(cx.debug_bounds("process-table").unwrap().size.height > outer.bounds().size.height);
+    let first_row = cx.debug_bounds("process-row:0").unwrap();
+    assert!(
+        first_row.top() >= outer.bounds().top() && first_row.bottom() <= outer.bounds().bottom(),
+        "initial table focus must reveal its leading rows: {first_row:?} versus {:?}",
+        outer.bounds()
+    );
     for (key, index, selector) in [
         ("home", 0, "process-row:0"),
         ("end", 1299, "process-row:1299"),

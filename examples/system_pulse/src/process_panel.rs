@@ -236,6 +236,7 @@ impl MonitorPanel {
             self.table_scroll.scroll_to_item(index, ScrollStrategy::Top);
         }
         let reveal_identity = reveal_pending.then(|| self.selected.clone()).flatten();
+        let revealing_selected_row = reveal_identity.is_some();
         let handle = self.controls["table"].handle.clone();
         let ring = cx.theme().ring;
         let count = rows.len();
@@ -339,7 +340,14 @@ impl MonitorPanel {
                 this.request_keyboard_repaint(window, cx); cx.stop_propagation();
             }))
             .on_prepaint(move |bounds, window, _| {
-                if focus.entered(window) { controls::reveal(bounds.dilate(px(1.)), &outer); window.refresh(); }
+                if focus.entered(window) && !revealing_selected_row {
+                    // Entering a tall region reveals its leading viewport. A
+                    // pending row reveal already chose the keyboard destination.
+                    let mut target = bounds.dilate(px(1.));
+                    target.size.height = target.size.height.min(outer.bounds().size.height);
+                    controls::reveal(target, &outer);
+                    window.refresh();
+                }
             })
             .child(div().id("process-horizontal").size_full().overflow_x_scroll().track_scroll(&horizontal)
                 .child(Table::new("process-table").row_count(count + 1).column_count(8)
