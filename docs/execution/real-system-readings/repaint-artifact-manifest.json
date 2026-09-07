@@ -1,0 +1,71 @@
+{
+  "source_commit": "5d38680e6b9404283397ebacd1a1139f143bb3f3",
+  "binary_sha256": "c419281e6618155e31abfd5b1f4492698848ffa3bdec5e3f505b5604091dc76f",
+  "artifacts": [
+    {
+      "path": "/tmp/system-pulse-repaint-fix/verification.md",
+      "bytes": 13917,
+      "sha256": "793853acb8ae848eb59cb050fd8a1984aa47b2d14c1ca272b56565d914c022c8"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-final-results.json",
+      "bytes": 5079,
+      "sha256": "f568f50601d106a748f3cab01885d3cd1e5e87fe620692d8170ea0c45bc1dbfe"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-held2/shutdown.json",
+      "bytes": 269,
+      "sha256": "a4719d1657b493142f4c5fa04e813276801cdfd9b682f8c12b2529a84dfa2848"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-held2/cleanup.json",
+      "bytes": 149,
+      "sha256": "1e24ed101c22f99b14621e5654979b5de8c3b2ba7c568f507f366d6986ec70a8"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-held2/original-size-after-up.png",
+      "bytes": 157328,
+      "sha256": "12b8d7d464007e80bc2b4c3d00eb7d3e9c728b5267c6124acc9fcdb67acdc2db"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-original/held-up.json",
+      "bytes": 1415,
+      "sha256": "9e2c547b5a28908572c339daa25587fc3d2157c5f501dbfef57433201cdbdb6f"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-burst/burst-64-up.json",
+      "bytes": 1562,
+      "sha256": "be53c3442ac8a40fca3599c47d32459e34c98ad6ae58e53875b0d971bd7b5420"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-horizontal/held-left.json",
+      "bytes": 1392,
+      "sha256": "e23e8f3f316658bc4ee54fbbb45e37c09198de28261a0616d32394be2c4f0012"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-horizontal/held-right.json",
+      "bytes": 1391,
+      "sha256": "567e8b1765abf8de0d5bfc3e65c40673c7b5658b3df905cc0c5950f2b1d2f898"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-outer/held-alt-left.json",
+      "bytes": 1445,
+      "sha256": "030836c04e12140814e5c02329062c4440017b9628ff089cefae3cb5be7f04c0"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-outer/held-alt-right.json",
+      "bytes": 1449,
+      "sha256": "ce5d5f3a84b40db3805d9701f08edd06951360d896ebb4ac4de89d83e25869a2"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-outer-vertical/held-alt-pageup.json",
+      "bytes": 1483,
+      "sha256": "0b0c5de18cfa04d762e72ddfd2573c3fb5db9abee372f6d2eb4b650a8923473e"
+    },
+    {
+      "path": "/tmp/system-pulse-repaint-fix/native-outer-vertical/held-alt-pagedown.json",
+      "bytes": 1487,
+      "sha256": "b98f3db0043cc290315bd9eee1bffc1bea13da2878811f61b3775e2ec40d325a"
+    }
+  ]
+}

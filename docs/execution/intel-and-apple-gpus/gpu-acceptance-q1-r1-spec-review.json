@@ -1,0 +1,964 @@
+{
+  "schema": 1,
+  "review": "Independent read-only Task 4 Q1-R1 specification re-review",
+  "verdict": "SPEC PASS",
+  "candidate": "a0ff315c54155ddbfa7a618c168bb86d0b65c008",
+  "baseline": "f1e781337d0e32f30c7800795864395dd96e2028",
+  "recorded_quality_finding": "466458647faf22537eb7c3e8cd13b972063a0ae9",
+  "reviewed_at_utc": "2026-09-06T17:58:24.927222+00:00",
+  "q1_r1": "CLOSED for specification review",
+  "findings": [],
+  "assessment": {
+    "source": "scripts/system-pulse/gpu_capture.py:99",
+    "first_error": "Execution/start/wait/launch/open errors captured before either stream closes. The first exact exception object remains primary.",
+    "stream_ownership": "Acquire stdout then stderr; close each successfully acquired stream independently in stderr/stdout order. First close failure becomes primary only when no earlier error exists; later close failures append to existing secondary-error list.",
+    "process_ownership": "Existing unconditional bounded process-group cleanup and direct-child reap remain after guarded closure. No production subreaper or broad waitpid policy.",
+    "concurrent_ownership": "Existing in-memory stop event remains unchanged and independent of the writable/present start artifact. Body exception survives worker close and all reporting failures.",
+    "preservation": "Commands, hashes, environment/native provenance fields, lifecycle formats and fail-closed validators remain unchanged. Prior F1\u2013F10 protections and ten existing native methods preserved."
+  },
+  "independent_checks": [
+    {
+      "name": "gpu-tests",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_gpu_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 13.808799371938221,
+      "stdout_sha256": "2b2870908eba9c4274a83d6b03574616f3a3622f3e1bedf9938211df42d42853",
+      "stderr_sha256": "943cede28eb415f15f658c0552ca3c849809482375c8eb7b8ddd0ff33a893a0a"
+    },
+    {
+      "name": "development-gate",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--development-tests-only",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/development"
+      ],
+      "exit_code": 0,
+      "seconds": 14.391760307946242,
+      "stdout_sha256": "a83c736d559e491d0731f3ee7fb5c2643bac5e6c311bca2f3223c97d94bee686",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ruff",
+      "command": [
+        "ruff",
+        "check",
+        "--no-cache",
+        "scripts/system-pulse/gpu_capture.py",
+        "scripts/system-pulse/test_gpu_native.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.008907980984076858,
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format",
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "--no-cache",
+        "scripts/system-pulse/gpu_capture.py",
+        "scripts/system-pulse/test_gpu_native.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.008974213036708534,
+      "stdout_sha256": "3bc53bf3e981a98a34a852e175bf9b77af841edea74fca595d9aedcbaf9a4938",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "diff",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "f1e781337d0e32f30c7800795864395dd96e2028",
+        "a0ff315c54155ddbfa7a618c168bb86d0b65c008"
+      ],
+      "exit_code": 0,
+      "seconds": 0.0026756979059427977,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu_verify-help",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.05235394707415253,
+      "stdout_sha256": "4a5c80eeb3a9125f76ee18ce1df309b14931606e60079188eceed3c98b6cd2d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu_host_capture-help",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_host_capture.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.06342247105203569,
+      "stdout_sha256": "0d8f044287e8424540f38b4bf1e2bc13224d4e9b090514bf49cb0488be9faf5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu_intel_capture-help",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_intel_capture.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.03986470599193126,
+      "stdout_sha256": "f8576843586517d483c25004359861f598174ff1d555e5942b50b5f7dc58bd8d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "gpu_methods": 61,
+  "development_groups": {
+    "gpu-aggregate": 6,
+    "gpu-apple-capture": 5,
+    "gpu-arithmetic": 6,
+    "gpu-desktop": 8,
+    "gpu-evidence": 15,
+    "gpu-intel": 10,
+    "gpu-native": 11
+  },
+  "native_methods": 11,
+  "new_native_methods": 1,
+  "new_native_method_subcases": 12,
+  "independent_actual_close_probe": {
+    "script": "independent-close-probes.py",
+    "cases": 10,
+    "baseline_contract_failures": 8,
+    "candidate_contract_failures": 0,
+    "maximum_candidate_seconds": 0.12284754903521389,
+    "checks": [
+      {
+        "command": [
+          "python3",
+          "-B",
+          "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/independent-close-probes.py",
+          "baseline-probes"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "ece8f70ba645bdffee1315e1eafcd067771d07ff15e14a8ada280afc946a81ff",
+        "stderr_sha256": "982d86afa1150a6c703b4ea9c10bf973ede35d683b3da5c5e62598607f321182"
+      },
+      {
+        "command": [
+          "python3",
+          "-B",
+          "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/independent-close-probes.py",
+          "candidate-probes"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "ce829d53e13bf85c61ffee86f5f00d60b38efdd88eec64facaa8d4ce2dba7d55",
+        "stderr_sha256": "a6cc16d4cc32642990ef9920e503047d87aa99a279c93f7861d5785748879440"
+      }
+    ],
+    "candidate_results": [
+      {
+        "trigger": "normal",
+        "failing_streams": [],
+        "fail_reporting": false,
+        "elapsed_seconds": 0.032443464966490865,
+        "primary_identity": true,
+        "primary_type": "NoneType",
+        "capture_errors": [],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152762,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": {
+          "role": "probe",
+          "pid": 4152762,
+          "command": [
+            "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+            "-c",
+            "print(\"normal\")"
+          ],
+          "exit_code": 0,
+          "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+          "timed_out": false,
+          "reaped": true,
+          "proc_exists": false,
+          "cleanup_signals": [],
+          "started_ns": 801560471332594,
+          "finished_ns": 801560503532490,
+          "started_unix_ns": 1788717326378738714,
+          "finished_unix_ns": 1788717326410938933,
+          "deadline_ns": 801563471332594,
+          "stdout": "probe.stdout",
+          "stderr": "probe.stderr",
+          "environment": {
+            "OBJC_DEBUG_MISSING_POOLS": "YES"
+          },
+          "stdout_sha256": "83d7d4df18591f6a966c7999355338c625e5a2f7c9cb0c35f11d3ed9f725e022",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "passed": true
+      },
+      {
+        "trigger": "close_only",
+        "failing_streams": [
+          "stderr",
+          "stdout"
+        ],
+        "fail_reporting": false,
+        "elapsed_seconds": 0.01649398193694651,
+        "primary_identity": true,
+        "primary_type": "OSError",
+        "capture_errors": [
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152822,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": {
+          "role": "probe",
+          "pid": 4152822,
+          "command": [
+            "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+            "-c",
+            "print(\"normal\")"
+          ],
+          "exit_code": 0,
+          "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+          "timed_out": false,
+          "reaped": true,
+          "proc_exists": false,
+          "cleanup_signals": [],
+          "started_ns": 801560503928217,
+          "finished_ns": 801560520217177,
+          "started_unix_ns": 1788717326411333696,
+          "finished_unix_ns": 1788717326427623365,
+          "deadline_ns": 801563503928217,
+          "stdout": "probe.stdout",
+          "stderr": "probe.stderr",
+          "environment": {
+            "OBJC_DEBUG_MISSING_POOLS": "YES"
+          },
+          "stdout_sha256": "83d7d4df18591f6a966c7999355338c625e5a2f7c9cb0c35f11d3ed9f725e022",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "capture_error": "OSError"
+        },
+        "passed": true
+      },
+      {
+        "trigger": "start",
+        "failing_streams": [
+          "stdout"
+        ],
+        "fail_reporting": false,
+        "elapsed_seconds": 0.021113138063810766,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152838,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": {
+          "role": "probe",
+          "pid": 4152838,
+          "command": [
+            "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+            "-c",
+            "import time; from pathlib import Path; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/candidate-probes/2/ready').write_text(\"ready\"); time.sleep(5)"
+          ],
+          "exit_code": -15,
+          "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+          "timed_out": false,
+          "reaped": true,
+          "proc_exists": false,
+          "cleanup_signals": [
+            "SIGTERM"
+          ],
+          "started_ns": 801560520608044,
+          "finished_ns": 801560541495483,
+          "started_unix_ns": 1788717326428013308,
+          "finished_unix_ns": 1788717326448901429,
+          "deadline_ns": 801563520608044,
+          "stdout": "probe.stdout",
+          "stderr": "probe.stderr",
+          "environment": {
+            "OBJC_DEBUG_MISSING_POOLS": "YES"
+          },
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "capture_error": "RuntimeError"
+        },
+        "passed": true
+      },
+      {
+        "trigger": "start",
+        "failing_streams": [
+          "stderr",
+          "stdout"
+        ],
+        "fail_reporting": true,
+        "elapsed_seconds": 0.021004077047109604,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [
+          {
+            "stage": "stderr close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stderr close"
+          },
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          },
+          {
+            "stage": "completion recording",
+            "type": "OSError",
+            "message": "[Errno 28] secondary probe-finished.json recording"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152842,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": {
+          "role": "probe",
+          "pid": 4152842,
+          "command": [
+            "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+            "-c",
+            "import time; from pathlib import Path; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/candidate-probes/3/ready').write_text(\"ready\"); time.sleep(5)"
+          ],
+          "exit_code": -15,
+          "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+          "timed_out": false,
+          "reaped": true,
+          "proc_exists": false,
+          "cleanup_signals": [
+            "SIGTERM"
+          ],
+          "started_ns": 801560541918138,
+          "finished_ns": 801560562658477,
+          "started_unix_ns": 1788717326449323448,
+          "finished_unix_ns": 1788717326470064839,
+          "deadline_ns": 801563541918138,
+          "stdout": "probe.stdout",
+          "stderr": "probe.stderr",
+          "environment": {
+            "OBJC_DEBUG_MISSING_POOLS": "YES"
+          },
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "capture_error": "RuntimeError"
+        },
+        "passed": true
+      },
+      {
+        "trigger": "signal",
+        "failing_streams": [
+          "stderr",
+          "stdout"
+        ],
+        "fail_reporting": true,
+        "elapsed_seconds": 0.12097475992050022,
+        "primary_identity": true,
+        "primary_type": "KeyboardInterrupt",
+        "capture_errors": [
+          {
+            "stage": "stderr close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stderr close"
+          },
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          },
+          {
+            "stage": "completion recording",
+            "type": "OSError",
+            "message": "[Errno 28] secondary probe-finished.json recording"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152853,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": {
+          "role": "probe",
+          "pid": 4152853,
+          "command": [
+            "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+            "-c",
+            "import time; from pathlib import Path; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/candidate-probes/4/ready').write_text(\"ready\"); time.sleep(5)"
+          ],
+          "exit_code": -15,
+          "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+          "timed_out": false,
+          "reaped": true,
+          "proc_exists": false,
+          "cleanup_signals": [
+            "SIGTERM"
+          ],
+          "started_ns": 801560563446477,
+          "finished_ns": 801560684214853,
+          "started_unix_ns": 1788717326470851953,
+          "finished_unix_ns": 1788717326591621617,
+          "deadline_ns": 801563563446477,
+          "stdout": "probe.stdout",
+          "stderr": "probe.stderr",
+          "environment": {
+            "OBJC_DEBUG_MISSING_POOLS": "YES"
+          },
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "capture_error": "KeyboardInterrupt"
+        },
+        "passed": true
+      },
+      {
+        "trigger": "wait",
+        "failing_streams": [
+          "stderr",
+          "stdout"
+        ],
+        "fail_reporting": true,
+        "elapsed_seconds": 0.021024262998253107,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [
+          {
+            "stage": "stderr close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stderr close"
+          },
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          },
+          {
+            "stage": "completion recording",
+            "type": "OSError",
+            "message": "[Errno 28] secondary probe-finished.json recording"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152871,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": {
+          "role": "probe",
+          "pid": 4152871,
+          "command": [
+            "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+            "-c",
+            "import time; from pathlib import Path; Path('/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/candidate-probes/5/ready').write_text(\"ready\"); time.sleep(5)"
+          ],
+          "exit_code": -15,
+          "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+          "timed_out": false,
+          "reaped": true,
+          "proc_exists": false,
+          "cleanup_signals": [
+            "SIGTERM"
+          ],
+          "started_ns": 801560684707040,
+          "finished_ns": 801560705587843,
+          "started_unix_ns": 1788717326592112303,
+          "finished_unix_ns": 1788717326612993542,
+          "deadline_ns": 801563684707040,
+          "stdout": "probe.stdout",
+          "stderr": "probe.stderr",
+          "environment": {
+            "OBJC_DEBUG_MISSING_POOLS": "YES"
+          },
+          "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "capture_error": "RuntimeError"
+        },
+        "passed": true
+      },
+      {
+        "trigger": "stderr_open",
+        "failing_streams": [
+          "stdout"
+        ],
+        "fail_reporting": false,
+        "elapsed_seconds": 0.00021593505516648293,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [],
+        "unrelated_child_running": true,
+        "record": null,
+        "passed": true
+      },
+      {
+        "trigger": "stdout_open",
+        "failing_streams": [],
+        "fail_reporting": false,
+        "elapsed_seconds": 0.00017311307601630688,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout"
+        ],
+        "close_order": [],
+        "expected_close_order": [],
+        "all_acquired_handles_closed": true,
+        "processes": [],
+        "unrelated_child_running": true,
+        "record": null,
+        "passed": true
+      },
+      {
+        "trigger": "launch",
+        "failing_streams": [
+          "stderr",
+          "stdout"
+        ],
+        "fail_reporting": false,
+        "elapsed_seconds": 0.00020523404236882925,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [
+          {
+            "stage": "stderr close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stderr close"
+          },
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          }
+        ],
+        "worker_errors": [],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [],
+        "unrelated_child_running": true,
+        "record": null,
+        "passed": true
+      },
+      {
+        "trigger": "concurrent_body",
+        "failing_streams": [
+          "stderr",
+          "stdout"
+        ],
+        "fail_reporting": true,
+        "elapsed_seconds": 0.12284754903521389,
+        "primary_identity": true,
+        "primary_type": "RuntimeError",
+        "capture_errors": [
+          {
+            "stage": "probe cleanup",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stderr close"
+          },
+          {
+            "stage": "lifecycle recording",
+            "type": "OSError",
+            "message": "[Errno 28] secondary lifecycle.json recording"
+          },
+          {
+            "stage": "cleanup-error recording",
+            "type": "OSError",
+            "message": "[Errno 28] secondary cleanup-errors.json recording"
+          }
+        ],
+        "worker_errors": [
+          {
+            "stage": "stdout close",
+            "type": "OSError",
+            "message": "[Errno 5] secondary stdout close"
+          },
+          {
+            "stage": "completion recording",
+            "type": "OSError",
+            "message": "[Errno 28] secondary probe-finished.json recording"
+          }
+        ],
+        "expected_close_errors_retained": true,
+        "acquisition_events": [
+          "open stdout",
+          "open stderr",
+          "launch",
+          "close stderr",
+          "close stdout"
+        ],
+        "close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "expected_close_order": [
+          "stderr",
+          "stdout"
+        ],
+        "all_acquired_handles_closed": true,
+        "processes": [
+          {
+            "pid": 4152873,
+            "reaped": true,
+            "group_exists": false
+          }
+        ],
+        "unrelated_child_running": true,
+        "record": null,
+        "passed": true
+      }
+    ],
+    "original_proxy_note": "Frozen quality combined_faults.py copied unchanged as frozen-combined_faults.py. Its injection occurs only in __exit__, so it was not used as evidence of candidate actual-close handling. Independent proxy injects from close(); __exit__ delegates to close(), giving the same real failure boundary on both implementations."
+  },
+  "source_integrity": {
+    "candidate": "a0ff315c54155ddbfa7a618c168bb86d0b65c008",
+    "tracked_files_verified": 2077,
+    "initial_capture_hashes_verified": 60,
+    "worktree_status": "",
+    "code_changes_since_baseline": [
+      "scripts/system-pulse/gpu_capture.py",
+      "scripts/system-pulse/test_gpu_native.py"
+    ],
+    "correction_commit_changes": [
+      "docs/execution/intel-and-apple-gpus/gpu-acceptance-implementation.md",
+      "docs/execution/intel-and-apple-gpus/gpu-acceptance-q1-r1-correction.json",
+      "scripts/system-pulse/gpu_capture.py",
+      "scripts/system-pulse/test_gpu_native.py"
+    ],
+    "unchanged_prior_methods_and_probe": [
+      {
+        "name": "interrupt_cleanup_probe",
+        "sha256": "7784be20babb5d144184f333860dfa471252c0979d9b1bddf62e2aa1f36385a6"
+      },
+      {
+        "name": "test_start_record_failure_reaps_children_and_preserves_original_error",
+        "sha256": "a0361d07603af9fd3d97fc2714b972a1f917f422279c5e3d2c2447b880659144"
+      },
+      {
+        "name": "test_actual_interrupt_cleans_descendants_before_preserving_exception",
+        "sha256": "eac89a3da103592100968daf542933feda709c785f2d568b0a0510a0416d2bc3"
+      },
+      {
+        "name": "test_concurrent_cleanup_keeps_ownership_when_start_record_disappears",
+        "sha256": "c2dee8114f60808ad9e091422a2b3e915b457c8f4727041e84cc866c4f6e0c3e"
+      },
+      {
+        "name": "test_workload_requires_matching_device_completed_commands_and_bounds",
+        "sha256": "8d9352a2210750152c93171f146f2ae3edb68d7bc62aa14649b03ed9de07e8c1"
+      },
+      {
+        "name": "test_owned_process_deadline_retains_logs_and_reaps",
+        "sha256": "e77baf1617666c5c18a92e4200412ad4329c74945adfafd95eb08b37fc02f7ce"
+      },
+      {
+        "name": "test_owned_process_cleans_descendants_after_leader_exits",
+        "sha256": "e9ceca990a7b367f0861e647be34a065134cf4444020443fa000e9f9ce358656"
+      },
+      {
+        "name": "test_ax_cycles_truncation_and_zero_geometry_are_not_display",
+        "sha256": "e7aaf16ef089c9830fe13a98d3a735c64f53c41a38b7b097c81a1c38d91c6842"
+      },
+      {
+        "name": "test_concurrent_owned_child_is_stopped_when_capture_fails",
+        "sha256": "3a677df5799f9d55af2261e21c4979e691245fecb30a3ebebb99b3018578eed3"
+      },
+      {
+        "name": "test_locked_or_unavailable_console_never_allows_gui_capture",
+        "sha256": "bbd832c31f59181977e11a1582b5d694e649e8d930707965156813835fe191fe"
+      },
+      {
+        "name": "test_native_hashing_does_not_require_python_311",
+        "sha256": "9ce5d027dc519d5ba62f4c75b7c8b47821fecf4ea725f868ff5943940359b5da"
+      }
+    ],
+    "current_native_method_count": 11,
+    "frozen_manifests": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/q1-f1e78133/artifact-manifest.json",
+        "sha256": "b3da56a35e972cf230835b2952512eee308da18aadf79cc4a00d72f1a75ec4af",
+        "files_verified": 55
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-r1-correction-20260906/post-commit-artifact-manifest.json",
+        "sha256": "fb1dd4392444c421346aa00e0624f2fd58a13a9b828a8216332e8dd7e3cf7973",
+        "files_verified": 83
+      }
+    ]
+  },
+  "limits": [
+    "Full 444-method Python suite and unaffected Rust/native builds not independently repeated for this correction.",
+    "No Intel integrated/discrete or unlocked Apple GUI acceptance reports produced.",
+    "Original Linux native 2.0-second freshness failures remain unresolved.",
+    "Task 5 macOS main/dispatcher pool correction remains queued.",
+    "No source/index/marker/plan/decision edits or Cairn acceptance by reviewer; cairn wake remains unresolved for the broad decision."
+  ],
+  "self_audit": {
+    "1": {
+      "status": "PASS",
+      "assessment": "Read actual correction, recorded quality finding and production agreements before review."
+    },
+    "2": {
+      "status": "PASS",
+      "assessment": "Read-only source review; focused external evidence only."
+    },
+    "3": {
+      "status": "PASS",
+      "assessment": "Local guarded stream closure; no broad redesign or new global ownership policy."
+    },
+    "4": {
+      "status": "PASS",
+      "assessment": "Exact primary exception identity, partial acquisition and independent stream closure verified."
+    },
+    "5": {
+      "status": "PASS",
+      "assessment": "Later close and recording errors retained separately; no secret-bearing probes."
+    },
+    "6": {
+      "status": "PASS",
+      "assessment": "Owned children/groups only; unrelated sentinel stayed running."
+    },
+    "7": {
+      "status": "PASS",
+      "assessment": "Missing start artifacts and combined reporting failures exercised."
+    },
+    "8": {
+      "status": "PASS",
+      "assessment": "Owned groups absent and direct children reaped; handles closed in every acquired-stream case."
+    },
+    "9": {
+      "status": "PASS",
+      "assessment": "Review, probes and final integrity/report tracked with one active item until verified."
+    },
+    "10": {
+      "status": "PASS",
+      "assessment": "61 GPU methods, seven development groups, affected lint/format/diff, three CLIs and ten independent boundary cases verified."
+    },
+    "11": {
+      "status": "PASS",
+      "assessment": "Full 444-method suite, native/Rust builds and hardware not independently repeated; unavailable acceptance remains explicit."
+    },
+    "12": {
+      "status": "PASS",
+      "assessment": "Parent received concise progress and evidence interpretation."
+    },
+    "13": {
+      "status": "PASS",
+      "assessment": "Q1-R1 specification review passes; separate quality review and broader hardware/Task 5 work remain."
+    },
+    "14": {
+      "status": "PASS",
+      "assessment": "Concrete triggers, actual observations and remaining limits stated."
+    }
+  },
+  "root_verified_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-r1-a0ff315c/artifact-manifest.json",
+    "sha256": "65a26320265d4a80a56d9cc59d88f08d99b27f020b742d129dafc35dc292e325",
+    "bytes": 15519,
+    "files": 95,
+    "root_verified_unix_ns": 1788717565830542620
+  }
+}

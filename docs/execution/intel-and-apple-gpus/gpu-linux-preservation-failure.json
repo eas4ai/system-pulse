@@ -1,0 +1,1621 @@
+{
+  "status": "FAIL",
+  "scope": "Development preservation run; uncommitted Task 4 helpers; no Cairn receipt or root-cause claim",
+  "verified_utc": "2026-09-06T14:09:15.213716+00:00",
+  "original_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906",
+  "metadata": {
+    "application_pid": 2151647,
+    "publication_timing_instrumented": false,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "a4b92e6593673fe08caafe8b59883bfbac6418397001ab17ec5f032aaa8c23f3",
+    "proc_exe_sha256": "a4b92e6593673fe08caafe8b59883bfbac6418397001ab17ec5f032aaa8c23f3",
+    "source_commit": "fa28a5b34bb5732d910e642aefe3f18fcd6bc455",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "native_error": "input starved fresh publication",
+  "first_input_observation": {
+    "sequence": 69,
+    "age_seconds": 1.943904796
+  },
+  "rejected_age_seconds": 2.026,
+  "unchanged_limit_seconds": 2.0,
+  "automated_tests": {
+    "python": 425,
+    "base-dock": 205,
+    "base-resizable": 13,
+    "component-dock": 19,
+    "model": 24,
+    "app": 63,
+    "collectors": 96,
+    "atspi": 2
+  },
+  "automated_test_total": 847,
+  "completed_step_logs_verified": 16,
+  "application_cleanup": [
+    {
+      "pid": 2151647,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 2151615,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "originals": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/failure.json",
+      "bytes": 8400,
+      "sha256": "da70822d519d5ed0bc7efdfe998fc2000a181f4ea7957633757a0f0942eedefc"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/progress.jsonl",
+      "bytes": 8211,
+      "sha256": "0bb299f522eba2a16fec165b60f62f02227012c9f901d9081650aac9fbae0c2d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/result.json",
+      "bytes": 690,
+      "sha256": "5f2f4e6949c527af22b88010a657dcdacf38e43325ca123d92aeb130df3bd837"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/progress.jsonl",
+      "bytes": 810,
+      "sha256": "12d39532dcfd48778d654e315c7dde74b3e2a0f16a926eac03dce2ac96c96ae9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/harness-manifest.json",
+      "bytes": 5019,
+      "sha256": "f55ed5dd8e2a7148e3a60bb5818011ac0076e7ce3bf2ae954753f5896a54b908"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/session-01/metadata.json",
+      "bytes": 746,
+      "sha256": "8a28ff047ae1a2787818cdae151728c141b987a2000efb0a9dc1351018f23734"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/session-01/held-up-25hz.json",
+      "bytes": 3498,
+      "sha256": "9621e5d1f07d3715e47829acc8988528948060726e1bee60ea27ecb72f4eec32"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/session-01/cleanup.json",
+      "bytes": 78,
+      "sha256": "9b8137c2dee43866520585be8daee65b671f447961f89879725c20d55d72a1d2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native/transport-cleanup.json",
+      "bytes": 102,
+      "sha256": "ba26ce69b56a04368872f64f3489f32d7071a2ca34e19f83f2b72ae892965cd4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/source-guard.log",
+      "bytes": 62,
+      "sha256": "5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/python.log",
+      "bytes": 69879,
+      "sha256": "0167c8c5d3184289a521cccff9bef9d86d189cc9c39cc1c4eb23573d238b6fef"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/base-dock.log",
+      "bytes": 18235,
+      "sha256": "1e2930b56c90dbb11243cbf43d8717b0feee07ddf9a8eb9eb63f946e3b52ca85"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/base-resizable.log",
+      "bytes": 1481,
+      "sha256": "cd10bf63eef15ad4a0b60c5aa0a678180c6e62aa50c4afe5198632a61f608ad2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/component-dock.log",
+      "bytes": 1860,
+      "sha256": "0e7666790f323ac20bd0a2bce94707757d8329044e3b6c6e8199fe7c0de7bb3f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/model.log",
+      "bytes": 2730,
+      "sha256": "aacf9ec31043bf89330e334d47e795b9b17e6ee16ab78d14749df75308fa2451"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/app.log",
+      "bytes": 6071,
+      "sha256": "c0cdbe095dc6d95ebf4ad37bd6eb8b5f20834d5ae33fc8d3083e5b5c0c14d9a0"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/collectors.log",
+      "bytes": 8847,
+      "sha256": "742d75f472c1f24b2b2985c962172aac58dc98aa5ba6f2509aa750f0d0249690"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/atspi.log",
+      "bytes": 467,
+      "sha256": "0573e180202e776ac556c64268c44f095d67a4f2db7ef9343475bdd4f5023176"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/fmt.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/fmt-atspi.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/clippy.log",
+      "bytes": 196,
+      "sha256": "4a67204609bf4ece26faaccb0982748b65dbf89cc54ccc77f3893f619ca3b889"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/build.log",
+      "bytes": 342,
+      "sha256": "b32fd4813738f1d393c52a7b68e5105c34c2a4c0897c3e8ea3ca510bd9cc9c32"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/diff.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/host.log",
+      "bytes": 624,
+      "sha256": "b019fe42c34278f6ee16d1b425651e26a29638b798ae621aa01a80c44c089f21"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/preservation-20260906/native.log",
+      "bytes": 1728,
+      "sha256": "1b5be6851df449afa2b6db66ec7c3803d540eb9f88a35d1bc0151826e7e6e3a6"
+    }
+  ],
+  "subsequent_diagnostic": {
+    "status": "PASS",
+    "scope": "Instrumented focused process diagnostic only; original preservation failure unresolved",
+    "acceptance_eligible": false,
+    "observations": 54,
+    "max_accepted_age_seconds": 1.289118335,
+    "ring_records": 64,
+    "ring_sequences": [
+      123,
+      186
+    ],
+    "max_ms": {
+      "accept_to_rename": 252.928856,
+      "conversion": 104.372965,
+      "serialization": 130.001714,
+      "queue": 0.950605
+    },
+    "application_cleanup": [
+      {
+        "pid": 2174810,
+        "exit_code": 0,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2174803,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/result.json",
+        "bytes": 674,
+        "sha256": "5a8fe428b313555dad6e1ab9994bd13fa840218225282dc29e87b3df460f6bdb"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/metadata.json",
+        "bytes": 745,
+        "sha256": "9e81f99c6ae10a4248f2a24542e973cef2c706cf26e9a9f929d9927879eb1049"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/held-up-25hz.json",
+        "bytes": 3546,
+        "sha256": "7c87c9f5d0a7f0863ff4fe1b68d53de4e3d4cc94be5c4f9e646d4858cd76b7a1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/latest.publication-timing.json",
+        "bytes": 50265,
+        "sha256": "99682ab12d994442436f2408d970adbfcae679d2fe88c2c3bd616ebbd0285628"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/session-01/cleanup.json",
+        "bytes": 76,
+        "sha256": "9765ea46ad5977df97cab3cd67cf827e653d4342c2f3e24f5f3bf38cc183777f"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "2fb8397e8d7ae6f748c66fbba092b19219fc9db24f27a8ab45bde1ad9f93fea9"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/timing-summary.json",
+        "bytes": 575,
+        "sha256": "e7f7eb4f0664a4749de3400f3a455ff05f3330adc98c31d196b9b83c26eae950"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/held-input-publication-copy.json",
+        "bytes": 286,
+        "sha256": "c91c931ad400e21b5f7493bef80fc8381322291f5b9a4cf1ce98a6e306144864"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/publication-diagnostic-20260906/held-input-publication-timing.json",
+        "bytes": 50265,
+        "sha256": "a61c90ec63dba483c84a54c3ba7537ba97dcf261141af5165e868464705dcf74"
+      }
+    ]
+  },
+  "uninstrumented_followup": {
+    "status": "FAIL",
+    "acceptance_eligible": false,
+    "scope": "Uninstrumented focused process diagnosis; no complete preservation pass or cause claim",
+    "outer_process": {
+      "role": "native-replay",
+      "pid": 2285479,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/native_replay.py",
+        "--binary",
+        "target/debug/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native",
+        "--focus",
+        "process"
+      ],
+      "exit_code": 1,
+      "executable_sha256": "7cccdab206ab53247507ca31284ad65d81eb78283c04bf65d6f84fffa291d660",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [],
+      "started_ns": 788847498395662,
+      "finished_ns": 789009392920265,
+      "started_unix_ns": 1788704613405801399,
+      "finished_unix_ns": 1788704775300327233,
+      "deadline_ns": 789267498395662,
+      "stdout": "native-replay.stdout",
+      "stderr": "native-replay.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "2e91d2a3e3b80ff8d72a9596936d31113bdf122aa0a1d31f6b105e5d5d196875",
+      "stderr_sha256": "a51d20bff4209e7856f143401e7959f213d9fb2ff93ac6dca3d149c9f0ce2f38"
+    },
+    "metadata": {
+      "application_pid": 2285620,
+      "publication_timing_instrumented": false,
+      "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+      "binary_sha256": "a4b92e6593673fe08caafe8b59883bfbac6418397001ab17ec5f032aaa8c23f3",
+      "proc_exe_sha256": "a4b92e6593673fe08caafe8b59883bfbac6418397001ab17ec5f032aaa8c23f3",
+      "source_commit": "9e2dfb5be17bfd859dd6f6cbf59a8ee415f726d9",
+      "budgets": {
+        "startup": 15,
+        "discovery": 15,
+        "condition": 5,
+        "metric": 5,
+        "freshness": 2,
+        "batch": 8,
+        "navigation": 180,
+        "appearance": 5,
+        "exit": 5,
+        "persistence": 10,
+        "shutdown": 10,
+        "nodes": 30000
+      },
+      "sampling_interval_ms": 1000,
+      "accepted_age_limit_seconds": 2.0
+    },
+    "stale": {
+      "sequence": 159,
+      "render_revision": 158,
+      "age_seconds": 2.17059823,
+      "limit_seconds": 2.0,
+      "observation": {
+        "opened_file": {
+          "device": 66318,
+          "inode": 222695170
+        },
+        "pathname_before_check": {
+          "device": 66318,
+          "inode": 222695171
+        },
+        "errors": {},
+        "read_started_monotonic_ns": 789008051212692,
+        "read_completed_monotonic_ns": 789008807761370,
+        "parse_completed_monotonic_ns": 789008826684574,
+        "age_checked_monotonic_ns": 789008826989485
+      },
+      "read_duration_ms": 756.548678,
+      "parse_duration_ms": 18.923204
+    },
+    "held_up_observations": 53,
+    "held_up_max_age_seconds": 1.588976673,
+    "application_cleanup": [
+      {
+        "pid": 2285620,
+        "exit_code": -15,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2285609,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native-replay-started.json",
+        "bytes": 412,
+        "sha256": "b927d6a3a806015729babb72a82325dba54b0150aa7585d5ba92b4adf07860fe"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native-replay-finished.json",
+        "bytes": 1074,
+        "sha256": "37c3cc3bb766614947d07a8c1b0f7255a21b4cff754ef8e97fb93b76f2dde781"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native-replay.stdout",
+        "bytes": 884,
+        "sha256": "2e91d2a3e3b80ff8d72a9596936d31113bdf122aa0a1d31f6b105e5d5d196875"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native-replay.stderr",
+        "bytes": 927,
+        "sha256": "a51d20bff4209e7856f143401e7959f213d9fb2ff93ac6dca3d149c9f0ce2f38"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/result.json",
+        "bytes": 705,
+        "sha256": "41ca6e9353dace1a7465f5e5328bd44689028bf4405b24ac8c4fd7ee139009cb"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/progress.jsonl",
+        "bytes": 884,
+        "sha256": "2e91d2a3e3b80ff8d72a9596936d31113bdf122aa0a1d31f6b105e5d5d196875"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/harness-manifest.json",
+        "bytes": 5019,
+        "sha256": "5f85bab35832e47a7ce9ed98287fecd0c3471577cb3fcb971a77df250479988b"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/session-01/metadata.json",
+        "bytes": 746,
+        "sha256": "ef204f33810e2c11cfe81efaa1fe59ed0c1fbdd5842228fe73bfe1b691977505"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/session-01/stale-frame-789008826989485.json",
+        "bytes": 10468902,
+        "sha256": "dac934a1159442f5f14ea781a821eda39b45d8bdd4268c4285d770fdfafa5ff0"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/session-01/held-up-25hz.json",
+        "bytes": 3490,
+        "sha256": "773f6f3575c6c7b0758051c8c89be84f59dcefcc76172d0a0f3476299158e69c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/session-01/cleanup.json",
+        "bytes": 78,
+        "sha256": "e703ba7431f6991767011b91f1021da743f07859e2469deece58382f0a5e1bf7"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-untraced-process-20260906/native/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "25bb842cd19010341dc77df1bda815bee7cba642832a298702dd0af2f99cacfb"
+      }
+    ]
+  },
+  "reader_syscall_diagnostic": {
+    "verified_utc": "2026-09-06T15:23:37.853511+00:00",
+    "scope": "Supporting diagnosis with syscall and publication instrumentation; never acceptance evidence or a cause claim for the original failures",
+    "status": "FAIL",
+    "native_error": "native discovery deadline exceeded; incomplete tree",
+    "original_freshness_failure_reproduced": false,
+    "stale_receipts": 0,
+    "reader_syscalls": {
+      "openat": {
+        "completed_calls": 980,
+        "max_duration_ms": 2.6641120000000003
+      },
+      "fstat": {
+        "completed_calls": 1852,
+        "max_duration_ms": 1.758734
+      },
+      "read": {
+        "completed_calls": 1852,
+        "max_duration_ms": 8.158083999999999
+      },
+      "close": {
+        "completed_calls": 926,
+        "max_duration_ms": 2.076535
+      },
+      "newfstatat": {
+        "completed_calls": 926,
+        "max_duration_ms": 3.1794100000000003
+      }
+    },
+    "trace_unfinished_calls_reconciled": true,
+    "publication_ring": {
+      "records": 64,
+      "sequence_range": [
+        98,
+        161
+      ],
+      "max_acceptance_to_rename_ms": 465.404725,
+      "overwritten_before_dequeue": 0,
+      "sidecar_errors": 0
+    },
+    "held_input": {
+      "held-up-25hz.json": {
+        "observations": 51,
+        "max_age_seconds": 1.373121191
+      },
+      "held-table-left.json": {
+        "observations": 51,
+        "max_age_seconds": 1.577148661
+      },
+      "held-table-right.json": {
+        "observations": 56,
+        "max_age_seconds": 1.345855109
+      }
+    },
+    "tracing_scope": {
+      "application_pid": 2758735,
+      "application_tracer_pid": 0,
+      "reader_pid": 2758631,
+      "reader_tracer_pid": 2758629
+    },
+    "outer_process": {
+      "role": "native-read-trace",
+      "pid": 2758607,
+      "command": [
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "strace",
+        "-f",
+        "-b",
+        "execve",
+        "--absolute-timestamps=unix,ns",
+        "--syscall-times=ns",
+        "-s",
+        "0",
+        "-y",
+        "-e",
+        "trace=execve,openat,read,pread64,close,newfstatat,fstat",
+        "-P",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/latest.json",
+        "-o",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/read-syscalls.log",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/harness/native_replay.py",
+        "--inside",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+        "--trace-publication",
+        "--focus",
+        "process"
+      ],
+      "exit_code": 1,
+      "executable_sha256": "97e86a102eee7212bfa3bf87d452b27dd4f16ef6e68658eeae20bca63db2ceee",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [
+        "SIGTERM"
+      ],
+      "started_ns": 792142853259208,
+      "finished_ns": 792305593586797,
+      "started_unix_ns": 1788707908760665267,
+      "finished_unix_ns": 1788708071500994076,
+      "deadline_ns": 792562853259208,
+      "stdout": "native-read-trace.stdout",
+      "stderr": "native-read-trace.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "95958feef704cc167e9bdca274ffcf38904e60dff822cea7dc08a33517428505",
+      "stderr_sha256": "ff8d2f903b564ef13d4edf547dc1d0ec4c8d9f08b9160a8c5c9bac85c9b8d6c5"
+    },
+    "application_cleanup": [
+      {
+        "pid": 2758735,
+        "exit_code": -15,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2758664,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "root_confirmed_absent_pids_and_groups": [
+      2758607,
+      2758735,
+      2758664,
+      2758631,
+      2758629
+    ],
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/run.py",
+        "bytes": 2906,
+        "sha256": "79894002c4e58f81d920653047a15307438ca5cb0c7728b8d770f4db1254709a"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/invocation.json",
+        "bytes": 1696,
+        "sha256": "1ddbef2a12bbaa9100f702d5f4502c47a0a5ddff70e1c9bac9a25bac7fe1a8a9"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/tracing-scope.json",
+        "bytes": 121,
+        "sha256": "6a2670f0f6f1b0428be3a780f744d31c670105f76e8dbd3520b03e15fd73bdd5"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace-started.json",
+        "bytes": 1153,
+        "sha256": "d3e7409d58a026dfe72bb95092d841f593568132c1cf087cc4c928cf22b05d2d"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace-finished.json",
+        "bytes": 1952,
+        "sha256": "52a3f0ce4d27d4b1d4ec8ecd8bb211e025e1b748177db325ad4e3095d3e57e25"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace.stdout",
+        "bytes": 884,
+        "sha256": "95958feef704cc167e9bdca274ffcf38904e60dff822cea7dc08a33517428505"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native-read-trace.stderr",
+        "bytes": 7365,
+        "sha256": "ff8d2f903b564ef13d4edf547dc1d0ec4c8d9f08b9160a8c5c9bac85c9b8d6c5"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/read-syscalls.log",
+        "bytes": 1565355,
+        "sha256": "ae4360bdcddd0d81b77804007bf18c6d6e4da1eded5b21fb327fbc1759dea90e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/result.json",
+        "bytes": 714,
+        "sha256": "861df8c1725f2e3a5fc4387806cb0240404da27921ddcd5026cbf529f98521b3"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/progress.jsonl",
+        "bytes": 884,
+        "sha256": "95958feef704cc167e9bdca274ffcf38904e60dff822cea7dc08a33517428505"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/harness-manifest.json",
+        "bytes": 5109,
+        "sha256": "6f1df3a8d3ebf8705b3e49643a80051b5b89b2d557c487cdc9c70e74f868ac8b"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/publication-timing-metadata.json",
+        "bytes": 512,
+        "sha256": "234b43f2f951ff138333db3c7fa16787c57250a526d47ada9965065b979d6d42"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "1683ac60395f0eea5080acec0c27e6776b7859c35abcc46cb5e88c257f108357"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/metadata.json",
+        "bytes": 745,
+        "sha256": "861a798e2970dfe10f9c73e8df3af303090878add56b273c754649b1c95a83f7"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/cleanup.json",
+        "bytes": 78,
+        "sha256": "f542194bfd3a823d7aac372c2778e020c74671d8760ac89e359a59dc85bafbf2"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/latest.publication-timing.json",
+        "bytes": 50214,
+        "sha256": "d99dbe984a8cbaed12bedeafa44291748d1cef3b95945bde88015ac836cfe2f7"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/latest.json",
+        "bytes": 6268930,
+        "sha256": "58515619fa136f65f1c69706276036f0359b48905606e18e46a1f5dee24e5488"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/failure-frame.json",
+        "bytes": 10100555,
+        "sha256": "d75e8c80a2e21b5d267d2f295be9b92c373a3d4c2bef6b6f5a5276970cf01955"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/held-up-25hz.json",
+        "bytes": 3417,
+        "sha256": "dacedd86405fdfbbaf14a0dedc52543779dc23d9260c847a418381d7ee3e2780"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/held-table-left.json",
+        "bytes": 3316,
+        "sha256": "5763bfa7a8c76b9cdf9bb5cb655cd18fc0d0b14e76a96344561886600f6e5924"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/held-table-right.json",
+        "bytes": 3626,
+        "sha256": "92baf26a1dbec48f8130b41e29d6bf82aafa0642fe58cba5828421e2eea0bfa1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-read-syscalls-20260906/native/session-01/navigation-failure-792305078567721.json",
+        "bytes": 202023,
+        "sha256": "eb368d576f513a2c1bf8b85970097a628d776ba3d65d95db64a2ce69f9d35524"
+      }
+    ]
+  },
+  "reader_gc_diagnostic": {
+    "verified_utc": "2026-09-06T15:50:30.175326+00:00",
+    "scope": "Reader GC diagnostic, with unchanged publication and freshness logic; instrumented supporting evidence, never acceptance",
+    "status": "FAIL",
+    "errors": [
+      "accepted frame stale: 2.263s (limit 2.0s)",
+      "failure evidence: accepted frame stale: 2.288s (limit 2.0s)"
+    ],
+    "hypothesis_supported_for_this_reproduction": false,
+    "stale_reads": [
+      {
+        "original": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793431510741524.json",
+        "sequence": 76,
+        "age_seconds": 2.262533388,
+        "limit_seconds": 2.0,
+        "read_duration_ms": 5.203485,
+        "parse_duration_ms": 25.217928,
+        "approximate_age_at_read_start_seconds": 2.232077555,
+        "gc_events_overlapping_read": [],
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222697624
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222697624
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 793431480285691,
+          "read_completed_monotonic_ns": 793431485489176,
+          "parse_completed_monotonic_ns": 793431510707104,
+          "age_checked_monotonic_ns": 793431510741524
+        }
+      },
+      {
+        "original": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793432143667766.json",
+        "sequence": 77,
+        "age_seconds": 2.288014013,
+        "limit_seconds": 2.0,
+        "read_duration_ms": 2.868464,
+        "parse_duration_ms": 27.847089,
+        "approximate_age_at_read_start_seconds": 2.2572666260000003,
+        "gc_events_overlapping_read": [],
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222697636
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222697636
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 793432112920379,
+          "read_completed_monotonic_ns": 793432115788843,
+          "parse_completed_monotonic_ns": 793432143635932,
+          "age_checked_monotonic_ns": 793432143667766
+        }
+      }
+    ],
+    "gc_collection_counts": [
+      0,
+      513,
+      0
+    ],
+    "gc_maximum_duration_ms_by_generation": [
+      0.0,
+      28.514036,
+      0.0
+    ],
+    "gc_callback_errors": [],
+    "gc_evicted_events": 0,
+    "reader_peak_rss_kib": 126608,
+    "outer_process": {
+      "role": "native-reader-gc",
+      "pid": 2920234,
+      "command": [
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/gc-bootstrap.py",
+        "--inside",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+        "--focus",
+        "process"
+      ],
+      "exit_code": 1,
+      "executable_sha256": "97e86a102eee7212bfa3bf87d452b27dd4f16ef6e68658eeae20bca63db2ceee",
+      "timed_out": false,
+      "reaped": true,
+      "proc_exists": false,
+      "cleanup_signals": [
+        "SIGTERM"
+      ],
+      "started_ns": 793352844665722,
+      "finished_ns": 793432519731994,
+      "started_unix_ns": 1788709118752071202,
+      "finished_unix_ns": 1788709198427139611,
+      "deadline_ns": 793772844665722,
+      "stdout": "native-reader-gc.stdout",
+      "stderr": "native-reader-gc.stderr",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "stdout_sha256": "9bb2b0a45e496557d427603a8e8134eed6ffb1212313130f648ad3dbfc7ef333",
+      "stderr_sha256": "2909f52ec5b777cd497b9f7a2d139b6dbd6e9df3a30c7be6aaa6abcd2245df26"
+    },
+    "application_cleanup": [
+      {
+        "pid": 2920328,
+        "exit_code": -15,
+        "proc_exists": false
+      }
+    ],
+    "transport_cleanup": {
+      "pid": 2920284,
+      "exit_code": 0,
+      "proc_exists": false,
+      "forced_kill": false,
+      "errors": []
+    },
+    "root_confirmed_absent_pids_and_groups": [
+      2920234,
+      2920256,
+      2920328,
+      2920284
+    ],
+    "originals": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/run.py",
+        "bytes": 2587,
+        "sha256": "82657aedaca60c399db5f875c4210f1eafe89b23cb25fc77ca35c486aa549c5c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/gc-bootstrap.py",
+        "bytes": 2366,
+        "sha256": "6ff49041d02eb5a98f37e17aa022325286ec0547be32e1e4b1cce498e8d21e5c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/invocation.json",
+        "bytes": 1371,
+        "sha256": "7b6b14a72f7f9600405d666ed184412cd01021ebf4fc31a7d5cfc2a9a1bdc07c"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/gc-events.json",
+        "bytes": 79403,
+        "sha256": "3eb7a80b2d615e1f21e49305247c04fafac61451ca279088a4937049277926a6"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc-started.json",
+        "bytes": 703,
+        "sha256": "b2b0f72c8adbd77a14f2d232e1a83fb15e62e3be5f3c1961b659c582d42ed9d8"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc-finished.json",
+        "bytes": 1435,
+        "sha256": "623865655b439d20bbd1cc6eb62801cf4aadb2ca6dd105edd8a43b39a0ab24ca"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc.stdout",
+        "bytes": 657,
+        "sha256": "9bb2b0a45e496557d427603a8e8134eed6ffb1212313130f648ad3dbfc7ef333"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native-reader-gc.stderr",
+        "bytes": 5987,
+        "sha256": "2909f52ec5b777cd497b9f7a2d139b6dbd6e9df3a30c7be6aaa6abcd2245df26"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/result.json",
+        "bytes": 746,
+        "sha256": "ccb9cec68ca7e8f9f99faf3d710783ed90edd5c6a9ec8c5c7639d7c8fdc43117"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/progress.jsonl",
+        "bytes": 657,
+        "sha256": "9bb2b0a45e496557d427603a8e8134eed6ffb1212313130f648ad3dbfc7ef333"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/harness-manifest.json",
+        "bytes": 5109,
+        "sha256": "6f1df3a8d3ebf8705b3e49643a80051b5b89b2d557c487cdc9c70e74f868ac8b"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/transport-cleanup.json",
+        "bytes": 102,
+        "sha256": "1894c6966f343dfa7db7fa8a9e616152b862fccb47f6708d189078e4e8d3d847"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/metadata.json",
+        "bytes": 746,
+        "sha256": "be59128d4415bd0d925414aeb6063c38310e9e7c1920610d65389d12910cbe95"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/cleanup.json",
+        "bytes": 78,
+        "sha256": "de00641ec231331ecb890376c57a59bca9b23283b46dea441aa1b23c38efb106"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/latest.json",
+        "bytes": 6409198,
+        "sha256": "907184697cc44a3a1fdad420e03a3e3ea66723f1fb1c018b2bb743ffe11a8c0e"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793431510741524.json",
+        "bytes": 11155931,
+        "sha256": "2f57836e2d02fa011382d5f20ec3bfabb427e9f869931f22e1d6a7bbaf9297b1"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-reader-gc-20260906/native/session-01/stale-frame-793432143667766.json",
+        "bytes": 11059523,
+        "sha256": "cae502fb268056b3e81857b2235db0cb8de9bde73209fefa1c25735b6de2f306"
+      }
+    ]
+  },
+  "publication_os_diagnostic": {
+    "scope": "Instrumented focused replay and OS sampling only; no acceptance or earlier failure closure",
+    "verified_unix_ns": 1788710465509645972,
+    "result": {
+      "status": "PASS",
+      "errors": [],
+      "cases": {
+        "launch": true,
+        "metrics": {
+          "gpu_count": 2
+        },
+        "collapse": true,
+        "charts": {
+          "gpu_temperature_count": 2,
+          "gpu_temperature_artifacts": [
+            "gpu-0-temperature",
+            "gpu-1-temperature"
+          ]
+        },
+        "inner-scroll": true,
+        "process": true
+      },
+      "focused_preparation": "process",
+      "publication_timing_instrumented": true,
+      "limits": [
+        "NVIDIA hardware accuracy unverified",
+        "macOS/Windows native unverified",
+        "physical device removal unverified; stopped-app configuration specimen",
+        "history points not directly exposed by latest diagnostic JSON"
+      ]
+    },
+    "source_qualification": {
+      "scope": "Diagnostic provenance qualification; never acceptance",
+      "launch_working_directory": "/home/shawn/workspace2/task-manager",
+      "launch_cwd_commit": "428c22d27a5f1f9bc79a798f4502ae1273d0f5b7",
+      "implementation_worktree": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "implementation_HEAD": "014b7af026fd16cd269a69e056068f213d042839",
+      "harness_source_commit": "ece89eaec5c7e0775b44583dcefaa92661cc46ca",
+      "binary_source_unchanged_check": "launcher git diff --quiet ece89... -- examples/system_pulse crates Cargo.toml Cargo.lock passed",
+      "qualification": "native session source_commit was taken from launch cwd (design repository), not the implementation worktree; it is not valid source attribution. Binary SHA and immutable harness originals identify the instrumented diagnostic. This defect in diagnostic launch metadata is retained, not silently replaced."
+    },
+    "application_and_transport_pids_verified_absent": [
+      3161965,
+      3162118,
+      3162025
+    ],
+    "observer": {
+      "sample_count": 1541,
+      "joined": true,
+      "errors": [],
+      "max_sample_wall_ms": 14.293616,
+      "selection_limitation": "Name matching also included other system-pulse threads, adding observer overhead; all original thread samples retained. Sampled states are not continuous blocking durations.",
+      "pressure": {
+        "cpu": {
+          "minimum_some_avg10": 0.13,
+          "maximum_some_avg10": 1.92
+        },
+        "io": {
+          "minimum_some_avg10": 40.01,
+          "maximum_some_avg10": 48.48
+        },
+        "memory": {
+          "minimum_some_avg10": 0.0,
+          "maximum_some_avg10": 0.0
+        }
+      },
+      "selected_thread_states": [
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "state": "R",
+          "observations": 880
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "state": "S",
+          "observations": 1244
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "state": "S",
+          "observations": 1182
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "state": "R",
+          "observations": 243
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "state": "R",
+          "observations": 340
+        },
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "state": "S",
+          "observations": 644
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "state": "D",
+          "observations": 36
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "state": "D",
+          "observations": 1
+        }
+      ],
+      "selected_thread_waits": [
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "wait": "0",
+          "observations": 881
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "wait": "futex_do_wait",
+          "observations": 1244
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "wait": "futex_do_wait",
+          "observations": 1181
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "wait": "0",
+          "observations": 244
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "wait": "0",
+          "observations": 341
+        },
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "wait": "ep_poll",
+          "observations": 635
+        },
+        {
+          "tid": "3162388",
+          "name": "pulse-collector",
+          "wait": "pci_power_up",
+          "observations": 35
+        },
+        {
+          "tid": "3162389",
+          "name": "pulse-diagnosti",
+          "wait": "__wait_on_buffer",
+          "observations": 1
+        },
+        {
+          "tid": "3162118",
+          "name": "system-pulse",
+          "wait": "futex_do_wait",
+          "observations": 8
+        }
+      ]
+    },
+    "writer": {
+      "sequence_bounds": [
+        96,
+        159
+      ],
+      "records_retained": 64,
+      "totals": {
+        "submitted": 158,
+        "dequeued": 158,
+        "overwritten_before_dequeue": 0,
+        "evicted": 94,
+        "sidecar_errors": 0,
+        "last_sidecar_error": null
+      },
+      "stage_maxima": {
+        "acceptance_started_ns..rename_completed_ns": {
+          "maximum_ms": 276.739477,
+          "sequence": 110
+        },
+        "acceptance_started_ns..model_completed_ns": {
+          "maximum_ms": 32.778691,
+          "sequence": 137
+        },
+        "construction_started_ns..construction_completed_ns": {
+          "maximum_ms": 9.07105,
+          "sequence": 154
+        },
+        "submission_completed_ns..dequeue_ns": {
+          "maximum_ms": 0.351044,
+          "sequence": 145
+        },
+        "json_conversion_started_ns..json_conversion_completed_ns": {
+          "maximum_ms": 131.874454,
+          "sequence": 110
+        },
+        "serialization_started_ns..serialization_completed_ns": {
+          "maximum_ms": 147.65248,
+          "sequence": 105
+        },
+        "temp_write_started_ns..temp_write_completed_ns": {
+          "maximum_ms": 10.066591,
+          "sequence": 135
+        },
+        "rename_started_ns..rename_completed_ns": {
+          "maximum_ms": 9.286967,
+          "sequence": 118
+        }
+      }
+    },
+    "conclusion": "No stale frame reproduced. High global I/O pressure coexisted with sub-277ms publication in retained final64 records; this does not establish the cause of prior failures. No correction justified by this run.",
+    "original_manifest": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/root-publication-os-20260906/root-verification.json",
+      "bytes": 36973,
+      "sha256": "6259ea1c2296b725fc4cae3552e71691e51f1b5c815408bf277a9d9ee30392f1",
+      "verified_originals": 167
+    }
+  },
+  "untraced_os_diagnostic": {
+    "status": "FAIL",
+    "scope": "Supporting diagnostic only; not current-source or acceptance evidence",
+    "original_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906",
+    "error": "native discovery deadline exceeded; incomplete tree",
+    "internal_publication_tracing": false,
+    "elapsed_seconds": 151.950641738,
+    "freshness_limit_seconds": 2.0,
+    "stale_frame_receipts": 0,
+    "source_qualification": "Implementation launch cwd corrected; historical binary remains identified by original source metadata and immutable executable hash, not current HEAD.",
+    "original_manifest": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/artifact-manifest.json",
+      "bytes": 31257,
+      "sha256": "772c5e9ad005b96f537fd64da34b0903050786397826a8875d17e86cbe518b43"
+    },
+    "root_verification": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/root-verification.json",
+      "bytes": 6123,
+      "sha256": "c9e22258f4804026e72733b43e034df6c02f63917c33a9a45b346805d6550045"
+    },
+    "analysis": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-analysis-20260906/analysis.json",
+      "bytes": 20310,
+      "sha256": "0eead4814801e177a39979a99ba4f53cc1d5d324c6769151104b89a4a724f588"
+    },
+    "original_files_verified": 184,
+    "held": {
+      "held-table-left.json": {
+        "binding": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/native/session-01/held-table-left.json",
+          "bytes": 4047,
+          "sha256": "69ab0050273ed6fe96b9a2616edd2d8ff9ae6fbe60a9fc3c44404090f9d81548"
+        },
+        "count": 64,
+        "maximum_age_seconds": 1.462468239,
+        "errors": []
+      },
+      "held-table-right.json": {
+        "binding": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/native/session-01/held-table-right.json",
+          "bytes": 3740,
+          "sha256": "fdfcf6b452be5ca44d0f4fd6b8104a6d08601ebab6b2b4fbba630a4c31caa531"
+        },
+        "count": 59,
+        "maximum_age_seconds": 1.918036495,
+        "errors": []
+      },
+      "held-up-25hz.json": {
+        "binding": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-untraced-os-20260906/native/session-01/held-up-25hz.json",
+          "bytes": 2771,
+          "sha256": "ad95e58d594c2465159fa5753d1a6d6323920b0b5c5f37afaaeb57032cfa510b"
+        },
+        "count": 41,
+        "maximum_age_seconds": 1.720917792,
+        "errors": []
+      }
+    },
+    "roles": {
+      "main": {
+        "complete_observations": 1488,
+        "incomplete_observations": [],
+        "schedstat_delta_runtime_ns_wait_ns_timeslices": [
+          98351575609,
+          360514383,
+          88485
+        ],
+        "D_observations": 0,
+        "longest_consecutive_sample_groups": []
+      },
+      "collector": {
+        "complete_observations": 1487,
+        "incomplete_observations": [
+          {
+            "sample_index": 1505,
+            "record": {
+              "role": "collector",
+              "comm": "pulse-collector",
+              "start_ticks": 80280076,
+              "absent_or_identity_changed": true
+            }
+          }
+        ],
+        "schedstat_delta_runtime_ns_wait_ns_timeslices": [
+          25515061032,
+          97062130,
+          16080
+        ],
+        "D_observations": 41,
+        "longest_consecutive_sample_groups": [
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802808912044010
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802809917473611
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802810924245790
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802811929422856
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802812934604409
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802826919235084
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802827924462325
+          },
+          {
+            "count": 1,
+            "span_ns": 0,
+            "wchan": "pci_power_up",
+            "start_monotonic_ns": 802828929821034
+          }
+        ]
+      },
+      "writer": {
+        "complete_observations": 1487,
+        "incomplete_observations": [
+          {
+            "sample_index": 1505,
+            "record": {
+              "role": "writer",
+              "comm": "pulse-diagnosti",
+              "start_ticks": 80280076,
+              "absent_or_identity_changed": true
+            }
+          }
+        ],
+        "schedstat_delta_runtime_ns_wait_ns_timeslices": [
+          36084491235,
+          127210786,
+          61402
+        ],
+        "D_observations": 36,
+        "longest_consecutive_sample_groups": [
+          {
+            "count": 8,
+            "span_ns": 705854106,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802885610749770
+          },
+          {
+            "count": 7,
+            "span_ns": 609154184,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802880855023561
+          },
+          {
+            "count": 3,
+            "span_ns": 201162968,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802883789846211
+          },
+          {
+            "count": 3,
+            "span_ns": 200727849,
+            "wchan": "__wait_on_buffer",
+            "start_monotonic_ns": 802889440494472
+          },
+          {
+            "count": 2,
+            "span_ns": 100375897,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802884398150268
+          },
+          {
+            "count": 2,
+            "span_ns": 100502053,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802886718358114
+          },
+          {
+            "count": 2,
+            "span_ns": 100384963,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802889741673934
+          },
+          {
+            "count": 2,
+            "span_ns": 100554439,
+            "wchan": "rq_qos_wait",
+            "start_monotonic_ns": 802891351590701
+          }
+        ]
+      }
+    },
+    "cleanup_pids_and_groups_verified_absent": [
+      90187,
+      90268,
+      90237
+    ],
+    "conclusions": [
+      "Consecutive sampled waits are not proof of continuous blocking between samples.",
+      "This run has no stale-frame receipt and cannot establish the cause of another run's stale frame.",
+      "Selection was observed in intermediate scans, but the required final proof did not complete.",
+      "No source correction or acceptance-bound change is justified by this analysis alone."
+    ]
+  },
+  "writer_syscall_diagnostic": {
+    "status": "FAIL",
+    "scope": "Supporting instrumented diagnostic; collector ptrace overhead prevents original-failure causality",
+    "analysis": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-syscalls-guarded-20260906/root-analysis.json",
+      "bytes": 69674,
+      "sha256": "628ac0725a406301b2039a4fa322154fb68e97661f7153ba4c85b3fc6165efa6"
+    },
+    "original_files_bound": 151,
+    "writer_completed_calls": 76,
+    "writer_maxima_seconds": {
+      "rename": 0.248508,
+      "write": 0.003101
+    },
+    "stale_receipts": [
+      {
+        "path": "native/session-01/stale-frame-805755804026531.json",
+        "checked_unix_ns": 1788721521711432378,
+        "age_seconds": 2.029702256,
+        "limit_seconds": 2.0,
+        "accepted_unix_ns": 1788721519681730122,
+        "sequence": 15,
+        "render_revision": 37,
+        "capture_started_ns": 28002026255,
+        "capture_finished_ns": 29351164975,
+        "clock_anchor": {
+          "unix_ns": 1788721518292569228,
+          "monotonic_before_ns": 28002027704,
+          "monotonic_after_ns": 28002028467
+        },
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222710891
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222710891
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 805755748188226,
+          "read_completed_monotonic_ns": 805755754296660,
+          "parse_completed_monotonic_ns": 805755803945809,
+          "age_checked_monotonic_ns": 805755804026531
+        }
+      },
+      {
+        "path": "native/session-01/stale-frame-805756131799605.json",
+        "checked_unix_ns": 1788721522039205618,
+        "age_seconds": 2.357475496,
+        "limit_seconds": 2.0,
+        "accepted_unix_ns": 1788721519681730122,
+        "sequence": 15,
+        "render_revision": 37,
+        "capture_started_ns": 28002026255,
+        "capture_finished_ns": 29351164975,
+        "clock_anchor": {
+          "unix_ns": 1788721518292569228,
+          "monotonic_before_ns": 28002027704,
+          "monotonic_after_ns": 28002028467
+        },
+        "observation": {
+          "opened_file": {
+            "device": 66318,
+            "inode": 222710891
+          },
+          "pathname_before_check": {
+            "device": 66318,
+            "inode": 222710894
+          },
+          "errors": {},
+          "read_started_monotonic_ns": 805756099584800,
+          "read_completed_monotonic_ns": 805756102671956,
+          "parse_completed_monotonic_ns": 805756131473604,
+          "age_checked_monotonic_ns": 805756131799605
+        }
+      }
+    ],
+    "sampled_states": {
+      "main": {
+        "R": 204,
+        "S": 93,
+        "Z": 1
+      },
+      "collector": {
+        "S": 109,
+        "R": 71,
+        "t": 113,
+        "D": 4
+      },
+      "writer": {
+        "S": 183,
+        "R": 111,
+        "D": 3
+      }
+    },
+    "limits": [
+      "Collector has frequent observed ptrace stops; tracing altered collection timing despite requested seccomp filtering.",
+      "This failure cannot establish the cause of the earlier uninstrumented failures.",
+      "Only write/rename/flush syscall durations were selected; other writer stages remain unmeasured.",
+      "No production source correction or comparison-bound change is justified by this run."
+    ],
+    "traced_ids_verified_absent": 290,
+    "process_groups_verified_absent": [
+      674308,
+      674476,
+      674419
+    ],
+    "configuration_attempts": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-syscalls-20260906/root-cancellation-verification.json",
+        "bytes": 23834,
+        "sha256": "1960cf147990f3caeda1e473bcd9d24fe61a42c4dd1a7f61efa6e25a9ffa7696"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-syscalls-filtered-20260906/root-cancellation-verification.json",
+        "bytes": 23707,
+        "sha256": "ad7e05df6313b3acfe8c175c7749dc21e933d839a6f7158ea603e2d025ee97e8"
+      }
+    ]
+  },
+  "writer_only_diagnostic": {
+    "status": "FAIL",
+    "scope": "Supporting writer-only diagnostic. Native FAIL remains FAIL. Does not clear uninstrumented freshness failures or establish current-source acceptance.",
+    "analysis": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-writer-only-analysis-20260906/root-analysis.json",
+      "bytes": 230208,
+      "sha256": "eae2387e0d6a52eb612e62ad319ee8b067c72b142956dd825a759be86bcb79fc"
+    },
+    "original_files_bound": 204,
+    "observer": {
+      "samples": 1774,
+      "roles": {
+        "main": {
+          "states": {
+            "R": 1171,
+            "S": 584,
+            "Z": 1
+          },
+          "tracer_pids": {
+            "0": 1756
+          },
+          "samples": 1756
+        },
+        "collector": {
+          "states": {
+            "S": 1437,
+            "R": 276,
+            "D": 42
+          },
+          "tracer_pids": {
+            "0": 1755
+          },
+          "samples": 1755
+        },
+        "writer": {
+          "states": {
+            "S": 1341,
+            "R": 399,
+            "D": 5,
+            "t": 10
+          },
+          "tracer_pids": {
+            "833996": 1755
+          },
+          "samples": 1755
+        }
+      },
+      "maximum_sample_cost_ns": 6049808
+    },
+    "trace_counts": {
+      "write": 176,
+      "rename": 176
+    },
+    "maximum_syscall_duration_ns": {
+      "write": 3195000,
+      "rename": 81304000
+    },
+    "maximum_acceptance_to_write_start_ns": 258039154,
+    "prewrite_limit": "Acceptance to write start includes construction, queue, serialization and open; not pure CPU or write I/O.",
+    "stale_receipts": [],
+    "held_inputs": {
+      "held-up-25hz.json": {
+        "count": 54,
+        "errors": [],
+        "maximum_age_seconds": 1.515605366
+      },
+      "held-table-left.json": {
+        "count": 63,
+        "errors": [],
+        "maximum_age_seconds": 1.405734623
+      },
+      "held-table-right.json": {
+        "count": 50,
+        "errors": [],
+        "maximum_age_seconds": 1.481490007
+      }
+    },
+    "native_error": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "navigation": {
+      "target": "process:843160:80690156",
+      "phase": "next batch",
+      "original_deadline_monotonic": 807082.484907585,
+      "last_acknowledged_identity": "process:2079834:66751222",
+      "target_index": 1079,
+      "population": 1476,
+      "distance": 142,
+      "error": "native discovery deadline exceeded; incomplete tree",
+      "observed_monotonic": 806986.286696473,
+      "remaining_overall_seconds": 96.19821111194324
+    },
+    "verified_absent_process_thread_ids": 27,
+    "source_qualification": "Session source_commit is the launch working-directory HEAD, not provenance for the immutable historical binary. Original failed-session metadata and byte hashes identify that binary; Mac source editing is separate.",
+    "limits": [
+      "Supporting instrumented diagnostic; cannot clear original uninstrumented failures.",
+      "No current-source acceptance claim from historical binary or launch-directory HEAD.",
+      "No demonstrated production source cause or justification to relax navigation recovery guards."
+    ]
+  },
+  "post_reveal_python_budget_failure": {
+    "status": "FAIL",
+    "stage": "mandatory Python suite",
+    "native_reached": false,
+    "aggregate_budget_seconds": 30,
+    "unchanged_complete_suite_tests": 444,
+    "prior_passing_seconds": 34.043404115,
+    "new_supporting_passing_seconds": 34.239934242,
+    "verification_records": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-preservation-3ab14ff0-20260906-root-failure-verification.json",
+        "bytes": 6628,
+        "sha256": "33dee4b18b29b50ab9c034432b23d817ca5475d3ee5fe90793b1c4e292e59522"
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-python-budget-20260906/root-verification.json",
+        "bytes": 1780,
+        "sha256": "f2a3cf6741efb8ecd519b529177db7d4fec9e9964f5ba3f76b6e07364d4729ef"
+      }
+    ],
+    "finding": "linux-python-budget-finding.md",
+    "original_freshness_failures_resolved": false
+  },
+  "fresh_full_preservation": {
+    "status": "PASS",
+    "record": "linux-preservation-pass.md",
+    "root_verification": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-preservation-61e8ceef-reap-20260906-root-verification.json",
+    "sha256": "f40a632c61035c8afd38a133a512c10ea7ad54be9618f19ef3b96624088beabb",
+    "test_count": 870,
+    "historical_failure_reclassified": false
+  }
+}

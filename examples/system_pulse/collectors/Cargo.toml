@@ -1,0 +1,25 @@
+[package]
+name = "system-pulse-collectors"
+version = "0.1.0"
+edition.workspace = true
+publish.workspace = true
+license = "GPL-3.0-or-later"
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+sysinfo = "=0.37.2"
+nvml-wrapper = "=0.13.0"
+
+[[bin]]
+name = "pulse-snapshot"
+path = "src/bin/pulse-snapshot.rs"
+
+[target.'cfg(unix)'.dependencies]
+rustix = { version = "1", features = ["fs", "param"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+libc = "0.2"
+
+[target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]
+libloading = "=0.8.9"

@@ -1,0 +1,78 @@
+{
+  "status": "PASS focused preparation only",
+  "source_commit": "7ec1646897492de0bc81e40f22d666f7285b9316",
+  "binary_sha256": "fbce639dd1b0ab3c9f0c8fb346ebbb8416b597c5f1871a7b8b2ed446307b8763",
+  "application_pid": 982466,
+  "bounds": [
+    38,
+    965,
+    1363,
+    26
+  ],
+  "clip_ancestors": [
+    {
+      "id": "",
+      "name": "amdgpu:0f772d80b40ac56f:saved-absent",
+      "role": "panel",
+      "bounds": [
+        8,
+        961,
+        1424,
+        280
+      ]
+    },
+    {
+      "id": "workspace:viewport",
+      "name": "",
+      "role": "panel",
+      "bounds": [
+        8,
+        250,
+        1424,
+        742
+      ]
+    },
+    {
+      "id": "",
+      "name": "System Pulse",
+      "role": "frame",
+      "bounds": [
+        -1,
+        -1,
+        -1,
+        -1
+      ]
+    },
+    {
+      "id": "",
+      "name": "system-pulse",
+      "role": "application",
+      "bounds": null
+    }
+  ],
+  "label": "AMD GPU \u00b7 b40ac56f \u00b7 Unavailable \u00b7 % \u00b7 Sensor or device absent",
+  "sample": {
+    "at_ms": 0,
+    "value": null,
+    "text": "",
+    "unit": "%",
+    "status": "unavailable",
+    "quantity": "percentage",
+    "total": null,
+    "reason": "Sensor or device absent"
+  },
+  "artifacts": {
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/result.json": "0f1879f07138cb95422c55483e373b0e3e4f23e85f2645dc861aad4aa40f7b77",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/harness-manifest.json": "597bb185739029b2e70232e1af1362d0979c4c273debebbfc99f90a01350c1c1",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-01/metadata.json": "ca821257a570bcbacc0296a4617fca65b3dfe8c3559496d1610ee200c8c1aab2",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-01/shutdown.json": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-01/cleanup.json": "a3c3477597440c34adb4c3a26f7635a77a7b4af62959350675b6796a62c67c0b",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-missing-device/metadata.json": "2e1316e1f53c8a864d8408bf56a9f9f2dc9cc824ab6c043d747be902777b22ec",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-missing-device/missing-native.json": "1a01389dc818d04efdd30f41d630bf7208ebaf45656e6fa6e6de14457ff1f0f0",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-missing-device/missing-native.png": "b7d21bdd07bdd86553fb9de6cb853e97b0f68d3fb620fc217d85f5565bb16796",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-missing-device/missing-device-specimen.json": "305a4d0b3b7f5a9e202796ae5d6709cbc63f13bcf4a441e0b4c90bd1f17d4eac",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-missing-device/shutdown.json": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/session-missing-device/cleanup.json": "d17e121c369f19ace4101796e97d4c180e05f92303adb50393ec075296ee4f0e",
+    "/tmp/pulse-resumed-native-w__6vgpn/missing-device/transport-cleanup.json": "7b3626a39f1ab9f437e7325b5c70daf036395f2dde40fb3e656640219e837db1"
+  }
+}

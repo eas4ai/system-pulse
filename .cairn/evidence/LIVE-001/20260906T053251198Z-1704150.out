@@ -1,0 +1,65 @@
+RUNNING source-guard
+PASS source-guard exit_code=0 seconds=0.064 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/source-guard.log sha256=5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be
+RUNNING python
+PASS python test_count=381 exit_code=0 seconds=20.37 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/python.log sha256=64fbf0aace783edc5c46173f4df8422b97c8a9de5409d557a425ae8cd8d27ff0
+RUNNING base-dock
+PASS base-dock test_count=205 exit_code=0 seconds=1.518 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/base-dock.log sha256=3dc5e43d557ed1c9a986e1e2e814c95689dade15cdcb9cae1d87ca78dd4d4598
+RUNNING base-resizable
+PASS base-resizable test_count=13 exit_code=0 seconds=0.366 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/base-resizable.log sha256=6af3e41cce4410467811401d6b9b34f5622bfd3ac9ebc02277a2922ccfcb4f6c
+RUNNING component-dock
+PASS component-dock test_count=19 exit_code=0 seconds=0.867 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/component-dock.log sha256=60902b133658efcbea25fe1a4a657d014914f00c133b3f7e7aba2e799f2a7447
+RUNNING model
+PASS model test_count=24 exit_code=0 seconds=0.866 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/model.log sha256=76cd34011f644f4c1065145aad5928f7e6b792321c2414a7d6777d85ccaba386
+RUNNING app
+PASS app test_count=56 exit_code=0 seconds=1.218 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/app.log sha256=b4d2d6666147b764c7b9f8293d603ca4fc8942927b12170defeb1e402dea156b
+RUNNING collectors
+PASS collectors test_count=43 exit_code=0 seconds=1.066 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/collectors.log sha256=0b7acf33d037233350a2598bf7a5c8dfced5a2cdc3ab6955d7ceb50e28d6f6ae
+RUNNING atspi
+PASS atspi test_count=2 exit_code=0 seconds=0.516 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/atspi.log sha256=cef370fece0a41530afac2f041e189996c81d62d663e69f8ce3ee0efd80c2ce5
+RUNNING fmt
+PASS fmt exit_code=0 seconds=1.567 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/fmt.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+RUNNING fmt-atspi
+PASS fmt-atspi exit_code=0 seconds=0.064 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/fmt-atspi.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+RUNNING clippy
+PASS clippy exit_code=0 seconds=5.428 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/clippy.log sha256=9db82baed37f48ab72d9627999f9aa738d47eb713f52550902e174c589351274
+RUNNING build
+PASS build exit_code=0 seconds=0.415 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/build.log sha256=1f5852af1ed7025b5728e842e3c3c2f5d2f720d25557d84c38f1ffda99719c59
+RUNNING diff
+PASS diff exit_code=0 seconds=0.016 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/diff.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+RUNNING host
+PASS host exit_code=0 seconds=6.183 log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/host.log sha256=dfa99cd4d7e4afa8dcb7fb05671998ce52ef77aed5c64f5673e0aaa32a700c9a
+RUNNING native
+RUNNING native log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log
+RUNNING native log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log
+RUNNING native log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log
+RUNNING native log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log
+RUNNING native log=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log
+cairn: LIVE-004: pass
+cairn: LIVE-012: pass
+cairn: LIVE-013: pass
+FAIL native exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log; evidence=/home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o
+Unverified requirement evidence: native required cases omitted
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 663, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 615, in main
+    runner.step(
+    ~~~~~~~~~~~^
+        "native",
+        ^^^^^^^^^
+    ...<9 lines>...
+        timeout=1250,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 149, in step
+    require(
+    ~~~~~~~^
+        child.returncode == 0, f"{name} exited {child.returncode}; full log: {path}"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/host_accuracy.py", line 12, in require
+    raise AssertionError(message)
+AssertionError: native exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-20luq4dm/system-pulse-acceptance-z4iqe4_o/native.log

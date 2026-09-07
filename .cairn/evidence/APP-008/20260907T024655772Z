@@ -1,0 +1,18 @@
+requirement: APP-008
+requirement_digest: sha256:0bc0af8031b4912cdef78ac64b9de9b1bc158256f7a224ec8186e29073938837
+mechanism: live-acceptance
+commit: fd77fca5
+inputs_digest: sha256:8892af4a23a4d242bce1320f31199a6cff04c1e1a5ae4506ba0988a591185658
+mechanism_digest: sha256:b15dc0e4f34363fef6dfa49e9bf0b34f8de8133d39288f3b95f1e0adcd22e0f7
+command: rtk proxy python3 scripts/system-pulse/application_acceptance.py
+cwd: .
+exit: 1
+output_digest: sha256:dc956ae410c5403cd1a016b83f0ac69a1de0e5da3e9f4a6fd6b2baf2246cb291
+output: .cairn/evidence/APP-001/20260907T024403880Z-959100.out
+stderr_output: .cairn/evidence/APP-001/20260907T024403880Z-959100.err
+stderr_digest: sha256:e47f0b411a670c41b077e42506ce8396fe86a4a8c1164c54fd01534ebc63db1d
+signal: none
+execution_error: null
+result: unverified
+source: none
+recorded: 2026-09-07T02:46:55.771Z

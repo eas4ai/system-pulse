@@ -1,0 +1,224 @@
+{
+  "status": "FAIL",
+  "capture": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-pd67p9yj/native",
+  "metadata": {
+    "application_pid": 3130002,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "proc_exe_sha256": "082b7b541f55a98014805d30af5725f528e4fc0af540857f649021a8e84d9f83",
+    "source_commit": "5a83fd5b5bad8ac0464eecdf738338f695573f3b",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "reported_result": {
+    "status": "FAIL",
+    "errors": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "target": "process:3137937:73629572",
+  "final_keyboard_batch": {
+    "op": "navigation-batch",
+    "monotonic_ns": 736316956670529,
+    "target": "process:3137937:73629572",
+    "selected": "process:3137964:73629621",
+    "expected": "process:3137937:73629572",
+    "endpoint_index": 1292,
+    "count": 1,
+    "distance": 1,
+    "sequence": 109,
+    "deadline": 736476.634998125
+  },
+  "held_input_artifacts": {
+    "held-up-25hz": {
+      "before": 4122413,
+      "after": 3474494,
+      "before_identity": "process:4122413:70937163",
+      "after_identity": "process:3474494:49178950",
+      "expected_identity": null,
+      "key_count": null,
+      "distinct_sequences": 6,
+      "maximum_observed_age": 1.294977612,
+      "observer_joined": true
+    },
+    "exact-64-up": {
+      "before": 4122413,
+      "after": 3190252,
+      "before_identity": "process:4122413:70937163",
+      "after_identity": "process:3190252:33164408",
+      "expected_identity": "process:3190252:33164408",
+      "key_count": 64,
+      "distinct_sequences": 3,
+      "maximum_observed_age": 1.277214778,
+      "observer_joined": true
+    },
+    "held-table-left": {
+      "before": -826,
+      "after": 9,
+      "before_identity": null,
+      "after_identity": null,
+      "expected_identity": null,
+      "key_count": null,
+      "distinct_sequences": 5,
+      "maximum_observed_age": 1.319969205,
+      "observer_joined": true
+    },
+    "held-table-right": {
+      "before": 9,
+      "after": -1106,
+      "before_identity": null,
+      "after_identity": null,
+      "expected_identity": null,
+      "key_count": null,
+      "distinct_sequences": 5,
+      "maximum_observed_age": 1.477308263,
+      "observer_joined": true
+    }
+  },
+  "last_positive_cell": {
+    "entry": {
+      "monitor_id": "processes",
+      "sensor_id": null,
+      "process_identity": {
+        "pid": 3137937,
+        "start_time_ticks": 73629572
+      },
+      "element_id": "process:3137937:73629572:cell:3",
+      "label": "10.3 MiB",
+      "sample": null
+    },
+    "bounds": [
+      614,
+      312,
+      180,
+      28
+    ],
+    "visible": true,
+    "attempts": [
+      {
+        "stable": true,
+        "actual": "10.3 MiB",
+        "sequence": 126,
+        "revision": 125
+      }
+    ],
+    "positions": {
+      "sequence": 126,
+      "revision": 125,
+      "count": 1369,
+      "target_index": 1292,
+      "screenshot_first_row_index": 1293
+    }
+  },
+  "failure_positions": {
+    "sequence": 132,
+    "revision": 131,
+    "count": 1368,
+    "target_index": 1291,
+    "screenshot_first_row_index": 1292
+  },
+  "stale_artifacts": [],
+  "application_cleanup": [
+    {
+      "pid": 3130002,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 3129916,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "child_proc_exists_after_cleanup": false,
+  "limits": [
+    "Failed lookup iterations were not retained.",
+    "A missing instantiated row does not prove model selection cleared.",
+    "The controlled exit case was not reached.",
+    "No freshness breach was observed; earlier failures remain unexplained."
+  ],
+  "artifacts": {
+    "result.json": {
+      "bytes": 671,
+      "sha256": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887"
+    },
+    "private-session.log": {
+      "bytes": 8238,
+      "sha256": "bf8b64911e3ee75afef35b9234f8376de4343801ce3ed346bf58511d1ac39ef2"
+    },
+    "transport-cleanup.json": {
+      "bytes": 102,
+      "sha256": "17d2e054e2f73b6096bbef6689e475a24d7412782abfbd9c316cf52b64091661"
+    },
+    "session-01/metadata.json": {
+      "bytes": 702,
+      "sha256": "657da7c3b205df0c41dcf670c33d06a91b1210336c3fdff8468f8c4bad181281"
+    },
+    "session-01/cleanup.json": {
+      "bytes": 78,
+      "sha256": "5882c0a6e00ca26663afd0a16daec522f6b5dd2edbf20798c40addd95d967ace"
+    },
+    "session-01/journal.jsonl": {
+      "bytes": 64539,
+      "sha256": "5f1b38e54fd041f6e423b271abd23ee92dedf0d824d08485887281995f7d7feb"
+    },
+    "session-01/real-child-start.json": {
+      "bytes": 840,
+      "sha256": "4dd4c4a729e08f28815f900c43ee89d375e16809d4a957d52157ca33ac629dd4"
+    },
+    "session-01/real-child-cell-discovery.json": {
+      "bytes": 376,
+      "sha256": "b54b472af7d5367666c5be8a1bf8ff0987daab33b7764e033fffdd7e13def053"
+    },
+    "session-01/child-visible-3.json": {
+      "bytes": 9909638,
+      "sha256": "2a373c9fac64a46491ae60b490b29870bc1e81b91dc76c4f9b65f89cbf312948"
+    },
+    "session-01/failure-frame.json": {
+      "bytes": 9264017,
+      "sha256": "e62a65e09f698da6930a5fae6e9c163c0d2ad62e4272b0091d64406b7387a8e7"
+    },
+    "session-01/failure.png": {
+      "bytes": 168800,
+      "sha256": "cc47a20d2558d23384f4b6c7ebbb036001c0a5347019518e00d7f0db008a12d6"
+    }
+  }
+}

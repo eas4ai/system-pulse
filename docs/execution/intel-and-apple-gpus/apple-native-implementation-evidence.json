@@ -1,0 +1,456 @@
+{
+  "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+  "source_collector_tree": "7415b58f70c33a8b618188dc20f4520cbe91f870",
+  "source_archive": {
+    "commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+    "archive": "/home/shawn/workspace2/task-manager-artifacts/apple-collector/source-df2300f2.tar",
+    "sha256": "fe678f1ec3c1e89435764f5a1dfd0d3c3c2e070e9fabc6b319085cfd0152f256",
+    "size": 24627200
+  },
+  "native_versions": {
+    "architecture": "arm64",
+    "macos": "ProductName:\t\tmacOS\nProductVersion:\t\t26.6.1\nBuildVersion:\t\t25G76",
+    "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)"
+  },
+  "linux_checks": {
+    "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+    "tests": 96,
+    "checks": [
+      {
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "system-pulse-collectors"
+        ],
+        "exit": 0,
+        "elapsed_seconds": 0.9869812019169331,
+        "log": "linux-df2300f2-test.log",
+        "sha256": "29d5ac292ba46b8fd113fd8be61b2c931187ab3418b726484f5af41105da274f"
+      },
+      {
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "-p",
+          "system-pulse-collectors",
+          "--all-targets",
+          "--",
+          "-D",
+          "warnings"
+        ],
+        "exit": 0,
+        "elapsed_seconds": 0.2960821680026129,
+        "log": "linux-df2300f2-clippy.log",
+        "sha256": "8788e4de5069bff498a1c7adcb1b7ff80bff2e5c8b623e00ce6a1e54011c92ba"
+      },
+      {
+        "command": [
+          "cargo",
+          "fmt",
+          "-p",
+          "system-pulse-collectors",
+          "--",
+          "--check"
+        ],
+        "exit": 0,
+        "elapsed_seconds": 0.11701002100016922,
+        "log": "linux-df2300f2-fmt.log",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ]
+  },
+  "native_checks": {
+    "test": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse-collectors"
+      ],
+      "pid": 2793,
+      "exit": 0,
+      "elapsed_seconds": 3.9070806670000002,
+      "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+      "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "log_sha256": "d6de336e293ef21fa0fc623a158fc51d83eb30c4ccc620860f9876f8ff9527b0"
+    },
+    "clippy": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse-collectors",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "pid": 2825,
+      "exit": 0,
+      "elapsed_seconds": 1.175521334,
+      "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+      "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "log_sha256": "45d8682abb8142b697333779b170db66502bf7ff94e12889f717d2d97af6cba2"
+    },
+    "fmt": {
+      "command": [
+        "cargo",
+        "fmt",
+        "-p",
+        "system-pulse-collectors",
+        "--",
+        "--check"
+      ],
+      "pid": 2836,
+      "exit": 0,
+      "elapsed_seconds": 0.45997904099999953,
+      "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+      "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build": {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse-collectors",
+        "--bin",
+        "pulse-snapshot"
+      ],
+      "pid": 2839,
+      "exit": 0,
+      "elapsed_seconds": 0.5724064999999996,
+      "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+      "lock_before": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "lock_after": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+      "log_sha256": "c791bfce4b22b8da4215bb4dde2cc9aeb13e7d20e8d464b82ccd02004a8dfc6c"
+    }
+  },
+  "native_test_count": 44,
+  "load": {
+    "source_commit": "df2300f2a6af5a9e6bf0ebe60d725379096c2b46",
+    "binary_sha256": "8e250888c1e05326b70365da32e7ed374ca53e2a347cca7f1bc926f7b48e015c",
+    "workload_sha256": "0410b18e08443aa1ab0d6905c772e739374b9155a9f7994641b31160477a91de",
+    "collector_command": [
+      "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/apple-df2300f2-pulse-snapshot",
+      "--count",
+      "40",
+      "--interval-ms",
+      "500"
+    ],
+    "collector_pid": 2857,
+    "collector_exit": 0,
+    "workload_pid": 2863,
+    "workload_exit": 0,
+    "elapsed_seconds": 20.123354292,
+    "workload_started_after_seconds": 2.006577958,
+    "wall_start_unix_ns": 1788692639842252000,
+    "all_owned_processes_exited": true,
+    "lock_sha256": "0da1662a18c6bde6a1a98021cfa16e9eb2684466bc245043aa4452560bf2aec9",
+    "files": {
+      "apple-df2300f2-pulse-snapshot": {
+        "sha256": "8e250888c1e05326b70365da32e7ed374ca53e2a347cca7f1bc926f7b48e015c",
+        "bytes": 6375488
+      },
+      "apple-df2300f2-load.jsonl": {
+        "sha256": "dbe1b5cb87706792c3e614d38771ec9bbc2c9d1f9aa7da6b533d72977f17cd0c",
+        "bytes": 65073374
+      },
+      "apple-df2300f2-load.stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "apple-df2300f2-workload.stdout": {
+        "sha256": "424f9a6bcdd55807bd8348a295d3c01cecbe407b2eb5a1b00d6576ea462ee160",
+        "bytes": 283
+      },
+      "apple-df2300f2-workload.stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  },
+  "same_capture_operand_recomputation": {
+    "measured_readings_by_field": {
+      "shared-allocated": 40,
+      "shared-in-use": 40,
+      "temperature-smc-Tg05": 34,
+      "temperature-smc-Tg0D": 34,
+      "usage": 39,
+      "power": 39,
+      "frequency": 31
+    },
+    "guarded_readings": 12,
+    "relative_tolerance": 1e-12,
+    "absolute_tolerance": 1e-12,
+    "external_accuracy_acceptance": false
+  },
+  "artifact_directory": "/home/shawn/workspace2/task-manager-artifacts/apple-collector",
+  "remote_directory": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7",
+  "artifacts": {
+    "apple-911848a8-test.json": {
+      "sha256": "0ed3c7a5cc2c4565719e0f132e63adaa5a5690e89776e221c74b7849de437530",
+      "bytes": 482
+    },
+    "apple-911848a8-clippy.json": {
+      "sha256": "0b211050857d6b2b9ac6bc559825d32e4ad3033d2e692dbfc29205434ca8c491",
+      "bytes": 318
+    },
+    "apple-df2300f2-clippy.log": {
+      "sha256": "45d8682abb8142b697333779b170db66502bf7ff94e12889f717d2d97af6cba2",
+      "bytes": 227
+    },
+    "apple-911848a8-smoke.json": {
+      "sha256": "712ce97e661892ca371ab35ec088a9e96849fcad6d33821e2aab699013d4f2dd",
+      "bytes": 759
+    },
+    "apple-911848a8-smoke.stderr": {
+      "sha256": "466c6cf11635afe63fcf6ca2e9667f0768e4bf9268004bd0294736c6a2f012c8",
+      "bytes": 817
+    },
+    "apple-911848a8-smoke.jsonl": {
+      "sha256": "33afe49d01b374913ef25b971802a068129ef48a284727335aecb7512c698625",
+      "bytes": 4611064
+    },
+    "apple-df2300f2-test.json": {
+      "sha256": "32187b230d45de4718ace03ae620123f306622a58327d9bf82e2b0f48a171144",
+      "bytes": 489
+    },
+    "apple-df2300f2-workload.stdout": {
+      "sha256": "424f9a6bcdd55807bd8348a295d3c01cecbe407b2eb5a1b00d6576ea462ee160",
+      "bytes": 283
+    },
+    "apple-df2300f2-build.json": {
+      "sha256": "e78b4230eb93844eac78c69a15877e9acb60e14580dc36555062a36d08acfe20",
+      "bytes": 525
+    },
+    "apple-df2300f2-load.jsonl": {
+      "sha256": "dbe1b5cb87706792c3e614d38771ec9bbc2c9d1f9aa7da6b533d72977f17cd0c",
+      "bytes": 65073374
+    },
+    "apple-911848a8-clippy.log": {
+      "sha256": "350e793abbc4a6d1829a250c145f1e09b7f463a1078f0fbfd14fbea39318a8bb",
+      "bytes": 1335
+    },
+    "apple-df2300f2-build.log": {
+      "sha256": "c791bfce4b22b8da4215bb4dde2cc9aeb13e7d20e8d464b82ccd02004a8dfc6c",
+      "bytes": 227
+    },
+    "apple-df2300f2-clippy.json": {
+      "sha256": "1fa7baf6c8202e667cc06f8b3822ae1718aaf7b219dd48e605acb4cf1cb591fa",
+      "bytes": 541
+    },
+    "apple-df2300f2-pulse-snapshot": {
+      "sha256": "8e250888c1e05326b70365da32e7ed374ca53e2a347cca7f1bc926f7b48e015c",
+      "bytes": 6375488
+    },
+    "apple-df2300f2-load.json": {
+      "sha256": "aa239a82ad93974ce94e67a1e1739e3a44ea05775ff6234a4991f15de180b3cb",
+      "bytes": 1533
+    },
+    "apple-df2300f2-load.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-911848a8-test.log": {
+      "sha256": "500766786bd6665b8c7538ffa40c06788387a5da120aac41bb969e16fcdada1b",
+      "bytes": 4469
+    },
+    "apple-df2300f2-workload.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-df2300f2-test.log": {
+      "sha256": "d6de336e293ef21fa0fc623a158fc51d83eb30c4ccc620860f9876f8ff9527b0",
+      "bytes": 4388
+    },
+    "apple-df2300f2-fmt.json": {
+      "sha256": "cf72586b4fd96a54a7a2e55295440856a7ab944d5d71cf412a9aa798a08f1902",
+      "bytes": 498
+    },
+    "apple-df2300f2-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  },
+  "local_artifacts": {
+    "apple-911848a8-clippy.json": {
+      "sha256": "0b211050857d6b2b9ac6bc559825d32e4ad3033d2e692dbfc29205434ca8c491",
+      "bytes": 318
+    },
+    "apple-911848a8-clippy.log": {
+      "sha256": "350e793abbc4a6d1829a250c145f1e09b7f463a1078f0fbfd14fbea39318a8bb",
+      "bytes": 1335
+    },
+    "apple-911848a8-smoke.json": {
+      "sha256": "712ce97e661892ca371ab35ec088a9e96849fcad6d33821e2aab699013d4f2dd",
+      "bytes": 759
+    },
+    "apple-911848a8-smoke.jsonl": {
+      "sha256": "33afe49d01b374913ef25b971802a068129ef48a284727335aecb7512c698625",
+      "bytes": 4611064
+    },
+    "apple-911848a8-smoke.stderr": {
+      "sha256": "466c6cf11635afe63fcf6ca2e9667f0768e4bf9268004bd0294736c6a2f012c8",
+      "bytes": 817
+    },
+    "apple-911848a8-test.json": {
+      "sha256": "0ed3c7a5cc2c4565719e0f132e63adaa5a5690e89776e221c74b7849de437530",
+      "bytes": 482
+    },
+    "apple-911848a8-test.log": {
+      "sha256": "500766786bd6665b8c7538ffa40c06788387a5da120aac41bb969e16fcdada1b",
+      "bytes": 4469
+    },
+    "apple-df2300f2-build.json": {
+      "sha256": "e78b4230eb93844eac78c69a15877e9acb60e14580dc36555062a36d08acfe20",
+      "bytes": 525
+    },
+    "apple-df2300f2-build.log": {
+      "sha256": "c791bfce4b22b8da4215bb4dde2cc9aeb13e7d20e8d464b82ccd02004a8dfc6c",
+      "bytes": 227
+    },
+    "apple-df2300f2-clippy.json": {
+      "sha256": "1fa7baf6c8202e667cc06f8b3822ae1718aaf7b219dd48e605acb4cf1cb591fa",
+      "bytes": 541
+    },
+    "apple-df2300f2-clippy.log": {
+      "sha256": "45d8682abb8142b697333779b170db66502bf7ff94e12889f717d2d97af6cba2",
+      "bytes": 227
+    },
+    "apple-df2300f2-fmt.json": {
+      "sha256": "cf72586b4fd96a54a7a2e55295440856a7ab944d5d71cf412a9aa798a08f1902",
+      "bytes": 498
+    },
+    "apple-df2300f2-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-df2300f2-load.json": {
+      "sha256": "aa239a82ad93974ce94e67a1e1739e3a44ea05775ff6234a4991f15de180b3cb",
+      "bytes": 1533
+    },
+    "apple-df2300f2-load.jsonl": {
+      "sha256": "dbe1b5cb87706792c3e614d38771ec9bbc2c9d1f9aa7da6b533d72977f17cd0c",
+      "bytes": 65073374
+    },
+    "apple-df2300f2-load.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-df2300f2-pulse-snapshot": {
+      "sha256": "8e250888c1e05326b70365da32e7ed374ca53e2a347cca7f1bc926f7b48e015c",
+      "bytes": 6375488
+    },
+    "apple-df2300f2-test.json": {
+      "sha256": "32187b230d45de4718ace03ae620123f306622a58327d9bf82e2b0f48a171144",
+      "bytes": 489
+    },
+    "apple-df2300f2-test.log": {
+      "sha256": "d6de336e293ef21fa0fc623a158fc51d83eb30c4ccc620860f9876f8ff9527b0",
+      "bytes": 4388
+    },
+    "apple-df2300f2-workload.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "apple-df2300f2-workload.stdout": {
+      "sha256": "424f9a6bcdd55807bd8348a295d3c01cecbe407b2eb5a1b00d6576ea462ee160",
+      "bytes": 283
+    },
+    "archive-911848a8.json": {
+      "sha256": "2179ec6997fe5ac4f358e302e76c2b982d0583f4e92a8d76a74cf032a6366561",
+      "bytes": 257
+    },
+    "archive-df2300f2.json": {
+      "sha256": "dcdb53f228cb1524fa644ee75866639bcdf6728c9715883b11fec02b2fc4ecfb",
+      "bytes": 257
+    },
+    "linux-df2300f2-checks.json": {
+      "sha256": "b536ab64a1fbb6e527b1304f519791dd71fd1aee428276801f9fcc8c3580b265",
+      "bytes": 1169
+    },
+    "linux-df2300f2-clippy.log": {
+      "sha256": "8788e4de5069bff498a1c7adcb1b7ff80bff2e5c8b623e00ce6a1e54011c92ba",
+      "bytes": 124
+    },
+    "linux-df2300f2-fmt.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "linux-df2300f2-test.log": {
+      "sha256": "29d5ac292ba46b8fd113fd8be61b2c931187ab3418b726484f5af41105da274f",
+      "bytes": 8847
+    },
+    "native-checks-df2300f2-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-checks-df2300f2-launch.stdout": {
+      "sha256": "392640d1b978c045c5683d7960b7840b94dc248f3916a9d7035bca2587707bbc",
+      "bytes": 6739
+    },
+    "native-load-df2300f2-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-load-df2300f2-launch.stdout": {
+      "sha256": "5c92022ccec86a65a0ddbfd3cf6f165ff33a8f15d7ddeddd3c956feb1c2639dd",
+      "bytes": 3849
+    },
+    "native-smoke-911848a8-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-smoke-911848a8-launch.stdout": {
+      "sha256": "0a0914f5b6b3d7d800cd2623517f772c16e8e57c1c437b71a3eb069d7fc10d47",
+      "bytes": 11545
+    },
+    "native-test-911848a8-launch.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "native-test-911848a8-launch.stdout": {
+      "sha256": "47cd20e5c843c5c7d77b2cafbc2fc195b6f489d8f1a61df18164aa2beeebce01",
+      "bytes": 4910
+    },
+    "remote-files.json": {
+      "sha256": "996ba993e8873f4ffd9e91179996e0e3561df69732626dcb686836cca6ca9231",
+      "bytes": 3325
+    },
+    "run-native-checks-df2300f2.py": {
+      "sha256": "fdf1a8d5d411e9227eb6a60374cc5092ade309860165bbc2a74dae8ba09151d2",
+      "bytes": 1896
+    },
+    "run-native-load-df2300f2.py": {
+      "sha256": "96faf2d6e2ce9a01243a0c3dcb8919ba153355be773e15dbb4b48dd2d12216ce",
+      "bytes": 3307
+    },
+    "run-native-smoke-911848a8.py": {
+      "sha256": "ec40314c28947034197dd240d9c0c2f30746a817ca749970ddc353504189c3d4",
+      "bytes": 2060
+    },
+    "run-native-test-911848a8.py": {
+      "sha256": "2fd0794ffeca4e612f77e2e8a2e7a6b8aa5d42107d990ce3ea43e1e04d01fbf8",
+      "bytes": 1391
+    },
+    "source-911848a8.tar": {
+      "sha256": "e41bd9ae4df03f2de9fe6215cc8aa0ca97954005a5c4ee99c3cb7c149a55bd16",
+      "bytes": 24596480
+    },
+    "source-df2300f2.tar": {
+      "sha256": "fe678f1ec3c1e89435764f5a1dfd0d3c3c2e070e9fabc6b319085cfd0152f256",
+      "bytes": 24627200
+    }
+  }
+}

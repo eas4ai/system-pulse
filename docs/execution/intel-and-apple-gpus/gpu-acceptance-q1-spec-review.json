@@ -1,0 +1,354 @@
+{
+  "schema": 1,
+  "review": "Independent read-only Task 4 Q1 specification re-review",
+  "verdict": "SPEC PASS",
+  "candidate": "f1e781337d0e32f30c7800795864395dd96e2028",
+  "baseline": "50ea29d6653d42ceafc8b3f246b9a18ae721b612",
+  "quality_finding_parent": "11d2c450",
+  "reviewed_at_utc": "2026-09-06T17:32:15.782034+00:00",
+  "scope": "Q1 process ownership correction; prior F1\u2013F10 SPEC PASS remains baseline. This is not hardware acceptance or a quality re-review.",
+  "findings": [],
+  "q1": "CLOSED for specification review",
+  "code_assessment": [
+    {
+      "source": "scripts/system-pulse/gpu_capture.py:84",
+      "assessment": "Guard begins before Popen and covers start-record publication, waiting and stream closure. Any successful child is cleaned in finally before attempted log hashes and completion publication."
+    },
+    {
+      "source": "scripts/system-pulse/gpu_capture.py:35",
+      "assessment": "Bounded TERM/KILL process-group cleanup and direct-child wait retain secondary errors and truthfully record any residual group. No broad child reaping or production subreaper policy."
+    },
+    {
+      "source": "scripts/system-pulse/gpu_capture.py:164",
+      "assessment": "Hashing and completion recording failures are retained independently; triggering exception object is re-raised with capture record and separate secondary errors."
+    },
+    {
+      "source": "scripts/system-pulse/gpu_capture.py:225",
+      "assessment": "Per-job in-memory stop events preserve concurrent cleanup ownership independently of start-file presence or writable artifact storage; body error retains priority over cleanup/reporting errors."
+    },
+    {
+      "source": "scripts/system-pulse/test_gpu_native.py:102",
+      "assessment": "Three new methods exercise seven real-process fault cases: four start-write cases, two real SIGINT cases, one deleted-start concurrent case. Ten lifecycle methods total, including seven existing normal/cleanup/native-contract tests."
+    }
+  ],
+  "independent_checks": [
+    {
+      "name": "gpu-tests",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_gpu_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 13.341342255007476,
+      "stdout_sha256": "bd58eabae02ea4e521ba99f45767026f7dab5f521c6508285c6ae5d673fc28f9",
+      "stderr_sha256": "e8d3748b00c2dab1d6f3939bd08ba721e6fcb5fd7dc16b1ef14888d82dac3a64"
+    },
+    {
+      "name": "development-gate",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--development-tests-only",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-f1e78133/development"
+      ],
+      "exit_code": 0,
+      "seconds": 13.8823170439573,
+      "stdout_sha256": "47860d0e0d5818cf493b70bea17ea8ea438d16310608f0791d4f7b22bff67207",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ruff",
+      "command": [
+        "ruff",
+        "check",
+        "--no-cache",
+        "scripts/system-pulse/gpu_capture.py",
+        "scripts/system-pulse/test_gpu_native.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.009577638003975153,
+      "stdout_sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "format",
+      "command": [
+        "ruff",
+        "format",
+        "--check",
+        "--no-cache",
+        "scripts/system-pulse/gpu_capture.py",
+        "scripts/system-pulse/test_gpu_native.py"
+      ],
+      "exit_code": 0,
+      "seconds": 0.008632468990981579,
+      "stdout_sha256": "3bc53bf3e981a98a34a852e175bf9b77af841edea74fca595d9aedcbaf9a4938",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "diff",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "50ea29d6653d42ceafc8b3f246b9a18ae721b612",
+        "f1e781337d0e32f30c7800795864395dd96e2028"
+      ],
+      "exit_code": 0,
+      "seconds": 0.004043321940116584,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu_verify-help",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_verify.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.049010821036063135,
+      "stdout_sha256": "4a5c80eeb3a9125f76ee18ce1df309b14931606e60079188eceed3c98b6cd2d2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu_host_capture-help",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_host_capture.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.06350067094899714,
+      "stdout_sha256": "0d8f044287e8424540f38b4bf1e2bc13224d4e9b090514bf49cb0488be9faf5f",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gpu_intel_capture-help",
+      "command": [
+        "python3",
+        "-B",
+        "scripts/system-pulse/gpu_intel_capture.py",
+        "--help"
+      ],
+      "exit_code": 0,
+      "seconds": 0.040919395978562534,
+      "stdout_sha256": "f8576843586517d483c25004359861f598174ff1d555e5942b50b5f7dc58bd8d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "gpu_test_count": 60,
+  "development_groups": {
+    "gpu-aggregate": 6,
+    "gpu-apple-capture": 5,
+    "gpu-arithmetic": 6,
+    "gpu-desktop": 8,
+    "gpu-evidence": 15,
+    "gpu-intel": 10,
+    "gpu-native": 10
+  },
+  "independent_extra_faults": [
+    {
+      "case": "stream_close",
+      "elapsed_seconds": 0.016288693994283676,
+      "original_exception_preserved": true,
+      "error_type": "OSError",
+      "capture_errors": [],
+      "children_after_owner": [
+        {
+          "pid": 3983083,
+          "reaped": true,
+          "group_exists": false
+        }
+      ],
+      "unrelated_child_still_running": true
+    },
+    {
+      "case": "wait",
+      "elapsed_seconds": 0.02137345797382295,
+      "original_exception_preserved": true,
+      "error_type": "OSError",
+      "capture_errors": [],
+      "children_after_owner": [
+        {
+          "pid": 3983100,
+          "reaped": true,
+          "group_exists": false
+        }
+      ],
+      "unrelated_child_still_running": true
+    },
+    {
+      "case": "hash_and_completion",
+      "elapsed_seconds": 0.016134659992530942,
+      "original_exception_preserved": true,
+      "error_type": "OSError",
+      "capture_errors": [
+        {
+          "stage": "completion recording",
+          "type": "OSError",
+          "message": "[Errno 28] independent secondary completion failure"
+        }
+      ],
+      "children_after_owner": [
+        {
+          "pid": 3983105,
+          "reaped": true,
+          "group_exists": false
+        }
+      ],
+      "unrelated_child_still_running": true
+    },
+    {
+      "case": "completion",
+      "elapsed_seconds": 0.015945459017530084,
+      "original_exception_preserved": true,
+      "error_type": "OSError",
+      "capture_errors": [],
+      "children_after_owner": [
+        {
+          "pid": 3983106,
+          "reaped": true,
+          "group_exists": false
+        }
+      ],
+      "unrelated_child_still_running": true
+    },
+    {
+      "case": "two_concurrent_missing_starts",
+      "elapsed_seconds": 0.13240266707725823,
+      "original_exception_preserved": true,
+      "error_type": "RuntimeError",
+      "capture_errors": [],
+      "children_after_owner": [
+        {
+          "pid": 3983108,
+          "reaped": true,
+          "group_exists": false
+        },
+        {
+          "pid": 3983110,
+          "reaped": true,
+          "group_exists": false
+        }
+      ],
+      "unrelated_child_still_running": true
+    },
+    {
+      "case": "two_concurrent_reporting_failure",
+      "elapsed_seconds": 0.13263930298853666,
+      "original_exception_preserved": true,
+      "error_type": "RuntimeError",
+      "capture_errors": [
+        {
+          "stage": "one cleanup",
+          "type": "OSError",
+          "message": "[Errno 28] independent concurrent recording failure"
+        },
+        {
+          "stage": "two cleanup",
+          "type": "OSError",
+          "message": "[Errno 28] independent concurrent recording failure"
+        },
+        {
+          "stage": "lifecycle recording",
+          "type": "OSError",
+          "message": "[Errno 28] independent concurrent recording failure"
+        },
+        {
+          "stage": "cleanup-error recording",
+          "type": "OSError",
+          "message": "[Errno 28] independent concurrent recording failure"
+        }
+      ],
+      "children_after_owner": [
+        {
+          "pid": 3983130,
+          "reaped": true,
+          "group_exists": false
+        },
+        {
+          "pid": 3983132,
+          "reaped": true,
+          "group_exists": false
+        }
+      ],
+      "unrelated_child_still_running": true
+    }
+  ],
+  "frozen_replay_interpretation": {
+    "ENOSPC": "Exact original script exits 1 at its old defect assertion because child_still_alive=false, group_still_exists=false and finished_record_exists=true. Closure, not a failed candidate check.",
+    "SIGINT": "Exact original script exits 0 at its old existence assertions. Separate diagnostic observes /proc state Z and waitid WNOWAIT exit status SIGKILL=9 before the original confined observer reaps its adopted descendant. It is not an executing descendant. KeyboardInterrupt remains primary and residual group absence failure is recorded separately. Corrected committed regression observer reaps during cleanup and verifies absent group."
+  },
+  "integrity": {
+    "candidate": "f1e781337d0e32f30c7800795864395dd96e2028",
+    "tracked_files_verified": 2072,
+    "initial_capture_script_hashes_verified": 60,
+    "worktree_status": "",
+    "code_changes_since_baseline": [
+      "scripts/system-pulse/gpu_capture.py",
+      "scripts/system-pulse/test_gpu_native.py"
+    ],
+    "correction_commit_changes": [
+      "docs/execution/intel-and-apple-gpus/gpu-acceptance-implementation.md",
+      "docs/execution/intel-and-apple-gpus/gpu-acceptance-q1-correction.json",
+      "scripts/system-pulse/gpu_capture.py",
+      "scripts/system-pulse/test_gpu_native.py"
+    ],
+    "frozen_manifests": [
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/artifact-manifest.json",
+        "sha256": "48e5439f0ce77cbb67cb9caa384aa8f8feff8eee1d223fa29cfd0a079caea42b",
+        "files_verified": 51
+      },
+      {
+        "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/post-commit-artifact-manifest.json",
+        "sha256": "595f6e821505b2e6cc5a9d11be40e817d96fac309c662dacec4bb5289d0a959c",
+        "files_verified": 93
+      }
+    ]
+  },
+  "prior_protections": "Only gpu_capture.py and test_gpu_native.py changed among scripts/crates since prior SPEC baseline. Seven groups pass, including evidence/provenance, aggregate ownership, Intel, arithmetic, desktop and Apple capture. Role commands, executable/log hashes, environment/native provenance fields and strict lifecycle verification remain in place. No native/Rust source changes.",
+  "limits": [
+    "Full 443-test Python suite and native/Rust builds were not independently repeated in this Q1 review; affected GPU tests and CLI/lint checks were run.",
+    "No Intel integrated/discrete or unlocked Apple GUI hardware acceptance evidence produced.",
+    "Original Linux native two-second freshness failures remain unresolved.",
+    "Task 5 macOS main/dispatcher autorelease-pool correction remains unimplemented.",
+    "No Cairn acceptance, marker, plan/decision, source or index edits by reviewer."
+  ],
+  "self_audit": {
+    "1_understand_before_edit": "PASS: read actual correction and previously recorded finding before executing review probes.",
+    "2_smallest_change": "PASS: read-only source review; artifacts only in assigned external directory.",
+    "3_maintainability": "PASS: focused shared ownership helper and per-job Event; no broader redesign.",
+    "4_boundary_contracts": "PASS: existing command/provenance/lifecycle interfaces retained; exception paths verified.",
+    "5_errors_and_secrets": "PASS: primary error identity preserved and secondary failures retained; no secret-bearing probes.",
+    "6_security": "PASS: only task-owned groups targeted; unrelated sentinel remains running in every extra probe.",
+    "7_survivable_state": "PASS: recording failures and missing start files covered.",
+    "8_reliability": "PASS: bounded child cleanup verified; descendant zombie interpreted correctly.",
+    "9_todo": "PASS: scoped review, replay and integrity/report steps tracked and verified.",
+    "10_verification": "PASS: 60 GPU tests, seven groups, three CLIs, affected lint/format and diff; six extra real-process cases.",
+    "11_honesty": "PASS: original repro exit meanings and unavailable hardware/full-suite checks explicitly distinguished.",
+    "12_partnership": "PASS: parent received findings and evidence interpretation during review.",
+    "13_release_gate": "PASS for Q1 SPEC review; broader hardware/Task 5 work remains explicitly incomplete.",
+    "14_plain_english": "PASS: concrete source boundaries, observations and limits stated."
+  },
+  "root_verified_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/q1-f1e78133/artifact-manifest.json",
+    "sha256": "e56055a79cbe32a780b166b09d2e106915c75f096ada996231be6824ae0f1861",
+    "bytes": 14621,
+    "files": 87,
+    "root_verified_unix_ns": 1788715993388893476
+  }
+}

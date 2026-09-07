@@ -1,0 +1,9 @@
+{
+  "blob": "621c6d530fd5aa29a40599b9b1167fd9eefb9efa",
+  "commit": "9ecde13ae454b2deac89bc7c15e4f38be92307ed",
+  "path": "oshi-core/src/main/java/oshi/util/platform/mac/SmcUtil.java",
+  "repository": "https://github.com/oshi/oshi",
+  "sha256": "9bc8db0d783eaa772936486c38258700902dfd9956fa34151abb7162a98c594a",
+  "source_url": "https://github.com/oshi/oshi/blob/9ecde13ae454b2deac89bc7c15e4f38be92307ed/oshi-core/src/main/java/oshi/util/platform/mac/SmcUtil.java#L206-L230",
+  "tree": "db4c6ec87027b303e7ab006cc356a0f35bb98493"
+}

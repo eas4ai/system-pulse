@@ -1,0 +1,29 @@
+# Reveal an acknowledged process shifted during cell inspection
+
+Level: Judged
+Decided by: agent
+Rests on: LIVE-003, LIVE-010 and LIVE-013 require exact identity and native metric evidence. Capture pd67p9yj acknowledged the controlled child and verified columns 0 through 3, then retained the same identity one index above the viewport before column 4 lookup timed out.
+Would be wrong if: Preparation selects a row or changes the keyboard endpoint, treats native absence as model clearing, accepts stale or ambiguous evidence, replaces final metric membership/value proof, changes generic callers or production behavior, or extends an existing deadline.
+History: The prior reversal corrected an overclaim about virtualized selection. This decision requires a prior independent exact selection acknowledgement and a later positive observation, then demands exact selection again after nonselecting preparation. It is separate from keyboard endpoint recovery; inspection indices are never described as key-issued endpoints. Judged remains appropriate because this is bounded verifier preparation within existing reachability and comparison requirements.
+
+## Decision
+
+Support only controlled-child cell inspection after successful independent navigation. Capture explicit caller-owned acknowledgement evidence from the coherent final navigation proof without another read or deadline. Retain the last positive native observation index and publication, initially that proof and subsequently only successfully verified metric artifacts. Freeze the evidence for each inspection call. An optional missing-row preparation callback may trigger after ordinary lookup finds no row, but that non-strict absence cannot authorize input. Reuse existing recovery machinery to establish a fresh coherent frame, complete strict scan, unique current Processes panel and current membership; target identity must still exist outside the mapped instantiated span, its index must have changed, and the last positive numeric index must lie inside the span. Reject any instantiated selected competitor or instantiated unselected target. Use only nonselecting vertical wheel inside the clipped rows viewport; discard provisional eligibility after rejection before first dispatch and retain established gesture evidence only after dispatch. Require fresh exact selected identity afterward, then retry ordinary unique panel/row/cell lookup and retain every original independent metric comparison and clipping check. Callback cannot return a cell or recursively invoke cell lookup. Share the existing absolute deadline: initial metric discovery 15 seconds, horizontal gesture and metric reacquisition their existing five seconds; the independent five-second comparison bracket stays unchanged. Keep ordinary callers and held-input measurements unchanged. Record prior acknowledgement, last positive observation, original/current indices, span, publication, action and deadline with inspection-specific terminology. Test the observed displacement and all guard, membership, failure and deadline paths, then complete independent SPEC and QUALITY reviews before fresh live and aggregate acceptance. Preserve the failed capture and do not claim product viewport anchoring or a cause for earlier unrelated failures.
+
+## Connected pre-exit proof
+
+Independent SPEC probes reproduced a detached-cache false acknowledgement
+and displaced-row timeout in the existing call after app.sequences and
+before stop_child. The selected-child exit case requires that live selection
+premise. Extend this same inspection-owned proof to that one boundary,
+using the frozen last successful metric evidence and its existing five-second
+deadline. Keep generic and held-input acknowledgement, stop_child, and
+strict exit verification unchanged. This closes a connected verifier gap;
+it does not broaden allowed scrolling or product behavior. The Judged level
+and recorded reversal reasoning remain unchanged. See the inspection review.
+
+## Realized by
+
+- b7dd5553dea48b257b853cda9608b77b31d676e0 fix: prepare acknowledged child inspection after row displacement
+- adfd96a70e11a4a4a4abcef1e3e9715a41953fa3 fix: prove current selected child before exit
+- f8b9eb1b69786e9493c31fbc4fcb386462fd602c fix: reuse current panel during established inspection recovery

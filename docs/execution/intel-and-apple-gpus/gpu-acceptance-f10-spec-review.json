@@ -1,0 +1,88 @@
+{
+  "verdict": "SPEC FINDINGS \u2014 NOT PASS",
+  "candidate": "eccf56b7e5cb34c8a5103cbc36d9583c1383d6dc",
+  "baseline": "ece89eaec5c7e0775b44583dcefaa92661cc46ca",
+  "reviewed_utc": "2026-09-06T16:28:26.248911+00:00",
+  "finding": {
+    "id": "F10",
+    "status": "OPEN",
+    "severity": "P2",
+    "title": "Join Intel host-provider identity to the independent physical inventory",
+    "location": "scripts/system-pulse/gpu_provenance.py:421",
+    "related_locations": [
+      "scripts/system-pulse/gpu_provenance.py:433",
+      "scripts/system-pulse/gpu_provenance.py:483",
+      "scripts/system-pulse/gpu_provenance.py:510",
+      "scripts/system-pulse/gpu_provenance.py:525",
+      "scripts/system-pulse/gpu_evidence.py:406"
+    ],
+    "requirements": [
+      "GPU-008",
+      "GPU-009"
+    ],
+    "closed_portion": "Missing host.json, missing OS/kernel/driver/API originals, wrong native owner/command and inconsistent shared Apple image evidence now reject; truthful Intel and Apple full-ingestion positives accept.",
+    "remaining": "Full verify_host accepts nested host metadata claiming selected PCI device ID 0x9999 or driver i915 while independent physical inventory, source operands and Vulkan receipt remain device ID 0x1234 and driver xe. Both cases consistently rewrite/re-hash every affected host metadata original, while leaving independent raw field/device and Vulkan originals intact. Both earn GPU-008.",
+    "cause": "host_facts compares only monitor-ID sets against inventory.discovery, then compares each provider identity with discovery replayed from the same nested metadata sysfs. Its returned complete identity is reconciled only across host metadata copies, never against inventory.discovery or inventory.device.",
+    "expected_join": [
+      "pci",
+      "driver",
+      "physical_path",
+      "monitor_id",
+      "vendor",
+      "device_id"
+    ],
+    "remedy": "Require each metadata provider and replayed host discovery to match the corresponding independent inventory.discovery projection across the existing six stable identity fields. Preserve complete-device coverage and alias/order invariants. Add full-route consistently rehashed wrong-device-ID and wrong-driver negatives with restored Intel/Apple positives."
+  },
+  "prior_findings": {
+    "F1": "CLOSED; baseline preserved",
+    "F2": "CLOSED; baseline preserved",
+    "F3": "CLOSED; baseline preserved",
+    "F4": "CLOSED; baseline preserved",
+    "F5": "CLOSED; baseline preserved",
+    "F6": "CLOSED; baseline preserved",
+    "F7": "CLOSED; baseline preserved",
+    "F8": "CLOSED; baseline preserved",
+    "F9": "CLOSED; baseline preserved"
+  },
+  "checks": {
+    "gpu_test_count": 56,
+    "development_groups": [
+      6,
+      5,
+      6,
+      8,
+      14,
+      10,
+      7
+    ],
+    "native_readiness_originals_verified": 20,
+    "unchanged_candidate_files": 60,
+    "source_inputs": 711,
+    "independent_provenance_cases": 13,
+    "affected_regression_cases": 24
+  },
+  "evidence_files": [
+    "initial-checks.json",
+    "independent-provenance-attacks.py",
+    "independent-provenance-attacks.stdout",
+    "independent-provenance-results.json",
+    "affected-regressions.py",
+    "affected-regressions.stdout",
+    "affected-regression-results.json",
+    "replay-retained-findings.py",
+    "replay-retained-findings.stdout",
+    "standalone-accepted-reports.json",
+    "report-original-hashes.json",
+    "independent-native-readiness-verification.json",
+    "final-integrity-checks.json"
+  ],
+  "scope": "Read-only source review plus external synthetic verifier fixtures. No fresh native workload, GUI, SDK changes, build, preservation or Cairn acceptance run. Hardware matrix and Task5 remain pending.",
+  "original_review_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/f10-eccf56b7",
+  "original_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/spec-review/f10-eccf56b7/review-artifact-manifest.json",
+    "sha256": "e501c26cca7555c44c20d8e567cc06cf7a477d12ca94fface6d159cfb9ee36c5",
+    "bytes": 672679,
+    "files": 3311,
+    "root_verified_unix_ns": 1788712223614418809
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "status": "diagnostic-only FAIL",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/native-selection-poll-diagnostic/native",
+  "error": [
+    "list.index(x): x not in list"
+  ],
+  "selection_poll_count": 128,
+  "logged_selection_poll_max_ms": 63.058926,
+  "navigation_batches": 176,
+  "first_batch": {
+    "op": "navigation-batch",
+    "monotonic_ns": 712210848112072,
+    "target": "process:560792:71220890",
+    "selected": "process:4186560:70974873",
+    "expected": "process:4122413:70937163",
+    "count": 2,
+    "distance": 355,
+    "sequence": 96,
+    "deadline": 712389.887631843
+  },
+  "last_batch": {
+    "op": "navigation-batch",
+    "monotonic_ns": 712385856863603,
+    "target": "process:560792:71220890",
+    "selected": "process:667676:63501401",
+    "expected": "process:580577:71238526",
+    "count": 2,
+    "distance": 17,
+    "sequence": 271,
+    "deadline": 712389.887631843
+  },
+  "hashes": {
+    "result.json": "bbb5b8db6c9206962f57e4aa01d5b516eb9e8e77a2e7c6d11f431110da0676bd",
+    "private-session.log": "4268a9c8aa408e69b40bbc1d093579a79ac6ab4f9f3ee927d3b1f37a577536c0",
+    "session-01/journal.jsonl": "f22a4ce6a0bf046a0f9888a385ee8547049ec5529fb205af8f58e220164a5233",
+    "session-01/failure-frame.json": "1623029ae4bd157a9c8a7444f0df62a77cd18b61f3f99dbf9eae3ef5bce94eea",
+    "session-01/failure.png": "523cd27604920f4544d6688bc660b07f9231bf23b6d85170ed1eb21a544bcd13",
+    "session-01/cleanup.json": "9f079a24a2ffb624384f3765e9df9aa6fdce3b793460161de777d120215591bc",
+    "transport-cleanup.json": "b6dac44a92a1e8b0e207a839d294eaa7ed320174a61f5c63102ac909eac8123e"
+  }
+}

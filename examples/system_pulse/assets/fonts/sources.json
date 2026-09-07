@@ -1,0 +1,32 @@
+[
+  {
+    "file": "IBMPlexSans-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/IBM/plex/bf260093582f04622aacc1e9f9ca604d7ccd0c42/packages/plex-sans/fonts/complete/ttf/IBMPlexSans-Regular.ttf",
+    "sha256": "975dcda37d80f038dcd143c22e33ca2d97a0cc5a929aace1c749153b0fe1afa5"
+  },
+  {
+    "file": "IBMPlexMono-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/IBM/plex/bf260093582f04622aacc1e9f9ca604d7ccd0c42/packages/plex-mono/fonts/complete/ttf/IBMPlexMono-Regular.ttf",
+    "sha256": "7c6fbddca4b700be918f5f6183d9bd4464fa427fe435f0b480d77fe2bb8c5a43"
+  },
+  {
+    "file": "IBM-Plex-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/IBM/plex/bf260093582f04622aacc1e9f9ca604d7ccd0c42/LICENSE.txt",
+    "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da"
+  },
+  {
+    "file": "Inter-Regular.ttf",
+    "source": "crates/story-web/fonts/Inter-Regular.ttf",
+    "sha256": "28fbc5ebafc7f4a4a839d7d0d6ba27407d91c8e52fb63a6db0742a576d6723b6"
+  },
+  {
+    "file": "JetBrainsMono-Regular.ttf",
+    "source": "crates/story-web/fonts/JetBrainsMono-Regular.source.ttf",
+    "sha256": "a0bf60ef0f83c5ed4d7a75d45838548b1f6873372dfac88f71804491898d138f"
+  },
+  {
+    "file": "Inter-JetBrainsMono-OFL.txt",
+    "source": "crates/story-web/fonts/OFL.txt",
+    "sha256": "3907ac2a3f017acb830950733bf3bb7ecd5c66060b65f9f6d66255267cfad95d"
+  }
+]

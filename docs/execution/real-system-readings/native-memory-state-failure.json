@@ -1,0 +1,18 @@
+{
+  "source_commit": "310d3402",
+  "artifacts": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-process-lookup-8v3fvvt0/native",
+  "status": "FAIL",
+  "error": [
+    "independent Memory choices changed"
+  ],
+  "hashes": {
+    "result.json": "d19ee81c9ae720176f3aa2be5925e651594995093d718d874fd019262248ac36",
+    "session-01/metadata.json": "631749119153c02b7f8072520cd37bc01c1f401804161cfa359b6a235d77094f",
+    "session-01/journal.jsonl": "e0c81f9bfc59196d1d651b4069b9451c8b1f1002f9ed305a0704fa3a3dfa175c",
+    "session-01/failure-frame.json": "cbdbed10e1b9eb930062817675e953cfefa592f99bab4c8864738ca3d9ae745d",
+    "session-01/failure.png": "9b72a729d666176d95c84cdb766429003d7b45a0932e978ad70eeebca410b3ec",
+    "state/workspace.json": "cb94cd557fac0799dfa3a97b3ffb3fbe16e9a68fe040cb2eee1784d255851290",
+    "session-01/cleanup.json": "abd3cdf8e3c0490ed1c41a125073462e80720af366a2b4ba69cfee6df7b17b4a",
+    "transport-cleanup.json": "ecfc3214e850ed925a015c844273efe878c7eacb63b385305d3a778337a01332"
+  }
+}

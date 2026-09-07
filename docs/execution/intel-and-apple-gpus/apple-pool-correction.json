@@ -1,0 +1,1058 @@
+{
+  "status": "source checkpoint; full application lifetime finding F1 remains open",
+  "base_commit": "45ce641821c14035279dacbad8b58edcd568777e",
+  "upstream_commit": "f66ed399cdde86092af8af3dc7b418abf45f37f8",
+  "unchanged_original_files": [
+    "LICENSE-APACHE",
+    "src/display.rs",
+    "src/display_link.rs",
+    "src/events.rs",
+    "src/gpui_macos.rs",
+    "src/keyboard.rs",
+    "src/open_type.rs",
+    "src/pasteboard.rs",
+    "src/platform.rs",
+    "src/screen_capture.rs",
+    "src/system_notifications.rs",
+    "src/text_system.rs",
+    "src/window.rs",
+    "src/window_appearance.rs"
+  ],
+  "final_native_source_archive": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/correction-20260906/pool-green2-source.tar.gz",
+    "sha256": "737011493389d04c9f16f72342787c3c26e48d4901ade91f49839f7561bc17b4"
+  },
+  "post_native_snapshot_changes": [
+    "vendor/gpui_macos/UPSTREAM.json"
+  ],
+  "native_checks": [
+    {
+      "name": "dispatcher-compile",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--test",
+        "macos_dispatcher_lifetime",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "pid": 10246,
+      "pgid": 10246,
+      "started": 1788719872.978654,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 17.50389313697815,
+      "stdout": {
+        "path": "dispatcher-compile.stdout",
+        "bytes": 719918,
+        "sha256": "95a529cde1129b05d73f962e659024de844253034068f2e02dab26d596ebd99e"
+      },
+      "stderr": {
+        "path": "dispatcher-compile.stderr",
+        "bytes": 749,
+        "sha256": "000c7d159cfe39cdc20f9d2d8cbe4e7e0da9572162d9d5640debae0bb0e3a0dd"
+      }
+    },
+    {
+      "name": "callback_drains_temporary_and_preserves_retained_and_owned_result",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_dispatcher_lifetime-baab1d5f7edd6270",
+        "--exact",
+        "dispatcher::lifetime_tests::callback_drains_temporary_and_preserves_retained_and_owned_result",
+        "--nocapture"
+      ],
+      "pid": 10368,
+      "pgid": 10368,
+      "started": 1788719890.492411,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.3108851909637451,
+      "stdout": {
+        "path": "callback_drains_temporary_and_preserves_retained_and_owned_result.stdout",
+        "bytes": 218,
+        "sha256": "ca8e12f8a87788a521d00b41662acf98407c18d183d2960ed5564896426aa939"
+      },
+      "stderr": {
+        "path": "callback_drains_temporary_and_preserves_retained_and_owned_result.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "callback_drains_on_error_result",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_dispatcher_lifetime-baab1d5f7edd6270",
+        "--exact",
+        "dispatcher::lifetime_tests::callback_drains_on_error_result",
+        "--nocapture"
+      ],
+      "pid": 10369,
+      "pgid": 10369,
+      "started": 1788719890.808432,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.018286943435668945,
+      "stdout": {
+        "path": "callback_drains_on_error_result.stdout",
+        "bytes": 184,
+        "sha256": "16263235ae05cce20939fdf34ecdbf25dc35edf258a4b1c65b7badfcfedff94b"
+      },
+      "stderr": {
+        "path": "callback_drains_on_error_result.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "each_pending_poll_drains_before_the_next_invocation",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_dispatcher_lifetime-baab1d5f7edd6270",
+        "--exact",
+        "dispatcher::lifetime_tests::each_pending_poll_drains_before_the_next_invocation",
+        "--nocapture"
+      ],
+      "pid": 10370,
+      "pgid": 10370,
+      "started": 1788719890.832326,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.02304816246032715,
+      "stdout": {
+        "path": "each_pending_poll_drains_before_the_next_invocation.stdout",
+        "bytes": 204,
+        "sha256": "08faf52413504ee292ba8e72ed69f009fe001c51134ec2a2ff619e22ae9856fa"
+      },
+      "stderr": {
+        "path": "each_pending_poll_drains_before_the_next_invocation.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "canceled_runnable_drains_native_temporaries_created_by_future_drop",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_dispatcher_lifetime-baab1d5f7edd6270",
+        "--exact",
+        "dispatcher::lifetime_tests::canceled_runnable_drains_native_temporaries_created_by_future_drop",
+        "--nocapture"
+      ],
+      "pid": 10371,
+      "pgid": 10371,
+      "started": 1788719890.861873,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.011004209518432617,
+      "stdout": {
+        "path": "canceled_runnable_drains_native_temporaries_created_by_future_drop.stdout",
+        "bytes": 219,
+        "sha256": "311eb766b8837de1e168f052d6249cbb49f5bf6e55c4e72f0406b9eee6dc2ea4"
+      },
+      "stderr": {
+        "path": "canceled_runnable_drains_native_temporaries_created_by_future_drop.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "native_background_and_delayed_dispatch_drain_on_the_callback_thread",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_dispatcher_lifetime-baab1d5f7edd6270",
+        "--exact",
+        "dispatcher::lifetime_tests::native_background_and_delayed_dispatch_drain_on_the_callback_thread",
+        "--nocapture"
+      ],
+      "pid": 10372,
+      "pgid": 10372,
+      "started": 1788719890.8772092,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.08890390396118164,
+      "stdout": {
+        "path": "native_background_and_delayed_dispatch_drain_on_the_callback_thread.stdout",
+        "bytes": 220,
+        "sha256": "daea117ae09abf3466dc123b5b6a55a87ce21c96e962bf89310b4c050492cfd3"
+      },
+      "stderr": {
+        "path": "native_background_and_delayed_dispatch_drain_on_the_callback_thread.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "application-compile",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--test",
+        "macos_application_lifetime",
+        "--no-run",
+        "--message-format=json"
+      ],
+      "pid": 10373,
+      "pgid": 10373,
+      "started": 1788719890.968873,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 1.689384937286377,
+      "stdout": {
+        "path": "application-compile.stdout",
+        "bytes": 719918,
+        "sha256": "7f5f06cd6fffc53a4a55dc9421c5735ea4decb7f7c77c0619e1a4b731e9fe5ac"
+      },
+      "stderr": {
+        "path": "application-compile.stderr",
+        "bytes": 463,
+        "sha256": "ab589b889e2973a4ece045796f3bd3072b3e067713968e8e8ac8ef714cda135b"
+      }
+    },
+    {
+      "name": "application-success",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+        "success"
+      ],
+      "pid": 10377,
+      "pgid": 10377,
+      "started": 1788719892.6869602,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.8028106689453125,
+      "stdout": {
+        "path": "application-success.stdout",
+        "bytes": 34,
+        "sha256": "133375764bd602405fc1a58dbbafafcdd8449dd2786bbb3952535f465db97fad"
+      },
+      "stderr": {
+        "path": "application-success.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "application-error",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+        "error"
+      ],
+      "pid": 10380,
+      "pgid": 10380,
+      "started": 1788719893.492183,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.14887189865112305,
+      "stdout": {
+        "path": "application-error.stdout",
+        "bytes": 32,
+        "sha256": "04564dba0aa8a9a9fb2e0fa7b53448fc011658f98dab125b55b80c58ebbbaec7"
+      },
+      "stderr": {
+        "path": "application-error.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "application-unwind",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+        "unwind"
+      ],
+      "pid": 10381,
+      "pgid": 10381,
+      "started": 1788719893.644209,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.14882397651672363,
+      "stdout": {
+        "path": "application-unwind.stdout",
+        "bytes": 33,
+        "sha256": "77ad02d3ce5ae387af39128fa6d7808ac5e88d1f2aae6da24ebeb8f4c8049b50"
+      },
+      "stderr": {
+        "path": "application-unwind.stderr",
+        "bytes": 211,
+        "sha256": "1bafb50dffcc9fa760e869317fe92923ec8275b5cf4edb6a6decc1cce0c785fa"
+      }
+    },
+    {
+      "name": "application-background",
+      "command": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+        "background"
+      ],
+      "pid": 10382,
+      "pgid": 10382,
+      "started": 1788719893.796236,
+      "deadline": 30,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.14712285995483398,
+      "stdout": {
+        "path": "application-background.stdout",
+        "bytes": 37,
+        "sha256": "9ce23550e3e6a0c7e380f5565b11be66652de0e38e804d42aed3a1ef0fe1035b"
+      },
+      "stderr": {
+        "path": "application-background.stderr",
+        "bytes": 2834,
+        "sha256": "e8bd10f4e91abc2c0e422debc4fdcc44fb3f7af178bad32fde3ba17f2c0f3564"
+      }
+    },
+    {
+      "name": "app-build",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--bin",
+        "system-pulse",
+        "--message-format=json"
+      ],
+      "pid": 10383,
+      "pgid": 10383,
+      "started": 1788719893.946217,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 15.610682964324951,
+      "stdout": {
+        "path": "app-build.stdout",
+        "bytes": 710738,
+        "sha256": "d6eb6caf8e439455277710a288805c9283467bdd6332585906369a3bbcb1dfed"
+      },
+      "stderr": {
+        "path": "app-build.stderr",
+        "bytes": 748,
+        "sha256": "875c09b943806872d46da82d720ff121b01ed6880c0e900800351bc0ea0f8066"
+      }
+    },
+    {
+      "name": "native-package-build",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "build",
+        "--locked",
+        "-p",
+        "gpui_macos",
+        "--lib",
+        "--message-format=json"
+      ],
+      "pid": 10390,
+      "pgid": 10390,
+      "started": 1788719909.559935,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.6891388893127441,
+      "stdout": {
+        "path": "native-package-build.stdout",
+        "bytes": 602471,
+        "sha256": "ae1f28f0f4b137ae9ad7d69c6a63dd6355dc96d192636d3565722f16ea15ab68"
+      },
+      "stderr": {
+        "path": "native-package-build.stderr",
+        "bytes": 315,
+        "sha256": "afff558c62155dbab4986b55e2cfcfb037410577c97aaed908bcb70845bf5716"
+      }
+    },
+    {
+      "name": "app-clippy",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--all-targets",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "pid": 10391,
+      "pgid": 10391,
+      "started": 1788719910.251879,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 6.4465651512146,
+      "stdout": {
+        "path": "app-clippy.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "app-clippy.stderr",
+        "bytes": 747,
+        "sha256": "31d4721ce37e5b2ac6986dd77d40e8675aa45966a6f2065fbe6a5896c69d39d1"
+      }
+    },
+    {
+      "name": "native-package-clippy",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "gpui_macos",
+        "--lib",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "pid": 10406,
+      "pgid": 10406,
+      "started": 1788719916.701375,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.6119420528411865,
+      "stdout": {
+        "path": "native-package-clippy.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "native-package-clippy.stderr",
+        "bytes": 315,
+        "sha256": "eab20c32b2adf042289adcfa50f3afe462494ad5b5b2a2d2e9d5e94cd7f67b63"
+      }
+    },
+    {
+      "name": "app-tests",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "--bin",
+        "system-pulse"
+      ],
+      "pid": 10408,
+      "pgid": 10408,
+      "started": 1788719917.315951,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 5.387577772140503,
+      "stdout": {
+        "path": "app-tests.stdout",
+        "bytes": 6027,
+        "sha256": "6daab2285ea614dd9483216dce6edd48ce59e3249f1143b776b07d9b8a789810"
+      },
+      "stderr": {
+        "path": "app-tests.stderr",
+        "bytes": 752,
+        "sha256": "db487ca9881f60107e5b0c816ef7f193d84ea78d5f0396011072c542d9b67e35"
+      }
+    },
+    {
+      "name": "app-fmt",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "fmt",
+        "-p",
+        "system-pulse",
+        "--",
+        "--check"
+      ],
+      "pid": 10434,
+      "pgid": 10434,
+      "started": 1788719922.710342,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.20922517776489258,
+      "stdout": {
+        "path": "app-fmt.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "app-fmt.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "native-package-fmt",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "fmt",
+        "--manifest-path",
+        "vendor/gpui_macos/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "pid": 10440,
+      "pgid": 10440,
+      "started": 1788719922.922379,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.14893198013305664,
+      "stdout": {
+        "path": "native-package-fmt.stdout",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "native-package-fmt.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "name": "metadata",
+      "command": [
+        "/Users/shawnmcallister/.cargo/bin/cargo",
+        "metadata",
+        "--locked",
+        "--format-version",
+        "1",
+        "--filter-platform",
+        "aarch64-apple-darwin"
+      ],
+      "pid": 10447,
+      "pgid": 10447,
+      "started": 1788719923.073812,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.559298038482666,
+      "stdout": {
+        "path": "metadata.stdout",
+        "bytes": 3837407,
+        "sha256": "bae3923ec5f9d02145d908710e451f712acb1b1f661a97537f62b52603a50a69"
+      },
+      "stderr": {
+        "path": "metadata.stderr",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "local_checks": [
+    {
+      "name": "app-tests",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "--bin",
+        "system-pulse"
+      ],
+      "pid": 168700,
+      "started": 1788719246.6193628,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 10.234697341918945
+    },
+    {
+      "name": "app-clippy",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--all-targets",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "pid": 170415,
+      "started": 1788719256.854448,
+      "deadline": 1800,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 2.9213809967041016
+    },
+    {
+      "name": "app-fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "-p",
+        "system-pulse",
+        "--",
+        "--check"
+      ],
+      "pid": 170605,
+      "started": 1788719259.7761054,
+      "deadline": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.1642608642578125
+    },
+    {
+      "name": "native-package-fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "vendor/gpui_macos/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "pid": 170663,
+      "started": 1788719259.940621,
+      "deadline": 60,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 0.11396002769470215
+    },
+    {
+      "name": "acceptance-tests",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "pid": 170747,
+      "started": 1788719260.0549235,
+      "deadline": 180,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 35.0416944026947
+    },
+    {
+      "name": "metadata",
+      "command": [
+        "cargo",
+        "metadata",
+        "--locked",
+        "--format-version",
+        "1",
+        "--filter-platform",
+        "aarch64-apple-darwin"
+      ],
+      "pid": 175190,
+      "started": 1788719295.0969164,
+      "deadline": 180,
+      "exit_code": 0,
+      "timed_out": false,
+      "reaped": true,
+      "process_group_absent": true,
+      "seconds": 1.1174099445343018
+    }
+  ],
+  "native_binary_linkage": {
+    "app": {
+      "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/system-pulse",
+      "bytes": 82537120,
+      "sha256": "18954fbde83a6596965268b7b7ed4561ce49ecb8ddc14c27e8c9a7f0134562a5",
+      "copy": "bindings/system-pulse"
+    },
+    "application": {
+      "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+      "bytes": 28652184,
+      "sha256": "d49c467b9b8026bd428490382ab4976703c1e908343dbc4e2af9e4193393515a",
+      "copy": "bindings/macos_application_lifetime-b3c5fe8892321cac"
+    },
+    "dispatcher": {
+      "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_dispatcher_lifetime-baab1d5f7edd6270",
+      "bytes": 3236296,
+      "sha256": "9e7a5802375140c7a885f81df5e99bb99194b6ce7034629d2d3a89ab891b129d",
+      "copy": "bindings/macos_dispatcher_lifetime-baab1d5f7edd6270"
+    },
+    "app_fingerprint": {
+      "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/system-pulse-acead07fba9f26dc/bin-system-pulse.json",
+      "bytes": 1050,
+      "sha256": "2ac0eb65d6cdbd640746836ee0fc97dd48b75e9c77d4bf6e21f20359370703da",
+      "copy": "bindings/bin-system-pulse.json"
+    },
+    "gpui_platform": {
+      "fingerprint": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/gpui_platform-d6c94bd1c5e4b7fb/lib-gpui_platform.json",
+        "bytes": 671,
+        "sha256": "c4431dae2847bef75a3b442558e3ca6939b9a8d886bc46aa3dc78811e893b76e",
+        "copy": "bindings/lib-gpui_platform.json"
+      },
+      "fingerprint_value": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/gpui_platform-d6c94bd1c5e4b7fb/lib-gpui_platform",
+        "bytes": 16,
+        "sha256": "567f12b986eb45c93779a7eacc748e201a6a78670bb0d709f41dc761c6d6b8c4",
+        "copy": "bindings/lib-gpui_platform"
+      },
+      "artifact": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui_platform-d6c94bd1c5e4b7fb.rlib",
+        "bytes": 627472,
+        "sha256": "4217b6d6105ae02d309654ffe9b1dd5ed90ffe8c36800b9e607bd01d4b786294"
+      }
+    },
+    "gpui_macos": {
+      "fingerprint": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/gpui_macos-307b518d3f66441a/lib-gpui_macos.json",
+        "bytes": 2867,
+        "sha256": "3f7ea1a87b95185632f915431ead67a05f7f70ec2e2b7f0f07d8f46f974f5326",
+        "copy": "bindings/lib-gpui_macos.json"
+      },
+      "fingerprint_value": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/gpui_macos-307b518d3f66441a/lib-gpui_macos",
+        "bytes": 16,
+        "sha256": "dc38d1a6d786a46260d6734d0798c6ec88cb3b33de512f053f8eff28bcf0baa5",
+        "copy": "bindings/lib-gpui_macos"
+      },
+      "artifact": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui_macos-307b518d3f66441a.rlib",
+        "bytes": 10623760,
+        "sha256": "0c78ef3a62521e69eee92a86f6b78176784fe4703689dd385e5f47d9a9e4219f"
+      }
+    },
+    "gpui": {
+      "fingerprint": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/gpui-ecaaf2f7a128a769/lib-gpui.json",
+        "bytes": 4162,
+        "sha256": "169156d2e8680255a8250a074efa89883782226da60d1ad06fb0bd4d05d844e4",
+        "copy": "bindings/lib-gpui.json"
+      },
+      "fingerprint_value": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/.fingerprint/gpui-ecaaf2f7a128a769/lib-gpui",
+        "bytes": 16,
+        "sha256": "71ad834bd1b36065e879102e88fc62e093e6b12f6415a8805d15c67da3071cfb",
+        "copy": "bindings/lib-gpui"
+      },
+      "artifact": {
+        "path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui-ecaaf2f7a128a769.rlib",
+        "bytes": 99687576,
+        "sha256": "8ef986795220dd27df3db2f2f5348b8b4243e8b7114a9b22cae22e29032f8443"
+      }
+    },
+    "macos_build_artifact": {
+      "reason": "compiler-artifact",
+      "package_id": "path+file:///Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/pool-correction-green2/source/vendor/gpui_macos#0.1.0",
+      "manifest_path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/pool-correction-green2/source/vendor/gpui_macos/Cargo.toml",
+      "target": {
+        "kind": [
+          "lib"
+        ],
+        "crate_types": [
+          "lib"
+        ],
+        "name": "gpui_macos",
+        "src_path": "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/pool-correction-green2/source/vendor/gpui_macos/src/gpui_macos.rs",
+        "edition": "2024",
+        "doc": true,
+        "doctest": true,
+        "test": true
+      },
+      "profile": {
+        "opt_level": "0",
+        "debuginfo": 1,
+        "debug_assertions": true,
+        "overflow_checks": true,
+        "test": false
+      },
+      "features": [
+        "font-kit",
+        "runtime_shaders"
+      ],
+      "filenames": [
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui_macos-307b518d3f66441a.rlib",
+        "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/libgpui_macos-307b518d3f66441a.rmeta"
+      ],
+      "executable": null,
+      "fresh": true
+    },
+    "lock_sha256": "955731596936af5470c6275ca9a6f3df5a48b9595050fca851b11e22e5aadd7e",
+    "source_archive_sha256": "737011493389d04c9f16f72342787c3c26e48d4901ade91f49839f7561bc17b4"
+  },
+  "remaining_warnings": {
+    "trial": "green2",
+    "pid": 10382,
+    "thread": "0x16d253000",
+    "count": 16,
+    "classes": {
+      "NSConcreteData": 1,
+      "__NSCFString": 3,
+      "__NSSingleObjectSetI": 2,
+      "__NSSetI": 6,
+      "__NSArrayM": 4
+    },
+    "origin": "unresolved; no stack captured",
+    "stderr": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/correction-20260906/originals2/pool-correction-green2/application-background.stderr"
+  },
+  "bounded_fatal_batch": {
+    "limit": 10,
+    "total_deadline_seconds": 60,
+    "attempts": [
+      {
+        "attempt": 1,
+        "pid": 10525,
+        "pgid": 10525,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720133.8602922,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14896774291992188,
+        "stdout": "pid-10525-attempt-1.stdout",
+        "stderr": "pid-10525-attempt-1.stderr"
+      },
+      {
+        "attempt": 2,
+        "pid": 10526,
+        "pgid": 10526,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720134.043372,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14884114265441895,
+        "stdout": "pid-10526-attempt-2.stdout",
+        "stderr": "pid-10526-attempt-2.stderr"
+      },
+      {
+        "attempt": 3,
+        "pid": 10529,
+        "pgid": 10529,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720134.226826,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14892911911010742,
+        "stdout": "pid-10529-attempt-3.stdout",
+        "stderr": "pid-10529-attempt-3.stderr"
+      },
+      {
+        "attempt": 4,
+        "pid": 10530,
+        "pgid": 10530,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720134.409301,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14847588539123535,
+        "stdout": "pid-10530-attempt-4.stdout",
+        "stderr": "pid-10530-attempt-4.stderr"
+      },
+      {
+        "attempt": 5,
+        "pid": 10531,
+        "pgid": 10531,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720134.5915232,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.1489579677581787,
+        "stdout": "pid-10531-attempt-5.stdout",
+        "stderr": "pid-10531-attempt-5.stderr"
+      },
+      {
+        "attempt": 6,
+        "pid": 10532,
+        "pgid": 10532,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720134.7741911,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14886879920959473,
+        "stdout": "pid-10532-attempt-6.stdout",
+        "stderr": "pid-10532-attempt-6.stderr"
+      },
+      {
+        "attempt": 7,
+        "pid": 10533,
+        "pgid": 10533,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720134.9567301,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14889883995056152,
+        "stdout": "pid-10533-attempt-7.stdout",
+        "stderr": "pid-10533-attempt-7.stderr"
+      },
+      {
+        "attempt": 8,
+        "pid": 10534,
+        "pgid": 10534,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720135.139742,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.1437549591064453,
+        "stdout": "pid-10534-attempt-8.stdout",
+        "stderr": "pid-10534-attempt-8.stderr"
+      },
+      {
+        "attempt": 9,
+        "pid": 10535,
+        "pgid": 10535,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720135.316951,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.14850211143493652,
+        "stdout": "pid-10535-attempt-9.stdout",
+        "stderr": "pid-10535-attempt-9.stderr"
+      },
+      {
+        "attempt": 10,
+        "pid": 10536,
+        "pgid": 10536,
+        "command": [
+          "/Users/shawnmcallister/system-pulse-gpu-validation-03rjwxl7/target/debug/deps/macos_application_lifetime-b3c5fe8892321cac",
+          "background"
+        ],
+        "started": 1788720135.499265,
+        "deadline": 10,
+        "exit_code": 0,
+        "timed_out": false,
+        "reaped": true,
+        "process_group_absent": true,
+        "seconds": 0.1489238739013672,
+        "stdout": "pid-10536-attempt-10.stdout",
+        "stderr": "pid-10536-attempt-10.stderr"
+      }
+    ],
+    "outcome": "10 exits zero; no missing-pool warning or matching crash; does not clear F1"
+  },
+  "original_archives": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/correction-20260906/pool-originals-1.tar.gz",
+      "sha256": "2db520ca93ba2af2fff36504e4d70f6c91cd921a22f5034acb3e4104f0cc49e3",
+      "verified_files": 126
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-macos-pools/correction-20260906/pool-originals-2.tar.gz",
+      "sha256": "08017d5084a4b125f1ce0ed0a02d6b6d67d9164a174556999534e3602add92bf",
+      "verified_files": 83
+    }
+  ],
+  "full_native_replay": "not run; desktop remains locked; no UI or permission/security changes attempted",
+  "acceptance": "No GPU receipt or Realized by claim; retain original acceptance thresholds"
+}

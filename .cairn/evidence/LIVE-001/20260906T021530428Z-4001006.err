@@ -1,0 +1,25 @@
+Unverified requirement evidence: native required cases omitted
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 652, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 604, in main
+    runner.step(
+    ~~~~~~~~~~~^
+        "native",
+        ^^^^^^^^^
+    ...<9 lines>...
+        timeout=1250,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/acceptance.py", line 149, in step
+    require(
+    ~~~~~~~^
+        child.returncode == 0, f"{name} exited {child.returncode}; full log: {path}"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/host_accuracy.py", line 12, in require
+    raise AssertionError(message)
+AssertionError: native exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/tmp/system-pulse-cairn-check-78w90voc/system-pulse-acceptance-jurtov9e/native.log

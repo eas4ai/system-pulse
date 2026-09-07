@@ -1,0 +1,166 @@
+{
+  "status": "DONE_WITH_CONCERNS; focused correction awaiting independent SPEC then quality re-review",
+  "finding": "Q1 exceptional capture cleanup",
+  "review_record_commit": "11d2c450fd58016b94c1046788a4dc60c87d050b",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906",
+  "artifact_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/artifact-manifest.json",
+    "sha256": "ab08dbc969f28cdafc257360c508d2cf677489b4704fb80481593a4a7d94c4f9",
+    "files": 91
+  },
+  "source_sha256": {
+    "scripts/system-pulse/gpu_capture.py": "ceb0b14780304ea1603f1d7a1644628e9deb536458731cce6960a4b2411c106f",
+    "scripts/system-pulse/test_gpu_native.py": "c5edf2f41d638fddd77c30c6b2c6c68b40a33e0bd4036c7bb2e7a401471f6495"
+  },
+  "regression_test_unchanged_after_red": true,
+  "native_sources_unchanged": {
+    "scripts/system-pulse/gpu_apple_native.m": "09031de48c6ec922e2d9ff3955b8487aea54373d58cd3de907dfe4f72479bb0e",
+    "scripts/system-pulse/gpu_apple_ax.m": "1b949eb681a63fd729501f79222622cec053232e43aaa048eb6a5aa5d3d1fcef",
+    "scripts/system-pulse/gpu_intel_workload.c": "9b0cfbb25e3d144c287f9a5d595e41012bc07f1f10bdf0b5d887c9ed4eba2cb0"
+  },
+  "original_review_manifest_sha256": "48e5439f0ce77cbb67cb9caa384aa8f8feff8eee1d223fa29cfd0a079caea42b",
+  "original_review_files_verified": 51,
+  "checks": {
+    "final-development": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/final-development-finished.json",
+      "sha256": "ce2b08620e755f24497889a3e1e93a6b1e86c2d7cfed4f0890b70bb6084eae59",
+      "pid": 3908082,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "final-format": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/final-format-finished.json",
+      "sha256": "88775c847fc099ad6759796e4d30b8da1641a1a4bbff9ba9d5b3e090d2b2f999",
+      "pid": 3908033,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "final-python": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/final-python-finished.json",
+      "sha256": "3ffb5b3343f937563054ec999ac0cd78886c6fff041b6e809bc3889bfd2b4288",
+      "pid": 3906420,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "final-ruff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/final-ruff-finished.json",
+      "sha256": "54514e0c5bccd554ebca9e6111f7f363de55d3230e94e7db425baaea65f18bc2",
+      "pid": 3907978,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "regression-green": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/regression-green-finished.json",
+      "sha256": "facdead4087a941b19f6226821b23a586e9da43a5980fe65b6e927d16e01fda9",
+      "pid": 3893045,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "regression-red": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/regression-red-finished.json",
+      "sha256": "8698380fcdc2b5199b51ab5ad6120199d93c1fcfdf83cc95a964edbc9d8c4bdf",
+      "pid": 3868681,
+      "exit_code": 1,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "review-enospc": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/review-enospc-finished.json",
+      "sha256": "adba536218575d13c72f67b1e86e22978d39c35f7f6cac02687f4c53d028cdf9",
+      "pid": 3839942,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "review-enospc-green": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/review-enospc-green-finished.json",
+      "sha256": "56e1b35a4c0aa449e9b9676f32e9b96f866f7d1e1b0b1b2d24ea86ea8282d2a2",
+      "pid": 3900074,
+      "exit_code": 1,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "review-interrupt": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/review-interrupt-finished.json",
+      "sha256": "f52c21ce3c8dcd21c7408d81f18f361264910212a12de8ee9143532c136443ae",
+      "pid": 3839975,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "review-interrupt-green": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/review-interrupt-green-finished.json",
+      "sha256": "84f98868ec50f2b4c05bbd51db03e28691d22bfd44cb0bb5e8c4cf4198e0f404",
+      "pid": 3900114,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "review-interrupt-zombie": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/review-interrupt-zombie-finished.json",
+      "sha256": "9d172d3681b750c01b24c655e9865f6ee45f51adfed8b0d78508dc1662429562",
+      "pid": 3904710,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    },
+    "final-diff": {
+      "record": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/q1-correction-20260906/final-diff-finished.json",
+      "sha256": "d26e7154f9beb385eacede157c325eb582c6e92d44c916c1805012a67b975513",
+      "pid": 3927927,
+      "exit_code": 0,
+      "reaped": true,
+      "process_group_absent_now": true
+    }
+  },
+  "python_tests": 443,
+  "gpu_groups": {
+    "gpu-aggregate": 6,
+    "gpu-apple-capture": 5,
+    "gpu-arithmetic": 6,
+    "gpu-desktop": 8,
+    "gpu-evidence": 15,
+    "gpu-intel": 10,
+    "gpu-native": 10
+  },
+  "regression_counts": {
+    "test_methods": 10,
+    "existing_methods": 7,
+    "new_methods": 3,
+    "new_fault_cases": 7,
+    "red_failing_cases": 7,
+    "green_failing_cases": 0
+  },
+  "original_replay_interpretation": {
+    "ENOSPC": "New child is reaped/group absent and completion recorded. Unchanged old-defect assertion exits 1.",
+    "SIGINT": "Original subreaper delays adopting-parent reap until owner returns; process-group remains visible as a killed zombie. Owner preserves KeyboardInterrupt and records remaining group cleanup error.",
+    "zombie_diagnostic": "Separate instrumented copy retains /proc state Z and exit status 9 before reviewer cleanup.",
+    "corrected_observer": "Unchanged RED/GREEN regression observer reaps only its own adopted descendant during cleanup and verifies group absence."
+  },
+  "limitations": [
+    "No native source or production Rust change; no native rebuild or GUI retry.",
+    "Intel integrated/discrete accuracy, Apple GUI, Task 5 pool issue and original Linux preservation failure remain pending.",
+    "Independent reviewers alone can declare SPEC and quality pass."
+  ],
+  "self_audit": {
+    "1": "Mapped original publication and interrupt failures before editing.",
+    "2": "Confined runtime changes to shared process ownership and concurrent stop signaling.",
+    "3": "Used one per-job Event; no new dependency or caller redesign.",
+    "4": "Preserved caller arguments and successful lifecycle fields; exceptional records remain failures.",
+    "5": "Preserved original exceptions and attached secondary recording/cleanup errors.",
+    "6": "Signaled only task-owned process groups and reaped only direct children.",
+    "7": "Ownership survives partial or missing artifact writes; retained original failures.",
+    "8": "Kept command deadlines and bounded TERM/KILL/reap stages; stop events avoid deadline waits.",
+    "9": "Tracked reproduction, correction, verification and review handoff with one active step.",
+    "10": "Verified unchanged RED/GREEN regressions, 443 Python tests, seven development groups, lint and format.",
+    "11": "Disclosed zombie observer limitation, original replay outcomes and pending native acceptance.",
+    "12": "Followed authorized focused correction and reported evidence to orchestrator.",
+    "13": "Reviewed all 14 rules after final tests; no known Q1 code revision remains.",
+    "14": "Explained the exception behavior, process cleanup and verification limits in plain English."
+  }
+}

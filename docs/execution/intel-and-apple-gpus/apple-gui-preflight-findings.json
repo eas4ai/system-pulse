@@ -1,0 +1,65 @@
+{
+  "source_commit": "4db68c71304d368977265e31ba365b121fcfd9f0",
+  "binary_sha256": "c3a4a7a71ee911b1e675fba566498d1092ea199ed96db6cde7044147c393b2b6",
+  "probe_sha256": "cc49d6f6eed4551c700d1be1afbcf040cd76a645768789f8bee415a8520655e3",
+  "purpose": "Bounded read-only AX inventory, not acceptance",
+  "app_pid": 4374,
+  "probe_pid": 4375,
+  "probe_exit_code": 0,
+  "probe_reaped": true,
+  "app_exit_code": -15,
+  "app_reaped": true,
+  "artifacts": [
+    {
+      "name": "app.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe.stdout",
+      "bytes": 6525,
+      "sha256": "e9a94d1c667682861fb64c1bc58ff9b25b5e52a95508d0cd9fa48061a9a3834d"
+    },
+    {
+      "name": "probe.stderr",
+      "bytes": 377,
+      "sha256": "2441268a429844bb364f37d09032d31439552c844c2e496ab3bff548c374616e"
+    },
+    {
+      "name": "app.stderr",
+      "bytes": 97012,
+      "sha256": "f0b651655b8f54ac035ee977d44a8b216625ea51ddf5f95b7c110c8afca5a42c"
+    }
+  ],
+  "pool_warnings": {
+    "app.stderr": {
+      "count": 551,
+      "pid": 4374,
+      "thread_counts": {
+        "0x1fa85e180": 45,
+        "0x16b8ab000": 330,
+        "0x16b793000": 165,
+        "0x16b937000": 6,
+        "0x16b707000": 5
+      }
+    },
+    "probe.stderr": {
+      "count": 2,
+      "pid": 4375,
+      "thread_counts": {
+        "0x1fa85e180": 2
+      }
+    }
+  },
+  "accessibility_summary": {
+    "trusted": true,
+    "tree_counts": [
+      17
+    ],
+    "truncated": true,
+    "roles": {
+      "AXApplication": 17
+    }
+  },
+  "original_directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-memory-integration/4db68c71304d368977265e31ba365b121fcfd9f0/mac-ax-preflight"
+}

@@ -1,0 +1,450 @@
+{
+  "schema": 1,
+  "verdict": "CHANGES REQUIRED",
+  "scope": "Complete Task 4 GPU acceptance mechanism code quality; no native hardware acceptance or commitment completion",
+  "base": "fa28a5b34bb5732d910e642aefe3f18fcd6bc455",
+  "candidate": "50ea29d6653d42ceafc8b3f246b9a18ae721b612",
+  "source_head": "f4bfdf3b440e2805195e3bc855515d2d97a40106",
+  "source_read_only": true,
+  "findings": [
+    {
+      "id": "Q1",
+      "severity": "Important",
+      "status": "open",
+      "title": "Cleanup does not cover the complete owned-process lifetime",
+      "locations": [
+        {
+          "file": "scripts/system-pulse/gpu_capture.py",
+          "line": 70
+        },
+        {
+          "file": "scripts/system-pulse/gpu_capture.py",
+          "line": 86
+        },
+        {
+          "file": "scripts/system-pulse/gpu_capture.py",
+          "line": 96
+        }
+      ],
+      "cause": "Start-record publication follows Popen but precedes the ownership try/finally; descendant cleanup follows that try/finally and is skipped on exceptional propagation.",
+      "impact": "A failed capture or interruption leaves owned processes alive, sometimes beyond their requested deadline; incomplete records still fail validation, so this is an ownership failure rather than a demonstrated false acceptance.",
+      "requirement_impact": [
+        "Task 4 bounded native process ownership and cleanup",
+        "GPU-008 cleanup evidence"
+      ],
+      "reproductions": [
+        {
+          "case": "start_record_write_failure",
+          "exception": "OSError(28, 'injected full artifact filesystem')",
+          "pid": 3770832,
+          "requested_timeout_seconds": 0.05,
+          "observed_after_seconds": 0.2,
+          "child_still_alive": true,
+          "group_still_exists": true,
+          "finished_record_exists": false,
+          "reviewer_cleanup_reaped": true,
+          "reviewer_cleanup_groups_absent": true
+        },
+        {
+          "case": "actual_SIGINT_during_wait",
+          "exception": "KeyboardInterrupt",
+          "leader_pid": 3795426,
+          "descendant_pid": 3795427,
+          "group_still_exists": true,
+          "finished_record_exists": false,
+          "descendant_still_alive": true,
+          "reviewer_cleanup_descendant_reaped": true,
+          "reviewer_cleanup_group_absent": true
+        }
+      ],
+      "remedy": "Guard the entire post-Popen lifetime, including start publication, direct-child wait/reaping, unconditional bounded process-group cleanup and exception-safe reporting. Retain the owned PID in memory and add real bounded-child regressions for both fault paths.",
+      "artifacts": [
+        "reproduce_cleanup.py",
+        "cleanup-reproduction.json",
+        "reproduce_interrupt.py",
+        "interrupt-reproduction.json",
+        "interrupt-command.json",
+        "interrupt.stdout",
+        "interrupt.stderr"
+      ]
+    }
+  ],
+  "critical_findings": [],
+  "minor_findings": [],
+  "strengths": [
+    "Seven independently required nonempty verifier groups and no development acceptance claims",
+    "Separate original/provenance/arithmetic/display replay boundaries",
+    "Explicitly synthetic full-ingestion fixtures exercise unmodified verify_host",
+    "Generally bounded native allocations, serial work and local OS resource release paths"
+  ],
+  "verification": {
+    "all_python_tests": 440,
+    "gpu_groups": {
+      "gpu-aggregate": 6,
+      "gpu-apple-capture": 5,
+      "gpu-arithmetic": 6,
+      "gpu-desktop": 8,
+      "gpu-evidence": 15,
+      "gpu-intel": 10,
+      "gpu-native": 7
+    },
+    "gpu_total": 57,
+    "commands": [
+      {
+        "name": "all-python",
+        "command": [
+          "python3",
+          "-B",
+          "-m",
+          "unittest",
+          "discover",
+          "-s",
+          "scripts/system-pulse",
+          "-p",
+          "test_*.py",
+          "-v"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 180,
+        "exit_code": 0,
+        "seconds": 30.488817930221558,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/all-python.stdout",
+            "bytes": 22,
+            "sha256": "30069eb975c804c816eafa0d88cc3a5a717d04801f3e5a6854efb511b1fce380"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/all-python.stderr",
+            "bytes": 72362,
+            "sha256": "f4858857350b549ed80f5a6e475f76dd74ac188b9a722f4c20c9c9daafa7b471"
+          }
+        }
+      },
+      {
+        "name": "development-cli",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_verify.py",
+          "--development-tests-only",
+          "--output",
+          "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/development"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 180,
+        "exit_code": 0,
+        "seconds": 9.13500189781189,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/development-cli.stdout",
+            "bytes": 2107,
+            "sha256": "e0c3d4871ddd9cb544c8f9f1615a7764f6a25207234a52a4d0d72fa9ca21ef27"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/development-cli.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "ruff-lint",
+        "command": [
+          "ruff",
+          "check",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_host_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_sources.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_linux_ax.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_originals.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_provenance.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_samples.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_test_fixtures.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_verify.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_workload.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_aggregate.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_intel.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_native.py"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.01642584800720215,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/ruff-lint.stdout",
+            "bytes": 19,
+            "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/ruff-lint.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "ruff-format",
+        "command": [
+          "ruff",
+          "format",
+          "--check",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_host_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_intel_sources.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_linux_ax.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_originals.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_provenance.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_samples.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_test_fixtures.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_verify.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/gpu_workload.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_aggregate.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_apple_capture.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_arithmetic.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_desktop.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_evidence.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_intel.py",
+          "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/scripts/system-pulse/test_gpu_native.py"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.016269683837890625,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/ruff-format.stdout",
+            "bytes": 27,
+            "sha256": "37c44e3c541f952bfef4bd8a6bef640b548ef20e76674da09517c0dfcb0e512e"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/ruff-format.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "native-format",
+        "command": [
+          "clang-format",
+          "--dry-run",
+          "--Werror",
+          "scripts/system-pulse/gpu_apple_native.m",
+          "scripts/system-pulse/gpu_apple_ax.m",
+          "scripts/system-pulse/gpu_intel_workload.c"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06525206565856934,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/native-format.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/native-format.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "verify-help",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_verify.py",
+          "--help"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.0646355152130127,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/verify-help.stdout",
+            "bytes": 621,
+            "sha256": "4a5c80eeb3a9125f76ee18ce1df309b14931606e60079188eceed3c98b6cd2d2"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/verify-help.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "capture-help",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_host_capture.py",
+          "--help"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06448793411254883,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/capture-help.stdout",
+            "bytes": 701,
+            "sha256": "0d8f044287e8424540f38b4bf1e2bc13224d4e9b090514bf49cb0488be9faf5f"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/capture-help.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "intel-help",
+        "command": [
+          "python3",
+          "-B",
+          "scripts/system-pulse/gpu_intel_capture.py",
+          "--help"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.06414961814880371,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/intel-help.stdout",
+            "bytes": 543,
+            "sha256": "f8576843586517d483c25004359861f598174ff1d555e5942b50b5f7dc58bd8d"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/intel-help.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      },
+      {
+        "name": "diff-check",
+        "command": [
+          "git",
+          "diff",
+          "--check",
+          "fa28a5b34bb5732d910e642aefe3f18fcd6bc455",
+          "50ea29d6653d42ceafc8b3f246b9a18ae721b612"
+        ],
+        "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+        "timeout": 30,
+        "exit_code": 0,
+        "seconds": 0.0077800750732421875,
+        "logs": {
+          "stdout": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/diff-check.stdout",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stderr": {
+            "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/diff-check.stderr",
+            "bytes": 0,
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        }
+      }
+    ],
+    "interrupt_command": {
+      "command": [
+        "python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/reproduce_interrupt.py"
+      ],
+      "exit_code": 0,
+      "timeout": 10,
+      "seconds": 0.3644540309906006,
+      "logs": {
+        "stdout": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/interrupt.stdout",
+          "sha256": "f35601b30de15c74cc80f1cc2884c5a68b1ae2f8f6133297885ad029f837d5b0"
+        },
+        "stderr": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/interrupt.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      }
+    },
+    "initial_cleanup_command": {
+      "command": [
+        "rtk",
+        "proxy",
+        "python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/reproduce_cleanup.py"
+      ],
+      "exit_code": 0,
+      "retained_original": "cleanup-reproduction.json",
+      "stdout_capture": "Tool execution output; original structured result retained on disk"
+    },
+    "source_files_checked": 60,
+    "committed_inputs_count": 711,
+    "clean_worktree": true,
+    "no_marker": true
+  },
+  "not_run": [
+    "Native GPU workloads",
+    "Native desktop interactions",
+    "Remote Mac operations",
+    "Native compilation",
+    "Rust checks",
+    "Full Linux preservation",
+    "Cairn acceptance"
+  ],
+  "retained_limits": [
+    "Existing Linux freshness failures remain failed",
+    "Task 5 Mac full-application autorelease correction is unimplemented",
+    "Intel integrated/discrete and Apple GUI hardware reports remain incomplete",
+    "Possible local UHD770 is not observed native Intel evidence"
+  ],
+  "cairn_wake": {
+    "exit_code": 1,
+    "verdict": "Resolvable: build docs/decisions/add-intel-and-apple-collectors-within-the-existing-physical-reading-pipeline.md",
+    "reason": "Realized by is missing the resolving commit identifier and subject; left unchanged"
+  },
+  "production_self_audit": {
+    "rules_reviewed": 14,
+    "details": "review.md",
+    "review_delivery": "complete",
+    "implementation_approved": false,
+    "revision_required": "Q1"
+  },
+  "artifacts": {
+    "directory": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6",
+    "report": "review.md",
+    "manifest": "artifact-manifest.json",
+    "manifest_checksum": "artifact-manifest.sha256"
+  },
+  "root_verified_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task4/quality-review/50ea29d6/artifact-manifest.json",
+    "sha256": "48e5439f0ce77cbb67cb9caa384aa8f8feff8eee1d223fa29cfd0a079caea42b",
+    "bytes": 8150,
+    "files": 51,
+    "root_verified_unix_ns": 1788714195877091794
+  }
+}

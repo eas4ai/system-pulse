@@ -1,0 +1,39 @@
+{
+  "source_commit": "bc5237d1f8e24074a5eb4d75d1e409ef9e944847",
+  "artifact_root": "/tmp/system-pulse-cairn-check-wjwz1i2q/system-pulse-acceptance-pa15uycr",
+  "status": "FAIL",
+  "tests_passed": 437,
+  "host_status": "PASS",
+  "native_error": "exited identity remains in native tree",
+  "child_identity": "process:1524059:69556521",
+  "frames": {
+    "failure-frame.json": {
+      "application_pid": 1515757,
+      "accepted_unix_ns": 1788611459764805486,
+      "render_revision": 216,
+      "rendered_at_collector_ms": 216263,
+      "sequence": 217,
+      "child_in_snapshot": false,
+      "rendered_child_entries": 0
+    },
+    "child-right.json": {
+      "application_pid": 1515757,
+      "accepted_unix_ns": 1788611456793876817,
+      "render_revision": 213,
+      "rendered_at_collector_ms": 213292,
+      "sequence": 214,
+      "child_in_snapshot": true,
+      "rendered_child_entries": 8
+    }
+  },
+  "hashes": {
+    "host/result.json": "d9ee8962609ce2252b671617573544f7055ed80a716df025e6c31d8de4816bf9",
+    "native/result.json": "37278e4cf9e8caab39c2a88917bad7720052c8da8b53e61a6ab8a32ab34e2324",
+    "native/session-01/failure-frame.json": "4510c1c6365bb2af61dffa29022d1b9a8ca510c7c2159b9f7d381b8e4b75b56d",
+    "native/session-01/child-right.json": "80b7736bbf106b3beb136973c46dba78432fd28c64b8ef8dd21c3ba34d288ecf",
+    "native/session-01/failure.png": "78ae8913f82eb0c511a97177f7d2eb33547fab79d5a31b8d79a01c206ea5e917",
+    "native/session-01/child-right.png": "78ae8913f82eb0c511a97177f7d2eb33547fab79d5a31b8d79a01c206ea5e917",
+    "native/session-01/journal.jsonl": "c12add04bb55878f6e25c92b824fed06c8b62a845093fb2f43fbcaf49cd13656",
+    "native/session-01/cleanup.json": "4f77022c720efb2ceffce0435d2f0055b327283eb632f54938af1505c8234402"
+  }
+}

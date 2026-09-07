@@ -1,0 +1,1895 @@
+{
+  "source_capture_sha256": "dbe1b5cb87706792c3e614d38771ec9bbc2c9d1f9aa7da6b533d72977f17cd0c",
+  "selection": "Apple-only fields from original sequences 1, 3, 16, 40; full original capture retained in artifact directory",
+  "frames": [
+    {
+      "sequence": 1,
+      "clock_anchor": {
+        "unix_ns": 1788692640186794000,
+        "monotonic_before_ns": 618625,
+        "monotonic_after_ns": 643500
+      },
+      "capture_started_ns": 596125,
+      "capture_finished_ns": 318159917,
+      "monitors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Apple M1 Pro",
+          "kind": "Gpu",
+          "summary_sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage"
+        }
+      ],
+      "sensors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU activity",
+          "kind": "Percentage",
+          "unit": "Percent",
+          "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Active weighted GPU frequency",
+          "kind": "Frequency",
+          "unit": "Hertz",
+          "source": "IOReport/GPUPH + IOKit/pmgr/voltage-states9;Hz",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU power",
+          "kind": "Power",
+          "unit": "Watts",
+          "source": "IOReport/Energy Model/GPU Energy;nJ",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared allocation",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/Alloc system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared memory in use",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/In use system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg05;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0D;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0L;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0T;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "HID/GPU MTR Temp Sensor;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU fan",
+          "kind": "Fan",
+          "unit": "Rpm",
+          "source": "SMC/system fans",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        }
+      ],
+      "readings": [
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "value": null,
+          "total": null,
+          "availability": "WarmingUp",
+          "reason": "Waiting for second native observation",
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 306271458,
+              "read_started_ns": 306135125,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 307874083,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 306327042,
+                "ticks/OFF": 12396246440236,
+                "ticks/P1": 31457865164,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208305914,
+                "ticks/P5": 410552909,
+                "ticks/P6": 375787690,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "value": null,
+          "total": null,
+          "availability": "WarmingUp",
+          "reason": "Waiting for second native observation",
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 306271458,
+              "read_started_ns": 306135125,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 307874083,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 306327042,
+                "ticks/OFF": 12396246440236,
+                "ticks/P1": 31457865164,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208305914,
+                "ticks/P5": 410552909,
+                "ticks/P6": 375787690,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "value": null,
+          "total": null,
+          "availability": "WarmingUp",
+          "reason": "Waiting for second native observation",
+          "observations": [
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 306271458,
+              "read_started_ns": 306135125,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 641152629600,
+                "format": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "value": 773472256.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/Alloc system memory;bytes",
+              "captured_ns": 309582375,
+              "read_started_ns": 307898208,
+              "integers": {
+                "bytes": 773472256,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "value": 259751936.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/In use system memory;bytes",
+              "captured_ns": 309582375,
+              "read_started_ns": 307898208,
+              "integers": {
+                "bytes": 259751936,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "value": 40.23749923706055,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "SMC/Tg05;flt little-endian;Celsius",
+              "captured_ns": 310165792,
+              "read_started_ns": 309625708,
+              "integers": {
+                "bytes_le": 1109455667,
+                "key_fourcc": 1416048693,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 40.23749923706055
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "value": 38.54375076293945,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "SMC/Tg0D;flt little-endian;Celsius",
+              "captured_ns": 310559042,
+              "read_started_ns": 310172042,
+              "integers": {
+                "bytes_le": 1109011661,
+                "key_fourcc": 1416048708,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 38.54375076293945
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "No attributable GPU MTR Temp Sensor HID service",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC system fans have no established GPU attribution",
+          "observations": []
+        }
+      ]
+    },
+    {
+      "sequence": 3,
+      "clock_anchor": {
+        "unix_ns": 1788692641191739000,
+        "monotonic_before_ns": 1005595042,
+        "monotonic_after_ns": 1005596083
+      },
+      "capture_started_ns": 1005590792,
+      "capture_finished_ns": 1207874083,
+      "monitors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Apple M1 Pro",
+          "kind": "Gpu",
+          "summary_sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage"
+        }
+      ],
+      "sensors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU activity",
+          "kind": "Percentage",
+          "unit": "Percent",
+          "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Active weighted GPU frequency",
+          "kind": "Frequency",
+          "unit": "Hertz",
+          "source": "IOReport/GPUPH + IOKit/pmgr/voltage-states9;Hz",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU power",
+          "kind": "Power",
+          "unit": "Watts",
+          "source": "IOReport/Energy Model/GPU Energy;nJ",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared allocation",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/Alloc system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared memory in use",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/In use system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg05;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0D;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0L;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0T;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "HID/GPU MTR Temp Sensor;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU fan",
+          "kind": "Fan",
+          "unit": "Rpm",
+          "source": "SMC/system fans",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        }
+      ],
+      "readings": [
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "value": 0.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 669642250,
+              "read_started_ns": 669489375,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 671297625,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 669702500,
+                "ticks/OFF": 12396255161116,
+                "ticks/P1": 31457865164,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208305914,
+                "ticks/P5": 410552909,
+                "ticks/P6": 375787690,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 1194903167,
+              "read_started_ns": 1194744625,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 1197029125,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 1194970208,
+                "ticks/OFF": 12396267767292,
+                "ticks/P1": 31457865164,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208305914,
+                "ticks/P5": 410552909,
+                "ticks/P6": 375787690,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "No active residency",
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 669642250,
+              "read_started_ns": 669489375,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 671297625,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 669702500,
+                "ticks/OFF": 12396255161116,
+                "ticks/P1": 31457865164,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208305914,
+                "ticks/P5": 410552909,
+                "ticks/P6": 375787690,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 1194903167,
+              "read_started_ns": 1194744625,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 1197029125,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 1194970208,
+                "ticks/OFF": 12396267767292,
+                "ticks/P1": 31457865164,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208305914,
+                "ticks/P5": 410552909,
+                "ticks/P6": 375787690,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "value": 0.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 669642250,
+              "read_started_ns": 669489375,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 641152629600,
+                "format": 1
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 1194903167,
+              "read_started_ns": 1194744625,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 641152629600,
+                "format": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "value": 773472256.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/Alloc system memory;bytes",
+              "captured_ns": 1199332750,
+              "read_started_ns": 1197051292,
+              "integers": {
+                "bytes": 773472256,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "value": 259751936.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/In use system memory;bytes",
+              "captured_ns": 1199332750,
+              "read_started_ns": 1197051292,
+              "integers": {
+                "bytes": 259751936,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "Conservative SMC software plausibility guard: below 15 Celsius; not a hardware validity signal",
+          "observations": [
+            {
+              "source": "SMC/Tg05;flt little-endian;Celsius",
+              "captured_ns": 1199922417,
+              "read_started_ns": 1199390542,
+              "integers": {
+                "bytes_le": 1091777331,
+                "key_fourcc": 1416048693,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 9.199999809265137
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "Conservative SMC software plausibility guard: below 15 Celsius; not a hardware validity signal",
+          "observations": [
+            {
+              "source": "SMC/Tg0D;flt little-endian;Celsius",
+              "captured_ns": 1200329958,
+              "read_started_ns": 1199928375,
+              "integers": {
+                "bytes_le": 1091777331,
+                "key_fourcc": 1416048708,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 9.199999809265137
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "No attributable GPU MTR Temp Sensor HID service",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC system fans have no established GPU attribution",
+          "observations": []
+        }
+      ]
+    },
+    {
+      "sequence": 16,
+      "clock_anchor": {
+        "unix_ns": 1788692647691668000,
+        "monotonic_before_ns": 7505570250,
+        "monotonic_after_ns": 7505571083
+      },
+      "capture_started_ns": 7505568708,
+      "capture_finished_ns": 7638716500,
+      "monitors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Apple M1 Pro",
+          "kind": "Gpu",
+          "summary_sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage"
+        }
+      ],
+      "sensors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU activity",
+          "kind": "Percentage",
+          "unit": "Percent",
+          "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Active weighted GPU frequency",
+          "kind": "Frequency",
+          "unit": "Hertz",
+          "source": "IOReport/GPUPH + IOKit/pmgr/voltage-states9;Hz",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU power",
+          "kind": "Power",
+          "unit": "Watts",
+          "source": "IOReport/Energy Model/GPU Energy;nJ",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared allocation",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/Alloc system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared memory in use",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/In use system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg05;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0D;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0L;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0T;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "HID/GPU MTR Temp Sensor;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU fan",
+          "kind": "Fan",
+          "unit": "Rpm",
+          "source": "SMC/system fans",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        }
+      ],
+      "readings": [
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "value": 100.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 7122057250,
+              "read_started_ns": 7121887917,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 7123917625,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 7122111917,
+                "ticks/OFF": 12396279925762,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 505439866,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 7621886542,
+              "read_started_ns": 7621711375,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 7624194792,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 7621948375,
+                "ticks/OFF": 12396279925762,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 517435562,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "value": 1296000000.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 7122057250,
+              "read_started_ns": 7121887917,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 7123917625,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 7122111917,
+                "ticks/OFF": 12396279925762,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 505439866,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 7621886542,
+              "read_started_ns": 7621711375,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 7624194792,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 7621948375,
+                "ticks/OFF": 12396279925762,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 517435562,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "value": 9.701663383105606,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 7122057250,
+              "read_started_ns": 7121887917,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 693516810970,
+                "format": 1
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 7621886542,
+              "read_started_ns": 7621711375,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 698365986510,
+                "format": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "value": 798195712.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/Alloc system memory;bytes",
+              "captured_ns": 7626837125,
+              "read_started_ns": 7624220458,
+              "integers": {
+                "bytes": 798195712,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "value": 246317056.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/In use system memory;bytes",
+              "captured_ns": 7626837125,
+              "read_started_ns": 7624220458,
+              "integers": {
+                "bytes": 246317056,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "value": 49.68765640258789,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "SMC/Tg05;flt little-endian;Celsius",
+              "captured_ns": 7628173500,
+              "read_started_ns": 7626907625,
+              "integers": {
+                "bytes_le": 1111932969,
+                "key_fourcc": 1416048693,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 49.68765640258789
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "value": 46.82865524291992,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "SMC/Tg0D;flt little-endian;Celsius",
+              "captured_ns": 7628583625,
+              "read_started_ns": 7628181250,
+              "integers": {
+                "bytes_le": 1111183499,
+                "key_fourcc": 1416048708,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 46.82865524291992
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "No attributable GPU MTR Temp Sensor HID service",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC system fans have no established GPU attribution",
+          "observations": []
+        }
+      ]
+    },
+    {
+      "sequence": 40,
+      "clock_anchor": {
+        "unix_ns": 1788692659691609000,
+        "monotonic_before_ns": 19505595208,
+        "monotonic_after_ns": 19505596458
+      },
+      "capture_started_ns": 19505591125,
+      "capture_finished_ns": 19715519042,
+      "monitors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Apple M1 Pro",
+          "kind": "Gpu",
+          "summary_sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage"
+        }
+      ],
+      "sensors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU activity",
+          "kind": "Percentage",
+          "unit": "Percent",
+          "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "Active weighted GPU frequency",
+          "kind": "Frequency",
+          "unit": "Hertz",
+          "source": "IOReport/GPUPH + IOKit/pmgr/voltage-states9;Hz",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU power",
+          "kind": "Power",
+          "unit": "Watts",
+          "source": "IOReport/Energy Model/GPU Energy;nJ",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared allocation",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/Alloc system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU shared memory in use",
+          "kind": "Scalar",
+          "unit": "Bytes",
+          "source": "IOKit/PerformanceStatistics/In use system memory;bytes",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU; GPU shared memory; no capacity total",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg05;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0D;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0L;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "SMC/Tg0T;flt little-endian;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU temperature",
+          "kind": "Temperature",
+          "unit": "Celsius",
+          "source": "HID/GPU MTR Temp Sensor;Celsius",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+          "title": "GPU fan",
+          "kind": "Fan",
+          "unit": "Rpm",
+          "source": "SMC/system fans",
+          "scope": "IODeviceTree:/arm-io/sgx@4000000; Metal registry ID 4294969787; hasUnifiedMemory=true; physical GPU",
+          "scale": null
+        }
+      ],
+      "readings": [
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "value": 0.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 19190218458,
+              "read_started_ns": 19190064167,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 19192050292,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 19190276125,
+                "ticks/OFF": 12396339602335,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 735399123,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 19701755000,
+              "read_started_ns": 19701583417,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 19703675375,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 19701823625,
+                "ticks/OFF": 12396351879158,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 735399123,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "No active residency",
+          "observations": [
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 19190218458,
+              "read_started_ns": 19190064167,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 19192050292,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 19190276125,
+                "ticks/OFF": 12396339602335,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 735399123,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/GPU Stats/GPU Performance States/GPUPH;24Mticks + IOKit/IODeviceTree:/arm-io/pmgr@8E080000/voltage-states9;little-endian frequency Hz,voltage native",
+              "captured_ns": 19701755000,
+              "read_started_ns": 19701583417,
+              "integers": {
+                "channel_id": 306290446408,
+                "driver_id": 4294969787,
+                "encoded_unit": 72058115876454424,
+                "format": 2,
+                "hz/OFF": 0,
+                "hz/P1": 388800000,
+                "hz/P2": 486000000,
+                "hz/P3": 648000000,
+                "hz/P4": 777600000,
+                "hz/P5": 972000000,
+                "hz/P6": 1296000000,
+                "state_count": 16,
+                "table/byte_length": 56,
+                "table/captured_ns": 19703675375,
+                "table/driver_id": 4294968096,
+                "table/pair_le/0": 1717986918400,
+                "table/pair_le/1": 2654678588928,
+                "table/pair_le/2": 2723495265664,
+                "table/pair_le/3": 2831031448064,
+                "table/pair_le/4": 3033024510976,
+                "table/pair_le/5": 3312391785216,
+                "table/pair_le/6": 3810931991552,
+                "table/read_started_ns": 19701823625,
+                "ticks/OFF": 12396351879158,
+                "ticks/P1": 31457950182,
+                "ticks/P10": 0,
+                "ticks/P11": 0,
+                "ticks/P12": 0,
+                "ticks/P13": 0,
+                "ticks/P14": 0,
+                "ticks/P15": 0,
+                "ticks/P2": 1254289150,
+                "ticks/P3": 1217002804,
+                "ticks/P4": 2208366075,
+                "ticks/P5": 410848909,
+                "ticks/P6": 735399123,
+                "ticks/P7": 0,
+                "ticks/P8": 0,
+                "ticks/P9": 0
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "value": 0.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 19190218458,
+              "read_started_ns": 19190064167,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 786521924970,
+                "format": 1
+              },
+              "decimals": {}
+            },
+            {
+              "source": "IOReport/Energy Model/GPU Energy;nJ",
+              "captured_ns": 19701755000,
+              "read_started_ns": 19701583417,
+              "integers": {
+                "channel_id": 76202472785753,
+                "driver_id": 4294969787,
+                "encoded_unit": 216173288919924736,
+                "energy_nj": 786521924970,
+                "format": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "value": 756432896.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/Alloc system memory;bytes",
+              "captured_ns": 19705817708,
+              "read_started_ns": 19703702042,
+              "integers": {
+                "bytes": 756432896,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "value": 221593600.0,
+          "total": null,
+          "availability": "Available",
+          "reason": null,
+          "observations": [
+            {
+              "source": "IOKit/IODeviceTree:/arm-io/sgx@4000000/PerformanceStatistics/In use system memory;bytes",
+              "captured_ns": 19705817708,
+              "read_started_ns": 19703702042,
+              "integers": {
+                "bytes": 221593600,
+                "driver_id": 4294969787,
+                "has_unified_memory": 1
+              },
+              "decimals": {}
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "Conservative SMC software plausibility guard: below 15 Celsius; not a hardware validity signal",
+          "observations": [
+            {
+              "source": "SMC/Tg05;flt little-endian;Celsius",
+              "captured_ns": 19706450583,
+              "read_started_ns": 19705864875,
+              "integers": {
+                "bytes_le": 1091777331,
+                "key_fourcc": 1416048693,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 9.199999809265137
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "Conservative SMC software plausibility guard: below 15 Celsius; not a hardware validity signal",
+          "observations": [
+            {
+              "source": "SMC/Tg0D;flt little-endian;Celsius",
+              "captured_ns": 19707816750,
+              "read_started_ns": 19706458375,
+              "integers": {
+                "bytes_le": 1091777331,
+                "key_fourcc": 1416048708,
+                "response_size": 80,
+                "result": 0,
+                "return_code": 0,
+                "size": 4,
+                "status": 0,
+                "type_fourcc": 1718383648
+              },
+              "decimals": {
+                "celsius": 9.199999809265137
+              }
+            }
+          ]
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC key absent (native result 0x84)",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "No attributable GPU MTR Temp Sensor HID service",
+          "observations": []
+        },
+        {
+          "sensor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "value": null,
+          "total": null,
+          "availability": "Unavailable",
+          "reason": "SMC system fans have no established GPU attribution",
+          "observations": []
+        }
+      ]
+    }
+  ]
+}

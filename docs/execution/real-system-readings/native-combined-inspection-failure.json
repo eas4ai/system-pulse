@@ -1,0 +1,2934 @@
+{
+  "status": "FAIL",
+  "kind": "combined instrumented supporting diagnostic; not final acceptance",
+  "artifact_root": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native",
+  "metadata": {
+    "application_pid": 1243229,
+    "publication_timing_instrumented": true,
+    "binary": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility/target/debug/system-pulse",
+    "binary_sha256": "7dbcd3adfae54db64e3ed5f32cf728ee55684fd1429c95c1bbd1e72a770340e7",
+    "proc_exe_sha256": "7dbcd3adfae54db64e3ed5f32cf728ee55684fd1429c95c1bbd1e72a770340e7",
+    "source_commit": "36c308161f10de30fd7db0f3dfd89e66824e5457",
+    "budgets": {
+      "startup": 15,
+      "discovery": 15,
+      "condition": 5,
+      "metric": 5,
+      "freshness": 2,
+      "batch": 8,
+      "navigation": 180,
+      "appearance": 5,
+      "exit": 5,
+      "persistence": 10,
+      "shutdown": 10,
+      "nodes": 30000
+    },
+    "sampling_interval_ms": 1000,
+    "accepted_age_limit_seconds": 2.0
+  },
+  "result": {
+    "status": "FAIL",
+    "errors": [
+      "native discovery deadline exceeded; incomplete tree"
+    ],
+    "cases": {
+      "launch": true,
+      "metrics": {
+        "gpu_count": 2
+      },
+      "collapse": true,
+      "charts": {
+        "gpu_temperature_count": 2,
+        "gpu_temperature_artifacts": [
+          "gpu-0-temperature",
+          "gpu-1-temperature"
+        ]
+      },
+      "inner-scroll": true
+    },
+    "focused_preparation": "process",
+    "publication_timing_instrumented": true,
+    "limits": [
+      "NVIDIA hardware accuracy unverified",
+      "macOS/Windows native unverified",
+      "physical device removal unverified; stopped-app configuration specimen",
+      "history points not directly exposed by latest diagnostic JSON"
+    ]
+  },
+  "publication_trace": {
+    "schema_version": 1,
+    "instrumented": true,
+    "capacity": 64,
+    "clock": {
+      "application_pid": 1243229,
+      "session_id": "1243229-1788667607830278925-1788667607830279758",
+      "monotonic_clock": "std::time::Instant nanoseconds since writer origin; not harness monotonic_ns",
+      "origin_wall_before_unix_ns": 1788667607830278925,
+      "origin_wall_after_unix_ns": 1788667607830279758
+    },
+    "history": {
+      "records": [
+        {
+          "sequence": 136,
+          "render_revision": 135,
+          "accepted_unix_ns": 1788667743077728331,
+          "stages": {
+            "acceptance_started_ns": 135247447174,
+            "model_completed_ns": 135271149473,
+            "construction_started_ns": 135271150844,
+            "construction_completed_ns": 135278336182,
+            "submission_started_ns": 135278336532,
+            "submission_completed_ns": 135278342517,
+            "dequeue_ns": 135278355865,
+            "json_conversion_started_ns": 135278362717,
+            "json_conversion_completed_ns": 135370558222,
+            "serialization_started_ns": 135370558659,
+            "serialization_completed_ns": 135471828885,
+            "temp_write_started_ns": 135471834121,
+            "temp_write_completed_ns": 135473148643,
+            "rename_started_ns": 135473148790,
+            "rename_completed_ns": 135473530993
+          },
+          "bytes": 5968505,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 137,
+          "render_revision": 136,
+          "accepted_unix_ns": 1788667744036788533,
+          "stages": {
+            "acceptance_started_ns": 136206508020,
+            "model_completed_ns": 136227611845,
+            "construction_started_ns": 136227613405,
+            "construction_completed_ns": 136233909684,
+            "submission_started_ns": 136233909956,
+            "submission_completed_ns": 136233913633,
+            "dequeue_ns": 136233960673,
+            "json_conversion_started_ns": 136233966411,
+            "json_conversion_completed_ns": 136319411182,
+            "serialization_started_ns": 136319411731,
+            "serialization_completed_ns": 136420502740,
+            "temp_write_started_ns": 136420507838,
+            "temp_write_completed_ns": 136421806862,
+            "rename_started_ns": 136421807054,
+            "rename_completed_ns": 136422237608
+          },
+          "bytes": 5967674,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 138,
+          "render_revision": 137,
+          "accepted_unix_ns": 1788667745134840026,
+          "stages": {
+            "acceptance_started_ns": 137304559466,
+            "model_completed_ns": 137327256444,
+            "construction_started_ns": 137327257797,
+            "construction_completed_ns": 137334067487,
+            "submission_started_ns": 137334067699,
+            "submission_completed_ns": 137334071570,
+            "dequeue_ns": 137334091991,
+            "json_conversion_started_ns": 137334106609,
+            "json_conversion_completed_ns": 137419693567,
+            "serialization_started_ns": 137419694221,
+            "serialization_completed_ns": 137520968090,
+            "temp_write_started_ns": 137520973798,
+            "temp_write_completed_ns": 137522247144,
+            "rename_started_ns": 137522247314,
+            "rename_completed_ns": 137522410018
+          },
+          "bytes": 5968329,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 139,
+          "render_revision": 138,
+          "accepted_unix_ns": 1788667746194574571,
+          "stages": {
+            "acceptance_started_ns": 138364294034,
+            "model_completed_ns": 138385187092,
+            "construction_started_ns": 138385188443,
+            "construction_completed_ns": 138391166769,
+            "submission_started_ns": 138391166981,
+            "submission_completed_ns": 138391171026,
+            "dequeue_ns": 138391193468,
+            "json_conversion_started_ns": 138391207338,
+            "json_conversion_completed_ns": 138475288838,
+            "serialization_started_ns": 138475289458,
+            "serialization_completed_ns": 138576152014,
+            "temp_write_started_ns": 138576158506,
+            "temp_write_completed_ns": 138577677835,
+            "rename_started_ns": 138577678365,
+            "rename_completed_ns": 138577825653
+          },
+          "bytes": 5967892,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 140,
+          "render_revision": 139,
+          "accepted_unix_ns": 1788667747207032574,
+          "stages": {
+            "acceptance_started_ns": 139376752027,
+            "model_completed_ns": 139398304950,
+            "construction_started_ns": 139398306200,
+            "construction_completed_ns": 139404815889,
+            "submission_started_ns": 139404816118,
+            "submission_completed_ns": 139404819552,
+            "dequeue_ns": 139404902829,
+            "json_conversion_started_ns": 139404916308,
+            "json_conversion_completed_ns": 139490920434,
+            "serialization_started_ns": 139490920988,
+            "serialization_completed_ns": 139591518525,
+            "temp_write_started_ns": 139591522995,
+            "temp_write_completed_ns": 139592818053,
+            "rename_started_ns": 139592818248,
+            "rename_completed_ns": 139593233134
+          },
+          "bytes": 5971509,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 141,
+          "render_revision": 140,
+          "accepted_unix_ns": 1788667748277509262,
+          "stages": {
+            "acceptance_started_ns": 140447228513,
+            "model_completed_ns": 140470506162,
+            "construction_started_ns": 140470507341,
+            "construction_completed_ns": 140477138101,
+            "submission_started_ns": 140477138134,
+            "submission_completed_ns": 140477141968,
+            "dequeue_ns": 140477150332,
+            "json_conversion_started_ns": 140477156887,
+            "json_conversion_completed_ns": 140562297909,
+            "serialization_started_ns": 140562298457,
+            "serialization_completed_ns": 140664095369,
+            "temp_write_started_ns": 140664102055,
+            "temp_write_completed_ns": 140665443146,
+            "rename_started_ns": 140665443307,
+            "rename_completed_ns": 140665605660
+          },
+          "bytes": 5972209,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 142,
+          "render_revision": 141,
+          "accepted_unix_ns": 1788667749282464614,
+          "stages": {
+            "acceptance_started_ns": 141452183843,
+            "model_completed_ns": 141474152608,
+            "construction_started_ns": 141474154468,
+            "construction_completed_ns": 141480299728,
+            "submission_started_ns": 141480299762,
+            "submission_completed_ns": 141480304153,
+            "dequeue_ns": 141480318186,
+            "json_conversion_started_ns": 141480324488,
+            "json_conversion_completed_ns": 141567724752,
+            "serialization_started_ns": 141567725440,
+            "serialization_completed_ns": 141672883359,
+            "temp_write_started_ns": 141672889646,
+            "temp_write_completed_ns": 141674218533,
+            "rename_started_ns": 141674218796,
+            "rename_completed_ns": 141674386076
+          },
+          "bytes": 5978082,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 143,
+          "render_revision": 142,
+          "accepted_unix_ns": 1788667750093974823,
+          "stages": {
+            "acceptance_started_ns": 142263694147,
+            "model_completed_ns": 142285723313,
+            "construction_started_ns": 142285724647,
+            "construction_completed_ns": 142292250119,
+            "submission_started_ns": 142292250154,
+            "submission_completed_ns": 142292253867,
+            "dequeue_ns": 142292346780,
+            "json_conversion_started_ns": 142292360932,
+            "json_conversion_completed_ns": 142376510815,
+            "serialization_started_ns": 142376511363,
+            "serialization_completed_ns": 142478776983,
+            "temp_write_started_ns": 142478782556,
+            "temp_write_completed_ns": 142480114889,
+            "rename_started_ns": 142480115131,
+            "rename_completed_ns": 142480285724
+          },
+          "bytes": 5971664,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 144,
+          "render_revision": 143,
+          "accepted_unix_ns": 1788667751094748206,
+          "stages": {
+            "acceptance_started_ns": 143264467945,
+            "model_completed_ns": 143286718528,
+            "construction_started_ns": 143286719480,
+            "construction_completed_ns": 143293339287,
+            "submission_started_ns": 143293339321,
+            "submission_completed_ns": 143293343652,
+            "dequeue_ns": 143293360646,
+            "json_conversion_started_ns": 143293367598,
+            "json_conversion_completed_ns": 143377990990,
+            "serialization_started_ns": 143377991744,
+            "serialization_completed_ns": 143479275751,
+            "temp_write_started_ns": 143479281592,
+            "temp_write_completed_ns": 143480897704,
+            "rename_started_ns": 143480897860,
+            "rename_completed_ns": 143481262175
+          },
+          "bytes": 5971818,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 145,
+          "render_revision": 144,
+          "accepted_unix_ns": 1788667752052836403,
+          "stages": {
+            "acceptance_started_ns": 144222555925,
+            "model_completed_ns": 144244877589,
+            "construction_started_ns": 144244879435,
+            "construction_completed_ns": 144251439662,
+            "submission_started_ns": 144251439803,
+            "submission_completed_ns": 144251443840,
+            "dequeue_ns": 144251460534,
+            "json_conversion_started_ns": 144251468078,
+            "json_conversion_completed_ns": 144336741232,
+            "serialization_started_ns": 144336741977,
+            "serialization_completed_ns": 144438233660,
+            "temp_write_started_ns": 144438239548,
+            "temp_write_completed_ns": 144439684325,
+            "rename_started_ns": 144439684657,
+            "rename_completed_ns": 144440105594
+          },
+          "bytes": 5978234,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 146,
+          "render_revision": 145,
+          "accepted_unix_ns": 1788667753328936582,
+          "stages": {
+            "acceptance_started_ns": 145498655471,
+            "model_completed_ns": 145520619522,
+            "construction_started_ns": 145520621104,
+            "construction_completed_ns": 145527047462,
+            "submission_started_ns": 145527047495,
+            "submission_completed_ns": 145527050851,
+            "dequeue_ns": 145527167192,
+            "json_conversion_started_ns": 145527178117,
+            "json_conversion_completed_ns": 145615730179,
+            "serialization_started_ns": 145615730840,
+            "serialization_completed_ns": 145718339619,
+            "temp_write_started_ns": 145718344189,
+            "temp_write_completed_ns": 145719593534,
+            "rename_started_ns": 145719593690,
+            "rename_completed_ns": 145719930849
+          },
+          "bytes": 5977869,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 147,
+          "render_revision": 146,
+          "accepted_unix_ns": 1788667754253348923,
+          "stages": {
+            "acceptance_started_ns": 146423068182,
+            "model_completed_ns": 146447432236,
+            "construction_started_ns": 146447433738,
+            "construction_completed_ns": 146456220951,
+            "submission_started_ns": 146456221380,
+            "submission_completed_ns": 146456225556,
+            "dequeue_ns": 146456316562,
+            "json_conversion_started_ns": 146456330860,
+            "json_conversion_completed_ns": 146541361605,
+            "serialization_started_ns": 146541362289,
+            "serialization_completed_ns": 146643033426,
+            "temp_write_started_ns": 146643039426,
+            "temp_write_completed_ns": 146644341987,
+            "rename_started_ns": 146644342146,
+            "rename_completed_ns": 146644505172
+          },
+          "bytes": 5971363,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 148,
+          "render_revision": 147,
+          "accepted_unix_ns": 1788667755140987780,
+          "stages": {
+            "acceptance_started_ns": 147310707176,
+            "model_completed_ns": 147331306311,
+            "construction_started_ns": 147331307494,
+            "construction_completed_ns": 147337304913,
+            "submission_started_ns": 147337304947,
+            "submission_completed_ns": 147337308936,
+            "dequeue_ns": 147337317854,
+            "json_conversion_started_ns": 147337323968,
+            "json_conversion_completed_ns": 147421975652,
+            "serialization_started_ns": 147421976386,
+            "serialization_completed_ns": 147522789934,
+            "temp_write_started_ns": 147522794649,
+            "temp_write_completed_ns": 147524023813,
+            "rename_started_ns": 147524023929,
+            "rename_completed_ns": 147524373207
+          },
+          "bytes": 5971926,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 149,
+          "render_revision": 148,
+          "accepted_unix_ns": 1788667756062301494,
+          "stages": {
+            "acceptance_started_ns": 148232020677,
+            "model_completed_ns": 148253856203,
+            "construction_started_ns": 148253857845,
+            "construction_completed_ns": 148260047910,
+            "submission_started_ns": 148260048142,
+            "submission_completed_ns": 148260051721,
+            "dequeue_ns": 148260058832,
+            "json_conversion_started_ns": 148260064340,
+            "json_conversion_completed_ns": 148344379666,
+            "serialization_started_ns": 148344380243,
+            "serialization_completed_ns": 148446919043,
+            "temp_write_started_ns": 148446924293,
+            "temp_write_completed_ns": 148448186010,
+            "rename_started_ns": 148448186162,
+            "rename_completed_ns": 148448530404
+          },
+          "bytes": 5971022,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 150,
+          "render_revision": 149,
+          "accepted_unix_ns": 1788667757021945341,
+          "stages": {
+            "acceptance_started_ns": 149191664647,
+            "model_completed_ns": 149213622862,
+            "construction_started_ns": 149213624066,
+            "construction_completed_ns": 149219561697,
+            "submission_started_ns": 149219561729,
+            "submission_completed_ns": 149219564810,
+            "dequeue_ns": 149219569736,
+            "json_conversion_started_ns": 149219575311,
+            "json_conversion_completed_ns": 149304226279,
+            "serialization_started_ns": 149304226879,
+            "serialization_completed_ns": 149405778746,
+            "temp_write_started_ns": 149405783441,
+            "temp_write_completed_ns": 149407285472,
+            "rename_started_ns": 149407285629,
+            "rename_completed_ns": 149407677017
+          },
+          "bytes": 5971633,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 151,
+          "render_revision": 150,
+          "accepted_unix_ns": 1788667758057318229,
+          "stages": {
+            "acceptance_started_ns": 150227037489,
+            "model_completed_ns": 150249839527,
+            "construction_started_ns": 150249841102,
+            "construction_completed_ns": 150256983543,
+            "submission_started_ns": 150256983576,
+            "submission_completed_ns": 150256988327,
+            "dequeue_ns": 150257081062,
+            "json_conversion_started_ns": 150257095283,
+            "json_conversion_completed_ns": 150342441682,
+            "serialization_started_ns": 150342442203,
+            "serialization_completed_ns": 150445083572,
+            "temp_write_started_ns": 150445089333,
+            "temp_write_completed_ns": 150446367434,
+            "rename_started_ns": 150446367579,
+            "rename_completed_ns": 150446706180
+          },
+          "bytes": 5970874,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 152,
+          "render_revision": 151,
+          "accepted_unix_ns": 1788667759276919070,
+          "stages": {
+            "acceptance_started_ns": 151446638825,
+            "model_completed_ns": 151467677518,
+            "construction_started_ns": 151467678757,
+            "construction_completed_ns": 151473958318,
+            "submission_started_ns": 151473958352,
+            "submission_completed_ns": 151473961983,
+            "dequeue_ns": 151473987224,
+            "json_conversion_started_ns": 151474002287,
+            "json_conversion_completed_ns": 151559405523,
+            "serialization_started_ns": 151559406105,
+            "serialization_completed_ns": 151664178306,
+            "temp_write_started_ns": 151664183151,
+            "temp_write_completed_ns": 151665550525,
+            "rename_started_ns": 151665550792,
+            "rename_completed_ns": 151673190163
+          },
+          "bytes": 5971638,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 153,
+          "render_revision": 152,
+          "accepted_unix_ns": 1788667760077556942,
+          "stages": {
+            "acceptance_started_ns": 152247276553,
+            "model_completed_ns": 152268827937,
+            "construction_started_ns": 152268828809,
+            "construction_completed_ns": 152274972659,
+            "submission_started_ns": 152274972701,
+            "submission_completed_ns": 152274976484,
+            "dequeue_ns": 152275090643,
+            "json_conversion_started_ns": 152275100520,
+            "json_conversion_completed_ns": 152362747296,
+            "serialization_started_ns": 152362747798,
+            "serialization_completed_ns": 152463550720,
+            "temp_write_started_ns": 152463555290,
+            "temp_write_completed_ns": 152464831749,
+            "rename_started_ns": 152464831977,
+            "rename_completed_ns": 152465227579
+          },
+          "bytes": 5971888,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 154,
+          "render_revision": 153,
+          "accepted_unix_ns": 1788667761027528284,
+          "stages": {
+            "acceptance_started_ns": 153197247515,
+            "model_completed_ns": 153218975387,
+            "construction_started_ns": 153218976738,
+            "construction_completed_ns": 153224997462,
+            "submission_started_ns": 153224997495,
+            "submission_completed_ns": 153225002305,
+            "dequeue_ns": 153225020557,
+            "json_conversion_started_ns": 153225035114,
+            "json_conversion_completed_ns": 153309095457,
+            "serialization_started_ns": 153309096370,
+            "serialization_completed_ns": 153415394875,
+            "temp_write_started_ns": 153415399315,
+            "temp_write_completed_ns": 153416822146,
+            "rename_started_ns": 153416822288,
+            "rename_completed_ns": 153417198429
+          },
+          "bytes": 5971893,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 155,
+          "render_revision": 154,
+          "accepted_unix_ns": 1788667762117503816,
+          "stages": {
+            "acceptance_started_ns": 154287223168,
+            "model_completed_ns": 154316418919,
+            "construction_started_ns": 154316420208,
+            "construction_completed_ns": 154323825288,
+            "submission_started_ns": 154323825322,
+            "submission_completed_ns": 154323829048,
+            "dequeue_ns": 154323835704,
+            "json_conversion_started_ns": 154323841675,
+            "json_conversion_completed_ns": 154409539515,
+            "serialization_started_ns": 154409540136,
+            "serialization_completed_ns": 154510872431,
+            "temp_write_started_ns": 154510877530,
+            "temp_write_completed_ns": 154512176421,
+            "rename_started_ns": 154512176596,
+            "rename_completed_ns": 154512534402
+          },
+          "bytes": 5978731,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 156,
+          "render_revision": 155,
+          "accepted_unix_ns": 1788667763125535858,
+          "stages": {
+            "acceptance_started_ns": 155295255140,
+            "model_completed_ns": 155317637570,
+            "construction_started_ns": 155317638864,
+            "construction_completed_ns": 155323989346,
+            "submission_started_ns": 155323989387,
+            "submission_completed_ns": 155323992531,
+            "dequeue_ns": 155324001780,
+            "json_conversion_started_ns": 155324007108,
+            "json_conversion_completed_ns": 155408887023,
+            "serialization_started_ns": 155408887390,
+            "serialization_completed_ns": 155510618853,
+            "temp_write_started_ns": 155510624260,
+            "temp_write_completed_ns": 155511920330,
+            "rename_started_ns": 155511920591,
+            "rename_completed_ns": 155512316890
+          },
+          "bytes": 5971799,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 157,
+          "render_revision": 156,
+          "accepted_unix_ns": 1788667764106816566,
+          "stages": {
+            "acceptance_started_ns": 156276535410,
+            "model_completed_ns": 156299322978,
+            "construction_started_ns": 156299324621,
+            "construction_completed_ns": 156308970034,
+            "submission_started_ns": 156308970501,
+            "submission_completed_ns": 156308975222,
+            "dequeue_ns": 156308986359,
+            "json_conversion_started_ns": 156308992879,
+            "json_conversion_completed_ns": 156404934488,
+            "serialization_started_ns": 156404934882,
+            "serialization_completed_ns": 156516062259,
+            "temp_write_started_ns": 156516068404,
+            "temp_write_completed_ns": 156517357176,
+            "rename_started_ns": 156517357349,
+            "rename_completed_ns": 156517509580
+          },
+          "bytes": 5971380,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 158,
+          "render_revision": 157,
+          "accepted_unix_ns": 1788667765118437474,
+          "stages": {
+            "acceptance_started_ns": 157288156727,
+            "model_completed_ns": 157310200936,
+            "construction_started_ns": 157310202501,
+            "construction_completed_ns": 157317425612,
+            "submission_started_ns": 157317426114,
+            "submission_completed_ns": 157317430313,
+            "dequeue_ns": 157317437857,
+            "json_conversion_started_ns": 157317443306,
+            "json_conversion_completed_ns": 157401672185,
+            "serialization_started_ns": 157401672532,
+            "serialization_completed_ns": 157502964026,
+            "temp_write_started_ns": 157502969128,
+            "temp_write_completed_ns": 157504642774,
+            "rename_started_ns": 157504642914,
+            "rename_completed_ns": 157504786081
+          },
+          "bytes": 5971666,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 159,
+          "render_revision": 158,
+          "accepted_unix_ns": 1788667766131288750,
+          "stages": {
+            "acceptance_started_ns": 158301008121,
+            "model_completed_ns": 158322863987,
+            "construction_started_ns": 158322865181,
+            "construction_completed_ns": 158329479338,
+            "submission_started_ns": 158329479372,
+            "submission_completed_ns": 158329483428,
+            "dequeue_ns": 158329503717,
+            "json_conversion_started_ns": 158329518550,
+            "json_conversion_completed_ns": 158416472849,
+            "serialization_started_ns": 158416473350,
+            "serialization_completed_ns": 158518192550,
+            "temp_write_started_ns": 158518198955,
+            "temp_write_completed_ns": 158519551174,
+            "rename_started_ns": 158519551316,
+            "rename_completed_ns": 158519945249
+          },
+          "bytes": 5971415,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 160,
+          "render_revision": 159,
+          "accepted_unix_ns": 1788667767120563886,
+          "stages": {
+            "acceptance_started_ns": 159290282885,
+            "model_completed_ns": 159311925858,
+            "construction_started_ns": 159311927465,
+            "construction_completed_ns": 159318444745,
+            "submission_started_ns": 159318444778,
+            "submission_completed_ns": 159318447868,
+            "dequeue_ns": 159318454661,
+            "json_conversion_started_ns": 159318460868,
+            "json_conversion_completed_ns": 159407742509,
+            "serialization_started_ns": 159407742888,
+            "serialization_completed_ns": 159509457757,
+            "temp_write_started_ns": 159509462539,
+            "temp_write_completed_ns": 159510961303,
+            "rename_started_ns": 159510961537,
+            "rename_completed_ns": 159511381479
+          },
+          "bytes": 5971680,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 161,
+          "render_revision": 160,
+          "accepted_unix_ns": 1788667768177645954,
+          "stages": {
+            "acceptance_started_ns": 160347365512,
+            "model_completed_ns": 160368886769,
+            "construction_started_ns": 160368888911,
+            "construction_completed_ns": 160375064619,
+            "submission_started_ns": 160375064662,
+            "submission_completed_ns": 160375069054,
+            "dequeue_ns": 160375177809,
+            "json_conversion_started_ns": 160375184242,
+            "json_conversion_completed_ns": 160460244050,
+            "serialization_started_ns": 160460244629,
+            "serialization_completed_ns": 160561236736,
+            "temp_write_started_ns": 160561242047,
+            "temp_write_completed_ns": 160562504809,
+            "rename_started_ns": 160562504975,
+            "rename_completed_ns": 160562853110
+          },
+          "bytes": 5971249,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 162,
+          "render_revision": 161,
+          "accepted_unix_ns": 1788667769205175290,
+          "stages": {
+            "acceptance_started_ns": 161374894721,
+            "model_completed_ns": 161396129860,
+            "construction_started_ns": 161396130968,
+            "construction_completed_ns": 161402601195,
+            "submission_started_ns": 161402601259,
+            "submission_completed_ns": 161402604610,
+            "dequeue_ns": 161402810521,
+            "json_conversion_started_ns": 161402815624,
+            "json_conversion_completed_ns": 161488310278,
+            "serialization_started_ns": 161488310914,
+            "serialization_completed_ns": 161589519019,
+            "temp_write_started_ns": 161589524140,
+            "temp_write_completed_ns": 161591124473,
+            "rename_started_ns": 161591124689,
+            "rename_completed_ns": 161591290080
+          },
+          "bytes": 5977763,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 163,
+          "render_revision": 162,
+          "accepted_unix_ns": 1788667770279643501,
+          "stages": {
+            "acceptance_started_ns": 162449362421,
+            "model_completed_ns": 162472055327,
+            "construction_started_ns": 162472056817,
+            "construction_completed_ns": 162479201880,
+            "submission_started_ns": 162479202141,
+            "submission_completed_ns": 162479206030,
+            "dequeue_ns": 162479297159,
+            "json_conversion_started_ns": 162479311595,
+            "json_conversion_completed_ns": 162568545007,
+            "serialization_started_ns": 162568545210,
+            "serialization_completed_ns": 162670382338,
+            "temp_write_started_ns": 162670387641,
+            "temp_write_completed_ns": 162671744245,
+            "rename_started_ns": 162671744396,
+            "rename_completed_ns": 162671921672
+          },
+          "bytes": 5974819,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 164,
+          "render_revision": 163,
+          "accepted_unix_ns": 1788667771052484925,
+          "stages": {
+            "acceptance_started_ns": 163222204286,
+            "model_completed_ns": 163244749508,
+            "construction_started_ns": 163244750879,
+            "construction_completed_ns": 163251652421,
+            "submission_started_ns": 163251652838,
+            "submission_completed_ns": 163251656830,
+            "dequeue_ns": 163251669230,
+            "json_conversion_started_ns": 163251675104,
+            "json_conversion_completed_ns": 163335352382,
+            "serialization_started_ns": 163335352634,
+            "serialization_completed_ns": 163436231412,
+            "temp_write_started_ns": 163436238039,
+            "temp_write_completed_ns": 163437748634,
+            "rename_started_ns": 163437749050,
+            "rename_completed_ns": 163437916178
+          },
+          "bytes": 5975204,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 165,
+          "render_revision": 164,
+          "accepted_unix_ns": 1788667772309442153,
+          "stages": {
+            "acceptance_started_ns": 164479161474,
+            "model_completed_ns": 164501881445,
+            "construction_started_ns": 164501882560,
+            "construction_completed_ns": 164508454260,
+            "submission_started_ns": 164508454401,
+            "submission_completed_ns": 164508458079,
+            "dequeue_ns": 164508544442,
+            "json_conversion_started_ns": 164508558810,
+            "json_conversion_completed_ns": 164593771245,
+            "serialization_started_ns": 164593771834,
+            "serialization_completed_ns": 164694670498,
+            "temp_write_started_ns": 164694677690,
+            "temp_write_completed_ns": 164696028356,
+            "rename_started_ns": 164696028690,
+            "rename_completed_ns": 164696412712
+          },
+          "bytes": 6001132,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 166,
+          "render_revision": 165,
+          "accepted_unix_ns": 1788667773258491882,
+          "stages": {
+            "acceptance_started_ns": 165428210955,
+            "model_completed_ns": 165450008040,
+            "construction_started_ns": 165450009255,
+            "construction_completed_ns": 165456642400,
+            "submission_started_ns": 165456642440,
+            "submission_completed_ns": 165456645937,
+            "dequeue_ns": 165456671968,
+            "json_conversion_started_ns": 165456686578,
+            "json_conversion_completed_ns": 165543099510,
+            "serialization_started_ns": 165543100147,
+            "serialization_completed_ns": 165646049921,
+            "temp_write_started_ns": 165646054979,
+            "temp_write_completed_ns": 165647321442,
+            "rename_started_ns": 165647321681,
+            "rename_completed_ns": 165647804832
+          },
+          "bytes": 5975329,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 167,
+          "render_revision": 166,
+          "accepted_unix_ns": 1788667774116958462,
+          "stages": {
+            "acceptance_started_ns": 166286678001,
+            "model_completed_ns": 166308618037,
+            "construction_started_ns": 166308619301,
+            "construction_completed_ns": 166315370080,
+            "submission_started_ns": 166315370302,
+            "submission_completed_ns": 166315374235,
+            "dequeue_ns": 166315394035,
+            "json_conversion_started_ns": 166315408678,
+            "json_conversion_completed_ns": 166400580709,
+            "serialization_started_ns": 166400581268,
+            "serialization_completed_ns": 166502418028,
+            "temp_write_started_ns": 166502422986,
+            "temp_write_completed_ns": 166503687527,
+            "rename_started_ns": 166503687706,
+            "rename_completed_ns": 166504036882
+          },
+          "bytes": 5974698,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 168,
+          "render_revision": 167,
+          "accepted_unix_ns": 1788667775361102705,
+          "stages": {
+            "acceptance_started_ns": 167530822201,
+            "model_completed_ns": 167551232468,
+            "construction_started_ns": 167551234020,
+            "construction_completed_ns": 167557597483,
+            "submission_started_ns": 167557597528,
+            "submission_completed_ns": 167557601776,
+            "dequeue_ns": 167557617140,
+            "json_conversion_started_ns": 167557623805,
+            "json_conversion_completed_ns": 167647635619,
+            "serialization_started_ns": 167647636332,
+            "serialization_completed_ns": 167753605679,
+            "temp_write_started_ns": 167753610052,
+            "temp_write_completed_ns": 167755136943,
+            "rename_started_ns": 167755137101,
+            "rename_completed_ns": 167755529426
+          },
+          "bytes": 5975228,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 169,
+          "render_revision": 168,
+          "accepted_unix_ns": 1788667776177727381,
+          "stages": {
+            "acceptance_started_ns": 168347447011,
+            "model_completed_ns": 168370842683,
+            "construction_started_ns": 168370844286,
+            "construction_completed_ns": 168377233887,
+            "submission_started_ns": 168377233920,
+            "submission_completed_ns": 168377237448,
+            "dequeue_ns": 168377328303,
+            "json_conversion_started_ns": 168377342046,
+            "json_conversion_completed_ns": 168462039451,
+            "serialization_started_ns": 168462039993,
+            "serialization_completed_ns": 168563689909,
+            "temp_write_started_ns": 168563695046,
+            "temp_write_completed_ns": 168564997494,
+            "rename_started_ns": 168564997642,
+            "rename_completed_ns": 168565389867
+          },
+          "bytes": 5974688,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 170,
+          "render_revision": 169,
+          "accepted_unix_ns": 1788667777247491980,
+          "stages": {
+            "acceptance_started_ns": 169417211174,
+            "model_completed_ns": 169439506607,
+            "construction_started_ns": 169439508052,
+            "construction_completed_ns": 169446402886,
+            "submission_started_ns": 169446402920,
+            "submission_completed_ns": 169446406436,
+            "dequeue_ns": 169446417337,
+            "json_conversion_started_ns": 169446422618,
+            "json_conversion_completed_ns": 169530835768,
+            "serialization_started_ns": 169530836074,
+            "serialization_completed_ns": 169631244068,
+            "temp_write_started_ns": 169631249956,
+            "temp_write_completed_ns": 169632563316,
+            "rename_started_ns": 169632563880,
+            "rename_completed_ns": 169632928158
+          },
+          "bytes": 5972252,
+          "temp_device": 66318,
+          "temp_inode": 222692956,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 171,
+          "render_revision": 170,
+          "accepted_unix_ns": 1788667778466673842,
+          "stages": {
+            "acceptance_started_ns": 170636393201,
+            "model_completed_ns": 170657852061,
+            "construction_started_ns": 170657853851,
+            "construction_completed_ns": 170664169145,
+            "submission_started_ns": 170664169243,
+            "submission_completed_ns": 170664173996,
+            "dequeue_ns": 170664293847,
+            "json_conversion_started_ns": 170664307703,
+            "json_conversion_completed_ns": 170780670314,
+            "serialization_started_ns": 170780670736,
+            "serialization_completed_ns": 170882406802,
+            "temp_write_started_ns": 170882412568,
+            "temp_write_completed_ns": 170884017817,
+            "rename_started_ns": 170884017964,
+            "rename_completed_ns": 170884458462
+          },
+          "bytes": 5971296,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 172,
+          "render_revision": 171,
+          "accepted_unix_ns": 1788667779058969552,
+          "stages": {
+            "acceptance_started_ns": 171228688603,
+            "model_completed_ns": 171249177970,
+            "construction_started_ns": 171249179494,
+            "construction_completed_ns": 171255092330,
+            "submission_started_ns": 171255092378,
+            "submission_completed_ns": 171255098273,
+            "dequeue_ns": 171255111201,
+            "json_conversion_started_ns": 171255118529,
+            "json_conversion_completed_ns": 171344243271,
+            "serialization_started_ns": 171344243971,
+            "serialization_completed_ns": 171447098655,
+            "temp_write_started_ns": 171447104417,
+            "temp_write_completed_ns": 171448681648,
+            "rename_started_ns": 171448681950,
+            "rename_completed_ns": 171448855543
+          },
+          "bytes": 5987386,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 173,
+          "render_revision": 172,
+          "accepted_unix_ns": 1788667780104605116,
+          "stages": {
+            "acceptance_started_ns": 172274324352,
+            "model_completed_ns": 172296691075,
+            "construction_started_ns": 172296692532,
+            "construction_completed_ns": 172303633775,
+            "submission_started_ns": 172303633812,
+            "submission_completed_ns": 172303638269,
+            "dequeue_ns": 172303644461,
+            "json_conversion_started_ns": 172303650618,
+            "json_conversion_completed_ns": 172390632448,
+            "serialization_started_ns": 172390632997,
+            "serialization_completed_ns": 172491302206,
+            "temp_write_started_ns": 172491306838,
+            "temp_write_completed_ns": 172492828696,
+            "rename_started_ns": 172492828853,
+            "rename_completed_ns": 172493196055
+          },
+          "bytes": 5970989,
+          "temp_device": 66318,
+          "temp_inode": 222692955,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 174,
+          "render_revision": 173,
+          "accepted_unix_ns": 1788667781107851385,
+          "stages": {
+            "acceptance_started_ns": 173277571097,
+            "model_completed_ns": 173299156526,
+            "construction_started_ns": 173299157665,
+            "construction_completed_ns": 173305448502,
+            "submission_started_ns": 173305448535,
+            "submission_completed_ns": 173305451530,
+            "dequeue_ns": 173305458963,
+            "json_conversion_started_ns": 173305464287,
+            "json_conversion_completed_ns": 173388901957,
+            "serialization_started_ns": 173388902716,
+            "serialization_completed_ns": 173488663406,
+            "temp_write_started_ns": 173488668187,
+            "temp_write_completed_ns": 173489956115,
+            "rename_started_ns": 173489956545,
+            "rename_completed_ns": 173490362493
+          },
+          "bytes": 5971654,
+          "temp_device": 66318,
+          "temp_inode": 222692957,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 175,
+          "render_revision": 174,
+          "accepted_unix_ns": 1788667782097344815,
+          "stages": {
+            "acceptance_started_ns": 174267064264,
+            "model_completed_ns": 174290618480,
+            "construction_started_ns": 174290619916,
+            "construction_completed_ns": 174298342139,
+            "submission_started_ns": 174298342357,
+            "submission_completed_ns": 174298346615,
+            "dequeue_ns": 174298352805,
+            "json_conversion_started_ns": 174298358191,
+            "json_conversion_completed_ns": 174381738417,
+            "serialization_started_ns": 174381739410,
+            "serialization_completed_ns": 174485777279,
+            "temp_write_started_ns": 174485782227,
+            "temp_write_completed_ns": 174487033851,
+            "rename_started_ns": 174487034093,
+            "rename_completed_ns": 174487469344
+          },
+          "bytes": 5977574,
+          "temp_device": 66318,
+          "temp_inode": 222692958,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 176,
+          "render_revision": 175,
+          "accepted_unix_ns": 1788667783042721532,
+          "stages": {
+            "acceptance_started_ns": 175212440844,
+            "model_completed_ns": 175232561020,
+            "construction_started_ns": 175232562028,
+            "construction_completed_ns": 175238012711,
+            "submission_started_ns": 175238013040,
+            "submission_completed_ns": 175238016280,
+            "dequeue_ns": 175238023378,
+            "json_conversion_started_ns": 175238028209,
+            "json_conversion_completed_ns": 175320969838,
+            "serialization_started_ns": 175320970351,
+            "serialization_completed_ns": 175422909640,
+            "temp_write_started_ns": 175422913709,
+            "temp_write_completed_ns": 175424232032,
+            "rename_started_ns": 175424232353,
+            "rename_completed_ns": 175424593874
+          },
+          "bytes": 5971544,
+          "temp_device": 66318,
+          "temp_inode": 222692960,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 177,
+          "render_revision": 176,
+          "accepted_unix_ns": 1788667784038059096,
+          "stages": {
+            "acceptance_started_ns": 176207778680,
+            "model_completed_ns": 176229691470,
+            "construction_started_ns": 176229692893,
+            "construction_completed_ns": 176235921429,
+            "submission_started_ns": 176235921698,
+            "submission_completed_ns": 176235925672,
+            "dequeue_ns": 176235932899,
+            "json_conversion_started_ns": 176235938812,
+            "json_conversion_completed_ns": 176323394956,
+            "serialization_started_ns": 176323395637,
+            "serialization_completed_ns": 176425948376,
+            "temp_write_started_ns": 176425954123,
+            "temp_write_completed_ns": 176427297184,
+            "rename_started_ns": 176427297506,
+            "rename_completed_ns": 176427668444
+          },
+          "bytes": 5970994,
+          "temp_device": 66318,
+          "temp_inode": 222692962,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 178,
+          "render_revision": 177,
+          "accepted_unix_ns": 1788667785035249366,
+          "stages": {
+            "acceptance_started_ns": 177204969009,
+            "model_completed_ns": 177226131775,
+            "construction_started_ns": 177226133001,
+            "construction_completed_ns": 177232830796,
+            "submission_started_ns": 177232830941,
+            "submission_completed_ns": 177232835669,
+            "dequeue_ns": 177232923165,
+            "json_conversion_started_ns": 177232936454,
+            "json_conversion_completed_ns": 177316186121,
+            "serialization_started_ns": 177316186622,
+            "serialization_completed_ns": 177416604629,
+            "temp_write_started_ns": 177416609273,
+            "temp_write_completed_ns": 177418031447,
+            "rename_started_ns": 177418031579,
+            "rename_completed_ns": 177425603024
+          },
+          "bytes": 5971723,
+          "temp_device": 66318,
+          "temp_inode": 222692964,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 179,
+          "render_revision": 178,
+          "accepted_unix_ns": 1788667786122171190,
+          "stages": {
+            "acceptance_started_ns": 178291890463,
+            "model_completed_ns": 178314894951,
+            "construction_started_ns": 178314896276,
+            "construction_completed_ns": 178321987403,
+            "submission_started_ns": 178321987707,
+            "submission_completed_ns": 178321991407,
+            "dequeue_ns": 178322001850,
+            "json_conversion_started_ns": 178322007011,
+            "json_conversion_completed_ns": 178405733089,
+            "serialization_started_ns": 178405733602,
+            "serialization_completed_ns": 178505697467,
+            "temp_write_started_ns": 178505701853,
+            "temp_write_completed_ns": 178506986319,
+            "rename_started_ns": 178506986485,
+            "rename_completed_ns": 178515812015
+          },
+          "bytes": 5970934,
+          "temp_device": 66318,
+          "temp_inode": 222692966,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 180,
+          "render_revision": 179,
+          "accepted_unix_ns": 1788667787113918606,
+          "stages": {
+            "acceptance_started_ns": 179283638065,
+            "model_completed_ns": 179305581923,
+            "construction_started_ns": 179305582863,
+            "construction_completed_ns": 179312201993,
+            "submission_started_ns": 179312202035,
+            "submission_completed_ns": 179312205261,
+            "dequeue_ns": 179312212708,
+            "json_conversion_started_ns": 179312218070,
+            "json_conversion_completed_ns": 179396105126,
+            "serialization_started_ns": 179396105693,
+            "serialization_completed_ns": 179496582298,
+            "temp_write_started_ns": 179496586784,
+            "temp_write_completed_ns": 179497832596,
+            "rename_started_ns": 179497832824,
+            "rename_completed_ns": 179498179546
+          },
+          "bytes": 5971655,
+          "temp_device": 66318,
+          "temp_inode": 222692968,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 181,
+          "render_revision": 180,
+          "accepted_unix_ns": 1788667788102757182,
+          "stages": {
+            "acceptance_started_ns": 180272476695,
+            "model_completed_ns": 180295258018,
+            "construction_started_ns": 180295258952,
+            "construction_completed_ns": 180302070450,
+            "submission_started_ns": 180302070728,
+            "submission_completed_ns": 180302075014,
+            "dequeue_ns": 180302085225,
+            "json_conversion_started_ns": 180302090154,
+            "json_conversion_completed_ns": 180385918235,
+            "serialization_started_ns": 180385918471,
+            "serialization_completed_ns": 180487010056,
+            "temp_write_started_ns": 180487014389,
+            "temp_write_completed_ns": 180488528786,
+            "rename_started_ns": 180488528937,
+            "rename_completed_ns": 180488938118
+          },
+          "bytes": 5971194,
+          "temp_device": 66318,
+          "temp_inode": 222692970,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 182,
+          "render_revision": 181,
+          "accepted_unix_ns": 1788667789097269723,
+          "stages": {
+            "acceptance_started_ns": 181266989075,
+            "model_completed_ns": 181289974844,
+            "construction_started_ns": 181289976181,
+            "construction_completed_ns": 181297363799,
+            "submission_started_ns": 181297363832,
+            "submission_completed_ns": 181297367519,
+            "dequeue_ns": 181297390649,
+            "json_conversion_started_ns": 181297404548,
+            "json_conversion_completed_ns": 181382380194,
+            "serialization_started_ns": 181382380767,
+            "serialization_completed_ns": 181483214971,
+            "temp_write_started_ns": 181483220048,
+            "temp_write_completed_ns": 181484501107,
+            "rename_started_ns": 181484501370,
+            "rename_completed_ns": 181484826245
+          },
+          "bytes": 5971833,
+          "temp_device": 66318,
+          "temp_inode": 222692972,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 183,
+          "render_revision": 182,
+          "accepted_unix_ns": 1788667790090058839,
+          "stages": {
+            "acceptance_started_ns": 182259778197,
+            "model_completed_ns": 182282186807,
+            "construction_started_ns": 182282187684,
+            "construction_completed_ns": 182289036090,
+            "submission_started_ns": 182289036135,
+            "submission_completed_ns": 182289040122,
+            "dequeue_ns": 182289053372,
+            "json_conversion_started_ns": 182289059626,
+            "json_conversion_completed_ns": 182378356742,
+            "serialization_started_ns": 182378357314,
+            "serialization_completed_ns": 182479425630,
+            "temp_write_started_ns": 182479430723,
+            "temp_write_completed_ns": 182480683045,
+            "rename_started_ns": 182480683316,
+            "rename_completed_ns": 182480991574
+          },
+          "bytes": 5970891,
+          "temp_device": 66318,
+          "temp_inode": 222692974,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 184,
+          "render_revision": 183,
+          "accepted_unix_ns": 1788667791087154592,
+          "stages": {
+            "acceptance_started_ns": 183256874130,
+            "model_completed_ns": 183279479252,
+            "construction_started_ns": 183279480812,
+            "construction_completed_ns": 183286361483,
+            "submission_started_ns": 183286361517,
+            "submission_completed_ns": 183286365480,
+            "dequeue_ns": 183286452696,
+            "json_conversion_started_ns": 183286465691,
+            "json_conversion_completed_ns": 183370414012,
+            "serialization_started_ns": 183370414463,
+            "serialization_completed_ns": 183471580011,
+            "temp_write_started_ns": 183471585355,
+            "temp_write_completed_ns": 183472823061,
+            "rename_started_ns": 183472823408,
+            "rename_completed_ns": 183473159687
+          },
+          "bytes": 5971238,
+          "temp_device": 66318,
+          "temp_inode": 222692970,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 185,
+          "render_revision": 184,
+          "accepted_unix_ns": 1788667792082017858,
+          "stages": {
+            "acceptance_started_ns": 184251736696,
+            "model_completed_ns": 184274631232,
+            "construction_started_ns": 184274633036,
+            "construction_completed_ns": 184283171373,
+            "submission_started_ns": 184283171800,
+            "submission_completed_ns": 184283177745,
+            "dequeue_ns": 184283192037,
+            "json_conversion_started_ns": 184283198955,
+            "json_conversion_completed_ns": 184374120430,
+            "serialization_started_ns": 184374120967,
+            "serialization_completed_ns": 184475218640,
+            "temp_write_started_ns": 184475222912,
+            "temp_write_completed_ns": 184476502101,
+            "rename_started_ns": 184476502216,
+            "rename_completed_ns": 184476825371
+          },
+          "bytes": 5977647,
+          "temp_device": 66318,
+          "temp_inode": 222692977,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 186,
+          "render_revision": 185,
+          "accepted_unix_ns": 1788667793090053066,
+          "stages": {
+            "acceptance_started_ns": 185259772577,
+            "model_completed_ns": 185281821194,
+            "construction_started_ns": 185281822725,
+            "construction_completed_ns": 185288637885,
+            "submission_started_ns": 185288637926,
+            "submission_completed_ns": 185288641207,
+            "dequeue_ns": 185288651595,
+            "json_conversion_started_ns": 185288656749,
+            "json_conversion_completed_ns": 185377509324,
+            "serialization_started_ns": 185377509637,
+            "serialization_completed_ns": 185479414307,
+            "temp_write_started_ns": 185479419216,
+            "temp_write_completed_ns": 185480675522,
+            "rename_started_ns": 185480675746,
+            "rename_completed_ns": 185489569064
+          },
+          "bytes": 5971807,
+          "temp_device": 66318,
+          "temp_inode": 222692974,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 187,
+          "render_revision": 186,
+          "accepted_unix_ns": 1788667794117071565,
+          "stages": {
+            "acceptance_started_ns": 186286790837,
+            "model_completed_ns": 186314305564,
+            "construction_started_ns": 186314307046,
+            "construction_completed_ns": 186322858353,
+            "submission_started_ns": 186322858530,
+            "submission_completed_ns": 186322863982,
+            "dequeue_ns": 186322879672,
+            "json_conversion_started_ns": 186322885709,
+            "json_conversion_completed_ns": 186413372997,
+            "serialization_started_ns": 186413373575,
+            "serialization_completed_ns": 186527380722,
+            "temp_write_started_ns": 186527385930,
+            "temp_write_completed_ns": 186528671432,
+            "rename_started_ns": 186528671602,
+            "rename_completed_ns": 186528989144
+          },
+          "bytes": 5971160,
+          "temp_device": 66318,
+          "temp_inode": 222692980,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 188,
+          "render_revision": 187,
+          "accepted_unix_ns": 1788667795083615044,
+          "stages": {
+            "acceptance_started_ns": 187253334513,
+            "model_completed_ns": 187276437903,
+            "construction_started_ns": 187276439205,
+            "construction_completed_ns": 187283123755,
+            "submission_started_ns": 187283123789,
+            "submission_completed_ns": 187283131661,
+            "dequeue_ns": 187283140370,
+            "json_conversion_started_ns": 187283146517,
+            "json_conversion_completed_ns": 187369267990,
+            "serialization_started_ns": 187369268687,
+            "serialization_completed_ns": 187472717163,
+            "temp_write_started_ns": 187472721935,
+            "temp_write_completed_ns": 187473991090,
+            "rename_started_ns": 187473991474,
+            "rename_completed_ns": 187474386275
+          },
+          "bytes": 5971871,
+          "temp_device": 66318,
+          "temp_inode": 222692977,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 189,
+          "render_revision": 188,
+          "accepted_unix_ns": 1788667796079069549,
+          "stages": {
+            "acceptance_started_ns": 188248789235,
+            "model_completed_ns": 188272907333,
+            "construction_started_ns": 188272908985,
+            "construction_completed_ns": 188279990485,
+            "submission_started_ns": 188279990518,
+            "submission_completed_ns": 188279994136,
+            "dequeue_ns": 188280014485,
+            "json_conversion_started_ns": 188280028879,
+            "json_conversion_completed_ns": 188364049720,
+            "serialization_started_ns": 188364050325,
+            "serialization_completed_ns": 188464757504,
+            "temp_write_started_ns": 188464761900,
+            "temp_write_completed_ns": 188466052951,
+            "rename_started_ns": 188466053072,
+            "rename_completed_ns": 188466407822
+          },
+          "bytes": 5970759,
+          "temp_device": 66318,
+          "temp_inode": 222692983,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 190,
+          "render_revision": 189,
+          "accepted_unix_ns": 1788667797073544453,
+          "stages": {
+            "acceptance_started_ns": 189243263959,
+            "model_completed_ns": 189269061561,
+            "construction_started_ns": 189269063568,
+            "construction_completed_ns": 189277566877,
+            "submission_started_ns": 189277566927,
+            "submission_completed_ns": 189277571246,
+            "dequeue_ns": 189277659243,
+            "json_conversion_started_ns": 189277674172,
+            "json_conversion_completed_ns": 189364741981,
+            "serialization_started_ns": 189364742829,
+            "serialization_completed_ns": 189465442677,
+            "temp_write_started_ns": 189465447696,
+            "temp_write_completed_ns": 189466704855,
+            "rename_started_ns": 189466705068,
+            "rename_completed_ns": 189467076697
+          },
+          "bytes": 5972228,
+          "temp_device": 66318,
+          "temp_inode": 222692980,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 191,
+          "render_revision": 190,
+          "accepted_unix_ns": 1788667798075255648,
+          "stages": {
+            "acceptance_started_ns": 190244975240,
+            "model_completed_ns": 190267896264,
+            "construction_started_ns": 190267897286,
+            "construction_completed_ns": 190274979525,
+            "submission_started_ns": 190274979646,
+            "submission_completed_ns": 190274983795,
+            "dequeue_ns": 190275085083,
+            "json_conversion_started_ns": 190275095824,
+            "json_conversion_completed_ns": 190360374381,
+            "serialization_started_ns": 190360374972,
+            "serialization_completed_ns": 190460977043,
+            "temp_write_started_ns": 190460981556,
+            "temp_write_completed_ns": 190462281102,
+            "rename_started_ns": 190462281266,
+            "rename_completed_ns": 190462623183
+          },
+          "bytes": 5971550,
+          "temp_device": 66318,
+          "temp_inode": 222692986,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 192,
+          "render_revision": 191,
+          "accepted_unix_ns": 1788667799069174717,
+          "stages": {
+            "acceptance_started_ns": 191238894103,
+            "model_completed_ns": 191260812117,
+            "construction_started_ns": 191260813541,
+            "construction_completed_ns": 191267576998,
+            "submission_started_ns": 191267577039,
+            "submission_completed_ns": 191267580093,
+            "dequeue_ns": 191267665846,
+            "json_conversion_started_ns": 191267677884,
+            "json_conversion_completed_ns": 191351621835,
+            "serialization_started_ns": 191351622393,
+            "serialization_completed_ns": 191452275690,
+            "temp_write_started_ns": 191452280464,
+            "temp_write_completed_ns": 191453540479,
+            "rename_started_ns": 191453540645,
+            "rename_completed_ns": 191453928973
+          },
+          "bytes": 5975334,
+          "temp_device": 66318,
+          "temp_inode": 222692983,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 193,
+          "render_revision": 192,
+          "accepted_unix_ns": 1788667800066488972,
+          "stages": {
+            "acceptance_started_ns": 192236208469,
+            "model_completed_ns": 192259739326,
+            "construction_started_ns": 192259740433,
+            "construction_completed_ns": 192267490518,
+            "submission_started_ns": 192267490730,
+            "submission_completed_ns": 192267494421,
+            "dequeue_ns": 192267514959,
+            "json_conversion_started_ns": 192267528745,
+            "json_conversion_completed_ns": 192354173892,
+            "serialization_started_ns": 192354174548,
+            "serialization_completed_ns": 192455382904,
+            "temp_write_started_ns": 192455389379,
+            "temp_write_completed_ns": 192456699678,
+            "rename_started_ns": 192456699852,
+            "rename_completed_ns": 192457055024
+          },
+          "bytes": 5974381,
+          "temp_device": 66318,
+          "temp_inode": 222692987,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 194,
+          "render_revision": 193,
+          "accepted_unix_ns": 1788667801071234114,
+          "stages": {
+            "acceptance_started_ns": 193240953466,
+            "model_completed_ns": 193265980274,
+            "construction_started_ns": 193265981341,
+            "construction_completed_ns": 193273864835,
+            "submission_started_ns": 193273864869,
+            "submission_completed_ns": 193273868505,
+            "dequeue_ns": 193273878537,
+            "json_conversion_started_ns": 193273885070,
+            "json_conversion_completed_ns": 193361495306,
+            "serialization_started_ns": 193361495783,
+            "serialization_completed_ns": 193462915790,
+            "temp_write_started_ns": 193462921208,
+            "temp_write_completed_ns": 193464204988,
+            "rename_started_ns": 193464205216,
+            "rename_completed_ns": 193464368632
+          },
+          "bytes": 5975060,
+          "temp_device": 66318,
+          "temp_inode": 222692986,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 195,
+          "render_revision": 194,
+          "accepted_unix_ns": 1788667802085682385,
+          "stages": {
+            "acceptance_started_ns": 194255401861,
+            "model_completed_ns": 194279445848,
+            "construction_started_ns": 194279447813,
+            "construction_completed_ns": 194287670095,
+            "submission_started_ns": 194287670136,
+            "submission_completed_ns": 194287674143,
+            "dequeue_ns": 194287769116,
+            "json_conversion_started_ns": 194287775125,
+            "json_conversion_completed_ns": 194376419353,
+            "serialization_started_ns": 194376419866,
+            "serialization_completed_ns": 194477663626,
+            "temp_write_started_ns": 194477668928,
+            "temp_write_completed_ns": 194478964148,
+            "rename_started_ns": 194478964548,
+            "rename_completed_ns": 194479305315
+          },
+          "bytes": 5978434,
+          "temp_device": 66318,
+          "temp_inode": 222692989,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 196,
+          "render_revision": 195,
+          "accepted_unix_ns": 1788667803099854340,
+          "stages": {
+            "acceptance_started_ns": 195269574000,
+            "model_completed_ns": 195291338786,
+            "construction_started_ns": 195291339666,
+            "construction_completed_ns": 195297622285,
+            "submission_started_ns": 195297622333,
+            "submission_completed_ns": 195297625894,
+            "dequeue_ns": 195297637305,
+            "json_conversion_started_ns": 195297642564,
+            "json_conversion_completed_ns": 195382448407,
+            "serialization_started_ns": 195382448951,
+            "serialization_completed_ns": 195483193625,
+            "temp_write_started_ns": 195483198621,
+            "temp_write_completed_ns": 195484462912,
+            "rename_started_ns": 195484463255,
+            "rename_completed_ns": 195484859359
+          },
+          "bytes": 5971824,
+          "temp_device": 66318,
+          "temp_inode": 222692988,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 197,
+          "render_revision": 196,
+          "accepted_unix_ns": 1788667804093350728,
+          "stages": {
+            "acceptance_started_ns": 196263069851,
+            "model_completed_ns": 196285594748,
+            "construction_started_ns": 196285596303,
+            "construction_completed_ns": 196293530298,
+            "submission_started_ns": 196293530480,
+            "submission_completed_ns": 196293534448,
+            "dequeue_ns": 196293541402,
+            "json_conversion_started_ns": 196293546622,
+            "json_conversion_completed_ns": 196387440311,
+            "serialization_started_ns": 196387441212,
+            "serialization_completed_ns": 196489392302,
+            "temp_write_started_ns": 196489398152,
+            "temp_write_completed_ns": 196490673060,
+            "rename_started_ns": 196490673313,
+            "rename_completed_ns": 196491011020
+          },
+          "bytes": 5971054,
+          "temp_device": 66318,
+          "temp_inode": 222692986,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 198,
+          "render_revision": 197,
+          "accepted_unix_ns": 1788667805235245560,
+          "stages": {
+            "acceptance_started_ns": 197404964735,
+            "model_completed_ns": 197426255065,
+            "construction_started_ns": 197426257103,
+            "construction_completed_ns": 197433643759,
+            "submission_started_ns": 197433643794,
+            "submission_completed_ns": 197433648862,
+            "dequeue_ns": 197433657520,
+            "json_conversion_started_ns": 197433663696,
+            "json_conversion_completed_ns": 197519596640,
+            "serialization_started_ns": 197519597111,
+            "serialization_completed_ns": 197621087669,
+            "temp_write_started_ns": 197621093463,
+            "temp_write_completed_ns": 197622627127,
+            "rename_started_ns": 197622627269,
+            "rename_completed_ns": 197622987170
+          },
+          "bytes": 5978006,
+          "temp_device": 66318,
+          "temp_inode": 222692989,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        },
+        {
+          "sequence": 199,
+          "render_revision": 198,
+          "accepted_unix_ns": 1788667806038797121,
+          "stages": {
+            "acceptance_started_ns": 198208516688,
+            "model_completed_ns": 198231302297,
+            "construction_started_ns": 198231303292,
+            "construction_completed_ns": 198237638022,
+            "submission_started_ns": 198237638056,
+            "submission_completed_ns": 198237642424,
+            "dequeue_ns": 198237654248,
+            "json_conversion_started_ns": 198237661288,
+            "json_conversion_completed_ns": 198322050308,
+            "serialization_started_ns": 198322050838,
+            "serialization_completed_ns": 198425908442,
+            "temp_write_started_ns": 198425913078,
+            "temp_write_completed_ns": 198427185336,
+            "rename_started_ns": 198427185511,
+            "rename_completed_ns": 198427547023
+          },
+          "bytes": 5961795,
+          "temp_device": 66318,
+          "temp_inode": 222692988,
+          "outcome": "published",
+          "primary_error": null,
+          "trace_error": null
+        }
+      ],
+      "submitted": 198,
+      "dequeued": 198,
+      "overwritten_before_dequeue": 0,
+      "evicted": 134,
+      "sidecar_errors": 0,
+      "last_sidecar_error": null
+    },
+    "coverage": "History captured after a worker attempt; pending entries and interrupted later stages may be incomplete. Null means unobserved, never zero-duration completion."
+  },
+  "publication_stage_summary": {
+    "model": {
+      "count": 64,
+      "min_ms": 20.120176,
+      "median_ms": 22.273007999999997,
+      "max_ms": 29.195751
+    },
+    "construction": {
+      "count": 64,
+      "min_ms": 5.450683,
+      "median_ms": 6.6588475,
+      "max_ms": 9.645413
+    },
+    "queue": {
+      "count": 64,
+      "min_ms": 0.004926,
+      "median_ms": 0.015527,
+      "max_ms": 0.205911
+    },
+    "json conversion": {
+      "count": 64,
+      "min_ms": 82.941629,
+      "median_ms": 85.312478,
+      "max_ms": 116.362611
+    },
+    "serialization": {
+      "count": 64,
+      "min_ms": 99.76069,
+      "median_ms": 101.376151,
+      "max_ms": 114.007147
+    },
+    "temporary write": {
+      "count": 64,
+      "min_ms": 1.229164,
+      "median_ms": 1.2989575,
+      "max_ms": 1.673646
+    },
+    "rename": {
+      "count": 64,
+      "min_ms": 0.143167,
+      "median_ms": 0.36070650000000004,
+      "max_ms": 8.893318
+    },
+    "acceptance to rename": {
+      "count": 64,
+      "min_ms": 212.15303,
+      "median_ms": 218.624425,
+      "max_ms": 248.065261
+    }
+  },
+  "metric_artifacts": [
+    "child-cell-0.json",
+    "child-cell-1.json",
+    "child-cell-2.json",
+    "child-cell-3.json",
+    "child-cell-4.json",
+    "child-cell-5.json",
+    "child-cell-6.json",
+    "child-cell-7.json",
+    "child-left.json",
+    "child-visible-1.json",
+    "child-visible-2.json",
+    "child-visible-3.json",
+    "child-visible-4.json"
+  ],
+  "last_journal": [
+    {
+      "op": "screenshot",
+      "monotonic_ns": 752026200338002,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native/session-01/child-left.png",
+      "sha256": "c9a352e08f8a3f6caada08c612f353fec875c99ceb23e52cf9c0bf4c4e2a07cc"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752027076978193,
+      "condition": "find process cell process:1251996:75193351:cell:1"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752027091586190,
+      "condition": "child cell visibility"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752028015951211,
+      "condition": "find process cell process:1251996:75193351:cell:1"
+    },
+    {
+      "op": "screenshot",
+      "monotonic_ns": 752028279122271,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native/session-01/child-visible-1.png",
+      "sha256": "a73d5bf8d0b522b097eba203dec657b876350541663984bfe5087ea0061cab77"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752029231614645,
+      "condition": "find process cell process:1251996:75193351:cell:2"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752029248420422,
+      "condition": "child cell visibility"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752030087583865,
+      "condition": "find process cell process:1251996:75193351:cell:2"
+    },
+    {
+      "op": "screenshot",
+      "monotonic_ns": 752030344225850,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native/session-01/child-visible-2.png",
+      "sha256": "48b404f48bc22e3314621c0e47f27206dff6a5bffa190c1dde0fa0d0cf359a06"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752031166424944,
+      "condition": "find process cell process:1251996:75193351:cell:3"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752031183154821,
+      "condition": "child cell visibility"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752032008908263,
+      "condition": "find process cell process:1251996:75193351:cell:3"
+    },
+    {
+      "op": "screenshot",
+      "monotonic_ns": 752032272622899,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native/session-01/child-visible-3.png",
+      "sha256": "6105192a07d5a414dea20d4815ba5ed3c1f627bb6497fe77886680565cbf97b2"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752033119114271,
+      "condition": "find process cell process:1251996:75193351:cell:4"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752033130542693,
+      "condition": "child cell visibility"
+    },
+    {
+      "op": "ack",
+      "monotonic_ns": 752033998949275,
+      "condition": "find process cell process:1251996:75193351:cell:4"
+    },
+    {
+      "op": "screenshot",
+      "monotonic_ns": 752035711612578,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native/session-01/child-visible-4.png",
+      "sha256": "7ada128d848ca2df73dbd491951efd39b38fa88ee7224be01ccec8714f2d97db"
+    },
+    {
+      "op": "inspection-row-reveal",
+      "monotonic_ns": 752039055110574,
+      "expected": "process:1251996:75193351",
+      "acknowledgement": {
+        "target": "process:1251996:75193351",
+        "index": 1144,
+        "publication": {
+          "sequence": 174,
+          "application_pid": 1243229,
+          "render_revision": 173,
+          "accepted_unix_ns": 1788667781107851385
+        }
+      },
+      "reference": {
+        "target": "process:1251996:75193351",
+        "index": 1144,
+        "source": "child-visible-4.json",
+        "publication": {
+          "sequence": 194,
+          "application_pid": 1243229,
+          "render_revision": 193,
+          "accepted_unix_ns": 1788667801071234114
+        }
+      },
+      "reference_index": 1144,
+      "eligibility_index": 1143,
+      "eligibility_span": [
+        1144,
+        1152
+      ],
+      "eligibility_sequence": 197,
+      "eligibility_revision": 196,
+      "current_index": 1143,
+      "current_span": [
+        1144,
+        1152
+      ],
+      "point": [
+        720.5,
+        419.0
+      ],
+      "down": false,
+      "deadline": 752040.717823216,
+      "action": "nonselecting vertical wheel"
+    },
+    {
+      "op": "wheel",
+      "monotonic_ns": 752039055179047,
+      "point": [
+        720.5,
+        419.0
+      ],
+      "down": false,
+      "count": 1
+    },
+    {
+      "op": "inspection-row-reveal",
+      "monotonic_ns": 752039308456227,
+      "expected": "process:1251996:75193351",
+      "acknowledgement": {
+        "target": "process:1251996:75193351",
+        "index": 1144,
+        "publication": {
+          "sequence": 174,
+          "application_pid": 1243229,
+          "render_revision": 173,
+          "accepted_unix_ns": 1788667781107851385
+        }
+      },
+      "reference": {
+        "target": "process:1251996:75193351",
+        "index": 1144,
+        "source": "child-visible-4.json",
+        "publication": {
+          "sequence": 194,
+          "application_pid": 1243229,
+          "render_revision": 193,
+          "accepted_unix_ns": 1788667801071234114
+        }
+      },
+      "reference_index": 1144,
+      "eligibility_index": 1143,
+      "eligibility_span": [
+        1144,
+        1152
+      ],
+      "eligibility_sequence": 197,
+      "eligibility_revision": 196,
+      "current_index": 1143,
+      "current_span": [
+        1144,
+        1152
+      ],
+      "point": [
+        720.5,
+        419.0
+      ],
+      "down": false,
+      "deadline": 752040.717823216,
+      "action": "nonselecting vertical wheel"
+    },
+    {
+      "op": "wheel",
+      "monotonic_ns": 752039308541487,
+      "point": [
+        720.5,
+        419.0
+      ],
+      "down": false,
+      "count": 1
+    },
+    {
+      "op": "screenshot",
+      "monotonic_ns": 752040746972796,
+      "path": "/home/shawn/workspace2/task-manager-artifacts/tmp/pulse-publication-diagnostic-poelu223/native/session-01/failure.png",
+      "sha256": "c77f56dc24249db86aff7f3d477ba42efffcdf04d7484fed2d67cfbb3c61ff76"
+    }
+  ],
+  "inspection": {
+    "deadline_monotonic_s": 752040.717823216,
+    "five_second_start_monotonic_s": 752035.717823216,
+    "reveal_events": [
+      {
+        "op": "inspection-row-reveal",
+        "monotonic_ns": 752039055110574,
+        "expected": "process:1251996:75193351",
+        "acknowledgement": {
+          "target": "process:1251996:75193351",
+          "index": 1144,
+          "publication": {
+            "sequence": 174,
+            "application_pid": 1243229,
+            "render_revision": 173,
+            "accepted_unix_ns": 1788667781107851385
+          }
+        },
+        "reference": {
+          "target": "process:1251996:75193351",
+          "index": 1144,
+          "source": "child-visible-4.json",
+          "publication": {
+            "sequence": 194,
+            "application_pid": 1243229,
+            "render_revision": 193,
+            "accepted_unix_ns": 1788667801071234114
+          }
+        },
+        "reference_index": 1144,
+        "eligibility_index": 1143,
+        "eligibility_span": [
+          1144,
+          1152
+        ],
+        "eligibility_sequence": 197,
+        "eligibility_revision": 196,
+        "current_index": 1143,
+        "current_span": [
+          1144,
+          1152
+        ],
+        "point": [
+          720.5,
+          419.0
+        ],
+        "down": false,
+        "deadline": 752040.717823216,
+        "action": "nonselecting vertical wheel"
+      },
+      {
+        "op": "inspection-row-reveal",
+        "monotonic_ns": 752039308456227,
+        "expected": "process:1251996:75193351",
+        "acknowledgement": {
+          "target": "process:1251996:75193351",
+          "index": 1144,
+          "publication": {
+            "sequence": 174,
+            "application_pid": 1243229,
+            "render_revision": 173,
+            "accepted_unix_ns": 1788667781107851385
+          }
+        },
+        "reference": {
+          "target": "process:1251996:75193351",
+          "index": 1144,
+          "source": "child-visible-4.json",
+          "publication": {
+            "sequence": 194,
+            "application_pid": 1243229,
+            "render_revision": 193,
+            "accepted_unix_ns": 1788667801071234114
+          }
+        },
+        "reference_index": 1144,
+        "eligibility_index": 1143,
+        "eligibility_span": [
+          1144,
+          1152
+        ],
+        "eligibility_sequence": 197,
+        "eligibility_revision": 196,
+        "current_index": 1143,
+        "current_span": [
+          1144,
+          1152
+        ],
+        "point": [
+          720.5,
+          419.0
+        ],
+        "down": false,
+        "deadline": 752040.717823216,
+        "action": "nonselecting vertical wheel"
+      }
+    ],
+    "reveal_elapsed_from_start_s": [
+      3.337287358008325,
+      3.59063301095739
+    ],
+    "reveal_remaining_s": [
+      1.662712641991675,
+      1.40936698904261
+    ]
+  },
+  "later_failure_frame": {
+    "sequence": 199,
+    "render_revision": 198,
+    "accepted_unix_ns": 1788667806038797121,
+    "child": [
+      {
+        "index": 1138,
+        "identity": {
+          "pid": 1251996,
+          "start_time_ticks": 75193351
+        }
+      }
+    ]
+  },
+  "cleanup": [
+    {
+      "pid": 1243229,
+      "exit_code": -15,
+      "proc_exists": false
+    }
+  ],
+  "transport_cleanup": {
+    "pid": 1243195,
+    "exit_code": 0,
+    "proc_exists": false,
+    "forced_kill": false,
+    "errors": []
+  },
+  "files": [
+    {
+      "path": "harness/acceptance.py",
+      "bytes": 21872,
+      "sha256": "2c0e3348adcb6f7b0c37cec7258f674c41669918fe1ab952ee74e78b2d837ffd"
+    },
+    {
+      "path": "harness/host_accuracy.py",
+      "bytes": 12162,
+      "sha256": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65"
+    },
+    {
+      "path": "harness/host_capture.py",
+      "bytes": 65140,
+      "sha256": "6669acafb71601ba200149547d5832f527a10f6e6672ae256f76222917e90d76"
+    },
+    {
+      "path": "harness/native_contract.py",
+      "bytes": 5759,
+      "sha256": "25daddd3e7868321593143dca3943443c7d823d21850f96c91c18b0e1e697050"
+    },
+    {
+      "path": "harness/native_driver.py",
+      "bytes": 85826,
+      "sha256": "401293a23542e33347885f2d9f070ffea343d83257b065e57f635e013aa6cf35"
+    },
+    {
+      "path": "harness/native_input.py",
+      "bytes": 3150,
+      "sha256": "13733c81d15ffcf292aa5c62797dda8aa8d6c0bad9696f3c3a50e392d782e0e4"
+    },
+    {
+      "path": "harness/native_observations.py",
+      "bytes": 11368,
+      "sha256": "234f395dcbaf1c668da7ee8ac90f168b3103b0b7d75f79db9314e790ba090d3f"
+    },
+    {
+      "path": "harness/native_pending.py",
+      "bytes": 3733,
+      "sha256": "be237c80c0051c6d71a13e1ea7b7196cfc3ae3338d5508d68a8c3644de6b217e"
+    },
+    {
+      "path": "harness/native_replay.py",
+      "bytes": 43987,
+      "sha256": "3107e01f53725e872b400d728c6ce5b65da74d9cb8c2f5894ac3c94641aceaf2"
+    },
+    {
+      "path": "harness/process_evidence.py",
+      "bytes": 7674,
+      "sha256": "651d64bbbcea5ee9c2b8ea214bb7c33ca5aec30004c172122273aec7ce682c37"
+    },
+    {
+      "path": "harness/test_acceptance.py",
+      "bytes": 5546,
+      "sha256": "289d827ec1e3e08d62eeaa0298dc1110bc7060cfda4ebaec1455cca0a8f4e08f"
+    },
+    {
+      "path": "harness/test_capture_stream.py",
+      "bytes": 3707,
+      "sha256": "a135ba58e93b15eb484047f7c6792d2de26f39e19f2e90b64cb7174b225b4657"
+    },
+    {
+      "path": "harness/test_host_accuracy.py",
+      "bytes": 12236,
+      "sha256": "938a0806e144f4ec64b6e401712d8ea2f490a28adee6f3dc4a87e905f596ddb9"
+    },
+    {
+      "path": "harness/test_host_inventory.py",
+      "bytes": 12649,
+      "sha256": "f9a90584f97efe408fefde2331ccd312f958fa7aa5a992285e0fff710f157712"
+    },
+    {
+      "path": "harness/test_missing_device_specimen.py",
+      "bytes": 5845,
+      "sha256": "fd381c97f8c9a159eedaac00cb4616f1a1b787f1fbab234bed2e1a5481c5099a"
+    },
+    {
+      "path": "harness/test_native_cells.py",
+      "bytes": 22879,
+      "sha256": "73d80f4b8189eb6e624b4bf8b3e4647890cb2675e0b19069e9be44ab180cd2d9"
+    },
+    {
+      "path": "harness/test_native_cleanup.py",
+      "bytes": 3648,
+      "sha256": "b666c065a66a3fbe4b00779f57029a37f349c42d3efbca920321e831a5c77779"
+    },
+    {
+      "path": "harness/test_native_exit.py",
+      "bytes": 15981,
+      "sha256": "9bee0d9ee4f148089abd9af59adab79dfe593c198fba726745ac12465dedf218"
+    },
+    {
+      "path": "harness/test_native_frame.py",
+      "bytes": 12153,
+      "sha256": "b0a76c5e1528eb35d877df3e2bdda6a8b5e3b2baf66883278b893c70242b184c"
+    },
+    {
+      "path": "harness/test_native_input.py",
+      "bytes": 13781,
+      "sha256": "666feab12e4b8f473e43fd9f8ead85dbe11d58e13dbde0df0d9a4d8e0ea577a1"
+    },
+    {
+      "path": "harness/test_native_inspection.py",
+      "bytes": 33394,
+      "sha256": "b9eb370cd168fc5749951bd347ae0ba2844eb390ebd9bdb888821e20c1d5f3d8"
+    },
+    {
+      "path": "harness/test_native_navigation.py",
+      "bytes": 56495,
+      "sha256": "44096de900153a11868a89f3096669ec73c7fb2bb81b26b695642f1812e5e93c"
+    },
+    {
+      "path": "harness/test_native_observations.py",
+      "bytes": 20728,
+      "sha256": "ea85dd2fe3600621ff695110d2617c8cd5b1060d5ac06f057aa5f222a226c15e"
+    },
+    {
+      "path": "harness/test_native_pending_endpoint.py",
+      "bytes": 35029,
+      "sha256": "bc73dc6888f307580cf301181ffa4423b8f20c310da55b811e08e5455f027c92"
+    },
+    {
+      "path": "harness/test_process_attribution.py",
+      "bytes": 5852,
+      "sha256": "687b207d8df6731b97f286620e2f3b220a56ed88e4546e0889b93325d86f37ea"
+    },
+    {
+      "path": "harness/test_process_coverage_gate.py",
+      "bytes": 6962,
+      "sha256": "fdd81057df64202ff30418a432296a964aed42eed99d172cb13c701eadd89bf6"
+    },
+    {
+      "path": "harness/test_process_exit_policy.py",
+      "bytes": 14985,
+      "sha256": "3e8c9378fd0c389f7f8edc5cb3982d1500173f68f8765af955d1067348005d1c"
+    },
+    {
+      "path": "harness/test_publication_timing.py",
+      "bytes": 8330,
+      "sha256": "50a637cea57bc8a12737158d87c2c11fec91e673fd805f8572b9aed5e35482e8"
+    },
+    {
+      "path": "harness/test_requirement_verdicts.py",
+      "bytes": 17862,
+      "sha256": "cd734cc36411f5a2ac4bba80daacfda0a2f5d7a508f10fbc48c9fd6e1155aaed"
+    },
+    {
+      "path": "harness/test_supplemental_processes.py",
+      "bytes": 14114,
+      "sha256": "aa810c563fb01fb83c26fe91a8b7bff056950a18a93bc37959b07fabfa32972f"
+    },
+    {
+      "path": "harness/verify.py",
+      "bytes": 482,
+      "sha256": "2d7db9f4cb6e76af895b0ff5b18c43d4066a11755d5ee26bde1f65df407ba236"
+    },
+    {
+      "path": "harness-manifest.json",
+      "bytes": 2962,
+      "sha256": "22a4d562db6267ca3cebdbb11eea1661f1373a9f69a5694f4e4e0d26537dd980"
+    },
+    {
+      "path": "private-session.json",
+      "bytes": 672,
+      "sha256": "7f4c7f6a4c9e92b68b444b46c2dc5b2d3a14b3c1950f37826798ab6e6ebf04c1"
+    },
+    {
+      "path": "private-session.log",
+      "bytes": 9848,
+      "sha256": "06603f9d31c96aaaefc21a833b1bbd3fed615baf78f413566a5d8643032d1107"
+    },
+    {
+      "path": "progress.jsonl",
+      "bytes": 884,
+      "sha256": "cff424c98d0a1fb0c60f6c0b68aa5f7a2cf2c14ba1a1618fb814cc4790ad975e"
+    },
+    {
+      "path": "publication-timing-metadata.json",
+      "bytes": 131,
+      "sha256": "d9815371ce890ff14886971b20e1f89a3f76de5e3e777b1965b15aa6a7dfb01f"
+    },
+    {
+      "path": "result.json",
+      "bytes": 714,
+      "sha256": "861df8c1725f2e3a5fc4387806cb0240404da27921ddcd5026cbf529f98521b3"
+    },
+    {
+      "path": "session-01/application.log",
+      "bytes": 467,
+      "sha256": "ecbb120b25c6c2922cfb97e44cbe5b5f6fff26c9b845212d681f555b7dd0f168"
+    },
+    {
+      "path": "session-01/chart-history-evidence.json",
+      "bytes": 523,
+      "sha256": "63f1a9c719fdcfc7bfd5d689f3f4c4fbfe1f04755f8ccfc52627811d6f758421"
+    },
+    {
+      "path": "session-01/chart-physical-value-ancestors.json",
+      "bytes": 647,
+      "sha256": "87df6ded1cd041372739eef99f6b00892100134c0033dc8f6a283e2f379af4cb"
+    },
+    {
+      "path": "session-01/chart-physical-value.json",
+      "bytes": 10273373,
+      "sha256": "b0c7e3a21771cd7b700a972f20734edbcc486df56e24d1fdbe8938b8f92d894e"
+    },
+    {
+      "path": "session-01/chart-physical-value.png",
+      "bytes": 119853,
+      "sha256": "bcf2bad54ba61c6ab43b63e9d6a2814c8b8a1b6c01a773e56a7e60eb489faaf3"
+    },
+    {
+      "path": "session-01/child-cell-0-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5046e2bad7384f9da3e160b67e6c3f1ebdce9322bec38279fd2bcfd924505958"
+    },
+    {
+      "path": "session-01/child-cell-0.json",
+      "bytes": 10270703,
+      "sha256": "cea342e1c4641164c7b58e28d9e6d25f3dfa08e84e4c4c9b773e1c6b214ff62b"
+    },
+    {
+      "path": "session-01/child-cell-1-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-1.json",
+      "bytes": 10259739,
+      "sha256": "d0e2cf6edf167c938a3c6d44d6aa63a1bc2ec4a3cb1951dcdad35fff43674180"
+    },
+    {
+      "path": "session-01/child-cell-2-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-2.json",
+      "bytes": 10259248,
+      "sha256": "fc8bcd89a0cce0404bd11bc32ee07d0bff6d92b1281d4a90367f735e49ba860f"
+    },
+    {
+      "path": "session-01/child-cell-3-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-3.json",
+      "bytes": 10259983,
+      "sha256": "442730461565709ef431f9d6f30cf68e58c35951b41dcb0260f192861236f54b"
+    },
+    {
+      "path": "session-01/child-cell-4-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-4.json",
+      "bytes": 10259192,
+      "sha256": "cad4055a148a6f5a845f2cd8dbc0d9583ab1ff278e7b18392be0a8955ef581d9"
+    },
+    {
+      "path": "session-01/child-cell-5-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-5.json",
+      "bytes": 10259988,
+      "sha256": "9a7deef002a1b232bf71ff7d1c57e20d3f7bb6794267863e03a1ffd04f0dd20a"
+    },
+    {
+      "path": "session-01/child-cell-6-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-6.json",
+      "bytes": 10259527,
+      "sha256": "d7db0729d4337ed4cd1f3c2d2649c0b9c2fc22cce941f1920afe3e00f442c4da"
+    },
+    {
+      "path": "session-01/child-cell-7-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-cell-7.json",
+      "bytes": 10260458,
+      "sha256": "0e5662c0ac0b933316c29461312b2c1d78bfb942545139ee545ff06ab7397ec0"
+    },
+    {
+      "path": "session-01/child-left-ancestors.json",
+      "bytes": 1151,
+      "sha256": "4adaa780f9821fa3a9a775e6d86ec42a2e7d5eb973ff0a35a44f2e8e878904cc"
+    },
+    {
+      "path": "session-01/child-left.json",
+      "bytes": 10258586,
+      "sha256": "ec0f0e89051a4dbe855cc9f5d5dd3abe997817ae40a489e3372d209b1094a37b"
+    },
+    {
+      "path": "session-01/child-left.png",
+      "bytes": 180649,
+      "sha256": "c9a352e08f8a3f6caada08c612f353fec875c99ceb23e52cf9c0bf4c4e2a07cc"
+    },
+    {
+      "path": "session-01/child-visible-1-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-visible-1.json",
+      "bytes": 10260149,
+      "sha256": "1353402fa3756435e631ba143a0dab81431718bdfb614fe9ed1a6ac390304e61"
+    },
+    {
+      "path": "session-01/child-visible-1.png",
+      "bytes": 174655,
+      "sha256": "a73d5bf8d0b522b097eba203dec657b876350541663984bfe5087ea0061cab77"
+    },
+    {
+      "path": "session-01/child-visible-2-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-visible-2.json",
+      "bytes": 10260198,
+      "sha256": "379b3255cb4ef8e69a6b7d0c1e996547aff1e047e44bdeea9e43634c00053b57"
+    },
+    {
+      "path": "session-01/child-visible-2.png",
+      "bytes": 174591,
+      "sha256": "48b404f48bc22e3314621c0e47f27206dff6a5bffa190c1dde0fa0d0cf359a06"
+    },
+    {
+      "path": "session-01/child-visible-3-ancestors.json",
+      "bytes": 1151,
+      "sha256": "65ecd0ae19e8e94882f3dc9ab34eb5758ea44d795d0a5bca12593f1f11a53e7c"
+    },
+    {
+      "path": "session-01/child-visible-3.json",
+      "bytes": 10260857,
+      "sha256": "6e1fe6c5ef8260b6d96a9a78d62fcdeb4b5e41461724d4085fa6228977b593c4"
+    },
+    {
+      "path": "session-01/child-visible-3.png",
+      "bytes": 174334,
+      "sha256": "6105192a07d5a414dea20d4815ba5ed3c1f627bb6497fe77886680565cbf97b2"
+    },
+    {
+      "path": "session-01/child-visible-4-ancestors.json",
+      "bytes": 1151,
+      "sha256": "5a64ccccf70a3408692235f83c777d445d2d0f0cac4e82652a52fc6c936fcc7e"
+    },
+    {
+      "path": "session-01/child-visible-4.json",
+      "bytes": 10267331,
+      "sha256": "6c5ae0eb937f7953c70ff726fcef2a57e263bad5adad1c16c83356d4578ac250"
+    },
+    {
+      "path": "session-01/child-visible-4.png",
+      "bytes": 177706,
+      "sha256": "7ada128d848ca2df73dbd491951efd39b38fa88ee7224be01ccec8714f2d97db"
+    },
+    {
+      "path": "session-01/cleanup.json",
+      "bytes": 78,
+      "sha256": "1713dd26f331bd34f0cadb095ccc49ab25223941d7cc806cb2753a76cc3c62fd"
+    },
+    {
+      "path": "session-01/collapse-after-state.json",
+      "bytes": 540151,
+      "sha256": "1309b09189489b5ec5d3a52874463c6ac7f7dca56ef487264a3bd11aa8b6a752"
+    },
+    {
+      "path": "session-01/collapse-baseline-state.json",
+      "bytes": 540154,
+      "sha256": "0b1211a3f49042e4c18d03448481a2ba52334565ae4302d5af05fbb740e0ac04"
+    },
+    {
+      "path": "session-01/collapsed-sequences.json",
+      "bytes": 293,
+      "sha256": "bd0b1e93cc7b2640d08a9b5d9bc01226291374c682dc6167fd5505ea7296cbfb"
+    },
+    {
+      "path": "session-01/cpu-visible-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "session-01/cpu-visible.json",
+      "bytes": 10236158,
+      "sha256": "1ae4c8df694b506c22ed85e08755dc848803e952a195b82a645491de8a4dc38c"
+    },
+    {
+      "path": "session-01/cpu-visible.png",
+      "bytes": 130656,
+      "sha256": "0695d1bd1ae2359f27957ba3de7721cc58670dbb3f4753537e88085358f1197d"
+    },
+    {
+      "path": "session-01/exact-64-up.json",
+      "bytes": 1652,
+      "sha256": "f21e331acc702013c72cd3685538c8d7142eba6217d149fdce4c94126640502e"
+    },
+    {
+      "path": "session-01/expanded-chart.png",
+      "bytes": 119853,
+      "sha256": "bcf2bad54ba61c6ab43b63e9d6a2814c8b8a1b6c01a773e56a7e60eb489faaf3"
+    },
+    {
+      "path": "session-01/failure-frame.json",
+      "bytes": 9580897,
+      "sha256": "9e50bab7cdc5dca4f3616600b478da52438ab2a7b25453b867c0966d82c44cea"
+    },
+    {
+      "path": "session-01/failure-panels.json",
+      "bytes": 175,
+      "sha256": "e4bb11a4fe98addd25b7368cecfabb503c9e55ed75954c2b18dc6789be3100e5"
+    },
+    {
+      "path": "session-01/failure.png",
+      "bytes": 180777,
+      "sha256": "c77f56dc24249db86aff7f3d477ba42efffcdf04d7484fed2d67cfbb3c61ff76"
+    },
+    {
+      "path": "session-01/gpu-0-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "b9afa03f194da6d2a4b63dc53e5b9e406d2fb8234147d08f6fb1c9fed0570f06"
+    },
+    {
+      "path": "session-01/gpu-0-temperature-chart.png",
+      "bytes": 116462,
+      "sha256": "c4d1112b40e954cd553b6e5a4c94e1f90335d54b9d1e7012b9f1b0accd5718d6"
+    },
+    {
+      "path": "session-01/gpu-0-temperature.json",
+      "bytes": 10272736,
+      "sha256": "17788ad1646ee3b11f4b8343049cea49562c1103c8d67f844230d056679e4ac2"
+    },
+    {
+      "path": "session-01/gpu-0-temperature.png",
+      "bytes": 116462,
+      "sha256": "c4d1112b40e954cd553b6e5a4c94e1f90335d54b9d1e7012b9f1b0accd5718d6"
+    },
+    {
+      "path": "session-01/gpu-0-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "e5cad9bf55a336895151bf8a25123e2ed019c84453d81f272d8dc6134d2a7585"
+    },
+    {
+      "path": "session-01/gpu-0-visible.json",
+      "bytes": 10267184,
+      "sha256": "dd025351b8f6e58b055e903a0a78162f5d1540f40fb79b4046d3910b4f265063"
+    },
+    {
+      "path": "session-01/gpu-0-visible.png",
+      "bytes": 130215,
+      "sha256": "689d27f8b2a0eae63bf2b7fd1649de565966309b0c83e464f6589980791666d4"
+    },
+    {
+      "path": "session-01/gpu-1-temperature-ancestors.json",
+      "bytes": 677,
+      "sha256": "0ca4a9d8c580ccf374a37b170ab5804903336fa3cb54f12b9048d7d502577639"
+    },
+    {
+      "path": "session-01/gpu-1-temperature-chart.png",
+      "bytes": 126790,
+      "sha256": "79ef2038e5d30b85c107edf90d5dd8d4c11bedb020d1e75069c856c4fac94b8f"
+    },
+    {
+      "path": "session-01/gpu-1-temperature.json",
+      "bytes": 10292999,
+      "sha256": "d6ba4edfba19b738c4b1caf4d94c4142b8969fb4ef9d94acfc10cb48d6694043"
+    },
+    {
+      "path": "session-01/gpu-1-temperature.png",
+      "bytes": 126790,
+      "sha256": "79ef2038e5d30b85c107edf90d5dd8d4c11bedb020d1e75069c856c4fac94b8f"
+    },
+    {
+      "path": "session-01/gpu-1-visible-ancestors.json",
+      "bytes": 521,
+      "sha256": "417e27a7eb1af4cd6663cd1a5676eabf2d0efcbf4030ab82d0366027cbf30fe5"
+    },
+    {
+      "path": "session-01/gpu-1-visible.json",
+      "bytes": 10272004,
+      "sha256": "7b51f46087489c2aa4c3e127f225ec47d8a3aaa7d422470e995babcf7c0c0ad4"
+    },
+    {
+      "path": "session-01/gpu-1-visible.png",
+      "bytes": 134464,
+      "sha256": "44c55cd98e325dfd7b8e5fc1382c6f63616ac675959b98447cc83d0537bd0d0c"
+    },
+    {
+      "path": "session-01/held-table-left.json",
+      "bytes": 3924,
+      "sha256": "fe774869c9393babd121735b6fa72167828a278f21b20e66c382c27d5ffb56a6"
+    },
+    {
+      "path": "session-01/held-table-right.json",
+      "bytes": 3451,
+      "sha256": "7b6d3e44ff39fcf779af41c1bdb60b152643da6bb0ffd1f55b4f6a2b5cf6ca1c"
+    },
+    {
+      "path": "session-01/held-up-25hz.json",
+      "bytes": 3551,
+      "sha256": "0cf06e6de6c12728599ad013a330a43b3ba37e2c8ee9d89a2dac2bf5c20878d5"
+    },
+    {
+      "path": "session-01/inner-edge-wheel.json",
+      "bytes": 211,
+      "sha256": "905788f5ac9bcee740cf651a64db027e08d9bca9d909f16fc3bf83740b6377e7"
+    },
+    {
+      "path": "session-01/inner-scroll.png",
+      "bytes": 180551,
+      "sha256": "623634f5918ef4a70e5e8f74be1f5c3b0ac91dace7f82787872a3e139dad2610"
+    },
+    {
+      "path": "session-01/journal.jsonl",
+      "bytes": 258605,
+      "sha256": "6e62aa072b87e9332bea93505673c16d73095e426056b4daa8cb10395c42040e"
+    },
+    {
+      "path": "session-01/latest.json",
+      "bytes": 5961795,
+      "sha256": "afd32c9e8ec2f566dd30131424d502c3091f63502230d103397118456fc3c6ef"
+    },
+    {
+      "path": "session-01/latest.publication-timing.json",
+      "bytes": 50265,
+      "sha256": "906791e13a41df1c7ef54637573113fd52a78b7639b89b32329c724118c3ab6a"
+    },
+    {
+      "path": "session-01/launch-no-tabs.json",
+      "bytes": 4432,
+      "sha256": "acfe9d78bbfd5f3cb4d4152cb4d78952e06a51deea29bb2b0b38a9a3730b4e4f"
+    },
+    {
+      "path": "session-01/launch-no-tabs.png",
+      "bytes": 180084,
+      "sha256": "b47a7b04615aef329bf2c40b98296430b0b1d6a6abb3d654eba956f01e16eee2"
+    },
+    {
+      "path": "session-01/metadata.json",
+      "bytes": 745,
+      "sha256": "46cac6eedc48b96db42b35120058f98169c1b1b33372a01c631784a7f6504a18"
+    },
+    {
+      "path": "session-01/navigation-start-process-1-31.json",
+      "bytes": 38158,
+      "sha256": "d44ec70d05baad8bfb1dd13c01cf040959b21d6709bd3e292a14b9bf1a592d51"
+    },
+    {
+      "path": "session-01/navigation-start-process-1251996-75193351.json",
+      "bytes": 38142,
+      "sha256": "be3f21ccd7d5f1680c9c4910c09d0820fe886a899ffe2cf6d67029e26e0dbf03"
+    },
+    {
+      "path": "session-01/panel-compact-ancestors.json",
+      "bytes": 505,
+      "sha256": "bbf411cfc45495e74006fe22853bdcf30907f7c3d5506f0049f03f22f6fff7aa"
+    },
+    {
+      "path": "session-01/panel-compact.json",
+      "bytes": 10272457,
+      "sha256": "fe2cacebe11a73a3537f896ecd9395778ee4b04b5bc7e9c5d47257fa19211ad5"
+    },
+    {
+      "path": "session-01/panel-compact.png",
+      "bytes": 127580,
+      "sha256": "3744ebd7398a5456a19021ef3251d5f3b30a6a2dc799f5054534eeaf3dfa1f37"
+    },
+    {
+      "path": "session-01/publication-timing-metadata.json",
+      "bytes": 576,
+      "sha256": "adf190573a040533967cdf43b24fb10f4c9a57f3dfe90e0d4c1fd55b4a065f3c"
+    },
+    {
+      "path": "session-01/ram-capacity-ancestors.json",
+      "bytes": 653,
+      "sha256": "61c6c0f61b9bc96cd73b64451d29534bc842d142f2bc952d7cf9fcf582cb9041"
+    },
+    {
+      "path": "session-01/ram-capacity-chart.png",
+      "bytes": 114528,
+      "sha256": "49d671639725c55e0043099e1951e44d3bc26ba07332eef9265837930933b8bc"
+    },
+    {
+      "path": "session-01/ram-capacity.json",
+      "bytes": 10274131,
+      "sha256": "d0f2ac17ad9bee0a756716e41fee6277694b097b355a86d9ad2f8e46a3e37afa"
+    },
+    {
+      "path": "session-01/ram-capacity.png",
+      "bytes": 114528,
+      "sha256": "49d671639725c55e0043099e1951e44d3bc26ba07332eef9265837930933b8bc"
+    },
+    {
+      "path": "session-01/ram-visible-ancestors.json",
+      "bytes": 509,
+      "sha256": "ae8675b5c7f22f47eff16f96e2b178627ec135f58c6caffc1e6901e6aaeec67c"
+    },
+    {
+      "path": "session-01/ram-visible.json",
+      "bytes": 10260427,
+      "sha256": "28c91fddd6b0632785346bfcb4ec398fa5278ed22b211e857d52d5f0a56771d4"
+    },
+    {
+      "path": "session-01/ram-visible.png",
+      "bytes": 130113,
+      "sha256": "b786b995a838198b1501dece80102d17303a2f8619cf6e1e3497906b1f3986d2"
+    },
+    {
+      "path": "session-01/real-child-cell-discovery.json",
+      "bytes": 625,
+      "sha256": "f3b455edb8aed1d1c9f785d8b2ada491fc5a821e5764441faf3eb0b1384bf40b"
+    },
+    {
+      "path": "session-01/real-child-start.json",
+      "bytes": 839,
+      "sha256": "549fe790bd3022f49a3062c37482a5e3ea9745b4c148da70fb43ee1ce4b5c6c4"
+    },
+    {
+      "path": "session-01/row-compact-ancestors.json",
+      "bytes": 647,
+      "sha256": "e68abb3a2c27446ab38708af1aa562f499aae4eb41c147ccdfe222a93f97c76a"
+    },
+    {
+      "path": "session-01/row-compact.json",
+      "bytes": 10272157,
+      "sha256": "925c63c1f3b5fbf8dd17ec125b86ee1d66f860f2650e823d1c09682c924fb2d0"
+    },
+    {
+      "path": "session-01/row-compact.png",
+      "bytes": 131033,
+      "sha256": "8843e8f878ae138e8a1da4899ccbd53d2685640690c84d459c87b125a3fd1c16"
+    },
+    {
+      "path": "state/workspace.json",
+      "bytes": 540152,
+      "sha256": "8907e4b55092a21badf5c0e3553cfc982980da97f23922d936542399f7417ef4"
+    },
+    {
+      "path": "transport-cleanup.json",
+      "bytes": 102,
+      "sha256": "b01f44e18e830b0de071f163c9e6be391556d1e688cfb10b4a0339f44f320b47"
+    }
+  ]
+}

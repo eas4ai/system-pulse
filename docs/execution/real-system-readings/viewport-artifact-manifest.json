@@ -1,0 +1,90 @@
+{
+  "source_commit": "217941e52595eea7ef35e15dbe12d68a1e0d6b95",
+  "binary_sha256": "e87f0f8c56481c9c298f03a262ff256eb8621dc6100e6a14238eee540306eeec",
+  "scope": "Focused viewport accessibility follow-up, not full live acceptance",
+  "limitations": [
+    "native09 focused metrics has no normal shutdown record; full acceptance must verify normal exit"
+  ],
+  "artifacts": [
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/viewport-candidate/red.log",
+      "bytes": 1049,
+      "sha256": "e8fb32b001f4ef424fab46f76865da89d4c1271f322af0c682f03f7617096d82"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/viewport-candidate/final-app-tests.log",
+      "bytes": 4440,
+      "sha256": "a78df2e8d8f515493959a3e0f1a1941b6417af7efe16822a00d95711bf2382da"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/viewport-candidate/final-clippy.log",
+      "bytes": 196,
+      "sha256": "7dfc2d61ff47cce8eff987d4498eb5fefda64195d4aa12af057841b0879531e0"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/viewport-candidate/final-build.log",
+      "bytes": 196,
+      "sha256": "d440e75c542ee5fd28f7a15d0180972008684115c2078327187ade99c7e1b314"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/viewport-candidate/root-committed-build.log",
+      "bytes": 72,
+      "sha256": "0b53209db424367e80c52cd8cde8b75e37af110438a0efde777104a1463956de"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/viewport-candidate/root-committed-build.json",
+      "bytes": 232,
+      "sha256": "92027bdede6f632f516e86e8987013f51e88302e9b3de9c73af54eadd49f94d7"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/cpu-visible.json",
+      "bytes": 9290229,
+      "sha256": "ca27078a4130f9f9332472684380c4ce3527aaa5b273d5126c1593b7cda07b26"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/cpu-visible.png",
+      "bytes": 130444,
+      "sha256": "e1dd8fd924fca35d2b0b2ec7233060ccbff1a0e5d7f6cc9d27fab78de1baa050"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/ram-visible.json",
+      "bytes": 9299031,
+      "sha256": "ca17bea898f2b40882444e26fa0b8196148176961e080f6640ef777ee2297329"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/ram-visible.png",
+      "bytes": 130667,
+      "sha256": "85cff12d178d3d6fa674d08ea6a4b759844c7e0100228b0067fc7a52e8e9036f"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/gpu-0-visible.json",
+      "bytes": 9276961,
+      "sha256": "4514bc6aee3cfe8034923b01b984993822fa0e450b8a61b282b720a445a3222b"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/gpu-0-visible.png",
+      "bytes": 130336,
+      "sha256": "589fcbc369ac6718fdd2ee012af5750cb45b203f03dbac50bff62a76b129caff"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/gpu-1-visible.json",
+      "bytes": 9270610,
+      "sha256": "580dfeb75805d0fb75af168a8cc36a03cb306ff3e8ff377bfb38aef460379fd5"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/gpu-1-visible.png",
+      "bytes": 135344,
+      "sha256": "a970465768b623540e455e3c38f3f1434872bf13e09c4e576871a32f5ebe86f8"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/metadata.json",
+      "bytes": 633,
+      "sha256": "3305a2867cf4c0f4cfef66cd45a01fad8118ce340ce003fb434b965325a67dd3"
+    },
+    {
+      "path": "/tmp/system-pulse-verifier-implementation-zpswl3j9/native-09/session-01/journal.jsonl",
+      "bytes": 3223,
+      "sha256": "5bb78299ebcb538c2734e3c4efa8f149f5a005a840b4f26a7597988ade92081b"
+    }
+  ]
+}

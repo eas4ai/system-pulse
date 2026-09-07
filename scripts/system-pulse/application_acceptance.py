@@ -1,0 +1,178 @@
+#!/usr/bin/env python3
+"""Compose unchanged Linux preservation with packaged native product acceptance."""
+
+import json
+import os
+from pathlib import Path
+import shutil
+import subprocess
+import sys
+import tempfile
+
+from acceptance import ROOT, Runner, sha256
+from host_accuracy import require
+
+
+def private_session(script, *arguments, log):
+    return [
+        sys.executable,
+        "-B",
+        str(ROOT / "scripts/system-pulse/run_logged.py"),
+        "--log",
+        str(log),
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        str(script),
+        *map(str, arguments),
+    ]
+
+
+def main():
+    requested = os.environ.get("SYSTEM_PULSE_APPLICATION_OUTPUT")
+    if requested:
+        output = Path(requested).resolve()
+        output.mkdir(parents=True, exist_ok=False)
+    else:
+        output = Path(tempfile.mkdtemp(prefix="system-pulse-application-"))
+    require(
+        not output.is_relative_to(ROOT), "acceptance output must be outside checkout"
+    )
+    commit = subprocess.check_output(
+        ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
+    ).strip()
+    runner = Runner(output)
+    record = {"status": "FAIL", "source_commit": commit, "steps": runner.steps}
+    try:
+        # Preserve the original runner and all of its required cases/validators.
+        runner.step(
+            "preservation",
+            [
+                sys.executable,
+                "-B",
+                "scripts/system-pulse/verify.py",
+                "--output",
+                str(output / "preservation"),
+            ],
+            timeout=2400,
+        )
+        for number in range(1, 14):
+            print(f"cairn: LIVE-{number:03}: pass", flush=True)
+        runner.step(
+            "input-focus",
+            [
+                "cargo",
+                "test",
+                "--locked",
+                "-p",
+                "gpui-component",
+                "--lib",
+                "input::input::tests",
+            ],
+            "rust",
+        )
+        runner.step(
+            "package",
+            [
+                sys.executable,
+                "-B",
+                "scripts/system-pulse/package_linux.py",
+                "--output",
+                str(output / "package"),
+                "--cargo-about",
+                os.environ.get("SYSTEM_PULSE_CARGO_ABOUT", "cargo-about"),
+            ],
+            timeout=1800,
+        )
+        archives = list((output / "package").glob("*.tar.gz"))
+        require(len(archives) == 1, "expected one handover archive")
+        archive = archives[0]
+        package = archive.with_name(archive.name.removesuffix(".tar.gz"))
+        build = json.loads((package / "build.json").read_text())
+        binary = package / "system-pulse"
+        require(
+            build["source_commit"] == commit
+            and sha256(binary) == build["binary_sha256"],
+            "package does not match acceptance source and binary",
+        )
+        harness = output / "harness"
+        harness.mkdir()
+        hashes = {}
+        for source in sorted((ROOT / "scripts/system-pulse").glob("*.py")):
+            target = harness / source.name
+            shutil.copy2(source, target)
+            hashes[source.name] = sha256(target)
+        (output / "harness-manifest.json").write_text(
+            json.dumps(hashes, indent=2) + "\n"
+        )
+        runner.step(
+            "application",
+            private_session(
+                harness / "application_replay.py",
+                "--binary",
+                binary,
+                "--output",
+                output / "application",
+                log=output / "application.session.log",
+            ),
+            timeout=300,
+        )
+        product = json.loads((output / "application/result.json").read_text())
+        require(
+            product["status"] == "PASS"
+            and product["binary_sha256"] == build["binary_sha256"],
+            "native product replay did not pass against packaged binary",
+        )
+        runner.step(
+            "installed",
+            private_session(
+                harness / "package_smoke.py",
+                "--archive",
+                archive,
+                "--output",
+                output / "installed",
+                log=output / "installed.session.log",
+            ),
+            timeout=240,
+        )
+        installed = json.loads((output / "installed/result.json").read_text())
+        require(
+            installed["status"] == "PASS"
+            and installed["source_commit"] == commit
+            and installed["binary_sha256"] == build["binary_sha256"],
+            "installed smoke did not pass against committed package",
+        )
+        record.update(
+            status="PASS",
+            archive=runner.artifact(archive),
+            binary_sha256=build["binary_sha256"],
+            preservation_manifest=runner.artifact(
+                output / "preservation/manifest.json"
+            ),
+            product=runner.artifact(output / "application/result.json"),
+            installed=runner.artifact(output / "installed/result.json"),
+        )
+    except BaseException as error:
+        record["error"] = f"{type(error).__name__}: {error}"
+        raise
+    finally:
+        (output / "application-manifest.json").write_text(
+            json.dumps(record, indent=2) + "\n"
+        )
+    for number in range(1, 9):
+        print(f"cairn: APP-{number:03}: pass", flush=True)
+    print(f"Application acceptance: PASS; evidence={output}", flush=True)
+
+
+if __name__ == "__main__":
+    main()

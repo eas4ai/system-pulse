@@ -1,0 +1,334 @@
+{
+  "status": "FAIL",
+  "source_commit": "204780f2",
+  "automated_tests_passed": 430,
+  "host_result": {
+    "status": "FAIL",
+    "counts": {
+      "exact_readings": 2219,
+      "connection_interfaces": 96,
+      "exact_process_fields": 16928,
+      "counter_brackets": 42542
+    },
+    "external_offset": [
+      1787915765907405096,
+      1787915765907405172
+    ],
+    "collector_offset": [
+      1788610065603601432,
+      1788610065603601774
+    ],
+    "independent_stable_totals": 468,
+    "inventory_scope": "initial and final independent inventories",
+    "snapshots": 4,
+    "child_identity": {
+      "pid": 1322611,
+      "start_time_ticks": 69429955
+    },
+    "child_exit_verified": true,
+    "nvml": [
+      {
+        "backend": "nvml",
+        "availability": "Failed",
+        "reason": "NVML init: DriverNotLoaded"
+      }
+    ]
+  },
+  "missing": [
+    {
+      "sensor_id": "process:1322913:69430231/cpu",
+      "source": "/proc/1322913/stat",
+      "key": "utime_ticks",
+      "value": 34,
+      "query_window": [
+        694302723610073,
+        694302723623619
+      ],
+      "external_windows": [
+        {
+          "start": 694302352921791,
+          "end": 694302352951130,
+          "value": 1,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302506754850,
+          "end": 694302506766934,
+          "value": 15,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302597037486,
+          "end": 694302597049110,
+          "value": 23,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302691745272,
+          "end": 694302691758585,
+          "value": 31,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302321324732,
+          "end": 694302321349599,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302343469237,
+          "end": 694302343496188,
+          "value": 1,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        }
+      ],
+      "identity": {
+        "pid": 1322913,
+        "start_time_ticks": 69430231
+      },
+      "failure": "missing entire-window bracket: (694302723610073, 694302723623619)",
+      "snapshot_sequence": 4
+    },
+    {
+      "sensor_id": "process:1322913:69430231/cpu",
+      "source": "/proc/1322913/stat",
+      "key": "stime_ticks",
+      "value": 4,
+      "query_window": [
+        694302723610073,
+        694302723623619
+      ],
+      "external_windows": [
+        {
+          "start": 694302352921791,
+          "end": 694302352951130,
+          "value": 1,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302506754850,
+          "end": 694302506766934,
+          "value": 2,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302597037486,
+          "end": 694302597049110,
+          "value": 3,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302691745272,
+          "end": 694302691758585,
+          "value": 4,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302321324732,
+          "end": 694302321349599,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302343469237,
+          "end": 694302343496188,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        }
+      ],
+      "identity": {
+        "pid": 1322913,
+        "start_time_ticks": 69430231
+      },
+      "failure": "missing entire-window bracket: (694302723610073, 694302723623619)",
+      "snapshot_sequence": 4
+    },
+    {
+      "sensor_id": "process:1322913:69430231/read",
+      "source": "/proc/1322913/io",
+      "key": "bytes",
+      "value": 3674112,
+      "query_window": [
+        694302723627193,
+        694302723635237
+      ],
+      "external_windows": [
+        {
+          "start": 694302352978762,
+          "end": 694302352991398,
+          "value": 1753088,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302506785892,
+          "end": 694302506796112,
+          "value": 2494464,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302597068216,
+          "end": 694302597077856,
+          "value": 3452928,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302691788186,
+          "end": 694302691798076,
+          "value": 3559424,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302321375893,
+          "end": 694302321388486,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302343521822,
+          "end": 694302343534286,
+          "value": 1536000,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        }
+      ],
+      "identity": {
+        "pid": 1322913,
+        "start_time_ticks": 69430231
+      },
+      "failure": "missing entire-window bracket: (694302723627193, 694302723635237)",
+      "snapshot_sequence": 4
+    },
+    {
+      "sensor_id": "process:1322913:69430231/write",
+      "source": "/proc/1322913/io",
+      "key": "bytes",
+      "value": 0,
+      "query_window": [
+        694302723627193,
+        694302723635237
+      ],
+      "external_windows": [
+        {
+          "start": 694302352978762,
+          "end": 694302352991398,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302506785892,
+          "end": 694302506796112,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302597068216,
+          "end": 694302597077856,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302691788186,
+          "end": 694302691798076,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302321375893,
+          "end": 694302321388486,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        },
+        {
+          "start": 694302343521822,
+          "end": 694302343534286,
+          "value": 0,
+          "identity": {
+            "pid": 1322913,
+            "start_time_ticks": 69430231
+          }
+        }
+      ],
+      "identity": {
+        "pid": 1322913,
+        "start_time_ticks": 69430231
+      },
+      "failure": "missing entire-window bracket: (694302723627193, 694302723635237)",
+      "snapshot_sequence": 4
+    }
+  ],
+  "artifacts": {
+    "/tmp/system-pulse-cairn-check-co3wh4lm/system-pulse-acceptance-e3kdpb2x/failure.json": "4455d37526809aea5c3f5b0a634be8defa85a259077dd1f9d91bd31b57bdb365",
+    "/tmp/system-pulse-cairn-check-co3wh4lm/system-pulse-acceptance-e3kdpb2x/host/result.json": "ebfe2d1c4ff0e2654a24cb294324b9dddefc2f9332f084db052ce1347f840d17",
+    "/tmp/system-pulse-cairn-check-co3wh4lm/system-pulse-acceptance-e3kdpb2x/host/missing-brackets.json": "709cfe0b290b8040a184a430c37dd11ace6a73ea534a628f5f20a14385dc8341",
+    "/tmp/system-pulse-cairn-check-co3wh4lm/system-pulse-acceptance-e3kdpb2x/host/external-observations.json": "98d5581041e828d26a1a8d81b9eac1f21ad236eebbbbc79058c69f56bac01f2e",
+    "/tmp/system-pulse-cairn-check-co3wh4lm/system-pulse-acceptance-e3kdpb2x/host/cleanup.json": "17e262efd29a041e8968952fcbb3fc30a875e3a3c8d68b6f375a267e55f1b5d7"
+  }
+}

@@ -1,0 +1,166 @@
+# Pending endpoint disappearance review
+
+## Independent diagnosis
+
+Source assessed: `6a23389228da70e46fa81481803a5ce63aaece9e`.
+The [retained failed capture](native-pending-endpoint-failure.md) remains FAIL.
+No implementation is authorized by this diagnosis alone.
+
+SPEC found that existing decisions cover recovery after an acknowledged
+selection disappears, or visibility recovery while an endpoint still
+exists. Abandoning an unacknowledged endpoint is a distinct transition and
+requires an explicit decision. Snapshot absence proves neither process
+exit nor prior selection, model clearing, or successful keyboard input.
+
+QUALITY reproduced the missing transition with actual navigate: End, Up,
+Up targeted an intermediate PID/start that then disappeared from the
+snapshot and instantiated rows while the controlled child survived.
+Current code exhausted the original eight-second deadline without a
+successful acknowledgement. A diagnostic reconcile=True shortcut returned
+(None, frame, path), misleadingly journaled selected-endpoint acknowledgement,
+then crashed when _navigate dereferenced selected[0]. It is not a correction.
+
+The reviewer passed 76 existing navigation tests. Neither reviewer edited
+source or ran a live app or build. Existing disappearance coverage starts
+after acknowledgement and does not cover the new boundary.
+
+Any continuation needs an explicit interrupted, unverified batch outcome,
+frozen issue evidence, fresh coherent complete unique/current native proof,
+no instantiated selected identity, and a surviving controlled target.
+If classified as an exit, retain independent exact-identity terminal
+evidence; never infer exit from snapshot absence. Home/End recovery and its
+new exact endpoint proof must share the original remaining batch and total
+deadlines. Final target proof and every mandatory comparison remain required.
+
+Status: decision assessment pending. No batch disappearance counts as a
+successful endpoint, and no new recovery source has been implemented.
+
+## Prospective decision assessment
+
+SPEC assessed the explicit interrupted/unverified protocol as a new Judged
+verifier decision within the existing product contract. Transient intermediate
+lifetimes need not survive navigation, but their missing acknowledgement
+cannot be passed. Require an independent matching stat observation before
+dispatch and terminal ENOENT/ESRCH evidence after coherent disappearance.
+Only pending intermediate arrow batches qualify; the controlled target and
+recovery endpoint do not. Predispatch disappearance sends no input and
+replans within the original remaining deadline. All errors, PID reuse,
+current-selection guards, final comparisons, and original budgets remain.
+
+QUALITY source discovery identified host_capture.observe and
+host_accuracy.parse_process_stat as reusable stat-only observation pieces.
+The former preserves source, independent monotonic windows and actual errors;
+the latter requires explicit retention of the literal stat text if needed.
+Use driver-side query and dispatch times for ordering, not unmapped collector
+clock values. Represent interruption explicitly and revalidate publication
+and panel after terminal evidence. Do not reach a deadline reset until a
+real exact endpoint acknowledgement succeeds.
+
+Neither prospective assessment changed source or ran tests, live captures,
+or builds. The new [decision](../../decisions/recover-a-pending-navigation-batch-after-proven-endpoint-exit.md)
+is recorded before implementation; implementation and its reviews remain
+pending. The original failed capture remains failed.
+
+## First implementation specification review
+
+Candidate: `69ac6897f49fef802f27a30999986343ec33d7d0`.
+Status: open P1 terminal revalidation coherence finding. The complete SPEC
+verdict found this one defect; corrective work follows this recorded review.
+
+An independent actual-navigate probe used fresh one-second publications
+and a synthetic 1.1-second full global discovery cost. Terminal revalidation
+compares a current publication with the frame from before the terminal
+read and a second full discovery. Each attempt therefore rejects otherwise
+valid evidence. Three terminal ENOENT observations and seven discoveries
+exhausted the original deadline without recovery. A zero-cost control passed.
+
+Bracket a fresh complete native eligibility observation after the required
+full discovery. Preserve independent terminal provenance, current uniqueness,
+strict selection/membership checks, target survival, absence and reuse guards,
+and original deadlines. Do not require the global discovery itself to fit
+one collector publication or use helper microbenchmarks as end-to-end proof.
+These costs are a synthetic reproduction, not measured native timings.
+
+Independent verification passed 23 pending and 227 native tests, scoped Ruff
+lint/format, and diff checks. Controls at 0.0 and 0.3 seconds per discovery
+passed; the 1.1-second case failed with fixed per-publication acceptance
+timestamps. No other finding was established. No source edits, live runs,
+builds, or Cairn mutations occurred during review; the full Python suite
+was not independently rerun.
+
+## Corrected implementation specification review
+
+Candidate: `fb546f1562ff20377ea315b38f2fb6eaf6f1aed4`. Independent SPEC
+re-review passed and closed the terminal revalidation coherence finding.
+The strict scan now brackets fresh frames after global discovery and
+recomputes current identity, selection, membership, absence and target guards.
+The 1.1-second discovery probe used one terminal observation, began recovery
+at 2.95 seconds under the original 8.5-second deadline, and finished target
+proof at 6.05 seconds. These are synthetic times.
+
+SPEC independently passed 27 pending and 231 native tests, scoped Ruff,
+and diff checks. Four additional probes prevented coherent competing
+selection or PID reuse from being erased by later observations. No edits,
+live execution, builds or Cairn mutations occurred during re-review.
+
+## First quality review
+
+Status: open P1 deadline finding. Complete QUALITY review established this
+one defect; corrective implementation follows the recorded verdict.
+The navigation-selection acknowledgement/absence journal now runs after
+wait has checked its deadline. There is no check after that journal before
+returning the outcome.
+
+An independent actual-navigate interruption probe delayed only the recovery
+selected-acknowledgement journal from 1.25 to 8.75 seconds against the original
+8.5-second batch deadline. The candidate reset its budget, dispatched more
+Up keys at 8.75, and succeeded at 10.25 seconds. Another probe delayed only
+the final fresh controlled-target acknowledgement journal from 2.75 to
+180.25 seconds; navigation returned success after its total deadline.
+
+Check the original deadline after navigation outcome journaling and before
+returning to a budget reset or final callback. Preserve exact evidence,
+other wait callers, release behavior and every existing budget. These
+synthetic delays are failure probes, not measured live journal costs.
+
+Independent verification passed 27 pending, 231 native, and 335 full Python
+tests, broad Ruff lint, changed-file formatting, and diff checks. Discovery
+cost controls at 0.0, 0.3, 1.1 and 2.0 seconds passed; 4.0 seconds failed
+without recovery input. Additional probes rejected transient coherent
+post-terminal competing selection and PID reuse. Matching namespace context
+passed, a foreign application namespace failed before stat reading, and
+changed procfs identity failed after the read. No further finding was
+established. Source remained identical to the candidate throughout review;
+no edits, live app runs, builds, or Cairn mutations occurred.
+
+## Final implementation reviews
+
+Candidate: `63883e2be8ceec3526f29d295cd179ba05ec76df`. Independent SPEC
+then QUALITY re-review passed. The outcome-journal deadline finding is
+closed; no implementation review findings remain.
+
+The navigation-only guard checks the original deadline after ACK/absence
+journaling and before returning. Late recovery cannot reset a batch or
+dispatch more input; late final acknowledgement cannot export the callback
+or return success. Other wait callers retain their behavior. Two existing
+total-budget fixtures move synthetic clock jumps after selection returns,
+preserving their original reconciliation and slow-link timeout assertions.
+
+The worker passed 30 pending, 234 native, and 338 full Python tests, Ruff
+lint, scoped formatting, documentation links and diff checks. SPEC
+independently passed 30 pending and 234 native tests, five deadline probes,
+scoped Ruff and diff checks, including review of the fixture changes.
+
+QUALITY independently passed 30 pending and 234 native tests, broad Ruff
+lint, four-file formatting and diff checks. Its four original late-journal
+probes failed without further input, budget reset or final callback. Two
+on-time controls succeeded with exact callback evidence. Discovery controls
+at 0.0, 0.3 and 1.1 seconds succeeded; 4.0 seconds failed without recovery.
+Both reviewers examined the exact candidate above and performed no edits,
+native app runs, builds or Cairn mutations. Their final re-reviews did not
+rerun the full Python suite. Known unrelated formatting differences remain
+listed in the implementation report.
+
+Fresh native process acceptance, committed aggregate acceptance, and final
+adversarial commitment review remain required. The earlier failed captures
+remain failed and are not retrospectively covered by this protocol.

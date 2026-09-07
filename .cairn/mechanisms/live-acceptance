@@ -1,0 +1,44 @@
+results: per-requirement
+command: rtk proxy python3 scripts/system-pulse/application_acceptance.py
+inputs:
+  - .cargo/config.toml
+  - Cargo.toml
+  - Cargo.lock
+  - AGENTS.md
+  - examples/system_pulse/
+  - crates/base/src/dock/
+  - crates/base/src/resizable/
+  - crates/ui/src/dock/
+  - crates/ui/src/input/
+  - vendor/accesskit_atspi_common/
+  - vendor/gpui_macos/
+  - docs/decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md
+  - scripts/system-pulse/
+requirements:
+  - APP-001
+  - APP-002
+  - APP-003
+  - APP-004
+  - APP-005
+  - APP-006
+  - APP-007
+  - APP-008
+  - LIVE-001
+  - LIVE-002
+  - LIVE-003
+  - LIVE-004
+  - LIVE-005
+  - LIVE-006
+  - LIVE-007
+  - LIVE-008
+  - LIVE-009
+  - LIVE-010
+  - LIVE-011
+  - LIVE-012
+  - LIVE-013
+reviewed:
+  - LIVE-013 sha256:ca3fad2f6558d9d189fefaa74561f534b8fc04b3c8cab886496f044ea45919f4
+  - LIVE-005 sha256:fe0d1e8a3ca56ab16cb2e0139a406911133ca0fe46b383c0cc7c09ad948cf942
+  - LIVE-009 sha256:c64dbbd55b8fb377dd75ed2d050e908b2aa670376529634e228910595c4bca47
+  - LIVE-010 sha256:a8708a0553a58e903944536c92f626d312866a5f48fe22be7bf17fa8789c7825
+  - LIVE-012 sha256:a7547440e2ad590257fe16301d53f6489f14bc6cb7617ef8b2c5f78452a425fb

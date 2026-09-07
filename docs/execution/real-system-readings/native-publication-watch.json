@@ -1,0 +1,33 @@
+{
+  "diagnostic_only": true,
+  "source": "95ed9017",
+  "records": {
+    "publication-watch.jsonl": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/diagnostic-trace/publication-watch/publication-watch.jsonl",
+      "sha256": "472bc1c219669c494ddfbdafb12579644a1fa6b270a649c0cc89228bd1bcef69",
+      "bytes": 3724785
+    },
+    "native-run/result.json": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/diagnostic-trace/publication-watch/native-run/result.json",
+      "sha256": "ec8235fc1b534bda6236874ac2ca1c941cdcf8818867655c7d90b9041f42c887",
+      "bytes": 671
+    },
+    "native-run/session-01/frame-read-timings.jsonl": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/diagnostic-trace/publication-watch/native-run/session-01/frame-read-timings.jsonl",
+      "sha256": "8411fd0fc441cf63f678d72cb1e5c057cbefe945fb6ee18ff2d24264999de9c3",
+      "bytes": 639238
+    },
+    "native-run/private-session.log": {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/diagnostic-trace/publication-watch/native-run/private-session.log",
+      "sha256": "3821ed9b371a47bf64fb436e41aa72ced4788c4e402d8943eb3fb23a903073f3",
+      "bytes": 7771
+    }
+  },
+  "frame_reads": 795,
+  "max_read_parse_ms": 57.869,
+  "max_checked_age_seconds": 1.660480709,
+  "inode_replacements_during_reads": 30,
+  "watch_polls": 1229,
+  "max_startup_latest_age_seconds": 2.430333742,
+  "max_post_initial_revision_age_seconds": 1.565577
+}

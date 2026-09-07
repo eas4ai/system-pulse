@@ -1,0 +1,153 @@
+# Intel and Apple GPU Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development to implement this plan task-by-task. One source implementer works at a time; independent specification review precedes independent quality review. Root orchestration may inspect sources and maintain execution documents alongside implementation.
+
+**Goal:** Implement and verify [GPU-001 through GPU-009](../spec/gpu-collection.md) in the existing System Pulse application.
+
+**Architecture:** Separate Intel Linux and Apple native adapters produce the current `MonitorDescriptor`, `SensorDescriptor`, `Reading` and `RawObservation` types. `HostCollector` invokes them from its existing worker; platform handles, baselines and retry state stay with that collector. Source records and tests establish quantity scope before the UI renders a value.
+
+**Tech Stack:** Rust, Linux DRM/sysfs and PMU/device-query APIs, macOS IOReport/IOKit/SMC/HID, GPUI, Python acceptance and Cairn.
+
+## Working state
+
+- [x] Confirm the GPU contract and acceptance matrix with the developer.
+- [x] Verify keyed SSH to the M1 Pro MacBook and clean user-authorized stale Cargo outputs.
+- [x] Commit activation, source decision, plan and mechanism declaration; verify spec/link checks and the actual Cairn action (`66ea860f`).
+- [x] Implement and review Task 1: Intel Linux collection.
+- [x] Implement and review Task 2: Apple Silicon collection.
+- [x] Implement and review Task 3: memory semantics and integration.
+- [x] Implement and review Task 4: independent GPU acceptance.
+- [ ] Run Task 5: actual native/aggregate evidence and final review.
+
+Task 5, committed acceptance and closure, remains pending within the active [application completion plan](finish-application.md). Its first work item is the recorded Mac application/dispatcher lifetime correction. Task 1 closed at collector commit `507a12c0` after independent [specification](../execution/intel-and-apple-gpus/intel-spec-review.md) and [quality](../execution/intel-and-apple-gpus/intel-quality-review.md) reviews. Task 2 closed at native-tested source `2a40f069` after [specification](../execution/intel-and-apple-gpus/apple-spec-review.md) and [quality](../execution/intel-and-apple-gpus/apple-quality-review.md) reviews, including the [autorelease correction](../execution/intel-and-apple-gpus/apple-autorelease-correction.md). Task 3 closed at `4db68c71` after independent [specification](../execution/intel-and-apple-gpus/memory-spec-review.md) and [quality](../execution/intel-and-apple-gpus/memory-quality-review.md) reviews. All 183 Linux collector/model/app tests and strict checks passed independently; root also verified a [Mac build and 63 app tests](../execution/intel-and-apple-gpus/memory-mac-build.md). Native accuracy, UI acceptance and the Intel hardware matrix remain pending. A task stays open until its implementation and required verification/reviews are complete.
+
+Task 4's first implementation is committed at `c014522d`. Independent [specification review](../execution/intel-and-apple-gpus/gpu-acceptance-spec-review.md) recorded nine findings, each before its correction. Corrections, including the [bounded native Intel workload](../decisions/verify-intel-gpu-load-with-a-bounded-native-vulkan-helper.md), are committed at `ece89eae`. Independent [re-review](../execution/intel-and-apple-gpus/gpu-acceptance-spec-rereview.md) closed F1–F9 and recorded F10: mandatory host/provider version evidence is missing. F10 correction is committed at `eccf56b7`; its [evidence record](../execution/intel-and-apple-gpus/gpu-acceptance-f10-corrections.json) retains 439 passing Python tests, seven nonempty GPU groups and native helper readiness. Independent [F10 re-review](../execution/intel-and-apple-gpus/gpu-acceptance-f10-spec-review.md) recorded a remaining Intel provider identity join before its correction at `50ea29d6`. The [final specification review](../execution/intel-and-apple-gpus/gpu-acceptance-spec-pass.md) passed with all F1–F10 closed. Independent [quality review](../execution/intel-and-apple-gpus/gpu-acceptance-quality-review.md) requires correction of Q1: start-record write failure or interruption can leave an owned child or descendant alive. Q1 was recorded before correction at `f1e78133`. Independent [Q1 specification re-review](../execution/intel-and-apple-gpus/gpu-acceptance-q1-spec-review.md) passed; [quality re-review](../execution/intel-and-apple-gpus/gpu-acceptance-q1-quality-review.md) recorded Q1-R1: a subsequent stream-close failure replaces the original execution error. The Q1-R1 correction at `a0ff315c` passed independent [specification re-review](../execution/intel-and-apple-gpus/gpu-acceptance-q1-r1-spec-review.md); independent [quality re-review](../execution/intel-and-apple-gpus/gpu-acceptance-quality-pass.md) also passed, closing Q1 and Q1-R1 with no actionable Task 4 findings. Task 4 is complete at `a0ff315c`; the full 444-test Python suite passed, and independent reviews each passed the 61 GPU methods. Hardware accuracy and the retained Linux preservation failure remain Task 5 obligations. The full Linux preservation run passed 847 automated tests but failed the native freshness check. A subsequent uninstrumented focused run also failed. The [retained failures and diagnostic](../execution/intel-and-apple-gpus/gpu-linux-preservation-failure.md) remain an unresolved Task 5 preservation obligation.
+
+## Task 1: Intel Linux collection
+
+**Own:** New `examples/system_pulse/collectors/src/intel/` modules and their tests; Linux hooks in `collectors/src/lib.rs` and `collectors/src/host/mod.rs`; focused host integration tests; collector dependencies/lockfile only when a required native interface needs them; Intel source/capability notes in `docs/execution/intel-and-apple-gpus/`.
+
+**Preserve:** AMD dispatch and IDs, NVML behavior, process/network/volume collection, the existing snapshot JSON fields, and the single sampling service.
+
+- [x] Add this host-level discovery regression to `collectors/src/host/tests.rs`, using its existing `Fixture`, `HostCollector::rooted` and `collect_at` helpers, and run it before production edits:
+
+```rust
+#[test]
+fn intel_pci_device_is_discovered_without_card_index_identity() {
+    use std::os::unix::fs::symlink;
+    let fixture = Fixture::new();
+    fixture.base();
+    let device = "sys/devices/pci0000:00/0000:00:02.0";
+    fixture.put(&format!("{device}/vendor"), "0x8086\n");
+    fixture.put(&format!("{device}/device"), "0x46a6\n");
+    fixture.put(
+        &format!("{device}/uevent"),
+        "DRIVER=i915\nPCI_SLOT_NAME=0000:00:02.0\n",
+    );
+    fixture.put("sys/bus/pci/drivers/i915/fixture-marker", "");
+    symlink(
+        fixture.0.join("sys/bus/pci/drivers/i915"),
+        fixture.0.join(format!("{device}/driver")),
+    ).unwrap();
+    fs::create_dir_all(fixture.0.join("sys/class/drm/card7")).unwrap();
+    symlink(
+        fixture.0.join(device),
+        fixture.0.join("sys/class/drm/card7/device"),
+    ).unwrap();
+    let snapshot = HostCollector::rooted(fixture.0.clone()).collect_at(1);
+    assert_eq!(
+        snapshot.monitors.iter().filter(|monitor| monitor.kind == MonitorKind::Gpu)
+            .map(|monitor| monitor.id.as_str()).collect::<Vec<_>>(),
+        vec!["intel-pci:0000:00:02.0"],
+    );
+}
+```
+
+```sh
+rtk cargo test --locked -p system-pulse-collectors --lib host::tests::intel_pci_device_is_discovered_without_card_index_identity -- --exact
+```
+
+Expected baseline: the assertion fails because the Intel monitor is absent; exactly one test executes.
+
+- [x] Implement PCI-backed discovery for both drivers. Deduplicate card/render nodes by canonical physical device, preserve nonsequential GT/region identities, and keep the monitor present when an optional field fails. Do not infer integrated/discrete classification from VGA class, card number or a marketing-name table.
+- [x] Read actual/requested i915 and xe GT frequencies separately. Retain source MHz integers and convert to hertz. Enumerate attributable hwmon temperatures, power/energy and fan readings with their original labels and units; do not relabel package sensors as GPU-die readings.
+- [x] Add bounded read-only i915/xe device-query decoding for memory regions and topology. Check returned buffer sizes, counts, reserved/layout requirements and each API return before dereferencing. Device-local memory used/total needs valid permission semantics; integrated system-region totals do not become GPU allocation.
+- [x] Add documented whole-device/engine counter sampling where exposed. Retain previous/current raw counters and query windows, invalidate on failed reads or reset, normalize engine groups by their evidenced capacity and retain exact scope. Avoid duplicate-client accumulation or frequency-as-usage fallbacks. Record inaccessible PMU permissions and unsupported interfaces independently from missing implementation.
+- [x] Add the complete Intel cases from the [acceptance matrix](intel-and-apple-gpu-acceptance.md). Include reordered same-name devices, aliases, multiple GTs/regions, permission errors, malformed responses, failed recovery and nonuniform intervals. Each new behavior gets an observed failing test before its implementation.
+- [x] Run the collector suite, collector formatting and strict Clippy. Commit the implementation and source/capability record with exact paths; retain commands and actual counts.
+- [x] Obtain independent specification review for GPU-001/002/004/006/007 and this task boundary, then independent quality review. Resolve findings through the same implementer before closure. Do not claim Intel hardware acceptance from fixtures or the AMD development host.
+
+## Task 2: Apple Silicon collection
+
+**Own:** New `collectors/src/apple/` modules and native binding boundary, target-specific dependencies, `host/mod.rs` Apple hook, focused tests, and the minimal service-bound correction described below if needed.
+
+- [x] Before selecting a dependency or copying bindings, record the exact native source/channel/key, ownership rule and unit for every field using the supplied macmon/HardwareVisualizer references and a read-only M1 Pro source probe. Preserve notices for adapted source. Exclude CLI monitoring wrappers and the reference programs' network calls from production collection.
+- [x] Write pure conversion/failure tests on Linux before the native implementation. Required arithmetic examples: 250 inactive + 750 active residency gives 75% activity; equal active residency at 400 MHz and 800 MHz gives 600 MHz active-weighted frequency; 3 joules over 1.5 measured seconds gives 2 watts. A missing channel, unknown state mapping, failed baseline or nonpositive elapsed time yields no measured value.
+- [x] Implement native enumeration and identity association. Join optional accelerator memory to the same physical GPU; do not select the first/last arbitrary registry record. Capture native memory-model facts where available. A device name or a runtime enumeration index is not a persistence identity.
+- [x] Own IOReport sample handles and their raw start/end observations. Validate channel presence, format, unit and performance-state mapping; release Core Foundation/IOKit objects on success and every failure path. Treat SMC and HID as independent optional temperature sources. A missing GPU-attributable fan has an explicit source limitation.
+- [x] Keep native handles on the existing sampling worker. `SamplingService::spawn` currently requires `C: Send` even though `C` is created and consumed inside that worker. If native handles are not `Send`, remove only that unnecessary bound and add a worker-ownership regression using an `Rc` created by the factory; do not invent an unsafe `Send` implementation or another polling thread.
+- [x] Run pure tests locally and compile/run the actual collector on the authorized arm64 MacBook. Transfer only task-owned source into a dedicated validation directory, preserve source/lockfile hashes, and retain command logs. Native compilation failure is unfinished implementation.
+- [x] Obtain independent specification and then quality review; close all findings before moving on.
+
+## Task 3: Memory semantics and integration
+
+**Own:** `examples/system_pulse/src/live.rs`, existing meter/formatter code, model presentation/persistence tests, and additive collector metadata only if the current source/scope fields cannot express a required fact.
+
+- [x] Add focused tests for shared GPU allocation without a capacity total, dedicated VRAM with a valid total, and rejected system-RAM/process-footprint substitutions. Assert both the physical quantity and visible label; a string-only test is insufficient. Record existing correct behavior as passing baseline coverage. For a reproduced defect, retain a failing regression before its correction; do not change working behavior to manufacture a failure.
+- [x] Map byte-valued shared allocations through the existing scalar/counter-compatible meters. Capacity rendering requires a valid known total. Keep historical AMD/NVIDIA IDs and saved presentation choices unchanged.
+- [x] Extend discovery/restoration cases with Intel and Apple metadata, mixed vendors, absent/reappearing devices and same-name devices. Inject stale and failed readings to prove that a fresh snapshot cannot refresh an old native value as current.
+- [x] Run collector, model and app tests and affected formatting/Clippy checks. Review specification compliance first, then quality, before committing task closure.
+
+## Task 4: Independent GPU acceptance
+
+**Own:** `scripts/system-pulse/gpu_verify.py`, bounded native/raw capture helpers, verifier tests, and `.cairn/mechanisms/gpu-acceptance`.
+
+- [x] Write negative verifier tests first: absent hardware report, empty selected test suite, wrong binary/source/device identity, wrong unit, changed interval, incorrect memory scope, missing required field, stale observation and unexplained native mismatch must all prevent pass.
+- [x] Reuse existing runner log/hash/timeout and nonempty-test validation where appropriate. Run the full collector/model/app and existing preservation checks; retain all logs outside the source checkout. Report GPU-001 through GPU-009 independently using Cairn's per-requirement result protocol.
+- [x] Capture raw source operands independently of the production conversion functions. Native reports declare the physical device, supported field set, exact formulas, source precision and comparison windows before measuring. Missing Intel integrated/discrete or Apple evidence yields unverified for the corresponding hardware requirement.
+- [x] Add a bounded task-owned Metal workload for the Mac if needed to exercise activity/power/frequency. Record its process identity and cleanup. Establish actual native desktop observation; SSH launch alone and diagnostic-frame publication alone are insufficient proof of visible labels/interactions.
+- [x] Run verifier tests and independently review the mechanism before trusting its pass outcomes. A missing acceptance entry point is unfinished work, never a passing declaration.
+
+Task 4 closure covers the implemented and independently reviewed acceptance tooling. The full Linux checks were run and their native freshness failure was retained; correcting that failure and obtaining all hardware reports remain in Task 5.
+
+## Task 5: Committed acceptance and closure
+
+The focused Mac pool correction is committed at `c4a6aab1`; its
+[evidence record](../execution/intel-and-apple-gpus/apple-pool-correction.md)
+retains nine native lifetime regressions passing after observed failures.
+Independent [specification review](../execution/intel-and-apple-gpus/apple-pool-spec-review.md)
+found the two source scopes and pinned dependency changes compliant, with no
+additional source-contract mismatch. It did not grant unconditional acceptance:
+F1 remains high severity because 16 background warnings are unexplained and the
+required unfiltered full-application replay, interactions and orderly shutdown
+are still missing. Quality approval remains pending that specification proof. The source decision
+now identifies the built commit separately from native acceptance. Task 5 remains pending; the application completion plan tracks the single active task.
+
+While the Mac full-application proof awaits an unlocked desktop, the independent
+Linux investigation recorded a [pending process reveal race](../execution/intel-and-apple-gpus/linux-pending-process-reveal-finding.md).
+The [executable falsifier and correction](../execution/intel-and-apple-gpus/linux-pending-process-reveal-correction.md)
+are committed at `3ab14ff0`, with an observed failing viewport regression before
+the correction and 67 application tests passing afterward. Independent
+specification review [passed](../execution/intel-and-apple-gpus/linux-pending-process-reveal-spec-review.md);
+fresh [quality review also passed](../execution/intel-and-apple-gpus/linux-pending-process-reveal-quality-review.md).
+The focused source finding is closed; [fresh full Linux preservation passed](../execution/intel-and-apple-gpus/linux-preservation-pass.md)
+with 870 tests, live host comparisons and all native replay cases. This does not close
+the Mac finding or attribute the original freshness failures.
+
+The subsequent full preservation attempt stopped at the mandatory Python stage:
+the expanded complete suite takes about 34 seconds, above its older 30-second
+runner deadline. The [recorded budget mismatch](../execution/intel-and-apple-gpus/linux-python-budget-finding.md)
+is corrected at `61e8ceef`, with all 444 tests passing through the actual Runner
+and independent [SPEC and QUALITY passes](../execution/intel-and-apple-gpus/linux-python-budget-reviews.md).
+Fresh full preservation subsequently passed. Native freshness, navigation,
+comparison bounds and required coverage remain unchanged.
+
+- [ ] Complete and independently review the [recorded Mac application/dispatcher lifetime correction](../decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md) as focused single-implementer work. Commit the reviewed implementation and remove its in-progress marker; update each applicable source decision's single `Realized by` entry with its actual resolving commit and exact subject.
+- [ ] Run `cairn wake` and the named committed mechanism. Preserve failed attempts. Fix evidence failures at their cause without relaxing coverage or comparison bounds. Resolve the recorded [full-app Apple pool and AX findings](../execution/intel-and-apple-gpus/apple-gui-preflight-findings.md), with focused corrections and independent reviews, before accepting native GUI evidence. The [isolated pool investigation](../execution/intel-and-apple-gpus/apple-gui-pool-investigation.md) identifies startup and callback boundaries; it does not clear the full application.
+- [ ] Obtain actual Intel integrated Linux, Intel discrete Linux and Apple Silicon reports. The [complete Linux preservation replay passed](../execution/intel-and-apple-gpus/linux-preservation-pass.md) after reviewed source corrections; historical freshness failures remain retained without a claim about their original event ordering. Intel integrated BIOS enablement/reboot, a discrete Intel host and an unlocked Mac desktop remain external dependencies; the commitment stays incomplete.
+- [ ] Complete a final independent adversarial review in `.cairn/reviews/intel-and-apple-gpus.md`, recording attacks and findings before any fixes. Complete the production self-audit and documentation checks.
+- [ ] Claim completion only after actual `cairn wake` returns Done. Stop the task-owned Mac caffeinate assertion and clean up task-owned workloads. No merge, push or deployment is part of this plan.
+
+## Native host availability update
+
+The developer identified the local i9-13900K as an [Intel integrated GPU candidate](../execution/intel-and-apple-gpus/intel-integrated-host-candidate.md). UHD Graphics 770 is specified for that CPU, but no Intel display device currently appears in Linux. BIOS enablement and reboot are pending; no native Intel accuracy claim follows yet. Discrete Intel hardware and the unlocked Mac GUI session remain separate dependencies.

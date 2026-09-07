@@ -1,0 +1,282 @@
+{
+  "source_commit": "95af71831a34eea84b8b8c5fa0673a9a378e305b",
+  "artifact_root": "/tmp/system-pulse-cairn-check-f0kvkrag/system-pulse-acceptance-0c8pzqqf",
+  "status": "FAIL",
+  "automated_tests_passed": 459,
+  "native_started": false,
+  "host_result": {
+    "status": "FAIL",
+    "counts": {
+      "exact_readings": 2217,
+      "connection_interfaces": 96,
+      "exact_process_fields": 17313,
+      "counter_brackets": 43118
+    },
+    "external_offset": [
+      1787915765907405093,
+      1787915765907405173
+    ],
+    "collector_offset": [
+      1788612993890779515,
+      1788612993890779781
+    ],
+    "independent_stable_totals": 468,
+    "inventory_scope": "initial and final independent inventories",
+    "snapshots": 4,
+    "child_identity": {
+      "pid": 1798966,
+      "start_time_ticks": 69722762
+    },
+    "child_exit_verified": true,
+    "nvml": [
+      {
+        "backend": "nvml",
+        "availability": "Failed",
+        "reason": "NVML init: DriverNotLoaded"
+      }
+    ]
+  },
+  "missing": [
+    {
+      "sensor_id": "process:1798219:69722748/cpu",
+      "source": "/proc/1798219/stat",
+      "key": "utime_ticks",
+      "value": 5,
+      "query_window": [
+        697228041919927,
+        697228041932088
+      ],
+      "external_windows": [
+        {
+          "start": 697227842819461,
+          "end": 697227842856142,
+          "value": 4,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        },
+        {
+          "start": 697228040779673,
+          "end": 697228040794253,
+          "value": 5,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        }
+      ]
+    },
+    {
+      "sensor_id": "process:1798219:69722748/cpu",
+      "source": "/proc/1798219/stat",
+      "key": "stime_ticks",
+      "value": 3,
+      "query_window": [
+        697228041919927,
+        697228041932088
+      ],
+      "external_windows": [
+        {
+          "start": 697227842819461,
+          "end": 697227842856142,
+          "value": 2,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        },
+        {
+          "start": 697228040779673,
+          "end": 697228040794253,
+          "value": 3,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        }
+      ]
+    },
+    {
+      "sensor_id": "process:1798219:69722748/read",
+      "source": "/proc/1798219/io",
+      "key": "bytes",
+      "value": 0,
+      "query_window": [
+        697228041934669,
+        697228041943268
+      ],
+      "external_windows": [
+        {
+          "start": 697227842912091,
+          "end": 697227842944098,
+          "value": 0,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        },
+        {
+          "start": 697228040814521,
+          "end": 697228040825153,
+          "value": 0,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        }
+      ]
+    },
+    {
+      "sensor_id": "process:1798219:69722748/write",
+      "source": "/proc/1798219/io",
+      "key": "bytes",
+      "value": 0,
+      "query_window": [
+        697228041934669,
+        697228041943268
+      ],
+      "external_windows": [
+        {
+          "start": 697227842912091,
+          "end": 697227842944098,
+          "value": 0,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        },
+        {
+          "start": 697228040814521,
+          "end": 697228040825153,
+          "value": 0,
+          "identity": {
+            "pid": 1798219,
+            "start_time_ticks": 69722748
+          }
+        }
+      ]
+    },
+    {
+      "sensor_id": "process:1803234:69723096/cpu",
+      "source": "/proc/1803234/stat",
+      "key": "utime_ticks",
+      "value": 2,
+      "query_window": [
+        697231041601289,
+        697231041610423
+      ],
+      "external_windows": [
+        {
+          "start": 697231025558921,
+          "end": 697231025623301,
+          "value": 2,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697230976695034,
+          "end": 697230976712199,
+          "value": 0,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697230994829726,
+          "end": 697230994842818,
+          "value": 1,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697231014633792,
+          "end": 697231014648971,
+          "value": 2,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697231034694900,
+          "end": 697231034708443,
+          "value": 2,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        }
+      ]
+    },
+    {
+      "sensor_id": "process:1803234:69723096/cpu",
+      "source": "/proc/1803234/stat",
+      "key": "stime_ticks",
+      "value": 1,
+      "query_window": [
+        697231041601289,
+        697231041610423
+      ],
+      "external_windows": [
+        {
+          "start": 697231025558921,
+          "end": 697231025623301,
+          "value": 0,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697230976695034,
+          "end": 697230976712199,
+          "value": 0,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697230994829726,
+          "end": 697230994842818,
+          "value": 0,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697231014633792,
+          "end": 697231014648971,
+          "value": 0,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        },
+        {
+          "start": 697231034694900,
+          "end": 697231034708443,
+          "value": 1,
+          "identity": {
+            "pid": 1803234,
+            "start_time_ticks": 69723096
+          }
+        }
+      ]
+    }
+  ],
+  "hashes": {
+    "host/missing-brackets.json": "516f9320b6002e78a74fe34c9694c8031c7129468faae9ef10d15e9897fafd32",
+    "host/result.json": "bb0c3b78b176cb12cd0908b41e2464a2e7d1245905eae764ae5287c3ccd55e3a",
+    "host/external-observations.json": "f1699a3145da83b7878f30d2d6096f34698ba696dc27e677c54dbbd7492e019d",
+    "host/cleanup.json": "c6fe649e7fc14a4c41f1455a1774e8a71f9955dcf0016d0532678c8a8b662cb1",
+    "failure.json": "e696e19968baa29d083e8004d825d0233ae899995b272c7990c74c238fd13d5c"
+  }
+}

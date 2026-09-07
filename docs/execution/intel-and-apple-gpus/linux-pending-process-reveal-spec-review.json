@@ -1,0 +1,207 @@
+{
+  "review_type": "SPEC",
+  "verdict": "SPEC compliant",
+  "display_verdict": "\u2705 SPEC compliant",
+  "base_commit": "a1421f5d8beac7012f1aba8b54e4d1de7c686b04",
+  "candidate_commit": "3ab14ff0bcd9a612a60477b397252bee48b2a48d",
+  "reviewed_at": "2026-09-06T19:57:09.855127+00:00",
+  "worktree": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+  "observed_head": "744a97bdcf4347c06567054532b216305aef80d6",
+  "findings": [],
+  "requirements": [
+    {
+      "requirement": "Pre-fix source finding and Judged decision",
+      "verdict": "pass",
+      "evidence": "Both files exist in base a1421f5d before the production correction. Retained RED panel hash matches the base blob."
+    },
+    {
+      "requirement": "Actual GPUI top-edge regression and unchanged-order control",
+      "verdict": "pass",
+      "evidence": "native_tests.rs:1156-1238 uses real accept_snapshot, keyboard events, a selected A at 1221 explicitly at viewport top, insert+draw, Up+Up, restore before pending frame, stable B at 1219 and viewport bounds. Retained RED has 1 passed, 1 failed, missing B, exit 101. Earlier setup failures and bottom-edge pass remain separately classified."
+    },
+    {
+      "requirement": "Resolve stable identity to current row at process-list layout",
+      "verdict": "pass",
+      "evidence": "panel.rs:310-317 takes one pending flag and resolves selected_index before constructing the current virtual list; selected_index at 67-75 compares complete ProcessIdentity."
+    },
+    {
+      "requirement": "Consume once and preserve passive/manual/horizontal behavior",
+      "verdict": "pass",
+      "evidence": "Only handled vertical keys set flag at panel.rs:363. take clears it even when selected_index returns None. native_tests.rs:1241-1297 confirms consumed reveal, wheel offscreen selection, passive reorder and horizontal navigation. Existing coalescing tests pass."
+    },
+    {
+      "requirement": "Vanished identity and PID reuse must not reveal replacement",
+      "verdict": "pass",
+      "evidence": "Unchanged workspace.rs:559-563 and live.rs:324-331 reconcile by full identity; native_tests.rs:1300-1345 clears pending selected identity through start-time change, keeps viewport, does not restore selection on rediscovery and allows new Down navigation."
+    },
+    {
+      "requirement": "Application-local scope and backward compatibility",
+      "verdict": "pass",
+      "evidence": "Exactly four candidate diff files: panel.rs, existing native_tests.rs and correction.md/.json. No base list API, accessibility identity, native guard, freshness bound, collector, dependency, schema or persistence change."
+    },
+    {
+      "requirement": "Evidence limits remain explicit",
+      "verdict": "pass",
+      "evidence": "Correction documentation distinguishes development checks from native/full acceptance, leaves historical Linux freshness unattributed and Mac/Intel obligations open."
+    }
+  ],
+  "independent_checks": [
+    {
+      "name": "app-tests",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "--tests"
+      ],
+      "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "candidate": "3ab14ff0bcd9a612a60477b397252bee48b2a48d",
+      "started_at": "2026-09-06T19:54:37.601137+00:00",
+      "exit_code": 0,
+      "elapsed_seconds": 1.0577265289612114,
+      "streams": {
+        "stdout": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-spec-20260906/app-tests.stdout.log",
+          "bytes": 6555,
+          "sha256": "ddc38a3b2d0e0e23a3531b43e06040530b34528f1a63ca42883720055f2b8aa5"
+        },
+        "stderr": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-spec-20260906/app-tests.stderr.log",
+          "bytes": 466,
+          "sha256": "6adf175ba80166b098ad8476e92e6f4b166a7d2dcb2a88c699749eb7bd326103"
+        }
+      },
+      "result_lines": [
+        "test result: ok. 67 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.70s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s",
+        "test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s"
+      ]
+    },
+    {
+      "name": "candidate-diff-check",
+      "command": [
+        "rtk",
+        "proxy",
+        "git",
+        "diff",
+        "--check",
+        "a1421f5d8beac7012f1aba8b54e4d1de7c686b04",
+        "3ab14ff0bcd9a612a60477b397252bee48b2a48d"
+      ],
+      "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "candidate": "3ab14ff0bcd9a612a60477b397252bee48b2a48d",
+      "started_at": "2026-09-06T19:54:38.659379+00:00",
+      "exit_code": 0,
+      "elapsed_seconds": 0.010299284011125565,
+      "streams": {
+        "stdout": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-spec-20260906/candidate-diff-check.stdout.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stderr": {
+          "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-spec-20260906/candidate-diff-check.stderr.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "result_lines": []
+    }
+  ],
+  "provenance_counts": {
+    "retained_artifacts_verified": 26,
+    "retained_check_logs_verified": 12,
+    "candidate_source_hashes_verified": 2,
+    "base_production_hash_verified": 1
+  },
+  "retained_red": {
+    "passed": 1,
+    "failed": 1,
+    "recorded_exit_code": 101,
+    "log_sha256": "3e4504e21e1acb77397138b38ed45fecde724b7b1698e78bbb49aa088b96f9f8",
+    "test_source_sha256": "4b6a42a1b81a6f8605fadfb789863dfe73b3fad1327183d674ae9d8707d04d9b"
+  },
+  "intent_lifecycle": "A handled vertical key assigns stable selected identity and sets pending=true. More keys update that same selection and coalesce the repaint. The next process-table render consumes the flag, resolving identity against current rows. Snapshot-only or horizontal actions never set it. Reconciliation clears vanished identity before render, so consumption issues no list request. A later explicit vertical key legitimately selects a new process and creates new intent. A collapsed process panel does not call process_table, so intent waits for a subsequent visible render, just as the earlier list-owned request waited for list layout; this conclusion is source inspection, not a new collapse-interleaving test. No asynchronous boundary occurs between this resolver and synchronous list construction/prepaint.",
+  "production_rules": [
+    {
+      "rule": 1,
+      "assessment": "Read globals, actual contract/glossary/roadmap/commitment/decisions and runtime path before verdict; no source edits."
+    },
+    {
+      "rule": 2,
+      "assessment": "Small coherent app-local production change; no unrelated code or dependency churn."
+    },
+    {
+      "rule": 3,
+      "assessment": "Named bounded intent belongs to MonitorPanel and uses existing identity resolver; comments explain timing."
+    },
+    {
+      "rule": 4,
+      "assessment": "Full PID/start identity and shared list interface preserved; no public schema or API break."
+    },
+    {
+      "rule": 5,
+      "assessment": "None selection safely consumes without replacement scrolling; no new fallible I/O or secret logging."
+    },
+    {
+      "rule": 6,
+      "assessment": "No new privilege, dependency, unsafe block, external I/O or trust boundary."
+    },
+    {
+      "rule": 7,
+      "assessment": "One transient bool, consumed even after removal; no persistence/migration change. Latest keyboard selection deliberately owns a coalesced pending reveal."
+    },
+    {
+      "rule": 8,
+      "assessment": "No new queues or background work. One existing O(n) identity lookup added only for an actual pending reveal at rendering, with bounded flag and unchanged repaint coalescing."
+    },
+    {
+      "rule": 9,
+      "assessment": "External review todo retained one active item; source/evidence review and independent verification completed before report."
+    },
+    {
+      "rule": 10,
+      "assessment": "Independent67 application tests and exact candidate diff-check passed; retained12 check logs independently hashed. Native/full and quality checks stay separate."
+    },
+    {
+      "rule": 11,
+      "assessment": "Observed command/exit/count/raw-stream hashes retained. No claim of independent RED execution, native proof, freshness resolution or whole Task 5 acceptance."
+    },
+    {
+      "rule": 12,
+      "assessment": "Stayed within delegated review authority and reported source/HEAD distinction and verified outcomes to root."
+    },
+    {
+      "rule": 13,
+      "assessment": "Reviewed all 14 rules; satisfied with scoped SPEC verdict; no revision requested. Fresh QUALITY review still required."
+    },
+    {
+      "rule": 14,
+      "assessment": "Comments and review use project identity/selection/reveal vocabulary and concrete evidence."
+    }
+  ],
+  "limitations": [
+    "This is the independent SPEC review only. Fresh QUALITY review remains required.",
+    "No native workload, full uninstrumented Linux preservation replay, Mac connection or hardware accuracy capture ran.",
+    "Historical Linux diagnostic failure remains unattributed. Original Linux freshness failures remain open; passing application tests do not satisfy native freshness requirements.",
+    "Historical Mac F1 and required Mac native proof remain open. Intel integrated/discrete hardware evidence remains unavailable/unverified.",
+    "Retained pre-fix RED was inspected and hashed, not independently rerun in this review; its recorded exit 101 is retained evidence, not a newly executed result.",
+    "Build/fmt/strict Clippy evidence was hash-audited from implementer logs, not rerun here. This bounded review reran application tests and candidate diff-check.",
+    "Test harness uses GPUI test windows and deterministic snapshots. It exercises actual app acceptance, keyboard dispatch and list layout; it does not prove native compositor or hardware behavior.",
+    "Cairn wake exited1 with existing Intel/Apple decision Realized-by metadata action. Read-only review authority does not authorize resolving that broader orchestration action or declaring Done."
+  ],
+  "source_and_index_modified_by_reviewer": false,
+  "cleanup": "No isolated RED replay or temporary source copy was created. External review artifacts retained. Root removed its own preexisting generated Python cache after the first integrity snapshot; reviewer did not delete shared files.",
+  "root_manifest_verification": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-spec-20260906/artifact-manifest.json",
+    "bytes": 3115,
+    "sha256": "60dc356108e8e12686676f97b72f6d347c3e01a1762971aa7692b78f7bf7d30a",
+    "files_verified": 12,
+    "verified_unix_ns": 1788724754978379644
+  }
+}

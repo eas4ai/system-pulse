@@ -1,0 +1,275 @@
+{
+  "verdict": "QUALITY PASS",
+  "reviewer": "Independent quality reviewer; neither Linux implementer nor its specification reviewer",
+  "base_commit": "a1421f5d8beac7012f1aba8b54e4d1de7c686b04",
+  "candidate_commit": "3ab14ff0bcd9a612a60477b397252bee48b2a48d",
+  "observed_head": "53804f46dfef47a4f2ea08f3fd94464494773489",
+  "scope": "Linux pending process reveal only",
+  "findings": {
+    "critical": [],
+    "important": [],
+    "minor": []
+  },
+  "strengths": [
+    {
+      "area": "Minimal scope and maintainability",
+      "references": [
+        "examples/system_pulse/src/panel.rs:27",
+        "examples/system_pulse/src/panel.rs:308",
+        "examples/system_pulse/src/panel.rs:363"
+      ],
+      "assessment": "One private boolean retains keyboard reveal intent. The existing selected identity remains its single target; the next maintainer need not synchronize a second copied identity or index. The comment explains the delayed snapshot ordering and cleared-selection branch. No shared list API, dependency, schema, persistent setting or native guard changes."
+    },
+    {
+      "area": "Identity, coalescing and layout",
+      "references": [
+        "examples/system_pulse/src/panel.rs:67",
+        "examples/system_pulse/src/panel.rs:294",
+        "examples/system_pulse/src/panel.rs:308",
+        "examples/system_pulse/src/workspace.rs:559",
+        "crates/base/src/virtual_list.rs:610"
+      ],
+      "assessment": "Only vertical navigation sets the flag. Repeated keys update the latest selected PID/start identity while retaining the existing one-frame repaint. At process-table construction, mem::take consumes the flag before selected_index performs full-identity lookup on current rows. List construction and prepaint follow synchronously on the UI thread; no async or yield boundary was introduced. Removed selection cannot retain an application reveal or select a reused PID."
+    },
+    {
+      "area": "Empty, hidden and collapsed lifecycle",
+      "references": [
+        "examples/system_pulse/src/panel.rs:351",
+        "examples/system_pulse/src/panel.rs:484",
+        "examples/system_pulse/src/workspace.rs:559",
+        "examples/system_pulse/src/workspace.rs:736",
+        "examples/system_pulse/src/workspace.rs:750"
+      ],
+      "assessment": "Source inspection: empty tables reject vertical navigation before count-1; a pre-existing pending flag is consumed even with no selection. Collapsed panels do not render a table, so the bounded intent remains until the table next renders and then resolves current identity. Hidden panels either retain the same entity and snapshot reconciliation or are reconstructed with false/None. No stale numeric target is stored by the new application state. These combined pending-empty/collapse/hide sequences were inspected, not independently added as new dynamic tests."
+    },
+    {
+      "area": "Manual and horizontal input",
+      "references": [
+        "examples/system_pulse/src/panel.rs:344",
+        "examples/system_pulse/src/native_tests.rs:1240",
+        "examples/system_pulse/src/native_tests.rs:1348"
+      ],
+      "assessment": "Horizontal keys retain the separate horizontal offset path and do not create vertical intent. Once a reveal is consumed, wheel scrolling can leave the selected row offscreen; later passive reordering and horizontal navigation preserve that viewport. Existing coalesced bursts also mix horizontal keys with pending vertical navigation. Wheel routing and focus-navigation tests passed."
+    },
+    {
+      "area": "Performance and reliability",
+      "references": [
+        "examples/system_pulse/src/panel.rs:27",
+        "examples/system_pulse/src/panel.rs:308"
+      ],
+      "assessment": "The new state is one bounded boolean, without allocation, queue, timer or polling work. It adds at most one O(process count) identity scan per render that consumes a vertical request, rather than scanning on every passive render. Existing row sizing already traverses process rows. No new race, borrow across callback, background UI access, or resource lifetime was found."
+    },
+    {
+      "area": "Behavioral test quality",
+      "references": [
+        "examples/system_pulse/src/native_tests.rs:1103",
+        "examples/system_pulse/src/native_tests.rs:1131",
+        "examples/system_pulse/src/native_tests.rs:1163",
+        "examples/system_pulse/src/native_tests.rs:1298"
+      ],
+      "assessment": "Tests enter the real accept_snapshot and key-event paths and flush coalesced frames, without directly mutating the reveal flag or asserting its implementation. The primary case explicitly puts A at the top of the row viewport, inserts two earlier rows, dispatches Up/Up, restores original rows, and asserts full selected identity, current index and actual instantiated bounds excluding the header and border. The unchanged-order control and removed/reused PID case distinguish the defect from generic layout failure. The retained actual RED has one pass/one failure and the same original regression has two passes after the correction."
+    }
+  ],
+  "checks_run": [
+    {
+      "name": "app-tests",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib",
+        "--tests"
+      ],
+      "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "exit_code": 0,
+      "elapsed_seconds": 1.0237853419966996,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-quality-20260906/app-tests.log",
+      "sha256": "895ff4806cda471eb617c872221145f49dcf19aae332950b3d9bcee85db554de",
+      "test_results": [
+        [
+          "ok",
+          "67",
+          "0"
+        ],
+        [
+          "ok",
+          "0",
+          "0"
+        ],
+        [
+          "ok",
+          "0",
+          "0"
+        ]
+      ]
+    },
+    {
+      "name": "app-fmt",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "fmt",
+        "-p",
+        "system-pulse",
+        "--",
+        "--check"
+      ],
+      "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "exit_code": 0,
+      "elapsed_seconds": 0.09383114089723676,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-quality-20260906/app-fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_results": []
+    },
+    {
+      "name": "app-clippy",
+      "command": [
+        "rtk",
+        "proxy",
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "exit_code": 0,
+      "elapsed_seconds": 0.4038701370591298,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-quality-20260906/app-clippy.log",
+      "sha256": "1f5852af1ed7025b5728e842e3c3c2f5d2f720d25557d84c38f1ffda99719c59",
+      "test_results": []
+    },
+    {
+      "name": "candidate-diff-check",
+      "command": [
+        "rtk",
+        "proxy",
+        "git",
+        "diff",
+        "--check",
+        "a1421f5d8beac7012f1aba8b54e4d1de7c686b04",
+        "3ab14ff0bcd9a612a60477b397252bee48b2a48d"
+      ],
+      "cwd": "/home/shawn/workspace2/task-manager-worktrees/workspace-visibility",
+      "exit_code": 0,
+      "elapsed_seconds": 0.006866035982966423,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-quality-20260906/candidate-diff-check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "test_results": []
+    }
+  ],
+  "evidence_audited": {
+    "retained_artifacts_verified": 26,
+    "retained_check_logs_verified": 12,
+    "candidate_source_hashes_verified": 2,
+    "base_panel_hash_verified": true,
+    "red_reexecuted": false,
+    "standalone_build_reexecuted": false,
+    "retained_red": {
+      "passed": 1,
+      "failed": 1,
+      "exit_code": 101
+    },
+    "retained_same_regression_green": {
+      "passed": 2,
+      "failed": 0,
+      "exit_code": 0
+    }
+  },
+  "preservation": {
+    "tracked_file_count": 2113,
+    "all_tracked_file_bytes_unchanged": true,
+    "index_entries_unchanged": true,
+    "marker_unchanged_and_absent": true,
+    "head_unchanged": true,
+    "status_clean_before_and_after": true,
+    "source_files": {
+      "examples/system_pulse/src/panel.rs": "ff174b97cf2e8c2db39c7d26b674d4aa958b8b0d6cbab5ac67c92d03a981c24f",
+      "examples/system_pulse/src/native_tests.rs": "ac29c8542560e3bbcb152bb0a8759dfe5ad6b29864f04afab3fea33d31df5b54"
+    }
+  },
+  "limits": [
+    "This is a QUALITY pass for the focused Linux source correction only, not a GPU or Task 5 completion claim.",
+    "No native workload, full uninstrumented Linux preservation replay, GPU hardware capture or macOS operation ran.",
+    "Original Linux freshness failures remain unresolved, and the historical navigation interleaving remains unattributed.",
+    "Mac F1/native proof and Intel integrated/discrete hardware evidence remain open; this review does not approve unrelated Mac source.",
+    "The original RED and standalone build were audited from hashed retained logs, not independently rerun.",
+    "No reviewer-created adversarial tests were added. Empty/pending, collapse/pending and hide/pending lifecycle combinations were checked by source reasoning; existing suites cover the adjacent behaviors.",
+    "Development commands are not committed Cairn acceptance receipts. The read-only wake still returned the broad unresolved collector Realized-by action, which does not authorize closure of this review or commitment."
+  ],
+  "production_self_audit": [
+    {
+      "rule": 1,
+      "assessment": "Read contracts, decision, finding, actual diff, snapshot delivery, render lifecycle and list prepaint before evaluating behavior."
+    },
+    {
+      "rule": 2,
+      "assessment": "Candidate production change is one private flag and render-time lookup in one app file; review made no repository edits."
+    },
+    {
+      "rule": 3,
+      "assessment": "State has one purpose, a comment explaining ordering, and no duplicated identity or hidden global coupling."
+    },
+    {
+      "rule": 4,
+      "assessment": "Full PID/start identity and existing list/collector/native interfaces remain intact; no schema or persistence changes."
+    },
+    {
+      "rule": 5,
+      "assessment": "No new fallible I/O or error suppression. Cleared or missing selection produces no replacement scroll. Review did not read credentials or enumerate environment."
+    },
+    {
+      "rule": 6,
+      "assessment": "No dependency, permission, unsafe-code or security-boundary changes. Review ran local development commands only."
+    },
+    {
+      "rule": 7,
+      "assessment": "Transient intent is consumed once, including cleared selection; repeated keys coalesce. Persistence and background pipeline are unchanged."
+    },
+    {
+      "rule": 8,
+      "assessment": "Bounded boolean and one identity scan per consumed request; no unbounded queue, new poller, blocking I/O or resource ownership."
+    },
+    {
+      "rule": 9,
+      "assessment": "External todo maintained one active step throughout; verification completed before steps were marked done."
+    },
+    {
+      "rule": 10,
+      "assessment": "Independently ran 67 application tests, format check, strict all-target Clippy and candidate diff check; inspected actual RED/control logs and adjacent lifecycle paths."
+    },
+    {
+      "rule": 11,
+      "assessment": "Commands, exits, counts, hashes and source preservation are retained. Audited versus rerun evidence and native/hardware limits are explicit."
+    },
+    {
+      "rule": 12,
+      "assessment": "Followed the authorized independent quality scope; no new source work or native activity was inferred."
+    },
+    {
+      "rule": 13,
+      "assessment": "Reviewed all fourteen rules and found no scoped revision required. Approval is limited to this source correction and does not close outstanding acceptance obligations."
+    },
+    {
+      "rule": 14,
+      "assessment": "Review states behavior, evidence, limitations and the verdict in direct technical English."
+    }
+  ],
+  "satisfied_with_scoped_ruleset": true,
+  "root_manifest_verification": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/gpu-task5/linux-pending-reveal-quality-20260906/artifact-manifest.json",
+    "bytes": 3675,
+    "sha256": "79669eb3b9dd2c0febbe3b2fe5369f75b9bb760390a2a564fa766caa81ae7ad4",
+    "files_verified": 15,
+    "verified_unix_ns": 1788725271696224997
+  }
+}
