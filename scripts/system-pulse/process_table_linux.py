@@ -9,6 +9,7 @@ from host_accuracy import require
 from native_driver import close_transport, digest, spin
 from tabbed_driver import TabbedNative
 from process_table_verify import HARNESSES, aligned
+from application_replay import enter, process_rows
 
 
 def geometry(app):
@@ -32,7 +33,10 @@ def geometry(app):
     return {"window_width": app.window().get_geometry().width,
             "viewport": viewport,
             "headings": [app.bounds(node) for node in headings],
-            "cells": cells, "identity": identity}
+            "cells": cells, "identity": identity,
+            "search": app.bounds(app.find("Search name, PID, or user…")),
+            "actions": [app.bounds(app.find(title, "button"))
+                        for title in ("End task…", "Force quit…")]}
 
 
 def run(args):
@@ -72,6 +76,16 @@ def run(args):
                 for _ in range(6):
                     app.key("Left")
                     spin(0.1)
+        app.resize(960, 640)
+        enter(app, "Search name, PID, or user…", str(app.app.pid))
+        filtered = app.wait(lambda: process_rows(app), message="filtered process rows")
+        require(len(filtered) == 1 and next(iter(filtered)).split(":")[1] == str(app.app.pid),
+                "PID search did not show the owned application")
+        result["search_filter"] = {"pid": app.app.pid, "identities": list(filtered)}
+        enter(app, "Search name, PID, or user…", "")
+        cleared = app.wait(lambda: rows if len(rows := process_rows(app)) > 1 else None,
+                           message="cleared process search")
+        result["search_clear_rows"] = len(cleared)
         require(result["frames"][1]["headings"][1][2] > result["frames"][0]["headings"][1][2],
                 "Name column did not grow")
         app.shutdown()

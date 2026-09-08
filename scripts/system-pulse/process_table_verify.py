@@ -9,7 +9,8 @@ from performance_verify import ROOT, check_harness, same_production
 
 HARNESSES = {
     "linux": ("process_table_linux.py", "native_driver.py", "tabbed_driver.py",
-              "host_accuracy.py", "native_contract.py", "native_observations.py", "tabbed_contract.py"),
+              "host_accuracy.py", "native_contract.py", "native_observations.py", "tabbed_contract.py",
+              "application_replay.py"),
     "macos": ("process_table_macos.py", "performance_tree.swift", "performance_macos.py",
               "performance_preserve.py", "performance_compare.py"),
 }
@@ -51,15 +52,34 @@ def validate_geometry(record, platform):
             "horizontal scrolling did not move the columns")
 
 
+def validate_search(record):
+    for frame in record["frames"]:
+        search, viewport = frame["search"], frame["viewport"]
+        require(abs(search[2] - 280) <= 1, "search expands with the window")
+        require(len(frame["actions"]) == 2, "missing process toolbar actions")
+        for control in [search, *frame["actions"]]:
+            require(control[0] >= viewport[0] and
+                    control[0] + control[2] <= viewport[0] + viewport[2],
+                    "process toolbar clips")
+    filtered = record["search_filter"]
+    require(len(filtered["identities"]) == 1 and
+            filtered["identities"][0].split(":")[1] == str(filtered["pid"]),
+            "PID filter did not show the owned process")
+    require(record["search_clear_rows"] > 1, "clearing search did not restore rows")
+
+
 def main():
     subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s",
                     "scripts/system-pulse", "-p", "test_process_table_geometry.py"], cwd=ROOT, check=True)
     subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse",
                     "process_table_fills_resized_windows_and_keeps_columns_aligned"], cwd=ROOT, check=True)
+    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse",
+                    "process_search_stays_compact_when_the_window_grows"], cwd=ROOT, check=True)
     evidence = ROOT / "docs/execution/process-table-improvements/evidence"
     for platform in ("linux", "macos"):
         record = json.loads((evidence / platform / "result.json").read_text())
         validate_geometry(record, platform)
+        validate_search(record)
         same_production(record["source_commit"])
         build = json.loads((evidence / platform / "build.json").read_text())
         require(build["source_commit"] == record["source_commit"] and
@@ -67,6 +87,7 @@ def main():
                 "native observation does not match its build")
         check_harness(record["harness_sha256"], HARNESSES[platform])
     print("cairn: PROC-001: pass", flush=True)
+    print("cairn: PROC-002: pass", flush=True)
     # Other requirements remain unverified until their own checks are implemented.
     return 0
 

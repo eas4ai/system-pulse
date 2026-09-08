@@ -114,8 +114,10 @@ impl MonitorPanel {
                 .gap_1()
                 .child(
                     div()
-                        .flex_1()
+                        .w(px(280.))
+                        .flex_none()
                         .min_w_0()
+                        .debug_selector(|| "process-search".into())
                         .child(Input::new(self.process_state.input.as_ref().unwrap()).small()),
                 )
                 .children(

@@ -4,7 +4,7 @@ import copy
 import unittest
 
 from performance_compare import InvalidMeasurement
-from process_table_verify import validate_geometry
+from process_table_verify import validate_geometry, validate_search
 
 
 def receipt():
@@ -54,6 +54,40 @@ class GeometryTests(unittest.TestCase):
         record["narrow_scrolled"] = copy.deepcopy(record["frames"][2])
         with self.assertRaises(InvalidMeasurement):
             validate_geometry(record, "linux")
+
+
+class SearchTests(unittest.TestCase):
+    def setUp(self):
+        self.record = receipt()
+        for frame in self.record["frames"]:
+            frame.update(search=[16, 140, 280, 24],
+                         actions=[[300, 140, 85, 24], [389, 140, 95, 24]])
+        self.record.update(search_filter={"pid": 123, "identities": ["process:123:400"]},
+                           search_clear_rows=15)
+
+    def test_compact_search_and_native_filter_clear(self):
+        validate_search(self.record)
+
+    def test_rejects_stretched_input(self):
+        self.record["frames"][1]["search"][2] = 900
+        with self.assertRaises(InvalidMeasurement):
+            validate_search(self.record)
+
+    def test_rejects_clipped_toolbar(self):
+        self.record["frames"][2]["actions"][1][0] = 940
+        with self.assertRaises(InvalidMeasurement):
+            validate_search(self.record)
+
+    def test_rejects_wrong_filtered_process(self):
+        self.record["search_filter"]["identities"] = ["process:124:400"]
+        with self.assertRaises(InvalidMeasurement):
+            validate_search(self.record)
+
+    def test_rejects_clear_without_restored_rows(self):
+        self.record["search_clear_rows"] = 1
+        with self.assertRaises(InvalidMeasurement):
+            validate_search(self.record)
+
 
 
 if __name__ == "__main__":

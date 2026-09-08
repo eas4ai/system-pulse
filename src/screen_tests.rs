@@ -918,3 +918,21 @@ fn process_table_fills_resized_windows_and_keeps_columns_aligned(cx: &mut TestAp
     assert!(name_widths[2] > name_widths[1]);
     assert_eq!(name_widths[0], name_widths[4]);
 }
+
+#[gpui_kit::test]
+fn process_search_stays_compact_when_the_window_grows(cx: &mut TestAppContext) {
+    use gpui_kit::{px, size};
+    let (view, cx) = populated(cx);
+    command(
+        &view,
+        crate::workspace::Command::Screen(Screen::Processes),
+        cx,
+    );
+    for width in [1280., 1800., 2560., 960., 1280.] {
+        cx.simulate_resize(size(px(width), px(640.)));
+        draw(cx);
+        let search = cx.debug_bounds("process-search").unwrap();
+        assert_eq!(search.size.width, px(280.), "search width at {width}");
+        assert!(search.left() >= px(0.) && search.right() <= px(width));
+    }
+}

@@ -1,6 +1,7 @@
 # Process table improvements
 
-- [ ] In progress: inspect existing table, controls and verification; implement and verify responsive width and compact search.
+- [x] Complete: implement and verify responsive table width (PROC-001).
+- [ ] In progress: implement and verify compact search (PROC-002).
 - [ ] Pending: implement and verify platform column visibility.
 - [ ] Pending: record authentication design, implement and verify privileged actions.
 - [ ] Pending: run committed acceptance and review all five requirements.
@@ -34,3 +35,16 @@ The whole-repository quality delta exited 2 with broad existing/reference-symbol
 findings; it is not a passing quality claim. The post-commit test gate reported
 zero uncommitted changed symbols. Application and native checks provide the
 behavioral verification above.
+
+PROC-001 now has passing committed Cairn evidence at `20260908T223936355Z`.
+The Mac was unlocked and the access escalation was answered. The developer
+requested a 24-hour caffeinate session; PID 10516 has verified 86400-second
+system/display sleep-prevention assertions and is left running as requested.
+
+## PROC-002 work in progress
+
+A rendered regression reproduced the stretched input at 1039 pixels before the
+fix. The search wrapper now has a fixed 280-pixel width. All 128 application
+tests and ten receipt-validation tests pass. Linux native resize, compact
+search, PID filtering and clear observations pass in development replay.
+Committed cross-platform evidence is pending.

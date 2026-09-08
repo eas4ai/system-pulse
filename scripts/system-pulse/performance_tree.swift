@@ -76,6 +76,27 @@ if mode == "close" {
   event.post(tap: .cghidEventTap)
   Thread.sleep(forTimeInterval: 0.1)
  }
+} else if mode == "search" {
+ guard args.count == 4, args[3].utf16.count <= 200 else { fail("Expected bounded search text") }
+ let matches = rows.filter { ($0["AXRole"] as? String) == "AXTextField" && ($0["AXTitle"] as? String) == "Search name, PID, or user…" }
+ guard matches.count == 1, let index = matches[0]["index"] as? Int,
+       AXUIElementSetAttributeValue(nodes[index], kAXFocusedAttribute as CFString, kCFBooleanTrue) == .success else { fail("Cannot focus process search") }
+ Thread.sleep(forTimeInterval: 0.1)
+ for (code, flags) in [(CGKeyCode(0), CGEventFlags.maskCommand), (CGKeyCode(51), CGEventFlags())] {
+  for down in [true, false] {
+   guard let event = CGEvent(keyboardEventSource: nil, virtualKey: code, keyDown: down) else { fail("Cannot create search key") }
+   event.flags = flags
+   event.postToPid(pid)
+  }
+ }
+ if !args[3].isEmpty {
+  let characters = Array(args[3].utf16)
+  for down in [true, false] {
+   guard let event = CGEvent(keyboardEventSource: nil, virtualKey: 0, keyDown: down) else { fail("Cannot create search text event") }
+   event.keyboardSetUnicodeString(stringLength: characters.count, unicodeString: characters)
+   event.postToPid(pid)
+  }
+ }
 } else if mode == "key" {
  guard args.count == 4, let code = ["left": CGKeyCode(123), "right": CGKeyCode(124)][args[3]] else { fail("Expected left or right") }
  for down in [true, false] {

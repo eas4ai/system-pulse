@@ -31,7 +31,12 @@ def geometry(tree):
              for column in range(8)]
     window = next(row["bounds"] for row in rows if row.get("AXRole") == "AXWindow")
     frame = {"window_width": window[2], "viewport": viewport,
-             "headings": headings, "cells": cells, "identity": identity}
+             "headings": headings, "cells": cells, "identity": identity,
+             "search": next(row["bounds"] for row in rows
+                            if row.get("AXRole") == "AXTextField"),
+             "actions": [next(row["bounds"] for row in rows
+                              if row.get("AXRole") == "AXButton" and row.get("AXTitle") == title)
+                         for title in ("End task…", "Force quit…")]}
     aligned(frame)
     return frame
 
@@ -95,6 +100,21 @@ def run(args):
                         time.sleep(0.1)
             require(result["frames"][1]["headings"][1][2] > result["frames"][0]["headings"][1][2],
                     "Name column did not grow")
+            tree("resize", 960, 640)
+            tree("search", str(process.pid))
+            def process_ids():
+                return [row["AXIdentifier"] for row in tree()["rows"]
+                        if re.fullmatch(r"process:\d+:\d+", row.get("AXIdentifier", ""))]
+            filtered = wait_for(lambda: ids if len(ids := process_ids()) == 1 else None,
+                                "PID-filtered process row")
+            require(filtered[0].split(":")[1] == str(process.pid), "PID search selected a different process")
+            save("search-filtered.json", tree())
+            result["search_filter"] = {"pid": process.pid, "identities": filtered}
+            tree("search", "")
+            cleared = wait_for(lambda: ids if len(ids := process_ids()) > 1 else None,
+                               "cleared process search")
+            save("search-cleared.json", tree())
+            result["search_clear_rows"] = len(cleared)
             tree("press-title", "Quit")
             process.wait(timeout=10)
             require(process.returncode == 0, "native Quit failed")
