@@ -12,3 +12,7 @@ On 2026-09-08 the developer agreed to finish the running comparison, stop furthe
 ## Realized by
 
 (none yet: recorded, not built)
+
+## Realized by
+
+- 7263b6d495579314f178267d1a56f75e905e751c Suspend Mac optimization with the CPU targets unmet

@@ -5,7 +5,7 @@ Status: Linux and Mac preservation passed; final CPU comparison completed below 
 - [x] Complete: remove intermediate diagnostic JSON allocation and verify payload, failure handling and native publication timing.
 - [x] Complete: run complete Linux acceptance and retain the committed-source receipt.
 - [x] Complete: record the completed Mac comparison, committed gate results and the developer’s decision to stop optimization.
-- [ ] In progress: record the authorized transition to process-table work.
+- [x] Complete: record the authorized transition to process-table work.
 
 Two complete Linux acceptance runs failed at device-label lookup in
 `tabbed_replay.py:101`, with accepted-frame ages 2.290 and 2.003 seconds.

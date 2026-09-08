@@ -31,6 +31,7 @@ Read [glossary](glossary.md), the relevant domain below, and [the agreed real-co
 | Docking and accessibility | WV, existing contract | Preserved framework behavior; [approved workspace spec](../superpowers/specs/2026-09-04-workspace-visibility-design.md), [verified source record](../../docs/native-fixture-acceptance.md). |
 | [Native monitoring overhead](performance.md) | PERF | Current Mac release CPU reduction and accuracy-preservation contract. |
 | [Application completion](application.md) | APP | Process controls, complete customization, named presets, appearance, first-launch layout and Linux packaging from the original product scope. |
+| [Process table improvements](process-table.md) | PROC | Current responsive table, platform columns and authenticated process-control work. |
 | Other framework examples, shell, website and reference projects | Outside this work | Workspace membership is defined in [Cargo.toml](../../Cargo.toml:3); this adoption does not redefine those products. |
 
 READ/VIEW/STATE sections record the original fixture baseline; their behavior is not proposed as the target. The glossary and this overview describe the verified live implementation, with final commitment review passed. The developer confirmed LIVE-001 through LIVE-013 on 2026-09-04. The [roadmap](roadmap.md) names the active commitment; historical fixture-specific observations are not promoted into the target contract.
