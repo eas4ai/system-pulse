@@ -1,0 +1,82 @@
+{
+  "status": "RUNS_COMPLETE",
+  "source_commit": "cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
+  "wake": {
+    "pid": 9464,
+    "command": [
+      "/usr/bin/caffeinate",
+      "-d",
+      "-i",
+      "-u",
+      "-t",
+      "3600"
+    ],
+    "started_unix_ns": 1788903162331228000
+  },
+  "steps": [
+    {
+      "name": "native-preservation",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/source-cf534f1fc322fe8693987cc7bf81ecec7fea35a2/scripts/system-pulse/performance_preserve.py",
+        "--reference",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-baseline",
+        "--candidate",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
+        "--commit",
+        "cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
+        "--tree",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/harness-ready-20260908T001321Z/performance-tree",
+        "--output",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/preserve-direct-json-20260908T213000Z"
+      ],
+      "started_unix_ns": 1788903492981625000,
+      "exit_code": 0,
+      "finished_unix_ns": 1788903519124098000
+    },
+    {
+      "name": "paired-cpu",
+      "command": [
+        "python3",
+        "-B",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/source-cf534f1fc322fe8693987cc7bf81ecec7fea35a2/scripts/system-pulse/performance_macos.py",
+        "--reference",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-baseline",
+        "--reference-commit",
+        "af243cf2dba5eb6c4cb19397c522c38eda640f45",
+        "--candidate",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
+        "--candidate-commit",
+        "cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
+        "--ax",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/harness-ready-20260908T001321Z/performance-ax",
+        "--output",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/paired-direct-json-20260908T213000Z"
+      ],
+      "started_unix_ns": 1788903519125383000,
+      "exit_code": 0,
+      "finished_unix_ns": 1788904667997461000
+    }
+  ],
+  "coordinator_sha256": "65cdff21226a1748578575293f6981c3c555ddfcee4d8aa1618b63fdc5f0c351",
+  "smoke_was_present": true,
+  "smoke_windows_before": 1,
+  "comparison": {
+    "summary": {
+      "reference_percent": 12.780056520069236,
+      "candidate_percent": 10.006380155854336,
+      "ratio": 0.7829683804716168,
+      "passed": false
+    },
+    "tray": {
+      "reference_percent": 11.080722787504818,
+      "candidate_percent": 7.317911994977812,
+      "ratio": 0.6604182899720096,
+      "passed": false
+    }
+  },
+  "restored_smoke_pid": 9969,
+  "owned_wake_released": true,
+  "finished_unix_ns": 1788904671240386000
+}

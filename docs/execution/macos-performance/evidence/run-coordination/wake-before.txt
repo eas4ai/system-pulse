@@ -1,0 +1,29 @@
+2026-09-08 17:38:12 -0400 
+Assertion status system-wide:
+   BackgroundTask                 0
+   ApplePushServiceTask           0
+   UserIsActive                   1
+   PreventUserIdleDisplaySleep    1
+   SoftwareUpdateTask             0
+   PreventSystemSleep             0
+   ExternalMedia                  0
+   PreventUserIdleSystemSleep     1
+   NetworkClientActive            0
+Listed by owning process:
+   pid 345(powerd): [0x00007e0e00018ad7] 00:11:38 PreventUserIdleSystemSleep named: "Powerd - Prevent sleep while display is on"  
+   pid 405(WindowServer): [0x00007e0e00098ad6] 00:07:57 UserIsActive named: "com.apple.iohideventsystem.queue.tickle serviceID:100000aae service:AppleMultitouchDevice product:Apple Internal Keyboard / Trackpad eventType:11"  
+	Timeout will fire in 123 secs Action=TimeoutActionRelease
+   pid 9464(caffeinate): [0x00007f7e00018afc] 00:05:30 PreventUserIdleSystemSleep named: "caffeinate command-line tool"  
+	Details: caffeinate asserting for 3600 secs
+	Localized=THE CAFFEINATE TOOL IS PREVENTING SLEEP.
+	Timeout will fire in 3270 secs Action=TimeoutActionRelease
+   pid 9464(caffeinate): [0x00007f7e00058afd] 00:05:30 PreventUserIdleDisplaySleep named: "caffeinate command-line tool"  
+	Details: caffeinate asserting for 3600 secs
+	Localized=THE CAFFEINATE TOOL IS PREVENTING SLEEP.
+	Timeout will fire in 3270 secs Action=TimeoutActionRelease
+   pid 9464(caffeinate): [0x00007f7e00098afe] 00:05:30 UserIsActive named: "caffeinate command-line tool"  
+	Details: caffeinate asserting for 3600 secs
+	Localized=THE CAFFEINATE TOOL IS PREVENTING SLEEP.
+	Timeout will fire in 3270 secs Action=TimeoutActionRelease
+Kernel Assertions: 0x100=MAGICWAKE
+   id=558  level=255 0x100=MAGICWAKE creat= description=en0 owner=IOSkywalkNetworkBSDClient

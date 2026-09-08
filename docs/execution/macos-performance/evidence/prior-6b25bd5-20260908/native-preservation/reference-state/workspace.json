@@ -750,86 +750,6 @@
         }
       }
     },
-    "network:mac:a2:33:38:db:1b:6a:name:awdl0": {
-      "visible": false,
-      "collapsed": false,
-      "expanded_size": {
-        "width": 580.0,
-        "height": 300.0
-      },
-      "sensors": {
-        "network:mac:a2:33:38:db:1b:6a:name:awdl0/connections": {
-          "visible": true,
-          "collapsed": false,
-          "order": 4,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx": {
-          "visible": true,
-          "collapsed": false,
-          "order": 0,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx-total": {
-          "visible": true,
-          "collapsed": false,
-          "order": 1,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx": {
-          "visible": true,
-          "collapsed": false,
-          "order": 2,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx-total": {
-          "visible": true,
-          "collapsed": false,
-          "order": 3,
-          "meter": "number"
-        }
-      }
-    },
-    "network:mac:a2:33:38:db:1b:6a:name:llw0": {
-      "visible": false,
-      "collapsed": false,
-      "expanded_size": {
-        "width": 580.0,
-        "height": 300.0
-      },
-      "sensors": {
-        "network:mac:a2:33:38:db:1b:6a:name:llw0/connections": {
-          "visible": true,
-          "collapsed": false,
-          "order": 4,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:llw0/rx": {
-          "visible": true,
-          "collapsed": false,
-          "order": 0,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:llw0/rx-total": {
-          "visible": true,
-          "collapsed": false,
-          "order": 1,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:llw0/tx": {
-          "visible": true,
-          "collapsed": false,
-          "order": 2,
-          "meter": "number"
-        },
-        "network:mac:a2:33:38:db:1b:6a:name:llw0/tx-total": {
-          "visible": true,
-          "collapsed": false,
-          "order": 3,
-          "meter": "number"
-        }
-      }
-    },
     "network:mac:c2:04:8c:3c:b9:1b:name:en0": {
       "visible": false,
       "collapsed": false,
@@ -863,6 +783,86 @@
           "meter": "number"
         },
         "network:mac:c2:04:8c:3c:b9:1b:name:en0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:c2:b4:29:e0:eb:47:name:awdl0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:c2:b4:29:e0:eb:47:name:awdl0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:awdl0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:awdl0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:awdl0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:awdl0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:c2:b4:29:e0:eb:47:name:llw0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:c2:b4:29:e0:eb:47:name:llw0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:llw0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:llw0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:llw0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:c2:b4:29:e0:eb:47:name:llw0/tx-total": {
           "visible": true,
           "collapsed": false,
           "order": 3,
@@ -2217,80 +2217,6 @@
         }
       ]
     },
-    "network:mac:a2:33:38:db:1b:6a:name:awdl0": {
-      "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0",
-      "title": "awdl0",
-      "summary": "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx",
-      "sensors": [
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx",
-          "title": "rx",
-          "quantity": "rate",
-          "unit": "BytesPerSecond"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx-total",
-          "title": "rx-total",
-          "quantity": "counter",
-          "unit": "Bytes"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx",
-          "title": "tx",
-          "quantity": "rate",
-          "unit": "BytesPerSecond"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx-total",
-          "title": "tx-total",
-          "quantity": "counter",
-          "unit": "Bytes"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/connections",
-          "title": "Established TCP connections",
-          "quantity": "counter",
-          "unit": "Count"
-        }
-      ]
-    },
-    "network:mac:a2:33:38:db:1b:6a:name:llw0": {
-      "id": "network:mac:a2:33:38:db:1b:6a:name:llw0",
-      "title": "llw0",
-      "summary": "network:mac:a2:33:38:db:1b:6a:name:llw0/rx",
-      "sensors": [
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/rx",
-          "title": "rx",
-          "quantity": "rate",
-          "unit": "BytesPerSecond"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/rx-total",
-          "title": "rx-total",
-          "quantity": "counter",
-          "unit": "Bytes"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/tx",
-          "title": "tx",
-          "quantity": "rate",
-          "unit": "BytesPerSecond"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/tx-total",
-          "title": "tx-total",
-          "quantity": "counter",
-          "unit": "Bytes"
-        },
-        {
-          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/connections",
-          "title": "Established TCP connections",
-          "quantity": "counter",
-          "unit": "Count"
-        }
-      ]
-    },
     "network:mac:c2:04:8c:3c:b9:1b:name:en0": {
       "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0",
       "title": "en0",
@@ -2322,6 +2248,80 @@
         },
         {
           "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:c2:b4:29:e0:eb:47:name:awdl0": {
+      "id": "network:mac:c2:b4:29:e0:eb:47:name:awdl0",
+      "title": "awdl0",
+      "summary": "network:mac:c2:b4:29:e0:eb:47:name:awdl0/rx",
+      "sensors": [
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:awdl0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:awdl0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:awdl0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:awdl0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:awdl0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:c2:b4:29:e0:eb:47:name:llw0": {
+      "id": "network:mac:c2:b4:29:e0:eb:47:name:llw0",
+      "title": "llw0",
+      "summary": "network:mac:c2:b4:29:e0:eb:47:name:llw0/rx",
+      "sensors": [
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:llw0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:llw0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:llw0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:llw0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:c2:b4:29:e0:eb:47:name:llw0/connections",
           "title": "Established TCP connections",
           "quantity": "counter",
           "unit": "Count"

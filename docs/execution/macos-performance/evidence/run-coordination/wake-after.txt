@@ -1,0 +1,21 @@
+2026-09-08 17:57:51 -0400 
+Assertion status system-wide:
+   BackgroundTask                 0
+   ApplePushServiceTask           0
+   UserIsActive                   1
+   PreventUserIdleDisplaySleep    0
+   SoftwareUpdateTask             0
+   PreventSystemSleep             0
+   ExternalMedia                  0
+   InternalPreventDisplaySleep    1
+   PreventUserIdleSystemSleep     1
+   NetworkClientActive            0
+Listed by owning process:
+   pid 6936(Claude): [0x0000855900018b5e] 00:00:10 NoIdleSleepAssertion named: "Electron"  
+   pid 345(powerd): [0x00007e0e00018ad7] 00:31:17 PreventUserIdleSystemSleep named: "Powerd - Prevent sleep while display is on"  
+   pid 345(powerd): [0x00008560001083ba] 00:00:00 InternalPreventDisplaySleep named: "com.apple.powermanagement.delayDisplayOff"  
+	Timeout will fire in 300 secs Action=TimeoutActionTurnOff
+   pid 405(WindowServer): [0x00007e0e00098ad6] 00:01:36 UserIsActive named: "com.apple.iohideventsystem.queue.tickle.nxevent service:IOHIDSystem pid:9943 process:performance-ax"  
+	Timeout will fire in 504 secs Action=TimeoutActionRelease
+Kernel Assertions: 0x100=MAGICWAKE
+   id=558  level=255 0x100=MAGICWAKE creat= description=en0 owner=IOSkywalkNetworkBSDClient

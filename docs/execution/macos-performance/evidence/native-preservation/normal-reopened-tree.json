@@ -1,5 +1,5 @@
 {
-  "pid": 9533,
+  "pid": 9554,
   "rows": [
     {
       "actions": [
@@ -205,7 +205,7 @@
       "AXIdentifier": "summary-level:CPU",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 14.0%",
+      "AXTitle": "Level: 3.1%",
       "depth": 4,
       "index": 15
     },
@@ -238,7 +238,7 @@
       "AXIdentifier": "summary-level:GPU",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 32.2%",
+      "AXTitle": "Level: 0.7%",
       "depth": 4,
       "index": 18
     },
@@ -249,8 +249,8 @@
       "AXIdentifier": "summary-cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "14.0 %",
-      "AXValue": "14.0 %",
+      "AXTitle": "3.1 %",
+      "AXValue": "3.1 %",
       "depth": 4,
       "index": 19
     },
@@ -261,7 +261,7 @@
       "AXIdentifier": "history:cpu:host/usage",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. Overall utilization: 14.0 %. Scale: 0.0\u2013100.0 %. 11.9 s history. ",
+      "AXTitle": "History chart. Overall utilization: 3.1 %. Scale: 0.0\u2013100.0 %. 4.9 s history. ",
       "depth": 4,
       "index": 20
     },
@@ -272,8 +272,8 @@
       "AXIdentifier": "summary-process-total",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "706 total",
-      "AXValue": "706 total",
+      "AXTitle": "707 total",
+      "AXValue": "707 total",
       "depth": 4,
       "index": 21
     },
@@ -281,11 +281,11 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "summary-process:9519:1788903492:pid",
+      "AXIdentifier": "summary-process:9554:1788903513:pid",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "9519",
-      "AXValue": "9519",
+      "AXTitle": "9554",
+      "AXValue": "9554",
       "depth": 4,
       "index": 22
     },
@@ -293,11 +293,11 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "summary-process:9519:1788903492:name",
+      "AXIdentifier": "summary-process:9554:1788903513:name",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Python",
-      "AXValue": "Python",
+      "AXTitle": "system-pulse-cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
+      "AXValue": "system-pulse-cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
       "depth": 4,
       "index": 23
     },
@@ -305,157 +305,13 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "summary-process:9519:1788903492:cpu",
+      "AXIdentifier": "summary-process:9554:1788903513:cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "18.7 %",
-      "AXValue": "18.7 %",
+      "AXTitle": "7.0 %",
+      "AXValue": "7.0 %",
       "depth": 4,
       "index": 24
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9533:1788903499:pid",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "9533",
-      "AXValue": "9533",
-      "depth": 4,
-      "index": 25
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9533:1788903499:name",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "system-pulse-cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
-      "AXValue": "system-pulse-cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
-      "depth": 4,
-      "index": 26
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9533:1788903499:cpu",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "15.8 %",
-      "AXValue": "15.8 %",
-      "depth": 4,
-      "index": 27
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:631:1788870565:pid",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "631",
-      "AXValue": "631",
-      "depth": 4,
-      "index": 28
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:631:1788870565:name",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "WindowManager",
-      "AXValue": "WindowManager",
-      "depth": 4,
-      "index": 29
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:631:1788870565:cpu",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "2.1 %",
-      "AXValue": "2.1 %",
-      "depth": 4,
-      "index": 30
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9473:1788903285:pid",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "9473",
-      "AXValue": "9473",
-      "depth": 4,
-      "index": 31
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9473:1788903285:name",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "mdworker_shared",
-      "AXValue": "mdworker_shared",
-      "depth": 4,
-      "index": 32
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9473:1788903285:cpu",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "1.2 %",
-      "AXValue": "1.2 %",
-      "depth": 4,
-      "index": 33
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9538:1788903505:pid",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "9538",
-      "AXValue": "9538",
-      "depth": 4,
-      "index": 34
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9538:1788903505:name",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "ThemeWidgetControlViewService",
-      "AXValue": "ThemeWidgetControlViewService",
-      "depth": 4,
-      "index": 35
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "summary-process:9538:1788903505:cpu",
-      "AXRole": "AXStaticText",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "1.1 %",
-      "AXValue": "1.1 %",
-      "depth": 4,
-      "index": 36
     },
     {
       "actions": [],
@@ -467,7 +323,7 @@
       "AXTitle": "8624",
       "AXValue": "8624",
       "depth": 4,
-      "index": 37
+      "index": 25
     },
     {
       "actions": [],
@@ -479,7 +335,7 @@
       "AXTitle": "com.apple.Virtualization.VirtualMachine",
       "AXValue": "com.apple.Virtualization.VirtualMachine",
       "depth": 4,
-      "index": 38
+      "index": 26
     },
     {
       "actions": [],
@@ -488,46 +344,46 @@
       "AXIdentifier": "summary-process:8624:1788899432:cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.8 %",
-      "AXValue": "0.8 %",
+      "AXTitle": "1.1 %",
+      "AXValue": "1.1 %",
       "depth": 4,
-      "index": 39
+      "index": 27
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "summary-process:612:1788870564:pid",
+      "AXIdentifier": "summary-process:408:1788870555:pid",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "612",
-      "AXValue": "612",
+      "AXTitle": "408",
+      "AXValue": "408",
       "depth": 4,
-      "index": 40
+      "index": 28
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "summary-process:612:1788870564:name",
+      "AXIdentifier": "summary-process:408:1788870555:name",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "cfprefsd",
-      "AXValue": "cfprefsd",
+      "AXTitle": "loginwindow",
+      "AXValue": "loginwindow",
       "depth": 4,
-      "index": 41
+      "index": 29
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "summary-process:612:1788870564:cpu",
+      "AXIdentifier": "summary-process:408:1788870555:cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.6 %",
-      "AXValue": "0.6 %",
+      "AXTitle": "0.9 %",
+      "AXValue": "0.9 %",
       "depth": 4,
-      "index": 42
+      "index": 30
     },
     {
       "actions": [],
@@ -539,7 +395,7 @@
       "AXTitle": "1038",
       "AXValue": "1038",
       "depth": 4,
-      "index": 43
+      "index": 31
     },
     {
       "actions": [],
@@ -551,7 +407,7 @@
       "AXTitle": "mongod",
       "AXValue": "mongod",
       "depth": 4,
-      "index": 44
+      "index": 32
     },
     {
       "actions": [],
@@ -560,8 +416,152 @@
       "AXIdentifier": "summary-process:1038:1788870585:cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.4 %",
-      "AXValue": "0.4 %",
+      "AXTitle": "0.6 %",
+      "AXValue": "0.6 %",
+      "depth": 4,
+      "index": 33
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:667:1788870566:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "667",
+      "AXValue": "667",
+      "depth": 4,
+      "index": 34
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:667:1788870566:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "ControlCenter",
+      "AXValue": "ControlCenter",
+      "depth": 4,
+      "index": 35
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:667:1788870566:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.3 %",
+      "AXValue": "0.3 %",
+      "depth": 4,
+      "index": 36
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:654:1788870565:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "654",
+      "AXValue": "654",
+      "depth": 4,
+      "index": 37
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:654:1788870565:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Google Chrome",
+      "AXValue": "Google Chrome",
+      "depth": 4,
+      "index": 38
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:654:1788870565:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.2 %",
+      "AXValue": "0.2 %",
+      "depth": 4,
+      "index": 39
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:769:1788870568:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "769",
+      "AXValue": "769",
+      "depth": 4,
+      "index": 40
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:769:1788870568:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Google Chrome Helper (Renderer)",
+      "AXValue": "Google Chrome Helper (Renderer)",
+      "depth": 4,
+      "index": 41
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:769:1788870568:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.2 %",
+      "AXValue": "0.2 %",
+      "depth": 4,
+      "index": 42
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:6936:1788896631:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "6936",
+      "AXValue": "6936",
+      "depth": 4,
+      "index": 43
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:6936:1788896631:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Claude",
+      "AXValue": "Claude",
+      "depth": 4,
+      "index": 44
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:6936:1788896631:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.2 %",
+      "AXValue": "0.2 %",
       "depth": 4,
       "index": 45
     },
@@ -572,8 +572,8 @@
       "AXIdentifier": "summary-memory",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "11.4 / 16.0 GiB",
-      "AXValue": "11.4 / 16.0 GiB",
+      "AXTitle": "11.3 / 16.0 GiB",
+      "AXValue": "11.3 / 16.0 GiB",
       "depth": 4,
       "index": 46
     },
@@ -584,7 +584,7 @@
       "AXIdentifier": "summary-memory-level",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 71.4%",
+      "AXTitle": "Level: 70.9%",
       "depth": 4,
       "index": 47
     },
@@ -595,7 +595,7 @@
       "AXIdentifier": "history:memory:host/used",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. RAM used: 11.4 / 16.0 GiB. Scale: 0.0\u201316.0 GiB. 12.1 s history. ",
+      "AXTitle": "History chart. RAM used: 11.3 / 16.0 GiB. Scale: 0.0\u201316.0 GiB. 5.0 s history. ",
       "depth": 4,
       "index": 48
     },
@@ -606,8 +606,8 @@
       "AXIdentifier": "summary-memory:available",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "4.6 GiB",
-      "AXValue": "4.6 GiB",
+      "AXTitle": "4.7 GiB",
+      "AXValue": "4.7 GiB",
       "depth": 4,
       "index": 49
     },
@@ -642,7 +642,7 @@
       "AXIdentifier": "summary-history:disks",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. read: 165.1 KiB/s; write: 7.2 MiB/s. Scale: 0.0\u20137.2 MiB/s. 12.0 s history. ",
+      "AXTitle": "History chart. read: 4.0 KiB/s; write: 4.0 KiB/s. Scale: 0.0\u2013759.0 KiB/s. 5.0 s history. ",
       "depth": 4,
       "index": 52
     },
@@ -653,8 +653,8 @@
       "AXIdentifier": "summary-rate:volume:source:Macintosh HD://read",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "read \u00b7 165.1 KiB/s",
-      "AXValue": "read \u00b7 165.1 KiB/s",
+      "AXTitle": "read \u00b7 4.0 KiB/s",
+      "AXValue": "read \u00b7 4.0 KiB/s",
       "depth": 4,
       "index": 53
     },
@@ -665,8 +665,8 @@
       "AXIdentifier": "summary-rate:volume:source:Macintosh HD://write",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "write \u00b7 7.2 MiB/s",
-      "AXValue": "write \u00b7 7.2 MiB/s",
+      "AXTitle": "write \u00b7 4.0 KiB/s",
+      "AXValue": "write \u00b7 4.0 KiB/s",
       "depth": 4,
       "index": 54
     },
@@ -689,7 +689,7 @@
       "AXIdentifier": "summary-history:network",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. rx: 0.0 B/s; tx: 0.0 B/s. Scale: 0.0\u20131.0 B/s. 11.9 s history. ",
+      "AXTitle": "History chart. rx: 0.0 B/s; tx: 0.0 B/s. Scale: 0.0\u20131.0 B/s. 4.9 s history. ",
       "depth": 4,
       "index": 56
     },
@@ -724,8 +724,8 @@
       "AXIdentifier": "summary-value:energy",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.4 W",
-      "AXValue": "0.4 W",
+      "AXTitle": "0.0 W",
+      "AXValue": "0.0 W",
       "depth": 4,
       "index": 59
     },
@@ -736,7 +736,7 @@
       "AXIdentifier": "summary-history:energy",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. GPU power: 0.4 W. Scale: 0.0\u20130.4 W. 12.0 s history. ",
+      "AXTitle": "History chart. GPU power: 0.0 W. Scale: 0.0\u20130.4 W. 5.0 s history. ",
       "depth": 4,
       "index": 60
     },
@@ -747,8 +747,8 @@
       "AXIdentifier": "summary-value:gpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "32.2 %",
-      "AXValue": "32.2 %",
+      "AXTitle": "0.7 %",
+      "AXValue": "0.7 %",
       "depth": 4,
       "index": 61
     },
@@ -759,7 +759,7 @@
       "AXIdentifier": "summary-history:gpu",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. GPU activity: 32.2 %. Scale: 0.0\u2013100.0 %. 12.0 s history. ",
+      "AXTitle": "History chart. GPU activity: 0.7 %. Scale: 0.0\u2013100.0 %. 5.0 s history. ",
       "depth": 4,
       "index": 62
     },
@@ -782,7 +782,7 @@
       "AXIdentifier": "summary-history:thermals",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. PMU tcal: 51.9 \u00b0C. Scale: 49.3\u201354.4 \u00b0C. 12.1 s history. ",
+      "AXTitle": "History chart. PMU tcal: 51.9 \u00b0C. Scale: 49.3\u201354.4 \u00b0C. 5.1 s history. ",
       "depth": 4,
       "index": 64
     },
@@ -793,7 +793,7 @@
       "AXIdentifier": "",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Live system data \u00b7 706 readable processes \u00b7 1 s update",
+      "AXTitle": "Live system data \u00b7 707 readable processes \u00b7 1 s update",
       "depth": 2,
       "index": 65
     },
@@ -888,7 +888,7 @@
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 14.0%",
+      "AXHelp": "System Pulse \u00b7 CPU 3.1%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",

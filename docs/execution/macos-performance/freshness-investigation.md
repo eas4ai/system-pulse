@@ -1,10 +1,10 @@
 # Linux diagnostic freshness investigation
 
-Status: Linux verification passed; fresh Mac comparison pending.
+Status: Linux and Mac preservation passed; final CPU comparison completed below target.
 
 - [x] Complete: remove intermediate diagnostic JSON allocation and verify payload, failure handling and native publication timing.
 - [x] Complete: run complete Linux acceptance and retain the committed-source receipt.
-- [ ] In progress: complete Mac performance and preservation evidence, then review the commitment.
+- [ ] In progress: record the completed Mac comparison, committed gate results and the developer’s decision to stop optimization.
 
 Two complete Linux acceptance runs failed at device-label lookup in
 `tabbed_replay.py:101`, with accepted-frame ages 2.290 and 2.003 seconds.
@@ -114,3 +114,22 @@ Neither establishes a clean static gate for this change. Actual Rust,
 Python, host and native checks above passed. Full reports are retained
 in the external `direct-json-final-review/` directory. This interim review
 does not substitute for the final commitment review after all PERF gates pass.
+
+## Final native comparison
+
+The fresh `cf534f1fc322fe8693987cc7bf81ecec7fea35a2` candidate passed native
+Mac preservation, including the ordinary UI without diagnostics. All twelve
+paired CPU observations completed. Aggregate Summary CPU fell from 12.7801%
+to 10.0064% of one CPU (21.7% reduction). Tray-only CPU fell from 11.0807%
+to 7.3179% (34.0% reduction). Neither meets the unchanged 50% target.
+
+The full current receipts are in [evidence](evidence/measurements.json).
+The previous complete set remains in `evidence/prior-6b25bd5-20260908/`.
+Raw run logs are retained in the external `paired-direct-json-20260908T213000Z/`
+and `preserve-direct-json-20260908T213000Z/` artifact directories.
+The coordinator restored the developer's original app and recorded successful
+release of the owned wake assertions.
+
+The developer agreed on 2026-09-08 to finish this running comparison and
+stop further optimization, then move to the requested process-table work.
+This is a stop decision, not a passing performance commitment or a lowered target.

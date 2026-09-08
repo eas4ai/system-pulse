@@ -1,13 +1,13 @@
 {
   "status": "PASS",
-  "source_commit": "cf534f1fc322fe8693987cc7bf81ecec7fea35a2",
-  "binary_sha256": "c20f6dd276aa7a519098191416beceb86d2651257101c50e35bc546d8b6c50d0",
+  "source_commit": "6b25bd585e0a119c7f740d6a14c4a9feca9278b1",
+  "binary_sha256": "b121b338adf6e9477b2035644af6119de3f38080a09dcabf1cf00599ba3c4bcf",
   "reference_sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
   "preservation_harness_sha256": {
-    "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
+    "performance_preserve.py": "638e0bd56b11fc8cd309855dba540abfaefdaf4e746f66284e18749a1b8c73de",
     "performance_tree.swift": "753a490dae765f9b8663332b4d050ed83545c837df3799fce9cb22004a2c766e"
   },
-  "pid": 9533,
+  "pid": 4941,
   "initial_history_seconds": 4.9,
   "monitors_count": 28,
   "sensors_count": 198,
@@ -16,51 +16,51 @@
       "id": "volume:source:Macintosh HD:/",
       "reading": {
         "sensor_id": "volume:source:Macintosh HD://capacity",
-        "value": 366703292416.0,
+        "value": 363995795456.0,
         "total": 494384795648.0,
         "availability": "Available",
         "reason": null,
         "observations": [
           {
             "source": "statvfs filesystem capacity",
-            "captured_ns": 5168360458,
-            "read_started_ns": 5168350125,
+            "captured_ns": 5157871292,
+            "read_started_ns": 5157866333,
             "integers": {
               "blocks": 120699413,
               "fragment_size": 4096,
-              "free_blocks": 31172242
+              "free_blocks": 31833252
             },
             "decimals": {}
           }
         ]
       },
       "independent_total": 494384795648,
-      "independent_used": 366707679232
+      "independent_used": 363999997952
     },
     {
       "id": "volume:source:Macintosh HD:/System/Volumes/Data",
       "reading": {
         "sensor_id": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
-        "value": 366703292416.0,
+        "value": 363995795456.0,
         "total": 494384795648.0,
         "availability": "Available",
         "reason": null,
         "observations": [
           {
             "source": "statvfs filesystem capacity",
-            "captured_ns": 5168376375,
-            "read_started_ns": 5168374833,
+            "captured_ns": 5157881042,
+            "read_started_ns": 5157878250,
             "integers": {
               "blocks": 120699413,
               "fragment_size": 4096,
-              "free_blocks": 31172242
+              "free_blocks": 31833252
             },
             "decimals": {}
           }
         ]
       },
       "independent_total": 494384795648,
-      "independent_used": 366707679232
+      "independent_used": 363999997952
     }
   ],
   "hidden_start_sequence": 8,
@@ -92,23 +92,5 @@
   },
   "reopened_history_seconds": 11.9,
   "quit_exit_code": 0,
-  "process_survived_quit": false,
-  "normal_ui": {
-    "status": "PASS",
-    "diagnostics_enabled": false,
-    "summary": {
-      "total": 705,
-      "visible": 8
-    },
-    "returned_summary": {
-      "total": 707,
-      "visible": 8
-    },
-    "reopened_summary": {
-      "total": 707,
-      "visible": 8
-    },
-    "process_rows": 22,
-    "quit_exit_code": 0
-  }
+  "process_survived_quit": false
 }

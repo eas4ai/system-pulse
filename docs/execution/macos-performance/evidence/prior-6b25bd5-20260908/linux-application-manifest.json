@@ -1,0 +1,175 @@
+{
+  "status": "PASS",
+  "source_commit": "6b25bd585e0a119c7f740d6a14c4a9feca9278b1",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/system-pulse/verify.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/preservation"
+      ],
+      "seconds": 337.234,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/preservation.log",
+      "sha256": "303662ea2000a72fde3d47acc241070b4be1b5fa5cf4e7cf6c235c29b71ffd83"
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.927,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/input-focus.log",
+      "sha256": "b9fc93ce7b3e40dd5a8bc5cba46a475f191cfcf2988681d24737369bbfdb784a",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/package",
+        "--cargo-about",
+        "cargo-about"
+      ],
+      "seconds": 22.834,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/package.log",
+      "sha256": "1257fc90f7b43e9e1cb1daa9071f61ccc6e6332c5f25d4b914a89bfa180c1898"
+    },
+    "application": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/application.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/harness/tabbed_replay.py",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/package/system-pulse-0.3.0-linux-x86_64-6b25bd585e0a/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/application"
+      ],
+      "seconds": 176.38,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/application.log",
+      "sha256": "38cafbfa96219061c0b08497268eb27a19d03f55a65601196ae7d8b4abaf5ec8"
+    },
+    "tray": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/tray.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/harness/tray_replay.py",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/package/system-pulse-0.3.0-linux-x86_64-6b25bd585e0a/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/tray"
+      ],
+      "seconds": 16.348,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/tray.log",
+      "sha256": "4ad0dba9d04fdc9403e644fb166e0d2bb6528d672668342b1e482475d6a016ae"
+    },
+    "installed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/installed.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/harness/package_smoke.py",
+        "--archive",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/package/system-pulse-0.3.0-linux-x86_64-6b25bd585e0a.tar.gz",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/installed"
+      ],
+      "seconds": 5.928,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/installed.log",
+      "sha256": "29e1064831b16e35a8801b3ce37240fead58b75a36215ffd9a037d6f9b3c34ed"
+    }
+  },
+  "archive": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/package/system-pulse-0.3.0-linux-x86_64-6b25bd585e0a.tar.gz",
+    "bytes": 25328742,
+    "sha256": "5e4f6ec453b8053a237e7420a93d6174a063b8ba465bc561bc4759605cdaa44a"
+  },
+  "binary_sha256": "a1ca528677427f7d6836dd165c39a8c3a00c9d9a9c3fc581cf906e3a6f95dd61",
+  "preservation_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/preservation/manifest.json",
+    "bytes": 30113,
+    "sha256": "26bf65c0c1979542bbfd792db8936d4243b9652a2bdb4606374ae82b8854d161"
+  },
+  "product": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/application/result.json",
+    "bytes": 56014,
+    "sha256": "13c2860b31f3a47aadc653843c899d0f8338f85e0854eb08521b4bd839e97a23"
+  },
+  "tray": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/tray/result.json",
+    "bytes": 834,
+    "sha256": "7363fc0951e9fcefa8f831ae5f7423d0cea43df348d50abe44b3a7fe282f07b2"
+  },
+  "installed": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-presentation-20260908T151500Z/installed/result.json",
+    "bytes": 828,
+    "sha256": "ae2cfed810b6748e5e511c8a7271b6d2cd9eb7a558fbe16b167a5a6a0129a8c7"
+  }
+}
