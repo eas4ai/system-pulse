@@ -11,4 +11,4 @@ The replacement Linux run passed device and process checks but an Xlib connectio
 
 ## Realized by
 
-(none yet: recorded, not built)
+- c7d46328aa6b2bf5b73b2742c0f484a75bf5a502 Preserve the private display across application recovery sessions
