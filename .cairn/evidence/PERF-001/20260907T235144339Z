@@ -1,0 +1,21 @@
+requirement: PERF-001
+requirement_digest: sha256:20c359258c88b666ef98099491a3283548f9c169810d0252d979df8ce67f2056
+sequence: 3
+history_digest: sha256:a0a8722483cc8a7cb1262cc2b22f8df2369c36ca2b0fa7cef49d485a81fdb7a2
+mechanism: macos-performance
+commit: 8f480a4f
+inputs_digest: sha256:30ef3c43b8510a0a747d87a0fc072caaafeb9e5842ec80c7bcaa5330588b5872
+mechanism_digest: sha256:0a3d14ef92c6937283ed76a22800dbe5eccdcd4036002ad62580194872fdb241
+inputs_detail: .cairn/evidence/PERF-001/20260907T235144200Z-1441206.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/performance_verify.py
+cwd: .
+exit: 2
+output_digest: sha256:35ecdbe5b0899a25b018d5376d7dabd8e20fffbd54a56a60b1035d8d110ad076
+output: .cairn/evidence/PERF-001/20260907T235144200Z-1441206.out
+stderr_output: .cairn/evidence/PERF-001/20260907T235144200Z-1441206.err
+stderr_digest: sha256:35ecdbe5b0899a25b018d5376d7dabd8e20fffbd54a56a60b1035d8d110ad076
+signal: none
+execution_error: null
+result: unverified
+source: none
+recorded: 2026-09-07T23:51:44.339Z

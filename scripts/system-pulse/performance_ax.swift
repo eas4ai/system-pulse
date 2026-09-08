@@ -6,6 +6,10 @@ func fail(_ message: String) -> Never {
     exit(1)
 }
 let args = CommandLine.arguments
+let session = CGSessionCopyCurrentDictionary() as? [String: Any] ?? [:]
+if session["CGSSessionScreenIsLocked"] as? Bool == true {
+    fail("The Mac session is locked; unlock it before native measurements")
+}
 guard args.count == 3, let pid = Int32(args[1]), pid > 0, AXIsProcessTrusted() else {
     fail("Expected owned PID, action and Accessibility permission")
 }
@@ -33,7 +37,9 @@ func walk(_ node: AXUIElement, _ depth: Int = 0) {
         for child in children(node, key) { walk(child, depth + 1) }
     }
 }
-walk(app)
+for key in ["AXWindows", "AXMenuBar", "AXExtrasMenuBar"] {
+    for node in children(app, key) { walk(node) }
+}
 func press(_ key: String, _ value: String) {
     let matches = nodes.filter { (attr($0, key) as? String) == value }
     guard matches.count == 1,
@@ -42,36 +48,52 @@ func press(_ key: String, _ value: String) {
     }
 }
 let windows = children(app, "AXWindows")
+func nativeBounds() -> [CGRect] {
+    let info = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements],
+                                        kCGNullWindowID) as? [[String: Any]] ?? []
+    return info.filter {
+        ($0[kCGWindowOwnerPID as String] as? Int32) == pid &&
+        ($0[kCGWindowLayer as String] as? Int) == 0
+    }.compactMap {
+        guard let bounds = $0[kCGWindowBounds as String] as? NSDictionary else { return nil }
+        return CGRect(dictionaryRepresentation: bounds)
+    }
+}
 switch args[2] {
 case "prepare":
-    guard windows.count == 1 else { fail("Expected one dashboard") }
-    var size = CGSize(width: 1280, height: 880)
-    guard let value = AXValueCreate(.cgSize, &size),
-          AXUIElementSetAttributeValue(windows[0], kAXSizeAttribute as CFString, value) == .success else {
-        fail("Could not set dashboard size")
-    }
-    press("AXIdentifier", "screen-tab:summary")
+    guard windows.count == 1, nativeBounds().count == 1 else { fail("Expected one dashboard") }
     AXUIElementSetAttributeValue(app, kAXFrontmostAttribute as CFString, kCFBooleanTrue)
+    press("AXIdentifier", "screen-tab:summary")
+    let bounds = nativeBounds()[0]
+    let start = CGPoint(x: bounds.maxX - 2, y: bounds.maxY - 2)
+    let end = CGPoint(x: bounds.minX + 1280 - 2, y: bounds.minY + 880 - 2)
+    // GPUI's accessibility root does not implement the native size setter.
+    // Resize the owned window through the same corner drag a person uses.
+    for (type, point) in [(CGEventType.mouseMoved, start), (.leftMouseDown, start),
+                          (.leftMouseDragged, end), (.leftMouseUp, end)] {
+        guard let event = CGEvent(mouseEventSource: nil, mouseType: type,
+                                  mouseCursorPosition: point, mouseButton: .left) else {
+            fail("Could not create native resize event")
+        }
+        event.post(tap: .cghidEventTap)
+        Thread.sleep(forTimeInterval: 0.1)
+    }
 case "close":
     guard windows.count == 1, let button = children(windows[0], "AXCloseButton").first,
           AXUIElementPerformAction(button, kAXPressAction as CFString) == .success else {
         fail("Could not close owned dashboard")
     }
-case "quit": press("AXTitle", "Quit")
+case "quit":
+    press("AXTitle", "Quit")
+    print("[]")
+    exit(0)
 case "snapshot": break
 default: fail("Unknown action")
 }
 var result: [[String: Any]] = []
-for window in windows {
-    guard let raw = attr(window, "AXSize"), CFGetTypeID(raw) == AXValueGetTypeID() else {
-        fail("Missing native window size")
-    }
-    var size = CGSize.zero
-    guard AXValueGetValue(unsafeBitCast(raw, to: AXValue.self), .cgSize, &size) else {
-        fail("Invalid native window size")
-    }
+for bounds in nativeBounds() {
     let summary = nodes.contains { (attr($0, "AXIdentifier") as? String) == "screen:summary" }
-    result.append(["width": size.width, "height": size.height, "screen": summary ? "Summary" : "Other"])
+    result.append(["width": bounds.width, "height": bounds.height, "screen": summary ? "Summary" : "Other"])
 }
 let data = try JSONSerialization.data(withJSONObject: result, options: [.sortedKeys])
 print(String(data: data, encoding: .utf8)!)

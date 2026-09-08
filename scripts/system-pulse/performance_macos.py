@@ -46,12 +46,15 @@ def digest(path):
 
 def census():
     monitors, conflicts = [], []
-    for line in command(["ps", "-axo", "pid=,comm="]).splitlines():
-        pid, name = line.strip().split(None, 1)
-        name = Path(name).name
+    for line in command(["ps", "-axo", "pid=,ppid=,comm="]).splitlines():
+        pid, parent, executable = line.strip().split(None, 2)
+        name = Path(executable).name
         if name.startswith("system-pulse"):
             monitors.append(int(pid))
-        if name in {"cargo", "rustc", "swiftc", "swift-frontend", "clang", "clang++",
+        # macOS keeps its own spindump service running under launchd even when
+        # no profiling session exists. A separately launched profiler conflicts.
+        system_spindump = parent == "1" and executable == "/usr/sbin/spindump"
+        if not system_spindump and name in {"cargo", "rustc", "swiftc", "swift-frontend", "clang", "clang++",
                     "sample", "spindump", "xctrace", "stress", "stress-ng", "yes",
                     "pulse-snapshot", "pulse-discovery-probe", "capacity-probe"}:
             conflicts.append({"pid": int(pid), "name": name})
@@ -91,17 +94,24 @@ def run(args):
                                     ctypes.c_void_p, ctypes.c_int]
     library.proc_pidpath.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32]
     receipt = {"version": 1, "host": host(), "binaries": {}, "runs": []}
+    receipt["measurement_harness_sha256"] = {
+        name: digest(Path(__file__).with_name(name))
+        for name in ("performance_macos.py", "performance_ax.swift")
+    }
     for label in ("reference", "candidate"):
         binary = getattr(args, label)
         receipt["binaries"][label] = {"commit": getattr(args, label + "_commit"),
                                        "sha256": digest(binary), "release_locked": True}
-    awake = subprocess.Popen(["caffeinate", "-i"])
+    awake = subprocess.Popen(["caffeinate", "-d", "-i"])
     try:
         for mode in ("summary", "tray"):
             for repetition in (1, 2, 3):
                 order = ("candidate", "reference") if repetition == 2 else ("reference", "candidate")
                 for label in order:
-                    if any(census()):
+                    preflight = census()
+                    if any(preflight):
+                        receipt["failed_preflight"] = {"monitor_pids": preflight[0],
+                                                       "conflicting_processes": preflight[1]}
                         raise RuntimeError("Another monitor, compiler or profiler is running")
                     binary = getattr(args, label).resolve()
                     name = f"{mode}-{repetition}-{label}"
@@ -172,6 +182,9 @@ def run(args):
         receipt["comparison"] = compare(receipt)
         write_receipt(receipt_path, receipt)
         print(json.dumps(receipt["comparison"], indent=2), flush=True)
+    except BaseException as error:
+        receipt["error"] = f"{type(error).__name__}: {error}"
+        raise
     finally:
         awake.terminate()
         awake.wait(timeout=5)

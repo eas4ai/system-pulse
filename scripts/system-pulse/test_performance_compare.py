@@ -1,7 +1,9 @@
 import copy
 import unittest
+from unittest.mock import patch
 
 from performance_compare import InvalidMeasurement, compare
+from performance_macos import census
 
 
 def receipt():
@@ -36,6 +38,15 @@ def receipt():
 
 
 class PerformanceComparisonTests(unittest.TestCase):
+    def test_census_distinguishes_system_service_from_launched_profiler(self):
+        with patch("performance_macos.command", return_value=
+                   "636 1 /usr/sbin/spindump\n700 20 /usr/sbin/spindump\n"
+                   "800 20 /tmp/system-pulse-candidate\n900 20 /usr/bin/rustc"):
+            monitors, conflicts = census()
+        self.assertEqual(monitors, [800])
+        self.assertEqual(conflicts, [{"pid": 700, "name": "spindump"},
+                                     {"pid": 900, "name": "rustc"}])
+
     def test_exact_half_passes_in_each_mode(self):
         result = compare(receipt())
         for mode in ("summary", "tray"):
@@ -79,6 +90,7 @@ class PerformanceComparisonTests(unittest.TestCase):
             "infinity": ("cpu_after_ns", float("inf")),
             "boolean counter": ("cpu_after_ns", True),
             "wrong interval": ("interval_seconds", 2),
+            "boolean interval": ("interval_seconds", True),
             "diagnostics": ("diagnostics_enabled", True),
             "exited": ("process_survived", False),
             "missing identity": ("process_start", ""),

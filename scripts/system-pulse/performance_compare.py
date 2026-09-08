@@ -20,7 +20,7 @@ def number(value, label):
 
 
 def compare(receipt):
-    require(receipt.get("version") == 1, "unsupported receipt version")
+    require(type(receipt.get("version")) is int and receipt["version"] == 1, "unsupported receipt version")
     host = receipt.get("host", {})
     require(host.get("logical_cpus") == 8, "wrong comparison hardware")
     require(host.get("chip") == "Apple M1 Pro", "wrong comparison chip")
@@ -52,7 +52,7 @@ def compare(receipt):
         require(run.get("host") == host, "comparison host or power source changed")
         require(run.get("binary_sha256_before") == binaries[label]["sha256"] ==
                 run.get("binary_sha256_after"), "binary identity mismatch")
-        require(run.get("interval_seconds") == 1, "wrong sampling interval")
+        require(number(run.get("interval_seconds"), "sampling interval") == 1, "wrong sampling interval")
         require(number(run.get("warmup_seconds"), "warmup") >= 30, "short warmup")
         require(run.get("diagnostics_enabled") is False, "diagnostic writer enabled")
         require(run.get("process_survived") is True, "process exited during observation")
