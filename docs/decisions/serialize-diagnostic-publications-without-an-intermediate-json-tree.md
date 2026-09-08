@@ -11,4 +11,6 @@ The retained Linux timing replay shows sequence 112 accepted before the stale re
 
 ## Realized by
 
+- 53b570cfc279d4df4fa030846bb5f6aadf242d2f Serialize diagnostic snapshots without an intermediate JSON tree
+
 (none yet: recorded, not built)
