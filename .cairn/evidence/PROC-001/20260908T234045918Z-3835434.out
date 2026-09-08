@@ -1,0 +1,164 @@
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.46s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse-0fe15bfc3846a438)
+
+running 129 tests
+test assets::tests::every_bundled_choice_has_font_bytes_and_license_notices ... ok
+test dashboard::tests::memory_composition_uses_disjoint_physical_bytes_and_rejects_incoherent_samples ... ok
+test diagnostics::tests::timing_history_is_fixed_capacity_and_accounts_for_latest_slot_overwrites ... ok
+test diagnostics::tests::trace_errors_are_bounded_utf8_and_explicit_about_truncation ... ok
+test diagnostics::tests::failed_temp_creation_and_revision_skip_do_not_invent_write_completion ... ok
+test diagnostics::tests::failed_diagnostic_write_is_reported ... ok
+test diagnostics::tests::sidecar_failure_never_replaces_the_primary_error_or_leaves_temporary_files ... ok
+test fixture::tests::readings_repeat_a_twelve_tick_cycle_with_monotonic_timestamps ... ok
+test diagnostics::tests::latest_writer_is_atomic_bounded_and_reports_failure ... ok
+test diagnostics::tests::traced_rename_failure_has_no_invented_completion_and_keeps_primary_error ... ok
+test fixture::tests::rediscovery_preserves_disconnected_devices_and_missing_sensor_choices ... ok
+test fixture::tests::fixtures_continue_through_gaps_and_keep_stable_identity ... ok
+test diagnostics::tests::direct_publication_preserves_decoded_snapshot_and_rendered_labels ... ok
+test diagnostics::tests::traced_publication_orders_worker_stages_and_identifies_the_replaced_inode ... ok
+test live::gpu_tests::gpu_cached_source_does_not_abort_fresh_fields_or_refresh_old_memory ... ok
+test live::gpu_tests::gpu_fresh_snapshot_survives_repeated_host_census_observation ... ok
+test live::gpu_tests::gpu_failed_cached_values_are_explicit_and_recover_independently ... ok
+test live::gpu_tests::gpu_memory_preserves_quantity_labels_and_capacity_compatibility ... ok
+test live::gpu_tests::gpu_same_name_devices_with_colliding_suffixes_have_distinct_labels ... ok
+test live::gpu_tests::gpu_unknown_or_zero_total_never_borrows_ram_or_process_capacity ... ok
+test live::observation_tests::process_columns_remain_compact_with_long_denied_reasons ... ok
+test live::observation_tests::process_permissions_are_distinct_from_zero_and_other_failures ... ok
+test live::observation_tests::stale_source_in_slow_snapshot_does_not_become_current_at_delivery ... ok
+test live::tests::census_failure_is_not_zero_and_readable_rows_are_separate ... ok
+test live::tests::failed_and_delayed_values_keep_status_and_reason ... ok
+test live::tests::selection_survives_reordering_but_not_exit_or_pid_reuse ... ok
+test live::tests::restored_absent_metadata_and_discovery_preserve_user_choices ... ok
+test live::gpu_tests::gpu_mixed_vendor_choices_and_metadata_survive_restore_absence_and_reorder ... ok
+test meters::absent_summary_tests::absent_summary_keeps_units_after_eviction_and_saved_metadata_restore ... ok
+test meters::tests::compact_status_does_not_turn_unavailable_into_zero ... ok
+test layout::first_launch_tests::first_snapshot_arranges_primary_monitors_and_keeps_saved_appearance ... ok
+test layout::tests::developer_includes_live_network_identities_in_visible_dock_regions ... ok
+test layout::tests::builtins_resolve_independent_valid_dock_panels_and_protect_hidden_devices ... ok
+test meters::accessibility_tests::metric_labels_supply_platform_text_value_and_stable_author_identity ... ok
+test diagnostics::tests::repeated_sidecar_failures_report_once_and_recover ... ok
+test native_tests::disclosure_buttons_expose_expanded_state_and_click_action ... ok
+test native_tests::edge_move_is_accepted_and_merge_is_rejected_atomically ... ok
+test diagnostics::tests::diagnostic_snapshot_size_is_independent_of_configuration_limit ... ok
+test native_tests::divider_drag_snapshot_uses_latest_allocation_without_a_fixture_tick ... ok
+test native_tests::collapsed_panel_beside_tall_neighbor_restores_its_region ... ok
+test native_tests::accepted_process_snapshots_preserve_identity_and_clear_removed_selection ... ok
+test native_tests::enter_and_space_toggle_without_moving_the_panel ... ok
+test native_tests::older_partial_layout_gets_regions_for_default_enabled_monitors ... ok
+test native_tests::live_snapshot_discovery_refreshes_controls_and_keeps_explicit_state ... ok
+test native_tests::layout_reset_preserves_rejected_input_and_the_autosave_guard ... ok
+test native_tests::number_sensor_pointer_disclosure_folds_a_visible_body ... ok
+test native_tests::process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_reuse ... ok
+test native_tests::focused_sensor_growth_reveals_without_undoing_deliberate_scroll ... ok
+test native_tests::physical_cpu_core_tiles_wrap_and_keep_meter_collapse_and_order ... ok
+test native_tests::outer_navigation_burst_accumulates_both_axes_and_repaints_once ... ok
+test native_tests::process_columns_stay_aligned_when_long_status_rows_exit ... ok
+test native_tests::accepting_recovered_layout_preserves_keyboard_reachability ... ok
+test native_tests::process_horizontal_burst_accumulates_and_repaints_once ... ok
+test native_tests::process_navigation_burst_repaints_once_after_all_movements ... ok
+test native_tests::oversized_process_panel_reveals_selected_rows_inside_the_outer_viewport ... ok
+test native_tests::process_pending_reveal_does_not_scroll_to_a_reused_pid ... ok
+test native_tests::process_pending_reveal_is_consumed_before_manual_scroll_and_passive_snapshots ... ok
+test native_tests::process_pending_reveal_follows_identity_after_snapshot_reordering ... ok
+test native_tests::process_pending_reveal_preserves_unchanged_snapshot_order ... ok
+test native_tests::collapse_keeps_a_header_and_continuous_history ... ok
+test native_tests::real_process_keyboard_bounds_follow_all_rows_and_identity ... ok
+test native_tests::settings_shortcut_reveals_the_panel_body ... ok
+test native_tests::toolbar_focus_stays_with_monitor_identity_when_discovery_order_reverses ... ok
+test native_tests::tab_enters_and_leaves_the_retained_process_table ... ok
+test native_tests::restore_preserves_identity_and_rejection_is_not_bypassed_by_preset ... ok
+test native_tests::wheel_routes_to_table_and_outer_canvas_independently ... ok
+test processes::tests::equal_values_have_stable_identity_ties_and_every_column_can_sort ... ok
+test processes::tests::numeric_sort_uses_raw_values_and_keeps_missing_last_in_both_directions ... ok
+test processes::tests::platform_columns_keep_user_sort_and_reject_hidden_choices ... ok
+test processes::tests::search_matches_name_pid_and_user_without_changing_source_identities ... ok
+test screen_charts::tests::empty_single_and_zero_domains_stay_finite ... ok
+test screen_charts::tests::finite_extremes_cannot_overflow_chart_coordinates ... ok
+test screen_charts::tests::out_of_order_samples_cannot_draw_backwards_or_claim_latest_marker ... ok
+test screen_charts::tests::range_labels_convert_base_values_without_relabelling_bytes_as_gibibytes ... ok
+test screen_charts::tests::ratios_clamp_but_unavailable_and_nonfinite_do_not_light_cells ... ok
+test screen_charts::tests::shared_range_covers_every_series_and_keeps_temperature_negative ... ok
+test screen_charts::tests::stale_latest_never_gets_current_marker ... ok
+test screen_charts::tests::unavailable_and_nonfinite_samples_break_both_trace_and_area ... ok
+test screen_charts::tests::uneven_timestamps_align_across_series_without_float_clock_loss ... ok
+test screen_data::tests::missing_sensor_is_not_a_zero_measurement ... ok
+test screen_data::tests::zero_is_visible_and_stale_does_not_become_current ... ok
+test native_tests::revisiting_offscreen_focus_reveals_both_axes_without_pinning_user_scroll ... ok
+test native_tests::workspace_and_long_table_are_independently_reachable ... ok
+test screen_tests::arrows_home_end_and_control_tab_switch_screens ... ok
+test screen_tests::collapsed_hidden_legacy_process_panel_cannot_hide_the_process_screen ... ok
+test native_tests::unavailable_sensor_rows_hide_and_recover_without_changing_user_choices ... ok
+test screen_tests::all_ten_screens_render_populated_collector_data ... ok
+test panel::process_panel::tests::confirmation_cancel_keeps_identity_and_fixture_execution_reports_error ... ok
+test native_tests::sensor_menus_choose_meter_reorder_and_restore_visibility_by_identity ... ok
+test screen_tests::hidden_process_rows_are_prepared_from_the_latest_identity_on_display ... ok
+test screen_tests::detached_workspace_keeps_cpu_history_and_preferences ... ok
+test screen_tests::every_tab_is_clickable_and_preserves_the_legacy_layout ... ok
+test native_tests::toolbar_layout_reset_recovers_hidden_panels_without_replacing_preferences ... ok
+test screen_tests::energy_primary_and_sensor_grid_render_zero_values_and_capture_gaps ... ok
+test screen_tests::keyboard_switching_works_immediately_after_application_creation ... ok
+test screen_tests::keyboard_switching_survives_builtin_preset_from_settings ... ok
+test screen_tests::keyboard_switching_survives_accepting_recovered_settings ... ok
+test panel::process_panel::tests::search_and_sort_controls_preserve_identity_and_navigate_visible_rows ... ok
+test screen_tests::reopening_processes_uses_background_snapshots_and_retained_history ... ok
+test screen_tests::hiding_used_memory_preserves_other_memory_readings ... ok
+test screen_tests::hidden_sensors_stay_hidden_after_new_snapshots_and_tab_switches ... ok
+test screen_tests::tab_switching_preserves_process_identity_selection ... ok
+test screen_tests::process_table_fills_resized_windows_and_keeps_columns_aligned ... ok
+test storage::tests::diagnostic_publication_and_configuration_saves_use_distinct_flush_policies ... ok
+test storage::tests::failed_atomic_replace_does_not_modify_original_target ... ok
+test screen_tests::process_search_stays_compact_when_the_window_grows ... ok
+test storage::tests::failed_diagnostic_replace_preserves_target_cleans_temp_and_allows_retry ... ok
+test storage::tests::older_work_cannot_replace_a_newer_atomic_snapshot ... ok
+test screen_tests::network_default_prefers_route_but_preserves_explicit_selection ... ok
+test storage::tests::reads_are_bounded_and_invalid_bytes_remain_untouched ... ok
+test storage::tests::stale_diagnostic_revision_cannot_replace_newer_complete_json ... ok
+test tray::icon::tests::history_is_bounded_and_nonfinite_never_becomes_a_measurement ... ok
+test tray::icon::tests::missing_and_stale_are_not_idle_and_break_the_trace ... ok
+test tray::icon::tests::zero_and_full_load_use_fixed_scale_and_exact_tooltip ... ok
+test screen_tests::selected_gpu_survives_reordering_restore_and_disconnect_without_switching ... ok
+test workspace::live_tests::absent_real_identity_is_valid_before_discovery ... ok
+test workspace::live_tests::live_restore_rejects_copied_fixture_workspace_and_preserves_original ... ok
+test screen_tests::summary_top_cpu_processes_follow_live_snapshots ... ok
+test workspace::diagnostic_delivery_tests::elapsed_delivery_refreshes_diagnostics_without_refreshing_the_snapshot ... ok
+test workspace::presets::tests::legacy_import_and_bad_library_preserve_original_files ... ok
+test storage::tests::retained_451_panel_workspace_and_preset_roundtrip_without_losing_absent_choices ... ok
+test workspace::viewport_accessibility_tests::scroll_viewports_expose_stable_native_geometry_nodes ... ok
+test screen_tests::summary_graphs_fill_rows_when_the_window_resizes ... ok
+test screen_tests::unavailable_selected_thermal_sensor_keeps_other_charts_and_hottest_reading ... ok
+test workspace::process_presentation_tests::deferred_process_presentation_ages_without_another_delivery ... ok
+test storage::tests::over_limit_workspace_and_preset_saves_preserve_readable_prior_files ... ok
+test workspace::preset_bound_tests::oversized_preset_keeps_the_previous_slot_and_reports_the_save_error ... ok
+test settings::tests::docked_choices_apply_immediately_restore_and_reveal_keyboard_focus ... ok
+test workspace::presets::manager::tests::named_preset_controls_confirm_cancel_rename_and_recall ... ok
+
+test result: ok. 129 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.78s
+
+     Running unittests src/main.rs (target/debug/deps/system_pulse-69fbcf144fb1dbfb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/macos_application_lifetime.rs (target/debug/deps/macos_application_lifetime-7cdbf2b54350e1fe)
+macOS application lifetime cases require native macOS
+     Running tests/macos_dispatcher_lifetime.rs (target/debug/deps/macos_dispatcher_lifetime-c57cb5e8b58c135a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests system_pulse
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+cairn: PROC-001: pass
+cairn: PROC-002: pass
+cairn: PROC-003: pass

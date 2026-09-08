@@ -118,3 +118,6 @@ whole-repository quality delta reports 652 preexisting/reference findings
 (exit 2), and its test gate reports broad untested name-based reachability
 (exit 4). Neither is claimed as a clean result. The named Python and base
 compatibility test obligations passed; native tests cover the real action path.
+
+PROC-001 through PROC-003 again have passing committed Cairn receipts at
+`20260908T234056179Z`/`20260908T234056180Z`. PROC-004 remains active.
