@@ -2,8 +2,8 @@
 
 Status: In progress.
 
-- [ ] In progress: remove intermediate diagnostic JSON allocation and verify payload, failure handling and native publication timing.
-- [ ] Pending: run complete Linux acceptance and record committed evidence.
+- [x] Complete: remove intermediate diagnostic JSON allocation and verify payload, failure handling and native publication timing.
+- [ ] In progress: run complete Linux acceptance and record committed evidence.
 - [ ] Pending: complete Mac performance and preservation evidence, then review the commitment.
 
 Two complete Linux acceptance runs failed at device-label lookup in
@@ -38,3 +38,12 @@ with reference-tree inventory changes; test-gate exited 4 with unmodelled
 script gates and broad existing coverage findings. Neither is claimed as a
 passing check. Full output is retained in the adjacent external artifact
 directory `direct-json-review/`.
+
+The direct-serialization native replay passed and `validate_tabbed` validated
+all 52 required artifacts, including normal shutdown and cleanup. No stale
+frame receipts were recorded. Evidence: external artifact directory
+`direct-json-native-20260908T205500Z/`. The last 64 retained publications had
+median serialization 131.817 ms and maximum 152.560 ms. The earlier retained
+63-publication window had median conversion-plus-serialization 268.095 ms
+and maximum 360.490 ms. These debug diagnostic observations are not scored
+Mac CPU measurements. The full Linux package gate remains pending.
