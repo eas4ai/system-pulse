@@ -1,5 +1,5 @@
 {
-  "pid": 11024,
+  "pid": 11613,
   "rows": [
     {
       "actions": [
@@ -349,9 +349,9 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "708 readable process rows; arrows navigate and scroll columns; Tab leaves table",
       "bounds": [
-        123,
+        235,
         352.5,
-        1080,
+        968,
         373
       ],
       "depth": 4,
@@ -366,9 +366,9 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
+        235,
         352.5,
-        1080,
+        968,
         28
       ],
       "depth": 5,
@@ -383,7 +383,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by PID",
       "bounds": [
-        123,
+        235,
         352.5,
         88,
         28
@@ -402,7 +402,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by PID",
       "bounds": [
-        123,
+        235,
         352.5,
         88,
         24
@@ -419,7 +419,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Name",
       "bounds": [
-        211,
+        323,
         352.5,
         220,
         28
@@ -438,7 +438,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Name",
       "bounds": [
-        211,
+        323,
         352.5,
         220,
         24
@@ -455,7 +455,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by CPU (one core)",
       "bounds": [
-        431,
+        543,
         352.5,
         152,
         28
@@ -474,7 +474,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by CPU (one core)",
       "bounds": [
-        431,
+        543,
         352.5,
         152,
         24
@@ -491,7 +491,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Memory",
       "bounds": [
-        583,
+        695,
         352.5,
         112,
         28
@@ -510,7 +510,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Memory",
       "bounds": [
-        583,
+        695,
         352.5,
         112,
         24
@@ -527,7 +527,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Read I/O",
       "bounds": [
-        695,
+        807,
         352.5,
         128,
         28
@@ -546,7 +546,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Read I/O",
       "bounds": [
-        695,
+        807,
         352.5,
         128,
         24
@@ -563,7 +563,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Write I/O",
       "bounds": [
-        823,
+        935,
         352.5,
         128,
         28
@@ -582,7 +582,7 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Sort by Write I/O",
       "bounds": [
-        823,
+        935,
         352.5,
         128,
         24
@@ -597,11 +597,11 @@
       "AXIdentifier": "",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Sort by Threads",
+      "AXTitle": "Sort by User",
       "bounds": [
-        951,
+        1063,
         352.5,
-        112,
+        140,
         28
       ],
       "depth": 6,
@@ -616,51 +616,15 @@
       "AXIdentifier": "",
       "AXRole": "AXButton",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Sort by Threads",
+      "AXTitle": "Sort by User",
       "bounds": [
-        951,
+        1063,
         352.5,
-        112,
+        140,
         24
       ],
       "depth": 7,
       "index": 33
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Sort by User",
-      "bounds": [
-        1063,
-        352.5,
-        140,
-        28
-      ],
-      "depth": 6,
-      "index": 34
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "",
-      "AXRole": "AXButton",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Sort by User",
-      "bounds": [
-        1063,
-        352.5,
-        140,
-        24
-      ],
-      "depth": 7,
-      "index": 35
     },
     {
       "actions": [],
@@ -671,13 +635,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
+        235,
         380.5,
-        1080,
+        968,
         345
       ],
       "depth": 5,
-      "index": 36
+      "index": 34
     },
     {
       "actions": [
@@ -685,31 +649,65 @@
       ],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780",
+      "AXIdentifier": "process:11613:1788908898",
       "AXRole": "AXRow",
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
+        235,
         380.5,
-        1080,
+        968,
         28
       ],
       "depth": 6,
+      "index": 35
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11613:1788908898:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "11613",
+      "bounds": [
+        235,
+        380.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 36
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11613:1788908898:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "system-pulse-8c32f787953feae2821d376d69e844313e1e39c0",
+      "bounds": [
+        323,
+        380.5,
+        220,
+        28
+      ],
+      "depth": 7,
       "index": 37
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:0",
+      "AXIdentifier": "process:11613:1788908898:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "11024",
+      "AXTitle": "26.6 %",
       "bounds": [
-        123,
+        543,
         380.5,
-        88,
+        152,
         28
       ],
       "depth": 7,
@@ -719,14 +717,14 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:1",
+      "AXIdentifier": "process:11613:1788908898:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "system-pulse-074f2bf4bde274ad074ec53bfe82b5f82e8b304b",
+      "AXTitle": "115.0 MiB",
       "bounds": [
-        211,
+        695,
         380.5,
-        220,
+        112,
         28
       ],
       "depth": 7,
@@ -736,14 +734,14 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:2",
+      "AXIdentifier": "process:11613:1788908898:cell:4",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "26.3 %",
+      "AXTitle": "0.0 B/s",
       "bounds": [
-        431,
+        807,
         380.5,
-        152,
+        128,
         28
       ],
       "depth": 7,
@@ -753,14 +751,14 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:3",
+      "AXIdentifier": "process:11613:1788908898:cell:5",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "114.1 MiB",
+      "AXTitle": "0.0 B/s",
       "bounds": [
-        583,
+        935,
         380.5,
-        112,
+        128,
         28
       ],
       "depth": 7,
@@ -770,58 +768,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        380.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 42
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        380.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 43
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        380.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 44
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11024:1788907780:cell:7",
+      "AXIdentifier": "process:11613:1788908898:cell:7",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "shawnmcallister",
@@ -832,7 +779,7 @@
         28
       ],
       "depth": 7,
-      "index": 45
+      "index": 42
     },
     {
       "actions": [
@@ -845,13 +792,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
+        235,
         408.5,
-        1080,
+        968,
         28
       ],
       "depth": 6,
-      "index": 46
+      "index": 43
     },
     {
       "actions": [],
@@ -862,13 +809,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "9969",
       "bounds": [
-        123,
+        235,
         408.5,
         88,
         28
       ],
       "depth": 7,
-      "index": 47
+      "index": 44
     },
     {
       "actions": [],
@@ -879,13 +826,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "system-pulse-05fb36f9c55b142954dba706156818a6127b4453",
       "bounds": [
-        211,
+        323,
         408.5,
         220,
         28
       ],
       "depth": 7,
-      "index": 48
+      "index": 45
     },
     {
       "actions": [],
@@ -894,15 +841,15 @@
       "AXIdentifier": "process:9969:1788904668:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "8.9 %",
+      "AXTitle": "7.7 %",
       "bounds": [
-        431,
+        543,
         408.5,
         152,
         28
       ],
       "depth": 7,
-      "index": 49
+      "index": 46
     },
     {
       "actions": [],
@@ -911,15 +858,15 @@
       "AXIdentifier": "process:9969:1788904668:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "101.2 MiB",
+      "AXTitle": "101.3 MiB",
       "bounds": [
-        583,
+        695,
         408.5,
         112,
         28
       ],
       "depth": 7,
-      "index": 50
+      "index": 47
     },
     {
       "actions": [],
@@ -930,13 +877,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
       "bounds": [
-        695,
+        807,
         408.5,
         128,
         28
       ],
       "depth": 7,
-      "index": 51
+      "index": 48
     },
     {
       "actions": [],
@@ -947,30 +894,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
       "bounds": [
-        823,
+        935,
         408.5,
         128,
         28
       ],
       "depth": 7,
-      "index": 52
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:9969:1788904668:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        408.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 53
+      "index": 49
     },
     {
       "actions": [],
@@ -987,7 +917,421 @@
         28
       ],
       "depth": 7,
+      "index": 50
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        436.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 51
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "649",
+      "bounds": [
+        235,
+        436.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 52
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "identityservicesd",
+      "bounds": [
+        323,
+        436.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 53
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "6.7 %",
+      "bounds": [
+        543,
+        436.5,
+        152,
+        28
+      ],
+      "depth": 7,
       "index": 54
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "36.2 MiB",
+      "bounds": [
+        695,
+        436.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 55
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "327.8 KiB/s",
+      "bounds": [
+        807,
+        436.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 56
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "8.1 KiB/s",
+      "bounds": [
+        935,
+        436.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 57
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:649:1788870565:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        436.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 58
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        464.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 59
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "727",
+      "bounds": [
+        235,
+        464.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 60
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "transparencyd",
+      "bounds": [
+        323,
+        464.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 61
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "4.7 %",
+      "bounds": [
+        543,
+        464.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 62
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "28.0 MiB",
+      "bounds": [
+        695,
+        464.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 63
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "1.4 MiB/s",
+      "bounds": [
+        807,
+        464.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 64
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        935,
+        464.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 65
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:727:1788870567:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        464.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 66
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        492.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 67
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "6942",
+      "bounds": [
+        235,
+        492.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 68
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Claude Helper",
+      "bounds": [
+        323,
+        492.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 69
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "4.6 %",
+      "bounds": [
+        543,
+        492.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 70
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "69.8 MiB",
+      "bounds": [
+        695,
+        492.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 71
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        807,
+        492.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 72
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        935,
+        492.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 73
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:6942:1788896635:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        492.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 74
     },
     {
       "actions": [
@@ -1000,13 +1344,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
-        436.5,
-        1080,
+        235,
+        520.5,
+        968,
         28
       ],
       "depth": 6,
-      "index": 55
+      "index": 75
     },
     {
       "actions": [],
@@ -1017,13 +1361,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "408",
       "bounds": [
-        123,
-        436.5,
+        235,
+        520.5,
         88,
         28
       ],
       "depth": 7,
-      "index": 56
+      "index": 76
     },
     {
       "actions": [],
@@ -1034,13 +1378,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "loginwindow",
       "bounds": [
-        211,
-        436.5,
+        323,
+        520.5,
         220,
         28
       ],
       "depth": 7,
-      "index": 57
+      "index": 77
     },
     {
       "actions": [],
@@ -1049,15 +1393,15 @@
       "AXIdentifier": "process:408:1788870555:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "2.8 %",
+      "AXTitle": "4.1 %",
       "bounds": [
-        431,
-        436.5,
+        543,
+        520.5,
         152,
         28
       ],
       "depth": 7,
-      "index": 58
+      "index": 78
     },
     {
       "actions": [],
@@ -1066,15 +1410,15 @@
       "AXIdentifier": "process:408:1788870555:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "107.3 MiB",
+      "AXTitle": "106.6 MiB",
       "bounds": [
-        583,
-        436.5,
+        695,
+        520.5,
         112,
         28
       ],
       "depth": 7,
-      "index": 59
+      "index": 79
     },
     {
       "actions": [],
@@ -1085,13 +1429,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
       "bounds": [
-        695,
-        436.5,
+        807,
+        520.5,
         128,
         28
       ],
       "depth": 7,
-      "index": 60
+      "index": 80
     },
     {
       "actions": [],
@@ -1100,32 +1444,15 @@
       "AXIdentifier": "process:408:1788870555:cell:5",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "4.1 KiB/s",
+      "AXTitle": "4.0 KiB/s",
       "bounds": [
-        823,
-        436.5,
+        935,
+        520.5,
         128,
         28
       ],
       "depth": 7,
-      "index": 61
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:408:1788870555:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        436.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 62
+      "index": 81
     },
     {
       "actions": [],
@@ -1137,942 +1464,12 @@
       "AXTitle": "root",
       "bounds": [
         1063,
-        436.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 63
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
-        464.5,
-        1080,
-        28
-      ],
-      "depth": 6,
-      "index": 64
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "11021",
-      "bounds": [
-        123,
-        464.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 65
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Python",
-      "bounds": [
-        211,
-        464.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 66
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "1.4 %",
-      "bounds": [
-        431,
-        464.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 67
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "41.2 MiB",
-      "bounds": [
-        583,
-        464.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 68
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        464.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 69
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "65.0 KiB/s",
-      "bounds": [
-        823,
-        464.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 70
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        464.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 71
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:11021:1788907780:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        464.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 72
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
-        492.5,
-        1080,
-        28
-      ],
-      "depth": 6,
-      "index": 73
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "8624",
-      "bounds": [
-        123,
-        492.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 74
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "com.apple.Virtualization.VirtualMachine",
-      "bounds": [
-        211,
-        492.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 75
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.9 %",
-      "bounds": [
-        431,
-        492.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 76
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "81.8 MiB",
-      "bounds": [
-        583,
-        492.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 77
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        492.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 78
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        492.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 79
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        492.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 80
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:8624:1788899432:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        492.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 81
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
         520.5,
-        1080,
+        140,
         28
       ],
-      "depth": 6,
+      "depth": 7,
       "index": 82
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "612",
-      "bounds": [
-        123,
-        520.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 83
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "cfprefsd",
-      "bounds": [
-        211,
-        520.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 84
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.7 %",
-      "bounds": [
-        431,
-        520.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 85
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "6.2 MiB",
-      "bounds": [
-        583,
-        520.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 86
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        520.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 87
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        520.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 88
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        520.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 89
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:612:1788870564:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        520.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 90
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
-        548.5,
-        1080,
-        28
-      ],
-      "depth": 6,
-      "index": 91
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "609",
-      "bounds": [
-        123,
-        548.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 92
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "distnoted",
-      "bounds": [
-        211,
-        548.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 93
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.5 %",
-      "bounds": [
-        431,
-        548.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 94
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "5.1 MiB",
-      "bounds": [
-        583,
-        548.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 95
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        548.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 96
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        548.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 97
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        548.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 98
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:609:1788870564:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        548.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 99
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
-        576.5,
-        1080,
-        28
-      ],
-      "depth": 6,
-      "index": 100
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "667",
-      "bounds": [
-        123,
-        576.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 101
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "ControlCenter",
-      "bounds": [
-        211,
-        576.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 102
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.4 %",
-      "bounds": [
-        431,
-        576.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 103
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "65.5 MiB",
-      "bounds": [
-        583,
-        576.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 104
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        576.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 105
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        576.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 106
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        576.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 107
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:667:1788870566:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        576.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 108
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
-        604.5,
-        1080,
-        28
-      ],
-      "depth": 6,
-      "index": 109
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "1038",
-      "bounds": [
-        123,
-        604.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 110
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "mongod",
-      "bounds": [
-        211,
-        604.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 111
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.4 %",
-      "bounds": [
-        431,
-        604.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 112
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "59.3 MiB",
-      "bounds": [
-        583,
-        604.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 113
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        604.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 114
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        604.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 115
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        604.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 116
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:1038:1788870585:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        604.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 117
     },
     {
       "actions": [
@@ -2085,13 +1482,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
-        632.5,
-        1080,
+        235,
+        548.5,
+        968,
         28
       ],
       "depth": 6,
-      "index": 118
+      "index": 83
     },
     {
       "actions": [],
@@ -2102,13 +1499,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "6936",
       "bounds": [
-        123,
-        632.5,
+        235,
+        548.5,
         88,
         28
       ],
       "depth": 7,
-      "index": 119
+      "index": 84
     },
     {
       "actions": [],
@@ -2119,13 +1516,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "Claude",
       "bounds": [
-        211,
-        632.5,
+        323,
+        548.5,
         220,
         28
       ],
       "depth": 7,
-      "index": 120
+      "index": 85
     },
     {
       "actions": [],
@@ -2134,15 +1531,15 @@
       "AXIdentifier": "process:6936:1788896631:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.4 %",
+      "AXTitle": "2.9 %",
       "bounds": [
-        431,
-        632.5,
+        543,
+        548.5,
         152,
         28
       ],
       "depth": 7,
-      "index": 121
+      "index": 86
     },
     {
       "actions": [],
@@ -2151,15 +1548,15 @@
       "AXIdentifier": "process:6936:1788896631:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "299.0 MiB",
+      "AXTitle": "525.2 MiB",
       "bounds": [
-        583,
-        632.5,
+        695,
+        548.5,
         112,
         28
       ],
       "depth": 7,
-      "index": 122
+      "index": 87
     },
     {
       "actions": [],
@@ -2170,13 +1567,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
       "bounds": [
-        695,
-        632.5,
+        807,
+        548.5,
         128,
         28
       ],
       "depth": 7,
-      "index": 123
+      "index": 88
     },
     {
       "actions": [],
@@ -2187,30 +1584,13 @@
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
       "bounds": [
-        823,
-        632.5,
+        935,
+        548.5,
         128,
         28
       ],
       "depth": 7,
-      "index": 124
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:6936:1788896631:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        632.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 125
+      "index": 89
     },
     {
       "actions": [],
@@ -2222,12 +1602,12 @@
       "AXTitle": "shawnmcallister",
       "bounds": [
         1063,
-        632.5,
+        548.5,
         140,
         28
       ],
       "depth": 7,
-      "index": 126
+      "index": 90
     },
     {
       "actions": [
@@ -2235,143 +1615,540 @@
       ],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740",
+      "AXIdentifier": "process:11611:1788908898",
       "AXRole": "AXRow",
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
-        660.5,
-        1080,
+        235,
+        576.5,
+        968,
         28
       ],
       "depth": 6,
-      "index": 127
+      "index": 91
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:0",
+      "AXIdentifier": "process:11611:1788908898:cell:0",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "10990",
+      "AXTitle": "11611",
       "bounds": [
-        123,
+        235,
+        576.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 92
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11611:1788908898:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Python",
+      "bounds": [
+        323,
+        576.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 93
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11611:1788908898:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "1.7 %",
+      "bounds": [
+        543,
+        576.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 94
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11611:1788908898:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "41.2 MiB",
+      "bounds": [
+        695,
+        576.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 95
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11611:1788908898:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        807,
+        576.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 96
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11611:1788908898:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "56.7 KiB/s",
+      "bounds": [
+        935,
+        576.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 97
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:11611:1788908898:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        576.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 98
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        604.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 99
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "782",
+      "bounds": [
+        235,
+        604.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 100
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "akd",
+      "bounds": [
+        323,
+        604.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 101
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "1.0 %",
+      "bounds": [
+        543,
+        604.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 102
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "42.3 MiB",
+      "bounds": [
+        695,
+        604.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 103
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        807,
+        604.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 104
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        935,
+        604.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 105
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:782:1788870569:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        604.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 106
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        632.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 107
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "1038",
+      "bounds": [
+        235,
+        632.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 108
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "mongod",
+      "bounds": [
+        323,
+        632.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 109
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.9 %",
+      "bounds": [
+        543,
+        632.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 110
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "61.1 MiB",
+      "bounds": [
+        695,
+        632.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 111
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        807,
+        632.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 112
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "16.2 KiB/s",
+      "bounds": [
+        935,
+        632.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 113
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:1038:1788870585:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        632.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 114
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:618:1788870565",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        660.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 115
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:618:1788870565:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "618",
+      "bounds": [
+        235,
         660.5,
         88,
         28
       ],
       "depth": 7,
-      "index": 128
+      "index": 116
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:1",
+      "AXIdentifier": "process:618:1788870565:cell:1",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "mdworker_shared",
+      "AXTitle": "secd",
       "bounds": [
-        211,
+        323,
         660.5,
         220,
         28
       ],
       "depth": 7,
-      "index": 129
+      "index": 117
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:2",
+      "AXIdentifier": "process:618:1788870565:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.3 %",
+      "AXTitle": "0.8 %",
       "bounds": [
-        431,
+        543,
         660.5,
         152,
         28
       ],
       "depth": 7,
-      "index": 130
+      "index": 118
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:3",
+      "AXIdentifier": "process:618:1788870565:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "24.9 MiB",
-      "bounds": [
-        583,
-        660.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 131
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
+      "AXTitle": "20.6 MiB",
       "bounds": [
         695,
         660.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 132
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        660.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 133
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        660.5,
         112,
         28
       ],
       "depth": 7,
-      "index": 134
+      "index": 119
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:10990:1788907740:cell:7",
+      "AXIdentifier": "process:618:1788870565:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "64.8 KiB/s",
+      "bounds": [
+        807,
+        660.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 120
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:618:1788870565:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        935,
+        660.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 121
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:618:1788870565:cell:7",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "shawnmcallister",
@@ -2382,7 +2159,7 @@
         28
       ],
       "depth": 7,
-      "index": 135
+      "index": 122
     },
     {
       "actions": [
@@ -2390,31 +2167,254 @@
       ],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780",
+      "AXIdentifier": "process:612:1788870564",
       "AXRole": "AXRow",
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
       "bounds": [
-        123,
+        235,
         688.5,
-        1080,
+        968,
         28
       ],
       "depth": 6,
+      "index": 123
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "612",
+      "bounds": [
+        235,
+        688.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 124
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "cfprefsd",
+      "bounds": [
+        323,
+        688.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 125
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.7 %",
+      "bounds": [
+        543,
+        688.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 126
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "6.2 MiB",
+      "bounds": [
+        695,
+        688.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 127
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        807,
+        688.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 128
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:5",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        935,
+        688.5,
+        128,
+        28
+      ],
+      "depth": 7,
+      "index": 129
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:612:1788870564:cell:7",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "shawnmcallister",
+      "bounds": [
+        1063,
+        688.5,
+        140,
+        28
+      ],
+      "depth": 7,
+      "index": 130
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:8624:1788899432",
+      "AXRole": "AXRow",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        235,
+        716.5,
+        968,
+        28
+      ],
+      "depth": 6,
+      "index": 131
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:8624:1788899432:cell:0",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "8624",
+      "bounds": [
+        235,
+        716.5,
+        88,
+        28
+      ],
+      "depth": 7,
+      "index": 132
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:8624:1788899432:cell:1",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "com.apple.Virtualization.VirtualMachine",
+      "bounds": [
+        323,
+        716.5,
+        220,
+        28
+      ],
+      "depth": 7,
+      "index": 133
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:8624:1788899432:cell:2",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.7 %",
+      "bounds": [
+        543,
+        716.5,
+        152,
+        28
+      ],
+      "depth": 7,
+      "index": 134
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:8624:1788899432:cell:3",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "81.6 MiB",
+      "bounds": [
+        695,
+        716.5,
+        112,
+        28
+      ],
+      "depth": 7,
+      "index": 135
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "process:8624:1788899432:cell:4",
+      "AXRole": "AXCell",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 B/s",
+      "bounds": [
+        807,
+        716.5,
+        128,
+        28
+      ],
+      "depth": 7,
       "index": 136
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:0",
+      "AXIdentifier": "process:8624:1788899432:cell:5",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "11026",
+      "AXTitle": "0.0 B/s",
       "bounds": [
-        123,
-        688.5,
-        88,
+        935,
+        716.5,
+        128,
         28
       ],
       "depth": 7,
@@ -2424,48 +2424,50 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:1",
+      "AXIdentifier": "process:8624:1788899432:cell:7",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "ThemeWidgetControlViewService",
+      "AXTitle": "shawnmcallister",
       "bounds": [
-        211,
-        688.5,
-        220,
+        1063,
+        716.5,
+        140,
         28
       ],
       "depth": 7,
       "index": 138
     },
     {
-      "actions": [],
+      "actions": [
+        "AXPress"
+      ],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:2",
-      "AXRole": "AXCell",
+      "AXIdentifier": "process:609:1788870564",
+      "AXRole": "AXRow",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.3 %",
+      "AXTitle": "",
       "bounds": [
-        431,
-        688.5,
-        152,
+        235,
+        744.5,
+        968,
         28
       ],
-      "depth": 7,
+      "depth": 6,
       "index": 139
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:3",
+      "AXIdentifier": "process:609:1788870564:cell:0",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "28.9 MiB",
+      "AXTitle": "609",
       "bounds": [
-        583,
-        688.5,
-        112,
+        235,
+        744.5,
+        88,
         28
       ],
       "depth": 7,
@@ -2475,14 +2477,14 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:4",
+      "AXIdentifier": "process:609:1788870564:cell:1",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
+      "AXTitle": "distnoted",
       "bounds": [
-        695,
-        688.5,
-        128,
+        323,
+        744.5,
+        220,
         28
       ],
       "depth": 7,
@@ -2492,14 +2494,14 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:5",
+      "AXIdentifier": "process:609:1788870564:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
+      "AXTitle": "0.6 %",
       "bounds": [
-        823,
-        688.5,
-        128,
+        543,
+        744.5,
+        152,
         28
       ],
       "depth": 7,
@@ -2509,13 +2511,13 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:6",
+      "AXIdentifier": "process:609:1788870564:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+      "AXTitle": "5.0 MiB",
       "bounds": [
-        951,
-        688.5,
+        695,
+        744.5,
         112,
         28
       ],
@@ -2526,328 +2528,52 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:11026:1788907780:cell:7",
+      "AXIdentifier": "process:609:1788870564:cell:4",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
+      "AXTitle": "0.0 B/s",
       "bounds": [
-        1063,
-        688.5,
-        140,
+        807,
+        744.5,
+        128,
         28
       ],
       "depth": 7,
       "index": 144
     },
     {
-      "actions": [
-        "AXPress"
-      ],
+      "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570",
-      "AXRole": "AXRow",
+      "AXIdentifier": "process:609:1788870564:cell:5",
+      "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "",
+      "AXTitle": "0.0 B/s",
       "bounds": [
-        123,
-        716.5,
-        1080,
+        935,
+        744.5,
+        128,
         28
       ],
-      "depth": 6,
+      "depth": 7,
       "index": 145
     },
     {
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:0",
+      "AXIdentifier": "process:609:1788870564:cell:7",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "796",
+      "AXTitle": "shawnmcallister",
       "bounds": [
-        123,
-        716.5,
-        88,
+        1063,
+        744.5,
+        140,
         28
       ],
       "depth": 7,
       "index": 146
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Spotlight",
-      "bounds": [
-        211,
-        716.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 147
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.2 %",
-      "bounds": [
-        431,
-        716.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 148
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "101.9 MiB",
-      "bounds": [
-        583,
-        716.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 149
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        716.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 150
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        716.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 151
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        716.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 152
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:796:1788870570:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        716.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 153
-    },
-    {
-      "actions": [
-        "AXPress"
-      ],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574",
-      "AXRole": "AXRow",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "",
-      "bounds": [
-        123,
-        744.5,
-        1080,
-        28
-      ],
-      "depth": 6,
-      "index": 154
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:0",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "873",
-      "bounds": [
-        123,
-        744.5,
-        88,
-        28
-      ],
-      "depth": 7,
-      "index": 155
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:1",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "diagnostics_agent",
-      "bounds": [
-        211,
-        744.5,
-        220,
-        28
-      ],
-      "depth": 7,
-      "index": 156
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:2",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.2 %",
-      "bounds": [
-        431,
-        744.5,
-        152,
-        28
-      ],
-      "depth": 7,
-      "index": 157
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:3",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "10.5 MiB",
-      "bounds": [
-        583,
-        744.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 158
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:4",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        695,
-        744.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 159
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:5",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "0.0 B/s",
-      "bounds": [
-        823,
-        744.5,
-        128,
-        28
-      ],
-      "depth": 7,
-      "index": 160
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:6",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
-      "bounds": [
-        951,
-        744.5,
-        112,
-        28
-      ],
-      "depth": 7,
-      "index": 161
-    },
-    {
-      "actions": [],
-      "AXDescription": "",
-      "AXHelp": "",
-      "AXIdentifier": "process:873:1788870574:cell:7",
-      "AXRole": "AXCell",
-      "AXSubrole": "AXUnknown",
-      "AXTitle": "shawnmcallister",
-      "bounds": [
-        1063,
-        744.5,
-        140,
-        28
-      ],
-      "depth": 7,
-      "index": 162
     },
     {
       "actions": [],
@@ -2864,7 +2590,7 @@
         47.5
       ],
       "depth": 3,
-      "index": 163
+      "index": 147
     },
     {
       "actions": [],
@@ -2881,7 +2607,7 @@
         19.5
       ],
       "depth": 2,
-      "index": 164
+      "index": 148
     },
     {
       "actions": [
@@ -2900,7 +2626,7 @@
         16
       ],
       "depth": 1,
-      "index": 165
+      "index": 149
     },
     {
       "actions": [
@@ -2921,7 +2647,7 @@
         16
       ],
       "depth": 1,
-      "index": 166
+      "index": 150
     },
     {
       "actions": [],
@@ -2938,7 +2664,7 @@
         14
       ],
       "depth": 2,
-      "index": 167
+      "index": 151
     },
     {
       "actions": [],
@@ -2955,7 +2681,7 @@
         14
       ],
       "depth": 3,
-      "index": 168
+      "index": 152
     },
     {
       "actions": [
@@ -2974,7 +2700,7 @@
         16
       ],
       "depth": 1,
-      "index": 169
+      "index": 153
     },
     {
       "actions": [],
@@ -2992,7 +2718,7 @@
         16
       ],
       "depth": 1,
-      "index": 170
+      "index": 154
     },
     {
       "actions": [],
@@ -3009,14 +2735,14 @@
         34
       ],
       "depth": 0,
-      "index": 171
+      "index": 155
     },
     {
       "actions": [
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 13.6%",
+      "AXHelp": "System Pulse \u00b7 CPU 19.5%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",
@@ -3028,7 +2754,7 @@
         34
       ],
       "depth": 1,
-      "index": 172
+      "index": 156
     },
     {
       "actions": [
@@ -3047,7 +2773,7 @@
         0
       ],
       "depth": 2,
-      "index": 173
+      "index": 157
     },
     {
       "actions": [
@@ -3068,7 +2794,7 @@
         0
       ],
       "depth": 3,
-      "index": 174
+      "index": 158
     },
     {
       "actions": [
@@ -3089,7 +2815,7 @@
         0
       ],
       "depth": 3,
-      "index": 175
+      "index": 159
     },
     {
       "actions": [
@@ -3110,7 +2836,7 @@
         0
       ],
       "depth": 3,
-      "index": 176
+      "index": 160
     }
   ],
   "windows": 1

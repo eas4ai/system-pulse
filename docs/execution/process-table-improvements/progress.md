@@ -62,4 +62,8 @@ sort choices. Mac omits canonical column 6 (Threads); User keeps canonical
 column 7 while its accessible position becomes the seventh visible column.
 Linux retains all eight columns. All 129 Linux application tests, thirteen
 receipt checks and Rust/Python lint pass. Linux native User sorting and Home/End
-navigation also pass. Mac build and native evidence are pending.
+navigation also pass. All 129 Mac application tests and its release build pass. Native Mac and Linux
+column, sort, navigation, resize and search observations pass against source
+`8c32f787`. The Mac observer reads selected PID from the visible details panel
+and requires its matching stable row visible; its bridge omits AXSelected.
+Committed Cairn validation is next.

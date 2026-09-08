@@ -135,11 +135,22 @@ def run(args):
             for key in ("home", "end"):
                 tree("key", key)
                 def selected():
-                    ids = [row["AXIdentifier"] for row in tree()["rows"]
-                           if row.get("selected") is True and
-                           re.fullmatch(r"process:\d+:\d+", row.get("AXIdentifier", ""))]
+                    rows = tree()["rows"]
+                    details = next(row for row in rows if row.get("AXIdentifier") == "process-details")
+                    match = re.search(r", PID (\d+)$", details.get("AXTitle", ""))
+                    if match is None:
+                        return None
+                    viewport = next(row["bounds"] for row in rows
+                                    if row.get("AXIdentifier") == "processes:viewport")
+                    # The Mac bridge omits AXSelected for rows. The native details
+                    # panel identifies the selection; require its actual row visible.
+                    ids = [row["AXIdentifier"] for row in rows
+                           if re.fullmatch(r"process:" + match[1] + r":\d+", row.get("AXIdentifier", ""))
+                           and row["bounds"][1] >= viewport[1]
+                           and row["bounds"][1] + row["bounds"][3] <= viewport[1] + viewport[3] + 1]
                     return ids[0] if len(ids) == 1 and ids[0] != result["navigation"].get("home") else None
                 result["navigation"][key] = wait_for(selected, "native " + key)
+                save("navigation-" + key + ".json", tree())
             tree("press-title", "Quit")
             process.wait(timeout=10)
             require(process.returncode == 0, "native Quit failed")

@@ -29,7 +29,6 @@ func walk(_ node: AXUIElement, _ depth: Int) {
  for name in ["AXRole","AXSubrole","AXTitle","AXDescription","AXIdentifier","AXHelp"] { row[name] = text(node,name) }
  if let value = attr(node,"AXValue") as? String { row["AXValue"] = value }
  if let value = attr(node,"AXValue") as? NSNumber { row["AXValue"] = value }
- if let value = attr(node,"AXSelected") as? NSNumber { row["selected"] = value.boolValue }
  if let position = attr(node,"AXPosition"), let size = attr(node,"AXSize"),
     CFGetTypeID(position) == AXValueGetTypeID(), CFGetTypeID(size) == AXValueGetTypeID() {
   var point = CGPoint.zero
