@@ -47,4 +47,7 @@ A rendered regression reproduced the stretched input at 1039 pixels before the
 fix. The search wrapper now has a fixed 280-pixel width. All 128 application
 tests and ten receipt-validation tests pass. Linux native resize, compact
 search, PID filtering and clear observations pass in development replay.
-Committed cross-platform evidence is pending.
+Committed-source native Linux and Mac observations now pass, including PID
+filtering and clearing at minimum width. The Mac harness clicks the text editor
+before typing because semantic focus alone did not route text entry. Rust clippy
+and Python lint checks pass. Cairn evidence validation is next.

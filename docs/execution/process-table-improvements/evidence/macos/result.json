@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "source_commit": "8b081b054a2bfdd11875fae5cc9c9f5ef7dcf7e8",
-  "binary_sha256": "6e1d5976cec954cfd074532154afdeb417babd219cc37407d83ac1f0355749a2",
+  "source_commit": "074f2bf4bde274ad074ec53bfe82b5f82e8b304b",
+  "binary_sha256": "5507c721bc0816e726e00a48fe1bae03ee49df5d29b01db917af5a83d13958de",
   "platform": "macos",
   "frames": [
     {
@@ -112,7 +112,27 @@
           28
         ]
       ],
-      "identity": "process:10563:1788907121"
+      "identity": "process:11024:1788907780",
+      "search": [
+        276,
+        323.5,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          560,
+          323.5,
+          85,
+          24
+        ],
+        [
+          649,
+          323.5,
+          95,
+          24
+        ]
+      ]
     },
     {
       "window_width": 1440,
@@ -222,7 +242,27 @@
           28
         ]
       ],
-      "identity": "process:10563:1788907121"
+      "identity": "process:11024:1788907780",
+      "search": [
+        276,
+        323.5,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          560,
+          323.5,
+          85,
+          24
+        ],
+        [
+          649,
+          323.5,
+          95,
+          24
+        ]
+      ]
     },
     {
       "window_width": 960,
@@ -332,7 +372,27 @@
           28
         ]
       ],
-      "identity": "process:10563:1788907121"
+      "identity": "process:11024:1788907780",
+      "search": [
+        276,
+        323.5,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          560,
+          323.5,
+          85,
+          24
+        ],
+        [
+          649,
+          323.5,
+          95,
+          24
+        ]
+      ]
     },
     {
       "window_width": 1280,
@@ -442,12 +502,32 @@
           28
         ]
       ],
-      "identity": "process:10563:1788907121"
+      "identity": "process:11024:1788907780",
+      "search": [
+        276,
+        323.5,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          560,
+          323.5,
+          85,
+          24
+        ],
+        [
+          649,
+          323.5,
+          95,
+          24
+        ]
+      ]
     }
   ],
   "harness_sha256": {
-    "process_table_macos.py": "8455792ad015d8b026cb6fedc160ef9cf539a505d9b74c4f789cbe9542b7254a",
-    "performance_tree.swift": "c02f741e5d1056248bc562ebe8bce74fa8a994766e52aca0e6b9ca0e85b1d088",
+    "process_table_macos.py": "6c3cc67d7a162ca3ef79f77ffe475e76507fc4d1bec2d1abca62bdabd609da5c",
+    "performance_tree.swift": "911130d3d6c5070943153402961eb230f2aa1c66733b1bf426af3275b3f01578",
     "performance_macos.py": "0e0e73b84b1d5df52515d566e2568b3060d3526a377974b9ce9fa05bc325d70e",
     "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
     "performance_compare.py": "58cbea575b1abb36c146eda0003912dac14849a8c24c145d93815ed0591eed4a"
@@ -560,6 +640,33 @@
         28
       ]
     ],
-    "identity": "process:10563:1788907121"
-  }
+    "identity": "process:11024:1788907780",
+    "search": [
+      276,
+      323.5,
+      280,
+      24
+    ],
+    "actions": [
+      [
+        560,
+        323.5,
+        85,
+        24
+      ],
+      [
+        649,
+        323.5,
+        95,
+        24
+      ]
+    ]
+  },
+  "search_filter": {
+    "pid": 11024,
+    "identities": [
+      "process:11024:1788907780"
+    ]
+  },
+  "search_clear_rows": 14
 }

@@ -81,6 +81,12 @@ if mode == "close" {
  let matches = rows.filter { ($0["AXRole"] as? String) == "AXTextField" && ($0["AXTitle"] as? String) == "Search name, PID, or user…" }
  guard matches.count == 1, let index = matches[0]["index"] as? Int,
        AXUIElementSetAttributeValue(nodes[index], kAXFocusedAttribute as CFString, kCFBooleanTrue) == .success else { fail("Cannot focus process search") }
+ guard let bounds = matches[0]["bounds"] as? [CGFloat], bounds.count == 4 else { fail("Missing search bounds") }
+ let point = CGPoint(x: bounds[0] + bounds[2] / 2, y: bounds[1] + bounds[3] / 2)
+ for type in [CGEventType.mouseMoved, .leftMouseDown, .leftMouseUp] {
+  guard let event = CGEvent(mouseEventSource: nil, mouseType: type, mouseCursorPosition: point, mouseButton: .left) else { fail("Cannot click process search") }
+  event.post(tap: .cghidEventTap)
+ }
  Thread.sleep(forTimeInterval: 0.1)
  for (code, flags) in [(CGKeyCode(0), CGEventFlags.maskCommand), (CGKeyCode(51), CGEventFlags())] {
   for down in [true, false] {

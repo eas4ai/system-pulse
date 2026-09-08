@@ -1,7 +1,7 @@
 {
   "status": "PASS",
-  "source_commit": "8b081b054a2bfdd11875fae5cc9c9f5ef7dcf7e8",
-  "binary_sha256": "8ad863384e39ecd90e52c0255ba7f5723c6e6e449ced8915876278fe984af5d6",
+  "source_commit": "074f2bf4bde274ad074ec53bfe82b5f82e8b304b",
+  "binary_sha256": "339ca074a8aa8dd8ba382daf3ba3b3f45729df4612c8e4919c3b920327c7e5de",
   "platform": "linux",
   "frames": [
     {
@@ -112,7 +112,27 @@
           28
         ]
       ],
-      "identity": "process:2215606:99025553"
+      "identity": "process:2753402:99172051",
+      "search": [
+        16,
+        147,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          300,
+          147,
+          85,
+          24
+        ],
+        [
+          389,
+          147,
+          95,
+          24
+        ]
+      ]
     },
     {
       "window_width": 1800,
@@ -222,7 +242,27 @@
           28
         ]
       ],
-      "identity": "process:2215606:99025553"
+      "identity": "process:2753402:99172051",
+      "search": [
+        16,
+        147,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          300,
+          147,
+          85,
+          24
+        ],
+        [
+          389,
+          147,
+          95,
+          24
+        ]
+      ]
     },
     {
       "window_width": 960,
@@ -332,7 +372,27 @@
           28
         ]
       ],
-      "identity": "process:3793188:70871683"
+      "identity": "process:3793188:70871683",
+      "search": [
+        16,
+        147,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          300,
+          147,
+          85,
+          24
+        ],
+        [
+          389,
+          147,
+          95,
+          24
+        ]
+      ]
     },
     {
       "window_width": 1280,
@@ -442,17 +502,38 @@
           28
         ]
       ],
-      "identity": "process:3793188:70871683"
+      "identity": "process:2753402:99172051",
+      "search": [
+        16,
+        147,
+        280,
+        24
+      ],
+      "actions": [
+        [
+          300,
+          147,
+          85,
+          24
+        ],
+        [
+          389,
+          147,
+          95,
+          24
+        ]
+      ]
     }
   ],
   "harness_sha256": {
-    "process_table_linux.py": "a8f8a6ad4046cde7ad6f6ae073458f1059e21e58aaf50ea301e34e818883d06f",
+    "process_table_linux.py": "bd78c88077072b85a4cea545f2952980d7c68d0fe5a6d4d11058716e815434d4",
     "native_driver.py": "3d339da663d726acb6a633b83e6af5689e22b781f727527d520c1252986adb4c",
     "tabbed_driver.py": "a1b43e20608f1f3d1a3a49c404861c064067a31b64a583451d4dcd80af009516",
     "host_accuracy.py": "523d9abce7c235e523d2698f3ccb0594a0909ba3be770e71c0ee82bfc4327a65",
     "native_contract.py": "25daddd3e7868321593143dca3943443c7d823d21850f96c91c18b0e1e697050",
     "native_observations.py": "234f395dcbaf1c668da7ee8ac90f168b3103b0b7d75f79db9314e790ba090d3f",
-    "tabbed_contract.py": "e82cf682c55d5559294f0454029adcf9e09cbef0d4e92679e31e9ae17b00591c"
+    "tabbed_contract.py": "e82cf682c55d5559294f0454029adcf9e09cbef0d4e92679e31e9ae17b00591c",
+    "application_replay.py": "9a270f7f65700efeb088401bcd0869914966595280ec1f211b8a7e6739991916"
   },
   "narrow_scrolled": {
     "window_width": 960,
@@ -562,6 +643,33 @@
         28
       ]
     ],
-    "identity": "process:2219734:99026166"
-  }
+    "identity": "process:2753402:99172051",
+    "search": [
+      16,
+      147,
+      280,
+      24
+    ],
+    "actions": [
+      [
+        300,
+        147,
+        85,
+        24
+      ],
+      [
+        389,
+        147,
+        95,
+        24
+      ]
+    ]
+  },
+  "search_filter": {
+    "pid": 2753402,
+    "identities": [
+      "process:2753402:99172051"
+    ]
+  },
+  "search_clear_rows": 14
 }

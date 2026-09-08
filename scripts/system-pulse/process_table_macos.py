@@ -119,6 +119,11 @@ def run(args):
             process.wait(timeout=10)
             require(process.returncode == 0, "native Quit failed")
             result["status"] = "PASS"
+    except Exception as error:
+        result["error"] = f"{type(error).__name__}: {error}"
+        if process is not None and process.poll() is None:
+            save("failure-tree.json", tree())
+        raise
     finally:
         if process is not None and process.poll() is None:
             process.terminate()
