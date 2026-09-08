@@ -241,15 +241,35 @@ impl HidApi {
             })
         }
     }
-    fn query(&self, origin: Instant) -> SourceResult<Temperatures> {
+}
+
+pub(super) struct HidConnection {
+    // Drop the client before unloading the functions used by its implementation.
+    client: Cf,
+    api: HidApi,
+}
+
+pub(super) trait HidBackend: Sized {
+    fn connect() -> SourceResult<Self>;
+    fn query(&mut self, origin: Instant) -> SourceResult<Temperatures>;
+}
+
+impl HidBackend for HidConnection {
+    fn connect() -> SourceResult<Self> {
+        let api = HidApi::load()?;
         let criteria = Cf::hid_matching()?;
-        let client = unsafe { Cf::owned((self.create)(ptr::null()))? };
-        unsafe { (self.matching)(client.ptr(), criteria.ptr()) };
-        let services = unsafe { Cf::owned((self.services)(client.ptr()))? };
+        let client = unsafe { Cf::owned((api.create)(ptr::null()))? };
+        unsafe { (api.matching)(client.ptr(), criteria.ptr()) };
+        Ok(Self { client, api })
+    }
+
+    fn query(&mut self, origin: Instant) -> SourceResult<Temperatures> {
+        let api = &self.api;
+        let services = unsafe { Cf::owned((api.services)(self.client.ptr()))? };
         let key = Cf::string("Product")?;
         let mut results = BTreeMap::new();
         for service in services.borrow().array(4096)? {
-            let product = unsafe { (self.property)(service.ptr(), key.ptr()) };
+            let product = unsafe { (api.property)(service.ptr(), key.ptr()) };
             if product.is_null() {
                 continue;
             }
@@ -259,11 +279,11 @@ impl HidApi {
                 continue;
             }
             let start = now(origin);
-            let event = unsafe { Cf::owned((self.event)(service.ptr(), 15, 0, 0)) };
+            let event = unsafe { Cf::owned((api.event)(service.ptr(), 15, 0, 0)) };
             let end = now(origin);
             let reading = event
                 .and_then(|event| {
-                    let value = unsafe { (self.value)(event.ptr(), 15 << 16) };
+                    let value = unsafe { (api.value)(event.ptr(), 15 << 16) };
                     if !value.is_finite() {
                         return Err("Invalid HID temperature event".into());
                     }
@@ -292,13 +312,148 @@ impl HidApi {
             .collect())
     }
 }
-pub(super) fn hid(origin: Instant) -> Temperatures {
-    match HidApi::load().and_then(|api| api.query(origin)) {
-        Ok(values) => values,
-        Err(e) => vec![(
-            "hid".into(),
-            "HID/GPU MTR Temp Sensor;Celsius".into(),
-            Err(e),
-        )],
+pub(super) struct Hid<T = HidConnection> {
+    connection: Option<T>,
+}
+
+impl<T> Default for Hid<T> {
+    fn default() -> Self {
+        Self { connection: None }
+    }
+}
+
+impl<T> Hid<T> {
+    pub(super) fn reset(&mut self) {
+        self.connection = None;
+    }
+}
+
+impl<T: HidBackend> Hid<T> {
+    pub(super) fn read(&mut self, origin: Instant) -> Temperatures {
+        let result = (|| {
+            if self.connection.is_none() {
+                self.connection = Some(T::connect()?);
+            }
+            self.connection
+                .as_mut()
+                .expect("connected above")
+                .query(origin)
+        })();
+        if !result.as_ref().is_ok_and(|values| {
+            !values.is_empty() && values.iter().all(|(_, _, value)| value.is_ok())
+        }) {
+            self.reset();
+        }
+        match result {
+            Ok(values) => values,
+            Err(e) => vec![(
+                "hid".into(),
+                "HID/GPU MTR Temp Sensor;Celsius".into(),
+                Err(e),
+            )],
+        }
+    }
+}
+
+#[cfg(test)]
+mod hid_tests {
+    use super::*;
+
+    struct Backend {
+        reads: u64,
+        next: Option<SourceResult<Temperatures>>,
+    }
+
+    impl HidBackend for Backend {
+        fn connect() -> SourceResult<Self> {
+            Ok(Self {
+                reads: 0,
+                next: None,
+            })
+        }
+
+        fn query(&mut self, _: Instant) -> SourceResult<Temperatures> {
+            self.reads += 1;
+            self.next.take().unwrap_or_else(|| {
+                Ok(vec![(
+                    "sensor".into(),
+                    "test source".into(),
+                    Ok(raw_window(
+                        "test source",
+                        self.reads,
+                        self.reads,
+                        [("value", self.reads)],
+                    )),
+                )])
+            })
+        }
+    }
+
+    #[test]
+    fn healthy_connection_reads_again_and_replaces_discovered_sensors() {
+        let mut hid = Hid::<Backend>::default();
+        let origin = Instant::now();
+        assert_eq!(hid.read(origin)[0].2.as_ref().unwrap().captured_ns, 1);
+        assert_eq!(hid.read(origin)[0].2.as_ref().unwrap().captured_ns, 2);
+        hid.connection.as_mut().unwrap().next = Some(Ok(vec![(
+            "replacement".into(),
+            "new source".into(),
+            Ok(raw_window("new source", 3, 3, [("value", 42)])),
+        )]));
+        let readings = hid.read(origin);
+        assert_eq!(readings.len(), 1);
+        assert_eq!(readings[0].0, "replacement");
+        assert_eq!(hid.connection.as_ref().unwrap().reads, 3);
+        hid.reset();
+        assert!(hid.connection.is_none());
+        assert_eq!(hid.read(origin)[0].2.as_ref().unwrap().captured_ns, 1);
+    }
+
+    #[test]
+    fn failed_or_empty_discovery_discards_connection_and_recovers() {
+        let mut hid = Hid::<Backend>::default();
+        let origin = Instant::now();
+        for next in [
+            Err(SourceFailure::unavailable("disconnected")),
+            Ok(vec![]),
+            Ok(vec![(
+                "sensor".into(),
+                "source".into(),
+                Err("read failed".into()),
+            )]),
+        ] {
+            hid.read(origin);
+            hid.connection.as_mut().unwrap().next = Some(next);
+            let readings = hid.read(origin);
+            assert!(readings.iter().all(|(_, _, value)| value.is_err()));
+            assert!(hid.connection.is_none());
+            assert_eq!(hid.read(origin)[0].2.as_ref().unwrap().captured_ns, 1);
+        }
+    }
+
+    struct Disconnected;
+
+    impl HidBackend for Disconnected {
+        fn connect() -> SourceResult<Self> {
+            Err(SourceFailure::unavailable("HID unavailable"))
+        }
+
+        fn query(&mut self, _: Instant) -> SourceResult<Temperatures> {
+            panic!("failed connection must not be queried")
+        }
+    }
+
+    #[test]
+    fn repeated_connection_failure_retains_no_state_or_successful_reading() {
+        let mut hid = Hid::<Disconnected>::default();
+        for _ in 0..100 {
+            let readings = hid.read(Instant::now());
+            assert_eq!(readings.len(), 1);
+            assert_eq!(
+                readings[0].2.as_ref().unwrap_err().reason,
+                "HID unavailable"
+            );
+            assert!(hid.connection.is_none());
+        }
     }
 }

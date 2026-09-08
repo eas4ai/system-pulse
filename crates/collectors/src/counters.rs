@@ -1,10 +1,13 @@
 //! Bounded baselines keyed by stable source identity; failed reads invalidate continuity.
 use crate::types::*;
-use std::collections::{BTreeMap, BTreeSet};
+use std::collections::BTreeMap;
+struct Baseline {
+    observation: RawObservation,
+    touched: bool,
+}
 #[derive(Default)]
 pub struct Counters {
-    baselines: BTreeMap<String, RawObservation>,
-    touched: BTreeSet<String>,
+    baselines: BTreeMap<String, Baseline>,
 }
 impl Counters {
     pub fn rate(&mut self, key: &str, value: Result<u64, String>, ns: u64) -> Option<f64> {
@@ -17,7 +20,6 @@ impl Counters {
     }
     pub fn retain(&mut self, keys: &[&str]) {
         self.baselines.retain(|k, _| keys.contains(&k.as_str()));
-        self.touched.retain(|k| keys.contains(&k.as_str()));
     }
     pub fn len(&self) -> usize {
         self.baselines.len()
@@ -26,10 +28,12 @@ impl Counters {
         self.baselines.is_empty()
     }
     pub(crate) fn begin(&mut self) {
-        self.touched.clear();
+        for baseline in self.baselines.values_mut() {
+            baseline.touched = false;
+        }
     }
     pub(crate) fn finish(&mut self) {
-        self.baselines.retain(|k, _| self.touched.contains(k));
+        self.baselines.retain(|_, baseline| baseline.touched);
     }
     pub(crate) fn derive(
         &mut self,
@@ -37,7 +41,6 @@ impl Counters {
         observation: Result<RawObservation, String>,
         formula: impl FnOnce(&RawObservation, &RawObservation, f64) -> Result<f64, String>,
     ) -> Reading {
-        self.touched.insert(key.into());
         let current = match observation {
             Ok(o) => o,
             Err(e) => {
@@ -45,7 +48,22 @@ impl Counters {
                 return missing(key, Availability::Failed, e);
             }
         };
-        let previous = self.baselines.insert(key.into(), current.clone());
+        let previous = if let Some(baseline) = self.baselines.get_mut(key) {
+            baseline.touched = true;
+            Some(std::mem::replace(
+                &mut baseline.observation,
+                current.clone(),
+            ))
+        } else {
+            self.baselines.insert(
+                key.into(),
+                Baseline {
+                    observation: current.clone(),
+                    touched: true,
+                },
+            );
+            None
+        };
         let Some(previous) = previous else {
             let mut r = missing(
                 key,
@@ -163,10 +181,33 @@ mod tests {
             counters.rate(&format!("interface-{index}"), Ok(10), 1);
             counters.retain(&[]);
             assert!(counters.is_empty());
-            assert!(
-                counters.touched.is_empty(),
-                "removed identities must leave no retained tracking keys"
-            );
         }
+    }
+
+    #[test]
+    fn capture_eviction_preserves_only_fresh_successful_baselines() {
+        let mut counters = Counters::default();
+        counters.begin();
+        counters.rate("a", Ok(10), 1_000_000_000);
+        counters.rate("b", Ok(20), 1_000_000_000);
+        counters.rate("c", Ok(30), 1_000_000_000);
+        counters.finish();
+        counters.begin();
+        assert_eq!(counters.rate("b", Ok(40), 2_000_000_000), Some(20.0));
+        assert_eq!(
+            counters.rate("c", Err("removed".into()), 2_000_000_000),
+            None
+        );
+        counters.finish();
+        assert_eq!(counters.len(), 1);
+        counters.begin();
+        assert_eq!(counters.rate("c", Ok(60), 3_000_000_000), None);
+        assert_eq!(counters.rate("a", Ok(30), 3_000_000_000), None);
+        assert_eq!(counters.rate("b", Ok(70), 3_000_000_000), Some(30.0));
+        counters.finish();
+        assert_eq!(counters.len(), 3);
+        counters.begin();
+        counters.finish();
+        assert!(counters.is_empty());
     }
 }

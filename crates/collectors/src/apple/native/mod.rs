@@ -14,6 +14,7 @@ pub(crate) struct AppleCollector {
     collector: Collector,
     report: Option<report::Report>,
     drivers: Vec<u64>,
+    hid: thermal::Hid,
 }
 impl AppleCollector {
     pub(crate) fn collect(&mut self, snapshot: &mut Snapshot, origin: Instant) {
@@ -24,6 +25,7 @@ impl AppleCollector {
             Err(e) => {
                 self.report = None;
                 self.drivers.clear();
+                self.hid.reset();
                 self.collector.append(snapshot, Err(e));
                 return;
             }
@@ -32,6 +34,7 @@ impl AppleCollector {
         drivers.sort_unstable();
         if self.drivers != drivers {
             self.report = None;
+            self.hid.reset();
             self.drivers = drivers;
         }
         let channels = if devices.is_empty() {
@@ -129,7 +132,7 @@ impl AppleCollector {
                 )]
             };
             temperatures.extend(if single {
-                thermal::hid(origin)
+                self.hid.read(origin)
             } else {
                 vec![(
                     "hid".into(),
