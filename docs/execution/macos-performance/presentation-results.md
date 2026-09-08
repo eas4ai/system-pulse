@@ -1,6 +1,14 @@
 # Deferred presentation: measured result
 
-Status: Preservation verified; PERF-001 and PERF-002 still fail.
+Status: Normal-launch UI regression reported after these checks. This candidate
+is not preservation-complete and its CPU observations do not establish an
+improvement with all required Summary content present.
+
+The developer's release smoke test found an empty Top CPU processes card.
+Diagnostics prepared process rows eagerly and masked the omission in native
+preservation. The normal Summary path failed to prepare its visible rows.
+See [the regression record](summary-process-regression.md). The records below
+retain what ran; their passing exits did not detect this defect.
 
 The locked release from `6b25bd585e0a119c7f740d6a14c4a9feca9278b1` has SHA-256
 `b121b338adf6e9477b2035644af6119de3f38080a09dcabf1cf00599ba3c4bcf`.

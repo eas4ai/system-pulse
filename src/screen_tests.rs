@@ -82,13 +82,62 @@ fn active(view: &Entity<ScreenView>, cx: &VisualTestContext) -> Screen {
 }
 
 #[gpui_kit::test]
-fn hidden_process_rows_are_prepared_from_the_latest_identity_on_display(cx: &mut TestAppContext) {
+fn summary_top_cpu_processes_follow_live_snapshots(cx: &mut TestAppContext) {
     let (view, cx) = populated(cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(
+            data.processes.len(),
+            2,
+            "Summary needs its visible process rows"
+        );
+        assert_eq!(data.processes[0].cells[1], "compiler");
+    });
+    let compiler = cx.debug_bounds("summary-process:401:40100:name").unwrap();
+    let idle = cx.debug_bounds("summary-process:402:40200:name").unwrap();
+    assert!(
+        compiler.origin.y < idle.origin.y,
+        "Summary sorts by CPU usage"
+    );
+    command(&view, crate::workspace::Command::Screen(Screen::Cpu), cx);
+    let mut next = fixture::snapshot(6);
+    next.processes[0].identity.start_time_ticks += 1;
+    next.processes[0].name = "replacement compiler".into();
+    next.processes[0].cpu_percent.value = Some(0.);
+    next.processes[1].cpu_percent.value = Some(80.);
+    accept(&view, next, cx);
+    assert!(cx.read(|cx| view.read(cx).shared.borrow().processes.is_empty()));
+    command(
+        &view,
+        crate::workspace::Command::Screen(Screen::Summary),
+        cx,
+    );
+    assert!(cx.debug_bounds("summary-process:401:40100:name").is_none());
+    let compiler = cx.debug_bounds("summary-process:401:40101:name").unwrap();
+    let idle = cx.debug_bounds("summary-process:402:40200:name").unwrap();
+    assert!(
+        idle.origin.y < compiler.origin.y,
+        "Latest CPU changes the visible order"
+    );
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(data.processes[0].cells[1], "replacement compiler");
+        assert_eq!(data.snapshot.as_ref().unwrap().sequence, 6);
+    });
+}
+
+#[gpui_kit::test]
+fn hidden_process_rows_are_prepared_from_the_latest_identity_on_display(cx: &mut TestAppContext) {
+    let (view, cx) = harness(cx);
+    command(&view, crate::workspace::Command::Screen(Screen::Cpu), cx);
+    for sequence in 1..=5 {
+        accept(&view, fixture::snapshot(sequence), cx);
+    }
     cx.read(|cx| {
         let data = view.read(cx).shared.borrow();
         assert!(
             data.processes.is_empty(),
-            "Summary must not format table cells"
+            "CPU charts do not need process table cells"
         );
         assert_eq!(data.process_count(), 2);
     });
@@ -104,11 +153,7 @@ fn hidden_process_rows_are_prepared_from_the_latest_identity_on_display(cx: &mut
             .clone()
             .update(cx, |panel, _| panel.selected = Some(identity.clone()));
     });
-    command(
-        &view,
-        crate::workspace::Command::Screen(Screen::Summary),
-        cx,
-    );
+    command(&view, crate::workspace::Command::Screen(Screen::Cpu), cx);
     accept(&view, fixture::snapshot(6), cx);
     cx.read(|cx| {
         assert_eq!(

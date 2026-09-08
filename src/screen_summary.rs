@@ -269,10 +269,12 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
                     .gap_2()
                     .child(heading("Top CPU processes", 18., cx))
                     .child(
-                        div()
-                            .text_size(px(11.))
-                            .text_color(palette(cx).muted)
-                            .child(format!("{} total", state.processes.len())),
+                        crate::meters::metric_label(
+                            "summary-process-total".into(),
+                            format!("{} total", state.process_count()),
+                        )
+                        .text_size(px(11.))
+                        .text_color(palette(cx).muted),
                     ),
             )
             .child(
@@ -300,6 +302,11 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
                         .enumerate()
                         .map(|(index, row)| {
                             let cpu = row.cells.get(2).cloned().unwrap_or_default();
+                            let id = format!(
+                                "summary-process:{}:{}",
+                                row.identity.pid, row.identity.start_time_ticks
+                            );
+                            let name_id = format!("{id}:name");
                             div()
                                 .flex()
                                 .items_center()
@@ -309,30 +316,34 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
                                 .text_size(px(12.))
                                 .when(index % 2 == 0, |view| view.bg(cpu_color.opacity(0.075)))
                                 .child(
-                                    div()
-                                        .w(px(68.))
-                                        .flex_none()
-                                        .whitespace_nowrap()
-                                        .font_family(cx.theme().mono_font_family.clone())
-                                        .child(row.identity.pid.to_string()),
+                                    crate::meters::metric_label(
+                                        format!("{id}:pid"),
+                                        row.identity.pid.to_string(),
+                                    )
+                                    .w(px(68.))
+                                    .flex_none()
+                                    .whitespace_nowrap()
+                                    .font_family(cx.theme().mono_font_family.clone()),
                                 )
                                 .child(
-                                    div()
-                                        .flex_1()
-                                        .min_w_0()
-                                        .overflow_hidden()
-                                        .text_ellipsis()
-                                        .child(row.cells.get(1).cloned().unwrap_or_default()),
+                                    crate::meters::metric_label(
+                                        name_id.clone(),
+                                        row.cells.get(1).cloned().unwrap_or_default(),
+                                    )
+                                    .debug_selector(move || name_id.clone().into())
+                                    .flex_1()
+                                    .min_w_0()
+                                    .overflow_hidden()
+                                    .text_ellipsis(),
                                 )
                                 .child(
-                                    div()
+                                    crate::meters::metric_label(format!("{id}:cpu"), cpu)
                                         .w(px(80.))
                                         .flex_none()
                                         .overflow_hidden()
                                         .text_ellipsis()
                                         .text_right()
-                                        .text_color(cpu_color)
-                                        .child(cpu),
+                                        .text_color(cpu_color),
                                 )
                         }),
                 ),

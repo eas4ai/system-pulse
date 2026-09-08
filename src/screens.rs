@@ -310,6 +310,10 @@ impl Render for ScreenView {
             .has_device_selection()
             .then(|| self.device_picker(active));
         let notice = self.notice(cx);
+        if active == Screen::Summary {
+            // Summary displays the top CPU rows as well as the process count.
+            self.shared.borrow_mut().prepare_processes();
+        }
         let data = self.shared.borrow();
         let width = (window.viewport_size().width.as_f32() - 32.).max(320.);
         let interval = data.session.workspace.interval_ms as f64 / 1000.;
