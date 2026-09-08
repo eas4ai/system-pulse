@@ -1,0 +1,11 @@
+...........
+----------------------------------------------------------------------
+Ran 11 tests in 0.006s
+
+OK
+cairn: PERF-006: pass
+cairn: PERF-003: pass
+cairn: PERF-004: pass
+cairn: PERF-005: pass
+summary: 12.780% -> 10.006% of one CPU; ratio=0.782968
+tray: 11.081% -> 7.318% of one CPU; ratio=0.660418

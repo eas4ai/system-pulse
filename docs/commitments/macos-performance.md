@@ -1,6 +1,6 @@
 # Reduce native Mac monitoring overhead
 
-Status: Agreed 2026-09-07
+Status: Suspended by developer 2026-09-08; CPU targets unmet
 Slug: macos-performance
 Requirements: PERF-001, PERF-002, PERF-003, PERF-004, PERF-005, PERF-006
 
@@ -29,3 +29,9 @@ This commitment does not complete the older finish-application or GPU hardware
 commitments. Their pending evidence and historical scope reconciliation remain
 recorded in the [recon](../recon.md) and backlog. Switching current work does not
 grant a retrospective pass or an exception for their recorded history.
+
+The developer agreed to stop after the final comparison. Summary CPU was
+21.7% lower and tray-only CPU 34.0% lower; neither met the 50% requirement.
+PERF-003 through PERF-006 passed the committed gate. This commitment remains
+incomplete. See the [stop decision](../decisions/stop-mac-optimization-after-the-final-paired-comparison.md)
+and [final measurements](../execution/macos-performance/evidence/measurements.json).

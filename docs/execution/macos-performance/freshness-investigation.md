@@ -4,7 +4,8 @@ Status: Linux and Mac preservation passed; final CPU comparison completed below 
 
 - [x] Complete: remove intermediate diagnostic JSON allocation and verify payload, failure handling and native publication timing.
 - [x] Complete: run complete Linux acceptance and retain the committed-source receipt.
-- [ ] In progress: record the completed Mac comparison, committed gate results and the developer’s decision to stop optimization.
+- [x] Complete: record the completed Mac comparison, committed gate results and the developer’s decision to stop optimization.
+- [ ] In progress: record the authorized transition to process-table work.
 
 Two complete Linux acceptance runs failed at device-label lookup in
 `tabbed_replay.py:101`, with accepted-frame ages 2.290 and 2.003 seconds.
@@ -133,3 +134,9 @@ release of the owned wake assertions.
 The developer agreed on 2026-09-08 to finish this running comparison and
 stop further optimization, then move to the requested process-table work.
 This is a stop decision, not a passing performance commitment or a lowered target.
+
+The committed gate at `ef11de3e` ran all eleven verifier regression tests
+and recorded passes for PERF-003 through PERF-006. PERF-001 and PERF-002
+remain unverified in Cairn because their target checks did not pass; the
+mechanism exited 1. The [stop decision](../../decisions/stop-mac-optimization-after-the-final-paired-comparison.md)
+records the developer's agreement.
