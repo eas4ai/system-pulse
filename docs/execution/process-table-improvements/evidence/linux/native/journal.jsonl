@@ -1,0 +1,93 @@
+{"op": "launch", "monotonic_ns": 993723088282905, "pid": 3688548, "binary": "/home/shawn/workspace2/task-manager/target/debug/system-pulse"}
+{"op": "ack", "monotonic_ns": 993723704066496, "condition": "first fresh snapshot"}
+{"op": "ack", "monotonic_ns": 993723708746152, "condition": "new session native PID root"}
+{"op": "ack", "monotonic_ns": 993723712445956, "condition": "private window at screen origin"}
+{"op": "ack", "monotonic_ns": 993724024471100, "condition": "find screen-tab:processes"}
+{"op": "pointer-click", "monotonic_ns": 993724039085322, "name": "Processes", "bounds": [573, 38, 93, 40]}
+{"op": "ack", "monotonic_ns": 993724195997039, "condition": "selected processes"}
+{"op": "ack", "monotonic_ns": 993724503218896, "condition": "find screen:processes"}
+{"op": "ack", "monotonic_ns": 993724505289379, "condition": "saved processes"}
+{"op": "resize", "monotonic_ns": 993724505344443, "width": 1280, "height": 880}
+{"op": "ack", "monotonic_ns": 993724506046530, "condition": "window resize"}
+{"op": "ack", "monotonic_ns": 993725730326667, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993726058011421, "condition": "find End task\u2026"}
+{"op": "ack", "monotonic_ns": 993726345887545, "condition": "find Force quit\u2026"}
+{"op": "ack", "monotonic_ns": 993726346329605, "condition": "stable table geometry"}
+{"op": "screenshot", "monotonic_ns": 993726406802772, "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/linux-auth-41acec06/native/resize-1280-1.png", "sha256": "ef18133f7f1f3da51d00185b8739eab5c5caf77ed6a459a2580bdf395bd15dfc"}
+{"op": "resize", "monotonic_ns": 993726406841579, "width": 1800, "height": 880}
+{"op": "ack", "monotonic_ns": 993726410743210, "condition": "window resize"}
+{"op": "ack", "monotonic_ns": 993727805570080, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993728212956809, "condition": "find End task\u2026"}
+{"op": "ack", "monotonic_ns": 993728619989981, "condition": "find Force quit\u2026"}
+{"op": "ack", "monotonic_ns": 993728620984603, "condition": "stable table geometry"}
+{"op": "screenshot", "monotonic_ns": 993728700799626, "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/linux-auth-41acec06/native/resize-1800-2.png", "sha256": "e0c096a65e273082e06561e6b98c3ac64ebdc67fc7c94aa23bc54f5e61ac43bc"}
+{"op": "resize", "monotonic_ns": 993728700836975, "width": 960, "height": 640}
+{"op": "ack", "monotonic_ns": 993728705088143, "condition": "window resize"}
+{"op": "ack", "monotonic_ns": 993730468940350, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993730717442180, "condition": "find End task\u2026"}
+{"op": "ack", "monotonic_ns": 993731010930263, "condition": "find Force quit\u2026"}
+{"op": "ack", "monotonic_ns": 993731011495941, "condition": "stable table geometry"}
+{"op": "screenshot", "monotonic_ns": 993731065201953, "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/linux-auth-41acec06/native/resize-960-3.png", "sha256": "6212461c6f186ab161a975fcdd9dc8026f762ac6d53001820c8061643417828b"}
+{"op": "focus", "monotonic_ns": 993731067690026, "name": "", "id": "processes:viewport", "deadline": 993736.066820105}
+{"op": "ack", "monotonic_ns": 993731105239247, "condition": "native focus and clipped visibility"}
+{"op": "focus-visible", "monotonic_ns": 993731116070703, "bounds": [16, 175, 928, 374], "clip_ancestors": [{"id": "screen:processes", "name": "Processes", "role": "scroll pane", "bounds": [0, 147, 960, 466]}, {"id": "", "name": "System Pulse", "role": "frame", "bounds": [-1, -1, -1, -1]}, {"id": "", "name": "system-pulse", "role": "application", "bounds": null}, {"id": null, "name": "main", "role": "desktop frame", "bounds": [0, 0, 1024, 768]}]}
+{"op": "key", "monotonic_ns": 993731116184866, "keys": ["Right"], "pressed": null}
+{"op": "key", "monotonic_ns": 993731216691621, "keys": ["Right"], "pressed": null}
+{"op": "key", "monotonic_ns": 993731317190167, "keys": ["Right"], "pressed": null}
+{"op": "key", "monotonic_ns": 993731417692160, "keys": ["Right"], "pressed": null}
+{"op": "key", "monotonic_ns": 993731518267593, "keys": ["Right"], "pressed": null}
+{"op": "key", "monotonic_ns": 993731618886289, "keys": ["Right"], "pressed": null}
+{"op": "ack", "monotonic_ns": 993732598671609, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993732882490077, "condition": "find End task\u2026"}
+{"op": "ack", "monotonic_ns": 993733174685079, "condition": "find Force quit\u2026"}
+{"op": "ack", "monotonic_ns": 993733175154806, "condition": "scrolled table geometry"}
+{"op": "key", "monotonic_ns": 993733175190120, "keys": ["Left"], "pressed": null}
+{"op": "key", "monotonic_ns": 993733275644182, "keys": ["Left"], "pressed": null}
+{"op": "key", "monotonic_ns": 993733376117315, "keys": ["Left"], "pressed": null}
+{"op": "key", "monotonic_ns": 993733476596921, "keys": ["Left"], "pressed": null}
+{"op": "key", "monotonic_ns": 993733577138693, "keys": ["Left"], "pressed": null}
+{"op": "key", "monotonic_ns": 993733677631908, "keys": ["Left"], "pressed": null}
+{"op": "resize", "monotonic_ns": 993733778571102, "width": 1280, "height": 880}
+{"op": "ack", "monotonic_ns": 993733784978535, "condition": "window resize"}
+{"op": "ack", "monotonic_ns": 993736127815166, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993736533205566, "condition": "find End task\u2026"}
+{"op": "ack", "monotonic_ns": 993736952073215, "condition": "find Force quit\u2026"}
+{"op": "ack", "monotonic_ns": 993736953414204, "condition": "stable table geometry"}
+{"op": "screenshot", "monotonic_ns": 993737020571786, "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/linux-auth-41acec06/native/resize-1280-4.png", "sha256": "112e0f0f55876846f8b405a21013adf40dc90241daea5de7ef1c9489e55380dd"}
+{"op": "resize", "monotonic_ns": 993737020617081, "width": 960, "height": 640}
+{"op": "ack", "monotonic_ns": 993737024618681, "condition": "window resize"}
+{"op": "ack", "monotonic_ns": 993737418973489, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993737533627511, "condition": "input revealed after native focus"}
+{"op": "key", "monotonic_ns": 993737533694788, "keys": ["Control_L", "a"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737533906798, "keys": ["BackSpace"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737533972368, "keys": ["3"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737534039268, "keys": ["6"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737534096379, "keys": ["8"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737534143457, "keys": ["8"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737534187160, "keys": ["5"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737534444427, "keys": ["4"], "pressed": null}
+{"op": "key", "monotonic_ns": 993737534496064, "keys": ["8"], "pressed": null}
+{"op": "typed-input", "monotonic_ns": 993737739307080, "value": "3688548", "attributes": {"placeholder-text": "Search name, PID, or user\u2026"}}
+{"op": "ack", "monotonic_ns": 993737851794808, "condition": "filtered process rows"}
+{"op": "ack", "monotonic_ns": 993737972050991, "condition": "find Search name, PID, or user\u2026"}
+{"op": "ack", "monotonic_ns": 993738083339009, "condition": "input revealed after native focus"}
+{"op": "key", "monotonic_ns": 993738083439945, "keys": ["Control_L", "a"], "pressed": null}
+{"op": "key", "monotonic_ns": 993738083751094, "keys": ["BackSpace"], "pressed": null}
+{"op": "typed-input", "monotonic_ns": 993738185976703, "value": "", "attributes": {"placeholder-text": "Search name, PID, or user\u2026"}}
+{"op": "ack", "monotonic_ns": 993738580762662, "condition": "cleared process search"}
+{"op": "resize", "monotonic_ns": 993738580861238, "width": 1280, "height": 880}
+{"op": "ack", "monotonic_ns": 993738583192726, "condition": "window resize"}
+{"op": "ack", "monotonic_ns": 993739166359593, "condition": "find Sort by User"}
+{"op": "focus", "monotonic_ns": 993739166776118, "name": "Sort by User", "id": "", "deadline": 993744.166408747}
+{"op": "ack", "monotonic_ns": 993739213526014, "condition": "native focus and clipped visibility"}
+{"op": "focus-visible", "monotonic_ns": 993739227396817, "bounds": [1123, 176, 140, 24], "clip_ancestors": [{"id": "", "name": "Sort by User", "role": "table cell", "bounds": [1123, 176, 140, 28]}, {"id": "", "name": "", "role": "table row", "bounds": [17, 176, 1246, 28]}, {"id": "", "name": "1655 readable process rows; arrows navigate and scroll columns; Tab leaves table", "role": "table", "bounds": [17, 176, 1246, 612]}, {"id": "processes:viewport", "name": "", "role": "panel", "bounds": [16, 175, 1248, 614]}, {"id": "screen:processes", "name": "Processes", "role": "scroll pane", "bounds": [0, 147, 1280, 706]}, {"id": "", "name": "System Pulse", "role": "frame", "bounds": [-1, -1, -1, -1]}, {"id": "", "name": "system-pulse", "role": "application", "bounds": null}, {"id": null, "name": "main", "role": "desktop frame", "bounds": [0, 0, 1024, 768]}]}
+{"op": "key", "monotonic_ns": 993739227463769, "keys": ["Return"], "pressed": null}
+{"op": "ack", "monotonic_ns": 993740017817346, "condition": "native User sort"}
+{"op": "focus", "monotonic_ns": 993740019191684, "name": "", "id": "processes:viewport", "deadline": 993745.018495962}
+{"op": "ack", "monotonic_ns": 993740059715608, "condition": "native focus and clipped visibility"}
+{"op": "focus-visible", "monotonic_ns": 993740071560751, "bounds": [16, 175, 1248, 614], "clip_ancestors": [{"id": "screen:processes", "name": "Processes", "role": "scroll pane", "bounds": [0, 147, 1280, 706]}, {"id": "", "name": "System Pulse", "role": "frame", "bounds": [-1, -1, -1, -1]}, {"id": "", "name": "system-pulse", "role": "application", "bounds": null}, {"id": null, "name": "main", "role": "desktop frame", "bounds": [0, 0, 1024, 768]}]}
+{"op": "key", "monotonic_ns": 993740071660745, "keys": ["Home"], "pressed": null}
+{"op": "ack", "monotonic_ns": 993740593613084, "condition": "native Home"}
+{"op": "key", "monotonic_ns": 993740593704285, "keys": ["End"], "pressed": null}
+{"op": "ack", "monotonic_ns": 993741048031568, "condition": "native End"}
+{"op": "WM_DELETE_WINDOW", "monotonic_ns": 993741048107179}

@@ -16,6 +16,7 @@ inputs:
   - package/
   - scripts/system-pulse/
   - .cairn/mechanisms/process-table-improvements
+  - docs/execution/process-table-improvements/evidence/
 requirements:
   - PROC-001
   - PROC-002

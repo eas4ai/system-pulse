@@ -1,0 +1,3020 @@
+{
+  "schema_version": 1,
+  "dock": {
+    "version": 1,
+    "center": {
+      "panel_name": "StackPanel",
+      "children": [
+        {
+          "panel_name": "StackPanel",
+          "children": [
+            {
+              "panel_name": "TabPanel",
+              "children": [
+                {
+                  "panel_name": "SystemPulseMonitor",
+                  "children": [],
+                  "info": {
+                    "panel": {
+                      "monitor_id": "cpu:host"
+                    }
+                  }
+                }
+              ],
+              "info": {
+                "tabs": {
+                  "active_index": 0
+                }
+              }
+            },
+            {
+              "panel_name": "TabPanel",
+              "children": [
+                {
+                  "panel_name": "SystemPulseMonitor",
+                  "children": [],
+                  "info": {
+                    "panel": {
+                      "monitor_id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000"
+                    }
+                  }
+                }
+              ],
+              "info": {
+                "tabs": {
+                  "active_index": 0
+                }
+              }
+            }
+          ],
+          "info": {
+            "stack": {
+              "sizes": [
+                380.0,
+                300.0
+              ],
+              "axis": 1
+            }
+          }
+        },
+        {
+          "panel_name": "StackPanel",
+          "children": [
+            {
+              "panel_name": "TabPanel",
+              "children": [
+                {
+                  "panel_name": "SystemPulseMonitor",
+                  "children": [],
+                  "info": {
+                    "panel": {
+                      "monitor_id": "memory:host"
+                    }
+                  }
+                }
+              ],
+              "info": {
+                "tabs": {
+                  "active_index": 0
+                }
+              }
+            },
+            {
+              "panel_name": "TabPanel",
+              "children": [
+                {
+                  "panel_name": "SystemPulseMonitor",
+                  "children": [],
+                  "info": {
+                    "panel": {
+                      "monitor_id": "processes"
+                    }
+                  }
+                }
+              ],
+              "info": {
+                "tabs": {
+                  "active_index": 0
+                }
+              }
+            }
+          ],
+          "info": {
+            "stack": {
+              "sizes": [
+                260.0,
+                420.0
+              ],
+              "axis": 1
+            }
+          }
+        }
+      ],
+      "info": {
+        "stack": {
+          "sizes": [
+            580.0,
+            580.0
+          ],
+          "axis": 0
+        }
+      }
+    }
+  },
+  "panels": {
+    "cpu:host": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 380.0
+      },
+      "sensors": {
+        "cpu:host/core-0-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "cpu:host/core-0-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "cpu:host/core-1-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "cpu:host/core-1-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "cpu:host/core-2-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 6,
+          "meter": "number"
+        },
+        "cpu:host/core-2-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 5,
+          "meter": "number"
+        },
+        "cpu:host/core-3-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 8,
+          "meter": "number"
+        },
+        "cpu:host/core-3-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 7,
+          "meter": "number"
+        },
+        "cpu:host/core-4-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 10,
+          "meter": "number"
+        },
+        "cpu:host/core-4-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 9,
+          "meter": "number"
+        },
+        "cpu:host/core-5-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 12,
+          "meter": "number"
+        },
+        "cpu:host/core-5-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 11,
+          "meter": "number"
+        },
+        "cpu:host/core-6-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 14,
+          "meter": "number"
+        },
+        "cpu:host/core-6-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 13,
+          "meter": "number"
+        },
+        "cpu:host/core-7-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 16,
+          "meter": "number"
+        },
+        "cpu:host/core-7-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 15,
+          "meter": "number"
+        },
+        "cpu:host/load-1": {
+          "visible": true,
+          "collapsed": false,
+          "order": 45,
+          "meter": "number"
+        },
+        "cpu:host/load-15": {
+          "visible": true,
+          "collapsed": false,
+          "order": 47,
+          "meter": "number"
+        },
+        "cpu:host/load-5": {
+          "visible": true,
+          "collapsed": false,
+          "order": 46,
+          "meter": "number"
+        },
+        "cpu:host/processes": {
+          "visible": true,
+          "collapsed": false,
+          "order": 49,
+          "meter": "number"
+        },
+        "cpu:host/temperature:NAND CH0 temp": {
+          "visible": true,
+          "collapsed": false,
+          "order": 23,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU TP0s": {
+          "visible": true,
+          "collapsed": false,
+          "order": 30,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU TP1g": {
+          "visible": true,
+          "collapsed": false,
+          "order": 31,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU TP1s": {
+          "visible": true,
+          "collapsed": false,
+          "order": 37,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU TP2g": {
+          "visible": true,
+          "collapsed": false,
+          "order": 42,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU TP2s": {
+          "visible": true,
+          "collapsed": false,
+          "order": 40,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU TP3g": {
+          "visible": true,
+          "collapsed": false,
+          "order": 19,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tcal": {
+          "visible": true,
+          "collapsed": false,
+          "order": 39,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev1": {
+          "visible": true,
+          "collapsed": false,
+          "order": 17,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev2": {
+          "visible": true,
+          "collapsed": false,
+          "order": 32,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev3": {
+          "visible": true,
+          "collapsed": false,
+          "order": 38,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev4": {
+          "visible": true,
+          "collapsed": false,
+          "order": 18,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev5": {
+          "visible": true,
+          "collapsed": false,
+          "order": 36,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev6": {
+          "visible": true,
+          "collapsed": false,
+          "order": 43,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev7": {
+          "visible": true,
+          "collapsed": false,
+          "order": 21,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdev8": {
+          "visible": true,
+          "collapsed": false,
+          "order": 34,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie0": {
+          "visible": true,
+          "collapsed": false,
+          "order": 28,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie1": {
+          "visible": true,
+          "collapsed": false,
+          "order": 20,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie10": {
+          "visible": true,
+          "collapsed": false,
+          "order": 41,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie2": {
+          "visible": true,
+          "collapsed": false,
+          "order": 25,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie3": {
+          "visible": true,
+          "collapsed": false,
+          "order": 44,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie4": {
+          "visible": true,
+          "collapsed": false,
+          "order": 27,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie5": {
+          "visible": true,
+          "collapsed": false,
+          "order": 33,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie6": {
+          "visible": true,
+          "collapsed": false,
+          "order": 35,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie7": {
+          "visible": true,
+          "collapsed": false,
+          "order": 29,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie8": {
+          "visible": true,
+          "collapsed": false,
+          "order": 22,
+          "meter": "number"
+        },
+        "cpu:host/temperature:PMU tdie9": {
+          "visible": true,
+          "collapsed": false,
+          "order": 26,
+          "meter": "number"
+        },
+        "cpu:host/temperature:gas gauge battery": {
+          "visible": true,
+          "collapsed": false,
+          "order": 24,
+          "meter": "number"
+        },
+        "cpu:host/threads": {
+          "visible": true,
+          "collapsed": false,
+          "order": 50,
+          "meter": "number"
+        },
+        "cpu:host/uptime": {
+          "visible": true,
+          "collapsed": false,
+          "order": 48,
+          "meter": "number"
+        },
+        "cpu:host/usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "gpu:apple:IODeviceTree:/arm-io/sgx@4000000": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan": {
+          "visible": true,
+          "collapsed": false,
+          "order": 10,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid": {
+          "visible": true,
+          "collapsed": false,
+          "order": 9,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05": {
+          "visible": true,
+          "collapsed": false,
+          "order": 5,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D": {
+          "visible": true,
+          "collapsed": false,
+          "order": 6,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L": {
+          "visible": true,
+          "collapsed": false,
+          "order": 7,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T": {
+          "visible": true,
+          "collapsed": false,
+          "order": 8,
+          "meter": "number"
+        },
+        "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "memory:host": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 260.0
+      },
+      "sensors": {
+        "memory:host/available": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "memory:host/buffers": {
+          "visible": true,
+          "collapsed": false,
+          "order": 7,
+          "meter": "number"
+        },
+        "memory:host/cache": {
+          "visible": true,
+          "collapsed": false,
+          "order": 6,
+          "meter": "number"
+        },
+        "memory:host/free": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "memory:host/major-page-faults": {
+          "visible": true,
+          "collapsed": false,
+          "order": 10,
+          "meter": "number"
+        },
+        "memory:host/other": {
+          "visible": true,
+          "collapsed": false,
+          "order": 8,
+          "meter": "number"
+        },
+        "memory:host/page-faults": {
+          "visible": true,
+          "collapsed": false,
+          "order": 9,
+          "meter": "number"
+        },
+        "memory:host/swap": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "memory:host/swap-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 5,
+          "meter": "number"
+        },
+        "memory:host/total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "memory:host/used": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:1e:d0:e9:ad:99:05:name:ap1": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:1e:d0:e9:ad:99:05:name:ap1/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:1e:d0:e9:ad:99:05:name:ap1/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:1e:d0:e9:ad:99:05:name:ap1/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:1e:d0:e9:ad:99:05:name:ap1/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:1e:d0:e9:ad:99:05:name:ap1/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:36:ac:48:f4:83:c0:name:en1": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:36:ac:48:f4:83:c0:name:en1/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c0:name:en1/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c0:name:en1/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c0:name:en1/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c0:name:en1/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:36:ac:48:f4:83:c4:name:en2": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:36:ac:48:f4:83:c4:name:en2/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c4:name:en2/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c4:name:en2/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c4:name:en2/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c4:name:en2/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:36:ac:48:f4:83:c8:name:en3": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:36:ac:48:f4:83:c8:name:en3/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c8:name:en3/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c8:name:en3/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c8:name:en3/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:36:ac:48:f4:83:c8:name:en3/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:a2:33:38:db:1b:6a:name:awdl0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:a2:33:38:db:1b:6a:name:awdl0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:a2:33:38:db:1b:6a:name:llw0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:a2:33:38:db:1b:6a:name:llw0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:llw0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:llw0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:llw0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:a2:33:38:db:1b:6a:name:llw0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:c2:04:8c:3c:b9:1b:name:en0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:c2:04:8c:3c:b9:1b:name:en0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:c2:04:8c:3c:b9:1b:name:en0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:c2:04:8c:3c:b9:1b:name:en0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:c2:04:8c:3c:b9:1b:name:en0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:c2:04:8c:3c:b9:1b:name:en0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ee:7c:f0:9e:f8:81:name:en4": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ee:7c:f0:9e:f8:81:name:en4/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:81:name:en4/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:81:name:en4/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:81:name:en4/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:81:name:en4/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ee:7c:f0:9e:f8:82:name:en5": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ee:7c:f0:9e:f8:82:name:en5/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:82:name:en5/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:82:name:en5/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:82:name:en5/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:82:name:en5/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ee:7c:f0:9e:f8:83:name:en6": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ee:7c:f0:9e:f8:83:name:en6/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:83:name:en6/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:83:name:en6/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:83:name:en6/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:83:name:en6/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:bridge0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:bridge0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:bridge0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:bridge0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:bridge0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:bridge0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:feth4990": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:feth4990/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:feth4990/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:feth4990/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:feth4990/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:feth4990/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:feth9990": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:feth9990/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:feth9990/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:feth9990/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:feth9990/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:feth9990/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:gif0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:gif0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:gif0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:gif0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:gif0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:gif0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:lo0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:lo0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:lo0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:lo0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:lo0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:lo0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:stf0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:stf0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:stf0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:stf0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:stf0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:stf0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:utun0": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:utun0/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:utun0/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:utun0/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:utun0/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:utun0/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:utun1": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:utun1/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:utun1/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:utun1/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:utun1/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:utun1/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:utun2": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:utun2/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:utun2/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:utun2/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:utun2/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:utun2/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:name:utun3": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:name:utun3/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:name:utun3/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:name:utun3/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:name:utun3/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:name:utun3/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "processes": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 420.0
+      },
+      "sensors": {}
+    },
+    "settings": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {}
+    },
+    "volume:source:Macintosh HD:/": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "volume:source:Macintosh HD://capacity": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD://iops": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD://latency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD://read": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD://write": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        }
+      }
+    },
+    "volume:source:Macintosh HD:/System/Volumes/Data": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "volume:source:Macintosh HD:/System/Volumes/Data/capacity": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD:/System/Volumes/Data/iops": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD:/System/Volumes/Data/latency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD:/System/Volumes/Data/read": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "volume:source:Macintosh HD:/System/Volumes/Data/write": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        }
+      }
+    }
+  },
+  "monitors": {
+    "cpu:host": {
+      "id": "cpu:host",
+      "title": "CPU",
+      "summary": "cpu:host/usage",
+      "sensors": [
+        {
+          "id": "cpu:host/usage",
+          "title": "Overall utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-0-usage",
+          "title": "CPU 0 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-0-frequency",
+          "title": "CPU 0 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-1-usage",
+          "title": "CPU 1 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-1-frequency",
+          "title": "CPU 1 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-2-usage",
+          "title": "CPU 2 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-2-frequency",
+          "title": "CPU 2 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-3-usage",
+          "title": "CPU 3 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-3-frequency",
+          "title": "CPU 3 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-4-usage",
+          "title": "CPU 4 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-4-frequency",
+          "title": "CPU 4 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-5-usage",
+          "title": "CPU 5 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-5-frequency",
+          "title": "CPU 5 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-6-usage",
+          "title": "CPU 6 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-6-frequency",
+          "title": "CPU 6 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-7-usage",
+          "title": "CPU 7 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-7-frequency",
+          "title": "CPU 7 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev1",
+          "title": "PMU tdev1",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev4",
+          "title": "PMU tdev4",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU TP3g",
+          "title": "PMU TP3g",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie1",
+          "title": "PMU tdie1",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev7",
+          "title": "PMU tdev7",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie8",
+          "title": "PMU tdie8",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:NAND CH0 temp",
+          "title": "NAND CH0 temp",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:gas gauge battery",
+          "title": "gas gauge battery",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie2",
+          "title": "PMU tdie2",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie9",
+          "title": "PMU tdie9",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie4",
+          "title": "PMU tdie4",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie0",
+          "title": "PMU tdie0",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie7",
+          "title": "PMU tdie7",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU TP0s",
+          "title": "PMU TP0s",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU TP1g",
+          "title": "PMU TP1g",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev2",
+          "title": "PMU tdev2",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie5",
+          "title": "PMU tdie5",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev8",
+          "title": "PMU tdev8",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie6",
+          "title": "PMU tdie6",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev5",
+          "title": "PMU tdev5",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU TP1s",
+          "title": "PMU TP1s",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev3",
+          "title": "PMU tdev3",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tcal",
+          "title": "PMU tcal",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU TP2s",
+          "title": "PMU TP2s",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie10",
+          "title": "PMU tdie10",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU TP2g",
+          "title": "PMU TP2g",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdev6",
+          "title": "PMU tdev6",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/temperature:PMU tdie3",
+          "title": "PMU tdie3",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/load-1",
+          "title": "Load average",
+          "quantity": "scalar",
+          "unit": "Load"
+        },
+        {
+          "id": "cpu:host/load-5",
+          "title": "Load average",
+          "quantity": "scalar",
+          "unit": "Load"
+        },
+        {
+          "id": "cpu:host/load-15",
+          "title": "Load average",
+          "quantity": "scalar",
+          "unit": "Load"
+        },
+        {
+          "id": "cpu:host/uptime",
+          "title": "Uptime",
+          "quantity": "duration",
+          "unit": "Seconds"
+        },
+        {
+          "id": "cpu:host/processes",
+          "title": "Processes",
+          "quantity": "counter",
+          "unit": "Count"
+        },
+        {
+          "id": "cpu:host/threads",
+          "title": "Threads",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "gpu:apple:IODeviceTree:/arm-io/sgx@4000000": {
+      "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000",
+      "title": "Apple M1 Pro",
+      "summary": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+      "sensors": [
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/usage",
+          "title": "GPU activity",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/frequency",
+          "title": "Active weighted GPU frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/power",
+          "title": "GPU power",
+          "quantity": "power",
+          "unit": "Watts"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-allocated",
+          "title": "GPU shared allocation",
+          "quantity": "scalar",
+          "unit": "Bytes"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/shared-in-use",
+          "title": "GPU shared memory in use",
+          "quantity": "scalar",
+          "unit": "Bytes"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg05",
+          "title": "GPU temperature",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0D",
+          "title": "GPU temperature",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0L",
+          "title": "GPU temperature",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-smc-Tg0T",
+          "title": "GPU temperature",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/temperature-hid",
+          "title": "GPU temperature",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "gpu:apple:IODeviceTree:/arm-io/sgx@4000000/fan",
+          "title": "GPU fan",
+          "quantity": "rate",
+          "unit": "Rpm"
+        }
+      ]
+    },
+    "memory:host": {
+      "id": "memory:host",
+      "title": "Memory",
+      "summary": "memory:host/used",
+      "sensors": [
+        {
+          "id": "memory:host/used",
+          "title": "RAM used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/total",
+          "title": "RAM total",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/available",
+          "title": "RAM available",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/free",
+          "title": "RAM free",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/swap",
+          "title": "Swap used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/swap-total",
+          "title": "Swap total",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/cache",
+          "title": "cache",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/buffers",
+          "title": "buffers",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/other",
+          "title": "other",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/page-faults",
+          "title": "page-faults",
+          "quantity": "counter",
+          "unit": "Count"
+        },
+        {
+          "id": "memory:host/major-page-faults",
+          "title": "major-page-faults",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:1e:d0:e9:ad:99:05:name:ap1": {
+      "id": "network:mac:1e:d0:e9:ad:99:05:name:ap1",
+      "title": "ap1",
+      "summary": "network:mac:1e:d0:e9:ad:99:05:name:ap1/rx",
+      "sensors": [
+        {
+          "id": "network:mac:1e:d0:e9:ad:99:05:name:ap1/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:1e:d0:e9:ad:99:05:name:ap1/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:1e:d0:e9:ad:99:05:name:ap1/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:1e:d0:e9:ad:99:05:name:ap1/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:1e:d0:e9:ad:99:05:name:ap1/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:36:ac:48:f4:83:c0:name:en1": {
+      "id": "network:mac:36:ac:48:f4:83:c0:name:en1",
+      "title": "en1",
+      "summary": "network:mac:36:ac:48:f4:83:c0:name:en1/rx",
+      "sensors": [
+        {
+          "id": "network:mac:36:ac:48:f4:83:c0:name:en1/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c0:name:en1/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c0:name:en1/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c0:name:en1/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c0:name:en1/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:36:ac:48:f4:83:c4:name:en2": {
+      "id": "network:mac:36:ac:48:f4:83:c4:name:en2",
+      "title": "en2",
+      "summary": "network:mac:36:ac:48:f4:83:c4:name:en2/rx",
+      "sensors": [
+        {
+          "id": "network:mac:36:ac:48:f4:83:c4:name:en2/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c4:name:en2/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c4:name:en2/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c4:name:en2/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c4:name:en2/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:36:ac:48:f4:83:c8:name:en3": {
+      "id": "network:mac:36:ac:48:f4:83:c8:name:en3",
+      "title": "en3",
+      "summary": "network:mac:36:ac:48:f4:83:c8:name:en3/rx",
+      "sensors": [
+        {
+          "id": "network:mac:36:ac:48:f4:83:c8:name:en3/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c8:name:en3/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c8:name:en3/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c8:name:en3/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:36:ac:48:f4:83:c8:name:en3/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:a2:33:38:db:1b:6a:name:awdl0": {
+      "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0",
+      "title": "awdl0",
+      "summary": "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx",
+      "sensors": [
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:awdl0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:a2:33:38:db:1b:6a:name:llw0": {
+      "id": "network:mac:a2:33:38:db:1b:6a:name:llw0",
+      "title": "llw0",
+      "summary": "network:mac:a2:33:38:db:1b:6a:name:llw0/rx",
+      "sensors": [
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:a2:33:38:db:1b:6a:name:llw0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:c2:04:8c:3c:b9:1b:name:en0": {
+      "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0",
+      "title": "en0",
+      "summary": "network:mac:c2:04:8c:3c:b9:1b:name:en0/rx",
+      "sensors": [
+        {
+          "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:c2:04:8c:3c:b9:1b:name:en0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ee:7c:f0:9e:f8:81:name:en4": {
+      "id": "network:mac:ee:7c:f0:9e:f8:81:name:en4",
+      "title": "en4",
+      "summary": "network:mac:ee:7c:f0:9e:f8:81:name:en4/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:81:name:en4/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:81:name:en4/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:81:name:en4/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:81:name:en4/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:81:name:en4/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ee:7c:f0:9e:f8:82:name:en5": {
+      "id": "network:mac:ee:7c:f0:9e:f8:82:name:en5",
+      "title": "en5",
+      "summary": "network:mac:ee:7c:f0:9e:f8:82:name:en5/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:82:name:en5/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:82:name:en5/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:82:name:en5/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:82:name:en5/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:82:name:en5/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ee:7c:f0:9e:f8:83:name:en6": {
+      "id": "network:mac:ee:7c:f0:9e:f8:83:name:en6",
+      "title": "en6",
+      "summary": "network:mac:ee:7c:f0:9e:f8:83:name:en6/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:83:name:en6/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:83:name:en6/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:83:name:en6/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:83:name:en6/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:83:name:en6/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0": {
+      "id": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0",
+      "title": "anpi0",
+      "summary": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1": {
+      "id": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1",
+      "title": "anpi1",
+      "summary": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a2:name:anpi1/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2": {
+      "id": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2",
+      "title": "anpi2",
+      "summary": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ee:7c:f0:9e:f8:a3:name:anpi2/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:bridge0": {
+      "id": "network:name:bridge0",
+      "title": "bridge0",
+      "summary": "network:name:bridge0/rx",
+      "sensors": [
+        {
+          "id": "network:name:bridge0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:bridge0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:bridge0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:bridge0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:bridge0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:feth4990": {
+      "id": "network:name:feth4990",
+      "title": "feth4990",
+      "summary": "network:name:feth4990/rx",
+      "sensors": [
+        {
+          "id": "network:name:feth4990/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:feth4990/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:feth4990/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:feth4990/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:feth4990/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:feth9990": {
+      "id": "network:name:feth9990",
+      "title": "feth9990",
+      "summary": "network:name:feth9990/rx",
+      "sensors": [
+        {
+          "id": "network:name:feth9990/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:feth9990/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:feth9990/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:feth9990/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:feth9990/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:gif0": {
+      "id": "network:name:gif0",
+      "title": "gif0",
+      "summary": "network:name:gif0/rx",
+      "sensors": [
+        {
+          "id": "network:name:gif0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:gif0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:gif0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:gif0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:gif0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:lo0": {
+      "id": "network:name:lo0",
+      "title": "lo0",
+      "summary": "network:name:lo0/rx",
+      "sensors": [
+        {
+          "id": "network:name:lo0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:lo0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:lo0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:lo0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:lo0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:stf0": {
+      "id": "network:name:stf0",
+      "title": "stf0",
+      "summary": "network:name:stf0/rx",
+      "sensors": [
+        {
+          "id": "network:name:stf0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:stf0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:stf0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:stf0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:stf0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:utun0": {
+      "id": "network:name:utun0",
+      "title": "utun0",
+      "summary": "network:name:utun0/rx",
+      "sensors": [
+        {
+          "id": "network:name:utun0/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun0/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun0/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun0/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun0/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:utun1": {
+      "id": "network:name:utun1",
+      "title": "utun1",
+      "summary": "network:name:utun1/rx",
+      "sensors": [
+        {
+          "id": "network:name:utun1/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun1/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun1/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun1/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun1/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:utun2": {
+      "id": "network:name:utun2",
+      "title": "utun2",
+      "summary": "network:name:utun2/rx",
+      "sensors": [
+        {
+          "id": "network:name:utun2/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun2/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun2/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun2/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun2/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:name:utun3": {
+      "id": "network:name:utun3",
+      "title": "utun3",
+      "summary": "network:name:utun3/rx",
+      "sensors": [
+        {
+          "id": "network:name:utun3/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun3/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun3/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:name:utun3/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:name:utun3/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "processes": {
+      "id": "processes",
+      "title": "Processes",
+      "summary": "count",
+      "sensors": []
+    },
+    "settings": {
+      "id": "settings",
+      "title": "Settings",
+      "summary": "",
+      "sensors": []
+    },
+    "volume:source:Macintosh HD:/": {
+      "id": "volume:source:Macintosh HD:/",
+      "title": "/",
+      "summary": "volume:source:Macintosh HD://capacity",
+      "sensors": [
+        {
+          "id": "volume:source:Macintosh HD://capacity",
+          "title": "Filesystem used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "volume:source:Macintosh HD://read",
+          "title": "read",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "volume:source:Macintosh HD://write",
+          "title": "write",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "volume:source:Macintosh HD://iops",
+          "title": "iops",
+          "quantity": "scalar",
+          "unit": "CountPerSecond"
+        },
+        {
+          "id": "volume:source:Macintosh HD://latency",
+          "title": "latency",
+          "quantity": "scalar",
+          "unit": "Milliseconds"
+        }
+      ]
+    },
+    "volume:source:Macintosh HD:/System/Volumes/Data": {
+      "id": "volume:source:Macintosh HD:/System/Volumes/Data",
+      "title": "/System/Volumes/Data",
+      "summary": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
+      "sensors": [
+        {
+          "id": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
+          "title": "Filesystem used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "volume:source:Macintosh HD:/System/Volumes/Data/read",
+          "title": "read",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "volume:source:Macintosh HD:/System/Volumes/Data/write",
+          "title": "write",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "volume:source:Macintosh HD:/System/Volumes/Data/iops",
+          "title": "iops",
+          "quantity": "scalar",
+          "unit": "CountPerSecond"
+        },
+        {
+          "id": "volume:source:Macintosh HD:/System/Volumes/Data/latency",
+          "title": "latency",
+          "quantity": "scalar",
+          "unit": "Milliseconds"
+        }
+      ]
+    }
+  },
+  "interval_ms": 1000,
+  "appearance": {
+    "theme": "dark",
+    "ui_font": "inter",
+    "numeric_font": "jetbrains_mono"
+  },
+  "screens": {
+    "active": "processes",
+    "devices": {}
+  }
+}

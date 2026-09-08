@@ -99,3 +99,22 @@ authentication remain unverified. The developer has been asked which desktop
 they can use for native password entry. No authentication dialog has been
 launched and no password has been requested outside an OS dialog. Full committed
 Linux/package acceptance and refreshed committed native receipts are pending.
+
+
+Committed source `41acec06` now has refreshed passing native Linux and Mac
+resize/search/column/navigation records. The Mac record also includes ordinary
+End/Force Quit and confirmation cancellation, with its matching release build,
+129 application tests, 63 collector tests and seven vendor tests. Thirty-one
+base compatibility tests pass on Linux. The broader Linux preservation gate
+passes 1,046 tests, host comparisons and native product replay; ten input-focus
+tests also pass. Package acceptance rejected the uncommitted Cairn receipts.
+Those receipts are retained and committed before the next full invocation.
+An earlier invocation was deliberately interrupted after the decision-link
+commit changed HEAD; it is not a passing acceptance run.
+
+The process-table mechanism now declares its native evidence directory as an
+input, so changes to those observations invalidate its receipts. Ripwire's
+whole-repository quality delta reports 652 preexisting/reference findings
+(exit 2), and its test gate reports broad untested name-based reachability
+(exit 4). Neither is claimed as a clean result. The named Python and base
+compatibility test obligations passed; native tests cover the real action path.

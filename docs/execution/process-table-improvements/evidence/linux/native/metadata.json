@@ -1,0 +1,24 @@
+{
+  "application_pid": 3688548,
+  "publication_timing_instrumented": false,
+  "binary": "/home/shawn/workspace2/task-manager/target/debug/system-pulse",
+  "binary_sha256": "34c0e85b758a977741c64b07b318b86053bf087578a6ce25e6b1077024d42f79",
+  "proc_exe_sha256": "34c0e85b758a977741c64b07b318b86053bf087578a6ce25e6b1077024d42f79",
+  "source_commit": "41acec062e307e867e9dc7cfbd7f82923bb71a78",
+  "budgets": {
+    "startup": 15,
+    "discovery": 15,
+    "condition": 5,
+    "metric": 5,
+    "freshness": 2,
+    "batch": 8,
+    "navigation": 180,
+    "appearance": 5,
+    "exit": 5,
+    "persistence": 10,
+    "shutdown": 10,
+    "nodes": 30000
+  },
+  "sampling_interval_ms": 1000,
+  "accepted_age_limit_seconds": 2.0
+}
