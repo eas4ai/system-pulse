@@ -1734,6 +1734,11 @@ fn process_columns_stay_aligned_when_long_status_rows_exit(cx: &mut TestAppConte
     .into_iter()
     .enumerate()
     {
+        if !crate::processes::VISIBLE_PROCESS_COLUMNS.contains(&column) {
+            assert!(cx.debug_bounds(heading).is_none());
+            assert!(cx.debug_bounds(cell).is_none());
+            continue;
+        }
         let heading = cx.debug_bounds(heading).unwrap();
         let cell = cx.debug_bounds(cell).unwrap();
         assert!(
