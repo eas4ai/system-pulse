@@ -1,0 +1,19 @@
+{
+  "commit": "415bc41ff41e053e946fb5b76396eb795066ebc5",
+  "binary": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-415bc41ff41e053e946fb5b76396eb795066ebc5",
+  "sha256": "a124de85779f192089e679f7fb0eb3e07a6b67f9e1310c98e78a1cf98ffe94c5",
+  "checks": {
+    "tests": {
+      "exit_code": 0,
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/415bc41ff41e053e946fb5b76396eb795066ebc5-tests.log"
+    },
+    "clippy": {
+      "exit_code": 0,
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/415bc41ff41e053e946fb5b76396eb795066ebc5-clippy.log"
+    },
+    "release": {
+      "exit_code": 0,
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/415bc41ff41e053e946fb5b76396eb795066ebc5-release.log"
+    }
+  }
+}

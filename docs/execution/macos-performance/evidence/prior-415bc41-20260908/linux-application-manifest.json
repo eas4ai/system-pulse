@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "source_commit": "1789a04238d59895eda98cb6815edc19b0e9cf37",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/verify.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/preservation"
+      ],
+      "seconds": 345.754,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/preservation.log",
+      "sha256": "c16c5e4873cbe504b0b39205fb807a6932ba60456fb9b97b3ea2082c95c5673d"
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.869,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/input-focus.log",
+      "sha256": "933fc94064d3f7df5a99db096aab7cf2764af9e5520ebc56d8681520fab2eabf",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/package",
+        "--cargo-about",
+        "/home/shawn/workspace2/task-manager-artifacts/finish-application/tools/bin/cargo-about"
+      ],
+      "seconds": 9.186,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/package.log",
+      "sha256": "58ae5ad7bfb2fb1166c2207eb7300ffc491127a55cab22f9cede8fc712906e2a"
+    },
+    "application": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/application.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/harness/tabbed_replay.py",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/package/system-pulse-0.3.0-linux-x86_64-1789a04238d5/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/application"
+      ],
+      "seconds": 163.196,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/application.log",
+      "sha256": "7b891f6ecd2d18c49ce8a2ec1d144963e817232f445d727b22a8841fe431e440"
+    },
+    "tray": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/tray.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/harness/tray_replay.py",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/package/system-pulse-0.3.0-linux-x86_64-1789a04238d5/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/tray"
+      ],
+      "seconds": 16.01,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/tray.log",
+      "sha256": "628547f348f1f688ea384ce99e4bc10c6307d9b9884668eee6be35a4a0b4e43d"
+    },
+    "installed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/installed.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/harness/package_smoke.py",
+        "--archive",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/package/system-pulse-0.3.0-linux-x86_64-1789a04238d5.tar.gz",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/installed"
+      ],
+      "seconds": 5.928,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/installed.log",
+      "sha256": "3bb2d6fd5ee0277ad3f6b7d9927c1a12b3c65811d9eb08efe6b39e386f949971"
+    }
+  },
+  "continuation_from": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/application-manifest.json",
+  "reason": "The pinned cargo-about process crashed with SIGSEGV; an unchanged standalone retry passed. Source and prior passed artifacts are unchanged.",
+  "retained_passed_steps": [
+    "preservation",
+    "input-focus"
+  ],
+  "archive": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/package/system-pulse-0.3.0-linux-x86_64-1789a04238d5.tar.gz",
+    "bytes": 23784779,
+    "sha256": "be163a35b9b1d81d30d51558b71688c6074b72f9d0091ed91641fde08b4b6bfa"
+  },
+  "binary_sha256": "7da79820a21fe64dec2f7dd7018bcd25edc5bcaf2d86ef3d29e95bcd1d394004",
+  "preservation_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/preservation/manifest.json",
+    "bytes": 30365,
+    "sha256": "718cf1874a86a820c85a42df55c77e7dc7b23d8348c51370cf7df5035467c338"
+  },
+  "product": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/application/result.json",
+    "bytes": 56023,
+    "sha256": "4c6e5d219f3c98091e0faefd83265f8ddc4afae36198a26b8f51e9ed5fb1b6e4"
+  },
+  "tray": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/tray/result.json",
+    "bytes": 833,
+    "sha256": "bbf3e00500534cb0da3b596735bc35fe8965c2ead503c6ed1db3a23feb5259f3"
+  },
+  "installed": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z-continuation/installed/result.json",
+    "bytes": 842,
+    "sha256": "fefacbd30e7be03b6bcc3105d74c61e7404ea58b1a630efdb0aa150d13c57759"
+  }
+}
