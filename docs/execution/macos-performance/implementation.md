@@ -226,3 +226,29 @@ Both performance targets remain unmet. The next action is a separate whole-app
 CPU profile before choosing another collector optimization. Preservation passes
 do not establish performance acceptance, and no optimized installation or
 publication is claimed.
+
+
+## Whole-app profiles after the guard
+
+Separate fifteen-second Time Profiler captures used the guarded candidate after
+thirty seconds of warmup. These running-stack samples locate cost; they are not
+replacement CPU acceptance observations. The owned applications quit cleanly.
+Raw traces and XML remain under the paths recorded in the probe summaries.
+
+| Sampled thread CPU | Tray-only | Summary visible |
+| --- | ---: | ---: |
+| Collector | 858 ms | 873 ms |
+| Main thread | 283 ms | 576 ms |
+| All threads | 1,177 ms | 1,531 ms |
+
+In tray-only, process refresh accounts for 298 ms of inclusive samples;
+temperature refresh, disk discovery/I/O and account enumeration account for
+87, 55 and 26 ms. Snapshot delivery accounts for 125 ms on the main thread.
+Summary adds CPU layout and text preparation despite GPU rendering: window draw
+has 184 ms of inclusive samples and snapshot delivery has 136 ms. Inclusive
+stack costs overlap and must not be added together.
+
+The developer raised a collection service as a possible architecture. Collection
+already runs on its own thread. A separate process may improve lifecycle and
+isolation, but performance must include its CPU consumption as well as the UI's.
+No service or broader presentation change is authorized by that discussion.
