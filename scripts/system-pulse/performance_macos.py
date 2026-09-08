@@ -126,7 +126,8 @@ def run(args):
                             process = subprocess.Popen([str(binary)], env=environment,
                                                        stdout=log, stderr=subprocess.STDOUT)
                             time.sleep(3)
-                            command([str(args.ax), str(process.pid), "prepare"])
+                            subprocess.check_output([str(args.ax), str(process.pid), "prepare"],
+                                                    text=True, timeout=30)
                             time.sleep(1)
                             if mode == "tray":
                                 command([str(args.ax), str(process.pid), "close"])

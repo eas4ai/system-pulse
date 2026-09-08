@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "host": {
+    "chip": "Apple M1 Pro",
+    "logical_cpus": 8,
+    "os_version": "26.6.1",
+    "power_source": "AC Power"
+  },
+  "binaries": {
+    "reference": {
+      "commit": "af243cf2dba5eb6c4cb19397c522c38eda640f45",
+      "sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "release_locked": true
+    },
+    "candidate": {
+      "commit": "8f480a4fe1605ad496e41b25d670d41c555e10c7",
+      "sha256": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "release_locked": true
+    }
+  },
+  "runs": [],
+  "measurement_harness_sha256": {
+    "performance_macos.py": "2367936dd876f140e6e6303d851177a573d45bd1dd9871c935f31a1bc02b4d31",
+    "performance_ax.swift": "d19b7edb65e54852d8b02d8624a8f443825860e6b7a0d2c15c22d75d2a28031c"
+  },
+  "error": "CalledProcessError: Command '['/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/harness-ready-20260908T001321Z/performance-ax', '1467', 'prepare']' returned non-zero exit status 1."
+}

@@ -37,9 +37,17 @@ func walk(_ node: AXUIElement, _ depth: Int = 0) {
         for child in children(node, key) { walk(child, depth + 1) }
     }
 }
-for key in ["AXWindows", "AXMenuBar", "AXExtrasMenuBar"] {
-    for node in children(app, key) { walk(node) }
-}
+let readinessDeadline = ProcessInfo.processInfo.systemUptime + 15
+repeat {
+    nodes.removeAll(keepingCapacity: true)
+    for key in ["AXWindows", "AXMenuBar", "AXExtrasMenuBar"] {
+        for node in children(app, key) { walk(node) }
+    }
+    if args[2] != "prepare" || nodes.contains(where: {
+        (attr($0, "AXIdentifier") as? String) == "screen-tab:summary"
+    }) { break }
+    Thread.sleep(forTimeInterval: 0.25)
+} while ProcessInfo.processInfo.systemUptime < readinessDeadline
 func press(_ key: String, _ value: String) {
     let matches = nodes.filter { (attr($0, key) as? String) == value }
     guard matches.count == 1,
