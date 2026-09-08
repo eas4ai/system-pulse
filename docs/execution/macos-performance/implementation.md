@@ -1,6 +1,6 @@
 # Mac collector optimization
 
-Status: implemented; native CPU and preservation acceptance pending.
+Status: implemented; Linux acceptance passed; native CPU and preservation acceptance pending.
 
 The first change retains the Apple Silicon temperature discovery connection.
 Every sample still enumerates sensors, removes absent entries and requests
@@ -69,4 +69,32 @@ the build, independent host comparisons and the complete tabbed native replay.
 Ten input-focus tests also passed. The first application aggregate then stopped
 at packaging because the new evidence files were still uncommitted. Its retained
 output is `task-manager-artifacts/macos-performance/linux-application-20260908T001028Z`.
-This is not a package pass; a clean committed aggregate is still required.
+That attempt is not a package pass.
+
+The clean run at `linux-application-20260908T001957Z` passed preservation and
+input focus again, then found the pinned notice generator outside `PATH`.
+The existing continuation procedure verified the unchanged source, passed
+step logs and all preservation artifact hashes before executing the unchanged
+remaining application-gate statements with cargo-about 0.9.2. Packaging, native
+packaged product replay, tray/history/reopen checks, and isolated
+installation/removal all passed. The [passing manifest](evidence/linux-application-manifest.json)
+records the continuation and retained steps. Both original failed manifests
+remain in [invalid](evidence/invalid/); neither was overwritten or relabeled.
+
+The Mac session still reported locked after this Linux work. Native input
+permission is available, and the current native helpers compile and pass their
+comparison tests. Completing the commitment now requires an unlocked Mac for
+the twelve scored observations and the separate native preservation checks.
+No 50 percent improvement, final commitment review, publication or optimized
+Mac installation is claimed.
+
+## Checkpoint self-audit
+
+The production changes stay in the collector and introduce no dependency,
+worker, interval change or saved-state schema change. Live capacity has fresh
+query windows, checked raw arithmetic and explicit failures. Reused temperature
+state is bounded by current discovery and reconnects after unsuccessful reads.
+Controlled tests, native builds and Linux acceptance support those changes.
+The performance and native Mac preservation claims remain withheld until their
+required observations pass. The remaining work is verification, final review
+and delivery; this checkpoint is not a completed release.

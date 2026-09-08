@@ -1,0 +1,54 @@
+{
+  "status": "FAIL",
+  "source_commit": "2cfde419839e95ef906c4e45e26043a74d6f9301",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/verify.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-application-20260908T001028Z/preservation"
+      ],
+      "seconds": 346.914,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-application-20260908T001028Z/preservation.log",
+      "sha256": "450d1c8f0f65981df07dbf8013f8ca5dbac3ac25d5724bb334f5c93b73e7df2e"
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.315,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-application-20260908T001028Z/input-focus.log",
+      "sha256": "fc86b8979e86f809ad86ee2c3bcf4f5d363cb7b58dcc090603ad578c0f3b139d",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 1,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-application-20260908T001028Z/package",
+        "--cargo-about",
+        "cargo-about"
+      ],
+      "seconds": 0.065,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-application-20260908T001028Z/package.log",
+      "sha256": "4111b7e805ab515068c012c5c3b781648e8020ade890fd1c46ee85e4725692dc"
+    }
+  },
+  "error": "AssertionError: package exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-application-20260908T001028Z/package.log"
+}
