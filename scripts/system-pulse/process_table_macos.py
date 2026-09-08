@@ -1,0 +1,120 @@
+"""Native Mac process-table resize observations for an owned application."""
+
+import argparse
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import time
+
+from performance_compare import require
+from performance_macos import command, digest
+from performance_preserve import wait_for
+from process_table_verify import HARNESSES, aligned
+
+
+def geometry(tree):
+    rows = tree["rows"]
+    headings = [row["bounds"] for row in rows if row.get("AXRole") == "AXCell"
+                and row.get("AXTitle", "").startswith("Sort by ")]
+    require(len(headings) == 8, "expected eight process column headings")
+    viewport = next(row["bounds"] for row in rows
+                    if row.get("AXIdentifier") == "processes:viewport")
+    process = next(row for row in rows
+                   if re.fullmatch(r"process:\d+:\d+", row.get("AXIdentifier", ""))
+                   and row["bounds"][1] >= viewport[1]
+                   and row["bounds"][1] + row["bounds"][3] <= viewport[1] + viewport[3])
+    identity = process["AXIdentifier"]
+    cells = [next(row["bounds"] for row in rows
+                  if row.get("AXIdentifier") == f"{identity}:cell:{column}")
+             for column in range(8)]
+    window = next(row["bounds"] for row in rows if row.get("AXRole") == "AXWindow")
+    frame = {"window_width": window[2], "viewport": viewport,
+             "headings": headings, "cells": cells, "identity": identity}
+    aligned(frame)
+    return frame
+
+
+def run(args):
+    args.output.mkdir(parents=True, exist_ok=False)
+    result = {"status": "FAIL", "source_commit": args.commit,
+              "binary_sha256": digest(args.binary), "platform": "macos", "frames": []}
+    result["harness_sha256"] = {name: digest(Path(__file__).with_name(name))
+                                for name in HARNESSES["macos"]}
+    process = None
+    awake = subprocess.Popen(["caffeinate", "-d", "-i", "-u", "-t", "600"])
+
+    def tree(action="snapshot", *values):
+        return json.loads(command([str(args.tree), str(process.pid), action, *map(str, values)]))
+
+    def save(name, value):
+        (args.output / name).write_text(json.dumps(value, indent=2) + "\n")
+
+    try:
+        state = args.output / "state"
+        state.mkdir()
+        environment = {key: value for key, value in os.environ.items()
+                       if not key.startswith("SYSTEM_PULSE_")}
+        environment["SYSTEM_PULSE_STATE_DIR"] = str(state.resolve())
+        with (args.output / "application.log").open("w") as log:
+            process = subprocess.Popen([str(args.binary.resolve())], env=environment,
+                                       stdout=log, stderr=subprocess.STDOUT)
+            wait_for(lambda: any(row.get("AXIdentifier") == "screen-tab:processes"
+                                 for row in tree()["rows"]), "process screen tab")
+            tree("activate")
+            tree("press-id", "screen-tab:processes")
+            wait_for(lambda: any(row.get("AXIdentifier") == "processes:viewport"
+                                 for row in tree()["rows"]), "process table")
+            for width in (1280, 1440, 960, 1280):
+                tree("resize", width, 640 if width == 960 else 880)
+                time.sleep(0.5)
+                snapshot = tree()
+                save(f"resize-{width}-{len(result['frames'])}.json", snapshot)
+                frame = geometry(snapshot)
+                require(abs(frame["window_width"] - width) <= 1, "native resize did not reach requested width")
+                if width >= 1280:
+                    last, viewport = frame["headings"][-1], frame["viewport"]
+                    require(abs(last[0] + last[2] - (viewport[0] + viewport[2] - 1)) <= 1,
+                            "table did not fill the window")
+                result["frames"].append(frame)
+                if width == 960:
+                    tree("focus-id", "processes:viewport")
+                    for _ in range(6):
+                        tree("key", "right")
+                        time.sleep(0.1)
+                    snapshot = tree()
+                    save("minimum-scrolled.json", snapshot)
+                    scrolled = geometry(snapshot)
+                    last, viewport = scrolled["headings"][-1], scrolled["viewport"]
+                    require(last[0] >= viewport[0] and last[0] + last[2] <= viewport[0] + viewport[2],
+                            "last column is inaccessible at minimum width")
+                    result["narrow_scrolled"] = scrolled
+                    for _ in range(6):
+                        tree("key", "left")
+                        time.sleep(0.1)
+            require(result["frames"][1]["headings"][1][2] > result["frames"][0]["headings"][1][2],
+                    "Name column did not grow")
+            tree("press-title", "Quit")
+            process.wait(timeout=10)
+            require(process.returncode == 0, "native Quit failed")
+            result["status"] = "PASS"
+    finally:
+        if process is not None and process.poll() is None:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait(timeout=5)
+        awake.terminate()
+        awake.wait(timeout=5)
+        save("result.json", result)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    for name in ("binary", "tree", "output"):
+        parser.add_argument("--" + name, type=Path, required=True)
+    parser.add_argument("--commit", required=True)
+    run(parser.parse_args())

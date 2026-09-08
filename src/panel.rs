@@ -199,6 +199,7 @@ pub(crate) fn process_cell(process: &live::ProcessView, column: usize, width: f3
         .aria_label(process.cells[column].clone())
         .w(px(width))
         .flex_none()
+        .when(column == 1, |cell| cell.flex_grow(1.))
         .px_2()
         .flex()
         .items_center()
@@ -230,6 +231,7 @@ pub(crate) fn process_row(
     );
     TableRow::new(SharedString::from(stable_id.clone()), index + 2)
         .accessibility_id(stable_id)
+        .w_full()
         .flex()
         .h_7()
         .aria_selected(selected)

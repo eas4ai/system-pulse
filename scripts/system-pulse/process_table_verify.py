@@ -1,0 +1,75 @@
+"""Cairn process-table gate: validate committed tests and native geometry."""
+
+import json
+import subprocess
+import sys
+
+from performance_compare import require
+from performance_verify import ROOT, check_harness, same_production
+
+HARNESSES = {
+    "linux": ("process_table_linux.py", "native_driver.py", "tabbed_driver.py",
+              "host_accuracy.py", "native_contract.py", "native_observations.py", "tabbed_contract.py"),
+    "macos": ("process_table_macos.py", "performance_tree.swift", "performance_macos.py",
+              "performance_preserve.py", "performance_compare.py"),
+}
+
+
+def aligned(frame):
+    headings, cells = frame["headings"], frame["cells"]
+    require(len(headings) == len(cells) == 8, "missing native columns")
+    for heading, cell in zip(headings, cells, strict=True):
+        require(len(heading) == len(cell) == 4 and heading[2] > 0 and cell[2] > 0,
+                "invalid native bounds")
+        require(abs(heading[0] - cell[0]) <= 1 and abs(heading[2] - cell[2]) <= 1,
+                "native headers and rows disagree")
+
+
+def validate_geometry(record, platform):
+    require(record["status"] == "PASS" and record["platform"] == platform,
+            "native geometry did not pass on the required platform")
+    frames = record["frames"]
+    widths = [1280, 1800 if platform == "linux" else 1440, 960, 1280]
+    require(len(frames) == len(widths), "missing native resize observations")
+    for frame, width in zip(frames, widths, strict=True):
+        aligned(frame)
+        require(abs(frame["window_width"] - width) <= 1, "wrong native window width")
+        last, viewport = frame["headings"][-1], frame["viewport"]
+        if width >= 1280:
+            require(abs(last[0] + last[2] - (viewport[0] + viewport[2] - 1)) <= 1,
+                    "native table leaves unused width")
+    require(frames[1]["headings"][1][2] > frames[0]["headings"][1][2], "Name did not expand")
+    require(abs(frames[0]["headings"][1][2] - frames[3]["headings"][1][2]) <= 1,
+            "Name did not shrink after resizing back")
+    scrolled = record["narrow_scrolled"]
+    aligned(scrolled)
+    require(scrolled["window_width"] == 960, "scroll observation is not at minimum width")
+    last, viewport = scrolled["headings"][-1], scrolled["viewport"]
+    require(last[0] >= viewport[0] and last[0] + last[2] <= viewport[0] + viewport[2],
+            "last column is inaccessible at minimum width")
+    require(scrolled["headings"][0][0] < frames[2]["headings"][0][0],
+            "horizontal scrolling did not move the columns")
+
+
+def main():
+    subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s",
+                    "scripts/system-pulse", "-p", "test_process_table_geometry.py"], cwd=ROOT, check=True)
+    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse",
+                    "process_table_fills_resized_windows_and_keeps_columns_aligned"], cwd=ROOT, check=True)
+    evidence = ROOT / "docs/execution/process-table-improvements/evidence"
+    for platform in ("linux", "macos"):
+        record = json.loads((evidence / platform / "result.json").read_text())
+        validate_geometry(record, platform)
+        same_production(record["source_commit"])
+        build = json.loads((evidence / platform / "build.json").read_text())
+        require(build["source_commit"] == record["source_commit"] and
+                build["binary_sha256"] == record["binary_sha256"] and build["exit_code"] == 0,
+                "native observation does not match its build")
+        check_harness(record["harness_sha256"], HARNESSES[platform])
+    print("cairn: PROC-001: pass", flush=True)
+    # Other requirements remain unverified until their own checks are implemented.
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

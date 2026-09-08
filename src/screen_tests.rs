@@ -866,3 +866,55 @@ fn unavailable_selected_thermal_sensor_keeps_other_charts_and_hottest_reading(
     accept(&view, disconnected, cx);
     assert_other_temperatures(64., cx);
 }
+
+#[gpui_kit::test]
+fn process_table_fills_resized_windows_and_keeps_columns_aligned(cx: &mut TestAppContext) {
+    use gpui_kit::{px, size};
+    let (view, cx) = populated(cx);
+    command(
+        &view,
+        crate::workspace::Command::Screen(Screen::Processes),
+        cx,
+    );
+    let mut name_widths = Vec::new();
+    for width in [1280., 1800., 2560., 960., 1280.] {
+        cx.simulate_resize(size(px(width), px(1000.)));
+        draw(cx);
+        let viewport = cx.debug_bounds("process-table").unwrap();
+        let last = cx.debug_bounds("process-sort:7").unwrap();
+        if width >= 1280. {
+            assert!(
+                (last.right() + px(8.) - (viewport.right() - px(1.))).abs() <= px(1.),
+                "table must fill the available width at {width}: {last:?}, {viewport:?}"
+            );
+        }
+        for (column, (heading, cell)) in [
+            ("process-sort:0", "process:401:40100:cell:0:text"),
+            ("process-sort:1", "process:401:40100:cell:1:text"),
+            ("process-sort:2", "process:401:40100:cell:2:text"),
+            ("process-sort:3", "process:401:40100:cell:3:text"),
+            ("process-sort:4", "process:401:40100:cell:4:text"),
+            ("process-sort:5", "process:401:40100:cell:5:text"),
+            ("process-sort:6", "process:401:40100:cell:6:text"),
+            ("process-sort:7", "process:401:40100:cell:7:text"),
+        ]
+        .into_iter()
+        .enumerate()
+        {
+            let heading = cx.debug_bounds(heading).unwrap();
+            let cell = cx.debug_bounds(cell).unwrap();
+            assert!(
+                (heading.left() - cell.left()).abs() <= px(1.),
+                "left edge at {width}, column {column}"
+            );
+            assert!(
+                (heading.right() - cell.right()).abs() <= px(1.),
+                "right edge at {width}, column {column}"
+            );
+        }
+        name_widths.push(cx.debug_bounds("process-sort:1").unwrap().size.width);
+    }
+    assert!(name_widths[1] > name_widths[0]);
+    assert!(name_widths[2] > name_widths[1]);
+    assert_eq!(name_widths[0], name_widths[4]);
+}

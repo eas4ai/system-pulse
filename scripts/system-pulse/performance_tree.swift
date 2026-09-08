@@ -27,6 +27,15 @@ func walk(_ node: AXUIElement, _ depth: Int) {
  for name in ["AXRole","AXSubrole","AXTitle","AXDescription","AXIdentifier","AXHelp"] { row[name] = text(node,name) }
  if let value = attr(node,"AXValue") as? String { row["AXValue"] = value }
  if let value = attr(node,"AXValue") as? NSNumber { row["AXValue"] = value }
+ if let position = attr(node,"AXPosition"), let size = attr(node,"AXSize"),
+    CFGetTypeID(position) == AXValueGetTypeID(), CFGetTypeID(size) == AXValueGetTypeID() {
+  var point = CGPoint.zero
+  var dimensions = CGSize.zero
+  if AXValueGetValue(unsafeBitCast(position, to: AXValue.self), .cgPoint, &point),
+     AXValueGetValue(unsafeBitCast(size, to: AXValue.self), .cgSize, &dimensions) {
+   row["bounds"] = [point.x, point.y, dimensions.width, dimensions.height]
+  }
+ }
  var actions: CFArray?
  AXUIElementCopyActionNames(node,&actions)
  row["actions"] = actions as? [String] ?? []
@@ -50,6 +59,32 @@ if mode == "close" {
  let code = AXUIElementPerformAction(nodes[index],kAXPressAction as CFString)
  result["action_return"] = code.rawValue
  guard code == .success else { fail("Native press failed: \(code)") }
+} else if mode == "resize" {
+ guard args.count == 5, let width = Double(args[3]), let height = Double(args[4]),
+       width >= 960, width <= 2560, height >= 640, height <= 1600 else { fail("Expected supported width and height") }
+ let info = CGWindowListCopyWindowInfo([.optionOnScreenOnly, .excludeDesktopElements], kCGNullWindowID) as? [[String:Any]] ?? []
+ let owned = info.filter { ($0[kCGWindowOwnerPID as String] as? Int32) == pid && ($0[kCGWindowLayer as String] as? Int) == 0 }
+ guard owned.count == 1, let raw = owned[0][kCGWindowBounds as String] as? NSDictionary,
+       let bounds = CGRect(dictionaryRepresentation: raw) else { fail("Expected one owned dashboard") }
+ AXUIElementSetAttributeValue(app,kAXFrontmostAttribute as CFString,kCFBooleanTrue)
+ let start = CGPoint(x: bounds.maxX - 2, y: bounds.maxY - 2)
+ let end = CGPoint(x: bounds.minX + width - 2, y: bounds.minY + height - 2)
+ for (type, point) in [(CGEventType.mouseMoved, start), (.leftMouseDown, start), (.leftMouseDragged, end), (.leftMouseUp, end)] {
+  guard let event = CGEvent(mouseEventSource: nil, mouseType: type, mouseCursorPosition: point, mouseButton: .left) else { fail("Cannot create resize event") }
+  event.post(tap: .cghidEventTap)
+  Thread.sleep(forTimeInterval: 0.1)
+ }
+} else if mode == "key" {
+ guard args.count == 4, let code = ["left": CGKeyCode(123), "right": CGKeyCode(124)][args[3]] else { fail("Expected left or right") }
+ for down in [true, false] {
+  guard let event = CGEvent(keyboardEventSource: nil, virtualKey: code, keyDown: down) else { fail("Cannot create key event") }
+  event.postToPid(pid)
+ }
+} else if mode == "focus-id" {
+ guard args.count == 4 else { fail("Selector value required") }
+ let matches = rows.filter { ($0["AXIdentifier"] as? String) == args[3] }
+ guard matches.count == 1, let index = matches[0]["index"] as? Int,
+       AXUIElementSetAttributeValue(nodes[index], kAXFocusedAttribute as CFString, kCFBooleanTrue) == .success else { fail("Cannot focus unique selector") }
 } else if mode == "activate" {
  result["action_return"] = AXUIElementSetAttributeValue(app,kAXFrontmostAttribute as CFString,kCFBooleanTrue).rawValue
 } else if mode != "snapshot" { fail("Unknown action") }

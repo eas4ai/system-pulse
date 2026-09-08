@@ -432,11 +432,12 @@ impl MonitorPanel {
             .child(div().id("process-horizontal").size_full().overflow_x_scroll().track_scroll(&horizontal)
                 .child(Table::new("process-table").row_count(count + 1).column_count(8)
                     .accessibility_label(format!("{count} readable process rows; arrows navigate and scroll columns; Tab leaves table"))
-                    .w(px(width)).h_full().flex().flex_col()
+                    .w_full().min_w(px(width)).h_full().flex().flex_col()
                     .child(TableRow::new("process-columns", 1).flex().h_7().flex_none()
                         .children(live::PROCESS_COLUMNS.iter().enumerate().map(|(column, title)| {
                             TableCell::new(("process-heading", column), column + 1).role(Role::ColumnHeader)
                                 .aria_label(format!("Sort by {title}")).w(px(widths[column])).flex_none()
+                                .when(column == 1, |cell| cell.flex_grow(1.))
                                 .child(Button::new(("sort-process", column)).accessibility_label(format!("Sort by {title}")).ghost().small().w_full().px_2().justify_start()
                                     .child(div().w_full().when(column == 0 || (2..7).contains(&column), |label| label.text_right()).debug_selector(move || format!("process-sort:{column}").into()).child(format!("{title}{}", if self.process_state.sort.column == column {
                                         if self.process_state.sort.descending { " ↓" } else { " ↑" }
