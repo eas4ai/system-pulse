@@ -47,3 +47,36 @@ median serialization 131.817 ms and maximum 152.560 ms. The earlier retained
 63-publication window had median conversion-plus-serialization 268.095 ms
 and maximum 360.490 ms. These debug diagnostic observations are not scored
 Mac CPU measurements. The full Linux package gate remains pending.
+
+## Complete Linux run follow-up
+
+The first full run, `linux-direct-json-20260908T205500Z/`, passed
+1,024 preservation tests, host checks, the complete native replay and
+ten input-focus tests. Packaging stopped because the invocation omitted
+the pinned `cargo-about` path. The tool is present at
+`task-manager-artifacts/finish-application/tools/bin/cargo-about` and reports
+version 0.9.2. This failed aggregate receipt is retained unchanged.
+
+The replacement with the tool path,
+`linux-direct-json-tool-path-20260908T210000Z/`, passed automated and host
+checks and the native device, process-action, settings, minimum-window and
+restart cases. During recovery, opening the next X connection failed with
+`ConnectionClosedError: ... Connection reset by peer`. It recorded no
+stale-frame failure. Xvfb errors were previously discarded by its wrapper.
+
+An independent probe made 100 successive connections: the default Xvfb
+configuration reset display properties 99 times, while `-noreset` preserved
+them throughout. Neither probe reproduced the connection error; reset as
+the cause of that particular failure remains an inference. The private
+session now keeps Xvfb alive across application restarts and directs its
+stderr into the existing session log. The wrapper still terminates the
+owned server at overall session exit.
+
+A real private-session regression test failed under the old flags because
+the display lost its marker between connections, then passed with the new
+flags. Both existing exit/output transport tests also passed. Probe receipts
+and command analysis are retained under `xvfb-reconnect-probe/`.
+
+All 493 Python verification tests passed after the display-lifetime change.
+Ripwire found the private-session call contract unchanged, with no
+incompatible caller. Complete native/package acceptance remains pending.

@@ -14,8 +14,10 @@ def private_session(script, *arguments, log):
         "--",
         "xvfb-run",
         "-a",
+        "-e",
+        "/dev/stderr",
         "-s",
-        "-screen 0 1440x1000x24 -nolisten tcp",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
         "dbus-run-session",
         "--",
         "env",
@@ -27,4 +29,3 @@ def private_session(script, *arguments, log):
         str(script),
         *map(str, arguments),
     ]
-

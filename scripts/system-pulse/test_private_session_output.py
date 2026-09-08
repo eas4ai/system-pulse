@@ -84,6 +84,26 @@ class PrivateSessionOutputTests(unittest.TestCase):
         self.assertEqual(status, 7, stderr)
         self.assertIn("session failed", log)
 
+    def test_display_survives_between_application_connections(self):
+        status, _, stderr, log, _ = self.run_session(
+            "from Xlib import display, Xatom\n"
+            "import time\n"
+            "d = display.Display()\n"
+            "atom = d.intern_atom('SYSTEM_PULSE_SESSION_MARKER')\n"
+            "d.screen().root.change_property(atom, Xatom.STRING, 8, b'private session')\n"
+            "d.sync()\n"
+            "d.close()\n"
+            "time.sleep(.02)\n"
+            "d = display.Display()\n"
+            "atom = d.intern_atom('SYSTEM_PULSE_SESSION_MARKER')\n"
+            "value = d.screen().root.get_full_property(atom, Xatom.STRING)\n"
+            "assert value is not None and value.value == b'private session', 'display reset between connections'\n"
+            "d.close()\n"
+            "print('display session retained', flush=True)\n"
+        )
+        self.assertEqual(status, 0, stderr + log)
+        self.assertIn("display session retained", log)
+
 
 if __name__ == "__main__":
     unittest.main()
