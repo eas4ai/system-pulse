@@ -1,19 +1,19 @@
 {
-  "commit": "4c9c03cb72844032fb469123ee9856572c483fb4",
-  "binary": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-4c9c03cb72844032fb469123ee9856572c483fb4",
-  "sha256": "e3946d9a126418e59c249e097805c2a680c1899d2aebdea9453263d170ef8c6f",
+  "commit": "6b25bd585e0a119c7f740d6a14c4a9feca9278b1",
+  "binary": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1",
+  "sha256": "b121b338adf6e9477b2035644af6119de3f38080a09dcabf1cf00599ba3c4bcf",
   "checks": {
     "tests": {
       "exit_code": 0,
-      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/4c9c03cb72844032fb469123ee9856572c483fb4-tests.log"
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/6b25bd585e0a119c7f740d6a14c4a9feca9278b1-tests.log"
     },
     "clippy": {
       "exit_code": 0,
-      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/4c9c03cb72844032fb469123ee9856572c483fb4-clippy.log"
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/6b25bd585e0a119c7f740d6a14c4a9feca9278b1-clippy.log"
     },
     "release": {
       "exit_code": 0,
-      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/4c9c03cb72844032fb469123ee9856572c483fb4-release.log"
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/6b25bd585e0a119c7f740d6a14c4a9feca9278b1-release.log"
     }
   }
 }

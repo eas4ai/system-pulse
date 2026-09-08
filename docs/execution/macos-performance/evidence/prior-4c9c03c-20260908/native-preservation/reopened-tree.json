@@ -1,5 +1,5 @@
 {
-  "pid": 4941,
+  "pid": 4024,
   "rows": [
     {
       "actions": [
@@ -205,7 +205,7 @@
       "AXIdentifier": "summary-level:CPU",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 16.0%",
+      "AXTitle": "Level: 14.5%",
       "depth": 4,
       "index": 15
     },
@@ -238,7 +238,7 @@
       "AXIdentifier": "summary-level:GPU",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 30.0%",
+      "AXTitle": "Level: 29.9%",
       "depth": 4,
       "index": 18
     },
@@ -249,8 +249,8 @@
       "AXIdentifier": "summary-cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "16.0 %",
-      "AXValue": "16.0 %",
+      "AXTitle": "14.5 %",
+      "AXValue": "14.5 %",
       "depth": 4,
       "index": 19
     },
@@ -261,7 +261,7 @@
       "AXIdentifier": "history:cpu:host/usage",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. Overall utilization: 16.0 %. Scale: 0.0\u2013100.0 %. 11.9 s history. ",
+      "AXTitle": "History chart. Overall utilization: 14.5 %. Scale: 0.0\u2013100.0 %. 11.9 s history. ",
       "depth": 4,
       "index": 20
     },
@@ -272,8 +272,8 @@
       "AXIdentifier": "summary-memory",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "11.2 / 16.0 GiB",
-      "AXValue": "11.2 / 16.0 GiB",
+      "AXTitle": "10.7 / 16.0 GiB",
+      "AXValue": "10.7 / 16.0 GiB",
       "depth": 4,
       "index": 21
     },
@@ -284,7 +284,7 @@
       "AXIdentifier": "summary-memory-level",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 69.8%",
+      "AXTitle": "Level: 67.0%",
       "depth": 4,
       "index": 22
     },
@@ -295,7 +295,7 @@
       "AXIdentifier": "history:memory:host/used",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. RAM used: 11.2 / 16.0 GiB. Scale: 0.0\u201316.0 GiB. 12.1 s history. ",
+      "AXTitle": "History chart. RAM used: 10.7 / 16.0 GiB. Scale: 0.0\u201316.0 GiB. 12.1 s history. ",
       "depth": 4,
       "index": 23
     },
@@ -306,8 +306,8 @@
       "AXIdentifier": "summary-memory:available",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "4.8 GiB",
-      "AXValue": "4.8 GiB",
+      "AXTitle": "5.3 GiB",
+      "AXValue": "5.3 GiB",
       "depth": 4,
       "index": 24
     },
@@ -330,8 +330,8 @@
       "AXIdentifier": "summary-value:disks",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "339.0 / 460.4 GiB",
-      "AXValue": "339.0 / 460.4 GiB",
+      "AXTitle": "338.6 / 460.4 GiB",
+      "AXValue": "338.6 / 460.4 GiB",
       "depth": 4,
       "index": 26
     },
@@ -342,7 +342,7 @@
       "AXIdentifier": "summary-history:disks",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. read: 0.0 B/s; write: 9.0 MiB/s. Scale: 0.0\u20139.0 MiB/s. 12.0 s history. ",
+      "AXTitle": "History chart. read: 12.1 KiB/s; write: 6.5 MiB/s. Scale: 0.0\u20136.9 MiB/s. 12.0 s history. ",
       "depth": 4,
       "index": 27
     },
@@ -353,8 +353,8 @@
       "AXIdentifier": "summary-rate:volume:source:Macintosh HD://read",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "read \u00b7 0.0 B/s",
-      "AXValue": "read \u00b7 0.0 B/s",
+      "AXTitle": "read \u00b7 12.1 KiB/s",
+      "AXValue": "read \u00b7 12.1 KiB/s",
       "depth": 4,
       "index": 28
     },
@@ -365,8 +365,8 @@
       "AXIdentifier": "summary-rate:volume:source:Macintosh HD://write",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "write \u00b7 9.0 MiB/s",
-      "AXValue": "write \u00b7 9.0 MiB/s",
+      "AXTitle": "write \u00b7 6.5 MiB/s",
+      "AXValue": "write \u00b7 6.5 MiB/s",
       "depth": 4,
       "index": 29
     },
@@ -447,8 +447,8 @@
       "AXIdentifier": "summary-value:gpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "30.0 %",
-      "AXValue": "30.0 %",
+      "AXTitle": "29.9 %",
+      "AXValue": "29.9 %",
       "depth": 4,
       "index": 36
     },
@@ -459,7 +459,7 @@
       "AXIdentifier": "summary-history:gpu",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. GPU activity: 30.0 %. Scale: 0.0\u2013100.0 %. 12.0 s history. ",
+      "AXTitle": "History chart. GPU activity: 29.9 %. Scale: 0.0\u2013100.0 %. 12.0 s history. ",
       "depth": 4,
       "index": 37
     },
@@ -493,7 +493,7 @@
       "AXIdentifier": "",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Live system data \u00b7 679 readable processes \u00b7 1 s update",
+      "AXTitle": "Live system data \u00b7 682 readable processes \u00b7 1 s update",
       "depth": 2,
       "index": 40
     },
@@ -588,7 +588,7 @@
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 16.0%",
+      "AXHelp": "System Pulse \u00b7 CPU 14.5%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",

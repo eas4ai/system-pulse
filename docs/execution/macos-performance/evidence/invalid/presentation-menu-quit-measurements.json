@@ -1,0 +1,78 @@
+{
+  "version": 1,
+  "host": {
+    "chip": "Apple M1 Pro",
+    "logical_cpus": 8,
+    "os_version": "26.6.1",
+    "power_source": "AC Power"
+  },
+  "binaries": {
+    "reference": {
+      "commit": "af243cf2dba5eb6c4cb19397c522c38eda640f45",
+      "sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "release_locked": true
+    },
+    "candidate": {
+      "commit": "6b25bd585e0a119c7f740d6a14c4a9feca9278b1",
+      "sha256": "b121b338adf6e9477b2035644af6119de3f38080a09dcabf1cf00599ba3c4bcf",
+      "release_locked": true
+    }
+  },
+  "runs": [
+    {
+      "mode": "summary",
+      "binary": "reference",
+      "repetition": 1,
+      "pid": 5008,
+      "process_start": "Tue Sep  8 11:20:06 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.0744555,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        5008
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4662035291,
+      "monotonic_before_ns": 35186240978,
+      "cpu_after_ns": 12280913208,
+      "monotonic_after_ns": 95192479750,
+      "monitor_pids_after": [
+        5008
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    }
+  ],
+  "cpu_timebase": {
+    "source": "PROC_PIDTASKINFO Mach ticks",
+    "numer": 125,
+    "denom": 3
+  },
+  "measurement_harness_sha256": {
+    "performance_macos.py": "0e0e73b84b1d5df52515d566e2568b3060d3526a377974b9ce9fa05bc325d70e",
+    "performance_ax.swift": "01c7639f51866eb9584e0bb4665a0735a9141a3591b61a44231f41cea2675c15"
+  },
+  "error": "RuntimeError: Owned monitor exited during measurement"
+}

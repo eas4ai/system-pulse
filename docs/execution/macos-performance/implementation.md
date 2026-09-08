@@ -189,8 +189,8 @@ their declared inputs.
 The native candidate at `415bc41ff41e053e946fb5b76396eb795066ebc5` has SHA-256
 `a124de85779f192089e679f7fb0eb3e07a6b67f9e1310c98e78a1cf98ffe94c5`.
 Native tests, strict Clippy and the release build passed; their paths and exits
-are in the [current build record](evidence/native-build.json).
-The [new native preservation receipt](evidence/native-preservation/result.json)
+are in the [current build record](evidence/prior-415bc41-20260908/native-build.json).
+The [new native preservation receipt](evidence/prior-415bc41-20260908/native-preservation/result.json)
 passes coverage, fresh capacity checks, background sampling, history, saved
 settings, reopening and orderly Quit.
 
@@ -202,7 +202,7 @@ remains retained. An unchanged standalone retry succeeded. The continuation
 checked the unchanged source and retained preservation hashes before running
 the remaining package and application checks. Package creation, packaged
 application replay, tray checks and isolated installation/removal all passed.
-The [current Linux manifest](evidence/linux-application-manifest.json) records
+The [current Linux manifest](evidence/prior-415bc41-20260908/linux-application-manifest.json) records
 those results and the continuation's reason.
 
 The separate [guarded stage probe](probes/stage-cpu-guard-20260908.txt) measured
@@ -213,7 +213,7 @@ comparison and preservation evidence remains in
 [the prior evidence directory](evidence/prior-8f480a4-20260908/measurements.json).
 
 
-The [complete guarded comparison](evidence/measurements.json) retains all twelve
+The [complete guarded comparison](evidence/prior-415bc41-20260908/measurements.json) retains all twelve
 valid runs with the same protocol and unchanged reference. No profiler,
 compiler or diagnostic writer ran during scored windows.
 

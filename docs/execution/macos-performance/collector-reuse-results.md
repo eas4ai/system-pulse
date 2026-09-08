@@ -59,7 +59,7 @@ snapshot/presentation changes require an extension of the current source scope.
 
 ## Evidence and interim audit
 
-Current receipts are in `evidence/`; full native runs, trace/XML and Linux
+Receipts for this revision are in `evidence/prior-4c9c03c-20260908/`; full native runs, trace/XML and Linux
 acceptance artifacts are retained in
 `/home/shawn/workspace2/task-manager-artifacts/macos-performance/`, under
 `paired-hid-reuse-20260908T143000Z`, `cpu-profile-hid-reuse-20260908T143000Z`,

@@ -1,0 +1,12 @@
+Timestamp               Ty Process[PID:TID]
+2026-09-08 11:22:30.574 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] terminate:
+2026-09-08 11:22:30.574 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:AutomaticTermination] void _NSDisableAutomaticTerminationAndLog(NSString *) Terminating
+2026-09-08 11:22:30.574 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:StateRestoration] -[NSApplication _pushPersistentStateTerminationGeneration] sPersistentStateTerminateStackHeight -> 1
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] Attempting sudden termination (1st attempt)
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] Checking whether app should terminate
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] Asking app delegate whether applicationShouldTerminate:
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] replyToApplicationShouldTerminate:YES
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] App termination approved
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] Termination commencing
+2026-09-08 11:22:30.575 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] Attempting sudden termination (2nd attempt)
+2026-09-08 11:22:30.592 Df system-pulse-6b25bd585e0a119c7f740d6a14c4a9feca9278b1[5034:247f4] [com.apple.AppKit:Application] Termination complete. Exiting without sudden termination.
