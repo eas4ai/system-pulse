@@ -901,6 +901,11 @@ fn process_table_fills_resized_windows_and_keeps_columns_aligned(cx: &mut TestAp
         .into_iter()
         .enumerate()
         {
+            if !crate::processes::VISIBLE_PROCESS_COLUMNS.contains(&column) {
+                assert!(cx.debug_bounds(heading).is_none());
+                assert!(cx.debug_bounds(cell).is_none());
+                continue;
+            }
             let heading = cx.debug_bounds(heading).unwrap();
             let cell = cx.debug_bounds(cell).unwrap();
             assert!(

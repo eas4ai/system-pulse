@@ -1,8 +1,8 @@
 # Process table improvements
 
 - [x] Complete: implement and verify responsive table width (PROC-001).
-- [ ] In progress: implement and verify compact search (PROC-002).
-- [ ] Pending: implement and verify platform column visibility.
+- [x] Complete: implement and verify compact search (PROC-002).
+- [ ] In progress: implement and verify platform column visibility (PROC-003).
 - [ ] Pending: record authentication design, implement and verify privileged actions.
 - [ ] Pending: run committed acceptance and review all five requirements.
 
@@ -51,3 +51,15 @@ Committed-source native Linux and Mac observations now pass, including PID
 filtering and clearing at minimum width. The Mac harness clicks the text editor
 before typing because semantic focus alone did not route text entry. Rust clippy
 and Python lint checks pass. Cairn evidence validation is next.
+
+PROC-001 and PROC-002 have passing committed Cairn receipts at
+`20260908T225018604Z`.
+
+## PROC-003 work in progress
+
+One platform column list now drives table widths, headers, cells, details and
+sort choices. Mac omits canonical column 6 (Threads); User keeps canonical
+column 7 while its accessible position becomes the seventh visible column.
+Linux retains all eight columns. All 129 Linux application tests, thirteen
+receipt checks and Rust/Python lint pass. Linux native User sorting and Home/End
+navigation also pass. Mac build and native evidence are pending.

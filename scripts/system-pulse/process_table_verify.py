@@ -1,6 +1,7 @@
 """Cairn process-table gate: validate committed tests and native geometry."""
 
 import json
+import re
 import subprocess
 import sys
 
@@ -16,9 +17,9 @@ HARNESSES = {
 }
 
 
-def aligned(frame):
+def aligned(frame, column_count=8):
     headings, cells = frame["headings"], frame["cells"]
-    require(len(headings) == len(cells) == 8, "missing native columns")
+    require(len(headings) == len(cells) == column_count, "missing native columns")
     for heading, cell in zip(headings, cells):
         require(len(heading) == len(cell) == 4 and heading[2] > 0 and cell[2] > 0,
                 "invalid native bounds")
@@ -33,7 +34,7 @@ def validate_geometry(record, platform):
     widths = [1280, 1800 if platform == "linux" else 1440, 960, 1280]
     require(len(frames) == len(widths), "missing native resize observations")
     for frame, width in zip(frames, widths):
-        aligned(frame)
+        aligned(frame, 7 if platform == "macos" else 8)
         require(abs(frame["window_width"] - width) <= 1, "wrong native window width")
         last, viewport = frame["headings"][-1], frame["viewport"]
         if width >= 1280:
@@ -43,7 +44,7 @@ def validate_geometry(record, platform):
     require(abs(frames[0]["headings"][1][2] - frames[3]["headings"][1][2]) <= 1,
             "Name did not shrink after resizing back")
     scrolled = record["narrow_scrolled"]
-    aligned(scrolled)
+    aligned(scrolled, 7 if platform == "macos" else 8)
     require(scrolled["window_width"] == 960, "scroll observation is not at minimum width")
     last, viewport = scrolled["headings"][-1], scrolled["viewport"]
     require(last[0] >= viewport[0] and last[0] + last[2] <= viewport[0] + viewport[2],
@@ -68,18 +69,36 @@ def validate_search(record):
     require(record["search_clear_rows"] > 1, "clearing search did not restore rows")
 
 
+def validate_columns(record, platform):
+    titles = ["PID", "Name", "CPU (one core)", "Memory", "Read I/O", "Write I/O"]
+    columns = [0, 1, 2, 3, 4, 5]
+    if platform == "linux":
+        titles.append("Threads")
+        columns.append(6)
+    titles.append("User")
+    columns.append(7)
+    for frame in record["frames"]:
+        require(frame["heading_titles"] == ["Sort by " + title for title in titles],
+                "native process headers disagree with the platform")
+        require(frame["cell_columns"] == columns, "native process cells disagree with the platform")
+    require(record["user_sort"] == "ascending", "native User sort was not verified")
+    navigation = record["navigation"]
+    require(set(navigation) == {"home", "end"} and
+            all(re.fullmatch(r"process:\d+:\d+", identity) for identity in navigation.values()) and
+            navigation["home"] != navigation["end"],
+            "native keyboard selection is incomplete")
+
+
 def main():
     subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s",
                     "scripts/system-pulse", "-p", "test_process_table_geometry.py"], cwd=ROOT, check=True)
-    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse",
-                    "process_table_fills_resized_windows_and_keeps_columns_aligned"], cwd=ROOT, check=True)
-    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse",
-                    "process_search_stays_compact_when_the_window_grows"], cwd=ROOT, check=True)
+    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse"], cwd=ROOT, check=True)
     evidence = ROOT / "docs/execution/process-table-improvements/evidence"
     for platform in ("linux", "macos"):
         record = json.loads((evidence / platform / "result.json").read_text())
         validate_geometry(record, platform)
         validate_search(record)
+        validate_columns(record, platform)
         same_production(record["source_commit"])
         build = json.loads((evidence / platform / "build.json").read_text())
         require(build["source_commit"] == record["source_commit"] and
@@ -88,6 +107,7 @@ def main():
         check_harness(record["harness_sha256"], HARNESSES[platform])
     print("cairn: PROC-001: pass", flush=True)
     print("cairn: PROC-002: pass", flush=True)
+    print("cairn: PROC-003: pass", flush=True)
     # Other requirements remain unverified until their own checks are implemented.
     return 0
 

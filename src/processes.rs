@@ -1,6 +1,12 @@
 //! Presentation-only process ordering. OS actions remain in the collector crate.
 use crate::live::ProcessView;
 
+// Canonical collector columns keep their meaning when presentation hides one.
+#[cfg(target_os = "macos")]
+pub(crate) const VISIBLE_PROCESS_COLUMNS: &[usize] = &[0, 1, 2, 3, 4, 5, 7];
+#[cfg(not(target_os = "macos"))]
+pub(crate) const VISIBLE_PROCESS_COLUMNS: &[usize] = &[0, 1, 2, 3, 4, 5, 6, 7];
+
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) struct ProcessSort {
     pub(crate) column: usize,
@@ -18,7 +24,7 @@ impl Default for ProcessSort {
 
 impl ProcessSort {
     pub(crate) fn select(&mut self, column: usize) {
-        if column >= 8 {
+        if !VISIBLE_PROCESS_COLUMNS.contains(&column) {
             return;
         }
         if self.column == column {
@@ -210,7 +216,7 @@ mod tests {
             vec![1, 0]
         );
         let mut sort = ProcessSort::default();
-        for column in 0..8 {
+        for &column in VISIBLE_PROCESS_COLUMNS {
             sort.select(column);
             assert_eq!(sort.column, column);
         }
@@ -218,5 +224,21 @@ mod tests {
         assert!(sort.descending);
         sort.select(8);
         assert_eq!(sort.column, 7);
+    }
+
+    #[test]
+    fn platform_columns_keep_user_sort_and_reject_hidden_choices() {
+        let expected: &[usize] = if cfg!(target_os = "macos") {
+            &[0, 1, 2, 3, 4, 5, 7]
+        } else {
+            &[0, 1, 2, 3, 4, 5, 6, 7]
+        };
+        assert_eq!(VISIBLE_PROCESS_COLUMNS, expected);
+        let mut sort = ProcessSort::default();
+        sort.select(6);
+        assert_eq!(sort.column, if cfg!(target_os = "macos") { 2 } else { 6 });
+        sort.select(7);
+        assert_eq!(sort.column, 7);
+        assert!(!sort.descending);
     }
 }

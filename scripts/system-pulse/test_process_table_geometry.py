@@ -4,12 +4,15 @@ import copy
 import unittest
 
 from performance_compare import InvalidMeasurement
-from process_table_verify import validate_geometry, validate_search
+from process_table_verify import validate_columns, validate_geometry, validate_search
 
 
-def receipt():
+def receipt(platform="linux"):
+    mac = platform == "macos"
     def frame(width, scroll=0):
-        widths = [88, max(220, width - 894), 152, 112, 128, 128, 112, 140]
+        widths = [88, max(220, width - (782 if mac else 894)), 152, 112, 128, 128, 112, 140]
+        if mac:
+            widths.pop(6)
         left = 17 - scroll
         headings, cells = [], []
         for column_width in widths:
@@ -18,14 +21,15 @@ def receipt():
             left += column_width
         return {"window_width": width, "viewport": [16, 175, width - 32, 374],
                 "headings": headings, "cells": cells}
-    return {"status": "PASS", "platform": "linux",
-            "frames": [frame(width) for width in (1280, 1800, 960, 1280)],
-            "narrow_scrolled": frame(960, 154)}
+    return {"status": "PASS", "platform": platform,
+            "frames": [frame(width) for width in (1280, 1440 if mac else 1800, 960, 1280)],
+            "narrow_scrolled": frame(960, 42 if mac else 154)}
 
 
 class GeometryTests(unittest.TestCase):
     def test_complete_geometry(self):
-        validate_geometry(receipt(), "linux")
+        for platform in ("linux", "macos"):
+            validate_geometry(receipt(platform), platform)
 
     def test_rejects_wrong_platform_and_missing_resize(self):
         for change in (lambda r: r.update(platform="macos"), lambda r: r["frames"].pop()):
@@ -88,6 +92,39 @@ class SearchTests(unittest.TestCase):
         with self.assertRaises(InvalidMeasurement):
             validate_search(self.record)
 
+
+
+class ColumnTests(unittest.TestCase):
+    def record(self, platform):
+        record = receipt(platform)
+        titles = ["PID", "Name", "CPU (one core)", "Memory", "Read I/O", "Write I/O"]
+        columns = [0, 1, 2, 3, 4, 5]
+        if platform == "linux":
+            titles.append("Threads")
+            columns.append(6)
+        titles.append("User")
+        columns.append(7)
+        for frame in record["frames"]:
+            frame.update(heading_titles=["Sort by " + title for title in titles], cell_columns=columns.copy())
+        record.update(user_sort="ascending", navigation={"home": "process:1:10", "end": "process:9:90"})
+        return record
+
+    def test_platform_columns_and_navigation(self):
+        for platform in ("linux", "macos"):
+            validate_columns(self.record(platform), platform)
+
+    def test_rejects_mac_threads_cell_and_renumbered_user(self):
+        for columns in ([0, 1, 2, 3, 4, 5, 6, 7], [0, 1, 2, 3, 4, 5, 6]):
+            record = self.record("macos")
+            record["frames"][0]["cell_columns"] = columns
+            with self.assertRaises(InvalidMeasurement):
+                validate_columns(record, "macos")
+
+    def test_rejects_unchanged_selection_after_end(self):
+        record = self.record("macos")
+        record["navigation"]["end"] = record["navigation"]["home"]
+        with self.assertRaises(InvalidMeasurement):
+            validate_columns(record, "macos")
 
 
 if __name__ == "__main__":

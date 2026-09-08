@@ -187,14 +187,19 @@ impl MonitorPanel {
     }
 }
 
-pub(crate) fn process_cell(process: &live::ProcessView, column: usize, width: f32) -> TableCell {
+pub(crate) fn process_cell(
+    process: &live::ProcessView,
+    column: usize,
+    visible_index: usize,
+    width: f32,
+) -> TableCell {
     let cell_id = format!(
         "process:{}:{}:cell:{column}",
         process.identity.pid, process.identity.start_time_ticks
     );
     let tooltip = process.cells[column].clone();
     let numeric = column == 0 || (2..7).contains(&column);
-    TableCell::new(SharedString::from(cell_id.clone()), column + 1)
+    TableCell::new(SharedString::from(cell_id.clone()), visible_index + 1)
         .accessibility_id(cell_id.clone())
         .aria_label(process.cells[column].clone())
         .w(px(width))
@@ -240,29 +245,36 @@ pub(crate) fn process_row(
         })
         .when(selected, |row| row.bg(cx.theme().muted))
         .debug_selector(move || format!("process-row:{index}").into())
-        .children(process.cells.iter().enumerate().map(|(column, _)| {
-            process_cell(process, column, widths[column])
-                .when(
-                    column == 2
-                        && process.numeric[0].is_some_and(|value| value.is_finite() && value > 0.)
-                        && process
-                            .cells
-                            .get(2)
-                            .is_some_and(|value| !value.to_lowercase().contains("stale")),
-                    |cell| {
-                        cell.bg(
-                            crate::screen_style::accent(system_pulse_model::Screen::Cpu, cx)
+        .children(
+            crate::processes::VISIBLE_PROCESS_COLUMNS
+                .iter()
+                .enumerate()
+                .map(|(visible_index, &column)| {
+                    process_cell(process, column, visible_index, widths[column])
+                        .when(
+                            column == 2
+                                && process.numeric[0]
+                                    .is_some_and(|value| value.is_finite() && value > 0.)
+                                && process
+                                    .cells
+                                    .get(2)
+                                    .is_some_and(|value| !value.to_lowercase().contains("stale")),
+                            |cell| {
+                                cell.bg(crate::screen_style::accent(
+                                    system_pulse_model::Screen::Cpu,
+                                    cx,
+                                )
                                 .opacity(
                                     (process.numeric[0].unwrap_or(0.).clamp(0., 100.) / 100. * 0.22)
                                         as f32,
-                                ),
+                                ))
+                            },
                         )
-                    },
-                )
-                .when(column == 0 || (2..7).contains(&column), |cell| {
-                    cell.font_family(cx.theme().mono_font_family.clone())
-                })
-        }))
+                        .when(column == 0 || (2..7).contains(&column), |cell| {
+                            cell.font_family(cx.theme().mono_font_family.clone())
+                        })
+                }),
+        )
 }
 
 impl Panel for MonitorPanel {

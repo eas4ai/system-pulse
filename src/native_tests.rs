@@ -1251,7 +1251,7 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
                 Some(format!("process:53:{start}").as_str())
             );
             assert_eq!(node.row_index(), Some(index + 2));
-            let cell = crate::panel::process_cell(&process, 2, 200.);
+            let cell = crate::panel::process_cell(&process, 2, 2, 200.);
             let mut node = gpui_kit::accesskit::Node::new(gpui_kit::Role::Cell);
             cell.render(window, cx)
                 .into_element()
@@ -1261,6 +1261,18 @@ fn process_accessibility_ids_follow_pid_and_start_time_through_reordering_and_re
                 Some(format!("process:53:{start}:cell:2").as_str())
             );
             assert_eq!(node.label(), Some("42.0 %"));
+            let visible_index = crate::processes::VISIBLE_PROCESS_COLUMNS.len() - 1;
+            let cell = crate::panel::process_cell(&process, 7, visible_index, 140.);
+            let mut node = gpui_kit::accesskit::Node::new(gpui_kit::Role::Cell);
+            cell.render(window, cx)
+                .into_element()
+                .write_a11y_info(&mut node);
+            assert_eq!(node.column_index(), Some(visible_index + 1));
+            assert_eq!(
+                node.author_id(),
+                Some(format!("process:53:{start}:cell:7").as_str())
+            );
+            assert_eq!(node.label(), Some("user"));
         }
     });
 }

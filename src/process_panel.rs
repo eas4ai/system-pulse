@@ -274,32 +274,34 @@ impl MonitorPanel {
                     ),
             )
             .child(
-                div()
-                    .flex()
-                    .flex_wrap()
-                    .gap_4()
-                    .children((2..8).map(|column| {
-                        div()
-                            .flex()
-                            .flex_col()
-                            .gap_1()
-                            .min_w(px(110.))
-                            .flex_1()
-                            .child(
-                                div()
-                                    .text_size(px(11.))
-                                    .text_color(cx.theme().muted_foreground)
-                                    .child(live::PROCESS_COLUMNS[column]),
-                            )
-                            .child(
-                                crate::meters::metric_label(
-                                    format!("process-detail:{column}"),
-                                    row.cells.get(column).cloned().unwrap_or_default(),
+                div().flex().flex_wrap().gap_4().children(
+                    processes::VISIBLE_PROCESS_COLUMNS
+                        .iter()
+                        .copied()
+                        .filter(|column| *column >= 2)
+                        .map(|column| {
+                            div()
+                                .flex()
+                                .flex_col()
+                                .gap_1()
+                                .min_w(px(110.))
+                                .flex_1()
+                                .child(
+                                    div()
+                                        .text_size(px(11.))
+                                        .text_color(cx.theme().muted_foreground)
+                                        .child(live::PROCESS_COLUMNS[column]),
                                 )
-                                .text_sm()
-                                .font_family(cx.theme().mono_font_family.clone()),
-                            )
-                    })),
+                                .child(
+                                    crate::meters::metric_label(
+                                        format!("process-detail:{column}"),
+                                        row.cells.get(column).cloned().unwrap_or_default(),
+                                    )
+                                    .text_sm()
+                                    .font_family(cx.theme().mono_font_family.clone()),
+                                )
+                        }),
+                ),
             )
             .into_any_element()
     }
@@ -323,7 +325,10 @@ impl MonitorPanel {
         let ring = cx.theme().ring;
         let count = rows.len();
         let widths = self.shared.borrow().process_widths;
-        let width: f32 = widths.iter().sum();
+        let width: f32 = processes::VISIBLE_PROCESS_COLUMNS
+            .iter()
+            .map(|&column| widths[column])
+            .sum();
         let sizes = Rc::new(vec![size(px(width), window.rem_size() * 1.75); count]);
         let list = v_virtual_list(
             cx.entity(),
@@ -432,12 +437,13 @@ impl MonitorPanel {
                 }
             })
             .child(div().id("process-horizontal").size_full().overflow_x_scroll().track_scroll(&horizontal)
-                .child(Table::new("process-table").row_count(count + 1).column_count(8)
+                .child(Table::new("process-table").row_count(count + 1).column_count(processes::VISIBLE_PROCESS_COLUMNS.len())
                     .accessibility_label(format!("{count} readable process rows; arrows navigate and scroll columns; Tab leaves table"))
                     .w_full().min_w(px(width)).h_full().flex().flex_col()
                     .child(TableRow::new("process-columns", 1).flex().h_7().flex_none()
-                        .children(live::PROCESS_COLUMNS.iter().enumerate().map(|(column, title)| {
-                            TableCell::new(("process-heading", column), column + 1).role(Role::ColumnHeader)
+                        .children(processes::VISIBLE_PROCESS_COLUMNS.iter().enumerate().map(|(visible_index, &column)| {
+                            let title = live::PROCESS_COLUMNS[column];
+                            TableCell::new(("process-heading", column), visible_index + 1).role(Role::ColumnHeader)
                                 .aria_label(format!("Sort by {title}")).w(px(widths[column])).flex_none()
                                 .when(column == 1, |cell| cell.flex_grow(1.))
                                 .child(Button::new(("sort-process", column)).accessibility_label(format!("Sort by {title}")).ghost().small().w_full().px_2().justify_start()

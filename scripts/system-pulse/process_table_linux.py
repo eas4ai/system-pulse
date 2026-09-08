@@ -6,10 +6,10 @@ from pathlib import Path
 import re
 
 from host_accuracy import require
-from native_driver import close_transport, digest, spin
+from native_driver import Atspi, close_transport, digest, spin
 from tabbed_driver import TabbedNative
 from process_table_verify import HARNESSES, aligned
-from application_replay import enter, process_rows
+from application_replay import enter, press, process_rows
 
 
 def geometry(app):
@@ -33,6 +33,10 @@ def geometry(app):
     return {"window_width": app.window().get_geometry().width,
             "viewport": viewport,
             "headings": [app.bounds(node) for node in headings],
+            "heading_titles": [node.get_name() for node in headings],
+            "cell_columns": sorted(int(node.get_accessible_id().rsplit(":", 1)[1])
+                                   for node in nodes
+                                   if (node.get_accessible_id() or "").startswith(identity + ":cell:")),
             "cells": cells, "identity": identity,
             "search": app.bounds(app.find("Search name, PID, or user…")),
             "actions": [app.bounds(app.find(title, "button"))
@@ -86,6 +90,27 @@ def run(args):
         cleared = app.wait(lambda: rows if len(rows := process_rows(app)) > 1 else None,
                            message="cleared process search")
         result["search_clear_rows"] = len(cleared)
+        app.resize(1280, 880)
+        spin(0.3)
+        press(app, "Sort by User", role="button", root=app.panel("processes"))
+        spin(0.3)
+        def sorted_users():
+            rows = process_rows(app)
+            users = [app.find(aid=identity + ":cell:7", root=node).get_name().lower()
+                     for identity, node in sorted(rows.items(), key=lambda item: app.bounds(item[1])[1])]
+            return users if users and users == sorted(users) else None
+        app.wait(sorted_users, 15, "native User sort")
+        result["user_sort"] = "ascending"
+        result["navigation"] = {}
+        app.focus(app.find(aid="processes:viewport"))
+        for key in ("Home", "End"):
+            app.key(key)
+            def selected():
+                rows = process_rows(app)
+                selected = [identity for identity, node in rows.items()
+                            if node.get_state_set().contains(Atspi.StateType.SELECTED)]
+                return selected[0] if len(selected) == 1 and selected[0] != result["navigation"].get("home") else None
+            result["navigation"][key.lower()] = app.wait(selected, 15, "native " + key)
         require(result["frames"][1]["headings"][1][2] > result["frames"][0]["headings"][1][2],
                 "Name column did not grow")
         app.shutdown()

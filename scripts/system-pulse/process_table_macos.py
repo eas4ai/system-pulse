@@ -18,7 +18,9 @@ def geometry(tree):
     rows = tree["rows"]
     headings = [row["bounds"] for row in rows if row.get("AXRole") == "AXCell"
                 and row.get("AXTitle", "").startswith("Sort by ")]
-    require(len(headings) == 8, "expected eight process column headings")
+    require(len(headings) == 7, "expected seven Mac process column headings")
+    require(not any(row.get("AXIdentifier", "").endswith(":cell:6") for row in rows),
+            "Mac table exposed a Threads cell")
     viewport = next(row["bounds"] for row in rows
                     if row.get("AXIdentifier") == "processes:viewport")
     process = next(row for row in rows
@@ -28,16 +30,20 @@ def geometry(tree):
     identity = process["AXIdentifier"]
     cells = [next(row["bounds"] for row in rows
                   if row.get("AXIdentifier") == f"{identity}:cell:{column}")
-             for column in range(8)]
+             for column in (0, 1, 2, 3, 4, 5, 7)]
     window = next(row["bounds"] for row in rows if row.get("AXRole") == "AXWindow")
     frame = {"window_width": window[2], "viewport": viewport,
              "headings": headings, "cells": cells, "identity": identity,
+             "heading_titles": [row["AXTitle"] for row in rows if row.get("AXRole") == "AXCell"
+                                and row.get("AXTitle", "").startswith("Sort by ")],
+             "cell_columns": sorted(int(row["AXIdentifier"].rsplit(":", 1)[1])
+                                    for row in rows if row.get("AXIdentifier", "").startswith(identity + ":cell:")),
              "search": next(row["bounds"] for row in rows
                             if row.get("AXRole") == "AXTextField"),
              "actions": [next(row["bounds"] for row in rows
                               if row.get("AXRole") == "AXButton" and row.get("AXTitle") == title)
                          for title in ("End task…", "Force quit…")]}
-    aligned(frame)
+    aligned(frame, 7)
     return frame
 
 
@@ -115,6 +121,25 @@ def run(args):
                                "cleared process search")
             save("search-cleared.json", tree())
             result["search_clear_rows"] = len(cleared)
+            tree("resize", 1280, 880)
+            tree("press-title", "Sort by User")
+            def sorted_users():
+                rows = [row for row in tree()["rows"]
+                        if re.fullmatch(r"process:\d+:\d+:cell:7", row.get("AXIdentifier", ""))]
+                users = [row["AXTitle"].lower() for row in sorted(rows, key=lambda row: row["bounds"][1])]
+                return users if users and users == sorted(users) else None
+            wait_for(sorted_users, "native User sort")
+            result["user_sort"] = "ascending"
+            result["navigation"] = {}
+            tree("focus-id", "processes:viewport")
+            for key in ("home", "end"):
+                tree("key", key)
+                def selected():
+                    ids = [row["AXIdentifier"] for row in tree()["rows"]
+                           if row.get("selected") is True and
+                           re.fullmatch(r"process:\d+:\d+", row.get("AXIdentifier", ""))]
+                    return ids[0] if len(ids) == 1 and ids[0] != result["navigation"].get("home") else None
+                result["navigation"][key] = wait_for(selected, "native " + key)
             tree("press-title", "Quit")
             process.wait(timeout=10)
             require(process.returncode == 0, "native Quit failed")

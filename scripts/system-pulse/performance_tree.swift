@@ -29,6 +29,7 @@ func walk(_ node: AXUIElement, _ depth: Int) {
  for name in ["AXRole","AXSubrole","AXTitle","AXDescription","AXIdentifier","AXHelp"] { row[name] = text(node,name) }
  if let value = attr(node,"AXValue") as? String { row["AXValue"] = value }
  if let value = attr(node,"AXValue") as? NSNumber { row["AXValue"] = value }
+ if let value = attr(node,"AXSelected") as? NSNumber { row["selected"] = value.boolValue }
  if let position = attr(node,"AXPosition"), let size = attr(node,"AXSize"),
     CFGetTypeID(position) == AXValueGetTypeID(), CFGetTypeID(size) == AXValueGetTypeID() {
   var point = CGPoint.zero
@@ -104,7 +105,7 @@ if mode == "close" {
   }
  }
 } else if mode == "key" {
- guard args.count == 4, let code = ["left": CGKeyCode(123), "right": CGKeyCode(124)][args[3]] else { fail("Expected left or right") }
+ guard args.count == 4, let code = ["left": CGKeyCode(123), "right": CGKeyCode(124), "home": CGKeyCode(115), "end": CGKeyCode(119)][args[3]] else { fail("Expected a supported navigation key") }
  for down in [true, false] {
   guard let event = CGEvent(keyboardEventSource: nil, virtualKey: code, keyDown: down) else { fail("Cannot create key event") }
   event.postToPid(pid)
