@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "host": {
+    "chip": "Apple M1 Pro",
+    "logical_cpus": 8,
+    "os_version": "26.6.1",
+    "power_source": "AC Power"
+  },
+  "binaries": {
+    "reference": {
+      "commit": "af243cf2dba5eb6c4cb19397c522c38eda640f45",
+      "sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "release_locked": true
+    },
+    "candidate": {
+      "commit": "8f480a4fe1605ad496e41b25d670d41c555e10c7",
+      "sha256": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "release_locked": true
+    }
+  },
+  "runs": [
+    {
+      "mode": "summary",
+      "binary": "reference",
+      "repetition": 1,
+      "pid": 1564,
+      "process_start": "Tue Sep  8 08:34:22 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.079697375,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        1564
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 114619979,
+      "monotonic_before_ns": 35229917312,
+      "cpu_after_ns": 295148423,
+      "monotonic_after_ns": 95236697103,
+      "monitor_pids_after": [
+        1564
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "summary",
+      "binary": "candidate",
+      "repetition": 1,
+      "pid": 1642,
+      "process_start": "Tue Sep  8 08:35:58 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.075482791,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        1642
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 93957901,
+      "monotonic_before_ns": 130307501978,
+      "cpu_after_ns": 247983868,
+      "monotonic_after_ns": 190314167916,
+      "monitor_pids_after": [
+        1642
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    }
+  ],
+  "measurement_harness_sha256": {
+    "performance_macos.py": "f69374bfcd0707b305ecaf16a40877947bb33094d5c9450397f5ffaa85a8f516",
+    "performance_ax.swift": "01c7639f51866eb9584e0bb4665a0735a9141a3591b61a44231f41cea2675c15"
+  },
+  "error": "KeyboardInterrupt: "
+}

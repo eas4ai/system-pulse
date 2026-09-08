@@ -3,7 +3,9 @@ import unittest
 from unittest.mock import patch
 
 from performance_compare import InvalidMeasurement, compare
-from performance_macos import census
+from performance_macos import MachTimebase, TaskInfo, census, cpu_counter
+from pathlib import Path
+from unittest.mock import Mock
 
 
 def receipt():
@@ -34,10 +36,37 @@ def receipt():
                     **{f"conflicting_processes_{b}": [] for b in ("before", "after")},
                     **{f"windows_{b}": windows for b in ("before", "after")},
                 })
-    return {"version": 1, "host": host, "binaries": binaries, "runs": runs}
+    return {"version": 1, "host": host, "binaries": binaries, "runs": runs,
+            "cpu_timebase": {"source": "PROC_PIDTASKINFO Mach ticks", "numer": 125, "denom": 3}}
 
 
 class PerformanceComparisonTests(unittest.TestCase):
+    def test_native_cpu_ticks_are_converted_to_nanoseconds(self):
+        import ctypes
+        library = Mock()
+        process = Mock(pid=123)
+        process.poll.return_value = None
+        def path(pid, buffer, length):
+            buffer.value = b"/tmp/owned-monitor"
+            return len(buffer.value)
+        def info(pid, flavor, arg, pointer, size):
+            value = ctypes.cast(pointer, ctypes.POINTER(TaskInfo)).contents
+            value.total_user = 24_000_000
+            value.total_system = 12_000_000
+            return ctypes.sizeof(TaskInfo)
+        library.proc_pidpath.side_effect = path
+        library.proc_pidinfo.side_effect = info
+        cpu, _ = cpu_counter(library, process, Path("/tmp/owned-monitor"), MachTimebase(125, 3))
+        self.assertEqual(cpu, 1_500_000_000)
+
+    def test_missing_or_invalid_counter_units_are_rejected(self):
+        for value in ({}, {"source": "nanoseconds", "numer": 1, "denom": 1},
+                      {"source": "PROC_PIDTASKINFO Mach ticks", "numer": 125, "denom": 0}):
+            data = receipt()
+            data["cpu_timebase"] = value
+            with self.assertRaises(InvalidMeasurement):
+                compare(data)
+
     def test_census_distinguishes_system_service_from_launched_profiler(self):
         with patch("performance_macos.command", return_value=
                    "636 1 /usr/sbin/spindump\n700 20 /usr/sbin/spindump\n"

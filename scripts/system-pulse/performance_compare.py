@@ -21,6 +21,11 @@ def number(value, label):
 
 def compare(receipt):
     require(type(receipt.get("version")) is int and receipt["version"] == 1, "unsupported receipt version")
+    timebase = receipt.get("cpu_timebase", {})
+    require(timebase.get("source") == "PROC_PIDTASKINFO Mach ticks", "missing CPU counter units")
+    for key in ("numer", "denom"):
+        require(type(timebase.get(key)) is int and 0 < timebase[key] <= 0xffffffff,
+                "invalid Mach timebase")
     host = receipt.get("host", {})
     require(host.get("logical_cpus") == 8, "wrong comparison hardware")
     require(host.get("chip") == "Apple M1 Pro", "wrong comparison chip")

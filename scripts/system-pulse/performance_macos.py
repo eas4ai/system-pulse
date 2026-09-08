@@ -22,7 +22,11 @@ class TaskInfo(ctypes.Structure):
                     (name, ctypes.c_int32) for name in
                     ("policy", "faults", "pageins", "cow_faults", "messages_sent",
                      "messages_received", "syscalls_mach", "syscalls_unix", "csw",
-                     "threadnum", "numrunning", "priority")]
+                    "threadnum", "numrunning", "priority")]
+
+
+class MachTimebase(ctypes.Structure):
+    _fields_ = [("numer", ctypes.c_uint32), ("denom", ctypes.c_uint32)]
 
 
 def command(args):
@@ -61,7 +65,7 @@ def census():
     return sorted(monitors), conflicts
 
 
-def cpu_counter(library, process, binary):
+def cpu_counter(library, process, binary, timebase):
     if process.poll() is not None:
         raise RuntimeError("Owned monitor exited during measurement")
     path = ctypes.create_string_buffer(4096)
@@ -75,7 +79,8 @@ def cpu_counter(library, process, binary):
     end = time.monotonic_ns()
     if size != ctypes.sizeof(info):
         raise RuntimeError("Could not read complete native process CPU counters")
-    return info.total_user + info.total_system, (start + end) // 2
+    ticks = info.total_user + info.total_system
+    return ticks * timebase.numer // timebase.denom, (start + end) // 2
 
 
 def write_receipt(path, receipt):
@@ -93,7 +98,14 @@ def run(args):
     library.proc_pidinfo.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_uint64,
                                     ctypes.c_void_p, ctypes.c_int]
     library.proc_pidpath.argtypes = [ctypes.c_int, ctypes.c_void_p, ctypes.c_uint32]
+    system = ctypes.CDLL("/usr/lib/libSystem.B.dylib")
+    system.mach_timebase_info.argtypes = [ctypes.POINTER(MachTimebase)]
+    timebase = MachTimebase()
+    if system.mach_timebase_info(ctypes.byref(timebase)) != 0 or not timebase.numer or not timebase.denom:
+        raise RuntimeError("Could not establish Mach CPU counter units")
     receipt = {"version": 1, "host": host(), "binaries": {}, "runs": []}
+    receipt["cpu_timebase"] = {"source": "PROC_PIDTASKINFO Mach ticks",
+                               "numer": timebase.numer, "denom": timebase.denom}
     receipt["measurement_harness_sha256"] = {
         name: digest(Path(__file__).with_name(name))
         for name in ("performance_macos.py", "performance_ax.swift")
@@ -150,9 +162,9 @@ def run(args):
                                 raise RuntimeError("Native window does not match the measurement protocol")
                             row["binary_sha256_before"] = digest(binary)
                             row["monitor_pids_before"], row["conflicting_processes_before"] = census()
-                            row["cpu_before_ns"], row["monotonic_before_ns"] = cpu_counter(library, process, binary)
+                            row["cpu_before_ns"], row["monotonic_before_ns"] = cpu_counter(library, process, binary, timebase)
                             time.sleep(60)
-                            row["cpu_after_ns"], row["monotonic_after_ns"] = cpu_counter(library, process, binary)
+                            row["cpu_after_ns"], row["monotonic_after_ns"] = cpu_counter(library, process, binary, timebase)
                             row["monitor_pids_after"], row["conflicting_processes_after"] = census()
                             row["binary_sha256_after"] = digest(binary)
                             row["windows_after"] = json.loads(command(
