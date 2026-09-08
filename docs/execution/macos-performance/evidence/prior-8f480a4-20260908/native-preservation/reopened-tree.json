@@ -1,5 +1,5 @@
 {
-  "pid": 3151,
+  "pid": 2215,
   "rows": [
     {
       "actions": [
@@ -205,7 +205,7 @@
       "AXIdentifier": "summary-level:CPU",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 15.0%",
+      "AXTitle": "Level: 28.8%",
       "depth": 4,
       "index": 15
     },
@@ -238,7 +238,7 @@
       "AXIdentifier": "summary-level:GPU",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 26.2%",
+      "AXTitle": "Level: 31.5%",
       "depth": 4,
       "index": 18
     },
@@ -249,8 +249,8 @@
       "AXIdentifier": "summary-cpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "15.0 %",
-      "AXValue": "15.0 %",
+      "AXTitle": "28.8 %",
+      "AXValue": "28.8 %",
       "depth": 4,
       "index": 19
     },
@@ -261,7 +261,7 @@
       "AXIdentifier": "history:cpu:host/usage",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. Overall utilization: 15.0 %. Scale: 0.0\u2013100.0 %. 11.9 s history. ",
+      "AXTitle": "History chart. Overall utilization: 28.8 %. Scale: 0.0\u2013100.0 %. 11.9 s history. ",
       "depth": 4,
       "index": 20
     },
@@ -284,7 +284,7 @@
       "AXIdentifier": "summary-memory-level",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "Level: 63.1%",
+      "AXTitle": "Level: 63.4%",
       "depth": 4,
       "index": 22
     },
@@ -330,8 +330,8 @@
       "AXIdentifier": "summary-value:disks",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "337.8 / 460.4 GiB",
-      "AXValue": "337.8 / 460.4 GiB",
+      "AXTitle": "336.5 / 460.4 GiB",
+      "AXValue": "336.5 / 460.4 GiB",
       "depth": 4,
       "index": 26
     },
@@ -342,7 +342,7 @@
       "AXIdentifier": "summary-history:disks",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. read: 31.9 KiB/s; write: 6.3 MiB/s. Scale: 0.0\u20136.4 MiB/s. 12.0 s history. ",
+      "AXTitle": "History chart. read: 32.3 KiB/s; write: 6.3 MiB/s. Scale: 0.0\u20136.4 MiB/s. 12.0 s history. ",
       "depth": 4,
       "index": 27
     },
@@ -353,8 +353,8 @@
       "AXIdentifier": "summary-rate:volume:source:Macintosh HD://read",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "read \u00b7 31.9 KiB/s",
-      "AXValue": "read \u00b7 31.9 KiB/s",
+      "AXTitle": "read \u00b7 32.3 KiB/s",
+      "AXValue": "read \u00b7 32.3 KiB/s",
       "depth": 4,
       "index": 28
     },
@@ -424,8 +424,8 @@
       "AXIdentifier": "summary-value:energy",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "0.2 W",
-      "AXValue": "0.2 W",
+      "AXTitle": "0.3 W",
+      "AXValue": "0.3 W",
       "depth": 4,
       "index": 34
     },
@@ -436,7 +436,7 @@
       "AXIdentifier": "summary-history:energy",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. GPU power: 0.2 W. Scale: 0.0\u20130.3 W. 12.0 s history. ",
+      "AXTitle": "History chart. GPU power: 0.3 W. Scale: 0.0\u20130.3 W. 12.0 s history. ",
       "depth": 4,
       "index": 35
     },
@@ -447,8 +447,8 @@
       "AXIdentifier": "summary-value:gpu",
       "AXRole": "AXStaticText",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "26.2 %",
-      "AXValue": "26.2 %",
+      "AXTitle": "31.5 %",
+      "AXValue": "31.5 %",
       "depth": 4,
       "index": 36
     },
@@ -459,7 +459,7 @@
       "AXIdentifier": "summary-history:gpu",
       "AXRole": "AXImage",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "History chart. GPU activity: 26.2 %. Scale: 0.0\u2013100.0 %. 12.0 s history. ",
+      "AXTitle": "History chart. GPU activity: 31.5 %. Scale: 0.0\u2013100.0 %. 12.0 s history. ",
       "depth": 4,
       "index": 37
     },
@@ -493,7 +493,7 @@
       "AXIdentifier": "",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Live system data \u00b7 672 readable processes \u00b7 1 s update",
+      "AXTitle": "Live system data \u00b7 666 readable processes \u00b7 1 s update",
       "depth": 2,
       "index": 40
     },
@@ -588,7 +588,7 @@
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 15.0%",
+      "AXHelp": "System Pulse \u00b7 CPU 28.8%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",

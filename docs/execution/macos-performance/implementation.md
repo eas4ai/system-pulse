@@ -39,13 +39,13 @@ kept the original cost. This led to the developer-approved capacity definition,
 not a slower query interval. Account caching remains unnecessary unless the
 whole-application comparison shows more work is needed.
 
-## Verification state
+## Initial verification state (before the sysinfo guard)
 
 The optimized native release at
 `8f480a4fe1605ad496e41b25d670d41c555e10c7` has SHA-256
 `30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd`.
 Native application/model/collector tests, strict Clippy and the locked release
-build passed. The [build record](evidence/native-build.json) retains their exits
+build passed. The [build record](evidence/prior-8f480a4-20260908/native-build.json) retains their exits
 and remote logs. The unchanged reference binary remains separately preserved.
 
 The [invalid native attempts](evidence/invalid/) contain no scored observations.
@@ -77,7 +77,7 @@ The existing continuation procedure verified the unchanged source, passed
 step logs and all preservation artifact hashes before executing the unchanged
 remaining application-gate statements with cargo-about 0.9.2. Packaging, native
 packaged product replay, tray/history/reopen checks, and isolated
-installation/removal all passed. The [passing manifest](evidence/linux-application-manifest.json)
+installation/removal all passed. The [passing manifest](evidence/prior-8f480a4-20260908/linux-application-manifest.json)
 records the continuation and retained steps. Both original failed manifests
 remain in [invalid](evidence/invalid/); neither was overwritten or relabeled.
 
@@ -108,7 +108,7 @@ passed on both Mac and Linux, including conversion and missing/invalid-unit
 rejection. The interrupted, unconverted receipt is retained as invalid; its
 understated absolute percentages are not performance evidence.
 
-The complete fresh [measurement set](evidence/measurements.json) retains all
+The complete fresh [measurement set](evidence/prior-8f480a4-20260908/measurements.json) retains all
 twelve observations, alternating pair order, thirty-second warmups and
 sixty-second scored windows. No compiler, profiler or diagnostic writer ran
 during scored windows. Both modes used the same unchanged release binaries.
@@ -125,7 +125,7 @@ profiling of the remaining cost.
 Native preservation subsequently passed after the helper waited for reopened
 screen controls, not just the window object. The original readiness failure is
 retained under evidence/invalid. The passing
-[native receipt](evidence/native-preservation/result.json) includes equal
+[native receipt](evidence/prior-8f480a4-20260908/native-preservation/result.json) includes equal
 reference/candidate sensor and monitor coverage, fresh statvfs arithmetic and
 independent capacity checks, background sequence advancement with no window,
 saved and reopened settings, continued history, native interaction and clean
@@ -163,7 +163,7 @@ comparison. Temperature and account wall time mostly reflect waiting. Process
 refresh is the largest measured CPU stage. No new reduction is claimed from
 profiling alone.
 
-## Checkpoint self-audit
+## Initial checkpoint self-audit (before the sysinfo guard)
 
 The production changes stay in the collector and introduce no dependency,
 worker, interval change or saved-state schema change. Live capacity has fresh
@@ -173,3 +173,56 @@ Controlled tests, native builds and Linux acceptance support those changes.
 The performance and native Mac preservation claims remain withheld until their
 required observations pass. The remaining work is verification, final review
 and delivery; this checkpoint is not a completed release.
+
+
+## Approved sysinfo process argument guard
+
+The developer approved the narrow dependency patch recorded in the
+[process refresh proposal](process-refresh-proposal.md). The retained sysinfo
+0.37.2 source skips argument reads only when no requested metadata needs them.
+New process entries and requested fields keep their existing refresh paths.
+Fresh CPU, memory, disk I/O and user reads remain enabled. The vendored source,
+Cargo patch and lockfile, focused tests and package provenance are committed.
+The GPU and live acceptance mechanisms now include that dependency source in
+their declared inputs.
+
+The native candidate at `415bc41ff41e053e946fb5b76396eb795066ebc5` has SHA-256
+`a124de85779f192089e679f7fb0eb3e07a6b67f9e1310c98e78a1cf98ffe94c5`.
+Native tests, strict Clippy and the release build passed; their paths and exits
+are in the [current build record](evidence/native-build.json).
+The [new native preservation receipt](evidence/native-preservation/result.json)
+passes coverage, fresh capacity checks, background sampling, history, saved
+settings, reopening and orderly Quit.
+
+Linux preservation and input-focus checks passed at
+`1789a04238d59895eda98cb6815edc19b0e9cf37`, whose production source matches the
+native candidate. Packaging encountered a cargo-about 0.9.2 SIGSEGV; the
+[failed manifest](evidence/invalid/linux-sysinfo-guard-license-crash.json)
+remains retained. An unchanged standalone retry succeeded. The continuation
+checked the unchanged source and retained preservation hashes before running
+the remaining package and application checks. Package creation, packaged
+application replay, tray checks and isolated installation/removal all passed.
+The [current Linux manifest](evidence/linux-application-manifest.json) records
+those results and the continuation's reason.
+
+The separate [guarded stage probe](probes/stage-cpu-guard-20260908.txt) measured
+about 18.2 CPU milliseconds per process refresh after startup, compared with
+35.6 milliseconds in the earlier probe. This is an isolated API measurement;
+it does not establish the whole-application reduction. The complete earlier
+comparison and preservation evidence remains in
+[the prior evidence directory](evidence/prior-8f480a4-20260908/measurements.json).
+
+
+The [complete guarded comparison](evidence/measurements.json) retains all twelve
+valid runs with the same protocol and unchanged reference. No profiler,
+compiler or diagnostic writer ran during scored windows.
+
+| Mode | Reference CPU | Candidate CPU | Reduction | Required reduction |
+| --- | ---: | ---: | ---: | ---: |
+| Summary | 12.6397% | 10.0707% | 20.3249% | at least 50% |
+| Tray-only | 11.1183% | 7.8289% | 29.5860% | at least 50% |
+
+Both performance targets remain unmet. The next action is a separate whole-app
+CPU profile before choosing another collector optimization. Preservation passes
+do not establish performance acceptance, and no optimized installation or
+publication is claimed.

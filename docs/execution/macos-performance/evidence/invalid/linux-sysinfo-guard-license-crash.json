@@ -1,0 +1,54 @@
+{
+  "status": "FAIL",
+  "source_commit": "1789a04238d59895eda98cb6815edc19b0e9cf37",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/verify.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/preservation"
+      ],
+      "seconds": 345.754,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/preservation.log",
+      "sha256": "c16c5e4873cbe504b0b39205fb807a6932ba60456fb9b97b3ea2082c95c5673d"
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.869,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/input-focus.log",
+      "sha256": "933fc94064d3f7df5a99db096aab7cf2764af9e5520ebc56d8681520fab2eabf",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 1,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/package",
+        "--cargo-about",
+        "cargo-about"
+      ],
+      "seconds": 17.421,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/package.log",
+      "sha256": "d0612b3091febf89a9ba48801fb14a870add52bc97b944029d3e482cab89caa2"
+    }
+  },
+  "error": "AssertionError: package exited 1; full log: /home/shawn/workspace2/task-manager-artifacts/macos-performance/linux-sysinfo-guard-20260908T133200Z/package.log"
+}

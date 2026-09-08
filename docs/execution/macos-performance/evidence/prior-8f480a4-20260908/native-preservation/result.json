@@ -1,13 +1,13 @@
 {
   "status": "PASS",
-  "source_commit": "415bc41ff41e053e946fb5b76396eb795066ebc5",
-  "binary_sha256": "a124de85779f192089e679f7fb0eb3e07a6b67f9e1310c98e78a1cf98ffe94c5",
+  "source_commit": "8f480a4fe1605ad496e41b25d670d41c555e10c7",
+  "binary_sha256": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
   "reference_sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
   "preservation_harness_sha256": {
     "performance_preserve.py": "638e0bd56b11fc8cd309855dba540abfaefdaf4e746f66284e18749a1b8c73de",
     "performance_tree.swift": "753a490dae765f9b8663332b4d050ed83545c837df3799fce9cb22004a2c766e"
   },
-  "pid": 3151,
+  "pid": 2215,
   "initial_history_seconds": 4.9,
   "monitors_count": 28,
   "sensors_count": 198,
@@ -16,51 +16,51 @@
       "id": "volume:source:Macintosh HD:/",
       "reading": {
         "sensor_id": "volume:source:Macintosh HD://capacity",
-        "value": 362703970304.0,
+        "value": 361345396736.0,
         "total": 494384795648.0,
         "availability": "Available",
         "reason": null,
         "observations": [
           {
             "source": "statvfs filesystem capacity",
-            "captured_ns": 5157048500,
-            "read_started_ns": 5157036625,
+            "captured_ns": 5144652958,
+            "read_started_ns": 5144639125,
             "integers": {
               "blocks": 120699413,
               "fragment_size": 4096,
-              "free_blocks": 32148639
+              "free_blocks": 32480322
             },
             "decimals": {}
           }
         ]
       },
       "independent_total": 494384795648,
-      "independent_used": 362708054016
+      "independent_used": 361349447680
     },
     {
       "id": "volume:source:Macintosh HD:/System/Volumes/Data",
       "reading": {
         "sensor_id": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
-        "value": 362703970304.0,
+        "value": 361345396736.0,
         "total": 494384795648.0,
         "availability": "Available",
         "reason": null,
         "observations": [
           {
             "source": "statvfs filesystem capacity",
-            "captured_ns": 5157066917,
-            "read_started_ns": 5157065375,
+            "captured_ns": 5144680375,
+            "read_started_ns": 5144677333,
             "integers": {
               "blocks": 120699413,
               "fragment_size": 4096,
-              "free_blocks": 32148639
+              "free_blocks": 32480322
             },
             "decimals": {}
           }
         ]
       },
       "independent_total": 494384795648,
-      "independent_used": 362708054016
+      "independent_used": 361349447680
     }
   ],
   "hidden_start_sequence": 8,
