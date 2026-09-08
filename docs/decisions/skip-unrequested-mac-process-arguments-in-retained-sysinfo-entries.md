@@ -11,8 +11,4 @@ Developer confirmed the scoped dependency proposal on 2026-09-08. Retain sysinfo
 
 ## Realized by
 
-(none yet: recorded, not built)
-
-## Realized by
-
 - d45a086f6ac960bf8f22a2d4e8820d1f5e01c621 Skip unrequested Mac process metadata reads in sysinfo
