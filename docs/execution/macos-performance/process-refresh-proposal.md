@@ -1,6 +1,6 @@
 # Skip unrequested Mac process-argument reads
 
-Status: proposal only; dependency change awaits a scope decision.
+Status: approved by the developer on 2026-09-08; implementation and verification in progress.
 
 The complete paired comparison found 14.5% less Summary CPU and 21.7% less
 tray-only CPU, below the required 50%. Native preservation and the other four

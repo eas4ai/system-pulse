@@ -10,6 +10,10 @@ readings, history and interaction. Work begins with the measured collector,
 then returns to profiling before any wider optimization.
 
 Source changes belong in the application collector and directly affected tests.
+On 2026-09-08 the developer extended this scope to the narrow sysinfo process
+argument-refresh fix, its tests, Cargo patch/lock changes and package provenance.
+The approved [proposal](../execution/macos-performance/process-refresh-proposal.md)
+preserves the existing CPU targets and native verification requirements.
 Verification helpers belong in scripts/system-pulse. Evidence and the review
 belong in docs/execution/macos-performance and .cairn/reviews. The
 [protocol](../plans/macos-performance.md) specifies the native comparison.
