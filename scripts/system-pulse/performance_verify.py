@@ -30,6 +30,15 @@ def check_harness(hashes, names):
 
 def validate_preservation(record, candidate_hash):
     require(record.get("status") == "PASS", "native preservation did not pass")
+    normal = record.get("normal_ui", {})
+    require(normal.get("status") == "PASS" and normal.get("diagnostics_enabled") is False,
+            "normal UI without diagnostics was not verified")
+    require(normal.get("process_rows", 0) > 0 and normal.get("quit_exit_code") == 0,
+            "normal process table or shutdown did not pass")
+    for name in ("summary", "returned_summary", "reopened_summary"):
+        summary = normal.get(name, {})
+        require(summary.get("total", 0) > 0 and summary.get("visible") == min(summary["total"], 8),
+                "normal Summary process rows were missing")
     require(record.get("binary_sha256") == candidate_hash, "wrong preservation binary")
     same_production(record.get("source_commit"))
     check_harness(record.get("preservation_harness_sha256", {}),

@@ -144,5 +144,29 @@ class PerformanceComparisonTests(unittest.TestCase):
                 compare(data)
 
 
+class NormalPresentationTests(unittest.TestCase):
+    def test_diagnostic_only_preservation_cannot_pass_the_gate(self):
+        from performance_verify import validate_preservation
+        for normal in ({}, {"status": "PASS", "diagnostics_enabled": True}):
+            with self.assertRaisesRegex(InvalidMeasurement, "without diagnostics"):
+                validate_preservation({"status": "PASS", "normal_ui": normal}, "unused")
+
+    def test_summary_requires_visible_pid_name_cpu_and_matching_total(self):
+        from performance_preserve import summary_process_rows
+        tree = {"windows": 1, "rows": [
+            {"AXIdentifier": "summary-process-total", "AXTitle": "1 total"},
+            {"AXIdentifier": "summary-process:7:9:pid", "AXTitle": "7"},
+            {"AXIdentifier": "summary-process:7:9:name", "AXTitle": "worker"},
+            {"AXIdentifier": "summary-process:7:9:cpu", "AXTitle": "42.0 %"},
+        ]}
+        self.assertEqual(summary_process_rows(tree), {"total": 1, "visible": 1})
+        for missing in range(4):
+            broken = copy.deepcopy(tree)
+            broken["rows"].pop(missing)
+            self.assertIsNone(summary_process_rows(broken))
+        tree["rows"][0]["AXTitle"] = "8 total"
+        self.assertIsNone(summary_process_rows(tree))
+
+
 if __name__ == "__main__":
     unittest.main()

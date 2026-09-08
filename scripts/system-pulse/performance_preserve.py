@@ -38,6 +38,26 @@ def history_seconds(tree):
     return float(match[1])
 
 
+def summary_process_rows(tree):
+    """Require the actual visible Summary cells, independently of diagnostic data."""
+    labels = {row.get("AXIdentifier", ""): row.get("AXValue", row.get("AXTitle", ""))
+              for row in tree.get("rows", [])}
+    total = re.fullmatch(r"(\d+) total", str(labels.get("summary-process-total", "")))
+    if tree.get("windows") != 1 or total is None or int(total[1]) <= 0:
+        return None
+    cells = {}
+    for identity, label in labels.items():
+        match = re.fullmatch(r"summary-process:(\d+):(\d+):(pid|name|cpu)", identity)
+        if match:
+            cells.setdefault((match[1], match[2]), {})[match[3]] = label
+    if len(cells) != min(int(total[1]), 8):
+        return None
+    for (pid, _), row in cells.items():
+        if set(row) != {"pid", "name", "cpu"} or row["pid"] != pid or not all(row.values()):
+            return None
+    return {"total": int(total[1]), "visible": len(cells)}
+
+
 def run(args):
     args.output.mkdir(parents=True, exist_ok=False)
     result = {"status": "FAIL", "source_commit": args.commit,
@@ -170,6 +190,41 @@ def run(args):
                 quit_owned()
                 result["quit_exit_code"] = process.returncode
                 result["process_survived_quit"] = False
+        # Diagnostics prepare rows eagerly and can hide a normal-render regression.
+        # Start a separate normal application and inspect the displayed cells directly.
+        state = args.output / "normal-state"
+        state.mkdir()
+        environment = {key: value for key, value in os.environ.items()
+                       if not key.startswith("SYSTEM_PULSE_")}
+        environment["SYSTEM_PULSE_STATE_DIR"] = str(state.resolve())
+        with (args.output / "normal.log").open("w") as log:
+            process = subprocess.Popen([str(args.candidate.resolve())], env=environment,
+                                       stdout=log, stderr=subprocess.STDOUT)
+            initial = wait_for(lambda: summary_process_rows(tree()), "normal Summary process cells")
+            save("normal-summary-tree.json", tree())
+            tree("press-id", "screen-tab:processes")
+            def process_rows():
+                return [row for row in tree()["rows"]
+                        if re.fullmatch(r"process:\d+:\d+", row.get("AXIdentifier", ""))]
+            visible = wait_for(process_rows, "normal Processes table rows")
+            save("normal-processes-tree.json", tree())
+            tree("press-id", "screen-tab:cpu")
+            wait_for(lambda: any(row.get("AXIdentifier") == "screen:cpu"
+                                 for row in tree()["rows"]), "normal CPU screen")
+            time.sleep(1.2)
+            tree("press-id", "screen-tab:summary")
+            returned = wait_for(lambda: summary_process_rows(tree()), "returned Summary process cells")
+            tree("close")
+            wait_for(lambda: tree()["windows"] == 0, "normal dashboard close")
+            time.sleep(3)
+            tree("press-title", "Open System Pulse")
+            reopened = wait_for(lambda: summary_process_rows(tree()), "reopened Summary process cells")
+            save("normal-reopened-tree.json", tree())
+            quit_owned()
+            result["normal_ui"] = {"status": "PASS", "diagnostics_enabled": False,
+                                   "summary": initial, "returned_summary": returned,
+                                   "reopened_summary": reopened, "process_rows": len(visible),
+                                   "quit_exit_code": process.returncode}
         result["status"] = "PASS"
     except BaseException as error:
         result["error"] = f"{type(error).__name__}: {error}"
