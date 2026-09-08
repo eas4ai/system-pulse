@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "host": {
+    "chip": "Apple M1 Pro",
+    "logical_cpus": 8,
+    "os_version": "26.6.1",
+    "power_source": "AC Power"
+  },
+  "binaries": {
+    "reference": {
+      "commit": "af243cf2dba5eb6c4cb19397c522c38eda640f45",
+      "sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "release_locked": true
+    },
+    "candidate": {
+      "commit": "8f480a4fe1605ad496e41b25d670d41c555e10c7",
+      "sha256": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "release_locked": true
+    }
+  },
+  "runs": []
+}

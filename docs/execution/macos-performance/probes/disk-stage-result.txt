@@ -1,0 +1,3 @@
+disks_discovery_only: iterations=10 cpu_seconds=0.019112 query_wall_seconds=0.028847 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+disks_reused_capacity: iterations=10 cpu_seconds=0.000772 query_wall_seconds=0.000836 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+disks_reused_io: iterations=10 cpu_seconds=0.073060 query_wall_seconds=0.075032 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]

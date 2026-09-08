@@ -1,0 +1,2 @@
+disks_all: iterations=10 cpu_seconds=0.574985 query_wall_seconds=0.602085 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+disks_capacity_after_filter: iterations=10 cpu_seconds=0.535754 query_wall_seconds=0.547281 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]

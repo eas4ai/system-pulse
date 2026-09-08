@@ -1,0 +1,7 @@
+.......
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK
+cairn: PERF-006: pass
+Performance evidence incomplete or invalid: [Errno 2] No such file or directory: '/home/shawn/workspace2/task-manager/docs/execution/macos-performance/evidence/measurements.json'

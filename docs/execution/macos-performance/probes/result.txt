@@ -1,0 +1,5 @@
+components_recreate: iterations=10 cpu_seconds=0.218092 query_wall_seconds=1.137494 counts=[28, 28, 28, 28, 28, 28, 28, 28, 28, 28]
+components_reuse_and_discover: iterations=10 cpu_seconds=0.075343 query_wall_seconds=0.806554 counts=[28, 28, 28, 28, 28, 28, 28, 28, 28, 28]
+components_reuse_readings: iterations=10 cpu_seconds=0.026340 query_wall_seconds=0.356061 counts=[28, 28, 28, 28, 28, 28, 28, 28, 28, 28]
+users_recreate: iterations=10 cpu_seconds=0.014437 query_wall_seconds=0.302235 counts=[3, 3, 3, 3, 3, 3, 3, 3, 3, 3]
+disks_recreate: iterations=10 cpu_seconds=0.579355 query_wall_seconds=0.612104 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]

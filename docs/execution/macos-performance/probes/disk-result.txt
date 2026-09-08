@@ -1,0 +1,2 @@
+disks_all: iterations=10 cpu_seconds=0.567914 query_wall_seconds=0.597288 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+disks_storage_io: iterations=10 cpu_seconds=0.563258 query_wall_seconds=0.569772 counts=[2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
