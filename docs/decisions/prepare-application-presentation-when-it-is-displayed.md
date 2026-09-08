@@ -11,4 +11,4 @@ Developer approved the bounded presentation-work proposal on 2026-09-08. Extend 
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 3ad0ee5ec68f4eb3c531970ebd27f8fd2324e0ca Prepare process and panel presentation only when displayed

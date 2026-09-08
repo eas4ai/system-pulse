@@ -1533,7 +1533,7 @@ fn command_button(label: String, command: Command, cx: &Context<WorkspaceView>) 
 #[cfg(test)]
 mod process_presentation_tests {
     use super::Snapshot;
-    use gpui_kit::{AppContext, TestAppContext};
+    use gpui_kit::TestAppContext;
 
     #[gpui_kit::test]
     fn deferred_process_presentation_ages_without_another_delivery(cx: &mut TestAppContext) {
