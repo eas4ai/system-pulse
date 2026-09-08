@@ -11,4 +11,4 @@ The guarded whole-app profiles show repeated counter-key allocation and native G
 
 ## Realized by
 
-fe20c031f9b0716387b3a1c0572d3252b2ee07e7
+- fe20c031f9b0716387b3a1c0572d3252b2ee07e7 Reuse counter bookkeeping and GPU HID connections between fresh reads
