@@ -15,6 +15,8 @@ Installation adds System Pulse to the desktop application menu. No root access i
 
 This package is built on Ubuntu 26.04 for x86-64 Linux with glibc. It uses the host's X11/Wayland session, libxcb, libxkbcommon-x11 and Vulkan driver. It is not a static binary. `build.json` records the actual build environment and linked libraries; `ldd ./system-pulse` checks runtime libraries on another host.
 
+Authenticated End task and Force quit actions require `/usr/bin/pkexec` (polkit) and a running desktop authentication agent, normally supplied by KDE or GNOME. The system dialog handles your password; System Pulse never receives or saves it. Cancelling leaves the process unchanged. Normal monitoring and actions on your own processes need no administrative access. No privileged service or setuid application is installed.
+
 ## Use the workspace
 
 - The tray shows one combined CPU load graph. Closing the window keeps monitoring; click the icon to reopen it, or choose **Quit** from its menu to exit. Without an available tray, closing the window exits normally. If the tray disappears while monitoring in the background, the window reopens.

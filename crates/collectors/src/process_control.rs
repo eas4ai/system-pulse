@@ -7,13 +7,72 @@ pub enum ProcessSignal {
     Kill,
 }
 
-pub fn send_signal(identity: &ProcessIdentity, signal: ProcessSignal) -> Result<(), String> {
+mod authentication;
+pub use authentication::{helper_entry, send_signal_with_authentication};
+
+#[cfg(target_os = "macos")]
+mod macos;
+
+#[derive(Debug, PartialEq, Eq)]
+enum ActionError {
+    PermissionDenied,
+    Failed(String),
+}
+
+impl From<String> for ActionError {
+    fn from(message: String) -> Self {
+        Self::Failed(message)
+    }
+}
+
+impl From<&str> for ActionError {
+    fn from(message: &str) -> Self {
+        Self::Failed(message.into())
+    }
+}
+
+impl std::fmt::Display for ActionError {
+    fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::PermissionDenied => {
+                formatter.write_str("Permission denied; the process was not changed")
+            }
+            Self::Failed(message) => formatter.write_str(message),
+        }
+    }
+}
+
+#[cfg(unix)]
+fn os_error(operation: &str, error: std::io::Error) -> ActionError {
+    match error.raw_os_error() {
+        Some(libc::EPERM | libc::EACCES) => ActionError::PermissionDenied,
+        Some(libc::ESRCH | libc::ENOENT) => "The selected process has already exited".into(),
+        Some(libc::ENOSYS) => "This kernel does not support identity-safe process actions".into(),
+        _ => format!("{operation}: {error}").into(),
+    }
+}
+
+fn validate_identity(identity: &ProcessIdentity) -> Result<(), ActionError> {
     if identity.pid <= 1 || identity.pid == std::process::id() || identity.pid > i32::MAX as u32 {
         return Err("This process is protected from task actions".into());
     }
+    if identity.start_time_ticks == 0 {
+        return Err("The selected process has no verified start identity".into());
+    }
+    Ok(())
+}
+
+pub fn send_signal(identity: &ProcessIdentity, signal: ProcessSignal) -> Result<(), String> {
+    send(identity, signal).map_err(|error| error.to_string())
+}
+
+fn send(identity: &ProcessIdentity, signal: ProcessSignal) -> Result<(), ActionError> {
+    validate_identity(identity)?;
     #[cfg(target_os = "linux")]
     return linux::send(identity, signal);
-    #[cfg(not(target_os = "linux"))]
+    #[cfg(target_os = "macos")]
+    return macos::send(identity, signal);
+    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
     {
         let _ = signal;
         Err("Identity-safe process actions are not supported on this platform yet".into())
@@ -29,21 +88,14 @@ mod linux {
         os::fd::{AsRawFd, FromRawFd, OwnedFd},
     };
 
-    fn error(operation: &str) -> String {
-        let error = std::io::Error::last_os_error();
-        match error.raw_os_error() {
-            Some(libc::ENOSYS) => {
-                "This kernel does not support identity-safe process actions".into()
-            }
-            Some(libc::ESRCH | libc::ENOENT) => "The selected process has already exited".into(),
-            Some(libc::EPERM | libc::EACCES) => {
-                "Permission denied; the process was not changed".into()
-            }
-            _ => format!("{operation}: {error}"),
-        }
+    fn error(operation: &str) -> ActionError {
+        os_error(operation, std::io::Error::last_os_error())
     }
 
-    pub(super) fn send(identity: &ProcessIdentity, signal: ProcessSignal) -> Result<(), String> {
+    pub(super) fn send(
+        identity: &ProcessIdentity,
+        signal: ProcessSignal,
+    ) -> Result<(), ActionError> {
         // A pidfd pins the target across exit/PID reuse. Verify start time after
         // acquiring it, then signal the handle rather than the numeric PID.
         // https://man7.org/linux/man-pages/man2/pidfd_send_signal.2.html
@@ -56,10 +108,10 @@ mod linux {
         let fd = unsafe { OwnedFd::from_raw_fd(fd as i32) };
         let mut text = String::new();
         File::open(format!("/proc/{}/stat", identity.pid))
-            .map_err(|e| format!("Read selected process identity: {e}"))?
+            .map_err(|e| os_error("Read selected process identity", e))?
             .take(4096)
             .read_to_string(&mut text)
-            .map_err(|e| format!("Read selected process identity: {e}"))?;
+            .map_err(|e| os_error("Read selected process identity", e))?;
         if text.len() >= 4096 {
             return Err("Selected process identity exceeds its read limit".into());
         }
@@ -136,7 +188,7 @@ mod linux {
     }
 }
 
-#[cfg(all(test, target_os = "linux"))]
+#[cfg(all(test, any(target_os = "linux", target_os = "macos")))]
 mod tests {
     use super::*;
     use std::{
@@ -155,13 +207,28 @@ mod tests {
 
     fn child() -> (OwnedChild, ProcessIdentity) {
         let child = OwnedChild(Command::new("sleep").arg("10").spawn().unwrap());
+        #[cfg(target_os = "linux")]
         let stat = std::fs::read_to_string(format!("/proc/{}/stat", child.0.id())).unwrap();
+        #[cfg(target_os = "linux")]
         let start_time_ticks = stat[stat.rfind(')').unwrap() + 1..]
             .split_whitespace()
             .nth(19)
             .unwrap()
             .parse()
             .unwrap();
+        #[cfg(target_os = "macos")]
+        let start_time_ticks = {
+            let mut system = sysinfo::System::new();
+            system.refresh_processes_specifics(
+                sysinfo::ProcessesToUpdate::Some(&[sysinfo::Pid::from_u32(child.0.id())]),
+                true,
+                sysinfo::ProcessRefreshKind::nothing(),
+            );
+            system
+                .process(sysinfo::Pid::from_u32(child.0.id()))
+                .unwrap()
+                .start_time_microseconds()
+        };
         let identity = ProcessIdentity {
             pid: child.0.id(),
             start_time_ticks,

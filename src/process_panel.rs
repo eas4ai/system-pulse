@@ -80,7 +80,7 @@ impl MonitorPanel {
         self.process_state.notice = format!("Sending request to {name} (PID {})…", identity.pid);
         cx.spawn(async move |weak, cx| {
             let pid = identity.pid;
-            let result = smol::unblock(move || process_control::send_signal(&identity, signal)).await;
+            let result = smol::unblock(move || process_control::send_signal_with_authentication(&identity, signal)).await;
             let _ = weak.update(cx, |this, cx| {
                 this.process_state.busy = false;
                 this.process_state.notice = match result {

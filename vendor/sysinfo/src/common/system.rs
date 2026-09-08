@@ -1835,6 +1835,16 @@ impl Process {
         self.inner.status()
     }
 
+    /// Returns the macOS process birth time in microseconds, or zero if unknown.
+    /// Retains the precision of the existing BSD process observation.
+    #[cfg(all(
+        target_os = "macos",
+        not(any(feature = "apple-sandbox", feature = "unknown-ci"))
+    ))]
+    pub fn start_time_microseconds(&self) -> u64 {
+        self.inner.start_time_microseconds
+    }
+
     /// Returns the time where the process was started (in seconds) from epoch.
     ///
     /// ```no_run

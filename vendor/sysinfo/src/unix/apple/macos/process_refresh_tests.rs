@@ -101,6 +101,8 @@ fn retained_process_counters_and_replaced_identity_refresh() {
     system.refresh_processes_specifics(ProcessesToUpdate::Some(&[pid]), true, refresh);
     let original = system.process(pid).unwrap();
     let started = original.start_time();
+    let started_microseconds = original.start_time_microseconds();
+    assert_eq!(started_microseconds / 1_000_000, started);
     let cpu = original.accumulated_cpu_time();
     let user = original.user_id().cloned();
     let deadline = std::time::Instant::now() + std::time::Duration::from_millis(30);
@@ -112,6 +114,7 @@ fn retained_process_counters_and_replaced_identity_refresh() {
     assert!(updated.accumulated_cpu_time() > cpu);
     assert!(updated.memory() > 0);
     assert_eq!(updated.start_time(), started);
+    assert_eq!(updated.start_time_microseconds(), started_microseconds);
     assert_eq!(updated.user_id(), user.as_ref());
     let stale = system.inner.processes_mut().get_mut(&pid).unwrap();
     stale.inner.start_time = 0;
@@ -121,6 +124,14 @@ fn retained_process_counters_and_replaced_identity_refresh() {
     assert_eq!(replaced.start_time(), started);
     assert_ne!(replaced.name(), "replaced-process-must-not-survive");
     assert_eq!(replaced.user_id(), user.as_ref());
+    // Reuse inside one second must replace retained metadata as well.
+    let stale = system.inner.processes_mut().get_mut(&pid).unwrap();
+    stale.inner.start_time_microseconds = started_microseconds + 1;
+    stale.inner.name = "subsecond-replacement-must-not-survive".into();
+    system.refresh_processes_specifics(ProcessesToUpdate::Some(&[pid]), true, refresh);
+    let replaced = system.process(pid).unwrap();
+    assert_eq!(replaced.start_time_microseconds(), started_microseconds);
+    assert_ne!(replaced.name(), "subsecond-replacement-must-not-survive");
 }
 
 #[test]

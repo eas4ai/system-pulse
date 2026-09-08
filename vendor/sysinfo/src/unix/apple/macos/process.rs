@@ -28,6 +28,7 @@ pub(crate) struct ProcessInner {
     old_utime: u64,
     old_stime: u64,
     start_time: u64,
+    pub(crate) start_time_microseconds: u64,
     run_time: u64,
     pub(crate) updated: bool,
     cpu_usage: f32,
@@ -67,6 +68,7 @@ impl ProcessInner {
             old_stime: 0,
             updated: true,
             start_time: 0,
+            start_time_microseconds: 0,
             run_time: 0,
             user_id: None,
             effective_user_id: None,
@@ -100,6 +102,7 @@ impl ProcessInner {
             old_stime: 0,
             updated: true,
             start_time,
+            start_time_microseconds: 0,
             run_time,
             user_id: None,
             effective_user_id: None,
@@ -382,6 +385,9 @@ unsafe fn create_new_process(
     let run_time = now.saturating_sub(start_time);
 
     let mut p = ProcessInner::new(pid, parent, start_time, run_time);
+    p.start_time_microseconds = start_time
+        .saturating_mul(1_000_000)
+        .saturating_add(info.pbi_start_tvusec);
     unsafe {
         if !get_process_infos(&mut p, refresh_kind)
             && !get_exe_and_name_backup(&mut p, refresh_kind, false)
@@ -502,7 +508,9 @@ unsafe fn get_process_infos(process: &mut ProcessInner, refresh_kind: ProcessRef
     if !process.name.is_empty()
         && !refresh_kind.exe().needs_update(|| process.exe.is_none())
         && !refresh_kind.cmd().needs_update(|| process.cmd.is_empty())
-        && !refresh_kind.environ().needs_update(|| process.environ.is_empty())
+        && !refresh_kind
+            .environ()
+            .needs_update(|| process.environ.is_empty())
     {
         return true;
     }
@@ -695,7 +703,13 @@ pub(crate) fn update_process(
             let mut extra_checked = false;
 
             if let Some(info) = get_bsd_info(pid) {
-                if info.pbi_start_tvsec != p.start_time {
+                if info.pbi_start_tvsec != p.start_time
+                    || info
+                        .pbi_start_tvsec
+                        .saturating_mul(1_000_000)
+                        .saturating_add(info.pbi_start_tvusec)
+                        != p.start_time_microseconds
+                {
                     // We don't want it to be removed, just replaced.
                     p.updated = true;
                     // To ensure the name and exe path will be updated.

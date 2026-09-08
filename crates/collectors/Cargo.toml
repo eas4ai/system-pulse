@@ -17,8 +17,6 @@ path = "src/bin/pulse-snapshot.rs"
 
 [target.'cfg(unix)'.dependencies]
 rustix = { version = "1", features = ["fs", "param"] }
-
-[target.'cfg(target_os = "linux")'.dependencies]
 libc = "0.2"
 
 [target.'cfg(all(target_os = "macos", target_arch = "aarch64"))'.dependencies]

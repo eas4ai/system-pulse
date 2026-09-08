@@ -47,6 +47,48 @@ def geometry(tree):
     return frame
 
 
+def ordinary_actions(tree, save):
+    results = []
+    for label, button, confirm, expected in (
+            ("end", "End task…", "Confirm end task", -15),
+            ("force", "Force quit…", "Confirm force quit", -9)):
+        child = subprocess.Popen(["/bin/sleep", "60"])
+        try:
+            tree("search", str(child.pid))
+            def owned_row():
+                return next((row["AXIdentifier"] for row in tree()["rows"]
+                             if re.fullmatch(r"process:" + str(child.pid) + r":\d+",
+                                             row.get("AXIdentifier", ""))), None)
+            identity = wait_for(owned_row, "owned action process")
+            tree("focus-id", "processes:viewport")
+            tree("key", "home")
+            wait_for(lambda: any(row.get("AXIdentifier") == "process-details" and
+                                 row.get("AXTitle", "").endswith(f", PID {child.pid}")
+                                 for row in tree()["rows"]), "owned process selection")
+            tree("press-title", button)
+            save(label + "-confirmation.json", tree())
+            tree("press-title", "Cancel process action")
+            require(child.poll() is None, "cancelled confirmation changed process")
+            tree("press-title", button)
+            tree("press-title", confirm)
+            require(child.wait(timeout=10) == expected, "wrong native process signal")
+            def sent():
+                return next((row.get("AXTitle", "") for row in tree()["rows"]
+                             if row.get("AXIdentifier") == "process-action-status" and
+                             row.get("AXTitle", "").startswith("Request sent to ")), None)
+            notice = wait_for(sent, "successful native process action")
+            save(label + "-result.json", tree())
+            results.append({"identity": identity, "action": label,
+                            "confirmation_cancelled_alive": True,
+                            "child_exit": child.returncode, "notice": notice})
+        finally:
+            if child.poll() is None:
+                child.kill()
+                child.wait(timeout=5)
+    tree("search", "")
+    return results
+
+
 def run(args):
     args.output.mkdir(parents=True, exist_ok=False)
     result = {"status": "FAIL", "source_commit": args.commit,
@@ -151,6 +193,7 @@ def run(args):
                     return ids[0] if len(ids) == 1 and ids[0] != result["navigation"].get("home") else None
                 result["navigation"][key] = wait_for(selected, "native " + key)
                 save("navigation-" + key + ".json", tree())
+            result["ordinary_actions"] = ordinary_actions(tree, save)
             tree("press-title", "Quit")
             process.wait(timeout=10)
             require(process.returncode == 0, "native Quit failed")

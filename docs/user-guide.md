@@ -32,7 +32,11 @@ Network initially follows the Linux main-table default route (IPv4 before IPv6),
 
 Process counters marked **No access** could not be read because the OS denied access; hover for the original error.
 
-The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. End task and Force quit require confirmation and report visible errors. Linux verifies the process start identity before signaling. Process CPU uses one core as 100% and can exceed it.
+The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. The table expands with the window; search stays compact. macOS omits Threads. Process CPU uses one core as 100% and can exceed it.
+
+End task and Force quit require confirmation and report visible errors. When an action needs administrative permission, the operating system asks you to authenticate. Enter your password only in that system dialog. System Pulse never receives or saves it, and its dashboard keeps running as your normal user. Cancelling authentication leaves the process unchanged. Linux and macOS verify the selected process identity after authentication and use kernel identity checks when signaling. macOS versions without the required native support report an error. Administrative permission does not override OS protection of protected processes.
+
+Linux authenticated actions require `/usr/bin/pkexec` (polkit) and a running desktop authentication agent, normally supplied by KDE or GNOME. Ordinary actions on your own processes work without it. System Pulse does not use a terminal password prompt.
 
 **Settings** contains dark/light themes, bundled interface and numeric fonts, sampling intervals and named presets. Geometric screen headings use the bundled Michroma font. Save current workspace creates a named preset; Use recalls it. Rename, overwrite and delete retain confirmation and cancellation behavior. Built-in presets keep their saved sensor preferences and open Summary; fixed tabs remain reachable. The legacy quick preset file imports into the library as Imported preset when that library is first created.
 

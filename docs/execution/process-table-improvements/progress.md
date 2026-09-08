@@ -2,8 +2,8 @@
 
 - [x] Complete: implement and verify responsive table width (PROC-001).
 - [x] Complete: implement and verify compact search (PROC-002).
-- [ ] In progress: implement and verify platform column visibility (PROC-003).
-- [ ] Pending: record authentication design, implement and verify privileged actions.
+- [x] Complete: implement and verify platform column visibility (PROC-003).
+- [ ] In progress: record authentication design, implement and verify privileged actions (PROC-004).
 - [ ] Pending: run committed acceptance and review all five requirements.
 
 The previous performance pass is suspended, with its CPU targets unmet and
@@ -67,3 +67,35 @@ column, sort, navigation, resize and search observations pass against source
 `8c32f787`. The Mac observer reads selected PID from the visible details panel
 and requires its matching stable row visible; its bridge omits AXSelected.
 Committed Cairn validation is next.
+
+PROC-001 through PROC-003 have passing committed Cairn receipts at
+`20260908T230939573Z`. Authentication design is being grounded in the existing
+Linux pidfd boundary and native Mac identity-safe signaling support.
+
+
+## PROC-004 work in progress
+
+The recorded authentication design uses a one-action helper mode before GUI
+initialization. Ordinary actions run first; only typed permission denial opens
+an OS authentication dialog. The helper parses one PID, birth identity and
+Terminate/Kill choice, rechecks identity after authentication, and never retries
+or requests a password. Linux retains pidfd signaling. Mac now retains BSD
+birth-time microseconds and signals by kernel PID version through libproc.
+Missing native support and unknown identities fail closed.
+
+Development verification: 113 Linux collector tests, 129 application tests,
+13 geometry-receipt tests and strict Rust/Python lint pass. Nine native Mac
+process-control tests pass, including real AppleScript parsing/quoting without
+authentication, same-process signals and rejected stale PID versions. Seven
+vendored Mac refresh tests pass, including subsecond identity replacement.
+The Mac application release build and native table replay pass. Native Mac
+confirmation cancellation leaves each owned child alive; End and Force Quit
+then deliver SIGTERM and SIGKILL respectively and show success notices.
+The direct Linux executable-helper probe rejects changed birth identity and
+sends both correct signals without creating application state or output.
+
+Actual system-password cancellation, successful privileged actions and delayed
+authentication remain unverified. The developer has been asked which desktop
+they can use for native password entry. No authentication dialog has been
+launched and no password has been requested outside an OS dialog. Full committed
+Linux/package acceptance and refreshed committed native receipts are pending.

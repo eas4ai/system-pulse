@@ -322,6 +322,9 @@ impl HostCollector {
         for (pid, process) in self.system.processes() {
             let identity = ProcessIdentity {
                 pid: pid.as_u32(),
+                #[cfg(target_os = "macos")]
+                start_time_ticks: process.start_time_microseconds(),
+                #[cfg(not(target_os = "macos"))]
                 start_time_ticks: process.start_time(),
             };
             let key = format!("process:{}:{}", identity.pid, identity.start_time_ticks);

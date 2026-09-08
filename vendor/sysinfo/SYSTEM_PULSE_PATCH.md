@@ -11,7 +11,10 @@ Local changes:
 
 - `src/unix/apple/macos/process.rs`: skip KERN_PROCARGS2 for a retained process
   name when none of the requested executable, command or environment fields
-  needs updating. Other refresh stages and failure paths remain upstream code.
+  needs updating. Retain BSD birth-time microseconds and compare that precision
+  when detecting PID reuse, so process actions can verify the selected identity.
+- `src/common/system.rs`: expose the retained macOS birth-time microseconds
+  without an additional process query; the existing seconds API is unchanged.
 - `src/unix/apple/macos/process_refresh_tests.rs`: native regression tests for
   refresh flags, missing metadata, retained counters, replacement identity,
   same-PID exec and owned-process exit.
@@ -31,3 +34,5 @@ upstream test command uses the retained upstream Cargo.lock.
 Approved scope and evidence:
 `docs/execution/macos-performance/process-refresh-proposal.md` and
 `docs/decisions/skip-unrequested-mac-process-arguments-in-retained-sysinfo-entries.md`.
+The process-identity extension is covered by PROC-004/PROC-005 and
+`docs/decisions/authenticate-one-identity-bound-process-action-through-the-operating-system.md`.
