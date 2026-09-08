@@ -232,9 +232,9 @@ fn publish(
     mut timing: Option<&mut Timing>,
 ) -> Result<(), String> {
     if let Some(t) = &mut timing {
-        t.stages.json_conversion_started_ns = Some(t.clock.now());
+        t.stages.serialization_started_ns = Some(t.clock.now());
     }
-    let value = serde_json::to_value(Publication {
+    let json = serde_json::to_string(&Publication {
         schema_version: 1,
         application_pid: std::process::id(),
         accepted_unix_ns: record.accepted_unix_ns,
@@ -243,13 +243,7 @@ fn publish(
         snapshot: record.snapshot.as_ref(),
         rendered: &record.rendered,
     })
-    .map_err(|e| format!("Convert snapshot diagnostics to JSON: {e}"))?;
-    if let Some(t) = &mut timing {
-        t.stages.json_conversion_completed_ns = Some(t.clock.now());
-        t.stages.serialization_started_ns = Some(t.clock.now());
-    }
-    let json = serde_json::to_string(&value)
-        .map_err(|e| format!("Serialize snapshot diagnostics: {e}"))?;
+    .map_err(|e| format!("Serialize snapshot diagnostics: {e}"))?;
     if let Some(t) = &mut timing {
         t.stages.serialization_completed_ns = Some(t.clock.now());
         t.bytes = Some(json.len() as u64);
@@ -360,6 +354,77 @@ mod tests {
             rendered_at_collector_ms: 1,
             rendered: vec![],
         }
+    }
+
+    #[test]
+    fn direct_publication_preserves_decoded_snapshot_and_rendered_labels() {
+        use system_pulse_collectors::{
+            Availability, ProcessIdentity, ProcessRow, RawObservation, Reading,
+        };
+        let reading = Reading {
+            sensor_id: "cpu:host/usage".into(),
+            value: Some(12.3456789),
+            total: None,
+            availability: Availability::Available,
+            reason: Some("quoted \"value\"\nµ".into()),
+            observations: vec![RawObservation {
+                source: "counter".into(),
+                captured_ns: u64::MAX,
+                read_started_ns: None,
+                integers: [("ticks".into(), u64::MAX)].into(),
+                decimals: [("invalid".into(), f64::NAN)].into(),
+            }],
+        };
+        let identity = ProcessIdentity {
+            pid: 42,
+            start_time_ticks: u64::MAX,
+        };
+        let mut record = empty_record(7);
+        let snapshot = Arc::make_mut(&mut record.snapshot);
+        snapshot.readings.push(reading.clone());
+        snapshot.processes.push(ProcessRow {
+            identity: identity.clone(),
+            name: "editor\n日本語".into(),
+            user: None,
+            user_reason: Some("unavailable".into()),
+            cpu_percent: reading.clone(),
+            memory_bytes: reading.clone(),
+            read_bytes_per_second: reading.clone(),
+            write_bytes_per_second: reading.clone(),
+            threads: reading,
+        });
+        record.rendered.push(Rendered {
+            monitor_id: "processes".into(),
+            sensor_id: None,
+            process_identity: Some(identity),
+            element_id: "process:42".into(),
+            label: "editor\n日本語".into(),
+            sample: None,
+        });
+        let expected = serde_json::to_value(Publication {
+            schema_version: 1,
+            application_pid: std::process::id(),
+            accepted_unix_ns: record.accepted_unix_ns,
+            render_revision: record.render_revision,
+            rendered_at_collector_ms: record.rendered_at_collector_ms,
+            snapshot: &record.snapshot,
+            rendered: &record.rendered,
+        })
+        .unwrap();
+        let dir = std::env::temp_dir().join(format!("pulse-direct-json-{}", std::process::id()));
+        let path = dir.join("latest.json");
+        publish(&crate::storage::Storage::default(), &path, &record, None).unwrap();
+        let actual: serde_json::Value =
+            serde_json::from_slice(&std::fs::read(&path).unwrap()).unwrap();
+        assert_eq!(actual, expected);
+        assert_eq!(
+            actual["snapshot"]["readings"][0]["observations"][0]["integers"]["ticks"],
+            u64::MAX
+        );
+        assert!(
+            actual["snapshot"]["readings"][0]["observations"][0]["decimals"]["invalid"].is_null()
+        );
+        std::fs::remove_dir_all(dir).unwrap();
     }
 
     #[test]
@@ -583,8 +648,6 @@ mod tests {
             "submission_started_ns",
             "submission_completed_ns",
             "dequeue_ns",
-            "json_conversion_started_ns",
-            "json_conversion_completed_ns",
             "serialization_started_ns",
             "serialization_completed_ns",
             "temp_write_started_ns",
@@ -597,6 +660,8 @@ mod tests {
             .map(|key| stages[key].as_u64().unwrap())
             .collect();
         assert!(times.windows(2).all(|pair| pair[0] <= pair[1]));
+        assert!(stages["json_conversion_started_ns"].is_null());
+        assert!(stages["json_conversion_completed_ns"].is_null());
         assert!(
             stages["acceptance_started_ns"].is_null(),
             "unobserved model stages stay absent"
