@@ -1,0 +1,15 @@
+{
+  "source_commit": "8b081b054a2bfdd11875fae5cc9c9f5ef7dcf7e8",
+  "binary_sha256": "6e1d5976cec954cfd074532154afdeb417babd219cc37407d83ac1f0355749a2",
+  "exit_code": 0,
+  "checks": {
+    "tests": {
+      "exit_code": 0,
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/8b081b054a2bfdd11875fae5cc9c9f5ef7dcf7e8-tests.log"
+    },
+    "release": {
+      "exit_code": 0,
+      "log": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/8b081b054a2bfdd11875fae5cc9c9f5ef7dcf7e8-release.log"
+    }
+  }
+}

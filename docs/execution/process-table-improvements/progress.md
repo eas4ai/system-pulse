@@ -19,7 +19,18 @@ The targeted regression and all 127 application tests pass. Linux development
 replay also passes: 1280 and 1800 pixel windows fill their width; minimum-width
 horizontal scrolling exposes User with aligned headers and cells. Five receipt
 validation tests pass, and the extended Swift accessibility helper compiles.
-Committed Linux/Mac resize evidence remains pending; the Mac session is locked.
+The committed Linux replay passes with build/source and harness provenance in
+`evidence/linux/`. Mac application tests and its release build pass;
+Mac resize observations also pass at 1280, 1440 and 960 pixels, including
+horizontal access to User. The Mac verifier supports the host Python 3.9;
+explicit length checks precede paired-column comparisons. Cairn validation
+against the committed evidence is next.
 
 The process-table mechanism is declared. Its initial run records missing verifier
 implementation as unverified; no PROC requirement has a passing Cairn receipt.
+
+Ripwire `process_row` edit-check found no signature change or incompatible caller.
+The whole-repository quality delta exited 2 with broad existing/reference-symbol
+findings; it is not a passing quality claim. The post-commit test gate reported
+zero uncommitted changed symbols. Application and native checks provide the
+behavioral verification above.

@@ -1,0 +1,41 @@
+.....
+----------------------------------------------------------------------
+Ran 5 tests in 0.002s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.90s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse-0fe15bfc3846a438)
+
+running 1 test
+test screen_tests::process_table_fills_resized_windows_and_keeps_columns_aligned ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 126 filtered out; finished in 0.20s
+
+     Running unittests src/main.rs (target/debug/deps/system_pulse-69fbcf144fb1dbfb)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/macos_application_lifetime.rs (target/debug/deps/macos_application_lifetime-7cdbf2b54350e1fe)
+macOS application lifetime cases require native macOS
+     Running tests/macos_dispatcher_lifetime.rs (target/debug/deps/macos_dispatcher_lifetime-c57cb5e8b58c135a)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/process_table_verify.py", line 75, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/process_table_verify.py", line 61, in main
+    record = json.loads((evidence / platform / "result.json").read_text())
+                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/linuxbrew/.linuxbrew/Cellar/python@3.14/3.14.7/lib/python3.14/pathlib/__init__.py", line 787, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/linuxbrew/.linuxbrew/Cellar/python@3.14/3.14.7/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/shawn/workspace2/task-manager/docs/execution/process-table-improvements/evidence/linux/result.json'

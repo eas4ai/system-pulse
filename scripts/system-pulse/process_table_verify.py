@@ -18,7 +18,7 @@ HARNESSES = {
 def aligned(frame):
     headings, cells = frame["headings"], frame["cells"]
     require(len(headings) == len(cells) == 8, "missing native columns")
-    for heading, cell in zip(headings, cells, strict=True):
+    for heading, cell in zip(headings, cells):
         require(len(heading) == len(cell) == 4 and heading[2] > 0 and cell[2] > 0,
                 "invalid native bounds")
         require(abs(heading[0] - cell[0]) <= 1 and abs(heading[2] - cell[2]) <= 1,
@@ -31,7 +31,7 @@ def validate_geometry(record, platform):
     frames = record["frames"]
     widths = [1280, 1800 if platform == "linux" else 1440, 960, 1280]
     require(len(frames) == len(widths), "missing native resize observations")
-    for frame, width in zip(frames, widths, strict=True):
+    for frame, width in zip(frames, widths):
         aligned(frame)
         require(abs(frame["window_width"] - width) <= 1, "wrong native window width")
         last, viewport = frame["headings"][-1], frame["viewport"]

@@ -2,6 +2,8 @@ import Foundation
 import ApplicationServices
 let args = CommandLine.arguments
 func fail(_ message: String) -> Never { FileHandle.standardError.write(Data((message+"\n").utf8)); exit(1) }
+let session = CGSessionCopyCurrentDictionary() as? [String: Any] ?? [:]
+if session["CGSSessionScreenIsLocked"] as? Bool == true { fail("The Mac session is locked; unlock it before native observations") }
 guard args.count >= 2, let pid = Int32(args[1]), pid > 0, AXIsProcessTrusted() else { fail("PID and accessibility trust required") }
 let app = AXUIElementCreateApplication(pid)
 AXUIElementSetMessagingTimeout(app, 2)
