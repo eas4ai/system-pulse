@@ -1,0 +1,114 @@
+{
+  "status": "PASS",
+  "source_commit": "05fb36f9c55b142954dba706156818a6127b4453",
+  "binary_sha256": "fec9f98b549bd2a5bfc42d32724291c992266a0b5506db6aa40e41ab85f2c647",
+  "reference_sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+  "preservation_harness_sha256": {
+    "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
+    "performance_tree.swift": "753a490dae765f9b8663332b4d050ed83545c837df3799fce9cb22004a2c766e"
+  },
+  "pid": 7752,
+  "initial_history_seconds": 4.8,
+  "monitors_count": 28,
+  "sensors_count": 198,
+  "capacities": [
+    {
+      "id": "volume:source:Macintosh HD:/",
+      "reading": {
+        "sensor_id": "volume:source:Macintosh HD://capacity",
+        "value": 364708941824.0,
+        "total": 494384795648.0,
+        "availability": "Available",
+        "reason": null,
+        "observations": [
+          {
+            "source": "statvfs filesystem capacity",
+            "captured_ns": 5125434791,
+            "read_started_ns": 5125423458,
+            "integers": {
+              "blocks": 120699413,
+              "fragment_size": 4096,
+              "free_blocks": 31659144
+            },
+            "decimals": {}
+          }
+        ]
+      },
+      "independent_total": 494384795648,
+      "independent_used": 364713246720
+    },
+    {
+      "id": "volume:source:Macintosh HD:/System/Volumes/Data",
+      "reading": {
+        "sensor_id": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
+        "value": 364708941824.0,
+        "total": 494384795648.0,
+        "availability": "Available",
+        "reason": null,
+        "observations": [
+          {
+            "source": "statvfs filesystem capacity",
+            "captured_ns": 5125451750,
+            "read_started_ns": 5125449958,
+            "integers": {
+              "blocks": 120699413,
+              "fragment_size": 4096,
+              "free_blocks": 31659144
+            },
+            "decimals": {}
+          }
+        ]
+      },
+      "independent_total": 494384795648,
+      "independent_used": 364713246720
+    }
+  ],
+  "hidden_start_sequence": 8,
+  "hidden_end_sequence": 12,
+  "hidden_windows": 0,
+  "saved_settings": {
+    "screens": {
+      "active": "memory",
+      "devices": {}
+    },
+    "appearance": {
+      "theme": "light",
+      "ui_font": "inter",
+      "numeric_font": "jetbrains_mono"
+    },
+    "interval_ms": 1000
+  },
+  "reopened_settings": {
+    "screens": {
+      "active": "memory",
+      "devices": {}
+    },
+    "appearance": {
+      "theme": "light",
+      "ui_font": "inter",
+      "numeric_font": "jetbrains_mono"
+    },
+    "interval_ms": 1000
+  },
+  "reopened_history_seconds": 11.9,
+  "quit_exit_code": 0,
+  "process_survived_quit": false,
+  "normal_ui": {
+    "status": "PASS",
+    "diagnostics_enabled": false,
+    "summary": {
+      "total": 704,
+      "visible": 8
+    },
+    "returned_summary": {
+      "total": 704,
+      "visible": 8
+    },
+    "reopened_summary": {
+      "total": 703,
+      "visible": 8
+    },
+    "process_rows": 22,
+    "quit_exit_code": 0
+  }
+}

@@ -1,10 +1,10 @@
 # Linux diagnostic freshness investigation
 
-Status: In progress.
+Status: Linux verification passed; fresh Mac comparison pending.
 
 - [x] Complete: remove intermediate diagnostic JSON allocation and verify payload, failure handling and native publication timing.
-- [ ] In progress: run complete Linux acceptance and record committed evidence.
-- [ ] Pending: complete Mac performance and preservation evidence, then review the commitment.
+- [x] Complete: run complete Linux acceptance and retain the committed-source receipt.
+- [ ] In progress: complete Mac performance and preservation evidence, then review the commitment.
 
 Two complete Linux acceptance runs failed at device-label lookup in
 `tabbed_replay.py:101`, with accepted-frame ages 2.290 and 2.003 seconds.
@@ -23,14 +23,14 @@ serialization 209.89 ms. The worker queue had no overwritten records; file
 replacement itself took under one millisecond. These observations identify
 writer work as a contributor, not proof that all scheduling delays are solved.
 
-The proposed direct serializer preserves the decoded JSON payload, atomic
+The direct serializer preserves the decoded JSON payload, atomic
 replacement and strict two-second freshness check. Skipped conversion timing
-fields remain null. No acceptance pass is claimed until the checks run.
+fields remain null. Native verification and its limits are recorded below.
 
 Application checks passed: 126 tests, strict Clippy, formatting and debug build.
 The direct-publication regression covers decoded equivalence, maximum u64
 counters, non-finite JSON nulls and Unicode labels. Existing writer failure
-and timing tests passed. Native replay remains pending.
+and timing tests passed. Native replay results are recorded below.
 
 Ripwire edit-check found no incompatible caller. Its definition-count warning
 mixes same-named reference symbols. Repository-wide quality-delta exited 2
@@ -46,7 +46,7 @@ frame receipts were recorded. Evidence: external artifact directory
 median serialization 131.817 ms and maximum 152.560 ms. The earlier retained
 63-publication window had median conversion-plus-serialization 268.095 ms
 and maximum 360.490 ms. These debug diagnostic observations are not scored
-Mac CPU measurements. The full Linux package gate remains pending.
+Mac CPU measurements. The later complete Linux package run is recorded below.
 
 ## Complete Linux run follow-up
 
@@ -79,4 +79,38 @@ and command analysis are retained under `xvfb-reconnect-probe/`.
 
 All 493 Python verification tests passed after the display-lifetime change.
 Ripwire found the private-session call contract unchanged, with no
-incompatible caller. Complete native/package acceptance remains pending.
+incompatible caller. Complete acceptance results follow.
+
+## Passing complete Linux acceptance
+
+`linux-direct-json-persistent-display-20260908T211000Z/` passed against
+`cf534f1fc322fe8693987cc7bf81ecec7fea35a2`: 1,025 preservation tests, ten
+input-focus tests, host checks, complete debug and packaged native replays,
+package provenance, tray behavior and isolated installation. All recovery
+sessions completed normally. The source-matching receipt is retained in
+[evidence/pending-cf534f1f](evidence/pending-cf534f1f/README.md).
+
+The Mac candidate passed 222 application/model/collector tests, strict
+Clippy and its locked release build. Its SHA-256 is
+`c20f6dd276aa7a519098191416beceb86d2651257101c50e35bc546d8b6c50d0`.
+The developer's smoke instance was left intact. Fresh native runtime and
+paired CPU measurements await host availability.
+
+## Interim source review
+
+The direct serializer preserves decoded data and atomic publication; only
+JSON field order and the absence of the intermediate conversion stage
+change. Error reporting, bounded pending work, diagnostic opt-in behavior
+and sampling remain intact. The private display remains authenticated and
+TCP-disabled, with the wrapper owning shutdown and bounded log transport.
+The new tests exercise payload edge cases and real display continuity.
+No process privilege or column changes were implemented; those requests
+are recorded in the backlog.
+
+Final Ripwire quality-delta exited 2 with broad reference-tree findings.
+Its default test gate saw a clean tree and no changed files; an explicit
+touched-file test gate exited 4 with broad unresolved coverage mappings.
+Neither establishes a clean static gate for this change. Actual Rust,
+Python, host and native checks above passed. Full reports are retained
+in the external `direct-json-final-review/` directory. This interim review
+does not substitute for the final commitment review after all PERF gates pass.

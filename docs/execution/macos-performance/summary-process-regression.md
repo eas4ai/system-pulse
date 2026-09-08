@@ -1,6 +1,6 @@
 # Missing Summary process rows
 
-Status: Fix implemented; native release verification in progress.
+Status: Summary regression verified at the fix revision; performance commitment remains incomplete.
 
 The developer reported no CPU processes in the release UI and noted seeing the
 issue while sysinfo work was underway. The running release was on Summary and
@@ -22,9 +22,20 @@ lazy preparation. Existing visible labels now expose stable native identities,
 so verification can inspect the displayed PID, name, CPU and total directly.
 The regression test checks populated rows, CPU ordering, return from another
 screen, new snapshots and PID reuse. It failed before the fix. All 125 application
-tests, strict application Clippy and formatting now pass.
+tests, strict application Clippy and formatting passed at the fix revision.
 
-The native release must be checked with diagnostics disabled, both on Summary
-and on Processes, including switching away and returning. Earlier CPU results
-are retained as historical observations; no performance-preserving reduction
-is claimed from a candidate missing required UI content.
+The fixed Mac release `05fb36f9c55b142954dba706156818a6127b4453` passed
+[native preservation](evidence/summary-regression-05fb36/result.json), including
+a separate normal launch with diagnostics disabled: eight Summary rows out
+of 704 processes, 22 visible process-table rows, eight Summary rows after
+returning from another screen and after reopening, and normal Quit. The
+[build receipt](evidence/summary-regression-05fb36/native-build.json) records
+the matching binary hash and passing Mac tests, Clippy and release build.
+
+Complete Linux acceptance subsequently passed at `cf534f1f`, after reducing
+diagnostic publication work and keeping the private display alive across
+recovery sessions. See [the Linux investigation](freshness-investigation.md).
+The latest Mac release has passed build checks but still needs fresh native
+runtime preservation and paired CPU measurements. Earlier CPU results are
+historical observations; no performance-preserving reduction is claimed
+from the candidate that omitted required Summary content.
