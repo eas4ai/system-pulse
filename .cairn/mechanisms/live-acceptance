@@ -17,6 +17,7 @@ inputs:
   - crates/ui/src/input/
   - vendor/accesskit_atspi_common/
   - vendor/gpui_macos/
+  - vendor/sysinfo/
   - docs/decisions/drain-autoreleased-objects-at-mac-application-and-dispatcher-boundaries.md
   - scripts/system-pulse/
 requirements:
