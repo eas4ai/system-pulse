@@ -11,4 +11,4 @@ Keep the UI unprivileged. Attempt ordinary identity-safe signaling first and req
 
 ## Realized by
 
-(none yet: recorded, not built)
+- ca7273de8705e88fb2efe667ad8088aefb9bff25 Add OS authentication for identity-bound process actions
