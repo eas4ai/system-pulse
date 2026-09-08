@@ -1,0 +1,514 @@
+{
+  "version": 1,
+  "host": {
+    "chip": "Apple M1 Pro",
+    "logical_cpus": 8,
+    "os_version": "26.6.1",
+    "power_source": "AC Power"
+  },
+  "binaries": {
+    "reference": {
+      "commit": "af243cf2dba5eb6c4cb19397c522c38eda640f45",
+      "sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "release_locked": true
+    },
+    "candidate": {
+      "commit": "8f480a4fe1605ad496e41b25d670d41c555e10c7",
+      "sha256": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "release_locked": true
+    }
+  },
+  "runs": [
+    {
+      "mode": "summary",
+      "binary": "reference",
+      "repetition": 1,
+      "pid": 1780,
+      "process_start": "Tue Sep  8 08:40:12 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.037914834000006,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        1780
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4635608208,
+      "monotonic_before_ns": 34823743249,
+      "cpu_after_ns": 12187019750,
+      "monotonic_after_ns": 94827143666,
+      "monitor_pids_after": [
+        1780
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "summary",
+      "binary": "candidate",
+      "repetition": 1,
+      "pid": 1814,
+      "process_start": "Tue Sep  8 08:41:47 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.081435999999982,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        1814
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4061706708,
+      "monotonic_before_ns": 130119667270,
+      "cpu_after_ns": 10549376041,
+      "monotonic_after_ns": 190125684603,
+      "monitor_pids_after": [
+        1814
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "summary",
+      "binary": "candidate",
+      "repetition": 2,
+      "pid": 1846,
+      "process_start": "Tue Sep  8 08:43:22 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.083424791,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        1846
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4052428000,
+      "monotonic_before_ns": 225451663520,
+      "cpu_after_ns": 10509847958,
+      "monotonic_after_ns": 285457880999,
+      "monitor_pids_after": [
+        1846
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "summary",
+      "binary": "reference",
+      "repetition": 2,
+      "pid": 1875,
+      "process_start": "Tue Sep  8 08:44:57 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.07860204100001,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        1875
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4649900166,
+      "monotonic_before_ns": 320772697478,
+      "cpu_after_ns": 12284908583,
+      "monotonic_after_ns": 380778709375,
+      "monitor_pids_after": [
+        1875
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "summary",
+      "binary": "reference",
+      "repetition": 3,
+      "pid": 1902,
+      "process_start": "Tue Sep  8 08:46:33 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.041796541999986,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        1902
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4669628333,
+      "monotonic_before_ns": 415814008812,
+      "cpu_after_ns": 12174273750,
+      "monotonic_after_ns": 475819428604,
+      "monitor_pids_after": [
+        1902
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "summary",
+      "binary": "candidate",
+      "repetition": 3,
+      "pid": 1932,
+      "process_start": "Tue Sep  8 08:48:08 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.079388959000028,
+      "diagnostics_enabled": false,
+      "windows_before": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        1932
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4045633625,
+      "monotonic_before_ns": 511078171979,
+      "cpu_after_ns": 10498765833,
+      "monotonic_after_ns": 571084377083,
+      "monitor_pids_after": [
+        1932
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [
+        {
+          "height": 880,
+          "screen": "Summary",
+          "width": 1280
+        }
+      ],
+      "process_survived": true
+    },
+    {
+      "mode": "tray",
+      "binary": "reference",
+      "repetition": 1,
+      "pid": 1960,
+      "process_start": "Tue Sep  8 08:49:43 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.07523754099998,
+      "diagnostics_enabled": false,
+      "windows_before": [],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        1960
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4340004125,
+      "monotonic_before_ns": 607507275291,
+      "cpu_after_ns": 10948585500,
+      "monotonic_after_ns": 667513349770,
+      "monitor_pids_after": [
+        1960
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [],
+      "process_survived": true
+    },
+    {
+      "mode": "tray",
+      "binary": "candidate",
+      "repetition": 1,
+      "pid": 1989,
+      "process_start": "Tue Sep  8 08:51:19 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.07818800000007,
+      "diagnostics_enabled": false,
+      "windows_before": [],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        1989
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 3508404791,
+      "monotonic_before_ns": 703954879270,
+      "cpu_after_ns": 8676374958,
+      "monotonic_after_ns": 763960913458,
+      "monitor_pids_after": [
+        1989
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [],
+      "process_survived": true
+    },
+    {
+      "mode": "tray",
+      "binary": "candidate",
+      "repetition": 2,
+      "pid": 2036,
+      "process_start": "Tue Sep  8 08:52:56 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.084829417000037,
+      "diagnostics_enabled": false,
+      "windows_before": [],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        2036
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 3473841583,
+      "monotonic_before_ns": 800144601312,
+      "cpu_after_ns": 8735334333,
+      "monotonic_after_ns": 860150632062,
+      "monitor_pids_after": [
+        2036
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [],
+      "process_survived": true
+    },
+    {
+      "mode": "tray",
+      "binary": "reference",
+      "repetition": 2,
+      "pid": 2063,
+      "process_start": "Tue Sep  8 08:54:32 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.078599625000038,
+      "diagnostics_enabled": false,
+      "windows_before": [],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        2063
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4334130041,
+      "monotonic_before_ns": 896568239749,
+      "cpu_after_ns": 10968044625,
+      "monotonic_after_ns": 956574438708,
+      "monitor_pids_after": [
+        2063
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [],
+      "process_survived": true
+    },
+    {
+      "mode": "tray",
+      "binary": "reference",
+      "repetition": 3,
+      "pid": 2093,
+      "process_start": "Tue Sep  8 08:56:09 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.076680333000013,
+      "diagnostics_enabled": false,
+      "windows_before": [],
+      "binary_sha256_before": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "monitor_pids_before": [
+        2093
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 4334616875,
+      "monotonic_before_ns": 992991439375,
+      "cpu_after_ns": 11067131500,
+      "monotonic_after_ns": 1052997565395,
+      "monitor_pids_after": [
+        2093
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+      "windows_after": [],
+      "process_survived": true
+    },
+    {
+      "mode": "tray",
+      "binary": "candidate",
+      "repetition": 3,
+      "pid": 2125,
+      "process_start": "Tue Sep  8 08:57:45 2026",
+      "host": {
+        "chip": "Apple M1 Pro",
+        "logical_cpus": 8,
+        "os_version": "26.6.1",
+        "power_source": "AC Power"
+      },
+      "interval_seconds": 1,
+      "warmup_seconds": 30.082528916,
+      "diagnostics_enabled": false,
+      "windows_before": [],
+      "binary_sha256_before": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "monitor_pids_before": [
+        2125
+      ],
+      "conflicting_processes_before": [],
+      "cpu_before_ns": 3520777666,
+      "monotonic_before_ns": 1089163749874,
+      "cpu_after_ns": 8724954125,
+      "monotonic_after_ns": 1149169921541,
+      "monitor_pids_after": [
+        2125
+      ],
+      "conflicting_processes_after": [],
+      "binary_sha256_after": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+      "windows_after": [],
+      "process_survived": true
+    }
+  ],
+  "cpu_timebase": {
+    "source": "PROC_PIDTASKINFO Mach ticks",
+    "numer": 125,
+    "denom": 3
+  },
+  "measurement_harness_sha256": {
+    "performance_macos.py": "0e0e73b84b1d5df52515d566e2568b3060d3526a377974b9ce9fa05bc325d70e",
+    "performance_ax.swift": "01c7639f51866eb9584e0bb4665a0735a9141a3591b61a44231f41cea2675c15"
+  },
+  "comparison": {
+    "summary": {
+      "reference_percent": 12.605108762726056,
+      "candidate_percent": 10.775685817548233,
+      "ratio": 0.854866548189769,
+      "passed": false
+    },
+    "tray": {
+      "reference_percent": 11.096093868260594,
+      "candidate_percent": 8.684475345852698,
+      "ratio": 0.7826605874968199,
+      "passed": false
+    }
+  }
+}

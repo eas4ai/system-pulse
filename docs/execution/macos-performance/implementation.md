@@ -1,6 +1,6 @@
 # Mac collector optimization
 
-Status: implemented; Linux acceptance passed; native CPU and preservation acceptance pending.
+Status: implemented; Linux and native Mac preservation passed; native comparison completed below the required reduction.
 
 The first change retains the Apple Silicon temperature discovery connection.
 Every sample still enumerates sensors, removes absent entries and requests
@@ -87,6 +87,49 @@ comparison tests. Completing the commitment now requires an unlocked Mac for
 the twelve scored observations and the separate native preservation checks.
 No 50 percent improvement, final commitment review, publication or optimized
 Mac installation is claimed.
+
+## Unlocked retry after the Mac update
+
+On 2026-09-08 the developer confirmed an update and reboot and requested another
+attempt. The Mac reported macOS 26.6.1, eight M1 Pro logical CPUs, AC power and an
+unlocked session. A fixed three-second startup delay initially missed the
+Summary accessibility tree. The helper now waits up to fifteen seconds for the
+actual Summary tab before preparation. Native preparation, observed 1280-by-880
+bounds and orderly Quit succeeded. The failed startup receipt is retained.
+
+The first timed retry exposed a verifier unit bug: PROC_PIDTASKINFO returns Mach
+ticks, which had been labeled nanoseconds. Apple's
+[kernel implementation](https://github.com/apple-oss-distributions/xnu/blob/main/osfmk/kern/bsd_kern.c)
+assigns Mach-time user and system counters. The helper now reads the native
+timebase and converts those counters before comparing them with elapsed
+nanoseconds. On this Mac the factor is 125/3. An independent calibration measured
+0.29999425 CPU seconds against getrusage's 0.299995 seconds. Nine verifier tests
+passed on both Mac and Linux, including conversion and missing/invalid-unit
+rejection. The interrupted, unconverted receipt is retained as invalid; its
+understated absolute percentages are not performance evidence.
+
+The complete fresh [measurement set](evidence/measurements.json) retains all
+twelve observations, alternating pair order, thirty-second warmups and
+sixty-second scored windows. No compiler, profiler or diagnostic writer ran
+during scored windows. Both modes used the same unchanged release binaries.
+
+| Mode | Reference CPU | Candidate CPU | Reduction | Required reduction |
+| --- | ---: | ---: | ---: | ---: |
+| Summary | 12.6051% | 10.7757% | 14.5133% | at least 50% |
+| Tray-only | 11.0961% | 8.6845% | 21.7339% | at least 50% |
+
+Percentages use one logical CPU as 100%. Both targets fail. These observations
+must remain retained even if later work improves the result. The next step is
+profiling of the remaining cost.
+
+Native preservation subsequently passed after the helper waited for reopened
+screen controls, not just the window object. The original readiness failure is
+retained under evidence/invalid. The passing
+[native receipt](evidence/native-preservation/result.json) includes equal
+reference/candidate sensor and monitor coverage, fresh statvfs arithmetic and
+independent capacity checks, background sequence advancement with no window,
+saved and reopened settings, continued history, native interaction and clean
+Quit. This is preservation evidence, not a pass for either CPU target.
 
 ## Checkpoint self-audit
 

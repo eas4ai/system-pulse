@@ -153,6 +153,8 @@ def run(args):
                         reopened["appearance"] == saved["appearance"], "reopen lost settings")
                 result["saved_settings"] = {key: saved[key] for key in ("screens", "appearance", "interval_ms")}
                 result["reopened_settings"] = {key: reopened[key] for key in result["saved_settings"]}
+                wait_for(lambda: any(row.get("AXIdentifier") == "screen-tab:cpu"
+                                     for row in tree()["rows"]), "reopened screen controls")
                 tree("press-id", "screen-tab:cpu")
                 time.sleep(0.3)
                 require(any(row.get("AXIdentifier") == "screen:cpu" for row in tree()["rows"]),

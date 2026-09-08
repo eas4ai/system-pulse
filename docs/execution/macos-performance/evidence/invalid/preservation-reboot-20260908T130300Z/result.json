@@ -1,0 +1,94 @@
+{
+  "status": "FAIL",
+  "source_commit": "8f480a4fe1605ad496e41b25d670d41c555e10c7",
+  "binary_sha256": "30fbb2ed3b576b280ce28c3a7eadd58988dd4aaac374529840010762f22684dd",
+  "reference_sha256": "31002b8244f2648866504e72dfcdd7ee5b1b829a6e3db712666e568c25fce243",
+  "preservation_harness_sha256": {
+    "performance_preserve.py": "707e0fedb8883f26f65c0acdb6a51b20a970a853e89392f08d6d264d83a4632d",
+    "performance_tree.swift": "753a490dae765f9b8663332b4d050ed83545c837df3799fce9cb22004a2c766e"
+  },
+  "pid": 2175,
+  "initial_history_seconds": 4.9,
+  "monitors_count": 28,
+  "sensors_count": 198,
+  "capacities": [
+    {
+      "id": "volume:source:Macintosh HD:/",
+      "reading": {
+        "sensor_id": "volume:source:Macintosh HD://capacity",
+        "value": 361325748224.0,
+        "total": 494384795648.0,
+        "availability": "Available",
+        "reason": null,
+        "observations": [
+          {
+            "source": "statvfs filesystem capacity",
+            "captured_ns": 5137765125,
+            "read_started_ns": 5137759625,
+            "integers": {
+              "blocks": 120699413,
+              "fragment_size": 4096,
+              "free_blocks": 32485119
+            },
+            "decimals": {}
+          }
+        ]
+      },
+      "independent_total": 494384795648,
+      "independent_used": 361329942528
+    },
+    {
+      "id": "volume:source:Macintosh HD:/System/Volumes/Data",
+      "reading": {
+        "sensor_id": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
+        "value": 361325748224.0,
+        "total": 494384795648.0,
+        "availability": "Available",
+        "reason": null,
+        "observations": [
+          {
+            "source": "statvfs filesystem capacity",
+            "captured_ns": 5137781208,
+            "read_started_ns": 5137778250,
+            "integers": {
+              "blocks": 120699413,
+              "fragment_size": 4096,
+              "free_blocks": 32485119
+            },
+            "decimals": {}
+          }
+        ]
+      },
+      "independent_total": 494384795648,
+      "independent_used": 361329942528
+    }
+  ],
+  "hidden_start_sequence": 8,
+  "hidden_end_sequence": 12,
+  "hidden_windows": 0,
+  "saved_settings": {
+    "screens": {
+      "active": "memory",
+      "devices": {}
+    },
+    "appearance": {
+      "theme": "light",
+      "ui_font": "inter",
+      "numeric_font": "jetbrains_mono"
+    },
+    "interval_ms": 1000
+  },
+  "reopened_settings": {
+    "screens": {
+      "active": "memory",
+      "devices": {}
+    },
+    "appearance": {
+      "theme": "light",
+      "ui_font": "inter",
+      "numeric_font": "jetbrains_mono"
+    },
+    "interval_ms": 1000
+  },
+  "error": "CalledProcessError: Command '['/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/performance/harness-ready-20260908T001321Z/performance-tree', '2175', 'press-id', 'screen-tab:cpu']' returned non-zero exit status 1."
+}
