@@ -1,0 +1,51 @@
+{
+  "sampled_cpu_ns": 1271000000,
+  "missing_stack_ns": 70000000,
+  "threads_ns": {
+    "system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7 (0xa7a4) (system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7, pid: 2366)": 20000000,
+    "system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7 (0xa7a5) (system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7, pid: 2366)": 12000000,
+    "pulse-collector (0xa7c6) (system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7, pid: 2366)": 1016000000,
+    "Main Thread (0xa7a3) (system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7, pid: 2366)": 214000000,
+    "system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7 (0xa7b5) (system-pulse-8f480a4fe1605ad496e41b25d670d41c555e10c7, pid: 2366)": 9000000
+  },
+  "inclusive_stages_ns": {
+    "process_refresh": 517000000,
+    "proc_args": 287000000,
+    "temperature": 47000000,
+    "accounts": 17000000,
+    "disk": 56000000,
+    "presentation": 82000000
+  },
+  "top_leaves_ns": {
+    "__sysctl": 298000000,
+    "__proc_info": 219000000,
+    "mach_msg2_trap": 142000000,
+    "_xzm_free": 49000000,
+    "_xzm_xzone_malloc_tiny": 32000000,
+    "_platform_memmove": 25000000,
+    "start_wqthread": 20000000,
+    "_xzm_xzone_malloc": 19000000,
+    "objc_msgSend": 18000000,
+    "_RNvMsi_NtNtNtCslJsSqIQKwiA_5alloc11collections5btree3mapINtB5_8BTreeMapNtNtBb_6string6StringNtNtCsdWYbD6yKbFN_23system_pulse_collectors5types14RawObservationE6insertB1w_": 16000000,
+    "_platform_memcmp": 13000000,
+    "<deduplicated_symbol>": 13000000,
+    "_platform_memset": 8000000,
+    "_RNvMsi_NtNtNtCslJsSqIQKwiA_5alloc11collections5btree3mapINtB5_8BTreeMapNtNtBb_6string6StringNtNtB7_7set_val9SetValZSTE6insertCsdWYbD6yKbFN_23system_pulse_collectors": 8000000,
+    "__CFBasicHashDrain": 7000000,
+    "_RNvNtNtNtNtCsl2sd1nakZba_7sysinfo4unix5apple5macos7process14update_process": 7000000,
+    "_xzm_xzone_malloc_tiny_or_early": 7000000,
+    "__CF_IS_OBJC": 6000000,
+    "_malloc_zone_malloc": 5000000,
+    "__CFStringChangeSizeMultiple": 4000000,
+    "_CFRuntimeCreateInstance": 4000000,
+    "__getattrlist": 4000000,
+    "_free": 4000000,
+    "_CFRelease": 4000000,
+    "__workq_kernreturn": 4000000,
+    "___CFBasicHashFindBucket_Linear": 3000000,
+    "_realloc": 3000000,
+    "_RNvCs9wFQrvczXsK_7___rustc11___rdl_alloc": 3000000,
+    "_RNvMs4_NtCslJsSqIQKwiA_5alloc7raw_vecNtB5_11RawVecInner11finish_growB7_": 3000000,
+    "kevent_qos": 3000000
+  }
+}

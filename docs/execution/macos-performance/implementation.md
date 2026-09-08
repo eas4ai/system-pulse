@@ -131,6 +131,38 @@ independent capacity checks, background sequence advancement with no window,
 saved and reopened settings, continued history, native interaction and clean
 Quit. This is preservation evidence, not a pass for either CPU target.
 
+## Profiling the remaining work
+
+Separate ten-second native stack samples are retained outside the repository at
+`task-manager-artifacts/macos-performance/profile-candidate-20260908T130400Z`.
+They identify temperature IPC, process refresh and account enumeration as
+frequently sampled collector stacks. These samples include blocked threads;
+their counts are not CPU percentages.
+
+The developer suggested debugging macros. The isolated
+[stage probe](probes/stage-cpu.rs) uses a small `stage!` macro around the same
+sysinfo refresh calls, measures collector-thread CPU with
+`clock_gettime(CLOCK_THREAD_CPUTIME_ID)` and elapsed time with `Instant`, and
+prints after all stages. It leaves the release application unchanged. The probe
+compiled in release mode against sysinfo 0.37.2 and ran twelve one-second
+iterations. All [raw rows](probes/stage-cpu-20260908.txt) are retained. Means below
+exclude the explicitly retained first iteration for startup:
+
+| Stage | CPU ms/sample | Elapsed ms/sample |
+| --- | ---: | ---: |
+| CPU refresh | 0.168 | 0.173 |
+| Memory refresh | 0.050 | 0.051 |
+| Process refresh | 35.612 | 36.232 |
+| Network refresh | 1.232 | 1.232 |
+| Temperature refresh | 4.190 | 71.080 |
+| Account enumeration | 1.295 | 24.185 |
+| Disk discovery and I/O without capacity | 4.707 | 4.864 |
+
+This is an isolated API probe, not a complete application profile or acceptance
+comparison. Temperature and account wall time mostly reflect waiting. Process
+refresh is the largest measured CPU stage. No new reduction is claimed from
+profiling alone.
+
 ## Checkpoint self-audit
 
 The production changes stay in the collector and introduce no dependency,
