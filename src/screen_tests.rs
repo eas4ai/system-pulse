@@ -82,6 +82,124 @@ fn active(view: &Entity<ScreenView>, cx: &VisualTestContext) -> Screen {
 }
 
 #[gpui_kit::test]
+fn hidden_process_rows_are_prepared_from_the_latest_identity_on_display(cx: &mut TestAppContext) {
+    let (view, cx) = populated(cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert!(
+            data.processes.is_empty(),
+            "Summary must not format table cells"
+        );
+        assert_eq!(data.process_count(), 2);
+    });
+    command(
+        &view,
+        crate::workspace::Command::Screen(Screen::Processes),
+        cx,
+    );
+    let identity = cx.read(|cx| view.read(cx).shared.borrow().processes[0].identity.clone());
+    cx.update(|_, cx| {
+        view.read(cx)
+            .processes
+            .clone()
+            .update(cx, |panel, _| panel.selected = Some(identity.clone()));
+    });
+    command(
+        &view,
+        crate::workspace::Command::Screen(Screen::Summary),
+        cx,
+    );
+    accept(&view, fixture::snapshot(6), cx);
+    cx.read(|cx| {
+        assert_eq!(
+            view.read(cx).processes.read(cx).selected.as_ref(),
+            Some(&identity)
+        );
+        assert!(view.read(cx).shared.borrow().processes.is_empty());
+    });
+    let mut replacement = fixture::snapshot(7);
+    replacement.processes.truncate(1);
+    replacement.processes[0].identity.start_time_ticks += 1;
+    replacement.processes[0].name = "replacement process".into();
+    replacement.processes[0].cpu_percent.availability =
+        system_pulse_collectors::Availability::Failed;
+    replacement.processes[0].cpu_percent.value = None;
+    replacement.processes[0].cpu_percent.reason = Some("Permission denied".into());
+    accept(&view, replacement, cx);
+    cx.read(|cx| {
+        let screen = view.read(cx);
+        assert!(screen.processes.read(cx).selected.is_none());
+        assert!(screen.shared.borrow().processes.is_empty());
+        assert_eq!(screen.shared.borrow().process_count(), 1);
+    });
+    command(
+        &view,
+        crate::workspace::Command::Screen(Screen::Processes),
+        cx,
+    );
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(data.processes.len(), 1);
+        assert_eq!(data.processes[0].cells[1], "replacement process");
+        assert!(data.processes[0].cells[2].contains("No access"));
+        assert_ne!(data.processes[0].identity, identity);
+    });
+}
+
+#[gpui_kit::test]
+fn reopening_processes_uses_background_snapshots_and_retained_history(cx: &mut TestAppContext) {
+    cx.update(gpui_kit::component::init);
+    let mut application = None;
+    let (_, cx) = cx.add_window_view(|window, cx| {
+        let app = cx.new(|cx| ApplicationView::new_fixture(window, cx));
+        application = Some(app.clone());
+        gpui_kit::component::Root::new(app, window, cx)
+    });
+    let app = application.unwrap();
+    let screen = cx.read(|cx| app.read(cx).screens.clone());
+    accept(&screen, fixture::snapshot(1), cx);
+    command(
+        &screen,
+        crate::workspace::Command::Screen(Screen::Processes),
+        cx,
+    );
+    let shared = cx.read(|cx| screen.read(cx).shared.clone());
+    let owner = shared.borrow().owner.clone().unwrap();
+    cx.update(|_, cx| app.update(cx, |app, cx| app.detach_window(cx)));
+    for sequence in 2..=5 {
+        let mut snapshot = fixture::snapshot(sequence);
+        snapshot.processes[0].name = format!("background {sequence}");
+        cx.update(|_, cx| {
+            owner
+                .update(cx, |owner, cx| {
+                    owner.accept_background_snapshot(snapshot, cx)
+                })
+                .unwrap()
+        });
+        assert!(shared.borrow().processes.is_empty());
+    }
+    let history_len = shared
+        .borrow()
+        .history
+        .samples("cpu:host", "cpu:host/usage")
+        .unwrap()
+        .len();
+    assert_eq!(history_len, 5);
+    cx.update(|window, cx| app.update(cx, |app, cx| app.attach_window(window, cx)));
+    draw(cx);
+    let data = shared.borrow();
+    assert_eq!(data.snapshot.as_ref().unwrap().sequence, 5);
+    assert_eq!(data.processes[0].cells[1], "background 5");
+    assert_eq!(
+        data.history
+            .samples("cpu:host", "cpu:host/usage")
+            .unwrap()
+            .len(),
+        history_len
+    );
+}
+
+#[gpui_kit::test]
 fn summary_graphs_fill_rows_when_the_window_resizes(cx: &mut TestAppContext) {
     let (_, cx) = populated(cx);
     for (width, columns) in [

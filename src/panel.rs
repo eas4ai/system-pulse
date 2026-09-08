@@ -315,7 +315,10 @@ impl Render for MonitorPanel {
             return Empty.into_any_element();
         }
         let content = match self.monitor.id.as_str() {
-            "processes" => self.process_table(window, cx),
+            "processes" => {
+                self.shared.borrow_mut().prepare_processes();
+                self.process_table(window, cx)
+            }
             "settings" => {
                 let settings = self.settings.get_or_insert_with(|| {
                     cx.new(|cx| crate::settings::SettingsPanel::new(self.shared.clone(), cx))

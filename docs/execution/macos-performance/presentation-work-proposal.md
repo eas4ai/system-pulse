@@ -1,6 +1,6 @@
 # Proposal: avoid unused presentation work
 
-Status: Proposed; not authorized or implemented.
+Status: Approved by the developer on 2026-09-08; implementation in progress.
 
 The [latest complete comparison](collector-reuse-results.md) reports 21.4 percent
 less Summary CPU and 30.3 percent less tray CPU than the agreed reference. Both

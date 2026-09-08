@@ -34,6 +34,8 @@ pub(crate) struct Data {
     pub(crate) bounds: BTreeMap<String, Bounds<Pixels>>,
     pub(crate) scroll: ScrollHandle,
     pub(crate) processes: Vec<crate::live::ProcessView>,
+    accepted_clock: Option<(std::time::Instant, u64)>,
+    process_presentation_stale: Option<bool>,
     pub(crate) process_widths: [f32; 8],
     pub(crate) allow_process_actions: bool,
     pub(crate) snapshot: Option<std::sync::Arc<Snapshot>>,
@@ -45,6 +47,48 @@ pub(crate) struct Data {
 }
 
 impl Data {
+    pub(crate) fn process_count(&self) -> usize {
+        self.snapshot
+            .as_ref()
+            .map_or(self.processes.len(), |snapshot| snapshot.processes.len())
+    }
+
+    pub(crate) fn process_identities(&self) -> Vec<system_pulse_collectors::ProcessIdentity> {
+        if let Some(snapshot) = &self.snapshot {
+            snapshot
+                .processes
+                .iter()
+                .map(|row| row.identity.clone())
+                .collect()
+        } else {
+            self.processes
+                .iter()
+                .map(|row| row.identity.clone())
+                .collect()
+        }
+    }
+
+    pub(crate) fn prepare_processes(&mut self) {
+        let Some((accepted, collector_ms)) = self.accepted_clock else {
+            return;
+        };
+        let now = collector_ms.saturating_add(accepted.elapsed().as_millis() as u64);
+        self.prepare_processes_at(now);
+    }
+
+    fn prepare_processes_at(&mut self, now: u64) {
+        let Some(snapshot) = &self.snapshot else {
+            return;
+        };
+        let threshold = self.session.workspace.interval_ms * 2;
+        let stale = now.saturating_sub(snapshot.capture_finished_ns / 1_000_000) > threshold;
+        if self.process_presentation_stale != Some(stale) {
+            let processes = live::process_views(snapshot, now, threshold);
+            self.set_processes(processes);
+            self.process_presentation_stale = Some(stale);
+        }
+    }
+
     fn set_processes(&mut self, processes: Vec<crate::live::ProcessView>) {
         // Keep inspected columns in place when long status text disappears.
         // Widths reset with the view and still grow to fit newly observed text.
@@ -274,7 +318,6 @@ pub struct WorkspaceView {
     fixture_mode: bool,
     initial_layout_pending: bool,
     service: Option<SamplingService>,
-    accepted_clock: Option<(std::time::Instant, u64)>,
     accepted_unix_ns: u64,
     accepted_model_timing: Option<(u64, u64)>,
     diagnostic_revision: u64,
@@ -414,6 +457,8 @@ impl WorkspaceView {
             history: HistoryStore::new(120).expect("valid history capacity"),
             catalog,
             processes: Vec::new(),
+            accepted_clock: None,
+            process_presentation_stale: None,
             process_widths: live::PROCESS_WIDTHS,
             allow_process_actions: live && !fixture_mode,
             snapshot: None,
@@ -443,7 +488,6 @@ impl WorkspaceView {
             fixture_mode,
             initial_layout_pending: live && !has_saved_workspace && !read_blocked,
             service,
-            accepted_clock: None,
             accepted_unix_ns: 0,
             accepted_model_timing: None,
             diagnostic_revision: 0,
@@ -526,14 +570,19 @@ impl WorkspaceView {
             } else {
                 self.accept_background_snapshot(snapshot, cx);
             }
-        } else if let Some((accepted, collector_ms)) = self.accepted_clock {
+        } else {
+            let clock = self.shared.borrow().accepted_clock;
+            let Some((accepted, collector_ms)) = clock else {
+                return;
+            };
             let now = collector_ms.saturating_add(accepted.elapsed().as_millis() as u64);
             let mut data = self.shared.borrow_mut();
             let threshold = data.session.workspace.interval_ms * 2;
             if data.history.mark_stale(now, threshold) {
-                if let Some(snapshot) = &data.snapshot {
-                    let processes = live::process_views(snapshot, now, threshold);
-                    data.set_processes(processes);
+                if self.diagnostics.is_some()
+                    || (self.attached_window.is_some() && self.screen_view.is_none())
+                {
+                    data.prepare_processes();
                 }
                 drop(data);
                 self.publish_diagnostics(now);
@@ -572,7 +621,6 @@ impl WorkspaceView {
         let unix_ns = live::unix_ns();
         let now_ms = live::collector_now_ms(&snapshot, unix_ns);
         let mut data = self.shared.borrow_mut();
-        let old_catalog = data.catalog.clone();
         let known: BTreeSet<_> = data.session.workspace.panels.keys().cloned().collect();
         let interval = data.session.workspace.interval_ms;
         let Data {
@@ -611,29 +659,29 @@ impl WorkspaceView {
                 }
             }
         }
-        data.catalog = live::catalog(&data.session.workspace);
-        data.set_processes(live::process_views(&snapshot, now_ms, interval * 2));
+        let catalog = live::catalog(&data.session.workspace);
+        let changed = data.catalog != catalog;
+        data.catalog = catalog;
         let snapshot = std::sync::Arc::new(snapshot);
         data.snapshot = Some(snapshot);
-        let changed = old_catalog != data.catalog;
-        let catalog = data.catalog.clone();
-        let initial_dock = window.as_ref().and_then(|_| {
-            crate::layout::initialize(
-                &mut data.session.workspace,
-                &catalog,
-                &mut self.initial_layout_pending,
-            )
-        });
-        let updates: Vec<_> = data
-            .catalog
-            .iter()
-            .filter_map(|monitor| {
-                data.views
-                    .get(&monitor.id)
-                    .map(|view| (view.clone(), monitor.clone()))
-            })
-            .collect();
-        let identities: Vec<_> = data.processes.iter().map(|p| p.identity.clone()).collect();
+        data.accepted_clock = Some((std::time::Instant::now(), now_ms));
+        data.process_presentation_stale = None;
+        data.processes.clear();
+        let legacy = self.attached_window.is_some() && self.screen_view.is_none();
+        if legacy || self.diagnostics.is_some() {
+            data.prepare_processes();
+        }
+        let initial_dock = window
+            .as_ref()
+            .filter(|_| self.initial_layout_pending)
+            .and_then(|_| {
+                let catalog = data.catalog.clone();
+                crate::layout::initialize(
+                    &mut data.session.workspace,
+                    &catalog,
+                    &mut self.initial_layout_pending,
+                )
+            });
         self.accepted_unix_ns = unix_ns;
         drop(data);
         self.accepted_model_timing = model_started.zip(
@@ -642,12 +690,7 @@ impl WorkspaceView {
                 .and_then(|writer| writer.timestamp()),
         );
         self.publish_diagnostics(now_ms);
-        for (view, monitor) in updates {
-            let _ = view.update(cx, |panel, cx| {
-                panel.refresh(monitor, cx);
-                live::reconcile_selection(&mut panel.selected, &identities);
-            });
-        }
+        self.refresh_legacy_panels(cx);
         if let Some(window) = window {
             if let Some(state) = initial_dock {
                 self.shared.borrow_mut().bounds.clear();
@@ -666,15 +709,40 @@ impl WorkspaceView {
         if changed {
             self.queue_save(cx);
         }
-        self.accepted_clock = Some((std::time::Instant::now(), now_ms));
         self.notify_panels(cx);
+    }
+
+    fn refresh_legacy_panels(&self, cx: &mut Context<Self>) {
+        // The tabbed application renders ScreenView; the dock remains for saved-layout compatibility.
+        if self.screen_view.is_some() || self.attached_window.is_none() {
+            return;
+        }
+        let data = self.shared.borrow();
+        let updates: Vec<_> = data
+            .catalog
+            .iter()
+            .filter_map(|monitor| {
+                data.views
+                    .get(&monitor.id)
+                    .map(|view| (view.clone(), monitor.clone()))
+            })
+            .collect();
+        let identities = data.process_identities();
+        drop(data);
+        for (view, monitor) in updates {
+            let _ = view.update(cx, |panel, cx| {
+                panel.refresh(monitor, cx);
+                live::reconcile_selection(&mut panel.selected, &identities);
+            });
+        }
     }
 
     fn publish_diagnostics(&mut self, rendered_at_collector_ms: u64) {
         let Some(writer) = &self.diagnostics else {
             return;
         };
-        let data = self.shared.borrow();
+        let mut data = self.shared.borrow_mut();
+        data.prepare_processes_at(rendered_at_collector_ms);
         let Some(snapshot) = data.snapshot.clone() else {
             return;
         };
@@ -706,12 +774,16 @@ impl WorkspaceView {
     }
 
     fn notify_panels(&self, cx: &mut Context<Self>) {
+        if self.attached_window.is_none() {
+            return;
+        }
         if let Some(view) = self.screen_view.clone() {
             // A screen command can be issued while that view is being updated.
             // Refresh after its event callback releases the entity borrow.
             cx.defer(move |cx| {
                 let _ = view.update(cx, |screen, cx| screen.refresh(cx));
             });
+            return;
         }
         let views: Vec<_> = self.shared.borrow().views.values().cloned().collect();
         for view in views {
@@ -1459,6 +1531,69 @@ fn command_button(label: String, command: Command, cx: &Context<WorkspaceView>) 
 }
 
 #[cfg(test)]
+mod process_presentation_tests {
+    use super::Snapshot;
+    use gpui_kit::{AppContext, TestAppContext};
+
+    #[gpui_kit::test]
+    fn deferred_process_presentation_ages_without_another_delivery(cx: &mut TestAppContext) {
+        let (view, cx) = crate::native_tests::harness(cx);
+        let reading = system_pulse_collectors::Reading {
+            sensor_id: "test".into(),
+            value: Some(42.),
+            total: None,
+            availability: system_pulse_collectors::Availability::Available,
+            reason: None,
+            observations: vec![],
+        };
+        let failed = system_pulse_collectors::Reading {
+            availability: system_pulse_collectors::Availability::Failed,
+            value: None,
+            reason: Some("Permission denied".into()),
+            ..reading.clone()
+        };
+        cx.update(|_, cx| {
+            view.update(cx, |view, _| {
+                let mut data = view.shared.borrow_mut();
+                data.session.workspace.interval_ms = 1000;
+                data.snapshot = Some(std::sync::Arc::new(Snapshot {
+                    sequence: 1,
+                    capture_finished_ns: 20_000_000_000,
+                    processes: vec![system_pulse_collectors::ProcessRow {
+                        identity: system_pulse_collectors::ProcessIdentity {
+                            pid: 7,
+                            start_time_ticks: 9,
+                        },
+                        name: "deferred".into(),
+                        user: None,
+                        user_reason: None,
+                        cpu_percent: reading.clone(),
+                        memory_bytes: failed,
+                        read_bytes_per_second: reading.clone(),
+                        write_bytes_per_second: reading.clone(),
+                        threads: reading,
+                    }],
+                    ..Snapshot::default()
+                }));
+                data.processes.clear();
+                data.prepare_processes_at(22_000);
+                assert!(!data.processes[0].cells[2].contains("Stale"));
+                data.prepare_processes_at(22_001);
+                assert!(data.processes[0].cells[2].contains("Stale"));
+                assert!(data.processes[0].cells[3].contains("No access"));
+                assert_eq!(data.snapshot.as_ref().unwrap().sequence, 1);
+                assert_eq!(
+                    data.snapshot.as_ref().unwrap().processes[0]
+                        .cpu_percent
+                        .value,
+                    Some(42.)
+                );
+            })
+        });
+    }
+}
+
+#[cfg(test)]
 mod diagnostic_delivery_tests {
     use super::{Duration, Snapshot, WorkspaceView};
     use gpui_kit::{AppContext, Element, Role, TestAppContext};
@@ -1563,7 +1698,7 @@ mod diagnostic_delivery_tests {
         });
         cx.update(|window, cx| {
             view.update(cx, |this, cx| {
-                this.accepted_clock = Some((
+                this.shared.borrow_mut().accepted_clock = Some((
                     std::time::Instant::now() - Duration::from_millis(3000),
                     20_000,
                 ));

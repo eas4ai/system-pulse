@@ -125,19 +125,18 @@ impl ScreenView {
     }
 
     pub(crate) fn refresh(&mut self, cx: &mut Context<Self>) {
-        let identities: Vec<_> = self
-            .shared
-            .borrow()
-            .processes
-            .iter()
-            .map(|row| row.identity.clone())
-            .collect();
+        let identities = self.shared.borrow().process_identities();
+        let active = self.shared.borrow().session.workspace.screens.active;
         self.processes.update(cx, |panel, cx| {
             crate::live::reconcile_selection(&mut panel.selected, &identities);
-            cx.notify();
+            if active == Screen::Processes {
+                cx.notify();
+            }
         });
-        self.settings
-            .update(cx, |settings, cx| settings.refresh(cx));
+        if active == Screen::Settings {
+            self.settings
+                .update(cx, |settings, cx| settings.refresh(cx));
+        }
         cx.notify();
     }
 
@@ -327,7 +326,7 @@ impl Render for ScreenView {
         };
         let status_text = format!(
             "{status} · {} readable processes · {interval} s update",
-            data.processes.len()
+            data.process_count()
         );
         let page = match active {
             Screen::Summary => crate::screen_summary::render(&data, width, cx),

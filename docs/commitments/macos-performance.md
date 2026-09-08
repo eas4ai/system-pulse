@@ -14,6 +14,9 @@ On 2026-09-08 the developer extended this scope to the narrow sysinfo process
 argument-refresh fix, its tests, Cargo patch/lock changes and package provenance.
 The approved [proposal](../execution/macos-performance/process-refresh-proposal.md)
 preserves the existing CPU targets and native verification requirements.
+On 2026-09-08 the developer also approved application snapshot acceptance,
+derived presentation and panel notification changes in `src/`, with directly
+affected tests, under the [presentation proposal](../execution/macos-performance/presentation-work-proposal.md).
 Verification helpers belong in scripts/system-pulse. Evidence and the review
 belong in docs/execution/macos-performance and .cairn/reviews. The
 [protocol](../plans/macos-performance.md) specifies the native comparison.
