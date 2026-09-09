@@ -7,7 +7,6 @@ examined:
   - restricted Mac process identity decoding and its native SDK checks
   - committed native receipts, observer provenance and Linux package evidence
 findings:
-  - closed: no additional actionable defect found in the completed commitment.
 
 ## Final review — 2026-09-09
 
