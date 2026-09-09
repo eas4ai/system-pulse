@@ -1,0 +1,697 @@
+{
+  "status": "PASS",
+  "steps": {
+    "source-guard": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/acceptance.py",
+        "--source-guard"
+      ],
+      "seconds": 0.064,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/source-guard.log",
+      "sha256": "5c135b8344c328b741cf87f21556cebc44e6995cceec5cab06605361e52393be"
+    },
+    "python": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "seconds": 44.795,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/python.log",
+      "sha256": "f65b97b64cd961ba3aac5e008ecfcc2706693eaa03ebcbd2abfac0c5163a4fab",
+      "test_count": 506
+    },
+    "base-dock": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-base",
+        "--lib",
+        "dock::"
+      ],
+      "seconds": 0.917,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/base-dock.log",
+      "sha256": "6c8c4af0e13bb63dc5b7e5f702706c2104065c6eeb4a767197c838f29895cf31",
+      "test_count": 213
+    },
+    "base-resizable": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-base",
+        "--lib",
+        "resizable::"
+      ],
+      "seconds": 0.315,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/base-resizable.log",
+      "sha256": "c8e6ae35d67de41997202024435c341f089f27207d2c9aa6f17f77328b09e251",
+      "test_count": 13
+    },
+    "component-dock": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "dock::"
+      ],
+      "seconds": 0.515,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/component-dock.log",
+      "sha256": "73199293dd24add6e77408bb02291c665c94d75fcb402bcf10451312fecae895",
+      "test_count": 19
+    },
+    "model": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse-model"
+      ],
+      "seconds": 0.615,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/model.log",
+      "sha256": "c58f2fbd0a4d3555ae5882ba26ab2649b6d9680030d883e2b24e96f901205d06",
+      "test_count": 36
+    },
+    "app": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--lib"
+      ],
+      "seconds": 4.225,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/app.log",
+      "sha256": "126df1205c27d8fdbebe84b915bbad114c2c983ab168cf931e4e85e65b10e144",
+      "test_count": 129
+    },
+    "collectors": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse-collectors"
+      ],
+      "seconds": 1.067,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/collectors.log",
+      "sha256": "f0a4946bf68b1b68067e53ca9d985507fe1d21f33a021b70353bb51559c6d08a",
+      "test_count": 114
+    },
+    "atspi": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "accesskit_atspi_common",
+        "--lib"
+      ],
+      "seconds": 0.315,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/atspi.log",
+      "sha256": "bc29aa0db997e7e254166cf7630fe983230f8cf04de6d5106306df354ba50f60",
+      "test_count": 9
+    },
+    "atspi-unix": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "accesskit_unix",
+        "--lib"
+      ],
+      "seconds": 0.315,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/atspi-unix.log",
+      "sha256": "5562d8b802f5175ca5100c6d8e36e3334ee40ef880acde0f32776ea26b5b1da8",
+      "test_count": 7
+    },
+    "fmt": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "-p",
+        "gpui-base",
+        "-p",
+        "gpui-component",
+        "-p",
+        "system-pulse-model",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "--",
+        "--check"
+      ],
+      "seconds": 1.818,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/fmt.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fmt-atspi": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "vendor/accesskit_atspi_common/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "seconds": 0.064,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/fmt-atspi.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fmt-atspi-unix": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "vendor/accesskit_unix/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "seconds": 0.064,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/fmt-atspi-unix.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "fmt-gpui-macos": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "--manifest-path",
+        "vendor/gpui_macos/Cargo.toml",
+        "--",
+        "--check"
+      ],
+      "seconds": 0.114,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/fmt-gpui-macos.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "clippy": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "gpui-base",
+        "-p",
+        "gpui-component",
+        "-p",
+        "system-pulse-model",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "-p",
+        "accesskit_atspi_common",
+        "-p",
+        "accesskit_unix",
+        "--all-targets",
+        "--no-deps",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "seconds": 1.017,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/clippy.log",
+      "sha256": "722d29ea08e9c02d30dfca303565fa46ef94610bb96adaf4242a9fabe05e9436"
+    },
+    "build": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "--bins"
+      ],
+      "seconds": 0.416,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/build.log",
+      "sha256": "8950be1e8f4499f41b8e38ef15f09a0e2671be53a43aa5dec4d794320908881d"
+    },
+    "diff": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "seconds": 0.016,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/diff.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "host": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/host_capture.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/host",
+        "--binary",
+        "/home/shawn/workspace2/task-manager/target/debug/pulse-snapshot"
+      ],
+      "seconds": 7.228,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/host.log",
+      "sha256": "9b2f2bd649ecd6fc5976fd6acc8486f179bff5ae6dc197c3c89472c6e28d6d21"
+    },
+    "native": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/tabbed_replay.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native",
+        "--binary",
+        "/home/shawn/workspace2/task-manager/target/debug/system-pulse"
+      ],
+      "seconds": 284.95,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native.log",
+      "sha256": "72e43243419f1e9a3d86b6dced0870804e0efbacf2c4b3fddfd0a0f488dbc947"
+    }
+  },
+  "source_commit": "8fc99332ada5301258663f4f30b1c7dd2640063a",
+  "continuation_from": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/manifest.json",
+  "reason": "Repeat the unchanged native step after a retained 2.549-second freshness failure; all passed automated and host steps are hash-checked and revalidated.",
+  "binary_sha256": "34c0e85b758a977741c64b07b318b86053bf087578a6ce25e6b1077024d42f79",
+  "artifacts": [
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/result.json",
+      "bytes": 741,
+      "sha256": "dc9e81416c364f15ec3fdc03e303aea3e7173e51b27773bb117aff0062edfb5d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/capabilities.json",
+      "bytes": 418463,
+      "sha256": "7f392fe1e8f9e24c8fd3b9f2c172ce5f70b8bf183b5a1998ba9d286ec8016ffb"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/final-inventory.json",
+      "bytes": 418397,
+      "sha256": "22180209a6401a8ba2477f598907ee2cf718cd1bae7252a79261da3162a72d35"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/stable-totals.json",
+      "bytes": 307682,
+      "sha256": "edfb9efdd92660345606bac5de3fbc30146c865b323b89ec77eb05394a2e745e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/external-observations.json",
+      "bytes": 22442356,
+      "sha256": "c4ef810cb850f3cbeedd8bc66fa2c2e74c2ee080c61420d01aa15fcae668558d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/snapshots.jsonl",
+      "bytes": 14103126,
+      "sha256": "21719d879b96f0005eb41c36c2019b32b439fc9e91133ef1d1f5fac62b512f73"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/counter-brackets.json",
+      "bytes": 24739391,
+      "sha256": "40f28b856bf3bdf50460aec788b938212be1f2fe0971597a23c87fad49542ffd"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/missing-brackets.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/process-policy.json",
+      "bytes": 712,
+      "sha256": "93b0d4d8a5b06fe1753d44b18b5e2c99c6a5896f0320c42b52c2bc233fe1d6d2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/process-coverage.json",
+      "bytes": 3710,
+      "sha256": "d9a7cb45c2371daf7de14fadb21565ad091ccfa5acccd0d107b95ce8578af791"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/unverified-exit-gaps.json",
+      "bytes": 2,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/collector-lifecycle.json",
+      "bytes": 2683,
+      "sha256": "536b3ca8e240a85e67b24c39985b6233a910d06f9358b4649afcd014f041190c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/collector-start.json",
+      "bytes": 699,
+      "sha256": "0669b29a069ba7fd44265d0f9cb92029ccf4639ff2a698535227e3ee2383498a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/collector-stopped.json",
+      "bytes": 711,
+      "sha256": "825a2f55872863b97f45a91267ade2c6890ac265fd438c938cd7ad0d767a4008"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/cleanup.json",
+      "bytes": 192,
+      "sha256": "f173fcc1c1797b40132c5655bb47130b2c3e39f2546c39183bbde4bd63dbc266"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/child.json",
+      "bytes": 15618,
+      "sha256": "b713377037a697bc371978d5c7565c11ffb319318c4759cb02974f66e74b98e8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/host/after-exit.jsonl",
+      "bytes": 3168446,
+      "sha256": "902224f0a5031da1af02ee517b04484dd3ffb3535c7d3000422737eae3f28438"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/result.json",
+      "bytes": 55411,
+      "sha256": "9b10efd1a5983aae153a9f287d2833841298aa4567057469e99454dae1dcdb93"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/transport-cleanup.json",
+      "bytes": 102,
+      "sha256": "beece49daddee9e411ae44e43015d2a997ffffe2406c02acaa49ae3aea02cee8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/cleanup.json",
+      "bytes": 76,
+      "sha256": "65c73ff393d048b455eefbd2f88d547b310a4128f3fc6b9ae7942dd45078e0f6"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/metadata.json",
+      "bytes": 715,
+      "sha256": "601028ae75cbee6d89191789c37f4eaa2a97e2717d2ba24cd44b75bf05668f40"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/restart/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/restart/cleanup.json",
+      "bytes": 76,
+      "sha256": "ee2a9186293347df30eea839845cb8d85e540dfb0dbc47ee07f47677f24ca5f7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/restart/metadata.json",
+      "bytes": 715,
+      "sha256": "10751553078a5c38f4cd7a0007886293a16661b1aa38836596b8b6d84821f9e4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/missing/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/missing/cleanup.json",
+      "bytes": 76,
+      "sha256": "363e30a05fb4ebd5acdc23619ab60a0b98bb321de0ee48ce8c68cc83edc56405"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/missing/metadata.json",
+      "bytes": 715,
+      "sha256": "8ea81a27dbf0ca22c3370f64a4a20114cd8c347319c5c95497bf6089e942d6ab"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovery/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovery/cleanup.json",
+      "bytes": 76,
+      "sha256": "4c116667d4ba7658cdd89a3a675c62e5574246d991001998160267bbbff6f38c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovery/metadata.json",
+      "bytes": 715,
+      "sha256": "b92678409c14f63849a9121928d2972014a4af7957e58a7ab9694506d56bc8ff"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovered/shutdown.json",
+      "bytes": 47,
+      "sha256": "f3c62e77e253ae5b317c0cd14408bc8bc194ea58d2a1bd3533468ac200f1302f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovered/cleanup.json",
+      "bytes": 76,
+      "sha256": "30998324cfc42076ab38a0efe0f152b40d27a4e4fc13eee2d9261a091709300e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovered/metadata.json",
+      "bytes": 715,
+      "sha256": "5715ca6f7d81d322df6e7edf47d346cb77e7b7d5d257024808267c92659d6ad1"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/missing/missing-selected-device.png",
+      "bytes": 37532,
+      "sha256": "f76a00b5fce35b737155d60a1406e5cd9b9ad1ee8a4414797ef40917070cbdb9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/metric-cpu.png",
+      "bytes": 124235,
+      "sha256": "2647fcaa3954cedbdc6d24b3ce75a0f66d1b00b11f2727220d87ebc5e0d7c81a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/metric-memory.png",
+      "bytes": 69621,
+      "sha256": "38ca36baca835303d834664e643eb07c45925759bb32935483b9b4cedf5c9b4c"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-cpu.png",
+      "bytes": 144025,
+      "sha256": "b450efe65a01ace4818f4accba9e4e780a73538845f665f3cb1b81b9d80e1ba9"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-disks.png",
+      "bytes": 37401,
+      "sha256": "5d80ef413a9e5016b098604f624672bdf501dfcc64878a0b112c2634b5a15372"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-energy.png",
+      "bytes": 60252,
+      "sha256": "0e2d7e79d5145b31307c8bb793b68912925f2cbb6ef483ee1bc5c44c6d4d5ad4"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-gpu.png",
+      "bytes": 47399,
+      "sha256": "cc92e6e9c376ff37d1151f99ee50f4bcdfd190eebde64e0bcccaa641bebcb0e5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-memory.png",
+      "bytes": 45057,
+      "sha256": "b6af4047ad0b445d8a6b6cf634a9cb8137f72f34d30cff08c323aec788c119d6"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-network.png",
+      "bytes": 67437,
+      "sha256": "57a3d5fdd3ddafd9fe62db266fdb582984059c7cf3c7f10d9509dc7769b90f30"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-process-keyboard.png",
+      "bytes": 97193,
+      "sha256": "fbc9b3b0f8a22636c7cf479ad0852326fd50d8d41f7329a45f7cce83bd68bb32"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-processes.png",
+      "bytes": 99256,
+      "sha256": "732b03e1358f538562a8e8e525e8fc2efe7f9a0b6d930530f0f3bcbbdd1d75eb"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-settings.png",
+      "bytes": 71319,
+      "sha256": "b5adebc676e137df179fc41d347dfd4d02528c5de7cd1745c3c10597cd32883b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-summary.png",
+      "bytes": 89058,
+      "sha256": "aebdc0eaca40aadf02228bc116a8bdbf45fa6ecb017d80516cd3769d76665196"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/minimum-thermals.png",
+      "bytes": 72708,
+      "sha256": "39c380f94b0b988e001d7d111ced6e3ce416151b793885181aa97bbc5123aede"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/process-search-sort.png",
+      "bytes": 71424,
+      "sha256": "754971c964c5590c8300fc07d129a02d378c25959130d8916b6b60880d10c87e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/protected-process-error.png",
+      "bytes": 64848,
+      "sha256": "8652ececa32765ff7566d5bcf7ab66cc9c0d6cd24e681080140b9a1ee3705ad1"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-cpu.png",
+      "bytes": 102613,
+      "sha256": "78128fe49fe5f7833a43ba8f01d85898ebbea8cb2a40783ab33626b5fd18fc15"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-disks.png",
+      "bytes": 81681,
+      "sha256": "4473c3b69b52e207c5d44b1e62e87ffcc7d1472f71c9d0582b367a0629a67300"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-energy.png",
+      "bytes": 81977,
+      "sha256": "5105e085a3e63cd910d10ed402529467ed45998bac5087aa820d40e857b0a99f"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-gpu.png",
+      "bytes": 66255,
+      "sha256": "08324344d774f16de2d95acd015265ae6a76df0eb6e72f783589d7039dd8a45b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-memory.png",
+      "bytes": 68670,
+      "sha256": "3c63bdd5f40c6a8497905a744c9419f756a596f13dc9183e8baa7d59f19656b8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-network.png",
+      "bytes": 76801,
+      "sha256": "f65ca7e52f0fdf7ab18908e573188ef3fc1d623f1c451bf5ddf09585bb42119e"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-processes.png",
+      "bytes": 185412,
+      "sha256": "297b0de2bdb537f63ae83b2cf82bab70478e3db225ed55789aac9f22dd737ca2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-settings.png",
+      "bytes": 97052,
+      "sha256": "b0c971e9623d051f318823e5f5c7e73e845abad7f044dc08ebfea23147325af7"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-summary.png",
+      "bytes": 135802,
+      "sha256": "ed689ac662b478bd9ebe4b74f327e111ee87a2624d43bc7629792ec23e62204d"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/screen-thermals.png",
+      "bytes": 80913,
+      "sha256": "056218a30f092eb9d881c46b814470d5473f4a9e0cfdeb36eb41ee05cae033ca"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/selected-disks.png",
+      "bytes": 50812,
+      "sha256": "7b7ecda7bee4239f89f9050ee6687d9467aa0508b772cbba1abc37e248e60596"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/selected-gpu.png",
+      "bytes": 66763,
+      "sha256": "cdc42ceefb07144347398f93664eaed56ef5800e1372d39d38bf2558fa043b7a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/selected-network.png",
+      "bytes": 105678,
+      "sha256": "dfaaa89e04e66cad6b8f432b3878a94a86d0fdca149ee7e1138ce5c2e07a41d3"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/settings-light.png",
+      "bytes": 87527,
+      "sha256": "b16d0ddd501a5cb9afd3c8f944f3c09d783d147331b111bafeab1d08b80640f2"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovered/accepted.png",
+      "bytes": 86711,
+      "sha256": "260fc8116e6141172190cdefbf916cb014f0abe884ef706491f78bbe59ba001a"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/recovery/retained.png",
+      "bytes": 142539,
+      "sha256": "c89486b5dcf7f40ffd9254b14df2dbb80d04c0c8e61800bec3ee3ed680d2af3b"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/restart/restart-gpu.png",
+      "bytes": 61022,
+      "sha256": "45c8e3035263e6e12496d88065a324e9c929fc973279c113ea8775468dfd9eb5"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/metric-cpu.json",
+      "bytes": 11706982,
+      "sha256": "b4b624c922861d75b711db98b3e9d90404f626ea9fce0a677d350cae68d8b0a8"
+    },
+    {
+      "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/native/native/metric-memory.json",
+      "bytes": 11737595,
+      "sha256": "165ffe330d11bbd453822dc9649bf320c311e0eb55a45f8bc1aad49a45e22004"
+    }
+  ],
+  "test_count": 1046
+}

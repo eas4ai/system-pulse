@@ -1,0 +1,180 @@
+{
+  "status": "PASS",
+  "source_commit": "8fc99332ada5301258663f4f30b1c7dd2640063a",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/continue-auth-acceptance.py"
+      ],
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation.log",
+      "sha256": "27390f697dbda0ad4412e26c3124258ed17e685f9ea40ad0dacbef1f7f3b1878",
+      "seconds": 284.95
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.916,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/input-focus.log",
+      "sha256": "2325facf3e83ba5fd77302f8fd6aae8c3cd3e49a6fd8b5bb4fa91a68f0df6a35",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/package",
+        "--cargo-about",
+        "/home/shawn/workspace2/task-manager-artifacts/finish-application/tools/bin/cargo-about"
+      ],
+      "seconds": 12.14,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/package.log",
+      "sha256": "637e88adc8b7ec73b6d2421562e2615b8df05241c5bc8702d3c8d3a9d73077fa"
+    },
+    "application": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/application.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/harness/tabbed_replay.py",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/package/system-pulse-0.3.0-linux-x86_64-8fc99332ada5/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/application"
+      ],
+      "seconds": 204.422,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/application.log",
+      "sha256": "06de69b13adae2b0ac6a58144eae392a1eeb46e4e5855b4000c1747f2526adf0"
+    },
+    "tray": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/tray.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/harness/tray_replay.py",
+        "--binary",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/package/system-pulse-0.3.0-linux-x86_64-8fc99332ada5/system-pulse",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/tray"
+      ],
+      "seconds": 16.971,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/tray.log",
+      "sha256": "6ffd1b9193fc52db38bcd60060ab83d3c103e16d0b12b90be26a7a9b5b6a2524"
+    },
+    "installed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/installed.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/harness/package_smoke.py",
+        "--archive",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/package/system-pulse-0.3.0-linux-x86_64-8fc99332ada5.tar.gz",
+        "--output",
+        "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/installed"
+      ],
+      "seconds": 7.033,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/installed.log",
+      "sha256": "49ddc61a4b91824d7ead64ba93e4fad792afbf12424f22889cc1b1f2b311db47"
+    }
+  },
+  "continuation_from": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-application-final/preservation/manifest.json",
+  "reason": "Repeat the unchanged native step after a retained 2.549-second freshness failure; all passed automated and host steps are hash-checked and revalidated.",
+  "archive": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/package/system-pulse-0.3.0-linux-x86_64-8fc99332ada5.tar.gz",
+    "bytes": 28954970,
+    "sha256": "6eb2185af0a89a75f5c2e1f509bf4979f9499946553cc3235306fe5aa52be35b"
+  },
+  "binary_sha256": "68b7c52fae188e0346ed204f49ce1c3313ead3fd3d7fbc06fe3bd8682a3111c9",
+  "preservation_manifest": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/preservation/manifest.json",
+    "bytes": 29147,
+    "sha256": "5a324e53d4ac201d03816c51d5d79fa50c5d0db06dd4e956b60f8085c4fb4747"
+  },
+  "product": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/application/result.json",
+    "bytes": 55411,
+    "sha256": "08c63c2541d961d410e68adc28890839176fdc6adfcb29af3cd31849d6b14ff2"
+  },
+  "tray": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/tray/result.json",
+    "bytes": 834,
+    "sha256": "a4b5ed2683274a512bbb948bb5ddb61b0cba4b020c20459ff313deaaf46cdd9d"
+  },
+  "installed": {
+    "path": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/installed/result.json",
+    "bytes": 812,
+    "sha256": "d1b5b050bc5c8c58c58b13f8925174d18476e8e2289442ef2802c6efe3f00d8e"
+  }
+}

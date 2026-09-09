@@ -1,0 +1,1515 @@
+{
+  "status": "PASS",
+  "checks": [
+    "all ten native tabs, roles, keyboard selection, independently formatted CPU/RAM, every discovered GPU/disk/interface selector",
+    "native process name/PID search, PID sort, identity selection, context Cancel, SIGTERM/SIGKILL, protected-process error",
+    "removed sensor controls, appearance/interval, named preset save/rename/overwrite/delete with Cancel, builtin and named recall",
+    "all ten screens at minimum window, process Home/End visibly selects rows",
+    "normal shutdown/restart retains active tab, selected devices, settings and presets",
+    "missing selected device stays unavailable; corrupt input survives shutdown and restart until explicit recovery"
+  ],
+  "binary_sha256": "68b7c52fae188e0346ed204f49ce1c3313ead3fd3d7fbc06fe3bd8682a3111c9",
+  "disappeared_devices": [],
+  "expected_devices": [
+    {
+      "screen": "gpu",
+      "id": "amdgpu:0f772d80b40ac56f",
+      "title": "Radeon AI PRO R9700 (0000:06:00.0)"
+    },
+    {
+      "screen": "gpu",
+      "id": "amdgpu:5e741f6f7b767945",
+      "title": "Radeon AI PRO R9700 (0000:03:00.0)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:udev:/:/dev",
+      "title": "/dev (devtmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/run",
+      "title": "/run (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:8177a6d0-422a-4603-98a0-1e7f81ded973:/:/",
+      "title": "/ (ext4)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/dev/shm",
+      "title": "/dev/shm (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:none:/:/run/credentials/systemd-journald.service",
+      "title": "/run/credentials/systemd-journald.service (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:none:/:/run/credentials/systemd-resolved.service",
+      "title": "/run/credentials/systemd-resolved.service (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/aiva_57.snap:/:/snap/aiva/57",
+      "title": "/snap/aiva/57 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ardour-snap_10.snap:/:/snap/ardour-snap/10",
+      "title": "/snap/ardour-snap/10 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ardour-snap_33.snap:/:/snap/ardour-snap/33",
+      "title": "/snap/ardour-snap/33 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/bare_5.snap:/:/snap/bare/5",
+      "title": "/snap/bare/5 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/beekeeper-studio_521.snap:/:/snap/beekeeper-studio/521",
+      "title": "/snap/beekeeper-studio/521 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/beekeeper-studio_522.snap:/:/snap/beekeeper-studio/522",
+      "title": "/snap/beekeeper-studio/522 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/blender_7740.snap:/:/snap/blender/7740",
+      "title": "/snap/blender/7740 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/blender_7599.snap:/:/snap/blender/7599",
+      "title": "/snap/blender/7599 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/canonical-livepatch_406.snap:/:/snap/canonical-livepatch/406",
+      "title": "/snap/canonical-livepatch/406 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/btop_1004.snap:/:/snap/btop/1004",
+      "title": "/snap/btop/1004 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:2976-43A8:/:/boot/efi",
+      "title": "/boot/efi (vfat)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/btop_998.snap:/:/snap/btop/998",
+      "title": "/snap/btop/998 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/canonical-livepatch_414.snap:/:/snap/canonical-livepatch/414",
+      "title": "/snap/canonical-livepatch/414 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:3d01eb08-4380-4016-a2c4-63891dffa01a:/:/home/shawn/workspace2",
+      "title": "/home/shawn/workspace2 (ext4)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core_17284.snap:/:/snap/core/17284",
+      "title": "/snap/core/17284 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/claude-ai-desktop_40.snap:/:/snap/claude-ai-desktop/40",
+      "title": "/snap/claude-ai-desktop/40 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core_17292.snap:/:/snap/core/17292",
+      "title": "/snap/core/17292 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core18_2959.snap:/:/snap/core18/2959",
+      "title": "/snap/core18/2959 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core18_2999.snap:/:/snap/core18/2999",
+      "title": "/snap/core18/2999 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core20_2769.snap:/:/snap/core20/2769",
+      "title": "/snap/core20/2769 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core20_2866.snap:/:/snap/core20/2866",
+      "title": "/snap/core20/2866 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core22_2437.snap:/:/snap/core22/2437",
+      "title": "/snap/core22/2437 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core22_2411.snap:/:/snap/core22/2411",
+      "title": "/snap/core22/2411 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core24_1587.snap:/:/snap/core24/1587",
+      "title": "/snap/core24/1587 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core24_1643.snap:/:/snap/core24/1643",
+      "title": "/snap/core24/1643 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/dbeaver-ce_412.snap:/:/snap/dbeaver-ce/412",
+      "title": "/snap/dbeaver-ce/412 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/dbeaver-ce_409.snap:/:/snap/dbeaver-ce/409",
+      "title": "/snap/dbeaver-ce/409 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ffmpeg-2404_149.snap:/:/snap/ffmpeg-2404/149",
+      "title": "/snap/ffmpeg-2404/149 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ffmpeg-2404_139.snap:/:/snap/ffmpeg-2404/139",
+      "title": "/snap/ffmpeg-2404/139 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/electerm_708.snap:/:/snap/electerm/708",
+      "title": "/snap/electerm/708 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/firefox_8803.snap:/:/snap/firefox/8803",
+      "title": "/snap/firefox/8803 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghidra_47.snap:/:/snap/ghidra/47",
+      "title": "/snap/ghidra/47 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghidra_37.snap:/:/snap/ghidra/37",
+      "title": "/snap/ghidra/37 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghostty_718.snap:/:/snap/ghostty/718",
+      "title": "/snap/ghostty/718 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gimp_558.snap:/:/snap/gimp/558",
+      "title": "/snap/gimp/558 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghostty_820.snap:/:/snap/ghostty/820",
+      "title": "/snap/ghostty/820 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gimp_560.snap:/:/snap/gimp/560",
+      "title": "/snap/gimp/560 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-3-28-1804_198.snap:/:/snap/gnome-3-28-1804/198",
+      "title": "/snap/gnome-3-28-1804/198 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-3-38-2004_143.snap:/:/snap/gnome-3-38-2004/143",
+      "title": "/snap/gnome-3-38-2004/143 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-46-2404_153.snap:/:/snap/gnome-46-2404/153",
+      "title": "/snap/gnome-46-2404/153 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:BE02A13102A0F017:/:/home/shawn/projects",
+      "title": "/home/shawn/projects (fuseblk)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-42-2204_247.snap:/:/snap/gnome-42-2204/247",
+      "title": "/snap/gnome-42-2204/247 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-42-2204_263.snap:/:/snap/gnome-42-2204/263",
+      "title": "/snap/gnome-42-2204/263 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-46-2404_164.snap:/:/snap/gnome-46-2404/164",
+      "title": "/snap/gnome-46-2404/164 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/golangci-lint_632.snap:/:/snap/golangci-lint/632",
+      "title": "/snap/golangci-lint/632 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:FC9E97D29E978434:/:/home/shawn/backup",
+      "title": "/home/shawn/backup (fuseblk)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/golangci-lint_631.snap:/:/snap/golangci-lint/631",
+      "title": "/snap/golangci-lint/631 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gtk-common-themes_1535.snap:/:/snap/gtk-common-themes/1535",
+      "title": "/snap/gtk-common-themes/1535 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/icloud-for-linux_301.snap:/:/snap/icloud-for-linux/301",
+      "title": "/snap/icloud-for-linux/301 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/kf6-core24_58.snap:/:/snap/kf6-core24/58",
+      "title": "/snap/kf6-core24/58 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/kf6-core24_64.snap:/:/snap/kf6-core24/64",
+      "title": "/snap/kf6-core24/64 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/koko_9.snap:/:/snap/koko/9",
+      "title": "/snap/koko/9 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxd_40361.snap:/:/snap/lxd/40361",
+      "title": "/snap/lxd/40361 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lapce_44.snap:/:/snap/lapce/44",
+      "title": "/snap/lapce/44 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxd_40585.snap:/:/snap/lxd/40585",
+      "title": "/snap/lxd/40585 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxqt-support-core24_16.snap:/:/snap/lxqt-support-core24/16",
+      "title": "/snap/lxqt-support-core24/16 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxqt-support-core24_13.snap:/:/snap/lxqt-support-core24/13",
+      "title": "/snap/lxqt-support-core24/13 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-2404_1165.snap:/:/snap/mesa-2404/1165",
+      "title": "/snap/mesa-2404/1165 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-core22_498.snap:/:/snap/mesa-core22/498",
+      "title": "/snap/mesa-core22/498 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-2404_1839.snap:/:/snap/mesa-2404/1839",
+      "title": "/snap/mesa-2404/1839 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-core22_504.snap:/:/snap/mesa-core22/504",
+      "title": "/snap/mesa-core22/504 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mission-center_18.snap:/:/snap/mission-center/18",
+      "title": "/snap/mission-center/18 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/multipass_18500.snap:/:/snap/multipass/18500",
+      "title": "/snap/multipass/18500 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/qt515-core20_44.snap:/:/snap/qt515-core20/44",
+      "title": "/snap/qt515-core20/44 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/qt515-core20_46.snap:/:/snap/qt515-core20/46",
+      "title": "/snap/qt515-core20/46 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/remmina_7085.snap:/:/snap/remmina/7085",
+      "title": "/snap/remmina/7085 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/rclone_599.snap:/:/snap/rclone/599",
+      "title": "/snap/rclone/599 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/rclone_603.snap:/:/snap/rclone/603",
+      "title": "/snap/rclone/603 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/remmina_7392.snap:/:/snap/remmina/7392",
+      "title": "/snap/remmina/7392 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/shotcut_2306.snap:/:/snap/shotcut/2306",
+      "title": "/snap/shotcut/2306 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/shotcut_2308.snap:/:/snap/shotcut/2308",
+      "title": "/snap/shotcut/2308 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapcraft_18124.snap:/:/snap/snapcraft/18124",
+      "title": "/snap/snapcraft/18124 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapcraft_18514.snap:/:/snap/snapcraft/18514",
+      "title": "/snap/snapcraft/18514 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapd_27710.snap:/:/snap/snapd/27710",
+      "title": "/snap/snapd/27710 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ultimate-media-downloader_67.snap:/:/snap/ultimate-media-downloader/67",
+      "title": "/snap/ultimate-media-downloader/67 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/thunderbird_1228.snap:/:/snap/thunderbird/1228",
+      "title": "/snap/thunderbird/1228 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/waveterm_198.snap:/:/snap/waveterm/198",
+      "title": "/snap/waveterm/198 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ubuntu-app-platform_34.snap:/:/snap/ubuntu-app-platform/34",
+      "title": "/snap/ubuntu-app-platform/34 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ultimate-media-downloader_66.snap:/:/snap/ultimate-media-downloader/66",
+      "title": "/snap/ultimate-media-downloader/66 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/wine-platform_154.snap:/:/snap/wine-platform/154",
+      "title": "/snap/wine-platform/154 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/waveterm_204.snap:/:/snap/waveterm/204",
+      "title": "/snap/waveterm/204 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/wine-platform-runtime-core24_23.snap:/:/snap/wine-platform-runtime-core24/23",
+      "title": "/snap/wine-platform-runtime-core24/23 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/winrar_9.snap:/:/snap/winrar/9",
+      "title": "/snap/winrar/9 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/wine-platform-runtime-core24_22.snap:/:/snap/wine-platform-runtime-core24/22",
+      "title": "/snap/wine-platform-runtime-core24/22 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/zig_15308.snap:/:/snap/zig/15308",
+      "title": "/snap/zig/15308 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/zig_16117.snap:/:/snap/zig/16117",
+      "title": "/snap/zig/16117 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/tmp",
+      "title": "/tmp (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/run/user/1000",
+      "title": "/run/user/1000 (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/snapd/ns:/run/snapd/ns",
+      "title": "/run/snapd/ns (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/cf32efb1d7a303daee11cd5ac7c21b030c0640d50e8ea9090527ec83fd0b413a/merged",
+      "title": "/var/lib/docker/overlay2/cf32efb1d7a303daee11cd5ac7c21b030c0640d50e8ea9090527ec83fd0b413a/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/7b2a52fb33736aa5cec49032f9c186186ef6942dcef31a1bc428c3d718450837/merged",
+      "title": "/var/lib/docker/overlay2/7b2a52fb33736aa5cec49032f9c186186ef6942dcef31a1bc428c3d718450837/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/041d8075e485391aadb1fad6c15956df82666499669f3fe137fe0dea02effa32/merged",
+      "title": "/var/lib/docker/overlay2/041d8075e485391aadb1fad6c15956df82666499669f3fe137fe0dea02effa32/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/c97c99cee06dcdf59b319d0af94bbefb45b0e9d4030c49626c537357e28401ef/merged",
+      "title": "/var/lib/docker/overlay2/c97c99cee06dcdf59b319d0af94bbefb45b0e9d4030c49626c537357e28401ef/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/c055572774c1ab2bc76f1216f7a65dbf4d1a2a54bc232fd77a29e65a5474ec00/merged",
+      "title": "/var/lib/docker/overlay2/c055572774c1ab2bc76f1216f7a65dbf4d1a2a54bc232fd77a29e65a5474ec00/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/6efc4972856f9ec77915b6808543298cbc4a801522fd88ad6e7560df2af8c455/merged",
+      "title": "/var/lib/docker/overlay2/6efc4972856f9ec77915b6808543298cbc4a801522fd88ad6e7560df2af8c455/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/be178774ba4a3c1f5d02d303c783d8f392af1ff06c298253f53b9e34bc6a3567/merged",
+      "title": "/var/lib/docker/overlay2/be178774ba4a3c1f5d02d303c783d8f392af1ff06c298253f53b9e34bc6a3567/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/6ae8d6ce7661e1c078f158c02883bcda6fd96b4ea5648d5b3b05df80de1214cd/merged",
+      "title": "/var/lib/docker/overlay2/6ae8d6ce7661e1c078f158c02883bcda6fd96b4ea5648d5b3b05df80de1214cd/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/a2b7914b1d4466863ee67b2d4097cb027ae107d87f70d3d80a948c0e0dd62df6/merged",
+      "title": "/var/lib/docker/overlay2/a2b7914b1d4466863ee67b2d4097cb027ae107d87f70d3d80a948c0e0dd62df6/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/5e4541d19da023ab634f757fb40a6b0731604349f8a50c4a769565b2b9de2450/merged",
+      "title": "/var/lib/docker/overlay2/5e4541d19da023ab634f757fb40a6b0731604349f8a50c4a769565b2b9de2450/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/6ec3c414dd6f027dc7d055f4b5c3340e2115b4750853499db64f4143b5a68f85/merged",
+      "title": "/var/lib/docker/overlay2/6ec3c414dd6f027dc7d055f4b5c3340e2115b4750853499db64f4143b5a68f85/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:gvfsd-fuse:/:/run/user/1000/gvfs",
+      "title": "/run/user/1000/gvfs (fuse.gvfsd-fuse)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/9a2084c87f8f761552689aba299c9e30c23812c844a308132da92a439acee3b3/merged",
+      "title": "/var/lib/docker/overlay2/9a2084c87f8f761552689aba299c9e30c23812c844a308132da92a439acee3b3/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:9ECCD6C7CCD698BB:/:/run/media/shawn/data",
+      "title": "/run/media/shawn/data (ntfs3)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/d95c9fcdf91fd129a081731f3bac0a46e9d824cc60349b5b6b1cfc5f83aa32a7/merged",
+      "title": "/var/lib/docker/overlay2/d95c9fcdf91fd129a081731f3bac0a46e9d824cc60349b5b6b1cfc5f83aa32a7/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/thunderbird_1240.snap:/:/snap/thunderbird/1240",
+      "title": "/snap/thunderbird/1240 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/var/snap/lxd/common/ns",
+      "title": "/var/snap/lxd/common/ns (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/run/media/.lxd-shmounts",
+      "title": "/run/media/.lxd-shmounts (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:7bc0f7d7-5de8-4742-9c0f-12d641e8191e:/:/home/shawn/workspace2/suprnova-workspaces/storage-partition",
+      "title": "/home/shawn/workspace2/suprnova-workspaces/storage-partition (ext4)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/electerm_709.snap:/:/snap/electerm/709",
+      "title": "/snap/electerm/709 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/signal-desktop_943.snap:/:/snap/signal-desktop/943",
+      "title": "/snap/signal-desktop/943 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/telegram-desktop_7135.snap:/:/snap/telegram-desktop/7135",
+      "title": "/snap/telegram-desktop/7135 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapd_27738.snap:/:/snap/snapd/27738",
+      "title": "/snap/snapd/27738 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/firefox_8863.snap:/:/snap/firefox/8863",
+      "title": "/snap/firefox/8863 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/claude-ai-desktop_41.snap:/:/snap/claude-ai-desktop/41",
+      "title": "/snap/claude-ai-desktop/41 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/multipass_18737.snap:/:/snap/multipass/18737",
+      "title": "/snap/multipass/18737 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/telegram-desktop_7142.snap:/:/snap/telegram-desktop/7142",
+      "title": "/snap/telegram-desktop/7142 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:portal:/:/run/user/1000/doc",
+      "title": "/run/user/1000/doc (fuse.portal)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:ba:1e:30:57:97:71:name:br-7d982158d68a",
+      "title": "Network bridge (br-7d982158d68a)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:2e:c9:06:43:bd:8b:name:br-92ee5707188e",
+      "title": "Network bridge (br-92ee5707188e)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:22:15:a6:9c:b6:11:name:docker0",
+      "title": "Docker bridge (docker0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:path:/sys/devices/pci0000:00/0000:00:1c.0/0000:0a:00.0:name:enp10s0",
+      "title": "Ethernet (enp10s0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:path:/sys/devices/pci0000:00/0000:00:1c.2/0000:0b:00.0:name:enp11s0",
+      "title": "Ethernet (enp11s0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:name:lo",
+      "title": "Loopback (lo)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:52:54:00:85:2d:71:name:mpqemubr0",
+      "title": "Network bridge (mpqemubr0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:7a:b7:b7:9b:9d:33:name:veth0ca9023",
+      "title": "Virtual Ethernet (veth0ca9023)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:b6:50:c2:ad:75:37:name:veth1601b52",
+      "title": "Virtual Ethernet (veth1601b52)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:0a:a3:53:76:a7:3e:name:veth2986d25",
+      "title": "Virtual Ethernet (veth2986d25)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:42:ac:2a:96:d1:c5:name:veth306138f",
+      "title": "Virtual Ethernet (veth306138f)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:7a:b5:5e:ec:2c:26:name:veth67c695f",
+      "title": "Virtual Ethernet (veth67c695f)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:56:82:12:e8:e1:b2:name:veth99b91f5",
+      "title": "Virtual Ethernet (veth99b91f5)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:56:b5:58:7a:89:4f:name:vethbde3e99",
+      "title": "Virtual Ethernet (vethbde3e99)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:66:42:b0:66:74:f2:name:vethbeac614",
+      "title": "Virtual Ethernet (vethbeac614)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:7a:ee:12:0a:7b:14:name:vethc253ec8",
+      "title": "Virtual Ethernet (vethc253ec8)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:66:f0:4d:9f:66:5e:name:vethc99be51",
+      "title": "Virtual Ethernet (vethc99be51)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:32:1b:7c:57:b6:88:name:vethde1c4da",
+      "title": "Virtual Ethernet (vethde1c4da)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:d2:e8:e1:c1:0d:1c:name:vethfad46d7",
+      "title": "Virtual Ethernet (vethfad46d7)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:0e:c8:70:c1:1a:47:name:vethfec75cd",
+      "title": "Virtual Ethernet (vethfec75cd)"
+    },
+    {
+      "screen": "network",
+      "id": "network:path:/sys/devices/pci0000:00/0000:00:14.3:name:wlo1",
+      "title": "Wi-Fi (wlo1)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:ea:15:f7:7a:17:90:name:ztkti3lasa",
+      "title": "Virtual TAP (ztkti3lasa)"
+    }
+  ],
+  "devices": [
+    {
+      "screen": "gpu",
+      "id": "amdgpu:0f772d80b40ac56f",
+      "title": "Radeon AI PRO R9700 (0000:06:00.0)"
+    },
+    {
+      "screen": "gpu",
+      "id": "amdgpu:5e741f6f7b767945",
+      "title": "Radeon AI PRO R9700 (0000:03:00.0)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:udev:/:/dev",
+      "title": "/dev (devtmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/run",
+      "title": "/run (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:8177a6d0-422a-4603-98a0-1e7f81ded973:/:/",
+      "title": "/ (ext4)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/dev/shm",
+      "title": "/dev/shm (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:none:/:/run/credentials/systemd-journald.service",
+      "title": "/run/credentials/systemd-journald.service (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:none:/:/run/credentials/systemd-resolved.service",
+      "title": "/run/credentials/systemd-resolved.service (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/aiva_57.snap:/:/snap/aiva/57",
+      "title": "/snap/aiva/57 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ardour-snap_10.snap:/:/snap/ardour-snap/10",
+      "title": "/snap/ardour-snap/10 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ardour-snap_33.snap:/:/snap/ardour-snap/33",
+      "title": "/snap/ardour-snap/33 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/bare_5.snap:/:/snap/bare/5",
+      "title": "/snap/bare/5 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/beekeeper-studio_521.snap:/:/snap/beekeeper-studio/521",
+      "title": "/snap/beekeeper-studio/521 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/beekeeper-studio_522.snap:/:/snap/beekeeper-studio/522",
+      "title": "/snap/beekeeper-studio/522 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/blender_7740.snap:/:/snap/blender/7740",
+      "title": "/snap/blender/7740 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/blender_7599.snap:/:/snap/blender/7599",
+      "title": "/snap/blender/7599 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/canonical-livepatch_406.snap:/:/snap/canonical-livepatch/406",
+      "title": "/snap/canonical-livepatch/406 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/btop_1004.snap:/:/snap/btop/1004",
+      "title": "/snap/btop/1004 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:2976-43A8:/:/boot/efi",
+      "title": "/boot/efi (vfat)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/btop_998.snap:/:/snap/btop/998",
+      "title": "/snap/btop/998 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/canonical-livepatch_414.snap:/:/snap/canonical-livepatch/414",
+      "title": "/snap/canonical-livepatch/414 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:3d01eb08-4380-4016-a2c4-63891dffa01a:/:/home/shawn/workspace2",
+      "title": "/home/shawn/workspace2 (ext4)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core_17284.snap:/:/snap/core/17284",
+      "title": "/snap/core/17284 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/claude-ai-desktop_40.snap:/:/snap/claude-ai-desktop/40",
+      "title": "/snap/claude-ai-desktop/40 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core_17292.snap:/:/snap/core/17292",
+      "title": "/snap/core/17292 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core18_2959.snap:/:/snap/core18/2959",
+      "title": "/snap/core18/2959 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core18_2999.snap:/:/snap/core18/2999",
+      "title": "/snap/core18/2999 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core20_2769.snap:/:/snap/core20/2769",
+      "title": "/snap/core20/2769 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core20_2866.snap:/:/snap/core20/2866",
+      "title": "/snap/core20/2866 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core22_2437.snap:/:/snap/core22/2437",
+      "title": "/snap/core22/2437 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core22_2411.snap:/:/snap/core22/2411",
+      "title": "/snap/core22/2411 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core24_1587.snap:/:/snap/core24/1587",
+      "title": "/snap/core24/1587 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/core24_1643.snap:/:/snap/core24/1643",
+      "title": "/snap/core24/1643 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/dbeaver-ce_412.snap:/:/snap/dbeaver-ce/412",
+      "title": "/snap/dbeaver-ce/412 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/dbeaver-ce_409.snap:/:/snap/dbeaver-ce/409",
+      "title": "/snap/dbeaver-ce/409 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ffmpeg-2404_149.snap:/:/snap/ffmpeg-2404/149",
+      "title": "/snap/ffmpeg-2404/149 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ffmpeg-2404_139.snap:/:/snap/ffmpeg-2404/139",
+      "title": "/snap/ffmpeg-2404/139 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/electerm_708.snap:/:/snap/electerm/708",
+      "title": "/snap/electerm/708 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/firefox_8803.snap:/:/snap/firefox/8803",
+      "title": "/snap/firefox/8803 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghidra_47.snap:/:/snap/ghidra/47",
+      "title": "/snap/ghidra/47 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghidra_37.snap:/:/snap/ghidra/37",
+      "title": "/snap/ghidra/37 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghostty_718.snap:/:/snap/ghostty/718",
+      "title": "/snap/ghostty/718 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gimp_558.snap:/:/snap/gimp/558",
+      "title": "/snap/gimp/558 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ghostty_820.snap:/:/snap/ghostty/820",
+      "title": "/snap/ghostty/820 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gimp_560.snap:/:/snap/gimp/560",
+      "title": "/snap/gimp/560 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-3-28-1804_198.snap:/:/snap/gnome-3-28-1804/198",
+      "title": "/snap/gnome-3-28-1804/198 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-3-38-2004_143.snap:/:/snap/gnome-3-38-2004/143",
+      "title": "/snap/gnome-3-38-2004/143 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-46-2404_153.snap:/:/snap/gnome-46-2404/153",
+      "title": "/snap/gnome-46-2404/153 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:BE02A13102A0F017:/:/home/shawn/projects",
+      "title": "/home/shawn/projects (fuseblk)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-42-2204_247.snap:/:/snap/gnome-42-2204/247",
+      "title": "/snap/gnome-42-2204/247 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-42-2204_263.snap:/:/snap/gnome-42-2204/263",
+      "title": "/snap/gnome-42-2204/263 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gnome-46-2404_164.snap:/:/snap/gnome-46-2404/164",
+      "title": "/snap/gnome-46-2404/164 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/golangci-lint_632.snap:/:/snap/golangci-lint/632",
+      "title": "/snap/golangci-lint/632 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:FC9E97D29E978434:/:/home/shawn/backup",
+      "title": "/home/shawn/backup (fuseblk)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/golangci-lint_631.snap:/:/snap/golangci-lint/631",
+      "title": "/snap/golangci-lint/631 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/gtk-common-themes_1535.snap:/:/snap/gtk-common-themes/1535",
+      "title": "/snap/gtk-common-themes/1535 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/icloud-for-linux_301.snap:/:/snap/icloud-for-linux/301",
+      "title": "/snap/icloud-for-linux/301 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/kf6-core24_58.snap:/:/snap/kf6-core24/58",
+      "title": "/snap/kf6-core24/58 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/kf6-core24_64.snap:/:/snap/kf6-core24/64",
+      "title": "/snap/kf6-core24/64 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/koko_9.snap:/:/snap/koko/9",
+      "title": "/snap/koko/9 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxd_40361.snap:/:/snap/lxd/40361",
+      "title": "/snap/lxd/40361 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lapce_44.snap:/:/snap/lapce/44",
+      "title": "/snap/lapce/44 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxd_40585.snap:/:/snap/lxd/40585",
+      "title": "/snap/lxd/40585 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxqt-support-core24_16.snap:/:/snap/lxqt-support-core24/16",
+      "title": "/snap/lxqt-support-core24/16 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/lxqt-support-core24_13.snap:/:/snap/lxqt-support-core24/13",
+      "title": "/snap/lxqt-support-core24/13 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-2404_1165.snap:/:/snap/mesa-2404/1165",
+      "title": "/snap/mesa-2404/1165 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-core22_498.snap:/:/snap/mesa-core22/498",
+      "title": "/snap/mesa-core22/498 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-2404_1839.snap:/:/snap/mesa-2404/1839",
+      "title": "/snap/mesa-2404/1839 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mesa-core22_504.snap:/:/snap/mesa-core22/504",
+      "title": "/snap/mesa-core22/504 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/mission-center_18.snap:/:/snap/mission-center/18",
+      "title": "/snap/mission-center/18 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/multipass_18500.snap:/:/snap/multipass/18500",
+      "title": "/snap/multipass/18500 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/qt515-core20_44.snap:/:/snap/qt515-core20/44",
+      "title": "/snap/qt515-core20/44 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/qt515-core20_46.snap:/:/snap/qt515-core20/46",
+      "title": "/snap/qt515-core20/46 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/remmina_7085.snap:/:/snap/remmina/7085",
+      "title": "/snap/remmina/7085 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/rclone_599.snap:/:/snap/rclone/599",
+      "title": "/snap/rclone/599 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/rclone_603.snap:/:/snap/rclone/603",
+      "title": "/snap/rclone/603 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/remmina_7392.snap:/:/snap/remmina/7392",
+      "title": "/snap/remmina/7392 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/shotcut_2306.snap:/:/snap/shotcut/2306",
+      "title": "/snap/shotcut/2306 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/shotcut_2308.snap:/:/snap/shotcut/2308",
+      "title": "/snap/shotcut/2308 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapcraft_18124.snap:/:/snap/snapcraft/18124",
+      "title": "/snap/snapcraft/18124 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapcraft_18514.snap:/:/snap/snapcraft/18514",
+      "title": "/snap/snapcraft/18514 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapd_27710.snap:/:/snap/snapd/27710",
+      "title": "/snap/snapd/27710 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ultimate-media-downloader_67.snap:/:/snap/ultimate-media-downloader/67",
+      "title": "/snap/ultimate-media-downloader/67 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/thunderbird_1228.snap:/:/snap/thunderbird/1228",
+      "title": "/snap/thunderbird/1228 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/waveterm_198.snap:/:/snap/waveterm/198",
+      "title": "/snap/waveterm/198 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ubuntu-app-platform_34.snap:/:/snap/ubuntu-app-platform/34",
+      "title": "/snap/ubuntu-app-platform/34 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/ultimate-media-downloader_66.snap:/:/snap/ultimate-media-downloader/66",
+      "title": "/snap/ultimate-media-downloader/66 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/wine-platform_154.snap:/:/snap/wine-platform/154",
+      "title": "/snap/wine-platform/154 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/waveterm_204.snap:/:/snap/waveterm/204",
+      "title": "/snap/waveterm/204 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/wine-platform-runtime-core24_23.snap:/:/snap/wine-platform-runtime-core24/23",
+      "title": "/snap/wine-platform-runtime-core24/23 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/winrar_9.snap:/:/snap/winrar/9",
+      "title": "/snap/winrar/9 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/wine-platform-runtime-core24_22.snap:/:/snap/wine-platform-runtime-core24/22",
+      "title": "/snap/wine-platform-runtime-core24/22 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/zig_15308.snap:/:/snap/zig/15308",
+      "title": "/snap/zig/15308 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/zig_16117.snap:/:/snap/zig/16117",
+      "title": "/snap/zig/16117 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/tmp",
+      "title": "/tmp (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/run/user/1000",
+      "title": "/run/user/1000 (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/snapd/ns:/run/snapd/ns",
+      "title": "/run/snapd/ns (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/cf32efb1d7a303daee11cd5ac7c21b030c0640d50e8ea9090527ec83fd0b413a/merged",
+      "title": "/var/lib/docker/overlay2/cf32efb1d7a303daee11cd5ac7c21b030c0640d50e8ea9090527ec83fd0b413a/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/7b2a52fb33736aa5cec49032f9c186186ef6942dcef31a1bc428c3d718450837/merged",
+      "title": "/var/lib/docker/overlay2/7b2a52fb33736aa5cec49032f9c186186ef6942dcef31a1bc428c3d718450837/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/041d8075e485391aadb1fad6c15956df82666499669f3fe137fe0dea02effa32/merged",
+      "title": "/var/lib/docker/overlay2/041d8075e485391aadb1fad6c15956df82666499669f3fe137fe0dea02effa32/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/c97c99cee06dcdf59b319d0af94bbefb45b0e9d4030c49626c537357e28401ef/merged",
+      "title": "/var/lib/docker/overlay2/c97c99cee06dcdf59b319d0af94bbefb45b0e9d4030c49626c537357e28401ef/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/c055572774c1ab2bc76f1216f7a65dbf4d1a2a54bc232fd77a29e65a5474ec00/merged",
+      "title": "/var/lib/docker/overlay2/c055572774c1ab2bc76f1216f7a65dbf4d1a2a54bc232fd77a29e65a5474ec00/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/6efc4972856f9ec77915b6808543298cbc4a801522fd88ad6e7560df2af8c455/merged",
+      "title": "/var/lib/docker/overlay2/6efc4972856f9ec77915b6808543298cbc4a801522fd88ad6e7560df2af8c455/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/be178774ba4a3c1f5d02d303c783d8f392af1ff06c298253f53b9e34bc6a3567/merged",
+      "title": "/var/lib/docker/overlay2/be178774ba4a3c1f5d02d303c783d8f392af1ff06c298253f53b9e34bc6a3567/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/6ae8d6ce7661e1c078f158c02883bcda6fd96b4ea5648d5b3b05df80de1214cd/merged",
+      "title": "/var/lib/docker/overlay2/6ae8d6ce7661e1c078f158c02883bcda6fd96b4ea5648d5b3b05df80de1214cd/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/a2b7914b1d4466863ee67b2d4097cb027ae107d87f70d3d80a948c0e0dd62df6/merged",
+      "title": "/var/lib/docker/overlay2/a2b7914b1d4466863ee67b2d4097cb027ae107d87f70d3d80a948c0e0dd62df6/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/5e4541d19da023ab634f757fb40a6b0731604349f8a50c4a769565b2b9de2450/merged",
+      "title": "/var/lib/docker/overlay2/5e4541d19da023ab634f757fb40a6b0731604349f8a50c4a769565b2b9de2450/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/6ec3c414dd6f027dc7d055f4b5c3340e2115b4750853499db64f4143b5a68f85/merged",
+      "title": "/var/lib/docker/overlay2/6ec3c414dd6f027dc7d055f4b5c3340e2115b4750853499db64f4143b5a68f85/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:gvfsd-fuse:/:/run/user/1000/gvfs",
+      "title": "/run/user/1000/gvfs (fuse.gvfsd-fuse)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/9a2084c87f8f761552689aba299c9e30c23812c844a308132da92a439acee3b3/merged",
+      "title": "/var/lib/docker/overlay2/9a2084c87f8f761552689aba299c9e30c23812c844a308132da92a439acee3b3/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:9ECCD6C7CCD698BB:/:/run/media/shawn/data",
+      "title": "/run/media/shawn/data (ntfs3)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:overlay:/:/var/lib/docker/overlay2/d95c9fcdf91fd129a081731f3bac0a46e9d824cc60349b5b6b1cfc5f83aa32a7/merged",
+      "title": "/var/lib/docker/overlay2/d95c9fcdf91fd129a081731f3bac0a46e9d824cc60349b5b6b1cfc5f83aa32a7/merged (overlay)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/thunderbird_1240.snap:/:/snap/thunderbird/1240",
+      "title": "/snap/thunderbird/1240 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/var/snap/lxd/common/ns",
+      "title": "/var/snap/lxd/common/ns (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:tmpfs:/:/run/media/.lxd-shmounts",
+      "title": "/run/media/.lxd-shmounts (tmpfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:uuid:7bc0f7d7-5de8-4742-9c0f-12d641e8191e:/:/home/shawn/workspace2/suprnova-workspaces/storage-partition",
+      "title": "/home/shawn/workspace2/suprnova-workspaces/storage-partition (ext4)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/electerm_709.snap:/:/snap/electerm/709",
+      "title": "/snap/electerm/709 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/signal-desktop_943.snap:/:/snap/signal-desktop/943",
+      "title": "/snap/signal-desktop/943 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/telegram-desktop_7135.snap:/:/snap/telegram-desktop/7135",
+      "title": "/snap/telegram-desktop/7135 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/snapd_27738.snap:/:/snap/snapd/27738",
+      "title": "/snap/snapd/27738 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/firefox_8863.snap:/:/snap/firefox/8863",
+      "title": "/snap/firefox/8863 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/claude-ai-desktop_41.snap:/:/snap/claude-ai-desktop/41",
+      "title": "/snap/claude-ai-desktop/41 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/multipass_18737.snap:/:/snap/multipass/18737",
+      "title": "/snap/multipass/18737 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:loop-file:/var/lib/snapd/snaps/telegram-desktop_7142.snap:/:/snap/telegram-desktop/7142",
+      "title": "/snap/telegram-desktop/7142 (squashfs)"
+    },
+    {
+      "screen": "disks",
+      "id": "volume:source:portal:/:/run/user/1000/doc",
+      "title": "/run/user/1000/doc (fuse.portal)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:ba:1e:30:57:97:71:name:br-7d982158d68a",
+      "title": "Network bridge (br-7d982158d68a)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:2e:c9:06:43:bd:8b:name:br-92ee5707188e",
+      "title": "Network bridge (br-92ee5707188e)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:22:15:a6:9c:b6:11:name:docker0",
+      "title": "Docker bridge (docker0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:path:/sys/devices/pci0000:00/0000:00:1c.0/0000:0a:00.0:name:enp10s0",
+      "title": "Ethernet (enp10s0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:path:/sys/devices/pci0000:00/0000:00:1c.2/0000:0b:00.0:name:enp11s0",
+      "title": "Ethernet (enp11s0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:name:lo",
+      "title": "Loopback (lo)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:52:54:00:85:2d:71:name:mpqemubr0",
+      "title": "Network bridge (mpqemubr0)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:7a:b7:b7:9b:9d:33:name:veth0ca9023",
+      "title": "Virtual Ethernet (veth0ca9023)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:b6:50:c2:ad:75:37:name:veth1601b52",
+      "title": "Virtual Ethernet (veth1601b52)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:0a:a3:53:76:a7:3e:name:veth2986d25",
+      "title": "Virtual Ethernet (veth2986d25)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:42:ac:2a:96:d1:c5:name:veth306138f",
+      "title": "Virtual Ethernet (veth306138f)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:7a:b5:5e:ec:2c:26:name:veth67c695f",
+      "title": "Virtual Ethernet (veth67c695f)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:56:82:12:e8:e1:b2:name:veth99b91f5",
+      "title": "Virtual Ethernet (veth99b91f5)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:56:b5:58:7a:89:4f:name:vethbde3e99",
+      "title": "Virtual Ethernet (vethbde3e99)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:66:42:b0:66:74:f2:name:vethbeac614",
+      "title": "Virtual Ethernet (vethbeac614)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:7a:ee:12:0a:7b:14:name:vethc253ec8",
+      "title": "Virtual Ethernet (vethc253ec8)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:66:f0:4d:9f:66:5e:name:vethc99be51",
+      "title": "Virtual Ethernet (vethc99be51)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:32:1b:7c:57:b6:88:name:vethde1c4da",
+      "title": "Virtual Ethernet (vethde1c4da)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:d2:e8:e1:c1:0d:1c:name:vethfad46d7",
+      "title": "Virtual Ethernet (vethfad46d7)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:0e:c8:70:c1:1a:47:name:vethfec75cd",
+      "title": "Virtual Ethernet (vethfec75cd)"
+    },
+    {
+      "screen": "network",
+      "id": "network:path:/sys/devices/pci0000:00/0000:00:14.3:name:wlo1",
+      "title": "Wi-Fi (wlo1)"
+    },
+    {
+      "screen": "network",
+      "id": "network:mac:ea:15:f7:7a:17:90:name:ztkti3lasa",
+      "title": "Virtual TAP (ztkti3lasa)"
+    }
+  ],
+  "cases": [
+    "screens-devices-metrics",
+    "process-actions",
+    "settings-presets",
+    "minimum-window",
+    "restart",
+    "unavailable-recovery"
+  ],
+  "owned_process_identities": {
+    "4111411": "process:4111411:99582044",
+    "4111412": "process:4111412:99582044",
+    "4111413": "process:4111413:99582044"
+  },
+  "children": [
+    {
+      "pid": 4111411,
+      "exit_code": -15
+    },
+    {
+      "pid": 4111412,
+      "exit_code": -9
+    },
+    {
+      "pid": 4111413,
+      "exit_code": -15
+    }
+  ],
+  "seconds": 203.86420513503253
+}

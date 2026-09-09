@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "archive_sha256": "6eb2185af0a89a75f5c2e1f509bf4979f9499946553cc3235306fe5aa52be35b",
+  "source_commit": "8fc99332ada5301258663f4f30b1c7dd2640063a",
+  "binary_sha256": "68b7c52fae188e0346ed204f49ce1c3313ead3fd3d7fbc06fe3bd8682a3111c9",
+  "configuration": {
+    "workspace.json": "87eb29b619ff7ff5036789dccdcbb78601f20c9b744c2db82484bf7512c92608"
+  },
+  "installed_launch_cwd": "/home/shawn/workspace2/task-manager-artifacts/process-table/auth-acceptance-resumed/installed/empty-working-directory",
+  "checks": [
+    "archive extraction",
+    "install and repeat",
+    "desktop launcher parsing",
+    "isolated installed launch",
+    "minimum window",
+    "bundled fonts and light theme",
+    "restart",
+    "normal shutdown",
+    "removal preserves configuration and unowned files"
+  ]
+}

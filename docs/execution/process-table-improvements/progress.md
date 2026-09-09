@@ -121,3 +121,15 @@ compatibility test obligations passed; native tests cover the real action path.
 
 PROC-001 through PROC-003 again have passing committed Cairn receipts at
 `20260908T234056179Z`/`20260908T234056180Z`. PROC-004 remains active.
+
+
+The Linux acceptance continuation now passes native preservation and all package,
+tray, installation and removal stages. Its manifests and the retained freshness
+failure are described in `authentication-verification.md`; no performance fix
+is claimed. The interactive verifier is prepared and its four boundary tests
+pass on both hosts without opening any authentication dialog. Actual OS password
+entry, cancellation and privileged outcomes remain pending developer presence.
+
+All 510 Python verifier tests pass after adding the interactive harness. Its
+four boundary tests also pass on the Mac. No OS authentication dialog has been
+opened; the readiness question is still unanswered.

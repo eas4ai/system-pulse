@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "binary_sha256": "68b7c52fae188e0346ed204f49ce1c3313ead3fd3d7fbc06fe3bd8682a3111c9",
+  "checks": [
+    "aggregate CPU icon, close retains sampling/history/preferences, activation and keyboard reopen",
+    "host loss restores dashboard; host return restores tray behavior",
+    "tray Quit persists and exits; absent host retains ordinary close-to-exit"
+  ],
+  "first_icon_sha256": "03c6c5ea11a3854523191f155a249d9d8f70ce6afc0e26a80bfdda5b19c30e67",
+  "tooltip": "System Pulse \u00b7 CPU 81.8%",
+  "initial_history": "History chart. Overall utilization: 81.8 %. Scale: 0.0\u2013100.0 %. 3.8 s history. ",
+  "background_icon_sha256": "480c10616546707f887065dca5a9a5e0141c8ca5ffe3272d0f78e828875742c4",
+  "reopened_history": "History chart. Overall utilization: 39.9 %. Scale: 0.0\u2013100.0 %. 8.8 s history. "
+}
