@@ -8,6 +8,7 @@ import sys
 from performance_compare import require
 from performance_verify import ROOT, check_harness, same_production
 from process_auth_verify import validate_authentication, validate_authentication_source
+from process_preservation_verify import validate_ordinary_actions, validate_package
 
 from process_table_harnesses import HARNESSES
 
@@ -86,7 +87,7 @@ def validate_columns(record, platform):
 
 def main():
     subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s",
-                    "scripts/system-pulse", "-p", "test_process_table_geometry.py"], cwd=ROOT, check=True)
+                    "scripts/system-pulse", "-p", "test_*.py"], cwd=ROOT, check=True)
     subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse"], cwd=ROOT, check=True)
     evidence = ROOT / "docs/execution/process-table-improvements/evidence"
     for platform in ("linux", "macos"):
@@ -107,8 +108,6 @@ def main():
     if not all(path.exists() for path in authentication):
         print("Native authentication evidence is incomplete; PROC-004 remains unverified.", flush=True)
         return 0
-    subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s",
-                    "scripts/system-pulse", "-p", "test_process_auth*.py"], cwd=ROOT, check=True)
     subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse-collectors"], cwd=ROOT, check=True)
     for platform, path in zip(("linux", "macos"), authentication):
         record = json.loads(path.read_text())
@@ -116,7 +115,10 @@ def main():
         build = json.loads((evidence / platform / "build.json").read_text())
         validate_authentication_source(record, build, platform)
     print("cairn: PROC-004: pass", flush=True)
-    # PROC-005 still requires the full preservation and package checks.
+    validate_ordinary_actions(json.loads((evidence / "macos/result.json").read_text()))
+    validate_package(json.loads((evidence / "linux/application-manifest.json").read_text()),
+                     json.loads((evidence / "linux/build.json").read_text()))
+    print("cairn: PROC-005: pass", flush=True)
     return 0
 
 

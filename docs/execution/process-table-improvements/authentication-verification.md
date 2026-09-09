@@ -3,7 +3,8 @@
 The implementation is committed in `ca7273de`; the
 [decision](../../decisions/authenticate-one-identity-bound-process-action-through-the-operating-system.md)
 records the OS authentication and identity boundaries. Native password-dialog
-verification is still pending. PROC-004 and the final commitment are not done.
+verification now passes on Linux and Mac, and PROC-004 has passing committed
+Cairn evidence. The final preservation gate and commitment review are next.
 
 ## Completed checks
 
@@ -231,3 +232,16 @@ target. Every fixture in the passing run is gone and its UI is closed. All
 recorded runtime digests match committed observer `e83a24d8`; the binary matches
 `7c203bc9` and the passing current Linux package. Committed Cairn validation and
 final preservation/review are next.
+
+PROC-004 now has passing committed Cairn evidence at `20260909T152409047Z`.
+The older Linux fixture from the interrupted attempt was ended through the
+identity-bound helper after an announced OS cleanup dialog; its
+[cleanup record](evidence/linux/interrupted-fixture-cleanup.json) confirms exit.
+No native test fixture or authentication dialog remains active.
+
+The final preservation validator checks ordinary Mac confirmation cancellation
+and exact SIGTERM/SIGKILL outcomes, matching current production/package source,
+all package stage logs, retained artifact sizes/digests, executed test totals,
+host evidence, packaged replay, tray and installed-source identity. It passes
+against the actual retained evidence. All 530 Python tests pass, including
+negative preservation and observer-provenance cases; changed-module Ruff passes.

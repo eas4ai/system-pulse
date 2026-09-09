@@ -3,8 +3,8 @@
 - [x] Complete: implement and verify responsive table width (PROC-001).
 - [x] Complete: implement and verify compact search (PROC-002).
 - [x] Complete: implement and verify platform column visibility (PROC-003).
-- [ ] In progress: record authentication design, implement and verify privileged actions (PROC-004).
-- [ ] Pending: run committed acceptance and review all five requirements.
+- [x] Complete: record authentication design, implement and verify privileged actions (PROC-004).
+- [ ] In progress: run committed acceptance and review all five requirements.
 
 The previous performance pass is suspended, with its CPU targets unmet and
 its verified preservation evidence retained. No further optimization is planned.
@@ -159,3 +159,8 @@ its boundary tests pass on both hosts. The Mac interactive run was paused
 before the cancellation dialog to accommodate developer availability; the
 owned UI and job are closed and its temporary fixture has exited. PROC-004
 remains the sole in-progress item until both native authentication runs pass.
+
+PROC-004 passes committed Cairn verification at `20260909T152409047Z`. Both
+native hosts pass cancellation, End, Force Quit and expired-target checks.
+The final preservation gate passes its real-artifact development check and
+all 530 Python tests pass. Only committed validation and review remain.
