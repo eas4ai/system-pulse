@@ -1,5 +1,5 @@
 {
-  "pid": 17765,
+  "pid": 19848,
   "rows": [
     {
       "actions": [
@@ -279,7 +279,7 @@
       "AXRole": "AXTextField",
       "AXSubrole": "AXUnknown",
       "AXTitle": "Search name, PID, or user\u2026",
-      "AXValue": "17765",
+      "AXValue": "19848",
       "bounds": [
         276,
         323.5,
@@ -649,7 +649,7 @@
       ],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327",
+      "AXIdentifier": "process:19848:1788963244273799",
       "AXRole": "AXRow",
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
@@ -666,10 +666,10 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:0",
+      "AXIdentifier": "process:19848:1788963244273799:cell:0",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "17765",
+      "AXTitle": "19848",
       "bounds": [
         277,
         380.5,
@@ -683,10 +683,10 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:1",
+      "AXIdentifier": "process:19848:1788963244273799:cell:1",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "system-pulse-040f5240d8261fdf322b2b932218ce327553ca80",
+      "AXTitle": "system-pulse-7c203bc90edadb8e4a8d62f1df9f3fde1edee42d",
       "bounds": [
         365,
         380.5,
@@ -700,10 +700,10 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:2",
+      "AXIdentifier": "process:19848:1788963244273799:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "14.9 %",
+      "AXTitle": "25.7 %",
       "bounds": [
         585,
         380.5,
@@ -717,10 +717,10 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:3",
+      "AXIdentifier": "process:19848:1788963244273799:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "113.7 MiB",
+      "AXTitle": "115.3 MiB",
       "bounds": [
         737,
         380.5,
@@ -734,7 +734,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:4",
+      "AXIdentifier": "process:19848:1788963244273799:cell:4",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
@@ -751,7 +751,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:5",
+      "AXIdentifier": "process:19848:1788963244273799:cell:5",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "0.0 B/s",
@@ -768,7 +768,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17765:1788961785971327:cell:7",
+      "AXIdentifier": "process:19848:1788963244273799:cell:7",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "shawnmcallister",
@@ -805,7 +805,7 @@
       "AXIdentifier": "",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Live system data \u00b7 748 readable processes \u00b7 1 s update",
+      "AXTitle": "Live system data \u00b7 746 readable processes \u00b7 1 s update",
       "bounds": [
         290,
         794,
@@ -935,7 +935,7 @@
       "AXSubrole": "",
       "AXTitle": "",
       "bounds": [
-        1110,
+        1238,
         2.5,
         138,
         34
@@ -948,13 +948,13 @@
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 18.6%",
+      "AXHelp": "System Pulse \u00b7 CPU 23.9%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",
       "AXTitle": "System Pulse",
       "bounds": [
-        1110,
+        1238,
         2.5,
         138,
         34

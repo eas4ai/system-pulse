@@ -1,5 +1,5 @@
 {
-  "pid": 17765,
+  "pid": 19848,
   "rows": [
     {
       "actions": [
@@ -351,7 +351,7 @@
       "AXIdentifier": "",
       "AXRole": "AXTable",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "748 readable process rows; arrows navigate and scroll columns; Tab leaves table",
+      "AXTitle": "745 readable process rows; arrows navigate and scroll columns; Tab leaves table",
       "bounds": [
         277,
         352.5,
@@ -3107,7 +3107,7 @@
       "AXIdentifier": "",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Live system data \u00b7 748 readable processes \u00b7 1 s update",
+      "AXTitle": "Live system data \u00b7 745 readable processes \u00b7 1 s update",
       "bounds": [
         290,
         1002,
@@ -3237,7 +3237,7 @@
       "AXSubrole": "",
       "AXTitle": "",
       "bounds": [
-        1110,
+        1238,
         2.5,
         138,
         34
@@ -3250,13 +3250,13 @@
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 23.9%",
+      "AXHelp": "System Pulse \u00b7 CPU 25.6%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",
       "AXTitle": "System Pulse",
       "bounds": [
-        1110,
+        1238,
         2.5,
         138,
         34

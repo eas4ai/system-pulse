@@ -1,5 +1,5 @@
 {
-  "pid": 17765,
+  "pid": 19848,
   "rows": [
     {
       "actions": [
@@ -279,7 +279,7 @@
       "AXRole": "AXTextField",
       "AXSubrole": "AXUnknown",
       "AXTitle": "Search name, PID, or user\u2026",
-      "AXValue": "17831",
+      "AXValue": "19927",
       "bounds": [
         276,
         323.5,
@@ -334,7 +334,7 @@
       "AXIdentifier": "process-action-status",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Request sent to sleep (PID 17831). Waiting for the process list to update.",
+      "AXTitle": "Request sent to sleep (PID 19927). Waiting for the process list to update.",
       "bounds": [
         276,
         351.5,
@@ -670,7 +670,7 @@
       ],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151",
+      "AXIdentifier": "process:19927:1788963257959132",
       "AXRole": "AXRow",
       "AXSubrole": "AXUnknown",
       "AXTitle": "",
@@ -687,10 +687,10 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:0",
+      "AXIdentifier": "process:19927:1788963257959132:cell:0",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
-      "AXTitle": "17831",
+      "AXTitle": "19927",
       "bounds": [
         277,
         415,
@@ -704,7 +704,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:1",
+      "AXIdentifier": "process:19927:1788963257959132:cell:1",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "sleep",
@@ -721,7 +721,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:2",
+      "AXIdentifier": "process:19927:1788963257959132:cell:2",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
@@ -738,7 +738,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:3",
+      "AXIdentifier": "process:19927:1788963257959132:cell:3",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "1.1 MiB",
@@ -755,7 +755,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:4",
+      "AXIdentifier": "process:19927:1788963257959132:cell:4",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "Warming up \u00b7 B/s \u00b7 Waiting for a second counter observation",
@@ -772,7 +772,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:5",
+      "AXIdentifier": "process:19927:1788963257959132:cell:5",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "Warming up \u00b7 B/s \u00b7 Waiting for a second counter observation",
@@ -789,7 +789,7 @@
       "actions": [],
       "AXDescription": "",
       "AXHelp": "",
-      "AXIdentifier": "process:17831:1788961798648151:cell:7",
+      "AXIdentifier": "process:19927:1788963257959132:cell:7",
       "AXRole": "AXCell",
       "AXSubrole": "AXUnknown",
       "AXTitle": "shawnmcallister",
@@ -809,7 +809,7 @@
       "AXIdentifier": "process-details",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationGroup",
-      "AXTitle": "Details for sleep, PID 17831",
+      "AXTitle": "Details for sleep, PID 19927",
       "bounds": [
         276,
         838.5,
@@ -916,7 +916,7 @@
       "AXIdentifier": "",
       "AXRole": "AXGroup",
       "AXSubrole": "AXApplicationStatus",
-      "AXTitle": "Live system data \u00b7 749 readable processes \u00b7 1 s update",
+      "AXTitle": "Live system data \u00b7 748 readable processes \u00b7 1 s update",
       "bounds": [
         290,
         1002,
@@ -1046,7 +1046,7 @@
       "AXSubrole": "",
       "AXTitle": "",
       "bounds": [
-        1110,
+        1238,
         2.5,
         138,
         34
@@ -1059,13 +1059,13 @@
         "AXPress"
       ],
       "AXDescription": "",
-      "AXHelp": "System Pulse \u00b7 CPU 19.0%",
+      "AXHelp": "System Pulse \u00b7 CPU 16.5%",
       "AXIdentifier": "",
       "AXRole": "AXMenuBarItem",
       "AXSubrole": "AXMenuExtra",
       "AXTitle": "System Pulse",
       "bounds": [
-        1110,
+        1238,
         2.5,
         138,
         34
