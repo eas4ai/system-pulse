@@ -12,3 +12,7 @@ Record the exact committed observer revision separately from the application rev
 ## Realized by
 
 (none yet: recorded, not built)
+
+## Realized by
+
+- b72f773cb358e3341400b52a2cd8b6a8f846227d Verify KDE cancellation using identity-bound operating system evidence
