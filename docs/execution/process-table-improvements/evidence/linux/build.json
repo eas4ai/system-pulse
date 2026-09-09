@@ -1,6 +1,15 @@
 {
-  "source_commit": "41acec062e307e867e9dc7cfbd7f82923bb71a78",
-  "binary_sha256": "34c0e85b758a977741c64b07b318b86053bf087578a6ce25e6b1077024d42f79",
+  "source_commit": "040f5240d8261fdf322b2b932218ce327553ca80",
+  "binary_sha256": "68b7c52fae188e0346ed204f49ce1c3313ead3fd3d7fbc06fe3bd8682a3111c9",
   "exit_code": 0,
-  "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/linux-auth-build.log"
+  "checks": {
+    "release": {
+      "exit_code": 0,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/040f5240d8261fdf322b2b932218ce327553ca80-linux-release.log"
+    },
+    "tests": {
+      "exit_code": 0,
+      "log": "/home/shawn/workspace2/task-manager-artifacts/process-table/040f5240d8261fdf322b2b932218ce327553ca80-linux-tests.log"
+    }
+  }
 }

@@ -1,0 +1,24 @@
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.65s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse-0fe15bfc3846a438)
+     Running unittests src/main.rs (target/debug/deps/system_pulse-69fbcf144fb1dbfb)
+     Running tests/macos_application_lifetime.rs (target/debug/deps/macos_application_lifetime-7cdbf2b54350e1fe)
+     Running tests/macos_dispatcher_lifetime.rs (target/debug/deps/macos_dispatcher_lifetime-c57cb5e8b58c135a)
+   Doc-tests system_pulse
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/process_table_verify.py", line 116, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/process_table_verify.py", line 102, in main
+    same_production(record["source_commit"])
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/performance_verify.py", line 21, in same_production
+    require(result.returncode == 0, "tested production source differs from current source")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/performance_compare.py", line 13, in require
+    raise InvalidMeasurement(message)
+performance_compare.InvalidMeasurement: tested production source differs from current source
