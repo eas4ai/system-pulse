@@ -222,3 +222,12 @@ Both revisions must still have identical current production source and every
 receipt must satisfy the current outcome validators. This retains valid Mac
 evidence across the Linux-only verification correction without altering any
 observed outcome.
+
+The corrected [Linux authentication run](evidence/linux/authentication.json)
+passes all four cases on an unprivileged UI, including the independent KDE
+cancellation witness. Both authenticated signals complete, cancellation leaves
+the same root target alive, and delayed authentication rejects the expired
+target. Every fixture in the passing run is gone and its UI is closed. All
+recorded runtime digests match committed observer `e83a24d8`; the binary matches
+`7c203bc9` and the passing current Linux package. Committed Cairn validation and
+final preservation/review are next.
