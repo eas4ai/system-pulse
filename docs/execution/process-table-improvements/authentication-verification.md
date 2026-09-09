@@ -72,3 +72,21 @@ Mac ABI references are Apple's [process identity declarations](https://github.co
 and [libproc interface](https://github.com/apple-oss-distributions/xnu/blob/main/libsyscall/wrappers/libproc/libproc.h).
 The Mac signal interface is private; unsupported versions fail with an error.
 A final Cairn review of all five requirements still follows interactive proof.
+
+## Interactive attempt on 2026-09-09
+
+The developer answered the readiness escalation. The SSH-launched Mac verifier
+failed during root-fixture setup; an isolated 20-second setup probe returned
+OS error -60007 immediately. No privileged application action was verified.
+The SSH launchctl manager is Background. An owned Aqua LaunchAgent reached the
+desktop session but failed before fixture creation because its native helper
+lacked Accessibility trust. A separate helper-only check confirmed
+`PID and accessibility trust required`. The owned LaunchAgent was unloaded.
+The requested caffeinate process remains running. No credentials were used in
+commands, scripts, application inputs or artifacts.
+
+Raw failed observations remain on the Mac under the performance directory in
+`auth-interactive-20260909T1318/`, `auth-interactive-gui-20260909T1320/`,
+and `auth-gui-access-check.log`. These are setup failures, not passing evidence
+and not proof of an application authentication defect. Native privileged
+actions and Linux interactive verification remain incomplete.
