@@ -7,6 +7,7 @@ import sys
 
 from performance_compare import require
 from performance_verify import ROOT, check_harness, same_production
+from process_auth_verify import validate_authentication, validate_authentication_source
 
 from process_table_harnesses import HARNESSES
 
@@ -102,7 +103,20 @@ def main():
     print("cairn: PROC-001: pass", flush=True)
     print("cairn: PROC-002: pass", flush=True)
     print("cairn: PROC-003: pass", flush=True)
-    # Other requirements remain unverified until their own checks are implemented.
+    authentication = [evidence / platform / "authentication.json" for platform in ("linux", "macos")]
+    if not all(path.exists() for path in authentication):
+        print("Native authentication evidence is incomplete; PROC-004 remains unverified.", flush=True)
+        return 0
+    subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s",
+                    "scripts/system-pulse", "-p", "test_process_auth*.py"], cwd=ROOT, check=True)
+    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse-collectors"], cwd=ROOT, check=True)
+    for platform, path in zip(("linux", "macos"), authentication):
+        record = json.loads(path.read_text())
+        validate_authentication(record, platform)
+        build = json.loads((evidence / platform / "build.json").read_text())
+        validate_authentication_source(record, build, platform)
+    print("cairn: PROC-004: pass", flush=True)
+    # PROC-005 still requires the full preservation and package checks.
     return 0
 
 

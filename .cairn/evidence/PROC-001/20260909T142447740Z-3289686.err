@@ -1,0 +1,11 @@
+.............
+----------------------------------------------------------------------
+Ran 13 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.38s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse-0fe15bfc3846a438)
+     Running unittests src/main.rs (target/debug/deps/system_pulse-69fbcf144fb1dbfb)
+     Running tests/macos_application_lifetime.rs (target/debug/deps/macos_application_lifetime-7cdbf2b54350e1fe)
+     Running tests/macos_dispatcher_lifetime.rs (target/debug/deps/macos_dispatcher_lifetime-c57cb5e8b58c135a)
+   Doc-tests system_pulse

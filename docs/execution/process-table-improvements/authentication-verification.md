@@ -144,3 +144,16 @@ Authentication records hash that runtime dependency instead of the Cairn gate,
 so adding receipt validation cannot invalidate an unchanged native observation.
 All 46 process-verifier tests pass on Linux (one Mac-only skip), and the changed
 Python modules pass Ruff. Native authentication remains pending.
+
+The corrected Mac run reached root fixture selection and paused before the
+cancellation dialog. The developer noted they are working across projects and
+may not see prompts immediately. The verifier was interrupted at that safe
+checkpoint and its Aqua job unloaded; the owned UI closed and the bounded root
+sleep is allowed to expire. No application authentication case ran in this
+attempt. The interrupted result remains in `auth-7c203bc9-gated-run2/` on Mac.
+
+The PROC-004 gate now validates all four native cases, unprivileged UI ownership,
+root target identities, ordinary denial, cancellation survival, success notices,
+expired-target rejection, cleanup, matching builds and observer hashes. Missing
+native receipts still leave PROC-004 unverified. All 522 Python checks pass on
+Linux (one Mac-only skip), as do collector tests and changed-module Ruff checks.
