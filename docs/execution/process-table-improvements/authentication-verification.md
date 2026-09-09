@@ -157,3 +157,10 @@ root target identities, ordinary denial, cancellation survival, success notices,
 expired-target rejection, cleanup, matching builds and observer hashes. Missing
 native receipts still leave PROC-004 unverified. All 522 Python checks pass on
 Linux (one Mac-only skip), as do collector tests and changed-module Ruff checks.
+
+The current full Linux acceptance stopped after the Python suite: its parser
+requires no skipped tests. Root PID 1 identity observation is applicable on
+Linux as well as Mac, so that test now runs on both hosts; all 16 authentication
+verifier tests pass without skips on each host. The acceptance parser is
+unchanged. The interrupted Mac fixture has now independently been observed
+exited. No verifier, owned UI or authentication dialog remains active.

@@ -72,7 +72,6 @@ class AuthNativeTests(unittest.TestCase):
             if native.alive(identity):
                 os.kill(identity["pid"], signal.SIGKILL)
 
-    @unittest.skipUnless(native.platform.system() == "Darwin", "native Mac identity")
     def test_root_identity_is_readable_without_elevation(self):
         identity = native.process_identity(1)
         self.assertEqual(identity["pid"], 1)
