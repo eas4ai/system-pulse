@@ -138,3 +138,9 @@ and unblock it before exec of the same bounded sleep. Isolated mode prevents
 user environment, site or current-directory imports in the privileged setup.
 A regression reproduces inherited ignored and blocked SIGTERM without elevation;
 it failed before the fix. The application binary is unchanged.
+
+The observer dependency list now lives in `process_table_harnesses.py`.
+Authentication records hash that runtime dependency instead of the Cairn gate,
+so adding receipt validation cannot invalidate an unchanged native observation.
+All 46 process-verifier tests pass on Linux (one Mac-only skip), and the changed
+Python modules pass Ruff. Native authentication remains pending.

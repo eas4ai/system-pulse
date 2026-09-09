@@ -1,0 +1,21 @@
+requirement: PROC-004
+requirement_digest: sha256:6b756c2a8459ac7c2ad2e0c7f5cdf949825498ad0f7ee43f7d7a11afe3914b21
+sequence: 12
+history_digest: sha256:cd60a5d05839a3629a7029b640bb97b7d54a4d8c08566cbb88c8843f96f72bf3
+mechanism: process-table-improvements
+commit: 03381869
+inputs_digest: sha256:de882e3211dc5024ec2022abd691f38132cc31669c5afad9da5d8b42acd9684d
+mechanism_digest: sha256:648721c5e6cd6f6131b1c4c09256337346abc601c76da55f8b2bf64873a87d38
+inputs_detail: .cairn/evidence/PROC-001/20260909T142044364Z-3235519.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/process_table_verify.py
+cwd: .
+exit: 0
+output_digest: sha256:8aebdb9237c3a80f890cfcec1a8a94c5bc59cfb1ae0a35cad855ed86d78379cb
+output: .cairn/evidence/PROC-001/20260909T142044364Z-3235519.out
+stderr_output: .cairn/evidence/PROC-001/20260909T142044364Z-3235519.err
+stderr_digest: sha256:c2aa7a13e6ac7d3c7eabb02e70f308a8f08992e338c5af1e778ba97a3207ffdc
+signal: none
+execution_error: null
+result: unverified
+source: none
+recorded: 2026-09-09T14:20:50.367Z

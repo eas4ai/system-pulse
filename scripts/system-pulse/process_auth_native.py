@@ -214,10 +214,10 @@ def run(args):
     args.binary = args.binary.resolve()
     args.output = args.output.resolve()
     args.output.mkdir(parents=True, exist_ok=False)
-    from process_table_verify import HARNESSES
+    from process_table_harnesses import HARNESSES
     host = "macos" if platform.system() == "Darwin" else "linux"
     harnesses = {*HARNESSES[host], Path(__file__).name, "performance_macos.py",
-                 "performance_preserve.py", "performance_compare.py", "process_table_verify.py"}
+                 "performance_preserve.py", "performance_compare.py", "process_table_harnesses.py"}
     record = {"status": "FAIL", "platform": host,
               "source_commit": args.commit, "binary_sha256": digest(args.binary),
               "harness_sha256": {name: digest(Path(__file__).with_name(name)) for name in sorted(harnesses)},
