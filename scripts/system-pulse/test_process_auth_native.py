@@ -25,10 +25,10 @@ class AuthNativeTests(unittest.TestCase):
                 native.fixture_command(duration)
         for platform in ("Linux", "Darwin"):
             with patch.object(native.platform, "system", return_value=platform):
-                command = native.fixture_command(180)
+                command = native.fixture_command(1800)
             setup = shlex.split(command[-1])
             self.assertEqual(setup[:4], ["/usr/bin/python3", "-I", "-S", "-c"])
-            self.assertIn('os.execl("/bin/sleep", "sleep", "180")', setup[4])
+            self.assertIn('os.execl("/bin/sleep", "sleep", "1800")', setup[4])
             self.assertEqual(command[0], "/usr/bin/pkexec" if platform == "Linux" else "/usr/bin/osascript")
             if platform == "Linux":
                 self.assertIn("--disable-internal-agent", command)
@@ -56,7 +56,7 @@ class AuthNativeTests(unittest.TestCase):
                     "signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGTERM}); "
                     "os.execl('/bin/sh','sh','-c',sys.argv[1])")
         result = subprocess.run([sys.executable, "-I", "-S", "-c", launcher,
-                                 native.fixture_command(180)[-1]],
+                                 native.fixture_command(1800)[-1]],
                                 capture_output=True, text=True, timeout=10, check=True)
         identity = native.process_identity(int(result.stdout.strip()))
         self.assertIsNotNone(identity)

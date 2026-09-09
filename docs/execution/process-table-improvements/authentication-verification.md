@@ -191,3 +191,11 @@ reference findings; it is not a clean result. Its test gate exits 0 on the
 committed tree. Changed verification code has passing focused tests and lint;
 native OS authentication on both hosts and the final commitment review remain
 pending. No privileged-action completion claim is made.
+
+The developer clarified that delayed attention to dialogs is not a request to
+pause. The scheduling escalation is answered and native verification resumes.
+Ordinary fixtures and authentication-result waits now allow 1,800 seconds,
+while the deliberate expired-target fixture remains 20 seconds. This changes
+only verification timing; identity, cancellation, signal and cleanup assertions
+remain unchanged. All 16 authentication verifier tests pass on both hosts and
+the changed Python modules pass Ruff.

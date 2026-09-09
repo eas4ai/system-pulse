@@ -58,7 +58,7 @@ def process_identity(pid):
 
 
 def fixture_command(duration):
-    require(type(duration) is int and duration in (20, 180), "fixture lifetime is not bounded")
+    require(type(duration) is int and duration in (20, 1800), "fixture lifetime is not bounded")
     # Administrator shells can pass ignored SIGTERM to background children.
     # An isolated system interpreter resets disposition and mask before exec;
     # no user site, PYTHONPATH or current-directory modules run with privilege.
@@ -232,7 +232,7 @@ def run(args):
         for action, expired in (("terminate", False), ("kill", False), ("terminate", True)):
             case = "expired" if expired else action
             operator_step(args, f"setup-{case}", "Authenticate setup to create the temporary root process.")
-            identity = create_fixture(20 if expired else 180)
+            identity = create_fixture(20 if expired else 1800)
             fixtures.append(identity)
             ordinary = subprocess.run([str(args.binary), "--system-pulse-process-action",
                                        str(identity["pid"]), str(identity["start_time_ticks"]), action],
@@ -245,7 +245,7 @@ def run(args):
                 print("AUTH CANCEL: cancel the next SYSTEM authentication dialog.", flush=True)
                 ui.confirm(action)
                 notice = wait_for(lambda: value if (value := ui.notice()).startswith("Authentication was cancelled.")
-                                  else None, "system authentication cancellation", timeout=120)
+                                  else None, "system authentication cancellation", timeout=1800)
                 require(alive(identity), "cancelled authentication changed the fixture")
                 record["cases"].append({"case": "cancel", "identity": identity,
                                         "ordinary_exit": ordinary.returncode, "notice": notice, "alive": True})
@@ -261,7 +261,7 @@ def run(args):
             else:
                 prefix = "Request sent to "
             notice = wait_for(lambda: value if (value := ui.notice()).startswith(prefix) else None,
-                              "authenticated action result", timeout=120)
+                              "authenticated action result", timeout=1800)
             wait_for(lambda: not alive(identity), "the original root fixture exit", timeout=5)
             require(process_identity(ui.app.pid)["uid"] == os.getuid(), "the UI became privileged")
             record["cases"].append({"case": "expired" if expired else action, "identity": identity,
@@ -271,7 +271,7 @@ def run(args):
         record["error"] = f"{type(error).__name__}: {error}"
         raise
     finally:
-        # Fixtures terminate by themselves within 180 seconds. Cleanup must not
+        # Fixtures terminate by themselves within 1800 seconds. Cleanup must not
         # open another auth dialog or signal a PID whose identity has changed.
         cleanup_errors = []
         remaining = []
