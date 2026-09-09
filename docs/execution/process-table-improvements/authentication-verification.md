@@ -101,3 +101,14 @@ and offsets. The collector also depends on the denied full BSD record and its
 existing fallback leaves birth identity zero. This requires an implementation
 fix before another interactive attempt. The owned GUI job was unloaded; the
 180-second fixture expires itself. No application signal was attempted.
+
+The rebuilt `040f5240` candidate passed both native table replays and ordinary
+Mac actions. Cairn again passes PROC-001 through PROC-003. During the first
+privileged retry, setup authentication created root sleep PID 17888 and the
+verifier successfully read and selected its precise identity. The developer
+submitted the next dialog, which closed without a visible error. The application
+reported authentication failure and the fixture remained alive. The cancellation
+observer timed out, retained a failing record, and closed its owned UI; the
+LaunchAgent was unloaded. The OS error number is currently collapsed into the
+generic authentication message and needs diagnostic context before retrying.
+No privileged success or cancellation is claimed.

@@ -1,0 +1,26 @@
+{
+  "status": "FAIL",
+  "platform": "macos",
+  "source_commit": "040f5240d8261fdf322b2b932218ce327553ca80",
+  "binary_sha256": "0a123d116f5fe0d34e296656f8d5dc3aebc98061e365dde51f4751e6844211a9",
+  "harness_sha256": {
+    "performance_compare.py": "58cbea575b1abb36c146eda0003912dac14849a8c24c145d93815ed0591eed4a",
+    "performance_macos.py": "0e0e73b84b1d5df52515d566e2568b3060d3526a377974b9ce9fa05bc325d70e",
+    "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
+    "performance_tree.swift": "7f486e55e2f6040beef93d9ed28ecc2b23de7bf7af33ddd910ba83fd455de359",
+    "process_auth_native.py": "c403571d9bf3f6453b0ebc17d7b3392255768e7a9e85514869abe1a65e052b2b",
+    "process_table_macos.py": "5a653e1fb597fe4758a0c26f04418d630564208e06ad16f3038c58de163f2ab4",
+    "process_table_verify.py": "34414d687fae2a5b2d7818543c298e292865c0cf5c70dd153aeeddb4b49b1add"
+  },
+  "cases": [],
+  "ui_pid": 17868,
+  "ui_uid": 501,
+  "error": "RuntimeError: Timed out waiting for system authentication cancellation",
+  "remaining_bounded_fixtures": [
+    {
+      "pid": 17888,
+      "start_time_ticks": 1788961893854065,
+      "uid": 0
+    }
+  ]
+}
