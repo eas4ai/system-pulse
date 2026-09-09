@@ -4,7 +4,7 @@
 - [x] Complete: implement and verify compact search (PROC-002).
 - [x] Complete: implement and verify platform column visibility (PROC-003).
 - [x] Complete: record authentication design, implement and verify privileged actions (PROC-004).
-- [ ] In progress: run committed acceptance and review all five requirements.
+- [x] Complete: run committed acceptance and review all five requirements.
 
 The previous performance pass is suspended, with its CPU targets unmet and
 its verified preservation evidence retained. No further optimization is planned.
@@ -164,3 +164,8 @@ PROC-004 passes committed Cairn verification at `20260909T152409047Z`. Both
 native hosts pass cancellation, End, Force Quit and expired-target checks.
 The final preservation gate passes its real-artifact development check and
 all 530 Python tests pass. Only committed validation and review remain.
+
+All five requirements pass committed Cairn verification at
+`20260909T153100594Z` / `20260909T153100595Z`. Final review found no additional
+actionable defect. All todo items are implemented and verified; the completed
+review is in `.cairn/reviews/process-table-improvements.md`.

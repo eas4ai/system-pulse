@@ -4,7 +4,8 @@ The implementation is committed in `ca7273de`; the
 [decision](../../decisions/authenticate-one-identity-bound-process-action-through-the-operating-system.md)
 records the OS authentication and identity boundaries. Native password-dialog
 verification now passes on Linux and Mac, and PROC-004 has passing committed
-Cairn evidence. The final preservation gate and commitment review are next.
+Cairn evidence. All five requirements now pass committed acceptance and the
+final commitment review found no additional actionable defect.
 
 ## Completed checks
 
