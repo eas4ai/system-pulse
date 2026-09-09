@@ -32,23 +32,28 @@ def process_identity(pid):
             return {"pid": pid, "start_time_ticks": int(fields[19]), "uid": uid}
         except (FileNotFoundError, ProcessLookupError):
             return None
-    library = ctypes.CDLL("/usr/lib/libproc.dylib", use_errno=True)
-    library.proc_pidinfo.argtypes = [ctypes.c_int, ctypes.c_int, ctypes.c_uint64,
-                                    ctypes.c_void_p, ctypes.c_int]
-    library.proc_pidinfo.restype = ctypes.c_int
-    # proc_bsdinfo's public ABI: pid at 12, uid at 20, birth timeval at 120.
-    data = ctypes.create_string_buffer(136)
-    count = library.proc_pidinfo(pid, 3, 0, data, len(data))
-    if count <= 0 and ctypes.get_errno() in (2, 3):
+    # KERN_PROC_PID remains readable for root processes when full BSD libproc
+    # records are permission-denied. Require the complete Darwin LP64 ABI.
+    library = ctypes.CDLL("/usr/lib/libSystem.B.dylib", use_errno=True)
+    library.sysctl.argtypes = [ctypes.POINTER(ctypes.c_int), ctypes.c_uint,
+                               ctypes.c_void_p, ctypes.POINTER(ctypes.c_size_t),
+                               ctypes.c_void_p, ctypes.c_size_t]
+    library.sysctl.restype = ctypes.c_int
+    require(ctypes.sizeof(ctypes.c_void_p) == 8, "unsupported native process ABI")
+    mib = (ctypes.c_int * 4)(1, 14, 1, pid)  # CTL_KERN, KERN_PROC, KERN_PROC_PID
+    data = ctypes.create_string_buffer(648)
+    size = ctypes.c_size_t(len(data))
+    result = library.sysctl(mib, len(mib), data, ctypes.byref(size), None, 0)
+    if result == 0 and size.value == 0:
         return None
-    require(count == len(data), "cannot read the complete native fixture identity")
-    require(struct.unpack_from("=I", data, 12)[0] == pid, "native fixture PID differs")
-    if struct.unpack_from("=I", data, 4)[0] == 5:  # SZOMB
+    require(result == 0 and size.value == len(data), "cannot read the complete native fixture identity")
+    require(struct.unpack_from("=i", data, 40)[0] == pid, "native fixture PID differs")
+    if data.raw[36] == 5:  # SZOMB
         return None
-    seconds, micros = struct.unpack_from("=QQ", data, 120)
-    require(micros < 1_000_000, "invalid native birth time")
+    seconds, micros = struct.unpack_from("=qi", data)
+    require(seconds > 0 and 0 <= micros < 1_000_000, "invalid native birth time")
     return {"pid": pid, "start_time_ticks": seconds * 1_000_000 + micros,
-            "uid": struct.unpack_from("=I", data, 20)[0]}
+            "uid": struct.unpack_from("=I", data, 420)[0]}
 
 
 def fixture_command(duration):

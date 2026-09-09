@@ -331,21 +331,29 @@ fn check_if_pid_is_alive(pid: Pid, check_if_alive: bool) -> bool {
     }
 }
 
+#[path = "process_identity.rs"]
+mod process_identity;
+
 unsafe fn get_bsd_info(pid: Pid) -> Option<libc::proc_bsdinfo> {
     unsafe {
         let mut info = mem::zeroed::<libc::proc_bsdinfo>();
 
-        if libc::proc_pidinfo(
+        let count = libc::proc_pidinfo(
             pid.0,
             libc::PROC_PIDTBSDINFO,
             0,
             &mut info as *mut _ as *mut _,
             mem::size_of::<libc::proc_bsdinfo>() as _,
-        ) != mem::size_of::<libc::proc_bsdinfo>() as c_int
-        {
-            None
-        } else {
+        );
+        if count == mem::size_of::<libc::proc_bsdinfo>() as c_int {
             Some(info)
+        } else if count <= 0 {
+            match std::io::Error::last_os_error().raw_os_error() {
+                Some(libc::EPERM | libc::EACCES) => process_identity::read(pid.0),
+                _ => None,
+            }
+        } else {
+            None
         }
     }
 }
@@ -833,5 +841,29 @@ pub(crate) fn get_proc_list() -> Option<Vec<Pid>> {
             pids.set_len(x as usize);
             Some(pids)
         }
+    }
+}
+
+#[cfg(test)]
+mod restricted_identity_tests {
+    use super::*;
+
+    #[test]
+    fn root_process_has_precise_identity_without_elevation() {
+        let info = unsafe { get_bsd_info(Pid::from_u32(1)) }
+            .expect("root-owned launchd must have readable identity");
+        assert_eq!(info.pbi_pid, 1);
+        assert_eq!(info.pbi_uid, 0);
+        assert!(info.pbi_start_tvsec > 0);
+        assert!(info.pbi_start_tvusec < 1_000_000);
+        let mut system = crate::System::new();
+        let pid = Pid::from_u32(1);
+        system.refresh_processes(crate::ProcessesToUpdate::Some(&[pid]), true);
+        let process = system.process(pid).expect("root process is collected");
+        assert_eq!(
+            process.start_time_microseconds(),
+            info.pbi_start_tvsec * 1_000_000 + info.pbi_start_tvusec
+        );
+        assert_eq!(process.user_id(), Some(&Uid(0)));
     }
 }

@@ -13,6 +13,10 @@ Local changes:
   name when none of the requested executable, command or environment fields
   needs updating. Retain BSD birth-time microseconds and compare that precision
   when detecting PID reuse, so process actions can verify the selected identity.
+- `src/unix/apple/macos/process_identity.rs`: read complete KERN_PROC_PID
+  metadata when full BSD records are permission-denied, preserving root-process
+  birth identity and credentials without elevating the collector. Native SDK
+  accessor comparisons are in `tests/macos_process_identity.c`.
 - `src/common/system.rs`: expose the retained macOS birth-time microseconds
   without an additional process query; the existing seconds API is unchanged.
 - `src/unix/apple/macos/process_refresh_tests.rs`: native regression tests for

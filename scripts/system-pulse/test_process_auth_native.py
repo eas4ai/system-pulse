@@ -1,6 +1,8 @@
 """Boundary checks for the interactive verifier; never request authentication."""
 
+import ctypes
 import os
+import struct
 from pathlib import Path
 import subprocess
 import tempfile
@@ -41,6 +43,36 @@ class AuthNativeTests(unittest.TestCase):
             if child.poll() is None:
                 child.kill()
                 child.wait(timeout=5)
+
+    @unittest.skipUnless(native.platform.system() == "Darwin", "native Mac identity")
+    def test_root_identity_is_readable_without_elevation(self):
+        identity = native.process_identity(1)
+        self.assertEqual(identity["pid"], 1)
+        self.assertEqual(identity["uid"], 0)
+        self.assertGreater(identity["start_time_ticks"], 0)
+
+    def test_mac_identity_rejects_incomplete_and_invalid_kernel_records(self):
+        def observe(size=648, result=0, pid=42, seconds=123, micros=456, status=3):
+            def sysctl(_mib, _length, output, output_size, _new, _new_size):
+                data = bytearray(648)
+                struct.pack_into("=qi", data, 0, seconds, micros)
+                struct.pack_into("=i", data, 40, pid)
+                data[36] = status
+                ctypes.memmove(output, bytes(data), len(data))
+                ctypes.cast(output_size, ctypes.POINTER(ctypes.c_size_t))[0] = size
+                return result
+            library = SimpleNamespace(sysctl=Mock(side_effect=sysctl))
+            with patch.object(native.platform, "system", return_value="Darwin"), \
+                    patch.object(native.ctypes, "CDLL", return_value=library):
+                return native.process_identity(42)
+
+        self.assertEqual(observe()["start_time_ticks"], 123_000_456)
+        self.assertIsNone(observe(size=0))
+        self.assertIsNone(observe(status=5))
+        for values in ({"size": 647}, {"size": 649}, {"result": -1}, {"pid": 43},
+                       {"seconds": 0}, {"seconds": -1}, {"micros": -1}, {"micros": 1_000_000}):
+            with self.subTest(values=values), self.assertRaises(InvalidMeasurement):
+                observe(**values)
 
     def test_mac_initialization_failure_closes_only_its_owned_app(self):
         child = Mock()

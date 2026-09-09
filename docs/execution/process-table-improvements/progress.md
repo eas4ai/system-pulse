@@ -137,3 +137,17 @@ opened; the readiness question is still unanswered.
 Latest committed checks again pass PROC-001 through PROC-003 at
 `20260909T000757458Z`/`20260909T000757459Z`. The developer's requested
 24-hour Mac caffeinate process (PID 10516) is still running and is left intact.
+
+
+The Mac root-process regression reproduced a permission-denied full BSD query.
+The collector now falls back to a complete KERN_PROC_PID record, preserving
+microsecond birth identity and credentials without elevating collection. The
+independent verifier also uses sysctl. Twelve native vendor process tests pass,
+including root-process refresh, SDK C accessor comparisons, malformed identity
+rejection and ordinary process preservation. Six verifier boundary tests pass
+on Mac; Linux skips only the Mac-native root observation. Application tests
+(129 on each host), collector tests (113 Linux, 63 Mac, plus each CLI test) and
+strict application/collector clippy pass. Native authenticated actions are still
+pending a rebuilt candidate. Ripwire reports no incompatible get_bsd_info
+callers, but its broad quality delta still gates on 648 findings, including
+preexisting reference findings and test-class length; it is not a clean claim.
