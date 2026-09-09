@@ -90,3 +90,14 @@ Raw failed observations remain on the Mac under the performance directory in
 and `auth-gui-access-check.log`. These are setup failures, not passing evidence
 and not proof of an application authentication defect. Native privileged
 actions and Linux interactive verification remain incomplete.
+
+After Accessibility was enabled, the desktop verifier passed its UI setup and
+the developer authenticated fixture creation. The verifier then failed reading
+PROC_PIDTBSDINFO for root sleep PID 16983. Independent read-only probes returned
+EPERM for both that process and PID 1, while SHORTBSDINFO and KERN_PROC_PID
+were readable. KERN_PROC_PID returned a complete 648-byte record and a nonzero
+microsecond birth time. A compiled SDK layout probe confirmed the record size
+and offsets. The collector also depends on the denied full BSD record and its
+existing fallback leaves birth identity zero. This requires an implementation
+fix before another interactive attempt. The owned GUI job was unloaded; the
+180-second fixture expires itself. No application signal was attempted.
