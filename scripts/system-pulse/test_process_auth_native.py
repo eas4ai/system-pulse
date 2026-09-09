@@ -1,6 +1,7 @@
 """Boundary checks for the interactive verifier; never request authentication."""
 
 import ctypes
+import json
 import os
 import struct
 from pathlib import Path
@@ -73,6 +74,27 @@ class AuthNativeTests(unittest.TestCase):
                        {"seconds": 0}, {"seconds": -1}, {"micros": -1}, {"micros": 1_000_000}):
             with self.subTest(values=values), self.assertRaises(InvalidMeasurement):
                 observe(**values)
+
+    def test_operator_step_waits_for_its_own_release(self):
+        with tempfile.TemporaryDirectory() as directory:
+            args = SimpleNamespace(output=Path(directory), step_gates=True)
+            release = args.output / "continue-cancel"
+            def waiting(operation, _description, **_options):
+                self.assertFalse(operation())
+                record = json.loads((args.output / "operator-step.json").read_text())
+                self.assertEqual(record["step"], "cancel")
+                self.assertEqual(record["state"], "waiting")
+                release.touch()
+                self.assertTrue(operation())
+            with patch.object(native, "wait_for", side_effect=waiting):
+                native.operator_step(args, "cancel", "Cancel the next dialog.")
+            self.assertFalse(release.exists())
+            self.assertEqual(json.loads((args.output / "operator-step.json").read_text())["state"], "active")
+
+    def test_ungated_operator_step_does_not_wait(self):
+        with patch.object(native, "wait_for") as waiting:
+            native.operator_step(SimpleNamespace(step_gates=False), "cancel", "Cancel.")
+        waiting.assert_not_called()
 
     def test_mac_initialization_failure_closes_only_its_owned_app(self):
         child = Mock()

@@ -97,6 +97,7 @@ fn helper_result(code: Option<i32>) -> Result<(), String> {
         Some(13) => Err("The authenticated process-action request was invalid. The process was not changed.".into()),
         Some(126) => Err("Authentication was cancelled. The process was not changed.".into()),
         Some(127) => Err("Authentication failed or no system authentication agent is available. The process was not changed.".into()),
+        Some(code) if code < 0 => Err(format!("macOS authentication failed (error {code}). The process was not changed.")),
         _ => Err("The system process-action helper did not complete. Check the process list before trying again.".into()),
     }
 }
@@ -125,7 +126,7 @@ const AUTHENTICATE_SCRIPT: &str = r#"on run argv
         return do shell script (commandText & "; result=$?; /usr/bin/printf '%s' \"$result\"") with administrator privileges
     on error messageText number errorNumber
         if errorNumber is -128 then return "126"
-        return "127"
+        return errorNumber as text
     end try
 end run"#;
 
@@ -287,6 +288,30 @@ mod tests {
             assert!(helper_result(code).is_err());
         }
         assert!(helper_result(Some(126)).unwrap_err().contains("cancelled"));
+    }
+
+    #[test]
+    fn native_authentication_error_retains_only_its_numeric_context() {
+        assert_eq!(
+            helper_result(Some(-60007)),
+            Err("macOS authentication failed (error -60007). The process was not changed.".into())
+        );
+    }
+
+    #[cfg(target_os = "macos")]
+    #[test]
+    fn applescript_reports_error_number_without_error_message() {
+        let script = AUTHENTICATE_SCRIPT.replace(
+            "    try\n",
+            "    try\n        error \"private error details\" number -60007\n",
+        );
+        let output = Command::new("/usr/bin/osascript")
+            .args(["-e", &script, "--"])
+            .output()
+            .unwrap();
+        assert!(output.status.success());
+        assert_eq!(String::from_utf8(output.stdout).unwrap().trim(), "-60007");
+        assert!(output.stderr.is_empty());
     }
 
     #[cfg(target_os = "linux")]

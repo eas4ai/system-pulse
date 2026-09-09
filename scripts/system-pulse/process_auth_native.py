@@ -82,6 +82,23 @@ def alive(identity):
     return process_identity(identity["pid"]) == identity
 
 
+def operator_step(args, step, instruction):
+    """Let the operator explain each dialog before the verifier opens it."""
+    if not getattr(args, "step_gates", False):
+        return
+    require(re.fullmatch(r"[a-z-]+", step), "invalid operator step")
+    release = args.output / f"continue-{step}"
+    require(not release.exists(), "operator step was released before it was announced")
+    record = {"step": step, "instruction": instruction, "state": "waiting"}
+    status = args.output / "operator-step.json"
+    status.write_text(json.dumps(record) + "\n")
+    print(f"OPERATOR WAIT: {step}: {instruction}", flush=True)
+    wait_for(release.exists, f"operator release for {step}", timeout=300)
+    release.unlink()
+    record["state"] = "active"
+    status.write_text(json.dumps(record) + "\n")
+
+
 class MacUI:
     def __init__(self, args):
         self.args = args
@@ -205,6 +222,8 @@ def run(args):
         record["ui_pid"] = ui.app.pid
         record["ui_uid"] = os.getuid()
         for action, expired in (("terminate", False), ("kill", False), ("terminate", True)):
+            case = "expired" if expired else action
+            operator_step(args, f"setup-{case}", "Authenticate setup to create the temporary root process.")
             identity = create_fixture(20 if expired else 180)
             fixtures.append(identity)
             ordinary = subprocess.run([str(args.binary), "--system-pulse-process-action",
@@ -214,6 +233,7 @@ def run(args):
             require(ordinary.returncode == 11 and alive(identity), "ordinary action was not denied safely")
             ui.select(identity)
             if action == "terminate" and not expired:
+                operator_step(args, "cancel", "Cancel the next system authentication dialog.")
                 print("AUTH CANCEL: cancel the next SYSTEM authentication dialog.", flush=True)
                 ui.confirm(action)
                 notice = wait_for(lambda: value if (value := ui.notice()).startswith("Authentication was cancelled.")
@@ -221,6 +241,8 @@ def run(args):
                 require(alive(identity), "cancelled authentication changed the fixture")
                 record["cases"].append({"case": "cancel", "identity": identity,
                                         "ordinary_exit": ordinary.returncode, "notice": notice, "alive": True})
+            operator_step(args, case, "Leave the dialog open until EXPIRED, then authenticate." if expired else
+                          f"Authenticate the next dialog to {action} the temporary root process.")
             print("AUTH EXPIRED: wait for the EXPIRED message before authenticating." if expired else
                   f"AUTH SUCCESS: authenticate the next system dialog to {action} the root fixture.", flush=True)
             ui.confirm(action)
@@ -272,6 +294,8 @@ if __name__ == "__main__":
     parser.add_argument("--commit", required=True)
     parser.add_argument("--interactive-auth", action="store_true", required=True,
                         help="the developer is present to respond to operating-system dialogs")
+    parser.add_argument("--step-gates", action="store_true",
+                        help="pause before each dialog until its continue-STEP file is created in the output directory")
     args = parser.parse_args()
     if platform.system() == "Darwin" and args.tree is None:
         parser.error("macOS requires --tree")

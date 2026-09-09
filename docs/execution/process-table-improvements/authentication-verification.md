@@ -112,3 +112,16 @@ observer timed out, retained a failing record, and closed its owned UI; the
 LaunchAgent was unloaded. The OS error number is currently collapsed into the
 generic authentication message and needs diagnostic context before retrying.
 No privileged success or cancellation is claimed.
+
+The diagnostic build verified real OS cancellation on an owned root process.
+A subsequent End dialog was also cancelled, so that run correctly remained
+incomplete and timed out. The fixture expired without a verified successful
+End. A new optional `--step-gates` mode pauses before each dialog, publishing
+`operator-step.json` and requiring its `continue-STEP` file after the operator
+announces the instruction. This coordinates entry without collecting credentials.
+Eight verifier boundary tests pass on Mac (Linux skips the native root case).
+The application now preserves a numeric AppleScript authentication error in its
+visible failure message while discarding the error text. Nine Linux and eleven
+Mac process-control tests pass, including actual AppleScript error-number tests
+that do not request authentication. The single-instance observation is captured
+as a separate backlog item; no instance-lock implementation is included here.
