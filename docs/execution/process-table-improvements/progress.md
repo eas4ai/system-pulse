@@ -151,3 +151,11 @@ strict application/collector clippy pass. Native authenticated actions are still
 pending a rebuilt candidate. Ripwire reports no incompatible get_bsd_info
 callers, but its broad quality delta still gates on 648 findings, including
 preexisting reference findings and test-class length; it is not a clean claim.
+
+The current Linux full acceptance passes against `c87880f3`, including
+1,063 preservation tests, native live readings, packaged replay, tray and
+installation/removal. Authentication receipt validation is implemented and
+its boundary tests pass on both hosts. The Mac interactive run was paused
+before the cancellation dialog to accommodate developer availability; the
+owned UI and job are closed and its temporary fixture has exited. PROC-004
+remains the sole in-progress item until both native authentication runs pass.

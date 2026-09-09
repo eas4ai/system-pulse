@@ -164,3 +164,30 @@ Linux as well as Mac, so that test now runs on both hosts; all 16 authentication
 verifier tests pass without skips on each host. The acceptance parser is
 unchanged. The interrupted Mac fixture has now independently been observed
 exited. No verifier, owned UI or authentication dialog remains active.
+
+## Current Linux acceptance
+
+Full [application/package acceptance](evidence/linux/application-manifest.json)
+passes against `c87880f33a426d8c2b98fee75487bfed6a8b6aa7`. Its release
+binary matches the existing `7c203bc9` Linux native build by SHA-256. The run
+passes 1,063 preservation tests, formatting, strict clippy, debug build,
+independent live readings and native replay; ten input-focus tests, packaging,
+packaged application replay, tray behavior and installation/removal also pass.
+All manifest log and artifact hashes were revalidated before retaining it here.
+
+Earlier attempts remain outside the checkout in `auth-current-acceptance-20260909*`.
+The first rejected the now-removed platform skip. The second found stale debug
+collector metadata missing the authentication export (retained SHA-256
+`7e4302d59e093d18da1ea2faa0978782cfdc9d1daac2878b488ecb3f989e54ae`).
+Cleaning only that package and rebuilding without the compiler wrapper produced
+metadata containing the export and a successful debug build. The third passed
+automated checks but lacked an earlier independent counter observation for one
+process, leaving four brackets unverified. The fourth complete run passed with
+compiler caching disabled; no source or acceptance criteria changed between
+those last two runs. No broader performance correction is claimed.
+
+Ripwire quality delta still exits 2 with 648 gating findings, including existing
+reference findings; it is not a clean result. Its test gate exits 0 on the
+committed tree. Changed verification code has passing focused tests and lint;
+native OS authentication on both hosts and the final commitment review remain
+pending. No privileged-action completion claim is made.
