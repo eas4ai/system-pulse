@@ -12,6 +12,7 @@ import os
 from pathlib import Path
 import platform
 import re
+import shlex
 import struct
 import subprocess
 
@@ -58,7 +59,14 @@ def process_identity(pid):
 
 def fixture_command(duration):
     require(type(duration) is int and duration in (20, 180), "fixture lifetime is not bounded")
-    body = f"/bin/sleep {duration} </dev/null >/dev/null 2>&1 & /usr/bin/printf '%s' \"$!\""
+    # Administrator shells can pass ignored SIGTERM to background children.
+    # An isolated system interpreter resets disposition and mask before exec;
+    # no user site, PYTHONPATH or current-directory modules run with privilege.
+    setup = ('import os, signal; signal.signal(signal.SIGTERM, signal.SIG_DFL); '
+             'signal.pthread_sigmask(signal.SIG_UNBLOCK, {signal.SIGTERM}); '
+             f'os.execl("/bin/sleep", "sleep", "{duration}")')
+    body = (f"/usr/bin/python3 -I -S -c {shlex.quote(setup)} "
+            "</dev/null >/dev/null 2>&1 & /usr/bin/printf '%s' \"$!\"")
     if platform.system() == "Linux":
         return ["/usr/bin/pkexec", "--disable-internal-agent", "/bin/sh", "-c", body]
     return ["/usr/bin/osascript", "-e",

@@ -125,3 +125,16 @@ visible failure message while discarding the error text. Nine Linux and eleven
 Mac process-control tests pass, including actual AppleScript error-number tests
 that do not request authentication. The single-instance observation is captured
 as a separate backlog item; no instance-lock implementation is included here.
+
+The committed release `7c203bc9` passed native OS cancellation and returned a
+successful End request, but the root sleep did not exit. A native SDK signal
+inspection of PID 20007 showed ignored mask `0x848c006`, blocked mask zero and
+SIGTERM bit `0x4000`: setup had passed an ignored SIGTERM disposition to the
+background sleep. This is a fixture defect, not evidence that the application
+failed to send the request. The failed run is retained.
+
+Fixture setup now uses `/usr/bin/python3 -I -S` to reset SIGTERM disposition
+and unblock it before exec of the same bounded sleep. Isolated mode prevents
+user environment, site or current-directory imports in the privileged setup.
+A regression reproduces inherited ignored and blocked SIGTERM without elevation;
+it failed before the fix. The application binary is unchanged.

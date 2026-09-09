@@ -4,6 +4,9 @@ import ctypes
 import json
 import os
 import struct
+import signal
+import shlex
+import sys
 from pathlib import Path
 import subprocess
 import tempfile
@@ -23,7 +26,9 @@ class AuthNativeTests(unittest.TestCase):
         for platform in ("Linux", "Darwin"):
             with patch.object(native.platform, "system", return_value=platform):
                 command = native.fixture_command(180)
-            self.assertIn("/bin/sleep 180 </dev/null >/dev/null 2>&1", command[-1])
+            setup = shlex.split(command[-1])
+            self.assertEqual(setup[:4], ["/usr/bin/python3", "-I", "-S", "-c"])
+            self.assertIn('os.execl("/bin/sleep", "sleep", "180")', setup[4])
             self.assertEqual(command[0], "/usr/bin/pkexec" if platform == "Linux" else "/usr/bin/osascript")
             if platform == "Linux":
                 self.assertIn("--disable-internal-agent", command)
@@ -44,6 +49,28 @@ class AuthNativeTests(unittest.TestCase):
             if child.poll() is None:
                 child.kill()
                 child.wait(timeout=5)
+
+    def test_fixture_does_not_inherit_ignored_or_blocked_terminate(self):
+        launcher = ("import os,signal,sys; "
+                    "signal.signal(signal.SIGTERM,signal.SIG_IGN); "
+                    "signal.pthread_sigmask(signal.SIG_BLOCK,{signal.SIGTERM}); "
+                    "os.execl('/bin/sh','sh','-c',sys.argv[1])")
+        result = subprocess.run([sys.executable, "-I", "-S", "-c", launcher,
+                                 native.fixture_command(180)[-1]],
+                                capture_output=True, text=True, timeout=10, check=True)
+        identity = native.process_identity(int(result.stdout.strip()))
+        self.assertIsNotNone(identity)
+        self.assertEqual(identity["uid"], os.getuid())
+        try:
+            native.wait_for(lambda: subprocess.run(
+                ["ps", "-p", str(identity["pid"]), "-o", "comm="],
+                capture_output=True, text=True, check=False).stdout.strip().endswith("sleep"),
+                "fixture exec", timeout=5)
+            os.kill(identity["pid"], signal.SIGTERM)
+            native.wait_for(lambda: not native.alive(identity), "fixture SIGTERM exit", timeout=2)
+        finally:
+            if native.alive(identity):
+                os.kill(identity["pid"], signal.SIGKILL)
 
     @unittest.skipUnless(native.platform.system() == "Darwin", "native Mac identity")
     def test_root_identity_is_readable_without_elevation(self):
