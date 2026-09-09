@@ -199,3 +199,26 @@ while the deliberate expired-target fixture remains 20 seconds. This changes
 only verification timing; identity, cancellation, signal and cleanup assertions
 remain unchanged. All 16 authentication verifier tests pass on both hosts and
 the changed Python modules pass Ruff.
+
+All four Mac authentication cases now pass on the unprivileged UI: actual
+system cancellation, End, Force Quit and a target expiring during authentication.
+The [receipt](evidence/macos/authentication.json) matches application `7c203bc9`
+and observer revision `7a552f4d` by every recorded runtime digest.
+
+Linux cancellation left its root fixture alive, but KDE reported generic
+authorization failure instead of the distinct cancellation exit expected by
+the verifier. The developer confirmed Cancel and KDE independently logged
+`Dialog cancelled` at 15:08:34 UTC, alongside polkit denial for the exact UI
+PID/start identity. No application defect or privileged success is inferred.
+The first Linux run was stopped and its failing record retained. A new Linux
+observer correlates the OS events and rejects unrelated lifetimes, overlapping
+dialogs, success or generic denial without a cancellation witness. Its parser
+also passed against the actual retained journal window. All 21 authentication
+verifier tests and changed-module Ruff checks pass.
+
+Observer provenance now names its exact committed revision, separately from
+the binary revision, as [decided](../../decisions/bind-authentication-observations-to-committed-verifier-sources.md).
+Both revisions must still have identical current production source and every
+receipt must satisfy the current outcome validators. This retains valid Mac
+evidence across the Linux-only verification correction without altering any
+observed outcome.

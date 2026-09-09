@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "platform": "macos",
+  "source_commit": "7c203bc90edadb8e4a8d62f1df9f3fde1edee42d",
+  "binary_sha256": "a8ddcda527f5e58b37c8d6a9eb24eb9daa09ec7c504e6f6fc5b4f8470f6b00fd",
+  "harness_sha256": {
+    "performance_compare.py": "58cbea575b1abb36c146eda0003912dac14849a8c24c145d93815ed0591eed4a",
+    "performance_macos.py": "0e0e73b84b1d5df52515d566e2568b3060d3526a377974b9ce9fa05bc325d70e",
+    "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
+    "performance_tree.swift": "7f486e55e2f6040beef93d9ed28ecc2b23de7bf7af33ddd910ba83fd455de359",
+    "process_auth_native.py": "8906ea337b2ca77a205203def9c6c1f78c3484205c03cedf8b5dd348bf2851f1",
+    "process_table_harnesses.py": "11d45819f6f5bdafd32b3358250f2930c4e809e6795b99776d951738ce497484",
+    "process_table_macos.py": "5a653e1fb597fe4758a0c26f04418d630564208e06ad16f3038c58de163f2ab4"
+  },
+  "cases": [
+    {
+      "case": "cancel",
+      "identity": {
+        "pid": 20565,
+        "start_time_ticks": 1788966233954812,
+        "uid": 0
+      },
+      "ordinary_exit": 11,
+      "notice": "Authentication was cancelled. The process was not changed.",
+      "alive": true
+    },
+    {
+      "case": "terminate",
+      "identity": {
+        "pid": 20565,
+        "start_time_ticks": 1788966233954812,
+        "uid": 0
+      },
+      "ordinary_exit": 11,
+      "notice": "Request sent to sleep (PID 20565). Waiting for the process list to update.",
+      "alive": false
+    },
+    {
+      "case": "kill",
+      "identity": {
+        "pid": 20700,
+        "start_time_ticks": 1788966306190308,
+        "uid": 0
+      },
+      "ordinary_exit": 11,
+      "notice": "Request sent to sleep (PID 20700). Waiting for the process list to update.",
+      "alive": false
+    },
+    {
+      "case": "expired",
+      "identity": {
+        "pid": 20797,
+        "start_time_ticks": 1788966363946862,
+        "uid": 0
+      },
+      "ordinary_exit": 11,
+      "notice": "The selected process exited, changed identity, or could not be safely signaled. The process was not changed.",
+      "alive": false
+    }
+  ],
+  "ui_pid": 20539,
+  "ui_uid": 501,
+  "remaining_bounded_fixtures": [],
+  "harness_commit": "7a552f4dfe6914c1b054bb0b9d3c8d2e1546a54e"
+}

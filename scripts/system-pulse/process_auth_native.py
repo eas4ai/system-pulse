@@ -15,6 +15,7 @@ import re
 import shlex
 import struct
 import subprocess
+import time
 
 from performance_compare import require
 from performance_macos import digest
@@ -218,8 +219,11 @@ def run(args):
     host = "macos" if platform.system() == "Darwin" else "linux"
     harnesses = {*HARNESSES[host], Path(__file__).name, "performance_macos.py",
                  "performance_preserve.py", "performance_compare.py", "process_table_harnesses.py"}
+    if host == "linux":
+        harnesses.add("process_auth_linux.py")
     record = {"status": "FAIL", "platform": host,
               "source_commit": args.commit, "binary_sha256": digest(args.binary),
+              "harness_commit": args.harness_commit,
               "harness_sha256": {name: digest(Path(__file__).with_name(name)) for name in sorted(harnesses)},
               "cases": []}
     ui = None
@@ -243,12 +247,27 @@ def run(args):
             if action == "terminate" and not expired:
                 operator_step(args, "cancel", "Cancel the next system authentication dialog.")
                 print("AUTH CANCEL: cancel the next SYSTEM authentication dialog.", flush=True)
+                cancel_started = time.time()
                 ui.confirm(action)
-                notice = wait_for(lambda: value if (value := ui.notice()).startswith("Authentication was cancelled.")
-                                  else None, "system authentication cancellation", timeout=1800)
+                witness = None
+                def cancellation():
+                    nonlocal witness
+                    value = ui.notice()
+                    if value.startswith("Authentication was cancelled."):
+                        return value
+                    if host == "linux" and value == (
+                            "Authentication failed or no system authentication agent is available. "
+                            "The process was not changed."):
+                        from process_auth_linux import observe_cancellation
+                        witness = observe_cancellation(process_identity(ui.app.pid), cancel_started)
+                        return value
+                    return None
+                notice = wait_for(cancellation, "system authentication cancellation", timeout=1800)
                 require(alive(identity), "cancelled authentication changed the fixture")
                 record["cases"].append({"case": "cancel", "identity": identity,
                                         "ordinary_exit": ordinary.returncode, "notice": notice, "alive": True})
+                if witness is not None:
+                    record["cases"][-1]["cancellation_witness"] = witness
             operator_step(args, case, "Leave the dialog open until EXPIRED, then authenticate." if expired else
                           f"Authenticate the next dialog to {action} the temporary root process.")
             print("AUTH EXPIRED: wait for the EXPIRED message before authenticating." if expired else
@@ -300,6 +319,8 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--tree", type=Path)
     parser.add_argument("--commit", required=True)
+    parser.add_argument("--harness-commit", required=True,
+                        help="committed revision matching the observer file digests")
     parser.add_argument("--interactive-auth", action="store_true", required=True,
                         help="the developer is present to respond to operating-system dialogs")
     parser.add_argument("--step-gates", action="store_true",

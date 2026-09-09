@@ -1,11 +1,12 @@
 """Reject contradictory authentication evidence before reporting PROC-004."""
 
 import copy
+import hashlib
 import unittest
 from unittest.mock import patch
 
 from performance_compare import InvalidMeasurement
-from process_auth_verify import validate_authentication, validate_authentication_source
+from process_auth_verify import check_harness_revision, validate_authentication, validate_authentication_source
 
 
 def receipt():
@@ -68,10 +69,41 @@ class AuthenticationReceiptTests(unittest.TestCase):
         with self.assertRaises(InvalidMeasurement):
             validate_authentication(record, "linux")
 
-    @patch("process_auth_verify.check_harness")
+    def test_generic_linux_failure_requires_matching_os_cancellation_witness(self):
+        record = receipt()
+        record["cases"][0]["notice"] = (
+            "Authentication failed or no system authentication agent is available. "
+            "The process was not changed.")
+        with self.assertRaises(InvalidMeasurement):
+            validate_authentication(record, "linux")
+        witness = {"agent": "polkit-kde-auth", "application_identity": {
+            "pid": 99, "start_time_ticks": 500, "uid": 1000},
+            "dialog_cancelled_us": 10_000_000, "authorization_failed_us": 10_000_010}
+        record["cases"][0]["cancellation_witness"] = witness
+        validate_authentication(record, "linux")
+        for update in ({"agent": "unknown"}, {"authorization_failed_us": 1},
+                       {"application_identity": {"pid": 98, "uid": 1000, "start_time_ticks": 500}}):
+            record["cases"][0]["cancellation_witness"] = {**witness, **update}
+            with self.assertRaises(InvalidMeasurement):
+                validate_authentication(record, "linux")
+
+    @patch("process_auth_verify.subprocess.check_output", return_value=b"committed observer")
+    @patch("process_auth_verify.same_production")
+    def test_observer_digest_must_match_the_exact_committed_tree(self, production, git):
+        digest = hashlib.sha256(b"committed observer").hexdigest()
+        check_harness_revision({"observer.py": digest}, {"observer.py"}, "a" * 40)
+        production.assert_called_once_with("a" * 40)
+        self.assertEqual(git.call_args.args[0][2], "a" * 40 + ":scripts/system-pulse/observer.py")
+        for hashes, names, commit in (({"observer.py": "b" * 64}, {"observer.py"}, "a" * 40),
+                                      ({}, {"observer.py"}, "a" * 40), ({}, {}, "HEAD")):
+            with self.assertRaises(InvalidMeasurement):
+                check_harness_revision(hashes, names, commit)
+
+    @patch("process_auth_verify.check_harness_revision")
     @patch("process_auth_verify.same_production")
     def test_requires_matching_build_and_observer_provenance(self, source, harness):
-        record = {"source_commit": "a" * 40, "binary_sha256": "b" * 64, "harness_sha256": {}}
+        record = {"source_commit": "a" * 40, "binary_sha256": "b" * 64, "harness_sha256": {},
+                  "harness_commit": "c" * 40}
         build = {**record, "exit_code": 0}
         validate_authentication_source(record, build, "linux")
         source.assert_called_once_with(record["source_commit"])
