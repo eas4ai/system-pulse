@@ -11,4 +11,4 @@ When the Mac full BSD process record is denied, recover the same microsecond bir
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 4f0fd17262647ceb404a77a5005c40ad2e60f34c Recover precise Mac root process identity without elevating collection
