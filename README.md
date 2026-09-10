@@ -6,6 +6,8 @@ System Pulse provides Summary, CPU, Memory, GPU, Disks, Network, Energy, Thermal
 
 A small system tray graph shows combined CPU load. Closing the dashboard keeps monitoring and history running while the tray is available. Click the icon or choose **Open System Pulse** to reopen your saved screen; choose **Quit** from the tray menu to exit. Without a tray host, closing the window exits normally. If the tray host disappears while the dashboard is closed, the window reopens.
 
+On Windows, **End task** requests graceful closure and permits an application to decline; **Force quit** terminates the selected process after warning about unsaved work. An access-denied action can request one UAC-authorized helper while the dashboard keeps its normal privileges. Windows builds are unsigned, so the UAC prompt does not show a verified publisher. See the [process-action guide](docs/user-guide.md) and [current verification commitment](docs/commitments/windows-uac-process-actions.md) for behavior and evidence requirements.
+
 ## Run
 
 From this repository root:

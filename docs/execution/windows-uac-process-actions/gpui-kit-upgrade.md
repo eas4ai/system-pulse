@@ -106,3 +106,15 @@ The graph verifier rejects an old kit, duplicate/mixed GPUI runtime, and missing
 local patches. Its full mode additionally validates source-bound automated,
 Linux package, Mac build/runtime and Windows build/runtime records; graph-only
 success cannot produce WUAC-007 acceptance.
+
+## Process-action accessibility follow-up
+
+The subsequent Windows action harness found that Kit 0.6.1's disabled buttons
+block activation and use disabled colors but leave their AccessKit node enabled.
+The component Button now exposes `StatefulInteractiveElement` through its existing
+stable root, matching its base Button. System Pulse uses the native node hook to
+publish the disabled state of its two process-action buttons. This keeps the fix
+within the action UI and preserves caller-provided accessibility behavior in
+other controls. The application tests and all 17 component button tests pass on
+Linux; fresh native and committed-source preservation evidence is still required
+for this follow-up.

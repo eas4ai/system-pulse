@@ -540,6 +540,10 @@ impl InteractiveElement for Button {
     }
 }
 
+// The root already owns a stable element ID. Expose its native accessibility
+// builders so application controls can publish pending/disabled semantics.
+impl gpui::StatefulInteractiveElement for Button {}
+
 impl RenderOnce for Button {
     fn render(self, window: &mut Window, cx: &mut App) -> impl IntoElement {
         let style: ButtonVariant = self.variant;

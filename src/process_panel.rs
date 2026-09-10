@@ -17,8 +17,39 @@ pub(super) struct ProcessPanelState {
     query: String,
     sort: ProcessSort,
     confirmation: Option<(ProcessIdentity, String, ProcessSignal)>,
+}
+
+// The workspace retains this state while native windows and controls are recreated.
+#[derive(Default)]
+pub(crate) struct ProcessActionState {
     busy: bool,
     notice: String,
+}
+
+impl ProcessActionState {
+    fn finish_action(
+        &mut self,
+        name: &str,
+        pid: u32,
+        result: Result<process_control::ProcessActionOutcome, String>,
+    ) {
+        self.busy = false;
+        self.notice = match result {
+            Ok(process_control::ProcessActionOutcome::SignalSent) => format!(
+                "Request sent to {name} (PID {pid}). Waiting for the process list to update."
+            ),
+            Ok(process_control::ProcessActionOutcome::ExitObserved) => {
+                format!("{name} (PID {pid}) has exited.")
+            }
+            Ok(process_control::ProcessActionOutcome::CloseRequested) => format!(
+                "Closure requested for {name} (PID {pid}). Check its window for a response; exit has not been confirmed."
+            ),
+            Ok(process_control::ProcessActionOutcome::TerminationPending) => format!(
+                "Termination requested for {name} (PID {pid}); exit is still pending. Check the process list before trying again."
+            ),
+            Err(error) => error,
+        };
+    }
 }
 
 impl MonitorPanel {
@@ -41,7 +72,7 @@ impl MonitorPanel {
         signal: ProcessSignal,
         cx: &mut Context<Self>,
     ) {
-        if self.process_state.busy {
+        if self.shared.borrow().process_action.busy {
             return;
         }
         let name = self
@@ -55,16 +86,17 @@ impl MonitorPanel {
         if let Some(name) = name {
             self.selected = Some(identity.clone());
             self.process_state.confirmation = Some((identity, name, signal));
-            self.process_state.notice.clear();
+            self.shared.borrow_mut().process_action.notice.clear();
         } else {
             self.process_state.confirmation = None;
-            self.process_state.notice = "This process has exited. Select another process.".into();
+            self.shared.borrow_mut().process_action.notice =
+                "This process has exited. Select another process.".into();
         }
         cx.notify();
     }
 
     fn confirm_process_action(&mut self, cx: &mut Context<Self>) {
-        if self.process_state.busy {
+        if self.shared.borrow().process_action.busy {
             return;
         }
         let Some((identity, name, signal)) = self.process_state.confirmation.take() else {
@@ -72,24 +104,39 @@ impl MonitorPanel {
         };
         // Fixtures can never dispatch an OS operation, even when a PID happens to match.
         if !self.shared.borrow().allow_process_actions || self.shared.borrow().snapshot.is_none() {
-            self.process_state.notice = "Process actions require a live system snapshot.".into();
+            self.shared.borrow_mut().process_action.notice =
+                "Process actions require a live system snapshot.".into();
             cx.notify();
             return;
         }
-        self.process_state.busy = true;
-        self.process_state.notice = format!("Sending request to {name} (PID {})…", identity.pid);
+        self.shared.borrow_mut().process_action.busy = true;
+        self.shared.borrow_mut().process_action.notice =
+            format!("Sending request to {name} (PID {})…", identity.pid);
+        let shared = self.shared.clone();
         cx.spawn(async move |weak, cx| {
             let pid = identity.pid;
-            let result = smol::unblock(move || process_control::send_signal_with_authentication(&identity, signal)).await;
-            let _ = weak.update(cx, |this, cx| {
-                this.process_state.busy = false;
-                this.process_state.notice = match result {
-                    Ok(()) => format!("Request sent to {name} (PID {pid}). Waiting for the process list to update."),
-                    Err(error) => error,
-                };
-                cx.notify();
-            });
-        }).detach();
+            let result = smol::unblock(move || {
+                process_control::send_signal_with_authentication(&identity, signal)
+            })
+            .await;
+            shared
+                .borrow_mut()
+                .process_action
+                .finish_action(&name, pid, result);
+            let _ = weak.update(cx, |_, cx| cx.notify());
+            // A reopened dashboard owns a new panel. Deliver completion there even
+            // when the original panel no longer exists.
+            let owner = shared.borrow().owner.clone();
+            if let Some(owner) = owner {
+                let _ = owner.update(cx, |owner, cx| {
+                    if let Some(screen) = &owner.screen_view {
+                        let _ = screen.update(cx, |screen, cx| screen.refresh(cx));
+                    }
+                    cx.notify();
+                });
+            }
+        })
+        .detach();
         cx.notify();
     }
 
@@ -127,11 +174,20 @@ impl MonitorPanel {
                     ]
                     .into_iter()
                     .map(|(id, label, signal)| {
+                        let disabled =
+                            self.selected.is_none() || self.shared.borrow().process_action.busy;
                         Button::new(id)
                             .small()
                             .ghost()
                             .label(label)
-                            .disabled(self.selected.is_none() || self.process_state.busy)
+                            .disabled(disabled)
+                            .a11y_synthetic_children(move |tree| {
+                                // Kit 0.6.1 blocks activation but does not publish
+                                // its disabled state to the native accessibility node.
+                                if disabled {
+                                    tree.parent_node().set_disabled();
+                                }
+                            })
                             .on_click(cx.listener(move |this, _, _, cx| {
                                 if let Some(identity) = this.selected.clone() {
                                     this.prepare_process_action(identity, signal, cx);
@@ -142,24 +198,31 @@ impl MonitorPanel {
         );
         if let Some((identity, name, signal)) = &self.process_state.confirmation {
             let force = *signal == ProcessSignal::Kill;
+            let prompt = format!(
+                "{} {name} (PID {})?{}",
+                if force { "Force quit" } else { "End" },
+                identity.pid,
+                if force {
+                    " Unsaved work may be lost."
+                } else if cfg!(target_os = "windows") {
+                    " Request graceful closure. The application may ask to save work or decline."
+                } else {
+                    " The process will receive a termination request."
+                }
+            );
             toolbar = toolbar.child(
                 div()
+                    .id("process-action-confirmation")
                     .flex()
                     .flex_wrap()
                     .items_center()
                     .gap_2()
                     .p_2()
                     .bg(cx.theme().muted)
-                    .child(format!(
-                        "{} {name} (PID {})?{}",
-                        if force { "Force quit" } else { "End" },
-                        identity.pid,
-                        if force {
-                            " Unsaved work may be lost."
-                        } else {
-                            " The process will receive a termination request."
-                        }
-                    ))
+                    .role(Role::Group)
+                    .accessibility_id("process-action-confirmation")
+                    .aria_label(prompt.clone())
+                    .child(prompt)
                     .child(
                         Button::new("cancel-process-action")
                             .accessibility_label("Cancel process action")
@@ -196,15 +259,15 @@ impl MonitorPanel {
                     ),
             );
         }
-        if !self.process_state.notice.is_empty() {
+        if !self.shared.borrow().process_action.notice.is_empty() {
             toolbar = toolbar.child(
                 div()
                     .id("process-action-status")
                     .p_1()
                     .role(Role::Status)
                     .accessibility_id("process-action-status")
-                    .aria_label(self.process_state.notice.clone())
-                    .child(self.process_state.notice.clone()),
+                    .aria_label(self.shared.borrow().process_action.notice.clone())
+                    .child(self.shared.borrow().process_action.notice.clone()),
             );
         }
         toolbar.into_any_element()
@@ -480,7 +543,7 @@ impl MonitorPanel {
 mod tests {
     use super::{InputEvent, MonitorPanel, ProcessSignal};
     use crate::native_tests::{draw, harness, native_key, panel};
-    use gpui_kit::{Entity, Modifiers, TestAppContext, VisualTestContext, point, px};
+    use gpui_kit::{AppContext, Entity, Modifiers, TestAppContext, VisualTestContext, point, px};
 
     fn focus_table(processes: &Entity<MonitorPanel>, cx: &mut VisualTestContext) {
         cx.update(|window, cx| {
@@ -595,10 +658,11 @@ mod tests {
         cx.simulate_click(cancel.center(), Modifiers::none());
         draw(cx);
         cx.read(|cx| {
-            let state = &processes.read(cx).process_state;
-            assert!(state.confirmation.is_none());
-            assert!(!state.busy);
-            assert!(state.notice.is_empty());
+            let panel = processes.read(cx);
+            assert!(panel.process_state.confirmation.is_none());
+            let data = panel.shared.borrow();
+            assert!(!data.process_action.busy);
+            assert!(data.process_action.notice.is_empty());
         });
         cx.update(|_, cx| {
             processes.update(cx, |this, cx| {
@@ -610,11 +674,12 @@ mod tests {
         cx.simulate_click(confirm.center(), Modifiers::none());
         draw(cx);
         cx.read(|cx| {
-            let state = &processes.read(cx).process_state;
-            assert!(!state.busy);
-            assert!(state.confirmation.is_none());
+            let panel = processes.read(cx);
+            assert!(panel.process_state.confirmation.is_none());
+            let data = panel.shared.borrow();
+            assert!(!data.process_action.busy);
             assert_eq!(
-                state.notice,
+                data.process_action.notice,
                 "Process actions require a live system snapshot."
             );
         });
@@ -630,9 +695,130 @@ mod tests {
         assert!(cx.read(|cx| {
             processes
                 .read(cx)
-                .process_state
+                .shared
+                .borrow()
+                .process_action
                 .notice
                 .contains("has exited")
         }));
+    }
+    #[gpui_kit::test]
+    fn pending_action_rejects_duplicate_confirmation_and_selection_changes(
+        cx: &mut TestAppContext,
+    ) {
+        let (view, cx) = harness(cx);
+        let processes = panel(&view, "processes", cx);
+        focus_table(&processes, cx);
+        cx.update(|_, cx| {
+            processes.update(cx, |this, cx| {
+                let original = this.shared.borrow().processes[0].identity.clone();
+                let other = this.shared.borrow().processes[1].identity.clone();
+                this.prepare_process_action(original.clone(), ProcessSignal::Kill, cx);
+                this.shared.borrow_mut().process_action.busy = true;
+                this.shared.borrow_mut().process_action.notice =
+                    "Awaiting Windows authorization".into();
+                this.selected = Some(other.clone());
+                this.prepare_process_action(other, ProcessSignal::Terminate, cx);
+                this.confirm_process_action(cx);
+                this.confirm_process_action(cx);
+                assert!(this.shared.borrow().process_action.busy);
+                assert_eq!(
+                    this.shared.borrow().process_action.notice,
+                    "Awaiting Windows authorization"
+                );
+                let confirmation = this.process_state.confirmation.as_ref().unwrap();
+                assert_eq!(confirmation.0, original);
+                assert_eq!(confirmation.2, ProcessSignal::Kill);
+            });
+        });
+        draw(cx);
+        // The table still handles navigation while authorization is pending.
+        native_key("down", cx);
+        draw(cx);
+        assert!(cx.read(|cx| processes.read(cx).selected.is_some()));
+    }
+
+    #[test]
+    fn completion_releases_busy_state_without_claiming_unobserved_exit() {
+        use super::ProcessActionState;
+        use system_pulse_collectors::process_control::ProcessActionOutcome;
+        for (outcome, expected) in [
+            (
+                ProcessActionOutcome::SignalSent,
+                "Waiting for the process list",
+            ),
+            (
+                ProcessActionOutcome::CloseRequested,
+                "exit has not been confirmed",
+            ),
+            (
+                ProcessActionOutcome::TerminationPending,
+                "exit is still pending",
+            ),
+            (ProcessActionOutcome::ExitObserved, "has exited"),
+        ] {
+            let mut state = ProcessActionState {
+                busy: true,
+                ..Default::default()
+            };
+            state.finish_action("owned target", 4242, Ok(outcome));
+            assert!(!state.busy);
+            assert!(state.notice.contains("owned target (PID 4242)"));
+            assert!(state.notice.contains(expected));
+            assert_eq!(
+                state.notice.contains("has exited"),
+                outcome == ProcessActionOutcome::ExitObserved
+            );
+        }
+        let mut state = ProcessActionState {
+            busy: true,
+            ..Default::default()
+        };
+        state.finish_action(
+            "owned target",
+            4242,
+            Err("Unknown outcome; check the process list".into()),
+        );
+        assert!(!state.busy);
+        assert_eq!(state.notice, "Unknown outcome; check the process list");
+    }
+
+    #[gpui_kit::test]
+    fn recreated_process_panel_cannot_resubmit_an_inflight_action(cx: &mut TestAppContext) {
+        let (view, cx) = harness(cx);
+        let processes = panel(&view, "processes", cx);
+        cx.update(|_, cx| {
+            let (monitor, shared) = processes.update(cx, |this, _| {
+                this.shared.borrow_mut().process_action.busy = true;
+                this.shared.borrow_mut().process_action.notice = "Awaiting authorization".into();
+                (this.monitor.clone(), this.shared.clone())
+            });
+            let replacement = cx.new(|cx| MonitorPanel::new_standalone(monitor, shared, cx));
+            replacement.update(cx, |this, cx| {
+                let identity = this.shared.borrow().processes[0].identity.clone();
+                this.prepare_process_action(identity, ProcessSignal::Kill, cx);
+                assert!(this.process_state.confirmation.is_none());
+                assert!(this.shared.borrow().process_action.busy);
+                assert_eq!(
+                    this.shared.borrow().process_action.notice,
+                    "Awaiting authorization"
+                );
+            });
+            processes.update(cx, |this, _| {
+                this.shared.borrow_mut().process_action.finish_action(
+                    "original target",
+                    4242,
+                    Err("Authorization cancelled".into()),
+                );
+            });
+            replacement.update(cx, |this, _| {
+                assert!(!this.shared.borrow().process_action.busy);
+                assert_eq!(
+                    this.shared.borrow().process_action.notice,
+                    "Authorization cancelled"
+                );
+                assert!(this.process_state.confirmation.is_none());
+            });
+        });
     }
 }

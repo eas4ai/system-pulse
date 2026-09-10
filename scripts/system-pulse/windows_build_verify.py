@@ -56,6 +56,16 @@ if ($LASTEXITCODE -ne 0) { throw 'Windows tests failed' }
 if ($LASTEXITCODE -ne 0) { throw 'Windows release build failed' }
 if ((Get-FileHash Cargo.lock -Algorithm SHA256).Hash -ne $lockHash) { throw 'Lockfile changed during verification' }
 $binary = Join-Path $env:CARGO_TARGET_DIR 'release\system-pulse.exe'
+$kit = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows Kits\Installed Roots'
+$mt = Get-ChildItem (Join-Path $kit.KitsRoot10 'bin\*\x64\mt.exe') | Sort-Object FullName | Select-Object -Last 1
+if (!$mt) { throw 'Install the Windows SDK manifest tool to verify launch privileges' }
+$manifest = Join-Path $env:CARGO_TARGET_DIR '__TOKEN__-windows-manifest.xml'
+& $mt.FullName -nologo ("-inputresource:"+$binary+";#1") ("-out:"+$manifest)
+if ($LASTEXITCODE -ne 0) { throw 'Cannot extract the embedded Windows manifest' }
+[xml]$document = Get-Content -Raw $manifest
+$levels = @($document.SelectNodes("//*[local-name()='requestedExecutionLevel']"))
+if ($levels.Count -ne 1 -or $levels[0].GetAttribute('level') -ne 'asInvoker' -or $levels[0].GetAttribute('uiAccess') -ne 'false') { throw 'The normal executable must retain asInvoker and uiAccess=false' }
+Write-Output 'Embedded Windows manifest: asInvoker; uiAccess=false'
 Get-FileHash $binary -Algorithm SHA256 | Format-List
 Write-Output 'PASS REL-001 __REVISION__'
 """

@@ -13,6 +13,7 @@ use std::{collections::BTreeMap, rc::Rc, sync::Arc};
 
 #[path = "process_panel.rs"]
 mod process_panel;
+pub(crate) use process_panel::ProcessActionState;
 #[path = "sensor_panel.rs"]
 mod sensor_panel;
 use system_pulse_collectors::ProcessIdentity;

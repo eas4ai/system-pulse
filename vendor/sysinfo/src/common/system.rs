@@ -1845,6 +1845,13 @@ impl Process {
         self.inner.start_time_microseconds
     }
 
+    /// Returns the full Windows process creation FILETIME, or zero if unknown.
+    /// This retains the existing native query's 100-nanosecond ticks since 1601.
+    #[cfg(all(windows, not(feature = "unknown-ci")))]
+    pub fn start_time_filetime(&self) -> u64 {
+        self.inner.start_time_filetime
+    }
+
     /// Returns the time where the process was started (in seconds) from epoch.
     ///
     /// ```no_run

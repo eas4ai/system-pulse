@@ -25,10 +25,22 @@ Use Settings for theme, fonts, sampling interval and presets; choices save
 automatically. `SYSTEM_PULSE_STATE_DIR` selects an isolated state directory.
 
 CPU, memory, disk, network and process support depends on the host. Missing
-sensors remain explicit. Intel Windows GPU readings, Windows process thread
-counts and Windows process-control actions are not implemented. CI compilation
+sensors remain explicit. Intel Windows GPU readings and Windows process thread
+counts are not implemented. CI compilation
 does not establish hardware sensor accuracy; native observations are retained
 under `docs/execution/` in the included source.
+
+On Windows, **End task** requests graceful closure; an application can ask to save
+work or refuse. Windowless targets report graceful close unavailable. **Force
+quit** is separately confirmed and warns about unsaved work. An action first
+uses your current permissions; after identity and safety checks pass, an action
+that needs more permissions can request one elevated helper through Windows UAC.
+The helper uses this same extracted executable, including
+when its directory contains spaces or non-ASCII characters. Normal dashboard
+launch stays at the caller's privilege level. The executable is unsigned, so do
+not expect a verified publisher in the UAC dialog. Enter any administrator
+credentials only into Windows. Cancellation starts no helper action; an unknown
+or pending outcome asks you to check the process list before trying again.
 
 ## Source and notices
 

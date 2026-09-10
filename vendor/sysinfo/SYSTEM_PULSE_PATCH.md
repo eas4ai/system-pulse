@@ -19,6 +19,11 @@ Local changes:
   accessor comparisons are in `tests/macos_process_identity.c`.
 - `src/common/system.rs`: expose the retained macOS birth-time microseconds
   without an additional process query; the existing seconds API is unchanged.
+- `src/windows/process.rs`: retain all 64 creation-time FILETIME bits from the
+  existing native process query, including its limited-information handle fallback.
+  `src/common/system.rs` exposes `start_time_filetime()` on Windows without an
+  additional query. The existing seconds API is unchanged. System Pulse uses
+  these full ticks for process-action identity, never the rounded seconds.
 - `src/unix/apple/macos/process_refresh_tests.rs`: native regression tests for
   refresh flags, missing metadata, retained counters, replacement identity,
   same-PID exec and owned-process exit.
@@ -40,3 +45,7 @@ Approved scope and evidence:
 `docs/decisions/skip-unrequested-mac-process-arguments-in-retained-sysinfo-entries.md`.
 The process-identity extension is covered by PROC-004/PROC-005 and
 `docs/decisions/authenticate-one-identity-bound-process-action-through-the-operating-system.md`.
+The Windows extension is covered by WUAC-001 and
+`docs/decisions/windows-process-action-identity-and-elevation.md`; its native
+collector tests compare against independent GetProcessTimes observations and
+reject a one-tick mismatch without changing the owned target.
