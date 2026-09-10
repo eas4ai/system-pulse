@@ -1,0 +1,36 @@
+Windows build evidence: /tmp/system-pulse-windows-phsbadr_
+17 | enum ActionError {
+   |      ----------- variant in this enum
+18 |     PermissionDenied,
+   |     ^^^^^^^^^^^^^^^^
+   |
+   = note: `ActionError` has a derived impl for the trait `Debug`, but this is intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `helper_arguments` is never used
+  --> crates\collectors\src\process_control\authentication.rs:33:4
+   |
+33 | fn helper_arguments(identity: &ProcessIdentity, signal: ProcessSignal) -> [String; 4] {
+   |    ^^^^^^^^^^^^^^^^
+
+warning: function `helper_result` is never used
+  --> crates\collectors\src\process_control\authentication.rs:92:4
+   |
+92 | fn helper_result(code: Option<i32>) -> Result<(), String> {
+   |    ^^^^^^^^^^^^^
+
+warning: `system-pulse-collectors` (lib) generated 4 warnings (run `cargo fix --lib -p system-pulse-collectors` to apply 1 suggestion)
+   Compiling gpui-tray v0.1.0 (https://github.com/eas4ai/gpui-kit-tray?rev=5e0f637069e6d5ba8bdee6872f1ed935348642a0#5e0f6370)
+   Compiling system-pulse-model v0.3.0 (C:\Users\shawn\workspace\system-pulse-fd98c4704cb2-2daa69a7\crates\model)
+   Compiling system-pulse v0.3.0 (C:\Users\shawn\workspace\system-pulse-fd98c4704cb2-2daa69a7)
+    Finished `release` profile [optimized] target(s) in 31m 36s
+
+
+Algorithm : SHA256
+Hash      : 8F462E175175A19CB02AF11A69B1B16D38F6DDAA31C7CA89311388CFE3258DA0
+Path      : C:\Users\shawn\workspace\system-pulse-build-target\release\system-pulse.exe
+
+
+
+PASS REL-001 fd98c4704cb2d79b5625cb4b8d0a6817fade0046
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04"><Obj S="progress" RefId="0"><TN RefId="0"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj><Obj S="progress" RefId="1"><TNRef RefId="0" /><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>

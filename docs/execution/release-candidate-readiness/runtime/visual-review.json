@@ -1,0 +1,32 @@
+{
+  "run_id": "8c5e79406d29418d94d2455a092f2699",
+  "status": "PASS",
+  "reviewer": "Codex native screenshot review",
+  "reviewed_utc": "2026-09-10T03:40:02.272452+00:00",
+  "screenshots_sha256": {
+    "summary.png": "75a480bab7fe7bb39f81e01018566f4a035214accb6561601b906b834c521ee0",
+    "gpu.png": "1ac39fd02aa741f3d129c0faeaef5a4251e95c7c58b72153483e36f367cfeccf",
+    "thermals.png": "5ad54c8d59aa4107ac916fccee5379ef13712cd4047dc89bc7f0d968db3b2ac1",
+    "energy.png": "050abfe3c5a8f55f607ac8faafc8f084172183916fb70a641075c7078e381e9e",
+    "processes.png": "5cf502832ec7a1140efead4f58ccb4e442ee657e3a07e9a9b3fcb213ff0ef5a2",
+    "restored-settings.png": "b4229d4580359169a0f7d58753146682e7b420720d0162f0184a6e69c4a9fd61",
+    "diagnostic-menu.png": "395f7e4ac84d49094ea10601e3385adb1edbcee2ddc99f940726121557143545",
+    "normal-menu.png": "395f7e4ac84d49094ea10601e3385adb1edbcee2ddc99f940726121557143545"
+  },
+  "unavailable_screens": [
+    "GPU",
+    "Thermals",
+    "Energy"
+  ],
+  "menu_commands": [
+    "Open System Pulse",
+    "Quit"
+  ],
+  "observations": [
+    "Summary renders live charts and eight top-CPU rows.",
+    "Process columns align; unavailable thread counts remain explicit.",
+    "GPU, temperature and power screens show no available readings.",
+    "The normal restart shows the selected light theme, IBM Plex fonts and two-second interval.",
+    "Both native tray menus contain Open System Pulse and Quit."
+  ]
+}

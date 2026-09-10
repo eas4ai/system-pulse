@@ -4,9 +4,18 @@ inputs:
   - Cargo.lock
   - .cargo/config.toml
   - src/
+  - tests/
   - crates/
   - vendor/
   - assets/
   - scripts/system-pulse/windows_runtime_verify.py
+  - scripts/system-pulse/windows_runtime_collect.py
+  - scripts/system-pulse/windows_runtime.ps1
+  - scripts/system-pulse/test_windows_runtime_verify.py
+  - scripts/system-pulse/performance_verify.py
+  - scripts/system-pulse/performance_compare.py
+  - scripts/system-pulse/performance_macos.py
+  - docs/execution/release-candidate-readiness/runtime/
+  - .cairn/evidence/REL-001/
 requirements:
   - REL-002

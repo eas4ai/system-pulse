@@ -1,0 +1,21 @@
+requirement: REL-001
+requirement_digest: sha256:0518aba0b0ef8a82c02552c2ef89aab76657f11ec3f548c6c431c4dc8d851269
+sequence: 1
+history_digest: sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+mechanism: windows-build
+commit: 3c8cf126
+inputs_digest: sha256:11db8aa3a0676b7fc80187687fdff76ef3cfbd10546f9151c0287d37db7c94fd
+mechanism_digest: sha256:30092235428f839123799326cd85b5aebf90653f076be6275adb09db6e928128
+inputs_detail: .cairn/evidence/REL-001/20260910T014247004Z-1244996.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/windows_build_verify.py
+cwd: .
+exit: 1
+output_digest: sha256:89e02895f9f5d22c79006da1327b9b92a718668961e6e465c314bcc04b7dbf93
+output: .cairn/evidence/REL-001/20260910T014247004Z-1244996.out
+stderr_output: .cairn/evidence/REL-001/20260910T014247004Z-1244996.err
+stderr_digest: sha256:89e02895f9f5d22c79006da1327b9b92a718668961e6e465c314bcc04b7dbf93
+signal: none
+execution_error: null
+result: fail
+source: exit
+recorded: 2026-09-10T01:42:51.778Z

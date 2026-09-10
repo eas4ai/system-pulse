@@ -1,0 +1,18 @@
+scp: Connection closed
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_build_verify.py", line 80, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_build_verify.py", line 29, in main
+    subprocess.run(
+    ~~~~~~~~~~~~~~^
+        ["scp", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+         str(archive), f"{host}:{token}.tar.gz"], check=True,
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/linuxbrew/.linuxbrew/Cellar/python@3.14/3.14.7/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['scp', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=15', '/tmp/system-pulse-windows-8ogt5jxi/source.tar.gz', 'shawn@10.66.231.23:system-pulse-3c8cf12676cb-6fa70d71.tar.gz']' returned non-zero exit status 255.
