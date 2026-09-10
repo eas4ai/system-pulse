@@ -19,3 +19,5 @@ requirements:
   - WUAC-004
   - WUAC-005
   - WUAC-006
+reviewed:
+  - WUAC-006 sha256:f5d194bd6c5a92614e1d6003859dbc692a50fdcc79ade75ed3455d621124e40a
