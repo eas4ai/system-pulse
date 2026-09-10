@@ -1,0 +1,132 @@
+{
+    "binary_path":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-8eeb335d89784c1eae769fb640c5aaeb\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "dashboard_cleaned":  true,
+    "finished_utc":  "2026-09-10T23:16:54.9155871Z",
+    "started_utc":  "2026-09-10T23:16:31.4258209Z",
+    "cases":  [
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:16:49.4036877Z",
+                                                       "sequence":  15,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:16:50.3253523Z",
+                                                       "sequence":  16,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:16:51.0951243Z",
+                                                       "sequence":  17,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:16:52.1608142Z",
+                                                       "sequence":  18,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:16:53.0044158Z",
+                                                       "sequence":  19,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   }
+                                               ],
+                      "ordinary_force_access_error":  5,
+                      "pid":  1652,
+                      "creation_ticks":  134335557889599531,
+                      "status":  "owned-fixture.exe (PID 1652) has exited.",
+                      "mode":  "windowless",
+                      "exited":  true,
+                      "dashboard_handles_after":  788,
+                      "settled_utc":  "2026-09-10T23:16:53.2556342Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335557889599531,
+                      "submitted_utc":  "2026-09-10T23:16:48.6456203Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 1652)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n1652\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 1652\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 228 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  11,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  20,
+                      "name":  "consent-force",
+                      "signal":  "kill",
+                      "dashboard_handles_before":  658
+                  }
+              ],
+    "source_commit":  "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "signing_status":  "NotSigned",
+    "dashboard":  {
+                      "account":  "XPSTABLET\\shawn",
+                      "creation_ticks":  134335557935968174,
+                      "pid":  15416,
+                      "elevated_before":  false,
+                      "elevation_type":  3
+                  },
+    "helper_entry_checks":  [
+                                {
+                                    "exit_code":  29,
+                                    "name":  "unelevated-helper",
+                                    "state_created":  false,
+                                    "pid":  7724,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  29,
+                                    "name":  "extra-helper-argument",
+                                    "state_created":  false,
+                                    "pid":  6172,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  13,
+                                    "name":  "legacy-helper-mode",
+                                    "state_created":  false,
+                                    "pid":  16332,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                }
+                            ],
+    "unrelated_control":  {
+                              "creation_ticks":  134335558002290124,
+                              "pid":  14748
+                          },
+    "os_version":  "Microsoft Windows NT 10.0.26200.0",
+    "owned_target_cleanup":  [
+                                 {
+                                     "exited":  true,
+                                     "pid":  14748
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  7724
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  6172
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  16332
+                                 }
+                             ],
+    "status":  "PASS",
+    "binary_sha256":  "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b"
+}

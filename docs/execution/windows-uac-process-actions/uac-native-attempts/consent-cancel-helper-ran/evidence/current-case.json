@@ -1,0 +1,6 @@
+{
+    "phase":  "confirming",
+    "expected_operator_action":  "Cancel",
+    "pid":  13948,
+    "name":  "consent-cancel"
+}

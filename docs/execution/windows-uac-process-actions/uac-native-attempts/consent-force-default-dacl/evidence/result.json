@@ -1,0 +1,70 @@
+{
+    "binary_path":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-e822a4739fb343d3a186c51db4837646\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "dashboard_cleaned":  true,
+    "finished_utc":  "2026-09-10T23:05:28.8007733Z",
+    "started_utc":  "2026-09-10T23:05:13.9755909Z",
+    "cases":  [
+
+              ],
+    "source_commit":  "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "signing_status":  "NotSigned",
+    "dashboard":  {
+                      "account":  "XPSTABLET\\shawn",
+                      "creation_ticks":  134335551160651939,
+                      "pid":  13160,
+                      "elevated_before":  false,
+                      "elevation_type":  3
+                  },
+    "helper_entry_checks":  [
+                                {
+                                    "exit_code":  29,
+                                    "name":  "unelevated-helper",
+                                    "state_created":  false,
+                                    "pid":  5824,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  29,
+                                    "name":  "extra-helper-argument",
+                                    "state_created":  false,
+                                    "pid":  15296,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  13,
+                                    "name":  "legacy-helper-mode",
+                                    "state_created":  false,
+                                    "pid":  15068,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                }
+                            ],
+    "unrelated_control":  {
+                              "creation_ticks":  134335551228971910,
+                              "pid":  5696
+                          },
+    "os_version":  "Microsoft Windows NT 10.0.26200.0",
+    "owned_target_cleanup":  [
+                                 {
+                                     "exited":  true,
+                                     "pid":  5696
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  5824
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  15296
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  15068
+                                 }
+                             ],
+    "error":  "Elevated force fixture does not require authorization",
+    "status":  "FAIL",
+    "binary_sha256":  "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b"
+}

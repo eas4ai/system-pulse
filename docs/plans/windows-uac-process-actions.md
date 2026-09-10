@@ -77,3 +77,11 @@ limited access probes before the application action. Native elevated access,
 denial, retained-handle cleanup and all 16 process-evidence tests passed after
 this correction. The older ordinary receipt predates these harness hashes and
 must be recollected; no real UAC acceptance is claimed by the fixture self-test.
+
+The corrected `consent-force` run passed independent single-run verification with
+one real consent prompt and one elevated helper, the selected fixture exiting,
+the unrelated control unchanged and the dashboard remaining limited. The human
+confirmed approving the prompt and observing Unknown publisher. The next run,
+intended as `consent-cancel`, observed an approved helper and target exit; it is
+retained as a failed attempt and requires clarification and a valid cancellation
+observation. These observations do not complete the full UAC commitment.
