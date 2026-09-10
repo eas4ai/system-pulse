@@ -3,7 +3,7 @@
 > Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
-Current: release-candidate-readiness
+Current: windows-uac-process-actions
 
 ## Real system readings
 
@@ -42,3 +42,13 @@ On 2026-09-09 the developer approved [release-candidate readiness](../commitment
 Windows setup, build and native runtime verification, binary-build CI and
 accurate support documentation under [REL-001 through REL-004](release.md).
 The process-table commitment has passing evidence and a clean review.
+
+## Windows UAC process actions and GPUI Kit update
+
+On 2026-09-10 the developer confirmed the complete Windows helper scope in one
+[commitment](../commitments/windows-uac-process-actions.md), then added GPUI Kit
+0.6.1. [WUAC-001 through WUAC-007](windows-uac-process-actions.md) cover ordinary
+and elevated process actions, safe identity, responsive UI, native verification
+and preservation of local framework patches. Version 0.3.0 was published from
+passing Linux/macOS/Windows CI. The prior release commitment retains its pending
+Cairn bookkeeping; this activation does not fabricate its completion.

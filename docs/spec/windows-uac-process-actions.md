@@ -1,6 +1,6 @@
 # Windows UAC process actions
 
-Status: Draft 2026-09-10 — next commitment, not activated
+Status: Agreed 2026-09-10
 Prefix: WUAC
 
 The developer requested a specification for a Windows UAC helper after publishing
@@ -53,11 +53,15 @@ Mechanism: focused model/UI tests and native Windows table/confirmation/error ob
 Falsifier: mocks or hosted compilation substitute for real UAC interaction; a required case is skipped without remaining pending; evidence lacks source/binary identity; tests affect unrelated processes; or a packaged helper cannot run from the shipped layout.
 Mechanism: controlled disposable targets on an interactive Windows desktop; record source commit, binary hash, OS/toolchain, token elevation, requested PID/creation identity, exact action and observed outcome. Cover cooperative and refusing GUI targets, a windowless target, and ordinary/elevated Force Quit. Cover an administrator's consent prompt and a standard user's administrator-credential path; the human enters secrets only into Windows. Keep every harness-owned target under cleanup and do not target system-critical processes. Run native Windows tests/build and local package verification, plus applicable Linux/macOS preservation checks, before any separately authorized hosted build.
 
+[WUAC-007] System Pulse MUST use the latest stable GPUI Kit release verified at commitment activation, with compatible companion crates and retained application-specific/native fixes.
+Falsifier: Cargo still resolves the prior kit release; duplicate incompatible GPUI generations enter the application graph; a retained patch is lost without demonstrated upstream equivalence; notices or version documentation disagree; or the upgrade regresses supported desktop behavior.
+Mechanism: crates.io reports GPUI Kit 0.6.1 as the latest non-yanked stable release on 2026-09-10. Reconcile upstream 0.6.0-to-0.6.1 changes with the local base/UI and native patches, inspect locked dependency metadata, run workspace formatting/tests/Clippy without warning-to-error flags, and verify affected Linux/macOS/Windows native and packaging paths locally. Record retained and superseded patches. This requirement pins the observed release rather than chasing moving upstream commits.
+
 ## Boundaries and execution policy
 
 No process trees, service management, persistent administrator agent, general
 command execution, credential storage, automatic action retries, new GPU/thread
-collectors, signing-service integration or unrelated dependency upgrades.
+collectors, signing-service integration or unrelated dependency upgrades. The developer explicitly added the GPUI Kit 0.6.1 upgrade and its required compatible dependencies to this commitment.
 
 Local checks first: rustfmt and full workspace Clippy without warning-to-error
 flags, appropriate tests, and native Windows verification. Existing Windows
