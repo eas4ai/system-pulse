@@ -1,0 +1,17 @@
+command: rtk proxy python3 -B scripts/system-pulse/gpui_kit_upgrade_verify.py
+inputs:
+  - Cargo.toml
+  - Cargo.lock
+  - .cargo/config.toml
+  - AGENTS.md
+  - README.md
+  - src/
+  - tests/
+  - crates/
+  - vendor/
+  - assets/
+  - package/
+  - scripts/system-pulse/
+  - docs/execution/windows-uac-process-actions/
+requirements:
+  - WUAC-007

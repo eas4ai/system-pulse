@@ -2,7 +2,7 @@
 
 Status: Agreed 2026-09-10
 Slug: windows-uac-process-actions
-Requirements: WUAC-001, WUAC-002, WUAC-003, WUAC-004, WUAC-005, WUAC-006, WUAC-007
+Requirements: WUAC-007, WUAC-001, WUAC-002, WUAC-003, WUAC-004, WUAC-005, WUAC-006
 
 Contract: [Windows UAC process actions](../spec/windows-uac-process-actions.md).
 
