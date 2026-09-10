@@ -3,6 +3,7 @@ on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,17 +13,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  linux:
-    runs-on: ubuntu-24.04
+  build:
+    name: Build ${{ matrix.platform }}
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: linux-x86_64
+            runner: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+          - platform: macos-arm64
+            runner: macos-15
+            target: aarch64-apple-darwin
+          - platform: windows-x86_64
+            runner: windows-2022
+            target: x86_64-pc-windows-msvc
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_BUILD_JOBS: 2
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions-rust-lang/setup-rust-toolchain@v1
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
         with:
+          persist-credentials: false
+      - uses: actions-rust-lang/setup-rust-toolchain@166cdcfd11aee3cb47222f9ddb555ce30ddb9659 # v1
+        with:
+          toolchain: 1.98.1
           components: rustfmt, clippy
-      - name: Install build and test dependencies
+          cache-key: ${{ matrix.target }}-release
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12'
+      - name: Install Linux build and test dependencies
+        if: runner.os == 'Linux'
         run: |
           sudo apt-get update
           sudo apt-get install -y clang lld pkg-config libfontconfig-dev libwayland-dev libxkbcommon-x11-dev libx11-xcb-dev libssl-dev libzstd-dev libvulkan1 python3-xlib python3-pyatspi python3-pil
+      - name: Check native prerequisites
+        run: |
+          rustc -vV
+          cmake --version
+          python --version
       - name: Check formatting
         run: cargo fmt --all -- --check
       - name: Test application and bundled libraries
@@ -30,6 +64,37 @@ jobs:
       - name: Lint application, collectors and model
         run: cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
       - name: Test verification and packaging tools
+        if: runner.os == 'Linux'
         run: /usr/bin/python3 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
-      - name: Build application
-        run: cargo build --locked
+      - name: Test portable archive tools
+        if: runner.os != 'Linux'
+        run: python -B -m unittest discover -s scripts/system-pulse -p 'test_package_binary.py'
+      - name: Install pinned license generator
+        run: cargo install cargo-about --version 0.9.2 --locked --features cli
+      - name: Build and package release binary
+        env:
+          PACKAGE_TARGET: ${{ matrix.target }}
+        run: python -B scripts/system-pulse/package_binary.py --target "$PACKAGE_TARGET" --output "$RUNNER_TEMP/system-pulse-package"
+      - name: Verify release archive
+        env:
+          PACKAGE_TARGET: ${{ matrix.target }}
+        run: python -B scripts/system-pulse/release_ci_verify.py --archive-directory "$RUNNER_TEMP/system-pulse-package" --target "$PACKAGE_TARGET"
+      - name: Upload release archive
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: system-pulse-${{ matrix.platform }}
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 0
+          path: |
+            ${{ runner.temp }}/system-pulse-package/*.tar.gz
+            ${{ runner.temp }}/system-pulse-package/*.zip
+            ${{ runner.temp }}/system-pulse-package/SHA256SUMS
+      - name: Retain build and license logs
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: logs-${{ matrix.platform }}
+          if-no-files-found: ignore
+          retention-days: 30
+          path: ${{ runner.temp }}/system-pulse-package/*.log

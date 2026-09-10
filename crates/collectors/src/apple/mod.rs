@@ -68,7 +68,9 @@ fn decode_table(bytes: &[u8]) -> Outcome<Vec<u64>> {
         return Err("Invalid voltage-states9 byte layout".into());
     }
     let values: Vec<_> = bytes
-        .chunks_exact(8)
+        .as_chunks::<8>()
+        .0
+        .iter()
         .map(|pair| u32::from_le_bytes([pair[0], pair[1], pair[2], pair[3]]) as u64)
         .collect();
     if values[0] != 0 || values.windows(2).any(|v| v[0] >= v[1]) {

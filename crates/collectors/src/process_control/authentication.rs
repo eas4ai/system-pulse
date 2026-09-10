@@ -1,7 +1,8 @@
 //! One OS-authorized invocation; no password ever crosses this boundary.
 use super::*;
+use std::ffi::OsString;
+#[cfg(any(target_os = "linux", target_os = "macos"))]
 use std::{
-    ffi::OsString,
     path::Path,
     process::{Command, Stdio},
 };
@@ -30,6 +31,7 @@ pub fn send_signal_with_authentication(
     with_authentication(identity, signal, send, authenticate)
 }
 
+#[cfg(any(target_os = "linux", target_os = "macos", test))]
 fn helper_arguments(identity: &ProcessIdentity, signal: ProcessSignal) -> [String; 4] {
     [
         HELPER_MODE.into(),
@@ -89,6 +91,7 @@ pub fn helper_entry(arguments: impl IntoIterator<Item = OsString>) -> Option<i32
     })
 }
 
+#[cfg(any(target_os = "linux", target_os = "macos", test))]
 fn helper_result(code: Option<i32>) -> Result<(), String> {
     match code {
         Some(0) => Ok(()),

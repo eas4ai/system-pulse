@@ -15,6 +15,12 @@ mod macos;
 
 #[derive(Debug, PartialEq, Eq)]
 enum ActionError {
+    // Unsupported platforms cannot produce this native error, but the shared
+    // authentication dispatcher and its tests still handle it.
+    #[cfg_attr(
+        not(any(target_os = "linux", target_os = "macos", test)),
+        allow(dead_code)
+    )]
     PermissionDenied,
     Failed(String),
 }

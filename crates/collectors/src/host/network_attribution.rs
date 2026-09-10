@@ -302,7 +302,7 @@ fn address(row: &TcpLocalRow, family: IpVersion, order: WordByteOrder) -> Result
         Ok(IpAddr::V4(Ipv4Addr::from(word(token)?)))
     } else {
         let mut bytes = [0; 16];
-        for (index, chunk) in bytes.chunks_exact_mut(4).enumerate() {
+        for (index, chunk) in bytes.as_chunks_mut::<4>().0.iter_mut().enumerate() {
             chunk.copy_from_slice(&word(&token[index * 8..index * 8 + 8])?);
         }
         Ok(normalize(IpAddr::V6(Ipv6Addr::from(bytes))))

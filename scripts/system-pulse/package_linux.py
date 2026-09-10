@@ -38,7 +38,7 @@ def run(command, log, timeout):
         )
 
 
-def write_licenses(report, package):
+def write_licenses(report, package, platform_label="Linux"):
     crates = report["crates"]
     unknown = [
         c["package"]["name"]
@@ -75,13 +75,14 @@ def write_licenses(report, package):
         ],
         "notices": groups,
     }
-    (package / "dependency-licenses.json").write_text(json.dumps(data, indent=2) + "\n")
+    (package / "dependency-licenses.json").write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
     (package / "LICENSES.html").write_text(
         "<!doctype html><html lang=en><meta charset=utf-8><title>System Pulse dependency notices</title>"
         "<style>body{max-width:80rem;margin:3rem auto;padding:0 1rem;font:16px/1.5 system-ui}pre{white-space:pre-wrap;font:13px/1.5 monospace}section{border-top:1px solid #bbb;margin-top:2rem}</style>"
-        f"<h1>System Pulse dependency notices</h1><p>Notices for {len(crates)} packages in the Linux build, including build dependencies.</p>"
+        f"<h1>System Pulse dependency notices</h1><p>Notices for {len(crates)} packages in the {html.escape(platform_label)} build, including build dependencies.</p>"
         + "".join(sections)
-        + "</html>\n"
+        + "</html>\n",
+        encoding="utf-8",
     )
     return len(crates)
 

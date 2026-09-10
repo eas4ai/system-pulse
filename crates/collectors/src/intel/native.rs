@@ -172,8 +172,10 @@ fn parse_perf(bytes: &[u8], count: usize) -> io::Result<PerfRead> {
         return Err(invalid("Truncated or unexpected perf group read"));
     }
     let values: Vec<u64> = bytes
-        .chunks_exact(8)
-        .map(|b| u64::from_ne_bytes(b.try_into().unwrap()))
+        .as_chunks::<8>()
+        .0
+        .iter()
+        .map(|bytes| u64::from_ne_bytes(*bytes))
         .collect();
     if values[0] != count as u64 || values[2] > values[1] {
         return Err(invalid("Invalid perf group count or time"));
