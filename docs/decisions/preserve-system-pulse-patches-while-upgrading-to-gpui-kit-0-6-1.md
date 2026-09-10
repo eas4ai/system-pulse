@@ -11,8 +11,4 @@ The developer explicitly requested the latest GPUI Kit alongside the approved Wi
 
 ## Realized by
 
-(none yet: recorded, not built)
-
-## Realized by
-
 - 46880b959c894620d5c39728d820b81a8ded7978 feat: upgrade GPUI Kit to 0.6.1 with local behavior patches
