@@ -12,3 +12,7 @@ The pinned setup-rust-toolchain action defaults to RUSTFLAGS=-D warnings. Hosted
 ## Realized by
 
 - fc324e874c7ad6a803de7f50e4e38b3ce3e0be64 ci: preserve native linker configuration during toolchain setup
+
+## Developer override — 2026-09-10
+
+The developer explicitly instructed us to stop using `-D warnings`. This supersedes the warning-as-error portion of this decision and its corresponding falsifier. Keep the empty setup action rustflags input and normal command exit handling; run Clippy with warnings visible and without promoting warnings to errors. The earlier native verification action was abandoned after the developer stopped release work; existing evidence is retained. Hosted CI remains stopped.

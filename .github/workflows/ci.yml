@@ -64,7 +64,7 @@ jobs:
       - name: Test application and bundled libraries
         run: cargo test --locked --workspace
       - name: Lint application, collectors and model
-        run: cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
+        run: cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets
       - name: Install Linux verification prerequisites
         if: runner.os == 'Linux'
         run: |

@@ -29,7 +29,7 @@ The [CPU tray verification record](docs/execution/cpu-tray.md) covers background
 ```sh
 cargo fmt --all -- --check
 cargo test --locked --workspace
-cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
+cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets
 python3 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
 python3 -B scripts/system-pulse/application_acceptance.py
 ```
