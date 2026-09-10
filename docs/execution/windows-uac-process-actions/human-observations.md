@@ -11,3 +11,8 @@ verification or complete the commitment.
 - The developer identified `shawn` for account use. The observed dashboard uses
   `XPSTABLET\shawn` with a limited administrator token. A separate standard-user
   account has not yet been identified; credential-path evidence remains pending.
+
+- First `consent-cancel` attempt (`system-pulse-windows-uac-o44yoqv1`): the
+  developer confirmed "I clicked yes" after clarification. The observed helper
+  execution and target exit therefore agree with the human action. This attempt
+  is not cancellation evidence; the cancellation case is being repeated.
