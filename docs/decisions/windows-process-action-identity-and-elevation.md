@@ -19,4 +19,4 @@ References: https://learn.microsoft.com/en-us/windows/win32/api/restartmanager/n
 
 ## Realized by
 
-(none yet: recorded, not built)
+47617b85e9f0b86ad0440f60dead49ad4cd561f8 Implement Windows process identity, safe actions and one-shot UAC helper
