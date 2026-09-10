@@ -44,7 +44,7 @@ def main():
                    cwd=ROOT, check=True)
     subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse-collectors"],
                    cwd=ROOT, check=True)
-    evidence = ROOT / "docs/execution/windows-uac-process-actions/upgrade"
+    evidence = ROOT / "docs/execution/windows-uac-process-actions/process-actions-preservation"
     record = json.loads((evidence / "windows-runtime/result.json").read_text())
     same_production(record["source_commit"])
     log = evidence / "windows-build.log"
