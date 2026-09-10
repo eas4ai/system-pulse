@@ -5,9 +5,15 @@ $ErrorActionPreference='Stop'
 $ProgressPreference='SilentlyContinue'
 $config=Get-Content -Raw -Encoding UTF8 -LiteralPath $Configuration|ConvertFrom-Json
 Add-Type -Path $config.trace_source -ReferencedAssemblies System.Management
+Add-Type -Path $config.fault_source
+[PulseOwnedProcessFault]::RemoveObserverDebugPrivilege()
 $record=@{status='FAIL';started_utc=(Get-Date).ToUniversalTime().ToString('o');events=@()}
+$record.observer_debug_privilege_removed=$true
 $trace=$null
 $target=$null
+$targetFault=$null
+$helper=$null
+$helperFault=$null
 $startedUi=$false
 
 function Save-Supervision {
@@ -34,9 +40,9 @@ try {
     if($config.ui_task -notmatch '^SystemPulse-UAC-[a-f0-9]{32}-UI$'){throw 'Unexpected UI task name'}
     if(!$config.ordinary_baseline -and @($config.ui.cases).Count -ne 1){throw 'UAC supervision requires exactly one case'}
     $case=$config.ui.cases[0]
-    if($case.mode -notin @('cooperative','refusing','windowless','delayed') -or $case.signal -notin @('kill','terminate')){throw 'Invalid owned target action'}
+    if($case.mode -notin @('cooperative','refusing','windowless','delayed','refusing-delayed') -or $case.signal -notin @('kill','terminate')){throw 'Invalid owned target action'}
     if($case.name -notmatch '^[a-z0-9-]+$'){throw 'Invalid case name'}
-    if($case.fault -and $case.fault -ne 'target-exit-during-consent'){throw 'Unsupported observer fault'}
+    if($case.fault -and $case.fault -notin @('target-exit-during-consent','deny-termination','helper-crash','helper-timeout')){throw 'Unsupported observer fault'}
     if((Get-FileHash -LiteralPath $config.ui.binary -Algorithm SHA256).Hash.ToLower() -ne $config.ui.binary_sha256){throw 'Unexpected packaged binary'}
     if(@(Get-Process -Name system-pulse,consent -ErrorAction SilentlyContinue).Count){throw 'Another application or consent prompt prevents isolation'}
     $trace=[PulseProcessTrace]::new()
@@ -45,6 +51,13 @@ try {
         $null=$target.Handle
         $record.target=@{pid=$target.Id;creation_ticks=[PulseProcessTrace]::Creation($target.Handle);elevated=[PulseProcessTrace]::Elevated($target.Handle);image=$config.ui.fixture}
         if(!$record.target.elevated){throw 'Disposable target did not start elevated'}
+        $targetFault=[PulseOwnedProcessFault]::new($target)
+        if($case.fault -eq 'deny-termination') {
+            $targetFault.DenyNewTerminationHandles()
+            $denied=$targetFault.NewTerminationAccessError()
+            if($denied -ne 5){throw 'Owned DACL fixture did not deny a new elevated termination handle'}
+            $record.fault_applied=@{kind=$case.fault;utc=(Get-Date).ToUniversalTime().ToString('o');pid=$target.Id;creation_ticks=$record.target.creation_ticks;elevated_access_error=$denied}
+        }
         $case|Add-Member -NotePropertyName target_pid -NotePropertyValue $target.Id -Force
         $case|Add-Member -NotePropertyName target_ticks -NotePropertyValue $record.target.creation_ticks -Force
     }
@@ -58,6 +71,32 @@ try {
     do {
         Start-Sleep -Milliseconds 200
         $record.events=@($trace.Snapshot())
+        if($case.fault -in @('helper-crash','helper-timeout') -and !$record.fault_applied) {
+            $ui=Read-UiRecord 'result.json'
+            if($ui -and $ui.dashboard) {
+                $expected=@($config.ui.binary,'--system-pulse-windows-process-action',[string]$target.Id,[string]$record.target.creation_ticks,[string]$case.signal,[string]$ui.dashboard.pid,[string]$ui.dashboard.creation_ticks)
+                $candidates=@($record.events|Where-Object {$_.kind -eq 'start' -and $_.name -ieq 'system-pulse.exe' -and $_.argv.Count -eq 7 -and $_.argv[2] -eq [string]$target.Id})
+                if($candidates.Count -gt 1){throw 'More than one helper attempted the owned target'}
+                if($candidates.Count -eq 1) {
+                    $candidate=$candidates[0]
+                    $helper=[Diagnostics.Process]::GetProcessById($candidate.pid)
+                    $null=$helper.Handle
+                    $live=[PulseProcessTrace]::Describe($candidate.pid)
+                    if($helper.HasExited -or $live.live_observation_error -or $live.creation_ticks -ne $candidate.creation_ticks -or [PulseProcessTrace]::Creation($helper.Handle) -ne $candidate.creation_ticks){throw 'Helper identity changed before fault injection'}
+                    if(!$live.elevated -or $live.image -ine $config.ui.binary -or $live.argv.Count -ne $expected.Count){throw 'Fault target is not the expected elevated helper'}
+                    for($index=0;$index -lt $expected.Count;$index++) {
+                        if($live.argv[$index] -cne $expected[$index]){throw 'Helper request differs from the owned target and dashboard'}
+                    }
+                    # Only now can the supervisor mutate this process. The job
+                    # owns cleanup even if a suspended helper outlives the UI.
+                    $helperFault=[PulseOwnedProcessFault]::new($helper)
+                    $record.fault_applied=@{kind=$case.fault;utc=(Get-Date).ToUniversalTime().ToString('o');pid=$helper.Id;creation_ticks=$candidate.creation_ticks;image=$live.image;argv=$live.argv}
+                    if($case.fault -eq 'helper-crash'){$helperFault.Crash()}
+                    else {$record.fault_applied.suspended_threads=$helperFault.Suspend()}
+                    Save-Supervision
+                }
+            }
+        }
         if($case.fault -eq 'target-exit-during-consent' -and !$record.fault_applied) {
             $active=Read-UiRecord 'current-case.json'
             $consent=@($record.events|Where-Object {$_.kind -eq 'start' -and $_.name -ieq 'consent.exe'})
@@ -81,10 +120,20 @@ try {
     $ui=Read-UiRecord 'result.json'
     if(!$ui -or $ui.status -ne 'PASS' -or $info.LastTaskResult -ne 0){throw 'Native UI action failed; inspect UI result'}
     if($target){$record.target_exited_before_cleanup=$target.HasExited}
+    if($helper){$record.helper_exited_before_cleanup=$helper.HasExited}
     if($case.fault -and !$record.fault_applied){throw 'Requested stale-target fault was not observed'}
     $record.status='COLLECTED'
 } catch {$record.error=$_.Exception.ToString()}
 finally {
+    if($helperFault) {
+        try {$helperFault.Dispose();$record.helper_cleaned=$helper.WaitForExit(5000)}
+        catch {$record.status='FAIL';$record.cleanup_error=$_.Exception.ToString()}
+    }
+    if($helper){$helper.Dispose()}
+    if($targetFault) {
+        try {$targetFault.Dispose()}
+        catch {$record.status='FAIL';$record.cleanup_error=$_.Exception.ToString()}
+    }
     if($target) {
         try {
             if(!$target.HasExited){$target.Kill()}

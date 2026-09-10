@@ -147,6 +147,13 @@ public sealed class PulseProcessTrace : IDisposable
         finally { if (!CloseHandle(handle)) row["process_close_failed"] = true; }
     }
 
+    public static Dictionary<string, object> Describe(uint pid)
+    {
+        var row = new Dictionary<string, object>();
+        ObserveLiveProcess(pid, row);
+        return row;
+    }
+
     public Dictionary<string, object>[] Snapshot()
     {
         lock (gate) { return events.ToArray(); }

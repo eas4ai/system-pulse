@@ -58,3 +58,13 @@ post-elevation denial, helper-failure and resource-lifetime verification remain
 unfinished. The full acceptance verifier refuses to pass while those cases or
 their observations are missing. A single-run verifier result accepts only that
 observation and does not accept WUAC-002 through WUAC-006.
+
+The denial/crash/timeout collectors are now implemented, with native fault
+self-tests passing on disposable processes. The observer removes its own debug
+privilege before creating targets; the initial SSH token otherwise bypassed the
+test DACL. Owned fault targets enter a job that terminates them when its handle
+closes, including when the observer exits. These self-tests do not replace the
+still-pending real application UAC cases. The Python suite passed 562 tests after
+these harness changes. Ripwire's test gate named three tests, all included in that
+suite; its quality-delta command could not establish a Git baseline in this
+checkout, through either CLI or MCP, so no quality-delta pass is claimed.

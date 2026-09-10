@@ -6,7 +6,10 @@ param(
 )
 $ErrorActionPreference='Stop'
 Add-Type -Path $TraceSource -ReferencedAssemblies System.Management
+Add-Type -Path (Join-Path (Split-Path -Parent $TraceSource) 'windows_process_fault.cs')
+[PulseOwnedProcessFault]::RemoveObserverDebugPrivilege()
 $result=@{status='FAIL';owned=@();events=@()}
+$result.observer_debug_privilege_removed=$true
 $trace=$null
 $owned=New-Object Collections.Generic.List[System.Diagnostics.Process]
 try {

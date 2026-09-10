@@ -1,6 +1,7 @@
 """Require actual, source-bound Windows UAC observations; missing cases stay pending."""
 
 import argparse
+from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
@@ -52,6 +53,9 @@ def validate_trace(ui, observer, case_name):
     dashboard = next(row for row in app_starts if row["pid"] == dashboard_pid)
     require(dashboard.get("creation_ticks") == dashboard_ticks and dashboard.get("elevated") is False,
             "independent trace did not observe the unelevated dashboard")
+    require(type(dashboard.get("session_id")) is int and dashboard["session_id"] > 0
+            and all(row.get("session_id") == dashboard["session_id"] for row in app_starts),
+            "application processes did not share the interactive desktop session")
     helper_starts = [row for row in app_starts if row["pid"] not in known]
     expected_helpers = 0 if case_name in ("ordinary", "consent-cancel") else 1
     require(len(helper_starts) == expected_helpers, "missing, duplicate or unsolicited elevated helper")
@@ -64,7 +68,10 @@ def validate_trace(ui, observer, case_name):
                 and type(stops[0].get("event_ticks")) is int
                 and stops[0]["event_ticks"] >= start["event_ticks"],
                 "missing, duplicate or out-of-order native process exit")
-        require(stops[0].get("session_id") == start.get("session_id"), "process trace session changed")
+        # This host reports zero SessionID and ParentProcessID on stop events,
+        # including for the independently observed session-1 dashboard. Use the
+        # start's native session; a nonzero conflicting stop remains invalid.
+        require(stops[0].get("session_id") in (0, start.get("session_id")), "process trace session changed")
     for probe in probes:
         stop = next(row for row in events if row.get("kind") == "stop" and row.get("pid") == probe["pid"])
         require(probe.get("exit_code") == stop.get("exit_code") == probe_codes[probe["name"]]
@@ -87,9 +94,28 @@ def validate_trace(ui, observer, case_name):
                     str(dashboard_pid), str(dashboard_ticks)],
                     "helper argument vector differs from the confirmed one-shot request")
         exit_codes = {"consent-force": 20, "consent-graceful": 20,
-                      "consent-refused": 28, "consent-stale": 26, "consent-delayed": 28}
-        require(case_name in exit_codes and stop.get("exit_code") == exit_codes[case_name],
+                      "consent-refused": 28, "consent-stale": 26, "consent-delayed": 28,
+                      "consent-denied": 23, "helper-crash": 0xC0000001}
+        require(case_name == "helper-timeout" or
+                (case_name in exit_codes and stop.get("exit_code") == exit_codes[case_name]),
                 "native helper exit code differs from the observed action")
+        if case_name in ("helper-crash", "helper-timeout"):
+            fault = observer.get("fault_applied", {})
+            require(fault.get("kind") == case_name
+                    and native_identity(fault, "faulted helper") == native_identity(helper, "observed helper")
+                    and fault.get("image") == helper.get("image") and fault.get("argv") == helper.get("argv")
+                    and observer.get("helper_cleaned") is True,
+                    "helper fault or cleanup was not bound to the observed request")
+            require(observer.get("helper_exited_before_cleanup") is (case_name == "helper-crash"),
+                    "helper lifetime does not demonstrate the requested crash or timeout")
+            if case_name == "helper-timeout":
+                require(type(fault.get("suspended_threads")) is int and fault["suspended_threads"] > 0,
+                        "timeout did not suspend the owned helper")
+                started = datetime.fromisoformat(fault["utc"])
+                settled = datetime.fromisoformat(case["settled_utc"])
+                require(started.utcoffset() is not None and settled.utcoffset() is not None
+                        and 115 <= (settled - started).total_seconds() <= 140,
+                        "native helper timeout was not observed for its bounded wait")
 
 
 def validate_run(ui, observer, case_name):
@@ -101,6 +127,8 @@ def validate_run(ui, observer, case_name):
             "native supervisor reported an error or incomplete cleanup")
     native_identity(observer.get("observer"), "observer")
     require(observer["observer"].get("elevated") is True, "observer did not have native observation rights")
+    require(observer.get("observer_debug_privilege_removed") is True,
+            "native observer could bypass the test target's access checks")
     binary_path = ui.get("binary_path", "")
     require(ui.get("signing_status") == "NotSigned" and " " in binary_path
             and any(ord(char) > 127 for char in binary_path),
@@ -157,6 +185,11 @@ def validate_run(ui, observer, case_name):
             fault = observer.get("fault_applied", {})
             require(fault.get("kind") == "target-exit-during-consent" and native_identity(fault, "stale target") == target,
                     "stale target did not exit during the authorization observation")
+        if case_name == "consent-denied":
+            fault = observer.get("fault_applied", {})
+            require(fault.get("kind") == "deny-termination" and native_identity(fault, "denied target") == target
+                    and fault.get("elevated_access_error") == 5,
+                    "owned target did not independently deny elevated termination")
     validate_trace(ui, observer, case_name)
 
 

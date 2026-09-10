@@ -17,7 +17,14 @@ def observed_run(name="consent-force"):
     if name == "consent-delayed":
         expected.update(mode="delayed", signal="terminate", exited=False,
                         status="The application did not close. It may need a response or have declined the request.")
-    observer = dict(status="COLLECTED", ui_task_exit=0, observer=dict(pid=1, creation_ticks=123, elevated=True),
+    if name == "consent-denied":
+        expected.update(exited=False, status="Windows denied the requested process action.")
+    if name in ("helper-crash", "helper-timeout"):
+        expected.update(mode="refusing-delayed", signal="terminate", exited=False,
+                        status="The process-action helper did not confirm an outcome. Check the process list before trying again.",
+                        settled_utc="2026-09-10T21:02:00Z")
+    observer = dict(status="COLLECTED", ui_task_exit=0, observer_debug_privilege_removed=True,
+                    observer=dict(pid=1, creation_ticks=123, elevated=True),
                     target=dict(pid=expected["pid"], creation_ticks=expected["creation_ticks"], elevated=True),
                     target_cleaned=True, target_exited_before_cleanup=expected["exited"], events=[])
     events = observer["events"]
@@ -31,17 +38,37 @@ def observed_run(name="consent-force"):
         lifecycle(probe["pid"], "system-pulse.exe", probe["exit_code"])
     lifecycle(300, "consent.exe", 0)
     if name != "consent-cancel":
-        lifecycle(400, "system-pulse.exe", 28 if name == "consent-delayed" else 20,
+        code = {"consent-delayed": 28, "consent-denied": 23, "helper-crash": 0xC0000001,
+                "helper-timeout": 1}.get(name, 20)
+        lifecycle(400, "system-pulse.exe", code,
                   creation_ticks=134335279800000000, elevated=True, elevation_type=2,
                   image=ui["binary_path"], argv=[ui["binary_path"], "--system-pulse-windows-process-action",
                   str(expected["pid"]), str(expected["creation_ticks"]), expected["signal"],
                   str(ui["dashboard"]["pid"]), str(ui["dashboard"]["creation_ticks"])])
+    if name == "consent-denied":
+        observer["fault_applied"] = dict(kind="deny-termination", pid=expected["pid"],
+                                         creation_ticks=expected["creation_ticks"], elevated_access_error=5)
+    if name in ("helper-crash", "helper-timeout"):
+        observer.update(helper_cleaned=True, helper_exited_before_cleanup=name == "helper-crash",
+                        fault_applied=dict(kind=name, pid=400, creation_ticks=134335279800000000,
+                                           image=ui["binary_path"], argv=events[-2]["argv"],
+                                           suspended_threads=3, utc="2026-09-10T21:00:01Z"))
     return ui, observer
 
 
 class NativeUacReceiptTests(unittest.TestCase):
+    def test_ordinary_actions_have_no_consent_or_elevated_helper(self):
+        ui = example_record()
+        observer = observed_run()[1]
+        observer["events"] = observer["events"][:-4]
+        observer["events"][0]["creation_ticks"] = ui["dashboard"]["creation_ticks"]
+        validate_run(ui, observer, "ordinary")
+        observer["events"].extend(observed_run()[1]["events"][-4:])
+        with self.assertRaises(InvalidMeasurement):
+            validate_run(ui, observer, "ordinary")
+
     def test_accepts_complete_force_cancel_and_delayed_observations(self):
-        for name in ("consent-force", "consent-cancel", "consent-delayed"):
+        for name in ("consent-force", "consent-cancel", "consent-delayed", "consent-denied", "helper-crash", "helper-timeout"):
             with self.subTest(name=name):
                 validate_run(*observed_run(name), name)
 
@@ -49,6 +76,16 @@ class NativeUacReceiptTests(unittest.TestCase):
         ui, observer = observed_run()
         self.assertIn("system-pulse.e", [row["name"] for row in observer["events"]])
         validate_run(ui, observer, "consent-force")
+
+    def test_zero_stop_session_uses_the_observed_start_session(self):
+        ui, observer = observed_run()
+        for row in observer["events"]:
+            if row["kind"] == "stop":
+                row["session_id"] = 0
+        validate_run(ui, observer, "consent-force")
+        observer["events"][-2]["session_id"] = 2
+        with self.assertRaises(InvalidMeasurement):
+            validate_run(ui, observer, "consent-force")
 
     def test_rejects_missing_duplicated_or_foreign_lifecycle(self):
         mutations = [
@@ -100,12 +137,27 @@ class NativeUacReceiptTests(unittest.TestCase):
             lambda u, o: u["owned_target_cleanup"].clear(),
             lambda u, o: o["events"][0].update(elevated=True),
             lambda u, o: o["events"][-2].update(process_close_failed=True),
+            lambda u, o: o.update(observer_debug_privilege_removed=False),
         ]
         for index, mutate in enumerate(changes):
             ui, observer = observed_run()
             mutate(ui, observer)
             with self.subTest(index=index), self.assertRaises(InvalidMeasurement):
                 validate_run(ui, observer, "consent-force")
+
+    def test_failure_injection_requires_real_denial_and_a_pinned_bounded_fault(self):
+        for name, mutate in [
+            ("consent-denied", lambda u, o: o["fault_applied"].update(elevated_access_error=0)),
+            ("helper-crash", lambda u, o: o["fault_applied"].update(pid=999)),
+            ("helper-crash", lambda u, o: o.update(helper_cleaned=False)),
+            ("helper-timeout", lambda u, o: o.update(helper_exited_before_cleanup=True)),
+            ("helper-timeout", lambda u, o: o["fault_applied"].update(suspended_threads=0)),
+            ("helper-timeout", lambda u, o: u["cases"][0].update(settled_utc="2026-09-10T21:00:02Z")),
+        ]:
+            ui, observer = observed_run(name)
+            mutate(ui, observer)
+            with self.subTest(name=name), self.assertRaises(InvalidMeasurement):
+                validate_run(ui, observer, name)
 
 
 if __name__ == "__main__":

@@ -274,6 +274,7 @@ try {
             } while((Get-Date) -lt $deadline)
             if(!$status -or $status -like 'Sending request*'){throw 'Process action did not settle before the observation deadline'}
             $observation.status=$status
+            $observation.settled_utc=(Get-Date).ToUniversalTime().ToString('o')
             $observation.pending_observations=$pending
             Save-Record ($case.name+'-action.json') $observation
             if($status -notmatch $case.expected_status){throw "Unexpected action result for $($case.name): $status"}

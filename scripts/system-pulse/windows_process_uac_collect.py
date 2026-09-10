@@ -33,10 +33,19 @@ CASES = {
     "consent-delayed": dict(mode="delayed", signal="terminate", expected_exit=False,
                             expected_status="application did not close", operator_action="Approve",
                             verify_responsive=True),
+    "consent-denied": dict(mode="windowless", signal="kill", expected_exit=False,
+                           expected_status="Windows denied the requested process action", operator_action="Approve",
+                           fault="deny-termination"),
+    "helper-crash": dict(mode="refusing-delayed", signal="terminate", expected_exit=False,
+                         expected_status="helper did not confirm an outcome.*Check the process list", operator_action="Approve",
+                         fault="helper-crash"),
+    "helper-timeout": dict(mode="refusing-delayed", signal="terminate", expected_exit=False,
+                           expected_status="helper did not confirm an outcome.*Check the process list", operator_action="Approve",
+                           fault="helper-timeout", verify_responsive=True),
 }
 HARNESS_FILES = (
     "windows_process_uac_collect.py", "windows_process_uac_supervise.ps1",
-    "windows_process_trace.cs", "windows_process_actions.ps1", "windows_process_fixture.cs",
+    "windows_process_trace.cs", "windows_process_fault.cs", "windows_process_actions.ps1", "windows_process_fixture.cs",
     "windows_process_actions_collect.py", "windows_runtime_collect.py",
 )
 
@@ -71,6 +80,7 @@ def main():
     config = dict(
         ui_task=task + "-UI", ui_configuration=parent + "\\ui.json",
         trace_source=parent + "\\windows_process_trace.cs",
+        fault_source=parent + "\\windows_process_fault.cs",
         target_log=parent + "\\elevated-target.log", observer_result=parent + "\\observer.json",
         ordinary_baseline=args.case == "ordinary",
         ui=dict(output=parent + "\\evidence", binary=binary, fixture=parent + "\\owned-fixture.exe",
@@ -78,7 +88,7 @@ def main():
                 cases=ORDINARY_CASES if args.case == "ordinary" else [dict(name=args.case, **CASES[args.case])]),
     )
     (cache / "supervisor.json").write_text(json.dumps(config, indent=2), encoding="utf-8-sig")
-    sources = ["windows_process_uac_supervise.ps1", "windows_process_trace.cs",
+    sources = ["windows_process_uac_supervise.ps1", "windows_process_trace.cs", "windows_process_fault.cs",
                "windows_process_actions.ps1", "windows_process_fixture.cs"]
     for name in sources:
         (cache / name).write_text((ROOT / "scripts/system-pulse" / name).read_text(), encoding="utf-8-sig")
@@ -114,7 +124,7 @@ Start-ScheduledTask -TaskName '__TASK__'
                 f"$path=Join-Path $env:USERPROFILE 'workspace\\{task}\\observer.json';"
                 "$fault=$false;if(Test-Path $path){try{$fault=[bool](Get-Content -Raw $path|ConvertFrom-Json).fault_applied}catch{}};"
                 "@{state=[string]$t.State;result=$i.LastTaskResult;started=$i.LastRunTime.Year -ge 2026;fault=$fault}|ConvertTo-Json -Compress"))
-            if state["fault"] and not cue_shown:
+            if args.case == "consent-stale" and state["fault"] and not cue_shown:
                 print("Owned target has exited. Approve the waiting Windows prompt now.", flush=True)
                 cue_shown = True
             if state["started"] and state["state"] != "Running":

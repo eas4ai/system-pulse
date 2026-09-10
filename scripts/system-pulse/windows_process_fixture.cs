@@ -30,20 +30,20 @@ class SystemPulseProcessFixture : Form
         if (message.Msg == 0x11) // WM_QUERYENDSESSION: explicitly accept or refuse.
         {
             File.AppendAllText(log, "query-end-session\n");
-            if (mode == "delayed") Thread.Sleep(5000);
-            message.Result = mode == "refusing" ? IntPtr.Zero : new IntPtr(1);
+            if (mode == "delayed" || mode == "refusing-delayed") Thread.Sleep(5000);
+            message.Result = mode.StartsWith("refusing") ? IntPtr.Zero : new IntPtr(1);
             return;
         }
         if (message.Msg == 0x16) // WM_ENDSESSION
         {
             File.AppendAllText(log, "end-session:" + message.WParam.ToInt64() + "\n");
-            if (message.WParam != IntPtr.Zero && mode != "refusing") Close();
+            if (message.WParam != IntPtr.Zero && !mode.StartsWith("refusing")) Close();
             return;
         }
         if (message.Msg == 0x10) // WM_CLOSE
         {
             File.AppendAllText(log, "close\n");
-            if (mode == "refusing") return;
+            if (mode.StartsWith("refusing")) return;
         }
         base.WndProc(ref message);
     }
@@ -51,12 +51,21 @@ class SystemPulseProcessFixture : Form
     [STAThread]
     static int Main(string[] args)
     {
-        if (args.Length != 2 || (args[0] != "cooperative" && args[0] != "refusing" && args[0] != "windowless" && args[0] != "delayed"))
+        if (args.Length != 2 || (args[0] != "cooperative" && args[0] != "refusing" && args[0] != "windowless" && args[0] != "delayed" && args[0] != "refusing-delayed" && args[0] != "heartbeat"))
             return 2;
         if (args[0] == "windowless")
         {
             File.WriteAllText(args[1], "ready\n");
             Thread.Sleep(300000);
+        }
+        else if (args[0] == "heartbeat")
+        {
+            File.WriteAllText(args[1], "ready\n");
+            for (int index = 0; index < 3000; index++)
+            {
+                Thread.Sleep(100);
+                File.AppendAllText(args[1], "tick\n");
+            }
         }
         else Application.Run(new SystemPulseProcessFixture(args[0], args[1]));
         return 0;
