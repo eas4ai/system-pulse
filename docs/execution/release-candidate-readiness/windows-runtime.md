@@ -79,3 +79,6 @@ SYSTEM_PULSE_WINDOWS_RUNTIME_EVIDENCE=/path/to/run python3 -B scripts/system-pul
 Retain the accepted artifacts and review in `runtime/`, commit the harness and
 evidence, then run `cairn check REL-002`. The gate validates the retained native
 observations; it does not pretend to repeat GUI interactions on the checking host.
+
+Cairn recorded REL-002 passing against committed source `f98cc549` in
+[the receipt](../../../.cairn/evidence/REL-002/20260910T034236344Z).
