@@ -1,0 +1,1427 @@
+{
+  "pid": 33254,
+  "rows": [
+    {
+      "actions": [
+        "AXRaise"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXWindow",
+      "AXSubrole": "AXStandardWindow",
+      "AXTitle": "System Pulse",
+      "bounds": [
+        260,
+        145,
+        1280,
+        913
+      ],
+      "depth": 0,
+      "index": 0
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXGroup",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        260,
+        177,
+        1280,
+        881
+      ],
+      "depth": 1,
+      "index": 1
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tabs",
+      "AXRole": "AXTabGroup",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "System monitor screens",
+      "bounds": [
+        260,
+        215,
+        1280,
+        40
+      ],
+      "depth": 2,
+      "index": 2
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:summary",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Summary",
+      "AXValue": true,
+      "bounds": [
+        260,
+        215,
+        88,
+        40
+      ],
+      "depth": 3,
+      "index": 3
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:cpu",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "CPU",
+      "AXValue": false,
+      "bounds": [
+        348,
+        215,
+        54,
+        40
+      ],
+      "depth": 3,
+      "index": 4
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:memory",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Memory",
+      "AXValue": false,
+      "bounds": [
+        402,
+        215,
+        79,
+        40
+      ],
+      "depth": 3,
+      "index": 5
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:gpu",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "GPU",
+      "AXValue": false,
+      "bounds": [
+        481,
+        215,
+        54,
+        40
+      ],
+      "depth": 3,
+      "index": 6
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:disks",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Disks",
+      "AXValue": false,
+      "bounds": [
+        535,
+        215,
+        60,
+        40
+      ],
+      "depth": 3,
+      "index": 7
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:network",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Network",
+      "AXValue": false,
+      "bounds": [
+        595,
+        215,
+        81,
+        40
+      ],
+      "depth": 3,
+      "index": 8
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:energy",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Energy",
+      "AXValue": false,
+      "bounds": [
+        676,
+        215,
+        71,
+        40
+      ],
+      "depth": 3,
+      "index": 9
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:thermals",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Thermals",
+      "AXValue": false,
+      "bounds": [
+        747,
+        215,
+        86,
+        40
+      ],
+      "depth": 3,
+      "index": 10
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:processes",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Processes",
+      "AXValue": false,
+      "bounds": [
+        833,
+        215,
+        93,
+        40
+      ],
+      "depth": 3,
+      "index": 11
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen-tab:settings",
+      "AXRole": "AXRadioButton",
+      "AXSubrole": "AXTabButton",
+      "AXTitle": "Settings",
+      "AXValue": false,
+      "bounds": [
+        926,
+        215,
+        78,
+        40
+      ],
+      "depth": 3,
+      "index": 12
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen:summary",
+      "AXRole": "AXGroup",
+      "AXSubrole": "AXTabPanel",
+      "AXTitle": "Summary",
+      "bounds": [
+        260,
+        323.5,
+        1280,
+        707.5
+      ],
+      "depth": 2,
+      "index": 13
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "screen:summary:viewport",
+      "AXRole": "AXUnknown",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "",
+      "bounds": [
+        260,
+        323.5,
+        1280,
+        707.5
+      ],
+      "depth": 3,
+      "index": 14
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-level:CPU",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Level unavailable",
+      "bounds": [
+        295.5,
+        362.5,
+        26,
+        150
+      ],
+      "depth": 4,
+      "index": 15
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-level:Clock",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Level: 100.0%",
+      "bounds": [
+        342,
+        362.5,
+        26,
+        150
+      ],
+      "depth": 4,
+      "index": 16
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-level:Temp",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Level: 50.0%",
+      "bounds": [
+        389,
+        362.5,
+        26,
+        150
+      ],
+      "depth": 4,
+      "index": 17
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-level:GPU",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Level unavailable",
+      "bounds": [
+        435.5,
+        362.5,
+        26,
+        150
+      ],
+      "depth": 4,
+      "index": 18
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up",
+      "AXValue": "Warming up",
+      "bounds": [
+        865,
+        336.5,
+        145,
+        39
+      ],
+      "depth": 4,
+      "index": 19
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "history:cpu:host/usage",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. Overall utilization: Warming up \u00b7 % \u00b7 sysinfo CPU counters need a second refresh. Scale: 0.0\u2013100.0 %. 0.0 s history. No current readings",
+      "bounds": [
+        506,
+        383.5,
+        504,
+        150
+      ],
+      "depth": 4,
+      "index": 20
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process-total",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "777 total",
+      "AXValue": "777 total",
+      "bounds": [
+        1466,
+        340,
+        45,
+        18
+      ],
+      "depth": 4,
+      "index": 21
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:1:1788870531220515:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "1",
+      "AXValue": "1",
+      "bounds": [
+        1052,
+        397,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 22
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:1:1788870531220515:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "launchd",
+      "AXValue": "launchd",
+      "bounds": [
+        1128,
+        397,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 23
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:1:1788870531220515:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        397,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 24
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:331:1788870555373606:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "331",
+      "AXValue": "331",
+      "bounds": [
+        1052,
+        420,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 25
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:331:1788870555373606:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "logd",
+      "AXValue": "logd",
+      "bounds": [
+        1128,
+        420,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 26
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:331:1788870555373606:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        420,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 27
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:332:1788870555390558:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "332",
+      "AXValue": "332",
+      "bounds": [
+        1052,
+        443,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 28
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:332:1788870555390558:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "smd",
+      "AXValue": "smd",
+      "bounds": [
+        1128,
+        443,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 29
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:332:1788870555390558:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        443,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 30
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:333:1788870555408814:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "333",
+      "AXValue": "333",
+      "bounds": [
+        1052,
+        466,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 31
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:333:1788870555408814:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "UserEventAgent",
+      "AXValue": "UserEventAgent",
+      "bounds": [
+        1128,
+        466,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 32
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:333:1788870555408814:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        466,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 33
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:335:1788870555436296:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "335",
+      "AXValue": "335",
+      "bounds": [
+        1052,
+        489,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 34
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:335:1788870555436296:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "fseventsd",
+      "AXValue": "fseventsd",
+      "bounds": [
+        1128,
+        489,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 35
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:335:1788870555436296:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        489,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 36
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:336:1788870555436553:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "336",
+      "AXValue": "336",
+      "bounds": [
+        1052,
+        512,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 37
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:336:1788870555436553:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "mediaremoted",
+      "AXValue": "mediaremoted",
+      "bounds": [
+        1128,
+        512,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 38
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:336:1788870555436553:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        512,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 39
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:339:1788870555437284:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "339",
+      "AXValue": "339",
+      "bounds": [
+        1052,
+        535,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 40
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:339:1788870555437284:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "systemstats",
+      "AXValue": "systemstats",
+      "bounds": [
+        1128,
+        535,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 41
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:339:1788870555437284:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        535,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 42
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:341:1788870555437756:pid",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "341",
+      "AXValue": "341",
+      "bounds": [
+        1052,
+        558,
+        68,
+        19.5
+      ],
+      "depth": 4,
+      "index": 43
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:341:1788870555437756:name",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "accessoryupdaterd",
+      "AXValue": "accessoryupdaterd",
+      "bounds": [
+        1128,
+        558,
+        291,
+        19.5
+      ],
+      "depth": 4,
+      "index": 44
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-process:341:1788870555437756:cpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "AXValue": "Warming up \u00b7 % \u00b7 Waiting for a second counter observation",
+      "bounds": [
+        1427,
+        558,
+        80,
+        19.5
+      ],
+      "depth": 4,
+      "index": 45
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-memory",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "14.2 / 16.0 GiB",
+      "AXValue": "14.2 / 16.0 GiB",
+      "bounds": [
+        1339,
+        618,
+        172,
+        30.5
+      ],
+      "depth": 4,
+      "index": 46
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-memory-level",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Level: 89.0%",
+      "bounds": [
+        289,
+        657.5,
+        26,
+        105
+      ],
+      "depth": 4,
+      "index": 47
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "history:memory:host/used",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. RAM used: 14.2 / 16.0 GiB. Scale: 0.0\u201316.0 GiB. 0.0 s history. ",
+      "bounds": [
+        327,
+        657.5,
+        1184,
+        105
+      ],
+      "depth": 4,
+      "index": 48
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-memory:available",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "1.8 GiB",
+      "AXValue": "1.8 GiB",
+      "bounds": [
+        378,
+        770.5,
+        39,
+        19.5
+      ],
+      "depth": 4,
+      "index": 49
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-memory:swap",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "0.0 / 0.0 B",
+      "AXValue": "0.0 / 0.0 B",
+      "bounds": [
+        977,
+        770.5,
+        59,
+        19.5
+      ],
+      "depth": 4,
+      "index": 50
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-value:disks",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "354.6 / 460.4 GiB",
+      "AXValue": "354.6 / 460.4 GiB",
+      "bounds": [
+        552,
+        827.5,
+        123,
+        19.5
+      ],
+      "depth": 4,
+      "index": 51
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-history:disks",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. read: Warming up \u00b7 B/s \u00b7 Waiting for a second counter observation; write: Warming up \u00b7 B/s \u00b7 Waiting for a second counter observation. Scale: 0.0\u20131.0 B/s. 0.0 s history. No current readings",
+      "bounds": [
+        285,
+        884.5,
+        390,
+        120
+      ],
+      "depth": 4,
+      "index": 52
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-rate:volume:source:Macintosh HD://read",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "read \u00b7 Warming up",
+      "AXValue": "read \u00b7 Warming up",
+      "bounds": [
+        285,
+        1012.5,
+        113,
+        18
+      ],
+      "depth": 4,
+      "index": 53
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-rate:volume:source:Macintosh HD://write",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "write \u00b7 Warming up",
+      "AXValue": "write \u00b7 Warming up",
+      "bounds": [
+        410,
+        1012.5,
+        119,
+        18
+      ],
+      "depth": 4,
+      "index": 54
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-value:network",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up",
+      "AXValue": "Warming up",
+      "bounds": [
+        998,
+        824,
+        97,
+        26
+      ],
+      "depth": 4,
+      "index": 55
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-history:network",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. rx: Warming up \u00b7 B/s \u00b7 Waiting for a second counter observation; tx: Warming up \u00b7 B/s \u00b7 Waiting for a second counter observation. Scale: 0.0\u20131.0 B/s. 0.0 s history. No current readings",
+      "bounds": [
+        705,
+        884.5,
+        390,
+        120
+      ],
+      "depth": 4,
+      "index": 56
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-rate:network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/rx",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "rx \u00b7 Warming up",
+      "AXValue": "rx \u00b7 Warming up",
+      "bounds": [
+        705,
+        1012.5,
+        100,
+        18
+      ],
+      "depth": 4,
+      "index": 57
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-rate:network:mac:ee:7c:f0:9e:f8:a1:name:anpi0/tx",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "tx \u00b7 Warming up",
+      "AXValue": "tx \u00b7 Warming up",
+      "bounds": [
+        817,
+        1012.5,
+        100,
+        18
+      ],
+      "depth": 4,
+      "index": 58
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-value:energy",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up",
+      "AXValue": "Warming up",
+      "bounds": [
+        1418,
+        824,
+        97,
+        26
+      ],
+      "depth": 4,
+      "index": 59
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-history:energy",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. GPU power: Warming up \u00b7 W \u00b7 Waiting for second native observation. Scale: 0.0\u20131.0 W. 0.0 s history. No current readings",
+      "bounds": [
+        1125,
+        884.5,
+        390,
+        120
+      ],
+      "depth": 4,
+      "index": 60
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-value:gpu",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "Warming up",
+      "AXValue": "Warming up",
+      "bounds": [
+        788,
+        1060.5,
+        97,
+        26
+      ],
+      "depth": 4,
+      "index": 61
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-history:gpu",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. GPU activity: Warming up \u00b7 % \u00b7 Waiting for second native observation. Scale: 0.0\u2013100.0 %. 0.0 s history. No current readings",
+      "bounds": [
+        285,
+        1121,
+        600,
+        120
+      ],
+      "depth": 4,
+      "index": 62
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-value:thermals",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "51.9 \u00b0C",
+      "AXValue": "51.9 \u00b0C",
+      "bounds": [
+        1447,
+        1060.5,
+        68,
+        26
+      ],
+      "depth": 4,
+      "index": 63
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "summary-history:thermals",
+      "AXRole": "AXImage",
+      "AXSubrole": "AXUnknown",
+      "AXTitle": "History chart. PMU tcal: 51.9 \u00b0C. Scale: 49.3\u201354.4 \u00b0C. 0.0 s history. ",
+      "bounds": [
+        915,
+        1121,
+        600,
+        120
+      ],
+      "depth": 4,
+      "index": 64
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXGroup",
+      "AXSubrole": "AXApplicationStatus",
+      "AXTitle": "Readings warming up or delayed \u00b7 777 readable processes \u00b7 1 s update",
+      "bounds": [
+        290,
+        1035,
+        400,
+        19.5
+      ],
+      "depth": 2,
+      "index": 65
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXButton",
+      "AXSubrole": "AXCloseButton",
+      "AXTitle": "",
+      "bounds": [
+        268,
+        153,
+        16,
+        16
+      ],
+      "depth": 1,
+      "index": 66
+    },
+    {
+      "actions": [
+        "AXPress",
+        "AXZoomWindow",
+        "AXShowMenu"
+      ],
+      "AXDescription": "",
+      "AXHelp": "this button also has an action to zoom the window",
+      "AXIdentifier": "",
+      "AXRole": "AXButton",
+      "AXSubrole": "AXFullScreenButton",
+      "AXTitle": "",
+      "bounds": [
+        314,
+        153,
+        16,
+        16
+      ],
+      "depth": 1,
+      "index": 67
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXGroup",
+      "AXSubrole": "",
+      "AXTitle": "",
+      "bounds": [
+        315,
+        154,
+        14,
+        14
+      ],
+      "depth": 2,
+      "index": 68
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXGroup",
+      "AXSubrole": "",
+      "AXTitle": "",
+      "bounds": [
+        315,
+        154,
+        14,
+        14
+      ],
+      "depth": 3,
+      "index": 69
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXButton",
+      "AXSubrole": "AXMinimizeButton",
+      "AXTitle": "",
+      "bounds": [
+        291,
+        153,
+        16,
+        16
+      ],
+      "depth": 1,
+      "index": 70
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXStaticText",
+      "AXSubrole": "",
+      "AXTitle": "",
+      "AXValue": "System Pulse",
+      "bounds": [
+        342,
+        153,
+        92,
+        16
+      ],
+      "depth": 1,
+      "index": 71
+    },
+    {
+      "actions": [],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXMenuBar",
+      "AXSubrole": "",
+      "AXTitle": "",
+      "bounds": [
+        1242,
+        2.5,
+        138,
+        34
+      ],
+      "depth": 0,
+      "index": 72
+    },
+    {
+      "actions": [
+        "AXPress"
+      ],
+      "AXDescription": "",
+      "AXHelp": "System Pulse \u00b7 CPU Warming up \u00b7 % \u00b7 sysinfo CPU counters need a second refresh",
+      "AXIdentifier": "",
+      "AXRole": "AXMenuBarItem",
+      "AXSubrole": "AXMenuExtra",
+      "AXTitle": "System Pulse",
+      "bounds": [
+        1242,
+        2.5,
+        138,
+        34
+      ],
+      "depth": 1,
+      "index": 73
+    },
+    {
+      "actions": [
+        "AXCancel"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXMenu",
+      "AXSubrole": "",
+      "AXTitle": "",
+      "bounds": [
+        0,
+        1169,
+        0,
+        0
+      ],
+      "depth": 2,
+      "index": 74
+    },
+    {
+      "actions": [
+        "AXCancel",
+        "AXPress",
+        "AXPick"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "trayMenuItemInvoked:",
+      "AXRole": "AXMenuItem",
+      "AXSubrole": "",
+      "AXTitle": "Open System Pulse",
+      "bounds": [
+        0,
+        1169,
+        0,
+        0
+      ],
+      "depth": 3,
+      "index": 75
+    },
+    {
+      "actions": [
+        "AXCancel",
+        "AXPress",
+        "AXPick"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "",
+      "AXRole": "AXMenuItem",
+      "AXSubrole": "",
+      "AXTitle": "",
+      "bounds": [
+        0,
+        1169,
+        0,
+        0
+      ],
+      "depth": 3,
+      "index": 76
+    },
+    {
+      "actions": [
+        "AXCancel",
+        "AXPress",
+        "AXPick"
+      ],
+      "AXDescription": "",
+      "AXHelp": "",
+      "AXIdentifier": "trayMenuItemInvoked:",
+      "AXRole": "AXMenuItem",
+      "AXSubrole": "",
+      "AXTitle": "Quit",
+      "bounds": [
+        0,
+        1169,
+        0,
+        0
+      ],
+      "depth": 3,
+      "index": 77
+    }
+  ],
+  "windows": 1
+}

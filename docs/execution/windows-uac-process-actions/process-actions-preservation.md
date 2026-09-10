@@ -1,8 +1,7 @@
 # Process-action preservation verification
 
-Status: incomplete. The current Mac desktop is locked, so WUAC-007 cannot pass
-against the process-action implementation yet. Real Windows UAC verification and
-the final commitment review also remain pending.
+Status: fresh native preservation observations passed. Real Windows UAC
+verification and the final commitment review remain pending.
 
 These observations use committed source
 `3e6923e3976398458af61588cb73c1a94d08ea59`, which includes implementation
@@ -23,6 +22,10 @@ records remain under `upgrade/`; this follow-up does not replace their history.
   tests, Clippy, release build, five dispatcher tests and four application lifetime
   cases. The native lifetime tests passed with missing-pool diagnostics enabled
   only in their child environments.
+- [Mac desktop preservation](process-actions-preservation/macos-preservation/result.json):
+  monitor/sensor coverage, independent volume capacities, settings, navigation,
+  background sampling/history, tray reopen and Quit passed against the committed
+  build. A separate normal launch verified visible Summary and Processes rows.
 - [Windows build](process-actions-preservation/windows-build.log): 230 native tests
   and release build; the embedded manifest retains `asInvoker` and
   `uiAccess=false`.
@@ -67,10 +70,11 @@ harness and executable passed every check. The failed run remains at
 This establishes a passing repeat observation; it does not establish the cause
 of the first tray-discovery failure.
 
-## Current blocker
+## Resolved Mac desktop blocker
 
-The [Mac desktop attempt](process-actions-preservation/macos-preservation/result.json)
-failed because the session at `10.66.231.181` is locked. Its owned application was
-cleaned up and confirmed exited. Unlock that session before collecting a fresh
-preservation run. Do not substitute the initial upgrade's older runtime evidence
-for this source revision.
+The first Mac desktop attempt failed because the session at `10.66.231.181` was
+locked. Its owned application was cleaned up and confirmed exited. After the
+developer unlocked the Mac, a fresh run passed against the same committed build.
+The original failed attempt remains in the local Mac evidence directory and Git
+history. The current record contains the new observation, not the initial
+upgrade's older runtime evidence.

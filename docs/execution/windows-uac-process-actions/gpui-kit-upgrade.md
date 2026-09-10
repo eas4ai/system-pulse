@@ -2,7 +2,7 @@
 
 The initial upgrade evidence below is historical. The subsequent process-action
 changes require [fresh preservation verification](process-actions-preservation.md),
-which remains incomplete while the Mac desktop is locked.
+whose native observations now pass on Linux, macOS and Windows.
 
 The developer requested the latest stable GPUI Kit on 2026-09-10. crates.io
 reported 0.6.1, not yanked. The upstream source revision recorded in the published

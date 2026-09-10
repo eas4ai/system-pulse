@@ -1,5 +1,5 @@
 {
-  "status": "FAIL",
+  "status": "PASS",
   "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
   "binary_sha256": "9782e379d4b25b39db531ba9e8326ec3c8d0b5ac39a51c138fe60d1d38cbfae0",
   "reference_sha256": "a8ddcda527f5e58b37c8d6a9eb24eb9daa09ec7c504e6f6fc5b4f8470f6b00fd",
@@ -7,5 +7,108 @@
     "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
     "performance_tree.swift": "7f486e55e2f6040beef93d9ed28ecc2b23de7bf7af33ddd910ba83fd455de359"
   },
-  "error": "CalledProcessError: Command '['/Users/shawnmcallister/system-pulse-actions-3e6923e39763/upgrade-native-build/performance-tree', '31592', 'snapshot']' returned non-zero exit status 1."
+  "pid": 33234,
+  "initial_history_seconds": 4.8,
+  "monitors_count": 28,
+  "sensors_count": 198,
+  "capacities": [
+    {
+      "id": "volume:source:Macintosh HD:/",
+      "reading": {
+        "sensor_id": "volume:source:Macintosh HD://capacity",
+        "value": 380771819520.0,
+        "total": 494384795648.0,
+        "availability": "Available",
+        "reason": null,
+        "observations": [
+          {
+            "source": "statvfs filesystem capacity",
+            "captured_ns": 5126443000,
+            "read_started_ns": 5126436542,
+            "integers": {
+              "blocks": 120699413,
+              "fragment_size": 4096,
+              "free_blocks": 27737543
+            },
+            "decimals": {}
+          }
+        ]
+      },
+      "independent_total": 494384795648,
+      "independent_used": 380776673280
+    },
+    {
+      "id": "volume:source:Macintosh HD:/System/Volumes/Data",
+      "reading": {
+        "sensor_id": "volume:source:Macintosh HD:/System/Volumes/Data/capacity",
+        "value": 380771819520.0,
+        "total": 494384795648.0,
+        "availability": "Available",
+        "reason": null,
+        "observations": [
+          {
+            "source": "statvfs filesystem capacity",
+            "captured_ns": 5126456667,
+            "read_started_ns": 5126454500,
+            "integers": {
+              "blocks": 120699413,
+              "fragment_size": 4096,
+              "free_blocks": 27737543
+            },
+            "decimals": {}
+          }
+        ]
+      },
+      "independent_total": 494384795648,
+      "independent_used": 380776673280
+    }
+  ],
+  "hidden_start_sequence": 7,
+  "hidden_end_sequence": 11,
+  "hidden_windows": 0,
+  "saved_settings": {
+    "screens": {
+      "active": "memory",
+      "devices": {}
+    },
+    "appearance": {
+      "theme": "light",
+      "ui_font": "inter",
+      "numeric_font": "jetbrains_mono"
+    },
+    "interval_ms": 1000
+  },
+  "reopened_settings": {
+    "screens": {
+      "active": "memory",
+      "devices": {}
+    },
+    "appearance": {
+      "theme": "light",
+      "ui_font": "inter",
+      "numeric_font": "jetbrains_mono"
+    },
+    "interval_ms": 1000
+  },
+  "reopened_history_seconds": 10.8,
+  "quit_exit_code": 0,
+  "process_survived_quit": false,
+  "normal_ui": {
+    "status": "PASS",
+    "diagnostics_enabled": false,
+    "summary": {
+      "total": 777,
+      "visible": 8
+    },
+    "returned_summary": {
+      "total": 777,
+      "visible": 8
+    },
+    "reopened_summary": {
+      "total": 777,
+      "visible": 8
+    },
+    "process_rows": 22,
+    "quit_exit_code": 0
+  }
 }
