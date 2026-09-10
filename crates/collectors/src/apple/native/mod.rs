@@ -255,11 +255,9 @@ fn frequency_table(origin: Instant) -> SourceResult<(Vec<u64>, RawObservation)> 
             ("byte_length", bytes.len() as u64),
         ],
     );
-    for (i, chunk) in bytes.chunks_exact(8).enumerate() {
-        raw.integers.insert(
-            format!("pair_le/{i}"),
-            u64::from_le_bytes(chunk.try_into().map_err(|_| "Invalid table pair")?),
-        );
+    for (i, chunk) in bytes.as_chunks::<8>().0.iter().enumerate() {
+        raw.integers
+            .insert(format!("pair_le/{i}"), u64::from_le_bytes(*chunk));
     }
     Ok((table, raw))
 }
