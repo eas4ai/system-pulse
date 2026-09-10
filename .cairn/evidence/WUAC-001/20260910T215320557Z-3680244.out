@@ -1,0 +1,143 @@
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse_collectors-3b6f2933c08d3bee)
+
+running 117 tests
+test apple::tests::finite_negative_celsius_obeys_only_the_source_specific_smc_guard ... ok
+test apple::tests::changed_state_count_names_and_query_windows_reset_without_current_value ... ok
+test apple::tests::duplicate_physical_candidates_and_wrong_accelerator_memory_are_rejected ... ok
+test apple::tests::hid_names_require_the_attributed_gpu_sensor_family ... ok
+test apple::tests::inactive_frequency_and_invalid_arithmetic_are_not_measurements ... ok
+test apple::tests::independent_memory_temperature_and_power_survive_missing_states ... ok
+test apple::tests::counter_raw_operands_and_missing_table_preserve_independent_fields ... ok
+test apple::tests::counter_failure_regression_units_and_time_reset_baselines ... ok
+test apple::tests::native_counts_and_smc_layout_codes_and_units_are_checked ... ok
+test apple::tests::registry_instance_change_and_channel_layout_cannot_bridge ... ok
+test apple::tests::residency_and_weighted_frequency_use_actual_states ... ok
+test apple::tests::native_identity_is_order_and_name_independent ... ok
+test apple::tests::smc_guard_preserves_raw_and_recovers_without_affecting_hid ... ok
+test apple::tests::memory_rejects_system_ram_wrong_units_and_different_counter_meaning ... ok
+test apple::tests::smc_source_profiles_are_explicit_and_do_not_guess_from_prefixes ... ok
+test apple::tests::table_decoder_rejects_wrong_layout ... ok
+test apple::tests::unknown_active_mapping_preserves_activity ... ok
+test apple::tests::power_uses_measured_elapsed ... ok
+test counters::tests::capture_eviction_preserves_only_fresh_successful_baselines ... ok
+test counters::tests::measured_irregular_elapsed ... ok
+test apple::tests::reordering_names_absence_reappearance_and_instance_changes_preserve_identity ... ok
+test host::network_attribution::tests::address_and_each_table_keep_separate_query_windows_even_after_read_failure ... ok
+test host::network_attribution::tests::ipv4_ipv6_and_word_order_are_decoded_from_raw_tokens ... ok
+test host::network_attribution::tests::attribution_uses_distinct_interface_owners_and_preserved_tokens ... ok
+test host::network_attribution::tests::malformed_shifted_fields_cannot_serialize_excluded_socket_metadata ... ok
+test counters::tests::reorder_removal_and_reappearance ... ok
+test counters::tests::reset_zero_elapsed_and_failed_read_reset_baseline ... ok
+test host::network_route::tests::defaults_ignore_subnets_down_reject_and_malformed_routes_and_sort_metrics ... ok
+test host::network_attribution::tests::malformed_tables_retain_allowed_tokens_and_context_without_faking_zero ... ok
+test host::network_route::tests::ipv6_default_excludes_reject_and_source_specific_routes ... ok
+test host::portable::tests::delayed_queries_stamp_completion_and_use_measured_disk_rate ... ok
+test host::portable::tests::filesystem_capacity_failure_and_invalid_counters_never_publish_zero_or_old_values ... ok
+test host::temperature::tests::empty_discovery_retries_without_retaining_historical_inventory ... ok
+test host::temperature::tests::failed_read_is_not_cached_and_reconnect_replaces_dead_handles ... ok
+test host::temperature::tests::healthy_inventory_refreshes_values_and_discovers_every_sample ... ok
+test host::portable::tests::filesystem_capacity_uses_fresh_block_operands_and_preserves_query_window ... ok
+test host::network_attribution::tests::shared_evidence_keeps_raw_rows_without_excluded_socket_metadata ... ok
+test host::network_attribution::tests::uncertain_column_ownership_redacts_both_fields_and_propagated_errors ... ok
+test host::tests::cpu_temperature_retains_sparse_physical_labels ... ok
+test host::tests::cpu_all_cores_exclude_guest_and_iowait ... ok
+test counters::tests::public_retain_releases_all_identity_state_during_churn ... ok
+test host::tests::amd_identity_capabilities_conversions_and_reappearance ... ok
+test host::tests::intel_collection_preserves_existing_nvidia_and_amd_snapshot_fields ... ok
+test host::tests::derived_source_observations_have_read_windows ... ok
+test host::tests::intel_incomplete_inventory_cannot_assign_unqualified_pmu_to_another_gpu ... ok
+test host::tests::intel_optional_sources_report_absence_and_malformed_discovery_explicitly ... ok
+test host::tests::intel_proven_vendor_replacement_is_not_retained_as_old_gpu ... ok
+test host::tests::intel_incomplete_powercap_identity_cannot_create_unique_attribution ... ok
+test host::tests::intel_temporary_discovery_failure_does_not_reassign_alias_or_drop_physical_identity ... ok
+test host::tests::intel_sparse_gt_clocks_aliases_same_names_and_mixed_amd ... ok
+test host::tests::intel_hwmon_scope_units_failure_independence_and_energy_recovery ... ok
+test host::tests::intel_legacy_clocks_reject_overflow_and_keep_requested_semantics ... ok
+test host::tests::intel_pci_device_is_discovered_without_card_index_identity ... ok
+test host::tests::kernel_thread_count_survives_process_census_races ... ok
+test host::tests::network_duplicate_hardware_parent_keeps_identity_after_port_removal ... ok
+test host::tests::network_rates_totals_and_no_invented_connection_counts ... ok
+test host::tests::intel_integrated_powercap_pp1_is_separate_and_rejects_package_substitution ... ok
+test host::tests::memory_definition_and_raw_conversion ... ok
+test host::tests::monitor_names_use_host_descriptions_without_changing_identity ... ok
+test host::tests::network_preference_tracks_route_and_falls_back_to_physical_interface ... ok
+test host::tests::linux_snapshot_contains_shared_network_query_evidence ... ok
+test intel::drm::tests::engine_topology_preserves_sparse_gt_class_and_instance ... ok
+test intel::drm::tests::i915_restricted_free_never_becomes_zero_usage ... ok
+test intel::drm::tests::memory_publication_keeps_shared_bytes_separate_from_local_capacity ... ok
+test intel::drm::tests::memory_visible_subset_cannot_exceed_whole_region_operands ... ok
+test intel::drm::tests::memory_rejects_truncated_huge_duplicate_reserved_and_invalid_sizes ... ok
+test intel::drm::tests::sparse_local_regions_and_xe_shared_allocations_retain_raw_bytes ... ok
+test intel::drm::tests::shared_allocation_does_not_require_a_system_memory_capacity ... ok
+test intel::drm::tests::xe_nonvisible_allocation_cannot_exceed_nonvisible_capacity ... ok
+test intel::native::tests::pathological_negative_query_status_cannot_overflow ... ok
+test intel::native::tests::perf_group_response_checks_count_length_and_time_operands ... ok
+test intel::native::tests::query_validates_both_statuses_lengths_and_bound_before_allocation ... ok
+test intel::pmu::tests::engine_activity_normalizes_busy_ns_or_active_over_total_ticks ... ok
+test intel::pmu::tests::first_reset_failed_baseline_irregular_time_and_impossible_activity ... ok
+test intel::pmu::tests::initial_malformed_pmu_discovery_is_failed ... ok
+test intel::pmu::tests::pmu_retry_failed_read_independence_and_disappearance_release_state ... ok
+test host::tests::volume_device_rates_sectors_iops_and_latency ... ok
+test host::tests::whole_cpu_failure_and_device_churn_reset_and_prune_baselines ... ok
+test intel::pmu::tests::rapl_fixed_point_joules_use_measured_elapsed_not_percent ... ok
+test intel::pmu::tests::i915_bad_event_metadata_preserves_peer_sampling_and_recovery ... ok
+test intel::pmu::tests::pmu_specs_validate_units_formats_and_sparse_xe_engine_selectors ... ok
+test nvidia::tests::conversions_preserve_units_and_valid_zero ... ok
+test nvidia::tests::initialization_failure_is_diagnostic_not_fake_gpu ... ok
+test intel::rapl::tests::powercap_denied_zone_identity_invalidates_uniqueness_but_attributes_are_skipped ... ok
+test nvidia::tests::memory_permission_failure_is_failed ... ok
+test nvidia::tests::per_field_loss_and_recovery_leave_other_fields_real ... ok
+test nvidia::tests::reorder_removal_zero_devices_and_recovery ... ok
+test nvidia::tests::runtime_reinitializes_after_memory_gpu_loss ... ok
+test nvidia::tests::runtime_reuses_session_and_reinitializes_after_count_failure ... ok
+test nvidia::tests::successful_runtime_session_is_reused ... ok
+test nvidia::tests::uuid_failure_has_no_fabricated_index_identity ... ok
+test process_control::authentication::tests::authentication_uses_fixed_program_and_separate_arguments ... ok
+test process_control::authentication::tests::cancellation_and_helper_failures_are_not_success ... ok
+test intel::rapl::tests::rapl_gpu_energy_requires_integrated_evidence_one_die_and_correct_units ... ok
+test process_control::authentication::tests::helper_rejects_extra_missing_overflow_and_shell_input ... ok
+test process_control::authentication::tests::invalid_identity_never_dispatches_or_authenticates ... ok
+test process_control::authentication::tests::native_authentication_error_retains_only_its_numeric_context ... ok
+test process_control::linux::tests::malformed_identity_is_rejected_without_panicking ... ok
+test process_control::authentication::tests::only_permission_denial_authenticates_and_preserves_the_request ... ok
+test nvidia::tests::query_window_is_after_initialization_delay_and_bounds_query ... ok
+test process_control::windows_protocol::tests::full_filetime_and_caller_identity_round_trip_without_precision_loss ... ok
+test process_control::windows_protocol::tests::malformed_or_self_targeting_requests_are_rejected ... ok
+test process_control::windows_protocol::tests::unknown_and_legacy_exit_codes_never_claim_success_or_no_change ... ok
+test process_control::tests::exited_process_and_protected_targets_are_rejected ... ok
+test service::tests::factory_and_collection_run_on_worker ... ok
+test host::tests::shared_mac_interfaces_keep_independent_rates_through_discovery_churn ... ok
+test host::tests::intel_hwmon_invalid_identity_never_reuses_old_scope_or_baseline ... ok
+test service::tests::rejects_other_intervals ... ok
+test service::tests::non_send_collector_is_created_used_and_dropped_on_worker ... ok
+test types::tests::snapshots_without_network_attribution_remain_compatible ... ok
+test intel::tests::physical_device_churn_prunes_inventory_fields_and_baselines ... ok
+test service::tests::drop_waits_for_inflight_collection_and_stops_future_work ... ok
+test process_control::tests::only_the_matching_owned_identity_receives_each_signal ... ok
+test service::tests::slow_backend_never_overlaps_and_delivery_is_latest_only ... ok
+test host::tests::over_500_processes_denial_and_pid_reuse ... ok
+test service::tests::interval_change_interrupts_wait_and_drop_joins ... ok
+test host::portable::tests::common_backend_exposes_host_memory_and_real_process_identity ... ok
+
+test result: ok. 117 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.65s
+
+     Running unittests src/bin/pulse-snapshot.rs (target/debug/deps/pulse_snapshot-fa6d442b1a162ef8)
+
+running 1 test
+test tests::validates_count_and_interval ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests system_pulse_collectors
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+PASS WUAC-001

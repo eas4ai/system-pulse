@@ -1,0 +1,21 @@
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse_collectors-3b6f2933c08d3bee)
+error: test failed, to rerun pass `-p system-pulse-collectors --lib`
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_identity_verify.py", line 58, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_identity_verify.py", line 45, in main
+    subprocess.run(["cargo", "test", "--locked", "-p", "system-pulse-collectors"],
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                   cwd=ROOT, check=True)
+                   ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/linuxbrew/.linuxbrew/Cellar/python@3.14/3.14.7/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['cargo', 'test', '--locked', '-p', 'system-pulse-collectors']' returned non-zero exit status 101.

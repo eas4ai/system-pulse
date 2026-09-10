@@ -1,0 +1,332 @@
+{
+    "binary_path":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-a8e0a5517b154d36a52fe21c69a259a5\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "dashboard_cleaned":  true,
+    "finished_utc":  "2026-09-10T21:53:30.9627726Z",
+    "started_utc":  "2026-09-10T21:52:18.3024074Z",
+    "cases":  [
+                  {
+                      "collected_creation_ticks":  134335507502175995,
+                      "pid":  10844,
+                      "creation_ticks":  134335507502175995,
+                      "unrelated_control_alive":  true,
+                      "dashboard_handles_after":  662,
+                      "unrelated_control_messages":  "ready\n",
+                      "dashboard_elevated_after":  false,
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 10844)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n10844\nowned-fixture.exe\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 10844\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 226 readable processes · 1 s update",
+                      "signal":  "kill",
+                      "exited":  false,
+                      "name":  "confirmation-cancel",
+                      "status":  "confirmation cancelled",
+                      "mode":  "windowless",
+                      "sequence_after":  17,
+                      "dashboard_handles_before":  662,
+                      "sequence_before":  12
+                  },
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+
+                                               ],
+                      "pid":  15868,
+                      "creation_ticks":  134335507581290162,
+                      "status":  "owned-fixture.exe (PID 15868) has exited.",
+                      "mode":  "cooperative",
+                      "exited":  true,
+                      "dashboard_handles_after":  662,
+                      "settled_utc":  "2026-09-10T21:52:43.8448330Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335507581290162,
+                      "submitted_utc":  "2026-09-10T21:52:43.5581545Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 15868)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n15868\nowned-fixture.exe\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 15868\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 226 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  20,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  24,
+                      "name":  "graceful-cooperative",
+                      "signal":  "terminate",
+                      "dashboard_handles_before":  663
+                  },
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:52:51.8111780Z",
+                                                       "sequence":  31,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:52:52.6295398Z",
+                                                       "sequence":  32,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   }
+                                               ],
+                      "pid":  11336,
+                      "creation_ticks":  134335507653685331,
+                      "status":  "The application did not close. It may need a response or have declined the request. Check its window before choosing Force quit.",
+                      "mode":  "refusing",
+                      "exited":  false,
+                      "dashboard_handles_after":  665,
+                      "settled_utc":  "2026-09-10T21:52:52.8611117Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335507653685331,
+                      "submitted_utc":  "2026-09-10T21:52:50.7437329Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 11336)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n11336\nowned-fixture.exe\n0.0 %\n28.4 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 11336\n0.0 %\n28.4 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 223 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  27,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  33,
+                      "name":  "graceful-refused",
+                      "signal":  "terminate",
+                      "dashboard_handles_before":  663
+                  },
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+
+                                               ],
+                      "pid":  16308,
+                      "creation_ticks":  134335507745085394,
+                      "status":  "Graceful close is unavailable for this process. You can separately confirm Force quit if termination is intended.",
+                      "mode":  "windowless",
+                      "exited":  false,
+                      "dashboard_handles_after":  666,
+                      "settled_utc":  "2026-09-10T21:53:00.1963916Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335507745085394,
+                      "submitted_utc":  "2026-09-10T21:52:59.9561979Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 16308)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n16308\nowned-fixture.exe\n0.0 %\n14.2 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 16308\n0.0 %\n14.2 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 224 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  36,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  41,
+                      "name":  "graceful-unavailable",
+                      "signal":  "terminate",
+                      "dashboard_handles_before":  666
+                  },
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+
+                                               ],
+                      "pid":  6600,
+                      "creation_ticks":  134335507818023323,
+                      "status":  "owned-fixture.exe (PID 6600) has exited.",
+                      "mode":  "windowless",
+                      "exited":  true,
+                      "dashboard_handles_after":  666,
+                      "settled_utc":  "2026-09-10T21:53:07.5098089Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335507818023323,
+                      "submitted_utc":  "2026-09-10T21:53:07.2711745Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 6600)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n6600\nowned-fixture.exe\n0.0 %\n14.2 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 6600\n0.0 %\n14.2 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 225 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  43,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  48,
+                      "name":  "ordinary-force",
+                      "signal":  "kill",
+                      "dashboard_handles_before":  667
+                  },
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+
+                                               ],
+                      "pid":  5340,
+                      "creation_ticks":  134335507891177835,
+                      "status":  "The selected process has already exited.",
+                      "mode":  "windowless",
+                      "exited":  true,
+                      "dashboard_handles_after":  666,
+                      "settled_utc":  "2026-09-10T21:53:14.9327115Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335507891177835,
+                      "submitted_utc":  "2026-09-10T21:53:14.6583237Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 5340)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n5340\nowned-fixture.exe\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 5340\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 230 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  51,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  55,
+                      "name":  "stale-before-confirm",
+                      "signal":  "kill",
+                      "dashboard_handles_before":  667
+                  },
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:23.7558727Z",
+                                                       "sequence":  62,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:24.5514024Z",
+                                                       "sequence":  63,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:25.6538012Z",
+                                                       "sequence":  64,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:26.4379696Z",
+                                                       "sequence":  65,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:27.1786731Z",
+                                                       "sequence":  66,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:28.0134226Z",
+                                                       "sequence":  67,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T21:53:28.8259242Z",
+                                                       "sequence":  68,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   }
+                                               ],
+                      "pid":  9948,
+                      "creation_ticks":  134335507967293878,
+                      "status":  "The application did not close. It may need a response or have declined the request. Check its window before choosing Force quit.",
+                      "mode":  "delayed",
+                      "exited":  false,
+                      "dashboard_handles_after":  664,
+                      "settled_utc":  "2026-09-10T21:53:29.0650399Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335507967293878,
+                      "submitted_utc":  "2026-09-10T21:53:22.2498301Z",
+                      "pending_screen_changes":  [
+                                                     "Summary",
+                                                     "Processes"
+                                                 ],
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 9948)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n9948\nowned-fixture.exe\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 9948\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 230 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  58,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  69,
+                      "name":  "delayed-graceful",
+                      "signal":  "terminate",
+                      "dashboard_handles_before":  663
+                  }
+              ],
+    "source_commit":  "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "signing_status":  "NotSigned",
+    "dashboard":  {
+                      "account":  "XPSTABLET\\shawn",
+                      "creation_ticks":  134335507402713083,
+                      "pid":  17004,
+                      "elevated_before":  false,
+                      "elevation_type":  3
+                  },
+    "helper_entry_checks":  [
+                                {
+                                    "exit_code":  29,
+                                    "name":  "unelevated-helper",
+                                    "state_created":  false,
+                                    "pid":  7912,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  29,
+                                    "name":  "extra-helper-argument",
+                                    "state_created":  false,
+                                    "pid":  4100,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  13,
+                                    "name":  "legacy-helper-mode",
+                                    "state_created":  false,
+                                    "pid":  7764,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                }
+                            ],
+    "unrelated_control":  {
+                              "creation_ticks":  134335507477973308,
+                              "pid":  9256
+                          },
+    "os_version":  "Microsoft Windows NT 10.0.26200.0",
+    "owned_target_cleanup":  [
+                                 {
+                                     "exited":  true,
+                                     "pid":  9256
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  7912
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  4100
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  7764
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  10844
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  15868
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  11336
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  16308
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  6600
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  5340
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  9948
+                                 }
+                             ],
+    "status":  "PASS",
+    "binary_sha256":  "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b"
+}
