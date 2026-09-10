@@ -1,0 +1,16 @@
+command: rtk proxy python3 -B scripts/system-pulse/release_ci_verify.py
+inputs:
+  - .github/workflows/ci.yml
+  - Cargo.toml
+  - Cargo.lock
+  - .cargo/config.toml
+  - src/
+  - tests/
+  - crates/
+  - vendor/
+  - assets/
+  - package/
+  - scripts/system-pulse/
+  - scripts/system-pulse/release_ci_verify.py
+requirements:
+  - REL-003
