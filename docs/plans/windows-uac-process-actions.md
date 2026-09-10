@@ -7,7 +7,7 @@ All work stays local unless the developer separately authorizes a push or CI.
 - [x] Upgrade GPUI Kit and reconcile companion/native patches; verify the locked graph, local checks and Linux/macOS/Windows native preservation (Cairn WUAC-007 passed).
 - [x] Declare and implement Windows native process identity and graceful/forceful controls with boundary tests; verify committed native tests and ordinary packaged actions.
 - [ ] In progress: implement one-action UAC helper launch/result handling and responsive confirmation/error UI; verify ordinary, cancellation, denial and stale-target paths. Implementation, ordinary packaged cases and fresh Mac preservation pass; real UAC evidence remains pending.
-- [ ] Collect native Windows approval/credential/cancellation and packaged-layout evidence; run Linux/macOS preservation checks and update support documentation.
+- [ ] Collect native Windows administrator approval/cancellation and packaged-layout evidence; run Linux/macOS preservation checks and update support documentation.
 - [ ] Record final adversarial review, resolve findings separately, and finish Cairn evidence. No hosted CI or publication is included without separate authorization.
 
 ## Native Windows action observations
@@ -32,8 +32,8 @@ cleanup. It covers ordinary cooperative/refusing/unavailable End task, Force qui
 confirmation cancellation, an exited selection and responsiveness during a delayed
 close. It refuses uncommitted production or harness edits.
 
-These observations do not establish UAC approval, UAC cancellation or the standard
-user credential path. Those cases still need actual human interaction with Windows
+These observations do not establish UAC approval or UAC cancellation.
+Those cases still need actual human interaction with Windows
 and separate native evidence before WUAC-002 through WUAC-006 can pass. A successful
 collector run is an observation receipt, not a Cairn acceptance verdict.
 
@@ -53,8 +53,8 @@ UAC. Stop-event names are truncated on this Windows host, so lifecycle correlati
 uses exact start events and PIDs instead of requiring full stop-event image names.
 
 The initial collector covers ordinary actions, administrator consent, cancellation,
-cooperative/refused/delayed closure and exit during consent. Credential-account,
-post-elevation denial, helper-failure and resource-lifetime verification remain
+cooperative/refused/delayed closure and exit during consent. Post-elevation denial,
+helper-failure and resource-lifetime verification remain
 unfinished. The full acceptance verifier refuses to pass while those cases or
 their observations are missing. A single-run verifier result accepts only that
 observation and does not accept WUAC-002 through WUAC-006.
@@ -85,3 +85,14 @@ confirmed approving the prompt and observing Unknown publisher. The next run,
 intended as `consent-cancel`, observed an approved helper and target exit; it is
 retained as a failed attempt and requires clarification and a valid cancellation
 observation. These observations do not complete the full UAC commitment.
+
+The developer clarified on 2026-09-10 that elevation acceptance is for the
+administrator-account workflow. Standard-user credential entry is excluded from
+this release commitment. No account creation or sandbox-account reuse is needed.
+
+A graceful-close attempt completed the application action successfully but its
+supervisor read a stale `SCHED_S_TASK_RUNNING` result immediately before reading
+the task's completed state. Both polling loops now wait for a terminal result as
+well as a non-running state, under their existing deadlines. The attempt remains
+failed evidence and will be rerun; its successful application result alone does
+not replace a complete receipt.

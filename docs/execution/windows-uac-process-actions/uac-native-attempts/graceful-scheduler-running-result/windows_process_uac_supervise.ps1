@@ -1,4 +1,4 @@
-# One bounded native observation, run elevated by the test setup. Only the
+﻿# One bounded native observation, run elevated by the test setup. Only the
 # dashboard invokes runas. The operator answers that actual Windows UAC prompt.
 param([Parameter(Mandatory=$true)][string]$Configuration)
 $ErrorActionPreference='Stop'
@@ -117,12 +117,9 @@ try {
         $info=Get-ScheduledTaskInfo -TaskName $config.ui_task
         $state=(Get-ScheduledTask -TaskName $config.ui_task).State
         if($info.LastRunTime.ToUniversalTime() -ge [DateTime]::Parse($record.started_utc).ToUniversalTime().AddSeconds(-1)){$uiStarted=$true}
-        # These two scheduler queries are not atomic. A previously read running
-        # result (SCHED_S_TASK_RUNNING) must not become a terminal failure merely
-        # because the subsequent state query observes completion.
-        if($uiStarted -and $state -ne 'Running' -and $info.LastTaskResult -ne 0x41301){break}
+        if($uiStarted -and $state -ne 'Running'){break}
     }while((Get-Date) -lt $deadline)
-    if(!$uiStarted -or $state -eq 'Running' -or $info.LastTaskResult -eq 0x41301){throw 'Native UAC observation exceeded its deadline'}
+    if(!$uiStarted -or $state -eq 'Running'){throw 'Native UAC observation exceeded its deadline'}
     $record.ui_task_exit=$info.LastTaskResult
     $ui=Read-UiRecord 'result.json'
     if(!$ui -or $ui.status -ne 'PASS' -or $info.LastTaskResult -ne 0){throw 'Native UI action failed; inspect UI result'}

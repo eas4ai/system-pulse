@@ -127,7 +127,7 @@ Start-ScheduledTask -TaskName '__TASK__'
             if args.case == "consent-stale" and state["fault"] and not cue_shown:
                 print("Owned target has exited. Approve the waiting Windows prompt now.", flush=True)
                 cue_shown = True
-            if state["started"] and state["state"] != "Running":
+            if state["started"] and state["state"] != "Running" and state["result"] != 0x41301:
                 completed = True
                 break
         require(completed, f"Native supervisor timed out; inspect retained task {task}")

@@ -20,7 +20,7 @@ from windows_process_uac_collect import CASES, HARNESS_FILES
 REQUIRED_RUNS = (
     "ordinary", "consent-force", "consent-graceful", "consent-refused",
     "consent-cancel", "consent-stale", "consent-delayed", "consent-denied",
-    "helper-crash", "helper-timeout", "credential-force",
+    "helper-crash", "helper-timeout",
 )
 
 
@@ -244,8 +244,8 @@ def main():
     require(not missing, "Native UAC observations remain pending: " + ", ".join(missing))
     # No acceptance is issued until all case collectors and the human observation
     # record are implemented and independently verified. This guard must stay
-    # closed while the credential and fault-injection cases are still pending.
-    require(False, "Full UAC acceptance remains pending credential, failure, resource and preservation verification")
+    # closed while fault-injection and complete acceptance checks are pending.
+    require(False, "Full UAC acceptance remains pending failure, resource and preservation verification")
 
 
 if __name__ == "__main__":
