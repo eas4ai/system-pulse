@@ -3,6 +3,7 @@
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -13,7 +14,7 @@ from unittest.mock import patch
 import zipfile
 
 from package_binary import TARGETS, check_binary_header, make_archive
-from package_linux import ROOT
+from package_linux import ROOT, write_source_archive
 from release_ci_verify import REQUIRED, archive_files, verify_archive, verify_source
 
 
@@ -109,7 +110,13 @@ class BinaryArchiveTests(unittest.TestCase):
 
     def test_source_archive_matches_actual_git_tree(self):
         revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-        data = subprocess.check_output(["git", "archive", "--format=tar.gz", "--prefix=system-pulse-source/", revision], cwd=ROOT)
+        with tempfile.TemporaryDirectory() as temporary, patch.dict(os.environ, {
+            "GIT_CONFIG_COUNT": "2", "GIT_CONFIG_KEY_0": "core.autocrlf", "GIT_CONFIG_VALUE_0": "true",
+            "GIT_CONFIG_KEY_1": "core.eol", "GIT_CONFIG_VALUE_1": "crlf",
+        }):
+            archive = Path(temporary) / "source.tar.gz"
+            write_source_archive(archive, revision, Path(temporary) / "source.log")
+            data = archive.read_bytes()
         verify_source(data, revision)
         stream = io.BytesIO()
         with tarfile.open(fileobj=stream, mode="w:gz") as bundle:

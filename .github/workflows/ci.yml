@@ -43,7 +43,7 @@ jobs:
         with:
           toolchain: 1.98.1
           components: rustfmt, clippy
-          # Preserve native linker flags; the explicit Clippy step rejects warnings.
+          # Preserve native linker flags and leave warnings as warnings.
           rustflags: ''
           cache-key: ${{ matrix.target }}-release
       - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6

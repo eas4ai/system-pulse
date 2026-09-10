@@ -38,6 +38,12 @@ def run(command, log, timeout):
         )
 
 
+def write_source_archive(destination, revision, log):
+    """Preserve committed bytes regardless of the host's checkout line endings."""
+    run(["git", "-c", "core.autocrlf=false", "-c", "core.eol=lf", "archive",
+         "--format=tar.gz", "--prefix=system-pulse-source/", "-o", str(destination), revision], log, 120)
+
+
 def write_licenses(report, package, platform_label="Linux"):
     crates = report["crates"]
     unknown = [
@@ -176,19 +182,7 @@ def main():
         (ROOT / "crates/collectors/src/apple/NOTICE.md", "Apple-NOTICE.md"),
     ]:
         shutil.copyfile(source, notices / name)
-    run(
-        [
-            "git",
-            "archive",
-            "--format=tar.gz",
-            "--prefix=system-pulse-source/",
-            "-o",
-            str(package / "source.tar.gz"),
-            commit,
-        ],
-        output / "source.log",
-        120,
-    )
+    write_source_archive(package / "source.tar.gz", commit, output / "source.log")
     libraries = capture(["ldd", str(package / "system-pulse")])
     if "not found" in libraries:
         raise ValueError("The package build host lacks a required shared library")

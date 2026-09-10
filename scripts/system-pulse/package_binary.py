@@ -12,7 +12,7 @@ import time
 import tomllib
 import zipfile
 
-from package_linux import ROOT, capture, digest, require_committed_source, run, write_licenses
+from package_linux import ROOT, capture, digest, require_committed_source, run, write_licenses, write_source_archive
 
 TARGETS = {
     "x86_64-unknown-linux-gnu": ("linux-x86_64", "system-pulse"),
@@ -116,7 +116,7 @@ def main():
     about_config.write_text("\n".join(f"{name} = {json.dumps(value)}" for name, value in config.items()) + "\n")
     report = output / "license-report.json"
     run([about, "generate", "--locked", "--fail", "--manifest-path", str(ROOT / "Cargo.toml"),
-         "--config", str(about_config), "--include-local", str(ROOT), "--format", "json", "--output-file", str(report)],
+         "--config", str(about_config), "--format", "json", "--output-file", str(report)],
         output / "licenses.log", 1200)
     count = write_licenses(json.loads(report.read_text()), package, label)
     shutil.copyfile(binary, package / executable)
@@ -127,8 +127,7 @@ def main():
         for name in ("install.py", "icon.svg"):
             shutil.copyfile(ROOT / "package" / name, package / name)
     copy_notices(package)
-    run(["git", "archive", "--format=tar.gz", "--prefix=system-pulse-source/", "-o",
-         str(package / "source.tar.gz"), commit], output / "source.log", 120)
+    write_source_archive(package / "source.tar.gz", commit, output / "source.log")
     (package / "SOURCE.txt").write_text(
         f"System Pulse source commit: {commit}\nhttps://github.com/eas4ai/system-pulse/tree/{commit}\n"
         "source.tar.gz contains the committed workspace, patches and Cargo.lock.\n"
