@@ -1,0 +1,13 @@
+command: rtk proxy python3 -B scripts/system-pulse/windows_build_verify.py
+inputs:
+  - Cargo.toml
+  - Cargo.lock
+  - .cargo/config.toml
+  - src/
+  - tests/
+  - crates/
+  - vendor/
+  - assets/
+  - scripts/system-pulse/windows_build_verify.py
+requirements:
+  - REL-001
