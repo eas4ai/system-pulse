@@ -17,6 +17,7 @@ public static class PulseActionObservation {
     [DllImport("kernel32.dll")] static extern bool CloseHandle(IntPtr h);
     [DllImport("kernel32.dll",SetLastError=true)] static extern IntPtr OpenProcess(uint access,bool inherit,int pid);
     [DllImport("kernel32.dll")] static extern uint WaitForSingleObject(IntPtr h,uint milliseconds);
+    [DllImport("kernel32.dll",SetLastError=true)] static extern bool GetProcessHandleCount(IntPtr h,out uint count);
     [DllImport("kernel32.dll",CharSet=CharSet.Unicode,SetLastError=true)] static extern bool QueryFullProcessImageName(IntPtr h,uint flags,System.Text.StringBuilder path,ref int size);
     [DllImport("user32.dll")] public static extern bool SetForegroundWindow(IntPtr h);
     [DllImport("user32.dll")] static extern bool SetCursorPos(int x,int y);
@@ -35,6 +36,14 @@ public static class PulseActionObservation {
         if(result==0) return true; if(result==258) return false; throw new Win32Exception();
     }
     public static void Release(IntPtr h) {if(!CloseHandle(h)) throw new Win32Exception();}
+    public static uint HandleCount(IntPtr h) {
+        uint count;if(!GetProcessHandleCount(h,out count)) throw new Win32Exception();return count;
+    }
+    public static int ForceAccessError(int pid) {
+        IntPtr h=OpenProcess(0x101001,false,pid);
+        if(h==IntPtr.Zero)return Marshal.GetLastWin32Error();
+        Release(h);return 0;
+    }
     public static string Image(IntPtr h) {
         var path=new System.Text.StringBuilder(32768);int size=path.Capacity;
         if(!QueryFullProcessImageName(h,0,path,ref size)) throw new Win32Exception();return path.ToString();
@@ -87,6 +96,9 @@ function Status {
     return ''
 }
 function Capture($name) {
+    # A failure can occur while the human is entering UAC credentials. For UAC
+    # runs, retain only application UIA observations and never copy screen pixels.
+    if($config.uac_observation){return}
     [PulseActionObservation]::SetThreadDpiAwarenessContext([IntPtr](-4))|Out-Null
     $bounds=$script:root.Current.BoundingRectangle
     $bitmap=New-Object Drawing.Bitmap ([int]$bounds.Width),([int]$bounds.Height)
@@ -205,7 +217,12 @@ try {
         $row=@($frame.snapshot.processes | Where-Object {$_.identity.pid -eq $target.Id})
         if($row.Count -ne 1 -or $row[0].identity.start_time_ticks -ne $ticks){throw 'Collected full creation identity differs from GetProcessTimes'}
         $observation=@{name=$case.name;pid=$target.Id;creation_ticks=$ticks;signal=$case.signal;mode=$case.mode;collected_creation_ticks=$row[0].identity.start_time_ticks;sequence_before=$frame.snapshot.sequence}
+        if($config.uac_observation -and $case.target_pid -and $case.signal -eq 'kill') {
+            $observation.ordinary_force_access_error=[PulseActionObservation]::ForceAccessError($target.Id)
+            if($observation.ordinary_force_access_error -ne 5){throw 'Elevated force fixture does not require authorization'}
+        }
         $observation.confirmation=Prepare-Action $target $case.signal
+        $observation.dashboard_handles_before=[PulseActionObservation]::HandleCount($script:app.Handle)
         Capture ($case.name+'-confirmation.png')
         if($case.exit_before_confirm) {
             $target.Kill();if(!$target.WaitForExit(5000)){throw 'Owned stale fixture did not exit'}
@@ -219,6 +236,7 @@ try {
             Save-Record 'current-case.json' @{name=$case.name;phase='confirming';pid=$target.Id;expected_operator_action=$case.operator_action}
             $confirm=Control $(if($case.signal -eq 'kill'){'Confirm force quit'}else{'Confirm end task'}) 'ControlType.Button'
             $invoke=[System.Windows.Automation.InvokePattern]$confirm.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)
+            $observation.submitted_utc=(Get-Date).ToUniversalTime().ToString('o')
             $invoke.Invoke()
             # Exercise an actual duplicate activation of the same native control.
             # It may already have left the accessibility tree, which is also inert.
@@ -265,6 +283,7 @@ try {
         if($observation.exited -ne [bool]$case.expected_exit){throw 'Observed target lifetime differs from expected action semantics'}
         $observation.sequence_after=(Read-Frame).snapshot.sequence
         $observation.dashboard_elevated_after=[PulseActionObservation]::Elevated($script:app.Handle)
+        $observation.dashboard_handles_after=[PulseActionObservation]::HandleCount($script:app.Handle)
         if($observation.dashboard_elevated_after){throw 'Dashboard became elevated'}
         $control.Refresh()
         $controlMessages=Read-SharedText $controlLog
@@ -274,6 +293,7 @@ try {
         Capture ($case.name+'-result.png')
         $result.cases+=,$observation
         Save-Record 'result.json' $result
+        Save-Record 'current-case.json' @{name=$case.name;phase='complete';pid=$target.Id}
         if($case.target_pid){$target.Dispose()}
     }
     if((Read-SharedText (Join-Path $script:output 'app.stderr')).Trim()) {

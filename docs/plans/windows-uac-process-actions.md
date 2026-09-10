@@ -36,3 +36,25 @@ These observations do not establish UAC approval, UAC cancellation or the standa
 user credential path. Those cases still need actual human interaction with Windows
 and separate native evidence before WUAC-002 through WUAC-006 can pass. A successful
 collector run is an observation receipt, not a Cairn acceptance verdict.
+
+## UAC observation harness
+
+`windows_process_uac_collect.py` prepares one isolated packaged run with a limited
+dashboard and an elevated observer that owns its disposable target. The observer
+uses native process start/stop events to count helpers and consent processes. The
+dashboard alone requests UAC. `--case ordinary` requires no operator; consent cases
+require the human to be present and `--operator-ready`. The stale case prints a
+target-exited cue before the human approves the waiting prompt.
+
+UAC runs never capture screen pixels, including on failure. They retain only the
+application's accessibility observations and native process metadata. The native
+trace self-test exercises six malformed, short-lived helper invocations without
+UAC. Stop-event names are truncated on this Windows host, so lifecycle correlation
+uses exact start events and PIDs instead of requiring full stop-event image names.
+
+The initial collector covers ordinary actions, administrator consent, cancellation,
+cooperative/refused/delayed closure and exit during consent. Credential-account,
+post-elevation denial, helper-failure and resource-lifetime verification remain
+unfinished. The full acceptance verifier refuses to pass while those cases or
+their observations are missing. A single-run verifier result accepts only that
+observation and does not accept WUAC-002 through WUAC-006.

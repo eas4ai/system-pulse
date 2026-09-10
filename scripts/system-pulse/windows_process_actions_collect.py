@@ -51,6 +51,27 @@ def build_identity(contents):
     return revisions[0], hashes[0].lower()
 
 
+def deploy_package(host, task, archive, package):
+    require(re.fullmatch(r"SystemPulse-[A-Za-z]+-[a-f0-9]{32}", task) is not None, "invalid native run name")
+    parent = json.loads(remote(host,
+        "$path=Join-Path $env:USERPROFILE 'workspace\\" + task + "';"
+        "New-Item -ItemType Directory $path -ErrorAction Stop|Out-Null;"
+        "New-Item -ItemType Directory (Join-Path $path 'Packaged app ü')|Out-Null;"
+        "$path|ConvertTo-Json -Compress"))
+    subprocess.run(["scp", "-O", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
+                    str(archive), f"{host}:workspace/{task}/package.zip"], check=True, timeout=300)
+    binary_path = json.loads(remote(host,
+        "$parent=Join-Path $env:USERPROFILE 'workspace\\" + task + "';"
+        "$archive=Join-Path $parent 'package.zip';"
+        f"if((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower() -ne '{package['sha256']}')"
+        "{throw 'Transferred package checksum differs'};"
+        "Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $parent 'Packaged app ü');"
+        "$binaries=@(Get-ChildItem (Join-Path $parent 'Packaged app ü') -Recurse -File -Filter 'system-pulse.exe');"
+        "if($binaries.Count -ne 1){throw 'Packaged executable is absent or ambiguous'};"
+        "$binaries[0].FullName|ConvertTo-Json -Compress"))
+    return parent, binary_path
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default=os.environ.get("SYSTEM_PULSE_WINDOWS_HOST"))
@@ -77,22 +98,7 @@ def main():
     }
     task = "SystemPulse-Actions-" + uuid.uuid4().hex
     cache = Path(tempfile.mkdtemp(prefix="system-pulse-windows-actions-"))
-    parent = json.loads(remote(args.host,
-        "$path=Join-Path $env:USERPROFILE 'workspace\\" + task + "';"
-        "New-Item -ItemType Directory $path -ErrorAction Stop|Out-Null;"
-        "New-Item -ItemType Directory (Join-Path $path 'Packaged app ü')|Out-Null;"
-        "$path|ConvertTo-Json -Compress"))
-    subprocess.run(["scp", "-O", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
-                    str(archive), f"{args.host}:workspace/{task}/package.zip"], check=True, timeout=300)
-    binary_path = json.loads(remote(args.host,
-        "$parent=Join-Path $env:USERPROFILE 'workspace\\" + task + "';"
-        "$archive=Join-Path $parent 'package.zip';"
-        f"if((Get-FileHash $archive -Algorithm SHA256).Hash.ToLower() -ne '{package['sha256']}')"
-        "{throw 'Transferred package checksum differs'};"
-        "Expand-Archive -LiteralPath $archive -DestinationPath (Join-Path $parent 'Packaged app ü');"
-        "$binaries=@(Get-ChildItem (Join-Path $parent 'Packaged app ü') -Recurse -File -Filter 'system-pulse.exe');"
-        "if($binaries.Count -ne 1){throw 'Packaged executable is absent or ambiguous'};"
-        "$binaries[0].FullName|ConvertTo-Json -Compress"))
+    parent, binary_path = deploy_package(args.host, task, archive, package)
     config = dict(output=parent + "\\evidence", binary=binary_path,
                   fixture=parent + "\\owned-fixture.exe", source_commit=revision,
                   binary_sha256=binary_hash, cases=ORDINARY_CASES)
