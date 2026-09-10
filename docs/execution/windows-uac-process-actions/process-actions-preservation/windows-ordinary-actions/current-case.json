@@ -1,0 +1,6 @@
+{
+    "phase":  "confirming",
+    "expected_operator_action":  null,
+    "pid":  17100,
+    "name":  "delayed-graceful"
+}

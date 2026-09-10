@@ -5,8 +5,8 @@ All work stays local unless the developer separately authorizes a push or CI.
 
 - [x] Activate the approved commitment, declare mechanisms and scope, and record the framework upgrade design after inspecting upstream and local patches.
 - [x] Upgrade GPUI Kit and reconcile companion/native patches; verify the locked graph, local checks and Linux/macOS/Windows native preservation (Cairn WUAC-007 passed).
-- [ ] In progress: declare and implement Windows native process identity and graceful/forceful controls with boundary tests.
-- [ ] Implement one-action UAC helper launch/result handling and responsive confirmation/error UI; verify ordinary, cancellation, denial and stale-target paths.
+- [x] Declare and implement Windows native process identity and graceful/forceful controls with boundary tests; verify committed native tests and ordinary packaged actions.
+- [ ] In progress: implement one-action UAC helper launch/result handling and responsive confirmation/error UI; verify ordinary, cancellation, denial and stale-target paths. Implementation and ordinary packaged cases pass; real UAC and fresh Mac desktop preservation remain pending.
 - [ ] Collect native Windows approval/credential/cancellation and packaged-layout evidence; run Linux/macOS preservation checks and update support documentation.
 - [ ] Record final adversarial review, resolve findings separately, and finish Cairn evidence. No hosted CI or publication is included without separate authorization.
 

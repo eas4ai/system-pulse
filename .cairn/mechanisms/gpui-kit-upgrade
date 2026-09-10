@@ -1,4 +1,4 @@
-command: rtk proxy python3 -B scripts/system-pulse/gpui_kit_upgrade_verify.py
+command: rtk proxy python3 -B scripts/system-pulse/gpui_kit_upgrade_verify.py --evidence docs/execution/windows-uac-process-actions/process-actions-preservation
 inputs:
   - Cargo.toml
   - Cargo.lock

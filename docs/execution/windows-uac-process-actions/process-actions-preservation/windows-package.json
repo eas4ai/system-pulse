@@ -1,0 +1,8 @@
+{
+  "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+  "status": "PASS",
+  "archive": "/home/shawn/.cache/system-pulse-windows-actions/windows-package-3e6923e3/system-pulse-0.3.0-windows-x86_64-3e6923e39763.zip",
+  "sha256": "d27432dc731611f9bad0214f564aca3a55dd9a875b45ccac993d1f421d4fbd5f",
+  "binary_sha256": "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b",
+  "validation": "release_ci_verify.verify_archive: source blobs, archive and member hashes, runtime dependencies and license notices; executable matched windows-build.log"
+}

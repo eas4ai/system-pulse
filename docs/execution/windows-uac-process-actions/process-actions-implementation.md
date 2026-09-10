@@ -2,6 +2,10 @@
 
 Status: implementation verification in progress; not commitment acceptance.
 
+The implementation is now committed. The [fresh preservation record](process-actions-preservation.md)
+includes passing Linux acceptance, native Windows packaging and seven ordinary
+action cases. The editing observations below retain their original scope.
+
 Windows collection retains the full FILETIME creation identity. Actions validate
 that identity through an owned process handle. Force quit uses that same handle;
 End task registers only the selected GUI process with a private Restart Manager

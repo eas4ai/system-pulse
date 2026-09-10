@@ -1,0 +1,24 @@
+{
+  "run_id": "371954132da6484da5c61a658792afe2",
+  "status": "PASS",
+  "screenshots_sha256": {
+    "summary.png": "4369202a92db79cdb2506c12aadfd953833d9c6299d2f3ccf8c2934995b21ab7",
+    "gpu.png": "f576ff88c98fbb70c861a0a2253c26ba254841705fcc404002c0dc2e2f80a282",
+    "thermals.png": "327a8d7bdda29054ed4e0a2e376f62dd60fe504faa658b55ef24a50c4e2fb24f",
+    "energy.png": "5bb5693b0967ecde891712ab9893bae1e07f246ce1109e6ed319883103620473",
+    "processes.png": "009ad9761649187d589a46561f78c6f495e2c80a17af394f338894aed0a6ecf2",
+    "restored-settings.png": "909dd452c13df27b37e9d2945fbb86efc14ad19ac19aabddb81c83d2cdf06ba0",
+    "diagnostic-menu.png": "cd30c63ddfe334553b466bbe55fc031dc2f64578167c84bd6982053392031a9b",
+    "normal-menu.png": "cd30c63ddfe334553b466bbe55fc031dc2f64578167c84bd6982053392031a9b"
+  },
+  "unavailable_screens": [
+    "GPU",
+    "Thermals",
+    "Energy"
+  ],
+  "menu_commands": [
+    "Open System Pulse",
+    "Quit"
+  ],
+  "observations": "Reviewed all eight screenshots. Summary and Processes remain readable; unavailable GPU, thermal and energy readings are explicit. Restored light appearance, fonts and two-second sampling are visible. Both tray menus show Open System Pulse and Quit."
+}

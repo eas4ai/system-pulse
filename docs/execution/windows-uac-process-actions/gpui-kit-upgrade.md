@@ -1,5 +1,9 @@
 # GPUI Kit 0.6.1 upgrade
 
+The initial upgrade evidence below is historical. The subsequent process-action
+changes require [fresh preservation verification](process-actions-preservation.md),
+which remains incomplete while the Mac desktop is locked.
+
 The developer requested the latest stable GPUI Kit on 2026-09-10. crates.io
 reported 0.6.1, not yanked. The upstream source revision recorded in the published
 package is `36b51819deb52c947a79f8de29e0e9175eda7464`.

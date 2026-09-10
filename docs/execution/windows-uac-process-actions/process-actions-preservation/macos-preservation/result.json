@@ -1,0 +1,11 @@
+{
+  "status": "FAIL",
+  "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+  "binary_sha256": "9782e379d4b25b39db531ba9e8326ec3c8d0b5ac39a51c138fe60d1d38cbfae0",
+  "reference_sha256": "a8ddcda527f5e58b37c8d6a9eb24eb9daa09ec7c504e6f6fc5b4f8470f6b00fd",
+  "preservation_harness_sha256": {
+    "performance_preserve.py": "4c4cb4ffd341238986b26b73386a19c0ef60df69d460a4ee4049c5d802678a32",
+    "performance_tree.swift": "7f486e55e2f6040beef93d9ed28ecc2b23de7bf7af33ddd910ba83fd455de359"
+  },
+  "error": "CalledProcessError: Command '['/Users/shawnmcallister/system-pulse-actions-3e6923e39763/upgrade-native-build/performance-tree', '31592', 'snapshot']' returned non-zero exit status 1."
+}
