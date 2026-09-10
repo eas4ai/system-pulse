@@ -1,0 +1,21 @@
+{
+    "os":  {
+               "Caption":  "Microsoft Windows 11 Pro",
+               "Version":  "10.0.26200",
+               "BuildNumber":  "26200",
+               "OSArchitecture":  "64-bit"
+           },
+    "computer":  {
+                     "Model":  "XPS 13 9315 2-in-1",
+                     "TotalPhysicalMemory":  16853491712
+                 },
+    "cpu":  {
+                "Name":  "12th Gen Intel(R) Core(TM) i7-1250U",
+                "NumberOfCores":  10,
+                "NumberOfLogicalProcessors":  12
+            },
+    "gpu":  {
+                "Name":  "Intel(R) Iris(R) Xe Graphics",
+                "DriverVersion":  "32.0.101.6881"
+            }
+}
