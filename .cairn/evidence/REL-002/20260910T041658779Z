@@ -1,0 +1,21 @@
+requirement: REL-002
+requirement_digest: sha256:26ad992235a32b68394efe8e41f7610153a8c8b00d792fe533e931d102fb8dac
+sequence: 2
+history_digest: sha256:569f9cd32e76af649e28a8304096d146dc77c284ccfa9d985a19ae3ded6ec1bf
+mechanism: windows-runtime
+commit: 857f68f5
+inputs_digest: sha256:9dab4635ad560d3a1276d958747169ac736fdc88fe2893dc537f1702705165a4
+mechanism_digest: sha256:d8f424c75abd0141fdfc6c23981c70ab65358eaa984ad2442351d97ed87bc14e
+inputs_detail: .cairn/evidence/REL-002/20260910T041658485Z-3858829.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/windows_runtime_verify.py
+cwd: .
+exit: 0
+output_digest: sha256:5f71039748df608f440762deeb23ed678c638f9d1504be2d837ee756a39b3147
+output: .cairn/evidence/REL-002/20260910T041658485Z-3858829.out
+stderr_output: .cairn/evidence/REL-002/20260910T041658485Z-3858829.err
+stderr_digest: sha256:6273232de4d3ef7acd4ecafa5c86beeeb974f56586b21089a2990b3f72facbe6
+signal: none
+execution_error: null
+result: pass
+source: line
+recorded: 2026-09-10T04:16:58.779Z
