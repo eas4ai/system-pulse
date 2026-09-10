@@ -11,4 +11,4 @@ Native preflight showed OpenProcess termination access succeeds from the medium 
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 911893341df0dc04fb8822fd7ce05252a7081f64 Require administrator termination access on owned UAC fixtures
