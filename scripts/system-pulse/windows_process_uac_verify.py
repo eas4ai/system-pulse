@@ -149,6 +149,9 @@ def validate_run(ui, observer, case_name):
         target = native_identity(observer.get("target"), "owned target")
         require(observer["target"].get("elevated") is True and target[0] != dashboard["pid"],
                 "owned target was not separately elevated")
+        require(observer["target"].get("administrator_termination_dacl") is True
+                and observer["target"].get("administrator_termination_access_error") == 0,
+                "owned fixture did not establish administrator termination access")
         require(observer.get("target_cleaned") is True and ui.get("dashboard_cleaned") is True,
                 "owned elevated target or dashboard survived cleanup")
         cases = ui.get("cases", [])

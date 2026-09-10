@@ -26,6 +26,9 @@ try {
     $owned.Add($denial);$null=$denial.Handle
     $denied=[PulseOwnedProcessFault]::new($denial);$guards.Add($denied)
     if($denied.NewTerminationAccessError() -ne 0){throw 'Fresh owned fixture was already inaccessible'}
+    $denied.RequireAdministratorForTermination()
+    if($denied.NewTerminationAccessError() -ne 0){throw 'Administrator lost access to the owned termination fixture'}
+    $result.checks+='administrator-termination-access-without-debug'
     $denied.DenyNewTerminationHandles()
     if($denied.NewTerminationAccessError() -ne 5){throw 'Owned DACL did not deny new termination handles'}
     $denied.Crash()

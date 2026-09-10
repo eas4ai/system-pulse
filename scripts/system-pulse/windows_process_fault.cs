@@ -119,6 +119,19 @@ public sealed class PulseOwnedProcessFault : IDisposable
         if (WaitForSingleObject(handle, 0) != 258) throw new InvalidOperationException("Owned process has exited");
     }
 
+    public void RequireAdministratorForTermination()
+    {
+        RequireLive();
+        // Same-user elevated processes can still grant a limited token the
+        // minimum termination rights. Restrict only this job-owned fixture:
+        // enabled Administrators/System retain access; everyone can observe it.
+        var descriptor = new RawSecurityDescriptor(
+            "D:P(A;;0x1fffff;;;SY)(A;;0x1fffff;;;BA)(A;;0x101000;;;WD)");
+        var bytes = new byte[descriptor.BinaryLength];
+        descriptor.GetBinaryForm(bytes, 0);
+        if (!SetKernelObjectSecurity(handle, 4, bytes)) throw new Win32Exception();
+    }
+
     public void DenyNewTerminationHandles()
     {
         RequireLive();

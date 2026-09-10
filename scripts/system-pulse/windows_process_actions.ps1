@@ -219,7 +219,7 @@ try {
         $observation=@{name=$case.name;pid=$target.Id;creation_ticks=$ticks;signal=$case.signal;mode=$case.mode;collected_creation_ticks=$row[0].identity.start_time_ticks;sequence_before=$frame.snapshot.sequence}
         if($config.uac_observation -and $case.target_pid -and $case.signal -eq 'kill') {
             $observation.ordinary_force_access_error=[PulseActionObservation]::ForceAccessError($target.Id)
-            if($observation.ordinary_force_access_error -ne 5){throw 'Elevated force fixture does not require authorization'}
+            if($observation.ordinary_force_access_error -ne 5){throw ('Owned force fixture expected access denied; native error: '+$observation.ordinary_force_access_error)}
         }
         $observation.confirmation=Prepare-Action $target $case.signal
         $observation.dashboard_handles_before=[PulseActionObservation]::HandleCount($script:app.Handle)

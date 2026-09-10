@@ -25,7 +25,8 @@ def observed_run(name="consent-force"):
                         settled_utc="2026-09-10T21:02:00Z")
     observer = dict(status="COLLECTED", ui_task_exit=0, observer_debug_privilege_removed=True,
                     observer=dict(pid=1, creation_ticks=123, elevated=True),
-                    target=dict(pid=expected["pid"], creation_ticks=expected["creation_ticks"], elevated=True),
+                    target=dict(pid=expected["pid"], creation_ticks=expected["creation_ticks"], elevated=True,
+                                administrator_termination_dacl=True, administrator_termination_access_error=0),
                     target_cleaned=True, target_exited_before_cleanup=expected["exited"], events=[])
     events = observer["events"]
     def lifecycle(pid, name, code, **extra):
@@ -138,6 +139,8 @@ class NativeUacReceiptTests(unittest.TestCase):
             lambda u, o: o["events"][0].update(elevated=True),
             lambda u, o: o["events"][-2].update(process_close_failed=True),
             lambda u, o: o.update(observer_debug_privilege_removed=False),
+            lambda u, o: o["target"].pop("administrator_termination_dacl"),
+            lambda u, o: o["target"].update(administrator_termination_access_error=5),
         ]
         for index, mutate in enumerate(changes):
             ui, observer = observed_run()

@@ -68,3 +68,12 @@ still-pending real application UAC cases. The Python suite passed 562 tests afte
 these harness changes. Ripwire's test gate named three tests, all included in that
 suite; its quality-delta command could not establish a Git baseline in this
 checkout, through either CLI or MCP, so no quality-delta pass is claimed.
+
+The first real consent preflight found that the medium-integrity account could
+open a termination handle to its same-user high-integrity fixture without debug
+privilege. No UAC prompt occurred in that failed run. The owned UAC fixtures now
+use an explicit administrator termination DACL, with independent elevated and
+limited access probes before the application action. Native elevated access,
+denial, retained-handle cleanup and all 16 process-evidence tests passed after
+this correction. The older ordinary receipt predates these harness hashes and
+must be recollected; no real UAC acceptance is claimed by the fixture self-test.

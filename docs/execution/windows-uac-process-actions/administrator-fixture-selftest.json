@@ -1,0 +1,36 @@
+{
+  "purpose": "Native fixture self-test; real UAC acceptance remains pending",
+  "host": "XPSTABLET",
+  "source_sha256": {
+    "windows_process_fault.cs": "6eedf82d85b6bce6c5e1f3c0f2c87900d0a7ec5eaa72db2927ee88c323e3de58",
+    "windows_process_fault_selftest.ps1": "07d7bae5e101afa6191e46e8dd6b40978208ca7b38d97178fc8e2b5908901e5f",
+    "windows_process_fixture.cs": "8a56511be041a7667fe8220d7ebf8fe247898427415f2a3ffa368de7ba35097f"
+  },
+  "observation": {
+    "checks": [
+      "observer-refused",
+      "administrator-termination-access-without-debug",
+      "access-denied-and-pinned-crash",
+      "suspend-and-resume-observed-heartbeat",
+      "job-cleans-suspended-process",
+      "unrelated-control-unchanged"
+    ],
+    "owned": [
+      {
+        "exited": true,
+        "pid": 7044
+      },
+      {
+        "exited": true,
+        "pid": 14084
+      },
+      {
+        "exited": true,
+        "pid": 2964
+      }
+    ],
+    "observer_debug_privilege_removed": true,
+    "status": "PASS",
+    "suspended_threads": 6
+  }
+}

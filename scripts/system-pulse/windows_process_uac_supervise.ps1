@@ -52,6 +52,10 @@ try {
         $record.target=@{pid=$target.Id;creation_ticks=[PulseProcessTrace]::Creation($target.Handle);elevated=[PulseProcessTrace]::Elevated($target.Handle);image=$config.ui.fixture}
         if(!$record.target.elevated){throw 'Disposable target did not start elevated'}
         $targetFault=[PulseOwnedProcessFault]::new($target)
+        $targetFault.RequireAdministratorForTermination()
+        $record.target.administrator_termination_access_error=$targetFault.NewTerminationAccessError()
+        if($record.target.administrator_termination_access_error -ne 0){throw 'Administrator cannot access the owned termination fixture'}
+        $record.target.administrator_termination_dacl=$true
         if($case.fault -eq 'deny-termination') {
             $targetFault.DenyNewTerminationHandles()
             $denied=$targetFault.NewTerminationAccessError()
