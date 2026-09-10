@@ -213,7 +213,12 @@ impl RenderOnce for ResizablePanelGroup {
             )
             .on_prepaint({
                 let state = state.clone();
-                move |bounds, _, cx| {
+                move |bounds, window, cx| {
+                    // Invalid external dock geometry must not start a settling
+                    // loop: NaN differs from itself on every subsequent frame.
+                    if !bounds.size.along(self.axis).as_f32().is_finite() {
+                        return;
+                    }
                     state.update(cx, |state, cx| {
                         let size_changed =
                             state.bounds.size.along(self.axis) != bounds.size.along(self.axis);
@@ -222,6 +227,18 @@ impl RenderOnce for ResizablePanelGroup {
 
                         if size_changed {
                             state.adjust_to_container_size(cx);
+                            // The adjustment lands after this frame's layout has
+                            // already been computed, and a notify raised during a
+                            // draw only records the view as dirty without scheduling
+                            // a frame for it. Defer the notify so it runs once the
+                            // draw has finished and can schedule the settling frame.
+                            // Otherwise that frame stays pending until some later
+                            // input repaints the window, and the divider appears to
+                            // jump on hover.
+                            let state = cx.entity();
+                            window.defer(cx, move |_, cx| {
+                                state.update(cx, |_, cx| cx.notify());
+                            });
                         }
                     })
                 }

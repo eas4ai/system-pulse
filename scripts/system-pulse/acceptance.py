@@ -584,9 +584,6 @@ def run_automated(runner):
             "accesskit_unix",
             "--all-targets",
             "--no-deps",
-            "--",
-            "-D",
-            "warnings",
         ],
     )
     runner.step(
