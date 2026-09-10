@@ -26,9 +26,10 @@ def main():
     )
     digest = hashlib.sha256(archive.read_bytes()).hexdigest()
     token = f"system-pulse-{revision[:12]}-{uuid.uuid4().hex[:8]}"
+    # Windows OpenSSH installations may expose SCP before configuring SFTP.
     subprocess.run(
-        ["scp", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
-         str(archive), f"{host}:{token}.tar.gz"], check=True,
+        ["scp", "-O", "-o", "BatchMode=yes", "-o", "ConnectTimeout=15",
+         str(archive), f"{host}:{token}.tar.gz"], check=True, timeout=300,
     )
     script = r"""
 $ErrorActionPreference = 'Stop'
