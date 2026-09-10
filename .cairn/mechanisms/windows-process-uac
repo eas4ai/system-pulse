@@ -1,0 +1,21 @@
+command: rtk proxy python3 -B scripts/system-pulse/windows_process_uac_verify.py
+inputs:
+  - Cargo.toml
+  - Cargo.lock
+  - .cargo/
+  - src/
+  - tests/
+  - crates/
+  - vendor/
+  - assets/
+  - package/
+  - README.md
+  - docs/user-guide.md
+  - scripts/system-pulse/
+  - docs/execution/windows-uac-process-actions/
+requirements:
+  - WUAC-002
+  - WUAC-003
+  - WUAC-004
+  - WUAC-005
+  - WUAC-006
