@@ -3,7 +3,7 @@
 > Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
-Current: process-table-improvements
+Current: release-candidate-readiness
 
 ## Real system readings
 
@@ -35,3 +35,10 @@ commitment remains incomplete: Summary CPU fell 21.7% and tray-only CPU 34.0%,
 below its 50% targets. The new [commitment](../commitments/process-table-improvements.md)
 and [contract](process-table.md) cover table expansion, compact search, Mac
 Threads visibility and authenticated privileged process controls.
+
+## Release candidate readiness
+
+On 2026-09-09 the developer approved [release-candidate readiness](../commitments/release-candidate-readiness.md):
+Windows setup, build and native runtime verification, binary-build CI and
+accurate support documentation under [REL-001 through REL-004](release.md).
+The process-table commitment has passing evidence and a clean review.
