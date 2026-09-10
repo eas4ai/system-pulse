@@ -1,0 +1,1064 @@
+{
+  "finished_utc": "2026-09-10T15:21:18.7348566Z",
+  "diagnostic_pid": 8732,
+  "filtered_rows": [
+    {
+      "pid": 8732,
+      "name": "system-pulse.exe",
+      "cells": [
+        "8732",
+        "system-pulse.exe",
+        "1.5 %",
+        "203.0 MiB",
+        "0.0 B/s",
+        "783.8 KiB/s",
+        "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+        "shawn"
+      ]
+    }
+  ],
+  "started_utc": "2026-09-10T15:20:01.4596782Z",
+  "normal": {
+    "quit": {
+      "pid": 3896,
+      "menu_owner": 3896,
+      "exit_code": 0
+    },
+    "settings_restored": true,
+    "pid": 3896,
+    "rows": [
+      {
+        "pid": 5268,
+        "name": "chrome.exe",
+        "cells": [
+          "5268",
+          "chrome.exe",
+          "70.4 %",
+          "482.6 MiB",
+          "8.4 KiB/s",
+          "9.3 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15280,
+        "name": "chrome.exe",
+        "cells": [
+          "15280",
+          "chrome.exe",
+          "20.3 %",
+          "256.7 MiB",
+          "1.4 MiB/s",
+          "877.1 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 6924,
+        "name": "powershell.exe",
+        "cells": [
+          "6924",
+          "powershell.exe",
+          "12.5 %",
+          "131.1 MiB",
+          "13.6 KiB/s",
+          "130.8 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 9580,
+        "name": "chrome.exe",
+        "cells": [
+          "9580",
+          "chrome.exe",
+          "2.4 %",
+          "47.2 MiB",
+          "442.0 KiB/s",
+          "31.2 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 7176,
+        "name": "ipf_helper.exe",
+        "cells": [
+          "7176",
+          "ipf_helper.exe",
+          "1.6 %",
+          "11.7 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 8996,
+        "name": "explorer.exe",
+        "cells": [
+          "8996",
+          "explorer.exe",
+          "1.6 %",
+          "416.7 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15384,
+        "name": "chrome.exe",
+        "cells": [
+          "15384",
+          "chrome.exe",
+          "1.6 %",
+          "50.8 MiB",
+          "16.6 KiB/s",
+          "659.6 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 1932,
+        "name": "WavesSvc64.exe",
+        "cells": [
+          "1932",
+          "WavesSvc64.exe",
+          "0.8 %",
+          "66.6 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 3896,
+        "name": "system-pulse.exe",
+        "cells": [
+          "3896",
+          "system-pulse.exe",
+          "0.8 %",
+          "88.8 MiB",
+          "26.6 KiB/s",
+          "25.3 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 12552,
+        "name": "msedgewebview2.exe",
+        "cells": [
+          "12552",
+          "msedgewebview2.exe",
+          "0.8 %",
+          "120.8 MiB",
+          "841.5 B/s",
+          "1021.8 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 13140,
+        "name": "msedgewebview2.exe",
+        "cells": [
+          "13140",
+          "msedgewebview2.exe",
+          "0.8 %",
+          "19.3 MiB",
+          "68.7 KiB/s",
+          "21.3 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15368,
+        "name": "chrome.exe",
+        "cells": [
+          "15368",
+          "chrome.exe",
+          "0.8 %",
+          "110.4 MiB",
+          "13.4 KiB/s",
+          "16.1 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 6024,
+        "name": "chrome.exe",
+        "cells": [
+          "6024",
+          "chrome.exe",
+          "0.8 %",
+          "70.5 MiB",
+          "785.4 B/s",
+          "897.6 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 8860,
+        "name": "chrome.exe",
+        "cells": [
+          "8860",
+          "chrome.exe",
+          "0.8 %",
+          "63.0 MiB",
+          "12.7 KiB/s",
+          "10.2 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 0,
+        "name": "[System Process]",
+        "cells": [
+          "0",
+          "[System Process]",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 4,
+        "name": "System",
+        "cells": [
+          "4",
+          "System",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 188,
+        "name": "Secure System",
+        "cells": [
+          "188",
+          "Secure System",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 232,
+        "name": "Registry",
+        "cells": [
+          "232",
+          "Registry",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 772,
+        "name": "svchost.exe",
+        "cells": [
+          "772",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 792,
+        "name": "smss.exe",
+        "cells": [
+          "792",
+          "smss.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 892,
+        "name": "csrss.exe",
+        "cells": [
+          "892",
+          "csrss.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 984,
+        "name": "conhost.exe",
+        "cells": [
+          "984",
+          "conhost.exe",
+          "0.0 %",
+          "10.1 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      }
+    ],
+    "diagnostics_enabled": false,
+    "status": "Live system data \u00b7 230 readable processes \u00b7 2 s update"
+  },
+  "sorted_rows": [
+    [
+      {
+        "pid": 0,
+        "name": "[System Process]",
+        "cells": [
+          "0",
+          "[System Process]",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 4,
+        "name": "System",
+        "cells": [
+          "4",
+          "System",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 188,
+        "name": "Secure System",
+        "cells": [
+          "188",
+          "Secure System",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 232,
+        "name": "Registry",
+        "cells": [
+          "232",
+          "Registry",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 772,
+        "name": "svchost.exe",
+        "cells": [
+          "772",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 792,
+        "name": "smss.exe",
+        "cells": [
+          "792",
+          "smss.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 892,
+        "name": "csrss.exe",
+        "cells": [
+          "892",
+          "csrss.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1096,
+        "name": "wininit.exe",
+        "cells": [
+          "1096",
+          "wininit.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1144,
+        "name": "services.exe",
+        "cells": [
+          "1144",
+          "services.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1152,
+        "name": "LsaIso.exe",
+        "cells": [
+          "1152",
+          "LsaIso.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1160,
+        "name": "lsass.exe",
+        "cells": [
+          "1160",
+          "lsass.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1216,
+        "name": "csrss.exe",
+        "cells": [
+          "1216",
+          "csrss.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1276,
+        "name": "svchost.exe",
+        "cells": [
+          "1276",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1328,
+        "name": "svchost.exe",
+        "cells": [
+          "1328",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1356,
+        "name": "fontdrvhost.exe",
+        "cells": [
+          "1356",
+          "fontdrvhost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1428,
+        "name": "svchost.exe",
+        "cells": [
+          "1428",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1444,
+        "name": "svchost.exe",
+        "cells": [
+          "1444",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1472,
+        "name": "svchost.exe",
+        "cells": [
+          "1472",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1536,
+        "name": "winlogon.exe",
+        "cells": [
+          "1536",
+          "winlogon.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1584,
+        "name": "fontdrvhost.exe",
+        "cells": [
+          "1584",
+          "fontdrvhost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1596,
+        "name": "svchost.exe",
+        "cells": [
+          "1596",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 1672,
+        "name": "dwm.exe",
+        "cells": [
+          "1672",
+          "dwm.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      }
+    ],
+    [
+      {
+        "pid": 17340,
+        "name": "svchost.exe",
+        "cells": [
+          "17340",
+          "svchost.exe",
+          "0.0 %",
+          "17.3 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 17272,
+        "name": "svchost.exe",
+        "cells": [
+          "17272",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 17208,
+        "name": "svchost.exe",
+        "cells": [
+          "17208",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 16968,
+        "name": "chrome.exe",
+        "cells": [
+          "16968",
+          "chrome.exe",
+          "0.0 %",
+          "97.8 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 16876,
+        "name": "RuntimeBroker.exe",
+        "cells": [
+          "16876",
+          "RuntimeBroker.exe",
+          "0.0 %",
+          "15.2 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 16668,
+        "name": "MicrosoftStartFeedProvider.exe",
+        "cells": [
+          "16668",
+          "MicrosoftStartFeedProvider.exe",
+          "0.0 %",
+          "44.5 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 16648,
+        "name": "conhost.exe",
+        "cells": [
+          "16648",
+          "conhost.exe",
+          "0.0 %",
+          "9.9 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 16576,
+        "name": "WmiPrvSE.exe",
+        "cells": [
+          "16576",
+          "WmiPrvSE.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 16372,
+        "name": "svchost.exe",
+        "cells": [
+          "16372",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 16072,
+        "name": "svchost.exe",
+        "cells": [
+          "16072",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 15992,
+        "name": "chrome.exe",
+        "cells": [
+          "15992",
+          "chrome.exe",
+          "0.0 %",
+          "84.6 MiB",
+          "331.8 B/s",
+          "110.6 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15920,
+        "name": "svchost.exe",
+        "cells": [
+          "15920",
+          "svchost.exe",
+          "0.0 %",
+          "14.5 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15636,
+        "name": "chrome.exe",
+        "cells": [
+          "15636",
+          "chrome.exe",
+          "0.0 %",
+          "83.3 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15504,
+        "name": "chrome.exe",
+        "cells": [
+          "15504",
+          "chrome.exe",
+          "0.0 %",
+          "17.6 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15384,
+        "name": "chrome.exe",
+        "cells": [
+          "15384",
+          "chrome.exe",
+          "3.1 %",
+          "50.5 MiB",
+          "16.3 KiB/s",
+          "216.3 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15368,
+        "name": "chrome.exe",
+        "cells": [
+          "15368",
+          "chrome.exe",
+          "0.0 %",
+          "108.9 MiB",
+          "995.4 B/s",
+          "663.6 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15280,
+        "name": "chrome.exe",
+        "cells": [
+          "15280",
+          "chrome.exe",
+          "1.6 %",
+          "255.3 MiB",
+          "238.1 KiB/s",
+          "159.1 KiB/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15204,
+        "name": "SearchFilterHost.exe",
+        "cells": [
+          "15204",
+          "SearchFilterHost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 15196,
+        "name": "OpenConsole.exe",
+        "cells": [
+          "15196",
+          "OpenConsole.exe",
+          "0.0 %",
+          "14.3 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15164,
+        "name": "svchost.exe",
+        "cells": [
+          "15164",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      },
+      {
+        "pid": 15152,
+        "name": "ApplicationFrameHost.exe",
+        "cells": [
+          "15152",
+          "ApplicationFrameHost.exe",
+          "0.0 %",
+          "55.3 MiB",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "shawn"
+        ]
+      },
+      {
+        "pid": 15096,
+        "name": "svchost.exe",
+        "cells": [
+          "15096",
+          "svchost.exe",
+          "0.0 %",
+          "0.0 B",
+          "0.0 B/s",
+          "0.0 B/s",
+          "Unavailable \u00b7 count \u00b7 sysinfo does not expose this process's thread set",
+          "Unavailable \u00b7 sysinfo process user unavailable"
+        ]
+      }
+    ]
+  ],
+  "source_commit": "36343dbe5ef2244465ca65e59c3b531d268fafd4",
+  "diagnostic_quit": {
+    "pid": 8732,
+    "menu_owner": 8732,
+    "exit_code": 0
+  },
+  "host": {
+    "gpu": [
+      {
+        "Name": "Intel(R) Iris(R) Xe Graphics",
+        "DriverVersion": "32.0.101.6881"
+      }
+    ],
+    "visible_memory_bytes": 16853491712,
+    "os": "Microsoft Windows 11 Pro",
+    "cpu": [
+      {
+        "Name": "12th Gen Intel(R) Core(TM) i7-1250U",
+        "NumberOfCores": 10,
+        "NumberOfLogicalProcessors": 12
+      }
+    ],
+    "version": "10.0.26200"
+  },
+  "reopen": {
+    "hidden": true,
+    "new_window": 4195722,
+    "pid": 8732,
+    "old_window": 1312066,
+    "visible": true
+  },
+  "run_id": "b241a56e2dff4a83b32ca6747fb6485b",
+  "status": "PASS",
+  "binary_sha256": "10ba139f186f64ca275900efc8e49ae9c7a45c262cb48206415e1475b53f2994",
+  "screens": [
+    {
+      "selected": true,
+      "screen": "Summary"
+    },
+    {
+      "selected": true,
+      "screen": "CPU"
+    },
+    {
+      "selected": true,
+      "screen": "Memory"
+    },
+    {
+      "selected": true,
+      "screen": "GPU"
+    },
+    {
+      "selected": true,
+      "screen": "Disks"
+    },
+    {
+      "selected": true,
+      "screen": "Network"
+    },
+    {
+      "selected": true,
+      "screen": "Energy"
+    },
+    {
+      "selected": true,
+      "screen": "Thermals"
+    },
+    {
+      "selected": true,
+      "screen": "Processes"
+    },
+    {
+      "selected": true,
+      "screen": "Settings"
+    }
+  ],
+  "elevated": false,
+  "harness_sha256": {
+    "windows_runtime.ps1": "d63437ec48a087569bcd03e38e1349f390126f4c6f9c63118514dd05b409f040",
+    "windows_runtime_collect.py": "47e6c2c0b24a5040672c2e79d7ac4ff42032be253c0e5030ec4769b589d4ed87"
+  },
+  "build_log_sha256": "a4e78aba5567cb2cdb747ebcfbbadb5b4d19c1875c5280958f7adc809c006ee5",
+  "artifacts_sha256": {
+    "diagnostic-menu.png": "fba9d51d999c2b278d461bcea55b5ebcd72ab93ad960ba0c5d7fe580aaf0635f",
+    "diagnostic.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "diagnostic.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "energy.png": "40632c4d8ced4def0217e75a94337a24422123b6514f6ed87f4646e3fb9095d2",
+    "final.json": "82338fbbcb7bbfabe826d4a1a6298372af5a18c99317321523eb90c9e44293cd",
+    "gpu.png": "6aae5f445fd1e681740ea8565fa31bdb024162dfb3f4dfe70dc253a1bdfe8b31",
+    "initial.json": "56f3f958d07afc6c53e8e34dd8da2b9da96817c434dc54f4f99fde8f9b28593d",
+    "latest.json": "5e6329343e8b0bd8ff1a4ede50659da4b1c038faf8db8dfb001e5d60a47f16a2",
+    "normal-menu.png": "fba9d51d999c2b278d461bcea55b5ebcd72ab93ad960ba0c5d7fe580aaf0635f",
+    "normal.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "normal.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "processes.png": "2dc65a2c3580ef92e516323390e20bb437c967ab51ff9cc851ed8739b6b4bb57",
+    "restored-settings.png": "24d426ef153105429be9b83ca45f82540bf143ae269fe0688364b83e0cec7601",
+    "saved-state.json": "a477011233fe9b36f0a74c1b1581b4f9698f6fe35e52de4a93c63bf58cd843df",
+    "summary.png": "bb6a410cb44eec518f2b099ae044e6ebe86203c6a2b7a3b317fe646c72a51758",
+    "thermals.png": "a6e75a928876095faba76ea76d25c744454d59e928de1928b75015a08bd384b5"
+  }
+}

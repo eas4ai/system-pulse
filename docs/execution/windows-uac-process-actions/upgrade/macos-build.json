@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "source_commit": "36343dbe5ef2244465ca65e59c3b531d268fafd4",
+  "steps": {
+    "workspace-tests": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/macos-native/workspace-tests.log",
+      "sha256": "8f6f611f3c053ddb3c9e90081973d3c8b7b53ba12c5597a88b37d2da435be6a2"
+    },
+    "workspace-clippy": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/macos-native/workspace-clippy.log",
+      "sha256": "4816f78aa0e893bafc8d8dc06ebfb73f9f9bc368cf5bd65ef9c009d28d058a1c"
+    },
+    "release": {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--release",
+        "-p",
+        "system-pulse"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/macos-native/release.log",
+      "sha256": "29c4dedc3cc8f704fe21dd29e88f7a2859d3a67aaed1e0be767401f1b0f0867c"
+    },
+    "dispatcher": {
+      "command": [
+        "env",
+        "OBJC_DEBUG_MISSING_POOLS=YES",
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_dispatcher_lifetime-e350c14c5c432881",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/macos-native/dispatcher.log",
+      "sha256": "82864ab7a6ecc20987e27f354ac18c881b99828cee6a480b22a9cb1d2741fb31"
+    },
+    "lifetime": {
+      "command": [
+        "python3",
+        "-"
+      ],
+      "cases": [
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "success"
+        ],
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "error"
+        ],
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "unwind"
+        ],
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "background"
+        ]
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/macos-native/lifetime.log",
+      "sha256": "01c077bad2f3897a7bc77e41994613d212e0e0190313a2c83738d08906eee4fb",
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "execution_note": "Python driver ran each listed case as its own subprocess; all returned zero and the combined log contained no missing-pool diagnostics."
+    }
+  },
+  "binary": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/release/system-pulse",
+  "binary_sha256": "3dfa7c1f77de9d703d89ab961d185ba902ce62eb444200d85152bd3c353116c0"
+}

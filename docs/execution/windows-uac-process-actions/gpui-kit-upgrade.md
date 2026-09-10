@@ -55,7 +55,52 @@ Editing checks passed: 1,708 Rust workspace tests, no ignored tests; workspace
 formatting; resolved-graph verification. The first workspace attempt was stopped
 after isolating the non-finite geometry loop; it is not counted as a pass.
 Full workspace Clippy also passed without warning promotion, and all 544 Python
-tests passed. Committed-source native/package evidence remains pending.
+tests passed.
+
+Checks against committed source `36343dbe5ef2244465ca65e59c3b531d268fafd4`
+also passed formatting, all 1,708 workspace tests, Clippy and 544 Python tests.
+The retained [automated record](upgrade/automated.json) binds each command to
+its exit status and log hash.
+
+Linux full application acceptance passed: tabbed preservation with 1,087 tests
+and native replay, ten input-focus tests, release packaging with 537 dependency
+notices, packaged product replay, tray lifetime and installed launch. The
+[package manifest](upgrade/linux-application-manifest.json) retains the source,
+binary and artifact identities. Its referenced logs and artifacts remain in the
+persistent local verification directory.
+
+Native Mac workspace tests, Clippy and release build passed. All 36 retained
+regression test names appear as passed in the Mac workspace log. Five dispatcher
+tests and four application lifetime cases (success, error, unwind and background)
+passed with missing-autorelease-pool diagnostics enabled. The first launcher
+incorrectly applied those diagnostics to Cargo itself, and a subsequent lifetime
+invocation passed an unsupported libtest argument to the custom harness. Both
+failed launcher attempts are retained. Compiling separately and invoking the
+test executables with their actual supported arguments passed without pool
+diagnostics; no application code changed in response to these launcher errors.
+See the [Mac build record](upgrade/macos-build.json).
+
+The [native Mac preservation run](upgrade/macos-preservation/result.json) passed
+against the retained pre-upgrade binary: monitor/sensor identity coverage,
+independent volume capacities, settings, screen navigation, close-to-tray,
+background collection/history, reopen and Quit. A separate normal launch with
+diagnostics disabled verified visible Summary and Processes rows.
+
+Windows passed 219 tests across 13 suites with none ignored, followed by its
+native release build. The executable SHA-256 is
+`10ba139f186f64ca275900efc8e49ae9c7a45c262cb48206415e1475b53f2994`.
+The [runtime record](upgrade/windows-runtime/result.json) binds the exact binary
+to the [build log](upgrade/windows-build.log). Runtime replay passed as an
+unelevated user: all ten screens, process filtering and both PID sort directions,
+live host readings, settings persistence, dashboard recreation from the tray and
+clean Quit in diagnostic and normal launches. All eight screenshots were
+inspected; the [visual review](upgrade/windows-runtime/visual-review.json) records
+readable layouts, unavailable GPU/Thermals/Energy and the two correct tray commands.
+
+The combined upgrade verifier passed locally after validating all retained
+records. Cairn committed-tree evidence is recorded separately after this evidence
+document is committed. These observations verify framework preservation; they
+do not claim that the Windows UAC process backend has been implemented.
 
 The graph verifier rejects an old kit, duplicate/mixed GPUI runtime, and missing
 local patches. Its full mode additionally validates source-bound automated,

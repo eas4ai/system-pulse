@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "source_commit": "36343dbe5ef2244465ca65e59c3b531d268fafd4",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/verify.py",
+        "--output",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/preservation"
+      ],
+      "seconds": 721.63,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/preservation.log",
+      "sha256": "fc925c93beeb5a134ff5e8e5871d1f258b17d4195ae27f6754653c9d5a7d72ba"
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.966,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/input-focus.log",
+      "sha256": "a84e2e025de88987183e2fbaab53100b5010f974867b90d1995947d55f16e734",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/package",
+        "--cargo-about",
+        "/tmp/system-pulse-cargo-about-oddwye95/cargo-about"
+      ],
+      "seconds": 71.683,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/package.log",
+      "sha256": "46ca415fd75b5498435162f03acfccfc2f92d137bb6a8b19c8473b2d3e97d9c6"
+    },
+    "application": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/application.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/harness/tabbed_replay.py",
+        "--binary",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/package/system-pulse-0.3.0-linux-x86_64-36343dbe5ef2/system-pulse",
+        "--output",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/application"
+      ],
+      "seconds": 184.278,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/application.log",
+      "sha256": "6c47c91b9e9aff818a144194ba46efbcdb272f2ea2f9b2e7926914f4af35e63f"
+    },
+    "tray": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/tray.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/harness/tray_replay.py",
+        "--binary",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/package/system-pulse-0.3.0-linux-x86_64-36343dbe5ef2/system-pulse",
+        "--output",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/tray"
+      ],
+      "seconds": 16.203,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/tray.log",
+      "sha256": "f8c14ad14627b48e671e9b99b1f02368a9b688f23c267f6bb17d310029425e36"
+    },
+    "installed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/installed.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/harness/package_smoke.py",
+        "--archive",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/package/system-pulse-0.3.0-linux-x86_64-36343dbe5ef2.tar.gz",
+        "--output",
+        "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/installed"
+      ],
+      "seconds": 5.983,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/installed.log",
+      "sha256": "7c7d63b58cf25253e5761ae7be827f02690ae8adfec2860b573fb387f9394dd4"
+    }
+  },
+  "archive": {
+    "path": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/package/system-pulse-0.3.0-linux-x86_64-36343dbe5ef2.tar.gz",
+    "bytes": 31115548,
+    "sha256": "9f4288185e1a536ff214d8c66ef142b57113b7852aa7412de9ff0273db8564bc"
+  },
+  "binary_sha256": "f3df86af842c4ad54ab4cda7be88af1e9f1e237156078388228f95307e8292c6",
+  "preservation_manifest": {
+    "path": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/preservation/manifest.json",
+    "bytes": 27280,
+    "sha256": "d32d7b626fd9e08cf742a27ec54e77f264d9cbfde286cb4314246488fd26b91d"
+  },
+  "product": {
+    "path": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/application/result.json",
+    "bytes": 58357,
+    "sha256": "8544a3c1ac31b4561652480b7de811671bd22d960a699609e153a45ba6a74be2"
+  },
+  "tray": {
+    "path": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/tray/result.json",
+    "bytes": 834,
+    "sha256": "dab70717727d4fccc883244189858e0a07a902679f0f854307250d242e9b1eea"
+  },
+  "installed": {
+    "path": "/home/shawn/.cache/system-pulse-gpui-061/linux-acceptance-36343dbe/installed/result.json",
+    "bytes": 795,
+    "sha256": "444722c2899c929beb817e01668900ead936f548da4525bdedf208dc7372aa8a"
+  }
+}

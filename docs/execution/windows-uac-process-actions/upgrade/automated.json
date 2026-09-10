@@ -1,0 +1,68 @@
+{
+  "status": "PASS",
+  "source_commit": "36343dbe5ef2244465ca65e59c3b531d268fafd4",
+  "steps": {
+    "format": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "seconds": 3.128,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/automated-36343dbe/format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "workspace-tests": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--workspace",
+        "--quiet"
+      ],
+      "seconds": 17.207,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/automated-36343dbe/workspace-tests.log",
+      "sha256": "6e923d99a42bf4c6dcac37155342694555fcd2928f84f3fea080c4c87bb50ba5",
+      "test_count": 1708
+    },
+    "workspace-clippy": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets"
+      ],
+      "seconds": 68.382,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/automated-36343dbe/workspace-clippy.log",
+      "sha256": "d2b83ce3b5fe709259d0c22e55f2eda81ca4534107e6a10e6be4e269da98bff8"
+    },
+    "python-tests": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py"
+      ],
+      "seconds": 47.053,
+      "log": "/home/shawn/.cache/system-pulse-gpui-061/automated-36343dbe/python-tests.log",
+      "sha256": "bbb6ac87d3589cdc0284705eba1fc0252280de1c4ecf7a4dd1ec73145a79d185",
+      "test_count": 544
+    }
+  }
+}
