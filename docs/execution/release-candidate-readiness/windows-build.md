@@ -1,4 +1,19 @@
-# Initial native Windows build
+# Native Windows builds
+
+## Refreshed release candidate
+
+Source: `2801d26df53b79c25f35edf9016a6408f9de62f9`.
+Cairn receipt: `.cairn/evidence/REL-001/20260910T041317512Z`.
+
+All 219 applicable tests passed again after the CI compiler compatibility
+changes. The optimized build passed in 9m24s, with the same native tools below
+and an unchanged Cargo.lock. The unused Unix authentication warnings were fixed.
+The [runtime check](windows-runtime.md) uses this executable.
+
+Executable SHA256:
+`17f989fdeb08fa4ec02fa6169992ba2b618c035e6e74fc658dcfde7dca9370d0`.
+
+## Initial build
 
 Source: fd98c4704cb2d79b5625cb4b8d0a6817fade0046.
 Cairn receipt: `.cairn/evidence/REL-001/20260910T023944916Z`.

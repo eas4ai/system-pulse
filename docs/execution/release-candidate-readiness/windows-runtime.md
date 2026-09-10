@@ -1,10 +1,10 @@
 # Windows native runtime verification
 
-The native run `8c5e79406d29418d94d2455a092f2699` passed on the Dell XPS tablet
-on 2026-09-10 UTC (2026-09-09 local). It used the executable from the
+The native run `d7c118a4ae4344f0bb83213334367b6f` passed on the Dell XPS tablet
+on 2026-09-10 UTC and local time. It used the executable from the
 [passing Windows build](windows-build.md), SHA-256
-`8f462e175175a19cb02af11a69b1b16d38f6ddaa31c7ca89311388cfe3258da0`.
-Its source revision is `fd98c4704cb2d79b5625cb4b8d0a6817fade0046`;
+`17f989fdeb08fa4ec02fa6169992ba2b618c035e6e74fc658dcfde7dca9370d0`.
+Its source revision is `2801d26df53b79c25f35edf9016a6408f9de62f9`;
 the runtime gate rejects changes to the tested production source.
 
 The [record](runtime/result.json) binds the build log, executable, native harness
@@ -64,7 +64,7 @@ From the source repository:
 
 ```sh
 SYSTEM_PULSE_WINDOWS_HOST=user@windows-host python3 -B scripts/system-pulse/windows_runtime_collect.py \
-  --build-log .cairn/evidence/REL-001/20260910T014627173Z-1328174.out
+  --build-log .cairn/evidence/REL-001/20260910T035945699Z-3562107.out
 ```
 
 Use the corresponding successful REL-001 log after a new build. The collector
@@ -80,5 +80,6 @@ Retain the accepted artifacts and review in `runtime/`, commit the harness and
 evidence, then run `cairn check REL-002`. The gate validates the retained native
 observations; it does not pretend to repeat GUI interactions on the checking host.
 
-Cairn recorded REL-002 passing against committed source `f98cc549` in
-[the receipt](../../../.cairn/evidence/REL-002/20260910T034236344Z).
+The initial runtime acceptance remains in [its receipt](../../../.cairn/evidence/REL-002/20260910T034236344Z).
+The retained observations above refresh that acceptance after the CI compiler
+compatibility changes; all five validator tests and native record checks passed.

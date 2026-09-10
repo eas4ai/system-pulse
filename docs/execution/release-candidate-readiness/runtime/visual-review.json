@@ -1,17 +1,17 @@
 {
-  "run_id": "8c5e79406d29418d94d2455a092f2699",
+  "run_id": "d7c118a4ae4344f0bb83213334367b6f",
   "status": "PASS",
   "reviewer": "Codex native screenshot review",
-  "reviewed_utc": "2026-09-10T03:40:02.272452+00:00",
+  "reviewed_utc": "2026-09-10T04:16:24.837469+00:00",
   "screenshots_sha256": {
-    "summary.png": "75a480bab7fe7bb39f81e01018566f4a035214accb6561601b906b834c521ee0",
-    "gpu.png": "1ac39fd02aa741f3d129c0faeaef5a4251e95c7c58b72153483e36f367cfeccf",
-    "thermals.png": "5ad54c8d59aa4107ac916fccee5379ef13712cd4047dc89bc7f0d968db3b2ac1",
-    "energy.png": "050abfe3c5a8f55f607ac8faafc8f084172183916fb70a641075c7078e381e9e",
-    "processes.png": "5cf502832ec7a1140efead4f58ccb4e442ee657e3a07e9a9b3fcb213ff0ef5a2",
-    "restored-settings.png": "b4229d4580359169a0f7d58753146682e7b420720d0162f0184a6e69c4a9fd61",
-    "diagnostic-menu.png": "395f7e4ac84d49094ea10601e3385adb1edbcee2ddc99f940726121557143545",
-    "normal-menu.png": "395f7e4ac84d49094ea10601e3385adb1edbcee2ddc99f940726121557143545"
+    "summary.png": "b3178836471b33810b1f5c2866241a76c9ccf2eed2356c6501ee4bd717375891",
+    "gpu.png": "8258c0423d76d54600d04d0122ccea5a234d560a5e1f855c086c5fe6db514bdf",
+    "thermals.png": "c9af1c4dfdb576b94b3c10613eedf918c814b5448e6df85549d441867f94ca98",
+    "energy.png": "dedbf288444c4eef1700fe18194f1d0e1919f3e8a2b725284a845ad67d5f19f2",
+    "processes.png": "319d16e5d61e0b8f2a58d8540e808bfda557e39a8950850167c2b6ec31b92449",
+    "restored-settings.png": "1c46d6ebdff06b5854fde6314ec1795337737d92363103afbdb3e5b2027bc0be",
+    "diagnostic-menu.png": "cd30c63ddfe334553b466bbe55fc031dc2f64578167c84bd6982053392031a9b",
+    "normal-menu.png": "cd30c63ddfe334553b466bbe55fc031dc2f64578167c84bd6982053392031a9b"
   },
   "unavailable_screens": [
     "GPU",
@@ -23,10 +23,10 @@
     "Quit"
   ],
   "observations": [
-    "Summary renders live charts and eight top-CPU rows.",
-    "Process columns align; unavailable thread counts remain explicit.",
-    "GPU, temperature and power screens show no available readings.",
-    "The normal restart shows the selected light theme, IBM Plex fonts and two-second interval.",
-    "Both native tray menus contain Open System Pulse and Quit."
+    "Summary shows CPU at 15.7 percent, 12 logical processors, memory at 7.8 / 15.7 GiB and eight top-CPU rows.",
+    "GPU, Thermals and Energy explicitly state that measurements are unavailable.",
+    "The Processes screen has aligned populated columns; thread counts show unavailable.",
+    "The normal restart displays Light, IBM Plex Sans, IBM Plex Mono and the two-second interval as selected.",
+    "Both captured native menus visibly offer Open System Pulse and Quit."
   ]
 }
