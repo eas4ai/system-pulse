@@ -65,6 +65,17 @@ jobs:
         run: cargo test --locked --workspace
       - name: Lint application, collectors and model
         run: cargo clippy --locked -p system-pulse -p system-pulse-collectors -p system-pulse-model --all-targets -- -D warnings
+      - name: Install Linux verification prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          curl --fail --location --retry 3 --output "$RUNNER_TEMP/rtk.tar.gz" https://github.com/rtk-ai/rtk/releases/download/v0.40.0/rtk-x86_64-unknown-linux-musl.tar.gz
+          echo "a75d210a445874106bc16da2b4efba01d36d297afa33ec134728f2d5f42ef5af  $RUNNER_TEMP/rtk.tar.gz" | sha256sum --check
+          mkdir "$RUNNER_TEMP/rtk"
+          tar -xzf "$RUNNER_TEMP/rtk.tar.gz" -C "$RUNNER_TEMP/rtk" rtk
+          "$RUNNER_TEMP/rtk/rtk" --version
+          echo "$RUNNER_TEMP/rtk" >> "$GITHUB_PATH"
+          # The coverage verifier resolves all target dependencies while offline.
+          cargo fetch --locked
       - name: Test verification and packaging tools
         if: runner.os == 'Linux'
         run: /usr/bin/python3 -B -m unittest discover -s scripts/system-pulse -p 'test_*.py'
