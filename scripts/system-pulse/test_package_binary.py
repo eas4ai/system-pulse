@@ -13,7 +13,7 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
-from package_binary import TARGETS, check_binary_header, make_archive
+from package_binary import TARGETS, check_binary_header, make_archive, main
 from package_linux import ROOT, write_source_archive
 from release_ci_verify import REQUIRED, archive_files, verify_archive, verify_source
 
@@ -34,6 +34,45 @@ def header(target):
 
 
 class BinaryArchiveTests(unittest.TestCase):
+    def test_license_report_is_utf8_with_windows_default_encoding(self):
+        report = {"notice": "Copyright \u0141ukasz \u6771\u4eac"}
+        encoded = json.dumps(report, ensure_ascii=False).encode("utf-8")
+        with self.assertRaises(UnicodeDecodeError):
+            encoded.decode("cp1252")
+
+        class ReportReceived(Exception):
+            pass
+
+        original_read_text = Path.read_text
+
+        def windows_read_text(path, encoding=None, errors=None):
+            return original_read_text(path, encoding=encoding or "cp1252", errors=errors)
+
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            output = root / "output"
+            binary = root / "release/system-pulse.exe"
+            binary.parent.mkdir()
+            binary.write_bytes(header("x86_64-pc-windows-msvc"))
+
+            def run(command, log, timeout):
+                if "generate" in command:
+                    (output / "license-report.json").write_bytes(encoded)
+
+            with patch("sys.argv", ["package_binary.py", "--target", "x86_64-pc-windows-msvc",
+                                    "--output", str(output)]), \
+                 patch("package_binary.require_committed_source"), \
+                 patch("package_binary.shutil.which", return_value="cargo-about"), \
+                 patch("package_binary.capture", side_effect=[
+                     "host: x86_64-pc-windows-msvc", "cargo-about 0.9.2", "revision",
+                     json.dumps({"target_directory": str(root)})]), \
+                 patch("package_binary.run", side_effect=run), \
+                 patch("package_binary.write_licenses", side_effect=ReportReceived) as write, \
+                 patch.object(Path, "read_text", windows_read_text):
+                with self.assertRaises(ReportReceived):
+                    main()
+                self.assertEqual(write.call_args.args[0], report)
+
     def test_headers_reject_other_architectures_and_truncation(self):
         for target in TARGETS:
             check_binary_header(header(target), target)

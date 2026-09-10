@@ -118,7 +118,7 @@ def main():
     run([about, "generate", "--locked", "--fail", "--manifest-path", str(ROOT / "Cargo.toml"),
          "--config", str(about_config), "--format", "json", "--output-file", str(report)],
         output / "licenses.log", 1200)
-    count = write_licenses(json.loads(report.read_text()), package, label)
+    count = write_licenses(json.loads(report.read_text(encoding="utf-8")), package, label)
     shutil.copyfile(binary, package / executable)
     (package / executable).chmod(0o755)
     shutil.copyfile(ROOT / "COPYING", package / "COPYING")

@@ -161,7 +161,7 @@ def main():
         output / "licenses.log",
         600,
     )
-    dependency_count = write_licenses(json.loads(report_path.read_text()), package)
+    dependency_count = write_licenses(json.loads(report_path.read_text(encoding="utf-8")), package)
     for source, name in [
         (ROOT / "target/release/system-pulse", "system-pulse"),
         (APP / "COPYING", "COPYING"),
