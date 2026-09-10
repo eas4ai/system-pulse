@@ -11,4 +11,4 @@ The pinned setup-rust-toolchain action defaults to RUSTFLAGS=-D warnings. Hosted
 
 ## Realized by
 
-(none yet: recorded, not built)
+fc324e874c7ad6a803de7f50e4e38b3ce3e0be64 ci: preserve native linker configuration during toolchain setup
