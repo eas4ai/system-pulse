@@ -96,3 +96,19 @@ Helper queries must finish no later than the observer QPC and within three
 seconds, with matching frequencies; collector receipt freshness remains a
 separate check. The successful frame before helper exit receives these same
 checks and the snapshot clock-anchor/ordering validation.
+
+## Live capture finding — 2026-09-11, run 401c59f7
+
+The signed native application failed the first interactive capture. The temperature
+helper connected to the dashboard pipe, then the dashboard reported Windows error
+109 (pipe ended). The expected denial state never appeared and the harness failed
+after its deadline. The user reported a problem with Energy; clarification remains
+pending. The captured Energy screen contains real package watts and history.
+No conclusion about the user's UAC response is inferred. The mechanism correctly
+rejected this run. Retained raw evidence is in
+`docs/execution/windows-thermal-energy/failed-live-401c59f7/`.
+
+Read-only source inspection shows existing native pipe tests exercise one process
+and one token, and do not execute the real driver-backed helper lifecycle.
+Investigate the connected-helper exit before changing production code. This is an
+open finding; prior test passes do not establish successful native temperatures.

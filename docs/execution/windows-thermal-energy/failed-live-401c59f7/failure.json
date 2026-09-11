@@ -1,0 +1,4 @@
+{
+    "error":  "Thermal state timed out: Failed / denied|cancelled\r\nAt C:\\Users\\shawn\\workspace\\SystemPulse-ThermalEnergy-401c59f78bef4e7892c16b0e9b18811c\\thermal-energy.ps1:183 char:5\r\n+     throw \"Thermal state timed out: $availability / $reasonPattern\"\r\n+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : OperationStopped: (Thermal state t...enied|cancelled:String) [], RuntimeException\r\n    + FullyQualifiedErrorId : Thermal state timed out: Failed / denied|cancelled\r\n \r\n",
+    "run_id":  "401c59f78bef4e7892c16b0e9b18811c"
+}
