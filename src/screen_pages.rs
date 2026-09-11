@@ -375,7 +375,10 @@ fn gpu(state: &Data, width: f32, cx: &App) -> AnyElement {
         .when_some(capacity, |view, capacity| {
             view.child(
                 section(cx)
-                    .id(SharedString::from(format!("gpu-capacity:{}", capacity.sensor)))
+                    .id(SharedString::from(format!(
+                        "gpu-capacity:{}",
+                        capacity.sensor
+                    )))
                     .role(Role::Group)
                     .aria_label(capacity.label.clone())
                     .child(hero_meter(capacity, state, Screen::Gpu, cx)),
