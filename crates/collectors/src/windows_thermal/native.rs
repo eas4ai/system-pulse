@@ -404,6 +404,119 @@ mod tests {
     use super::*;
 
     #[test]
+    fn native_real_driver_helper_child() {
+        let Ok(pid) = std::env::var("SYSTEM_PULSE_TEST_REAL_HELPER_PID") else {
+            return;
+        };
+        let request = Request::parse(&[
+            pid.into(),
+            std::env::var_os("SYSTEM_PULSE_TEST_REAL_HELPER_CREATED").unwrap(),
+            std::env::var_os("SYSTEM_PULSE_TEST_REAL_HELPER_NONCE").unwrap(),
+        ])
+        .unwrap();
+        eprintln!("real helper child elevated={:?}", identity::elevated());
+        let result = helper(request);
+        eprintln!("real helper returned: {result:?}");
+        result.unwrap();
+    }
+
+    #[test]
+    fn native_real_driver_helper_session() {
+        // Explicit opt-in: ordinary tests must not require or open the real driver.
+        if std::env::var("SYSTEM_PULSE_TEST_REAL_HELPER").as_deref() != Ok("1") {
+            return;
+        }
+        let executable = LockedExecutable::current().unwrap();
+        let request = Request {
+            pid: std::process::id(),
+            created: identity::creation_time(unsafe { GetCurrentProcess() }).unwrap(),
+            nonce: format!("{:032x}", counter().unwrap()),
+        };
+        let server = create_pipe(&request).unwrap();
+        let mut child = std::process::Command::new(&executable.path)
+            .args([
+                "--exact",
+                "windows_thermal::native::tests::native_real_driver_helper_child",
+                "--nocapture",
+            ])
+            .env("SYSTEM_PULSE_TEST_REAL_HELPER_PID", request.pid.to_string())
+            .env(
+                "SYSTEM_PULSE_TEST_REAL_HELPER_CREATED",
+                request.created.to_string(),
+            )
+            .env("SYSTEM_PULSE_TEST_REAL_HELPER_NONCE", &request.nonce)
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::piped())
+            .spawn()
+            .unwrap();
+        eprintln!(
+            "real helper parent elevated={:?}, child={}",
+            identity::elevated(),
+            child.id()
+        );
+        let result = (|| -> Result<f64> {
+            let deadline = Instant::now() + Duration::from_secs(10);
+            let mut connected = false;
+            while Instant::now() < deadline {
+                if !connected {
+                    match unsafe { ConnectNamedPipe(raw(&server), None) } {
+                        Ok(()) => connected = true,
+                        Err(e) if code(&e) == ERROR_PIPE_CONNECTED.0 => connected = true,
+                        Err(e) if code(&e) == ERROR_PIPE_LISTENING.0 => {}
+                        Err(e) => return Err(format!("test connect: {e}")),
+                    }
+                    if connected {
+                        let mut pid = 0;
+                        unsafe { GetNamedPipeClientProcessId(raw(&server), &mut pid) }
+                            .map_err(|e| format!("test client identity: {e}"))?;
+                        if pid != child.id() {
+                            return Err("test pipe client differs from retained child".into());
+                        }
+                        eprintln!("real helper connected and PID authenticated");
+                    }
+                }
+                if connected {
+                    let mut bytes = [0u8; 64];
+                    let mut count = 0;
+                    match unsafe {
+                        ReadFile(raw(&server), Some(&mut bytes), Some(&mut count), None)
+                    } {
+                        Ok(()) if count != 0 => {
+                            eprintln!("real helper frame bytes={count}, raw={bytes:02x?}");
+                            return Frame::decode(&bytes[..count as usize], 0)?.temperature();
+                        }
+                        Ok(()) => {}
+                        Err(e) if code(&e) == ERROR_NO_DATA.0 => {}
+                        Err(e) => return Err(format!("test read: {e}")),
+                    }
+                }
+                std::thread::sleep(POLL);
+            }
+            Err("real helper test timed out".into())
+        })();
+        drop(server);
+        let deadline = Instant::now() + Duration::from_secs(10);
+        while child.try_wait().unwrap().is_none() && Instant::now() < deadline {
+            std::thread::sleep(POLL);
+        }
+        if child.try_wait().unwrap().is_none() {
+            child.kill().unwrap();
+        }
+        let output = child.wait_with_output().unwrap();
+        eprintln!(
+            "real helper exit={}, stdout={}, stderr={}",
+            output.status,
+            String::from_utf8_lossy(&output.stdout),
+            String::from_utf8_lossy(&output.stderr)
+        );
+        eprintln!("real helper observation={result:?}");
+        assert!(
+            result.is_ok(),
+            "real driver helper did not deliver a temperature"
+        );
+    }
+
+    #[test]
     fn native_local_pipe_has_exact_messages_and_does_not_wait_for_empty_reads() {
         let request = Request {
             pid: std::process::id(),
