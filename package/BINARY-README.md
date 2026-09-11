@@ -16,7 +16,10 @@ CPU architecture, source commit, compiler and linked runtime libraries.
   installer. The archive does not support Intel Macs.
 - **Windows x86_64:** extract the `.zip` and run `system-pulse.exe`. Keep the
   extracted directory intact. The build uses the Microsoft C++ runtime;
-  `build.json` lists the imported DLLs. The executable is unsigned.
+  `build.json` lists the imported DLLs and, for signed packages, the verified signer.
+  The optional signed setup installs System Pulse and can install the official
+  PawnIO prerequisite for CPU temperatures. It preserves existing shared PawnIO
+  installations, including during System Pulse uninstall.
 
 Closing the dashboard retains the CPU tray icon. Activate the icon to reopen
 the dashboard, or use its **Quit** menu item to exit. The ten tabs include
@@ -40,8 +43,8 @@ uses your current permissions; after identity and safety checks pass, an action
 that needs more permissions can request one elevated helper through Windows UAC.
 The helper uses this same extracted executable, including
 when its directory contains spaces or non-ASCII characters. Normal dashboard
-launch stays at the caller's privilege level. The executable is unsigned, so do
-not expect a verified publisher in the UAC dialog. Enter any administrator
+launch stays at the caller's privilege level. Unsigned local builds may show an
+unknown publisher; check the signature of the package you are using. Enter any administrator
 credentials only into Windows. Cancellation starts no helper action; an unknown
 or pending outcome asks you to check the process list before trying again.
 
@@ -60,4 +63,15 @@ notices. Fonts and UI assets are embedded in the executable.
 
 `package-files.json` records file checksums. The outer archive's SHA-256 is in
 the accompanying `SHA256SUMS`. GitHub Actions artifacts expire; these CI archives
-are build outputs, not a published or signed release.
+are build outputs, not a published release. Signing is a separate step; signed
+Windows packages identify their signature and binary hash in build.json.
+
+## Windows CPU temperature and power
+
+Energy shows supported native EMI channels in watts with separate package and
+component scopes. Thermals can read a supported Intel CPU package through a
+restricted helper and the official PawnIO driver. Choose **Enable CPU temperatures…**
+and respond to Windows authorization. Missing access or unsupported sensors show
+an explicit reason. Choose **Disable CPU temperatures** or Quit to stop the helper;
+closing the dashboard alone keeps tray monitoring active. Driver and module source
+and licenses are retained under vendor/ in source.tar.gz and notices/.

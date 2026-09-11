@@ -26,6 +26,27 @@ The GPU screen retains detected adapters and shows unsupported readings as **Una
 
 On Windows, GPU discovery covers present Intel, AMD and NVIDIA adapters even when vendor telemetry cannot initialize. Utilization describes the busiest measured engine. Dedicated GPU memory includes memory reserved for an integrated GPU; shared GPU memory is system RAM currently used by the adapter, shown separately without a VRAM capacity ratio. Driver support determines which readings are available. Temperature, power and clocks require a supported source.
 
+On Windows, Energy exposes supported native EMI power channels in watts. CPU
+package and component readings have separate scopes; do not add them to infer a
+system total. A counter that has never demonstrated support stays unavailable.
+Battery discharge, storage temperature and GPU telemetry require their own
+sources and are not implied by CPU package readings.
+
+For supported Intel processors with one physical CPU package, open Thermals and
+choose **Enable CPU temperatures…**. Windows requests authorization for a
+restricted temperature helper. The dashboard retains its original privileges.
+The official PawnIO driver must be installed; the System Pulse Windows installer
+offers it as an optional component. Missing driver, denied authorization and
+unsupported hardware are reported with a reason instead of a zero temperature.
+
+**Disable CPU temperatures** stops the session; the screen updates on the next
+sampling tick. Access is requested again after quitting and restarting System
+Pulse. Closing only the dashboard keeps tray monitoring active, including an
+enabled temperature session. Use **Disable CPU temperatures** or the tray's
+**Quit** command to end it. System Pulse uninstall leaves the shared PawnIO driver
+installed because other applications may use it. The installer also preserves an
+existing PawnIO installation; update that driver separately if it is incompatible.
+
 Summary's five subsystem graphs share one row on wide windows. Smaller windows use full-width rows of three and two cards, with no empty trailing column.
 
 Settings contains appearance, sampling and preset controls. Existing sensor visibility preferences remain part of saved presets.
@@ -44,7 +65,7 @@ On Windows, **End task** requests graceful closure of the selected application's
 
 Windows first tries the action with your existing permissions. If identity and safety checks pass but the action needs more permissions, an administrator account can approve a UAC consent prompt for one short-lived helper. This release supports elevation from administrator accounts only. A process whose safety cannot be verified is refused without requesting elevation. The dashboard keeps running with its original privileges, and another action cannot be submitted while authorization is pending. Cancelling UAC starts no helper action. The helper verifies the process identity again after approval; a process that exited or changed identity is refused. System Pulse does not enable debug privileges or bypass protected-process restrictions.
 
-Windows reports a closure request, pending termination and observed exit separately. If the helper times out or cannot confirm its result, check the process list before trying again: an uncertain result does not establish that the process was untouched. Windows executables are currently unsigned; UAC may identify an unknown publisher. Normal launch does not request elevation. The [Windows action commitment](commitments/windows-uac-process-actions.md) tracks the required native approval, cancellation and packaged-helper verification.
+Windows reports a closure request, pending termination and observed exit separately. If the helper times out or cannot confirm its result, check the process list before trying again: an uncertain result does not establish that the process was untouched. Unsigned local Windows builds may show an unknown publisher in UAC. Signed packages record their verified signer in build.json. Normal launch does not request elevation. The [Windows action commitment](commitments/windows-uac-process-actions.md) tracks the required native approval, cancellation and packaged-helper verification.
 
 **Settings** contains dark/light themes, bundled interface and numeric fonts, sampling intervals and named presets. Geometric screen headings use the bundled Michroma font. Save current workspace creates a named preset; Use recalls it. Rename, overwrite and delete retain confirmation and cancellation behavior. Built-in presets keep their saved sensor preferences and open Summary; fixed tabs remain reachable. The legacy quick preset file imports into the library as Imported preset when that library is first created.
 
