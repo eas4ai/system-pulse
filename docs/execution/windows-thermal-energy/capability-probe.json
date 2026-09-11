@@ -1,0 +1,209 @@
+{
+    "observed_utc":  "2026-09-11T12:42:36.1798113Z",
+    "elevated":  true,
+    "thermal_acpi":  {
+                         "error":  "Not supported "
+                     },
+    "thermal_perf":  [
+
+                     ],
+    "battery_status":  [
+                           {
+                               "Caption":  null,
+                               "Description":  null,
+                               "Name":  null,
+                               "Frequency_Object":  null,
+                               "Frequency_PerfTime":  null,
+                               "Frequency_Sys100NS":  null,
+                               "Timestamp_Object":  null,
+                               "Timestamp_PerfTime":  null,
+                               "Timestamp_Sys100NS":  null,
+                               "Active":  true,
+                               "ChargeRate":  0,
+                               "Charging":  false,
+                               "Critical":  false,
+                               "DischargeRate":  0,
+                               "Discharging":  false,
+                               "InstanceName":  "ACPI\\PNP0C0A\\1_0",
+                               "PowerOnline":  true,
+                               "RemainingCapacity":  45805,
+                               "Tag":  1,
+                               "Voltage":  12498
+                           }
+                       ],
+    "battery_capacity":  [
+                             {
+                                 "Caption":  null,
+                                 "Description":  null,
+                                 "Name":  null,
+                                 "Frequency_Object":  null,
+                                 "Frequency_PerfTime":  null,
+                                 "Frequency_Sys100NS":  null,
+                                 "Timestamp_Object":  null,
+                                 "Timestamp_PerfTime":  null,
+                                 "Timestamp_Sys100NS":  null,
+                                 "Active":  true,
+                                 "FullChargedCapacity":  45805,
+                                 "InstanceName":  "ACPI\\PNP0C0A\\1_0",
+                                 "Tag":  1
+                             }
+                         ],
+    "battery_temperature":  [
+
+                            ],
+    "power_meter":  [
+                        {
+                            "Caption":  null,
+                            "Description":  null,
+                            "ElementName":  null,
+                            "InstanceID":  null,
+                            "CommunicationStatus":  null,
+                            "DetailedStatus":  null,
+                            "HealthState":  null,
+                            "InstallDate":  null,
+                            "Name":  "Microsoft Power Meter Device",
+                            "OperatingStatus":  null,
+                            "OperationalStatus":  null,
+                            "PrimaryStatus":  null,
+                            "Status":  null,
+                            "StatusDescriptions":  null,
+                            "AvailableRequestedStates":  null,
+                            "EnabledDefault":  2,
+                            "EnabledState":  5,
+                            "OtherEnabledState":  null,
+                            "RequestedState":  12,
+                            "TimeOfLastStateChange":  null,
+                            "TransitioningToState":  12,
+                            "AdditionalAvailability":  null,
+                            "Availability":  null,
+                            "CreationClassName":  "Win32_PowerMeter",
+                            "DeviceID":  "\\\\?\\ACPI#PNP0C0A#1#{e849804e-c719-43d8-ac88-96b894c191e2}",
+                            "ErrorCleared":  null,
+                            "ErrorDescription":  null,
+                            "IdentifyingDescriptions":  null,
+                            "LastErrorCode":  null,
+                            "MaxQuiesceTime":  null,
+                            "OtherIdentifyingInfo":  null,
+                            "PowerManagementCapabilities":  null,
+                            "PowerManagementSupported":  null,
+                            "PowerOnHours":  null,
+                            "StatusInfo":  null,
+                            "SystemCreationClassName":  "Win32_PowerMeter",
+                            "SystemName":  "Microsoft Windows",
+                            "TotalPowerOnHours":  null,
+                            "CurrentState":  null,
+                            "OtherSensorTypeDescription":  null,
+                            "PollingInterval":  null,
+                            "PossibleStates":  null,
+                            "SensorType":  null,
+                            "Accuracy":  null,
+                            "BaseUnits":  null,
+                            "CurrentReading":  0,
+                            "EnabledThresholds":  null,
+                            "Hysteresis":  null,
+                            "IsLinear":  null,
+                            "LowerThresholdCritical":  null,
+                            "LowerThresholdFatal":  null,
+                            "LowerThresholdNonCritical":  null,
+                            "MaxReadable":  null,
+                            "MinReadable":  null,
+                            "NominalReading":  null,
+                            "NormalMax":  null,
+                            "NormalMin":  null,
+                            "RateUnits":  null,
+                            "Resolution":  null,
+                            "SettableThresholds":  null,
+                            "SupportedThresholds":  null,
+                            "Tolerance":  null,
+                            "UnitModifier":  null,
+                            "UpperThresholdCritical":  null,
+                            "UpperThresholdFatal":  null,
+                            "UpperThresholdNonCritical":  null,
+                            "AveragingInterval":  null,
+                            "BudgetEnabled":  null,
+                            "BudgetWriteable":  null,
+                            "ConfiguredBudget":  null,
+                            "MaximumAveragingInterval":  null,
+                            "MaxOperatingBudget":  null,
+                            "MeterType":  null,
+                            "MinimumAveragingInterval":  null,
+                            "MinOperatingBudget":  null,
+                            "SamplingPeriod":  null,
+                            "SupportCapabilities":  null
+                        }
+                    ],
+    "lhm_sensors":  {
+                        "error":  "Invalid namespace "
+                    },
+    "ohm_sensors":  {
+                        "error":  "Invalid namespace "
+                    },
+    "drivers":  [
+
+                ],
+    "pawn_install":  false,
+    "disk_reliability":  [
+                             {
+                                 "DeviceId":  "0",
+                                 "Temperature":  32,
+                                 "TemperatureMax":  83
+                             }
+                         ],
+    "emi_interfaces":  "Microsoft PnP Utility\r\n\r\nInterface Path:         \\\\?\\ACPI#GenuineIntel_-_Intel64_Family_6_Model_154_-_12th_Gen_Intel(R)_Core(TM)_i7-1250U#0#{45bd8344-7ed6-49cf-a440-c276c933b053}\r\nInterface Description:  Unknown\r\nInterface Class GUID:   {45bd8344-7ed6-49cf-a440-c276c933b053}\r\nDevice Instance ID:     ACPI\\GenuineIntel_-_Intel64_Family_6_Model_154_-_12th_Gen_Intel(R)_Core(TM)_i7-1250U\\0\r\nInterface Status:       Enabled\r\n\r\n",
+    "thermal_devices":  [
+                            {
+                                "Class":  "SoftwareComponent",
+                                "FriendlyName":  "Intel(R) Dynamic Tuning Technology Device Extension Component",
+                                "InstanceId":  "SWD\\DRIVERENUM\\{BC7814A1-A80E-44B3-87C6-652EAC676387}#DTTEXTCOMPONENT\u00264\u0026382D744C\u00260",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Processor Participant",
+                                "InstanceId":  "PCI\\VEN_8086\u0026DEV_461D\u0026SUBSYS_0B341028\u0026REV_06\\3\u002611583659\u00260\u002620",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Generic Participant",
+                                "InstanceId":  "ACPI\\INTC1046\\NGFF",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Generic Participant",
+                                "InstanceId":  "ACPI\\INTC1046\\CHRG",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Extensible Framework",
+                                "InstanceId":  "SWD\\DRIVERENUM\\IPFEFEXTCOMPONENT\u00264\u0026382D744C\u00260",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Generic Participant",
+                                "InstanceId":  "ACPI\\INTC1046\\TMEM",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Generic Participant",
+                                "InstanceId":  "ACPI\\INTC1046\\TSKN",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Generic Participant",
+                                "InstanceId":  "ACPI\\INTC1046\\AMBF",
+                                "Status":  "OK"
+                            },
+                            {
+                                "Class":  "System",
+                                "FriendlyName":  "Intel(R) Innovation Platform Framework Manager",
+                                "InstanceId":  "ACPI\\INTC1041\\IETM",
+                                "Status":  "OK"
+                            }
+                        ]
+}

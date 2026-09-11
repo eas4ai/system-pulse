@@ -1,0 +1,24 @@
+{
+  "elevated": false,
+  "watts_between_samples": [
+    [
+      2.801589,
+      0.0,
+      0.555782,
+      0.023704
+    ],
+    [
+      3.611508,
+      0.0,
+      0.77689,
+      0.01115
+    ]
+  ],
+  "channels": [
+    "RAPL_Package0_PKG",
+    "RAPL_Package0_DRAM",
+    "RAPL_Package0_PP0",
+    "RAPL_Package0_PP1"
+  ],
+  "limits": "DRAM is identically zero in this probe; zero does not demonstrate a supported DRAM energy counter. Values are source observations, not independent hardware accuracy proof."
+}
