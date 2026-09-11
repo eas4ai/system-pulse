@@ -13,6 +13,6 @@ The timeout fixture leaves its helper alive. The vendored sysinfo collector reta
 
 ## Realized by
 
-(none yet: recorded, not built)
+- fdb5e8c1 Classify timeout action handles separately from collector queries
 
 References: [WaitForSingleObject](https://learn.microsoft.com/en-us/windows/win32/api/synchapi/nf-synchapi-waitforsingleobject), [PSS_HANDLE_ENTRY](https://learn.microsoft.com/en-us/windows/win32/api/processsnapshot/ns-processsnapshot-pss_handle_entry), and `vendor/sysinfo/src/windows/process.rs:get_process_handler`.
