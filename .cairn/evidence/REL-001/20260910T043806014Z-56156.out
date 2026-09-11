@@ -1,0 +1,36 @@
+Windows build evidence: /tmp/system-pulse-windows-xzn62qqn
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests system_pulse_collectors
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests system_pulse_model
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Compiling gpui-component v0.6.0 (C:\Users\shawn\workspace\system-pulse-2ef9622b7ca0-1abf45c5\crates\ui)
+   Compiling gpui-base v0.6.0 (C:\Users\shawn\workspace\system-pulse-2ef9622b7ca0-1abf45c5\crates\base)
+   Compiling sysinfo v0.37.2 (C:\Users\shawn\workspace\system-pulse-2ef9622b7ca0-1abf45c5\vendor\sysinfo)
+   Compiling system-pulse-collectors v0.3.0 (C:\Users\shawn\workspace\system-pulse-2ef9622b7ca0-1abf45c5\crates\collectors)
+   Compiling gpui-kit v0.6.0
+   Compiling system-pulse-model v0.3.0 (C:\Users\shawn\workspace\system-pulse-2ef9622b7ca0-1abf45c5\crates\model)
+   Compiling system-pulse v0.3.0 (C:\Users\shawn\workspace\system-pulse-2ef9622b7ca0-1abf45c5)
+    Finished `release` profile [optimized] target(s) in 9m 26s
+
+
+Algorithm : SHA256
+Hash      : 16DC47F39D6CB3791A31857F314F7313DA018BF534785C26E217C95BA14AB629
+Path      : C:\Users\shawn\workspace\system-pulse-build-target\release\system-pulse.exe
+
+
+
+PASS REL-001 2ef9622b7ca0a6c12ffa7604652f485d7f67642c
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04"><Obj S="progress" RefId="0"><TN RefId="0"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj><Obj S="progress" RefId="1"><TNRef RefId="0" /><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>

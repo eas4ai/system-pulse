@@ -1,0 +1,9 @@
+...
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.23s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse_collectors-3b6f2933c08d3bee)
+     Running unittests src/bin/pulse-snapshot.rs (target/debug/deps/pulse_snapshot-fa6d442b1a162ef8)
+   Doc-tests system_pulse_collectors

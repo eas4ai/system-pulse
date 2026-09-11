@@ -1,0 +1,21 @@
+requirement: WUAC-007
+requirement_digest: sha256:f2bbfa56f60439d8bc5eab38559d80f7ca5e96a37342e429fdd7e90f68404309
+sequence: 12
+history_digest: sha256:e65dc12ddbea21b3692612566928a4ca86d2dbd33574ea604ef6c81d082cfb41
+mechanism: gpui-kit-upgrade
+commit: ae3a4c87
+inputs_digest: sha256:98f660ba41db209be7f0522cf23655a49b5431c9e37dd244dc4538564ed98057
+mechanism_digest: sha256:09c89f88319ce61fc687fde55b9041e3ee077076eddf0340acd021c94614ce05
+inputs_detail: .cairn/evidence/WUAC-007/20260911T002809229Z-1852812.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/gpui_kit_upgrade_verify.py --evidence docs/execution/windows-uac-process-actions/process-actions-preservation
+cwd: .
+exit: 0
+output_digest: sha256:cfc098a3f6003e1fbb26cb8616c00fa7c7dc732f2608cbc56fbbf29972abbb8e
+output: .cairn/evidence/WUAC-007/20260911T002809229Z-1852812.out
+stderr_output: .cairn/evidence/WUAC-007/20260911T002809229Z-1852812.err
+stderr_digest: sha256:feabb4add9e2ca3374e538560634d1ec97dc4f4ce89aab12f3d726e36ea9b2f6
+signal: none
+execution_error: null
+result: pass
+source: exit
+recorded: 2026-09-11T00:28:13.168Z
