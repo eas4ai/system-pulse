@@ -1,0 +1,53 @@
+#< CLIXML
+warning: using `chunks_exact` with a constant chunk size
+  --> crates\collectors\src\windows_energy.rs:37:10
+   |
+37 |         .chunks_exact(2)
+   |          ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<2>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#chunks_exact_to_as_chunks
+   = note: `#[warn(clippy::chunks_exact_to_as_chunks)]` on by default
+
+warning: using `chunks_exact` with a constant chunk size
+   --> crates\collectors\src\windows_energy.rs:141:10
+    |
+141 |         .chunks_exact(16)
+    |          ^^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<16>().0.iter()`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact` with a constant chunk size
+  --> crates\collectors\src\windows_gpu\native.rs:88:30
+   |
+88 | ...                   .chunks_exact(2)
+   |                        ^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks::<2>().0.iter()`
+   |
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact` with a constant chunk size
+  --> crates\collectors\src\windows_thermal\protocol.rs:68:48
+   |
+68 |         for (out, b) in w.iter_mut().zip(bytes.chunks_exact(8)) {
+   |                                                ^^^^^^^^^^^^^^^
+   |
+help: consider using `as_chunks::<8>()` instead
+  --> crates\collectors\src\windows_thermal\protocol.rs:68:48
+   |
+68 |         for (out, b) in w.iter_mut().zip(bytes.chunks_exact(8)) {
+   |                                                ^^^^^^^^^^^^^^^
+   = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#chunks_exact_to_as_chunks
+
+warning: using `chunks_exact_mut` with a constant chunk size
+   --> crates\collectors\src\windows_thermal\protocol.rs:116:35
+    |
+116 |         for (bytes, value) in out.chunks_exact_mut(8).zip([
+    |                                   ^^^^^^^^^^^^^^^^^^^ help: consider using `as_chunks` instead: `as_chunks_mut::<8>().0.iter()`
+    |
+    = help: for further information visit https://rust-lang.github.io/rust-clippy/rust-1.98.0/index.html#chunks_exact_to_as_chunks
+
+warning: `system-pulse-collectors` (lib) generated 5 warnings (run `cargo clippy --fix --lib -p system-pulse-collectors -- ` to apply 4 suggestions)
+    Checking system-pulse-collectors v0.3.0 (C:\Users\shawn\workspace\system-pulse-d5ac44902e64-199a62ed\crates\collectors)
+    Checking system-pulse-model v0.3.0 (C:\Users\shawn\workspace\system-pulse-d5ac44902e64-199a62ed\crates\model)
+warning: `system-pulse-collectors` (lib test) generated 5 warnings (5 duplicates)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.50s
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04"><Obj S="progress" RefId="0"><TN RefId="0"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>

@@ -1,0 +1,72 @@
+﻿{
+  "ui_task": "SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b-UI",
+  "ui_configuration": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\ui.json",
+  "trace_source": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\windows_process_trace.cs",
+  "fault_source": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\windows_process_fault.cs",
+  "handles_source": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\windows_process_handles.cs",
+  "target_log": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\elevated-target.log",
+  "observer_result": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\observer.json",
+  "ordinary_baseline": true,
+  "ui": {
+    "output": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\evidence",
+    "binary": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\Packaged app \u00fc\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "fixture": "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\owned-fixture.exe",
+    "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "binary_sha256": "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b",
+    "uac_observation": true,
+    "observe_resources": false,
+    "cases": [
+      {
+        "name": "confirmation-cancel",
+        "mode": "windowless",
+        "signal": "kill",
+        "cancel_confirmation": true,
+        "expected_exit": false
+      },
+      {
+        "name": "graceful-cooperative",
+        "mode": "cooperative",
+        "signal": "terminate",
+        "expected_exit": true,
+        "expected_status": "has exited"
+      },
+      {
+        "name": "graceful-refused",
+        "mode": "refusing",
+        "signal": "terminate",
+        "expected_exit": false,
+        "expected_status": "application did not close"
+      },
+      {
+        "name": "graceful-unavailable",
+        "mode": "windowless",
+        "signal": "terminate",
+        "expected_exit": false,
+        "expected_status": "Graceful close is unavailable"
+      },
+      {
+        "name": "ordinary-force",
+        "mode": "windowless",
+        "signal": "kill",
+        "expected_exit": true,
+        "expected_status": "has exited"
+      },
+      {
+        "name": "stale-before-confirm",
+        "mode": "windowless",
+        "signal": "kill",
+        "exit_before_confirm": true,
+        "expected_exit": true,
+        "expected_status": "already exited"
+      },
+      {
+        "name": "delayed-graceful",
+        "mode": "delayed",
+        "signal": "terminate",
+        "verify_responsive": true,
+        "expected_exit": false,
+        "expected_status": "application did not close"
+      }
+    ]
+  }
+}

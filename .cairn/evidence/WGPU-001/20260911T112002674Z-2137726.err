@@ -1,0 +1,6 @@
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK
+Windows GPU evidence incomplete or invalid: [Errno 2] No such file or directory: '/home/shawn/workspace2/task-manager/docs/execution/windows-gpu-detection/native/receipt.json'

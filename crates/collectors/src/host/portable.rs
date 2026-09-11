@@ -324,7 +324,9 @@ impl HostCollector {
                 pid: pid.as_u32(),
                 #[cfg(target_os = "macos")]
                 start_time_ticks: process.start_time_microseconds(),
-                #[cfg(not(target_os = "macos"))]
+                #[cfg(target_os = "windows")]
+                start_time_ticks: process.start_time_filetime(),
+                #[cfg(not(any(target_os = "macos", target_os = "windows")))]
                 start_time_ticks: process.start_time(),
             };
             let key = format!("process:{}:{}", identity.pid, identity.start_time_ticks);

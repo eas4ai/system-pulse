@@ -1,0 +1,41 @@
+{
+    "collected_creation_ticks":  134335949033485993,
+    "pid":  2968,
+    "creation_ticks":  134335949033485993,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 2968)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n2968\nowned-fixture.exe\n0.0 %\n28.8 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 2968\n0.0 %\n28.8 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 227 readable processes · 1 s update",
+    "signal":  "terminate",
+    "pending_observations":  [
+                                 {
+                                     "observed_utc":  "2026-09-11T10:08:42.8136512Z",
+                                     "sequence":  15,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:08:43.7387553Z",
+                                     "sequence":  16,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:08:44.6666354Z",
+                                     "sequence":  17,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 }
+                             ],
+    "name":  "consent-graceful",
+    "status":  "owned-fixture.exe (PID 2968) has exited.",
+    "mode":  "cooperative",
+    "settled_utc":  "2026-09-11T10:08:44.9228745Z",
+    "dashboard_handles_before":  664,
+    "sequence_before":  11,
+    "submitted_utc":  "2026-09-11T10:08:41.9971144Z"
+}

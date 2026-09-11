@@ -243,6 +243,14 @@ impl ScreenView {
             .find(|choice| Some(&choice.id) == selected.as_ref())
             .map(|choice| choice.label.clone())
             .unwrap_or_else(|| {
+                if matches!(screen, Screen::Energy | Screen::Thermals) {
+                    return if choices.is_empty() {
+                        "No available sensors"
+                    } else {
+                        "Choose a sensor"
+                    }
+                    .into();
+                }
                 selected
                     .clone()
                     .map(|id| format!("Unavailable · {id}"))
@@ -352,6 +360,45 @@ impl Render for ScreenView {
             .flex_none()
             .child(screen_style::heading(active.title(), 32., cx))
             .when_some(picker, |view, picker| view.child(picker));
+        #[cfg(target_os = "windows")]
+        let temperatures_enabled = owner
+            .as_ref()
+            .and_then(|owner| owner.upgrade())
+            .is_some_and(|owner| owner.read(cx).cpu_temperatures_enabled());
+        #[cfg(target_os = "windows")]
+        let header = header.when(active == Screen::Thermals, |view| {
+            view.child(
+                div()
+                    .flex()
+                    .gap_2()
+                    .child(
+                        Button::new("enable-cpu-temperatures")
+                            .label("Enable CPU temperatures…")
+                            .disabled(temperatures_enabled)
+                            .on_click(cx.listener(|this, _, window, cx| {
+                                let owner = this.shared.borrow().owner.clone();
+                                if let Some(owner) = owner {
+                                    let _ = owner.update(cx, |owner, cx| {
+                                        owner.command(Command::EnableCpuTemperatures, window, cx)
+                                    });
+                                }
+                            })),
+                    )
+                    .child(
+                        Button::new("disable-cpu-temperatures")
+                            .label("Disable CPU temperatures")
+                            .disabled(!temperatures_enabled)
+                            .on_click(cx.listener(|this, _, window, cx| {
+                                let owner = this.shared.borrow().owner.clone();
+                                if let Some(owner) = owner {
+                                    let _ = owner.update(cx, |owner, cx| {
+                                        owner.command(Command::DisableCpuTemperatures, window, cx)
+                                    });
+                                }
+                            })),
+                    ),
+            )
+        });
         let scroll = self.scrolls[&active].clone();
         let content = if matches!(active, Screen::Processes | Screen::Settings) {
             div()

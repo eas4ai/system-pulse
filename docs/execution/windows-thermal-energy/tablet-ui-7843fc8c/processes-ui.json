@@ -1,0 +1,1061 @@
+﻿{
+    "selected_screen":  "Processes",
+    "pid":  4152,
+    "controls":  [
+                     {
+                         "name":  "System monitor screens",
+                         "offscreen":  false,
+                         "role":  "ControlType.Tab"
+                     },
+                     {
+                         "name":  "Summary",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "CPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "GPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Disks",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Network",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Energy",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Thermals",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Processes",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Settings",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Processes",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "Search name, PID, or user…",
+                         "offscreen":  false,
+                         "role":  "ControlType.Edit"
+                     },
+                     {
+                         "name":  "End task…",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Force quit…",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "227 readable process rows; arrows navigate and scroll columns; Tab leaves table",
+                         "offscreen":  false,
+                         "role":  "ControlType.Table"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by PID",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by PID",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Sort by Name",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by Name",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Sort by CPU (one core)",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by CPU (one core)",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Sort by Memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by Memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Sort by Read I/O",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by Read I/O",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Sort by Write I/O",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by Write I/O",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "Sort by User",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Sort by User",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1932",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "WavesSvc64.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "7.8 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "44.0 MiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "shawn",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "4152",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "system-pulse.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "3.2 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "369.5 MiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "102.1 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "853.1 KiB/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "shawn",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "3300",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "WindowsTerminal.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1.6 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "148.3 MiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "shawn",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "7176",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "ipf_helper.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1.6 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "11.7 MiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "shawn",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "[System Process]",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "4",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "System",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "188",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Secure System",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "232",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Registry",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "772",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "svchost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "792",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "smss.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "892",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "csrss.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "952",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "svchost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1096",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "wininit.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1144",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "services.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1152",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "LsaIso.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1160",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "lsass.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1216",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "csrss.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1276",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "svchost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1328",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "svchost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1356",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "fontdrvhost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1428",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "svchost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "1444",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "svchost.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Unavailable · sysinfo process user unavailable",
+                         "offscreen":  false,
+                         "role":  "ControlType.DataItem"
+                     },
+                     {
+                         "name":  "Process details",
+                         "offscreen":  false,
+                         "role":  "ControlType.Group"
+                     },
+                     {
+                         "name":  "Live system data · 227 readable processes · 1 s update",
+                         "offscreen":  false,
+                         "role":  "ControlType.StatusBar"
+                     }
+                 ]
+}

@@ -9,15 +9,15 @@ use std::{
 
 const HELPER_MODE: &str = "--system-pulse-process-action";
 
-fn with_authentication(
+fn with_authentication<T>(
     identity: &ProcessIdentity,
     signal: ProcessSignal,
-    ordinary: impl FnOnce(&ProcessIdentity, ProcessSignal) -> Result<(), ActionError>,
-    authenticate: impl FnOnce(&ProcessIdentity, ProcessSignal) -> Result<(), String>,
-) -> Result<(), String> {
+    ordinary: impl FnOnce(&ProcessIdentity, ProcessSignal) -> Result<T, ActionError>,
+    authenticate: impl FnOnce(&ProcessIdentity, ProcessSignal) -> Result<T, String>,
+) -> Result<T, String> {
     validate_identity(identity).map_err(|error| error.to_string())?;
     match ordinary(identity, signal) {
-        Ok(()) => Ok(()),
+        Ok(outcome) => Ok(outcome),
         Err(ActionError::PermissionDenied) => authenticate(identity, signal),
         Err(error) => Err(error.to_string()),
     }
@@ -27,8 +27,17 @@ fn with_authentication(
 pub fn send_signal_with_authentication(
     identity: &ProcessIdentity,
     signal: ProcessSignal,
-) -> Result<(), String> {
+) -> Result<ProcessActionOutcome, String> {
+    #[cfg(target_os = "windows")]
+    return with_authentication(
+        identity,
+        signal,
+        |identity, signal| windows::send(identity, signal).map_err(ActionError::from),
+        windows::authenticate,
+    );
+    #[cfg(not(target_os = "windows"))]
     with_authentication(identity, signal, send, authenticate)
+        .map(|_| ProcessActionOutcome::SignalSent)
 }
 
 #[cfg(any(target_os = "linux", target_os = "macos", test))]
@@ -45,7 +54,9 @@ fn helper_arguments(identity: &ProcessIdentity, signal: ProcessSignal) -> [Strin
     ]
 }
 
-fn parse_request(arguments: &[OsString]) -> Result<(ProcessIdentity, ProcessSignal), String> {
+pub(super) fn parse_request(
+    arguments: &[OsString],
+) -> Result<(ProcessIdentity, ProcessSignal), String> {
     if arguments.len() != 4 || arguments[0] != HELPER_MODE {
         return Err("Invalid process-action request".into());
     }
@@ -76,19 +87,33 @@ fn parse_request(arguments: &[OsString]) -> Result<(ProcessIdentity, ProcessSign
 /// performs at most one validated action and never asks for authentication.
 pub fn helper_entry(arguments: impl IntoIterator<Item = OsString>) -> Option<i32> {
     let mut arguments = arguments.into_iter();
-    if arguments.next().as_deref() != Some(std::ffi::OsStr::new(HELPER_MODE)) {
+    let mode = arguments.next()?;
+    #[cfg(target_os = "windows")]
+    if mode == windows_protocol::HELPER_MODE {
+        let request = std::iter::once(mode)
+            .chain(arguments.take(6))
+            .collect::<Vec<_>>();
+        return Some(windows::helper_entry(&request));
+    }
+    if mode != HELPER_MODE {
         return None;
     }
-    let mut request = vec![OsString::from(HELPER_MODE)];
-    request.extend(arguments.take(4));
-    Some(match parse_request(&request) {
-        Ok((identity, signal)) => match send(&identity, signal) {
-            Ok(()) => 0,
-            Err(ActionError::PermissionDenied) => 11,
-            Err(_) => 12,
-        },
-        Err(_) => 13,
-    })
+    // Windows requires its separate mode, caller identity and elevated token.
+    #[cfg(target_os = "windows")]
+    return Some(13);
+    #[cfg(not(target_os = "windows"))]
+    {
+        let mut request = vec![OsString::from(HELPER_MODE)];
+        request.extend(arguments.take(4));
+        Some(match parse_request(&request) {
+            Ok((identity, signal)) => match send(&identity, signal) {
+                Ok(()) => 0,
+                Err(ActionError::PermissionDenied) => 11,
+                Err(_) => 12,
+            },
+            Err(_) => 13,
+        })
+    }
 }
 
 #[cfg(any(target_os = "linux", target_os = "macos", test))]
@@ -177,7 +202,7 @@ fn authenticate(identity: &ProcessIdentity, signal: ProcessSignal) -> Result<(),
     }
 }
 
-#[cfg(not(any(target_os = "linux", target_os = "macos")))]
+#[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
 fn authenticate(_: &ProcessIdentity, _: ProcessSignal) -> Result<(), String> {
     Err("System authentication is not supported on this platform".into())
 }
@@ -203,7 +228,7 @@ mod tests {
             )
             .unwrap();
             assert!(
-                with_authentication(
+                with_authentication::<()>(
                     &identity(),
                     signal,
                     |_, _| Err("identity changed".into()),
@@ -211,7 +236,7 @@ mod tests {
                 )
                 .is_err()
             );
-            let result = with_authentication(
+            let result = with_authentication::<()>(
                 &identity(),
                 signal,
                 |_, _| Err(ActionError::PermissionDenied),
@@ -238,7 +263,7 @@ mod tests {
             },
         ] {
             assert!(
-                with_authentication(
+                with_authentication::<()>(
                     &request,
                     ProcessSignal::Kill,
                     |_, _| panic!("dispatched"),

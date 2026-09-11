@@ -1,0 +1,120 @@
+{
+  "linux": {
+    "source_commit": "8f6403114650b9b4dc790d928d223be5ceb344e4",
+    "checks": {
+      "tests": {
+        "exit_code": 0,
+        "log": "platform-checks/linux-tests.log",
+        "sha256": "e54d36db0c6104bf747f8b9ca4ce1a1e7e8f66c287fd7cd7cb52067de4a6c15d",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "system-pulse",
+          "-p",
+          "system-pulse-collectors",
+          "-p",
+          "system-pulse-model"
+        ]
+      },
+      "clippy": {
+        "exit_code": 0,
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "-p",
+          "system-pulse",
+          "-p",
+          "system-pulse-collectors",
+          "-p",
+          "system-pulse-model",
+          "--all-targets"
+        ],
+        "log": "platform-checks/linux-all-clippy.log",
+        "sha256": "23edd6477d3295ce55ceb4f480b64723f2c0e29644b5636cf7c87ede2b2ada41"
+      }
+    }
+  },
+  "macos": {
+    "source_commit": "8f6403114650b9b4dc790d928d223be5ceb344e4",
+    "checks": {
+      "tests": {
+        "exit_code": 0,
+        "log": "platform-checks/macos-build.log",
+        "sha256": "885e73e3d18ce9133fe6536b6f81e2b058389ecf7b1dca825def8854557310ec",
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "system-pulse",
+          "-p",
+          "system-pulse-collectors",
+          "-p",
+          "system-pulse-model"
+        ]
+      },
+      "clippy": {
+        "exit_code": 0,
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "-p",
+          "system-pulse",
+          "-p",
+          "system-pulse-collectors",
+          "-p",
+          "system-pulse-model",
+          "--all-targets"
+        ],
+        "log": "platform-checks/macos-all-clippy.log",
+        "sha256": "046f797c82185b61a41e7d5cadbc2fb060c1caa37457acb3e17c056b0ef7a6dc"
+      }
+    }
+  },
+  "windows": {
+    "source_commit": "1c7aa036c21ba0f7123e4d76f41529dc7f77e855",
+    "checks": {
+      "tests": {
+        "exit_code": 0,
+        "command": [
+          "cargo",
+          "test",
+          "--locked",
+          "-p",
+          "system-pulse",
+          "-p",
+          "system-pulse-collectors",
+          "-p",
+          "system-pulse-model"
+        ],
+        "log": "platform-checks/windows-build.log",
+        "sha256": "8d23776cf7c69fb20ef9542db160b19c41ae8c0fac76f5bf476dfc6d4f5c4315"
+      },
+      "clippy": {
+        "exit_code": 0,
+        "command": [
+          "cargo",
+          "clippy",
+          "--locked",
+          "-p",
+          "system-pulse",
+          "-p",
+          "system-pulse-collectors",
+          "-p",
+          "system-pulse-model",
+          "--all-targets"
+        ],
+        "log": "platform-checks/windows-all-clippy.log",
+        "sha256": "5e04af2580e23f5ead1d417a3e33c4d02fe4cf7b1aa2dfc444e309a2fbb426b4"
+      }
+    },
+    "process_actions": {
+      "receipt": "process-actions/result.json",
+      "sha256": "d1e9e429e248f55c3ecf665ce47fdc78950f5dd1057ce5c65a677cb82fccd551"
+    }
+  }
+}

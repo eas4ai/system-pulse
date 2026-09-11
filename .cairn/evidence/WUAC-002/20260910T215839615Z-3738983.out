@@ -1,0 +1,15 @@
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.002s
+
+OK
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_uac_verify.py", line 249, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_uac_verify.py", line 241, in main
+    require(not missing, "Native UAC observations remain pending: " + ", ".join(missing))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/performance_compare.py", line 13, in require
+    raise InvalidMeasurement(message)
+performance_compare.InvalidMeasurement: Native UAC observations remain pending: consent-force, consent-graceful, consent-refused, consent-cancel, consent-stale, consent-delayed, consent-denied, helper-crash, helper-timeout, credential-force

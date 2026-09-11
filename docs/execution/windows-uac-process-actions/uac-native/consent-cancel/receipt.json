@@ -1,0 +1,43 @@
+{
+  "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+  "binary_sha256": "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b",
+  "package": {
+    "target": "x86_64-pc-windows-msvc",
+    "archive": "system-pulse-0.3.0-windows-x86_64-3e6923e39763.zip",
+    "sha256": "d27432dc731611f9bad0214f564aca3a55dd9a875b45ccac993d1f421d4fbd5f",
+    "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59"
+  },
+  "build_log_sha256": "8f743da4ba8b4054689aa9d613f81af607ca44a16c6afab8694b667aa988758c",
+  "case": "consent-cancel",
+  "harness_sha256": {
+    "windows_process_uac_collect.py": "9b81470c80392670b81aa4deaa6bd6ddd140afdace2fe5f2e2bbfd7197cd5b44",
+    "windows_process_uac_supervise.ps1": "ba0d3a017ad682062a46ee748565f93016215d3e9e1725906355737be700430e",
+    "windows_process_trace.cs": "132f0656c33e736de34f4ec7c5eadee2cc9ee090e7a5d663b6570e94c89a8db2",
+    "windows_process_fault.cs": "6eedf82d85b6bce6c5e1f3c0f2c87900d0a7ec5eaa72db2927ee88c323e3de58",
+    "windows_process_handles.cs": "b37a928e111e6929a23ce9ce6d4c30b06dc9808bb60d37ee6ca04cd2413bdb11",
+    "windows_process_actions.ps1": "dee6823baa6b23ab67b768e391e300db659517a1464c515db4200c677371ce9a",
+    "windows_process_fixture.cs": "8a56511be041a7667fe8220d7ebf8fe247898427415f2a3ffa368de7ba35097f",
+    "windows_process_actions_collect.py": "d5b987720bf18fbee3235cecb54369a08af8f9b81de0b427bcf4aa19ad630afc",
+    "windows_runtime_collect.py": "47e6c2c0b24a5040672c2e79d7ac4ff42032be253c0e5030ec4769b589d4ed87"
+  },
+  "artifacts_sha256": {
+    "elevated-target.log": "ed1a545bb85e55816bbf9566b028b2a0bc456b88f49f6f266c0401048824194b",
+    "evidence/app.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/app.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "evidence/consent-cancel-action.json": "b7f9e81989e681a6165c987aaa98a4d0cb0dd6bada2ffb5a9f69fb493804f64e",
+    "evidence/consent-cancel-resources.json": "ac8089a67f88047eb295b76b02e15bbb0f036ad98d891b1808692ed2968d8c33",
+    "evidence/current-case.json": "15f2faba22cb5768afd91ea0fdf978fa3c48752111de163c93b1f895c2502782",
+    "evidence/latest.json": "e4bb2193c719327b4dfa42e9966057b2c818283597fe3164c5de399df25e2317",
+    "evidence/result.json": "1f667d2e14fd2c60b0ca78cc8f75a620bd48246b9c2a4a8fba66a03b88f16824",
+    "evidence/state/workspace.json": "214a1f119a0bc0680fd1658600b066bab8462cbf061904c6e23f7a6f0c113dd6",
+    "evidence/unrelated-control.target.log": "ed1a545bb85e55816bbf9566b028b2a0bc456b88f49f6f266c0401048824194b",
+    "observer.json": "7a1a8fac98fc34cdacc0e4b40711bcbbf7916429e14d86e422c88d065d463296",
+    "supervisor.json": "54f5f80ee4f981544d78eba4f1ceb8a6b397770ee011d0fb7cd44296b8d95eab",
+    "windows_process_actions.ps1": "06f421c313175eb47f2bb841b235ef6f5c7ca5c5d56fec600d705801b706db7e",
+    "windows_process_fault.cs": "24506c68eac81fc9e42e0d833ca6f2f132102092670f4a110b4bc957c6630539",
+    "windows_process_fixture.cs": "e2df1f219f205d51c6478a5186f9a5ae5f10dde0f2752885671ec2916f6c6070",
+    "windows_process_handles.cs": "bf50ba3f02793013c4861b59c229f34c9104a68a9e5f7fa7521b6173534fc736",
+    "windows_process_trace.cs": "d545e896d14c32a3220987de8a2031542e85fea7b7d4d76feff5021cabb184de",
+    "windows_process_uac_supervise.ps1": "eb1c6f96a4fd663f8b144e24309fb0fc8930229c151060c0e7de00502e79b45c"
+  }
+}

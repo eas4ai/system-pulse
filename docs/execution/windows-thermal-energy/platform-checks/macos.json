@@ -1,0 +1,34 @@
+{
+  "source_commit": "8f6403114650b9b4dc790d928d223be5ceb344e4",
+  "checks": {
+    "tests": {
+      "exit_code": 0,
+      "log": "macos-build.log",
+      "sha256": "885e73e3d18ce9133fe6536b6f81e2b058389ecf7b1dca825def8854557310ec",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "-p",
+        "system-pulse-model"
+      ]
+    },
+    "clippy": {
+      "exit_code": 0,
+      "log": "macos-build.log",
+      "sha256": "885e73e3d18ce9133fe6536b6f81e2b058389ecf7b1dca825def8854557310ec",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--all-targets"
+      ]
+    }
+  }
+}

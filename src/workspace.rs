@@ -38,6 +38,7 @@ pub(crate) struct Data {
     process_presentation_stale: Option<bool>,
     pub(crate) process_widths: [f32; 8],
     pub(crate) allow_process_actions: bool,
+    pub(crate) process_action: crate::panel::ProcessActionState,
     pub(crate) snapshot: Option<std::sync::Arc<Snapshot>>,
     pub(crate) live: LiveState,
     pub(crate) presets: system_pulse_model::PresetLibrary,
@@ -102,6 +103,10 @@ impl Data {
 
 #[derive(Clone)]
 pub(crate) enum Command {
+    #[cfg(target_os = "windows")]
+    EnableCpuTemperatures,
+    #[cfg(target_os = "windows")]
+    DisableCpuTemperatures,
     PanelCollapse(String),
     PanelVisible(String),
     RowCollapse(String, String),
@@ -461,6 +466,7 @@ impl WorkspaceView {
             process_presentation_stale: None,
             process_widths: live::PROCESS_WIDTHS,
             allow_process_actions: live && !fixture_mode,
+            process_action: crate::panel::ProcessActionState::default(),
             snapshot: None,
             live: LiveState::default(),
             presets,
@@ -892,6 +898,13 @@ impl WorkspaceView {
         });
     }
 
+    #[cfg(target_os = "windows")]
+    pub(crate) fn cpu_temperatures_enabled(&self) -> bool {
+        self.service
+            .as_ref()
+            .is_some_and(SamplingService::cpu_temperatures_enabled)
+    }
+
     pub(crate) fn command(
         &mut self,
         command: Command,
@@ -910,6 +923,26 @@ impl WorkspaceView {
             self.initial_layout_pending = false;
         }
         match command {
+            #[cfg(target_os = "windows")]
+            Command::EnableCpuTemperatures => {
+                self.notice = match self.service.as_ref() {
+                    Some(service) => service.enable_cpu_temperatures().err().unwrap_or_default(),
+                    None => "CPU temperature access requires the live collector.".into(),
+                };
+                self.notify_panels(cx);
+                cx.notify();
+                return;
+            }
+            #[cfg(target_os = "windows")]
+            Command::DisableCpuTemperatures => {
+                if let Some(service) = self.service.as_ref() {
+                    service.disable_cpu_temperatures();
+                }
+                self.notice.clear();
+                self.notify_panels(cx);
+                cx.notify();
+                return;
+            }
             Command::Screen(screen) => {
                 self.shared.borrow_mut().session.workspace.screens.active = screen;
             }

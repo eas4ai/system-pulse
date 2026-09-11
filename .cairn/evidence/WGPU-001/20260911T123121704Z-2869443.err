@@ -1,0 +1,20 @@
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.001s
+
+OK
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.25s
+     Running unittests src/lib.rs (target/debug/deps/system_pulse-ea760d1e57d57d4b)
+     Running unittests src/main.rs (target/debug/deps/system_pulse-22fd0d82d6a2974c)
+     Running tests/macos_application_lifetime.rs (target/debug/deps/macos_application_lifetime-3810013796c7aa13)
+     Running tests/macos_dispatcher_lifetime.rs (target/debug/deps/macos_dispatcher_lifetime-24a2da419571ce32)
+     Running unittests src/lib.rs (target/debug/deps/system_pulse_collectors-3145408a49d66ac4)
+     Running unittests src/bin/pulse-snapshot.rs (target/debug/deps/pulse_snapshot-d74a2755328f4236)
+     Running unittests src/lib.rs (target/debug/deps/system_pulse_model-0af06f4a248c5d53)
+     Running tests/persistence.rs (target/debug/deps/persistence-0f7bcbba43a997e5)
+     Running tests/presentation.rs (target/debug/deps/presentation-9119c87dbfd9f13b)
+     Running tests/readings.rs (target/debug/deps/readings-0a2ce97fb1ecc583)
+     Running tests/screens.rs (target/debug/deps/screens-bdf97244c9588460)
+   Doc-tests system_pulse
+   Doc-tests system_pulse_collectors
+   Doc-tests system_pulse_model

@@ -1,0 +1,33 @@
+{
+    "dashboard_pid":  2696,
+    "dashboard_alive":  true,
+    "captured_utc":  "2026-09-11T10:38:41.4862227Z",
+    "scanned_handles":  785,
+    "unclassified_handles":  0,
+    "nonduplicable_handles":  220,
+    "closed_during_capture":  0,
+    "snapshot_released":  true,
+    "process_handles":  [
+                            {
+                                "pid":  6692,
+                                "count":  1,
+                                "termination_count":  0,
+                                "wait_count":  0,
+                                "granted_access":  [
+                                                       4096
+                                                   ]
+                            },
+                            {
+                                "pid":  5556,
+                                "count":  1,
+                                "termination_count":  0,
+                                "wait_count":  0,
+                                "granted_access":  [
+                                                       4096
+                                                   ]
+                            }
+                        ],
+    "dashboard_creation_ticks":  134335965710530776,
+    "case":  "helper-timeout",
+    "passed":  true
+}

@@ -1,0 +1,181 @@
+{
+  "status": "PASS",
+  "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+  "steps": {
+    "preservation": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/verify.py",
+        "--output",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/preservation"
+      ],
+      "seconds": 323.272,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/preservation.log",
+      "sha256": "e5c184d1c8fcb2dae600d7b343f94033ebb240cfb0b723fd28f17d2372c2d08c"
+    },
+    "input-focus": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "gpui-component",
+        "--lib",
+        "input::input::tests"
+      ],
+      "seconds": 0.465,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/input-focus.log",
+      "sha256": "0fd7b277343b725e77409c2af6a84c4b07c279e95475c5cd666c1527022258ed",
+      "test_count": 10
+    },
+    "package": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/system-pulse/package_linux.py",
+        "--output",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/package",
+        "--cargo-about",
+        "/tmp/system-pulse-cargo-about-oddwye95/cargo-about"
+      ],
+      "seconds": 34.836,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/package.log",
+      "sha256": "cac5bf2ed5e7df2f7022f6cd8d0095c1b1156b0b99d6e090fb9564eebbc1f470"
+    },
+    "application": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/application.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/harness/tabbed_replay.py",
+        "--binary",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/package/system-pulse-0.3.0-linux-x86_64-3e6923e39763/system-pulse",
+        "--output",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/application"
+      ],
+      "seconds": 162.695,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/application.log",
+      "sha256": "8cd9a0e0c8042e538eb597934410bdfa0d37977321f22bdcb482ae93f64c67fd"
+    },
+    "tray": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/tray.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/harness/tray_replay.py",
+        "--binary",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/package/system-pulse-0.3.0-linux-x86_64-3e6923e39763/system-pulse",
+        "--output",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/tray"
+      ],
+      "seconds": 15.951,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/tray.log",
+      "sha256": "054da089777316c0e928f8cc55b7f034c57b5173a47e47732fd0b8cf8cf18fcb"
+    },
+    "installed": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "/home/shawn/workspace2/task-manager/scripts/system-pulse/run_logged.py",
+        "--log",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/installed.session.log",
+        "--",
+        "xvfb-run",
+        "-a",
+        "-e",
+        "/dev/stderr",
+        "-s",
+        "-screen 0 1440x1000x24 -nolisten tcp -noreset",
+        "dbus-run-session",
+        "--",
+        "env",
+        "WAYLAND_DISPLAY=",
+        "VK_DRIVER_FILES=/usr/share/vulkan/icd.d/lvp_icd.json",
+        "PYTHONDONTWRITEBYTECODE=1",
+        "/usr/bin/python3",
+        "-B",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/harness/package_smoke.py",
+        "--archive",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/package/system-pulse-0.3.0-linux-x86_64-3e6923e39763.tar.gz",
+        "--output",
+        "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/installed"
+      ],
+      "seconds": 5.774,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/installed.log",
+      "sha256": "56858af495214acc7ca531bd1b59774e8b86a25386dbf6db86157f82e21fe774"
+    }
+  },
+  "archive": {
+    "path": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/package/system-pulse-0.3.0-linux-x86_64-3e6923e39763.tar.gz",
+    "bytes": 32337404,
+    "sha256": "3c479014e9014ceff4841fd1808e41b61c4f280bb0de9acdea197ca8e08eaa78"
+  },
+  "binary_sha256": "6bc3405985b5a85dbd578ce3e17d1d4222c1b1f3dcc2fb8cdb9e555f9ea2e1a3",
+  "preservation_manifest": {
+    "path": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/preservation/manifest.json",
+    "bytes": 28541,
+    "sha256": "8b185f5436cf2d72e478269ffa233099a16f9675951d6608116955b110496347"
+  },
+  "product": {
+    "path": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/application/result.json",
+    "bytes": 58358,
+    "sha256": "38b89d5be3fa77ef3bdc37cd7666611cdfb83686238997303f29b6c62b610e28"
+  },
+  "tray": {
+    "path": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/tray/result.json",
+    "bytes": 831,
+    "sha256": "9bcc182efcaa5615feb511bbeb53c6d0862e58c71b7c5ff5705f2140c6717280"
+  },
+  "installed": {
+    "path": "/home/shawn/.cache/system-pulse-windows-actions/linux-acceptance-3e6923e3-serial/installed/result.json",
+    "bytes": 809,
+    "sha256": "d7fc431c93400db322eaa11c09e8abe0bf79a4cdac043dec6ec93515804fcb35"
+  }
+}

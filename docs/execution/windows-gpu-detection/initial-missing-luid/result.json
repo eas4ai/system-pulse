@@ -1,0 +1,13 @@
+{
+    "cleanup":  true,
+    "elevated":  false,
+    "binary_sha256":  "3ddd992a3b8489f6fe5b41b687689ef8ac2f6db6b637a4bb4aa1b54bd6a5c3f5",
+    "source_commit":  "58891256cb59e1fb405dc22d85db9c54c81c794a",
+    "quit":  {
+                 "pid":  3772,
+                 "menu_owner":  3772,
+                 "exit_code":  0
+             },
+    "status":  "PASS",
+    "run_id":  "28c6bc06ec71472f97110ad20b1c6a9c"
+}

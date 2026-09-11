@@ -25,6 +25,8 @@ struct Shared {
 pub struct SamplingService {
     shared: Arc<Shared>,
     worker: Option<JoinHandle<()>>,
+    #[cfg(target_os = "windows")]
+    thermal: Arc<crate::windows_thermal::Control>,
 }
 fn valid(interval: Duration) -> Result<(), String> {
     if SUPPORTED_INTERVALS.contains(&interval) {
@@ -36,10 +38,35 @@ fn valid(interval: Duration) -> Result<(), String> {
 impl SamplingService {
     pub fn start(interval: Duration) -> Result<Self, String> {
         valid(interval)?;
-        Self::spawn(interval, || {
+        #[cfg(target_os = "windows")]
+        let thermal = Arc::new(crate::windows_thermal::Control::default());
+        #[cfg(target_os = "windows")]
+        let collector_control = thermal.clone();
+        let service = Self::spawn(interval, move || {
             let mut host = HostCollector::new();
+            #[cfg(target_os = "windows")]
+            host.set_temperature_control(collector_control);
             move || host.collect()
-        })
+        })?;
+        #[cfg(target_os = "windows")]
+        let service = {
+            let mut service = service;
+            service.thermal = thermal;
+            service
+        };
+        Ok(service)
+    }
+    #[cfg(target_os = "windows")]
+    pub fn enable_cpu_temperatures(&self) -> Result<(), String> {
+        self.thermal.enable()
+    }
+    #[cfg(target_os = "windows")]
+    pub fn disable_cpu_temperatures(&self) {
+        self.thermal.disable();
+    }
+    #[cfg(target_os = "windows")]
+    pub fn cpu_temperatures_enabled(&self) -> bool {
+        self.thermal.enabled()
     }
     pub fn set_interval(&self, interval: Duration) -> Result<(), String> {
         valid(interval)?;
@@ -117,11 +144,15 @@ impl SamplingService {
         Ok(Self {
             shared,
             worker: Some(worker),
+            #[cfg(target_os = "windows")]
+            thermal: Arc::new(crate::windows_thermal::Control::default()),
         })
     }
 }
 impl Drop for SamplingService {
     fn drop(&mut self) {
+        #[cfg(target_os = "windows")]
+        self.thermal.disable();
         let mut state = self.shared.state.lock().unwrap_or_else(|e| e.into_inner());
         state.stop = true;
         self.shared.changed.notify_one();

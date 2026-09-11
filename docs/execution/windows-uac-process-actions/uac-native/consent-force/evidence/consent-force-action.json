@@ -1,0 +1,42 @@
+{
+    "collected_creation_ticks":  134335947340074544,
+    "pid":  12452,
+    "creation_ticks":  134335947340074544,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 12452)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n12452\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 12452\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 228 readable processes · 1 s update",
+    "signal":  "kill",
+    "pending_observations":  [
+                                 {
+                                     "observed_utc":  "2026-09-11T10:05:59.3025485Z",
+                                     "sequence":  14,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:05:59.9827228Z",
+                                     "sequence":  15,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:06:01.1935590Z",
+                                     "sequence":  16,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 }
+                             ],
+    "name":  "consent-force",
+    "status":  "owned-fixture.exe (PID 12452) has exited.",
+    "mode":  "windowless",
+    "settled_utc":  "2026-09-11T10:06:01.4500126Z",
+    "dashboard_handles_before":  668,
+    "sequence_before":  10,
+    "ordinary_force_access_error":  5,
+    "submitted_utc":  "2026-09-11T10:05:58.3199436Z"
+}

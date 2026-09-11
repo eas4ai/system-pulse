@@ -1,0 +1,21 @@
+requirement: WUAC-005
+requirement_digest: sha256:5085d5f03dcd4a4439da78dafbf34d68f427fc836d7bd60132c8e5eb0099b7a4
+sequence: 4
+history_digest: sha256:22372b4d5d9e3cf4532e753843dd8baec37c95decfda7d066277f405b0c12482
+mechanism: windows-process-uac
+commit: e7667811
+inputs_digest: sha256:08e5ccb0ebc996fd9ea7978fab1ace82fea5c76bfa17f1b615700b5fe0bf5909
+mechanism_digest: sha256:8cd69e46a1fc9dba2a437f9ffbdc7d6978b4284dfc461e0b6ae2603f1d1b8025
+inputs_detail: .cairn/evidence/WUAC-002/20260910T231533610Z-868242.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/windows_process_uac_verify.py
+cwd: .
+exit: 1
+output_digest: sha256:9f4ec1d6b6c2e6d45d55d39b32a8afee0055bc4328cdcf1e2c283e2ede3c5e11
+output: .cairn/evidence/WUAC-002/20260910T231533610Z-868242.out
+stderr_output: .cairn/evidence/WUAC-002/20260910T231533610Z-868242.err
+stderr_digest: sha256:9f4ec1d6b6c2e6d45d55d39b32a8afee0055bc4328cdcf1e2c283e2ede3c5e11
+signal: none
+execution_error: null
+result: fail
+source: exit
+recorded: 2026-09-10T23:15:34.063Z

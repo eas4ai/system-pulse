@@ -1,0 +1,22 @@
+{
+  "source_commit": "7843fc8c12f00a32afe45cdc0cf3aed4e2115d4f",
+  "signed_binary_sha256": "9949d8ea0a7cd2f80c6d4c915ad1300c719ceb831b906ff8ca7a3f538e80d952",
+  "reviewer": "Codex",
+  "scope": "Manual test handoff: signed unelevated dashboard; five initial screen captures; readable power labels; unavailable sensor cards hidden; Threads header absent; Summary labels single-line with temperatures off. This is not the complete thermal lifecycle acceptance.",
+  "installer_on_tablet_desktop": "System Pulse Setup 7843fc8c.exe",
+  "artifacts_sha256": {
+    "gpu.png": "b41d9ddbdb9ad514a39a1b1b7d1b2095021c116cec959117edaf53c1f492d299",
+    "gpu-ui.json": "d66ae23706e906e6982e31b419ddebbcadfff957bef6592d5ea92a6fac4bbf85",
+    "manual-ready.json": "dc0ba037fea3720eafde9d9cc344633337cf153bf3a30e38fc4e03908232756a",
+    "processes.png": "8d8b2a5560674798d87294881599bb360c8e0efabee132373244c054642dfd36",
+    "summary.png": "5cc468fd0bd470fc22603a4572a23b35dfd07b99f6df056ba0c5f5b8df4afc78",
+    "processes-ui.json": "73296a7ac2f16c22e94ee6384cfc2a6efd442a29e974267acd55f3908f5bdf09",
+    "installer-manifest.json": "e0771ef38ecb54a165c2d24c4249b3bbc8cc827a5d83472b4a44d2e49b3d4676",
+    "thermals.png": "cc8a18192f7eccd28baf46cff34704a9c198cc0d33bad3981c06268a8734e5f1",
+    "energy.png": "85a701a51a3dced34d3862c8859583e57a5ec0cba302232f9c4bdb0b70126008",
+    "energy-ui.json": "0f14792eac8c97670b5e6eed5a23687d3506e0d6b1b85fe66abb3dd910783955",
+    "summary-ui.json": "1114790539528eef2fd5c42aed1ae84fa98af4a0da26989a002336696620ef72",
+    "windows-build.log": "6eb6920f6cb71aa0f201005480c4ae1878bfa64e7444a6129a891182f84e3dda",
+    "thermals-ui.json": "d93a289eb3767a6adb82a1993c2290dcbbb89c4943b142c8d740ae16f320aa06"
+  }
+}

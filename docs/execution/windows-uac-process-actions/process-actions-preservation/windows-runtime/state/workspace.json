@@ -1,0 +1,916 @@
+{
+  "schema_version": 1,
+  "dock": {
+    "version": 1,
+    "center": {
+      "panel_name": "StackPanel",
+      "children": [
+        {
+          "panel_name": "TabPanel",
+          "children": [
+            {
+              "panel_name": "SystemPulseMonitor",
+              "children": [],
+              "info": {
+                "panel": {
+                  "monitor_id": "cpu:host"
+                }
+              }
+            }
+          ],
+          "info": {
+            "tabs": {
+              "active_index": 0
+            }
+          }
+        },
+        {
+          "panel_name": "StackPanel",
+          "children": [
+            {
+              "panel_name": "TabPanel",
+              "children": [
+                {
+                  "panel_name": "SystemPulseMonitor",
+                  "children": [],
+                  "info": {
+                    "panel": {
+                      "monitor_id": "memory:host"
+                    }
+                  }
+                }
+              ],
+              "info": {
+                "tabs": {
+                  "active_index": 0
+                }
+              }
+            },
+            {
+              "panel_name": "TabPanel",
+              "children": [
+                {
+                  "panel_name": "SystemPulseMonitor",
+                  "children": [],
+                  "info": {
+                    "panel": {
+                      "monitor_id": "processes"
+                    }
+                  }
+                }
+              ],
+              "info": {
+                "tabs": {
+                  "active_index": 0
+                }
+              }
+            }
+          ],
+          "info": {
+            "stack": {
+              "sizes": [
+                260.0,
+                420.0
+              ],
+              "axis": 1
+            }
+          }
+        }
+      ],
+      "info": {
+        "stack": {
+          "sizes": [
+            580.0,
+            580.0
+          ],
+          "axis": 0
+        }
+      }
+    }
+  },
+  "panels": {
+    "cpu:host": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 380.0
+      },
+      "sensors": {
+        "cpu:host/core-0-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "cpu:host/core-0-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "cpu:host/core-1-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "cpu:host/core-1-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "cpu:host/core-10-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 22,
+          "meter": "number"
+        },
+        "cpu:host/core-10-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 21,
+          "meter": "number"
+        },
+        "cpu:host/core-11-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 24,
+          "meter": "number"
+        },
+        "cpu:host/core-11-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 23,
+          "meter": "number"
+        },
+        "cpu:host/core-2-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 6,
+          "meter": "number"
+        },
+        "cpu:host/core-2-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 5,
+          "meter": "number"
+        },
+        "cpu:host/core-3-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 8,
+          "meter": "number"
+        },
+        "cpu:host/core-3-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 7,
+          "meter": "number"
+        },
+        "cpu:host/core-4-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 10,
+          "meter": "number"
+        },
+        "cpu:host/core-4-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 9,
+          "meter": "number"
+        },
+        "cpu:host/core-5-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 12,
+          "meter": "number"
+        },
+        "cpu:host/core-5-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 11,
+          "meter": "number"
+        },
+        "cpu:host/core-6-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 14,
+          "meter": "number"
+        },
+        "cpu:host/core-6-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 13,
+          "meter": "number"
+        },
+        "cpu:host/core-7-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 16,
+          "meter": "number"
+        },
+        "cpu:host/core-7-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 15,
+          "meter": "number"
+        },
+        "cpu:host/core-8-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 18,
+          "meter": "number"
+        },
+        "cpu:host/core-8-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 17,
+          "meter": "number"
+        },
+        "cpu:host/core-9-frequency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 20,
+          "meter": "number"
+        },
+        "cpu:host/core-9-usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 19,
+          "meter": "number"
+        },
+        "cpu:host/load-1": {
+          "visible": true,
+          "collapsed": false,
+          "order": 26,
+          "meter": "number"
+        },
+        "cpu:host/load-15": {
+          "visible": true,
+          "collapsed": false,
+          "order": 28,
+          "meter": "number"
+        },
+        "cpu:host/load-5": {
+          "visible": true,
+          "collapsed": false,
+          "order": 27,
+          "meter": "number"
+        },
+        "cpu:host/processes": {
+          "visible": true,
+          "collapsed": false,
+          "order": 30,
+          "meter": "number"
+        },
+        "cpu:host/temperature": {
+          "visible": true,
+          "collapsed": false,
+          "order": 25,
+          "meter": "number"
+        },
+        "cpu:host/threads": {
+          "visible": true,
+          "collapsed": false,
+          "order": 31,
+          "meter": "number"
+        },
+        "cpu:host/uptime": {
+          "visible": true,
+          "collapsed": false,
+          "order": 29,
+          "meter": "number"
+        },
+        "cpu:host/usage": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "memory:host": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 260.0
+      },
+      "sensors": {
+        "memory:host/available": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "memory:host/buffers": {
+          "visible": true,
+          "collapsed": false,
+          "order": 7,
+          "meter": "number"
+        },
+        "memory:host/cache": {
+          "visible": true,
+          "collapsed": false,
+          "order": 6,
+          "meter": "number"
+        },
+        "memory:host/free": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "memory:host/major-page-faults": {
+          "visible": true,
+          "collapsed": false,
+          "order": 10,
+          "meter": "number"
+        },
+        "memory:host/other": {
+          "visible": true,
+          "collapsed": false,
+          "order": 8,
+          "meter": "number"
+        },
+        "memory:host/page-faults": {
+          "visible": true,
+          "collapsed": false,
+          "order": 9,
+          "meter": "number"
+        },
+        "memory:host/swap": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "memory:host/swap-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 5,
+          "meter": "number"
+        },
+        "memory:host/total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "memory:host/used": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:30:89:4a:b0:79:67:name:Wi-Fi": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/connections": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/rx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/rx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/tx": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        },
+        "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/tx-total": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        }
+      }
+    },
+    "processes": {
+      "visible": true,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 420.0
+      },
+      "sensors": {}
+    },
+    "settings": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {}
+    },
+    "volume:source:Windows:C:\\": {
+      "visible": false,
+      "collapsed": false,
+      "expanded_size": {
+        "width": 580.0,
+        "height": 300.0
+      },
+      "sensors": {
+        "volume:source:Windows:C:\\/capacity": {
+          "visible": true,
+          "collapsed": false,
+          "order": 0,
+          "meter": "number"
+        },
+        "volume:source:Windows:C:\\/iops": {
+          "visible": true,
+          "collapsed": false,
+          "order": 3,
+          "meter": "number"
+        },
+        "volume:source:Windows:C:\\/latency": {
+          "visible": true,
+          "collapsed": false,
+          "order": 4,
+          "meter": "number"
+        },
+        "volume:source:Windows:C:\\/read": {
+          "visible": true,
+          "collapsed": false,
+          "order": 1,
+          "meter": "number"
+        },
+        "volume:source:Windows:C:\\/write": {
+          "visible": true,
+          "collapsed": false,
+          "order": 2,
+          "meter": "number"
+        }
+      }
+    }
+  },
+  "monitors": {
+    "cpu:host": {
+      "id": "cpu:host",
+      "title": "CPU",
+      "summary": "cpu:host/usage",
+      "sensors": [
+        {
+          "id": "cpu:host/usage",
+          "title": "Overall utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-0-usage",
+          "title": "CPU 0 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-0-frequency",
+          "title": "CPU 0 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-1-usage",
+          "title": "CPU 1 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-1-frequency",
+          "title": "CPU 1 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-2-usage",
+          "title": "CPU 2 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-2-frequency",
+          "title": "CPU 2 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-3-usage",
+          "title": "CPU 3 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-3-frequency",
+          "title": "CPU 3 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-4-usage",
+          "title": "CPU 4 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-4-frequency",
+          "title": "CPU 4 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-5-usage",
+          "title": "CPU 5 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-5-frequency",
+          "title": "CPU 5 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-6-usage",
+          "title": "CPU 6 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-6-frequency",
+          "title": "CPU 6 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-7-usage",
+          "title": "CPU 7 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-7-frequency",
+          "title": "CPU 7 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-8-usage",
+          "title": "CPU 8 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-8-frequency",
+          "title": "CPU 8 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-9-usage",
+          "title": "CPU 9 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-9-frequency",
+          "title": "CPU 9 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-10-usage",
+          "title": "CPU 10 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-10-frequency",
+          "title": "CPU 10 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/core-11-usage",
+          "title": "CPU 11 utilization",
+          "quantity": "percentage",
+          "unit": "Percent"
+        },
+        {
+          "id": "cpu:host/core-11-frequency",
+          "title": "CPU 11 frequency",
+          "quantity": "frequency",
+          "unit": "Hertz"
+        },
+        {
+          "id": "cpu:host/temperature",
+          "title": "CPU temperature",
+          "quantity": "temperature",
+          "unit": "Celsius"
+        },
+        {
+          "id": "cpu:host/load-1",
+          "title": "Load average",
+          "quantity": "scalar",
+          "unit": "Load"
+        },
+        {
+          "id": "cpu:host/load-5",
+          "title": "Load average",
+          "quantity": "scalar",
+          "unit": "Load"
+        },
+        {
+          "id": "cpu:host/load-15",
+          "title": "Load average",
+          "quantity": "scalar",
+          "unit": "Load"
+        },
+        {
+          "id": "cpu:host/uptime",
+          "title": "Uptime",
+          "quantity": "duration",
+          "unit": "Seconds"
+        },
+        {
+          "id": "cpu:host/processes",
+          "title": "Processes",
+          "quantity": "counter",
+          "unit": "Count"
+        },
+        {
+          "id": "cpu:host/threads",
+          "title": "Threads",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "memory:host": {
+      "id": "memory:host",
+      "title": "Memory",
+      "summary": "memory:host/used",
+      "sensors": [
+        {
+          "id": "memory:host/used",
+          "title": "RAM used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/total",
+          "title": "RAM total",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/available",
+          "title": "RAM available",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/free",
+          "title": "RAM free",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/swap",
+          "title": "Swap used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/swap-total",
+          "title": "Swap total",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/cache",
+          "title": "cache",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/buffers",
+          "title": "buffers",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/other",
+          "title": "other",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "memory:host/page-faults",
+          "title": "page-faults",
+          "quantity": "counter",
+          "unit": "Count"
+        },
+        {
+          "id": "memory:host/major-page-faults",
+          "title": "major-page-faults",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:30:89:4a:b0:79:67:name:Wi-Fi": {
+      "id": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi",
+      "title": "Wi-Fi",
+      "summary": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/rx",
+      "sensors": [
+        {
+          "id": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:30:89:4a:b0:79:67:name:Wi-Fi/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]": {
+      "id": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]",
+      "title": "ZeroTier One [f3797ba7a8ce25e8]",
+      "summary": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/rx",
+      "sensors": [
+        {
+          "id": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/rx",
+          "title": "rx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/rx-total",
+          "title": "rx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/tx",
+          "title": "tx",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/tx-total",
+          "title": "tx-total",
+          "quantity": "counter",
+          "unit": "Bytes"
+        },
+        {
+          "id": "network:mac:ea:00:b0:a6:02:54:name:ZeroTier One [f3797ba7a8ce25e8]/connections",
+          "title": "Established TCP connections",
+          "quantity": "counter",
+          "unit": "Count"
+        }
+      ]
+    },
+    "processes": {
+      "id": "processes",
+      "title": "Processes",
+      "summary": "count",
+      "sensors": []
+    },
+    "settings": {
+      "id": "settings",
+      "title": "Settings",
+      "summary": "",
+      "sensors": []
+    },
+    "volume:source:Windows:C:\\": {
+      "id": "volume:source:Windows:C:\\",
+      "title": "C:\\",
+      "summary": "volume:source:Windows:C:\\/capacity",
+      "sensors": [
+        {
+          "id": "volume:source:Windows:C:\\/capacity",
+          "title": "Filesystem used",
+          "quantity": "capacity",
+          "unit": "Bytes"
+        },
+        {
+          "id": "volume:source:Windows:C:\\/read",
+          "title": "read",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "volume:source:Windows:C:\\/write",
+          "title": "write",
+          "quantity": "rate",
+          "unit": "BytesPerSecond"
+        },
+        {
+          "id": "volume:source:Windows:C:\\/iops",
+          "title": "iops",
+          "quantity": "scalar",
+          "unit": "CountPerSecond"
+        },
+        {
+          "id": "volume:source:Windows:C:\\/latency",
+          "title": "latency",
+          "quantity": "scalar",
+          "unit": "Milliseconds"
+        }
+      ]
+    }
+  },
+  "interval_ms": 2000,
+  "appearance": {
+    "theme": "light",
+    "ui_font": "ibm_plex_sans",
+    "numeric_font": "ibm_plex_mono"
+  },
+  "screens": {
+    "active": "processes",
+    "devices": {}
+  }
+}

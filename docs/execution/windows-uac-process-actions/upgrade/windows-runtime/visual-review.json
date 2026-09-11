@@ -1,0 +1,31 @@
+{
+  "run_id": "b241a56e2dff4a83b32ca6747fb6485b",
+  "status": "PASS",
+  "screenshots_sha256": {
+    "summary.png": "bb6a410cb44eec518f2b099ae044e6ebe86203c6a2b7a3b317fe646c72a51758",
+    "gpu.png": "6aae5f445fd1e681740ea8565fa31bdb024162dfb3f4dfe70dc253a1bdfe8b31",
+    "thermals.png": "a6e75a928876095faba76ea76d25c744454d59e928de1928b75015a08bd384b5",
+    "energy.png": "40632c4d8ced4def0217e75a94337a24422123b6514f6ed87f4646e3fb9095d2",
+    "processes.png": "2dc65a2c3580ef92e516323390e20bb437c967ab51ff9cc851ed8739b6b4bb57",
+    "restored-settings.png": "24d426ef153105429be9b83ca45f82540bf143ae269fe0688364b83e0cec7601",
+    "diagnostic-menu.png": "fba9d51d999c2b278d461bcea55b5ebcd72ab93ad960ba0c5d7fe580aaf0635f",
+    "normal-menu.png": "fba9d51d999c2b278d461bcea55b5ebcd72ab93ad960ba0c5d7fe580aaf0635f"
+  },
+  "unavailable_screens": [
+    "GPU",
+    "Thermals",
+    "Energy"
+  ],
+  "menu_commands": [
+    "Open System Pulse",
+    "Quit"
+  ],
+  "reviewer": "Codex",
+  "observations": [
+    "Summary has live CPU/memory/history and process rows with readable layout.",
+    "Processes table and action controls render with the existing unavailable Windows Threads values.",
+    "Restored settings show Light, IBM Plex Sans/Mono and 2 s, with readable controls.",
+    "GPU, Thermals and Energy explicitly show no available readings.",
+    "Both native tray menus contain Open System Pulse and Quit without duplicate commands."
+  ]
+}

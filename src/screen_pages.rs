@@ -328,7 +328,7 @@ fn gpu(state: &Data, width: f32, cx: &App) -> AnyElement {
             cx,
         );
     };
-    let rows = data::monitor_channels(state, &id);
+    let rows = data::gpu_channels(state, &id);
     if rows.is_empty() {
         return empty(
             "GPU unavailable",
@@ -373,7 +373,16 @@ fn gpu(state: &Data, width: f32, cx: &App) -> AnyElement {
             )
         })
         .when_some(capacity, |view, capacity| {
-            view.child(section(cx).child(hero_meter(capacity, state, Screen::Gpu, cx)))
+            view.child(
+                section(cx)
+                    .id(SharedString::from(format!(
+                        "gpu-capacity:{}",
+                        capacity.sensor
+                    )))
+                    .role(Role::Group)
+                    .aria_label(capacity.label.clone())
+                    .child(hero_meter(capacity, state, Screen::Gpu, cx)),
+            )
         })
         .child(
             div()
@@ -446,7 +455,7 @@ fn environmental(screen: Screen, state: &Data, width: f32, cx: &App) -> AnyEleme
     } else {
         (Quantity::Temperature, PhysicalUnit::Celsius)
     };
-    let rows = data::by_quantity(state, quantity, unit);
+    let rows = data::environmental_channels(state, quantity, unit);
     let selected = data::selected_channel(state, screen);
     if rows.is_empty() {
         return empty(
@@ -550,6 +559,21 @@ fn environmental(screen: Screen, state: &Data, width: f32, cx: &App) -> AnyEleme
                                 .child(channel.device.clone()),
                         )
                         .child(stat(channel, state, cx))
+                        .when_some(
+                            channel
+                                .latest(state)
+                                .and_then(|sample| sample.reason.clone()),
+                            |view, reason| {
+                                let id = format!("sensor-availability:{}", channel.sensor);
+                                view.child(
+                                    div()
+                                        .debug_selector(move || id.clone())
+                                        .text_sm()
+                                        .text_color(palette(cx).muted)
+                                        .child(reason),
+                                )
+                            },
+                        )
                         .child(chart(channel, state, color, 95., cx))
                 })),
         )

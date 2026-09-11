@@ -1,0 +1,1412 @@
+[
+    {
+        "enabled":  true,
+        "name":  "System monitor screens",
+        "id":  "screen-tabs",
+        "role":  "ControlType.Tab"
+    },
+    {
+        "enabled":  true,
+        "name":  "Summary",
+        "id":  "screen-tab:summary",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "CPU",
+        "id":  "screen-tab:cpu",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Memory",
+        "id":  "screen-tab:memory",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "GPU",
+        "id":  "screen-tab:gpu",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Disks",
+        "id":  "screen-tab:disks",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Network",
+        "id":  "screen-tab:network",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Energy",
+        "id":  "screen-tab:energy",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Thermals",
+        "id":  "screen-tab:thermals",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Processes",
+        "id":  "screen-tab:processes",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Settings",
+        "id":  "screen-tab:settings",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Processes",
+        "id":  "screen:processes",
+        "role":  "ControlType.Pane"
+    },
+    {
+        "enabled":  true,
+        "name":  "Search name, PID, or user…",
+        "id":  "",
+        "role":  "ControlType.Edit"
+    },
+    {
+        "enabled":  false,
+        "name":  "End task…",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  false,
+        "name":  "Force quit…",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "processes:viewport",
+        "role":  "ControlType.Pane"
+    },
+    {
+        "enabled":  true,
+        "name":  "226 readable process rows; arrows navigate and scroll columns; Tab leaves table",
+        "id":  "",
+        "role":  "ControlType.Table"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by PID",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by PID",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Name",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Name",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by CPU (one core)",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by CPU (one core)",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Memory",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Memory",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Read I/O",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Read I/O",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Write I/O",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Write I/O",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Threads",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Threads",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by User",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by User",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "processes:rows-viewport",
+        "role":  "ControlType.Pane"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:17036:134335551120165318",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "17036",
+        "id":  "process:17036:134335551120165318:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "powershell.exe",
+        "id":  "process:17036:134335551120165318:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "30.8 %",
+        "id":  "process:17036:134335551120165318:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "125.6 MiB",
+        "id":  "process:17036:134335551120165318:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "781.0 KiB/s",
+        "id":  "process:17036:134335551120165318:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:17036:134335551120165318:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:17036:134335551120165318:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:17036:134335551120165318:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:16668:134334756374883465",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "16668",
+        "id":  "process:16668:134334756374883465:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "MicrosoftStartFeedProvider.exe",
+        "id":  "process:16668:134334756374883465:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "13.9 %",
+        "id":  "process:16668:134334756374883465:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "51.5 MiB",
+        "id":  "process:16668:134334756374883465:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "31.1 KiB/s",
+        "id":  "process:16668:134334756374883465:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:16668:134334756374883465:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:16668:134334756374883465:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:16668:134334756374883465:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:13160:134335551160651939",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "13160",
+        "id":  "process:13160:134335551160651939:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "system-pulse.exe",
+        "id":  "process:13160:134335551160651939:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "7.7 %",
+        "id":  "process:13160:134335551160651939:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "186.0 MiB",
+        "id":  "process:13160:134335551160651939:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:13160:134335551160651939:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "781.0 KiB/s",
+        "id":  "process:13160:134335551160651939:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:13160:134335551160651939:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:13160:134335551160651939:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:7332:134334755388360072",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "7332",
+        "id":  "process:7332:134334755388360072:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "sihost.exe",
+        "id":  "process:7332:134334755388360072:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "3.0 %",
+        "id":  "process:7332:134334755388360072:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "48.3 MiB",
+        "id":  "process:7332:134334755388360072:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "15.7 KiB/s",
+        "id":  "process:7332:134334755388360072:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:7332:134334755388360072:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:7332:134334755388360072:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:7332:134334755388360072:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1932:134334755633319631",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1932",
+        "id":  "process:1932:134334755633319631:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "WavesSvc64.exe",
+        "id":  "process:1932:134334755633319631:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1.6 %",
+        "id":  "process:1932:134334755633319631:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "50.8 MiB",
+        "id":  "process:1932:134334755633319631:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1932:134334755633319631:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1932:134334755633319631:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1932:134334755633319631:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:1932:134334755633319631:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:7176:134334755385495870",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "7176",
+        "id":  "process:7176:134334755385495870:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "ipf_helper.exe",
+        "id":  "process:7176:134334755385495870:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1.6 %",
+        "id":  "process:7176:134334755385495870:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "11.6 MiB",
+        "id":  "process:7176:134334755385495870:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:7176:134334755385495870:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:7176:134334755385495870:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:7176:134334755385495870:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:7176:134334755385495870:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:8996:134334755421063502",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "8996",
+        "id":  "process:8996:134334755421063502:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "explorer.exe",
+        "id":  "process:8996:134334755421063502:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1.6 %",
+        "id":  "process:8996:134334755421063502:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "342.8 MiB",
+        "id":  "process:8996:134334755421063502:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:8996:134334755421063502:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:8996:134334755421063502:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:8996:134334755421063502:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:8996:134334755421063502:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:13920:134335551077519193",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "13920",
+        "id":  "process:13920:134335551077519193:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "powershell.exe",
+        "id":  "process:13920:134335551077519193:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1.6 %",
+        "id":  "process:13920:134335551077519193:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "126.5 MiB",
+        "id":  "process:13920:134335551077519193:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:13920:134335551077519193:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:13920:134335551077519193:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:13920:134335551077519193:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:13920:134335551077519193:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:9888:134334755548977448",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "9888",
+        "id":  "process:9888:134334755548977448:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "conhost.exe",
+        "id":  "process:9888:134334755548977448:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1.5 %",
+        "id":  "process:9888:134334755548977448:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "25.9 MiB",
+        "id":  "process:9888:134334755548977448:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:9888:134334755548977448:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:9888:134334755548977448:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:9888:134334755548977448:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "shawn",
+        "id":  "process:9888:134334755548977448:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:0:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0",
+        "id":  "process:0:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "[System Process]",
+        "id":  "process:0:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:0:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:0:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:0:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:0:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:0:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:0:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:4:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "4",
+        "id":  "process:4:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "System",
+        "id":  "process:4:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:4:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:4:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:4:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:4:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:4:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:4:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:188:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "188",
+        "id":  "process:188:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Secure System",
+        "id":  "process:188:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:188:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:188:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:188:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:188:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:188:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:188:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:232:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "232",
+        "id":  "process:232:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Registry",
+        "id":  "process:232:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:232:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:232:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:232:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:232:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:232:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:232:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:772:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "772",
+        "id":  "process:772:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "svchost.exe",
+        "id":  "process:772:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:772:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:772:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:772:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:772:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:772:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:772:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:792:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "792",
+        "id":  "process:792:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "smss.exe",
+        "id":  "process:792:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:792:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:792:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:792:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:792:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:792:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:792:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:892:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "892",
+        "id":  "process:892:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "csrss.exe",
+        "id":  "process:892:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:892:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:892:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:892:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:892:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:892:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:892:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1096:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1096",
+        "id":  "process:1096:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "wininit.exe",
+        "id":  "process:1096:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:1096:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:1096:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1096:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1096:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1096:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:1096:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1144:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1144",
+        "id":  "process:1144:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "services.exe",
+        "id":  "process:1144:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:1144:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:1144:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1144:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1144:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1144:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:1144:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1152:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1152",
+        "id":  "process:1152:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "LsaIso.exe",
+        "id":  "process:1152:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:1152:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:1152:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1152:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1152:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1152:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:1152:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1160:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1160",
+        "id":  "process:1160:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "lsass.exe",
+        "id":  "process:1160:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:1160:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:1160:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1160:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1160:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1160:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:1160:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1216:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1216",
+        "id":  "process:1216:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "csrss.exe",
+        "id":  "process:1216:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:1216:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:1216:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1216:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1216:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1216:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:1216:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "process:1276:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "1276",
+        "id":  "process:1276:0:cell:0",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "svchost.exe",
+        "id":  "process:1276:0:cell:1",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 %",
+        "id":  "process:1276:0:cell:2",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B",
+        "id":  "process:1276:0:cell:3",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1276:0:cell:4",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "0.0 B/s",
+        "id":  "process:1276:0:cell:5",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · count · sysinfo does not expose this process\u0027s thread set",
+        "id":  "process:1276:0:cell:6",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Unavailable · sysinfo process user unavailable",
+        "id":  "process:1276:0:cell:7",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Process details",
+        "id":  "process-details",
+        "role":  "ControlType.Group"
+    },
+    {
+        "enabled":  true,
+        "name":  "Live system data · 226 readable processes · 1 s update",
+        "id":  "",
+        "role":  "ControlType.StatusBar"
+    }
+]

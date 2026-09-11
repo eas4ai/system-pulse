@@ -3,7 +3,7 @@
 > Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
-Current: release-candidate-readiness
+Current: windows-thermal-energy
 
 ## Real system readings
 
@@ -42,3 +42,26 @@ On 2026-09-09 the developer approved [release-candidate readiness](../commitment
 Windows setup, build and native runtime verification, binary-build CI and
 accurate support documentation under [REL-001 through REL-004](release.md).
 The process-table commitment has passing evidence and a clean review.
+
+## Windows UAC process actions and GPUI Kit update
+
+On 2026-09-10 the developer confirmed the complete Windows helper scope in one
+[commitment](../commitments/windows-uac-process-actions.md), then added GPUI Kit
+0.6.1. [WUAC-001 through WUAC-007](windows-uac-process-actions.md) cover ordinary
+and elevated process actions, safe identity, responsive UI, native verification
+and preservation of local framework patches. Version 0.3.0 was published from
+passing Linux/macOS/Windows CI. The prior release commitment retains its pending
+Cairn bookkeeping; this activation does not fabricate its completion.
+
+## Next: Windows GPU detection parity
+
+On 2026-09-11 the developer requested Windows GPU detection coverage matching
+Linux, and supplied Cores and LibreHardwareMonitor references. The next named
+[commitment](../commitments/windows-gpu-detection.md) covers Intel, AMD and NVIDIA
+discovery. The UAC commitment completed on 2026-09-11 with all seven requirements passing
+and a clean final review; this requested work is now active. The available Windows host has a healthy Intel Iris Xe adapter which the
+current application does not discover.
+
+## Windows thermal and energy collection
+
+On 2026-09-11 the developer confirmed [Windows thermal and energy collection](../commitments/windows-thermal-energy.md) after Windows GPU detection completed with passing evidence and a clean review. Investigate actual native sources, implement supported readings and verify the packaged screens. Any sensor driver installation requires a separate concrete decision.

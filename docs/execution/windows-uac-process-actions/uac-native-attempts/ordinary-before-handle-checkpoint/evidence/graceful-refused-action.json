@@ -1,0 +1,33 @@
+{
+    "collected_creation_ticks":  134335507653685331,
+    "pid":  11336,
+    "creation_ticks":  134335507653685331,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 11336)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n11336\nowned-fixture.exe\n0.0 %\n28.4 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 11336\n0.0 %\n28.4 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 223 readable processes · 1 s update",
+    "signal":  "terminate",
+    "pending_observations":  [
+                                 {
+                                     "observed_utc":  "2026-09-10T21:52:51.8111780Z",
+                                     "sequence":  31,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-10T21:52:52.6295398Z",
+                                     "sequence":  32,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 }
+                             ],
+    "name":  "graceful-refused",
+    "status":  "The application did not close. It may need a response or have declined the request. Check its window before choosing Force quit.",
+    "mode":  "refusing",
+    "settled_utc":  "2026-09-10T21:52:52.8611117Z",
+    "dashboard_handles_before":  663,
+    "sequence_before":  27,
+    "submitted_utc":  "2026-09-10T21:52:50.7437329Z"
+}

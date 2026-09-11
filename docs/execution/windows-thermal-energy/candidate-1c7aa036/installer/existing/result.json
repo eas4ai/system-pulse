@@ -1,0 +1,28 @@
+﻿{
+    "binary_sha256":  "2aeed95b95b73f9fa3d42c853dd42d845a57d915d36217a33793e0148953a4ad",
+    "existing_driver_install_exit":  0,
+    "application_signer":  "CN=Lewis McAllister, O=Lewis McAllister, L=Kannapolis, S=nc, C=US",
+    "uninstall_exit":  0,
+    "installer_sha256":  "ca765aa9b723e5d114edd8699fe695afeb0c24d84a5fbc8d83a669560e3c30cf",
+    "install_exit":  0,
+    "installer_signer":  "CN=Lewis McAllister, O=Lewis McAllister, L=Kannapolis, S=nc, C=US",
+    "shared_driver_before":  {
+                                 "version":  "2.2.0.0",
+                                 "location":  "C:\\Program Files\\PawnIO",
+                                 "driver_path":  "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\pawnio.inf_amd64_a72a2f969b8b7496\\PawnIO.sys",
+                                 "start_mode":  "Manual",
+                                 "state":  "Running"
+                             },
+    "status":  "PASS",
+    "uninstaller_signer":  "CN=Lewis McAllister, O=Lewis McAllister, L=Kannapolis, S=nc, C=US",
+    "fresh_driver_installed":  false,
+    "scope":  "Install, reinstall with existing PawnIO, and uninstall; shared driver retained",
+    "shared_driver_after":  {
+                                "version":  "2.2.0.0",
+                                "location":  "C:\\Program Files\\PawnIO",
+                                "driver_path":  "C:\\WINDOWS\\system32\\DriverStore\\FileRepository\\pawnio.inf_amd64_a72a2f969b8b7496\\PawnIO.sys",
+                                "start_mode":  "Manual",
+                                "state":  "Running"
+                            },
+    "owned_directory_removed":  true
+}

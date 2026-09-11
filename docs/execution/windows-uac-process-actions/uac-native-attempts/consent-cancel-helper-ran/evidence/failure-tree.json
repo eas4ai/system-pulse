@@ -1,0 +1,320 @@
+[
+    {
+        "enabled":  true,
+        "name":  "System monitor screens",
+        "id":  "screen-tabs",
+        "role":  "ControlType.Tab"
+    },
+    {
+        "enabled":  true,
+        "name":  "Summary",
+        "id":  "screen-tab:summary",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "CPU",
+        "id":  "screen-tab:cpu",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Memory",
+        "id":  "screen-tab:memory",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "GPU",
+        "id":  "screen-tab:gpu",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Disks",
+        "id":  "screen-tab:disks",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Network",
+        "id":  "screen-tab:network",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Energy",
+        "id":  "screen-tab:energy",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Thermals",
+        "id":  "screen-tab:thermals",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Processes",
+        "id":  "screen-tab:processes",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Settings",
+        "id":  "screen-tab:settings",
+        "role":  "ControlType.TabItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Processes",
+        "id":  "screen:processes",
+        "role":  "ControlType.Pane"
+    },
+    {
+        "enabled":  true,
+        "name":  "Search name, PID, or user…",
+        "id":  "",
+        "role":  "ControlType.Edit"
+    },
+    {
+        "enabled":  false,
+        "name":  "End task…",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  false,
+        "name":  "Force quit…",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "owned-fixture.exe (PID 13948) has exited.",
+        "id":  "process-action-status",
+        "role":  "ControlType.StatusBar"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "processes:viewport",
+        "role":  "ControlType.Pane"
+    },
+    {
+        "enabled":  true,
+        "name":  "0 readable process rows; arrows navigate and scroll columns; Tab leaves table",
+        "id":  "",
+        "role":  "ControlType.Table"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by PID",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by PID",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Name",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Name",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by CPU (one core)",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by CPU (one core)",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Memory",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Memory",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Read I/O",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Read I/O",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Write I/O",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Write I/O",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Threads",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by Threads",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by User",
+        "id":  "",
+        "role":  "ControlType.DataItem"
+    },
+    {
+        "enabled":  true,
+        "name":  "Sort by User",
+        "id":  "",
+        "role":  "ControlType.Button"
+    },
+    {
+        "enabled":  true,
+        "name":  "",
+        "id":  "processes:rows-viewport",
+        "role":  "ControlType.Pane"
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  true,
+        "name":  "Process details",
+        "id":  "process-details",
+        "role":  "ControlType.Group"
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  null,
+        "name":  null,
+        "id":  null,
+        "role":  null
+    },
+    {
+        "enabled":  true,
+        "name":  "Live system data · 232 readable processes · 1 s update",
+        "id":  "",
+        "role":  "ControlType.StatusBar"
+    }
+]

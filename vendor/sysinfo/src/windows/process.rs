@@ -196,6 +196,7 @@ pub(crate) struct ProcessInner {
     handle: Option<Arc<HandleWrapper>>,
     cpu_calc_values: CPUsageCalculationValues,
     start_time: u64,
+    pub(crate) start_time_filetime: u64,
     pub(crate) run_time: u64,
     cpu_usage: f32,
     pub(crate) updated: bool,
@@ -258,11 +259,18 @@ unsafe fn get_exe(process_handler: &HandleWrapper) -> Option<PathBuf> {
 
 impl ProcessInner {
     pub(crate) fn new(pid: Pid, parent: Option<Pid>, now: u64, name: OsString) -> Self {
-        let (handle, start_time, run_time) = if let Some(handle) = get_process_handler(pid) {
-            let (start_time, run_time) = get_start_and_run_time(*handle, now);
-            (Some(Arc::new(handle)), start_time, run_time)
+        let (handle, start_time, run_time, start_time_filetime) = if let Some(handle) =
+            get_process_handler(pid)
+        {
+            let (start_time, run_time, start_time_filetime) = get_start_and_run_time(*handle, now);
+            (
+                Some(Arc::new(handle)),
+                start_time,
+                run_time,
+                start_time_filetime,
+            )
         } else {
-            (None, 0, 0)
+            (None, 0, 0, 0)
         };
         Self {
             handle,
@@ -281,6 +289,7 @@ impl ProcessInner {
             cpu_usage: 0.,
             cpu_calc_values: CPUsageCalculationValues::new(),
             start_time,
+            start_time_filetime,
             run_time,
             updated: true,
             old_read_bytes: 0,
@@ -538,14 +547,18 @@ unsafe fn get_process_times(handle: HANDLE) -> u64 {
         let mut fstart: FILETIME = zeroed();
         let mut x = zeroed();
 
-        let _err = GetProcessTimes(
+        let result = GetProcessTimes(
             handle,
             &mut fstart as *mut FILETIME,
             &mut x as *mut FILETIME,
             &mut x as *mut FILETIME,
             &mut x as *mut FILETIME,
         );
-        filetime_to_u64(fstart)
+        if result.is_ok() {
+            filetime_to_u64(fstart)
+        } else {
+            0
+        }
     }
 }
 
@@ -571,15 +584,15 @@ fn update_root(refresh_kind: ProcessRefreshKind, cwd: &Path, root: &mut Option<P
 fn compute_start(process_times: u64) -> u64 {
     // 11_644_473_600 is the number of seconds between the Windows epoch (1601-01-01) and
     // the Linux epoch (1970-01-01).
-    process_times / 10_000_000 - 11_644_473_600
+    (process_times / 10_000_000).saturating_sub(11_644_473_600)
 }
 
-fn get_start_and_run_time(handle: HANDLE, now: u64) -> (u64, u64) {
+fn get_start_and_run_time(handle: HANDLE, now: u64) -> (u64, u64, u64) {
     unsafe {
         let process_times = get_process_times(handle);
         let start = compute_start(process_times);
         let run_time = check_sub(now, start);
-        (start, run_time)
+        (start, run_time, process_times)
     }
 }
 

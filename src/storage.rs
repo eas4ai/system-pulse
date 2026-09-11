@@ -128,7 +128,29 @@ impl Storage {
             if let Some(t) = &mut timing {
                 t.stages.rename_started_ns = Some(t.clock.now());
             }
-            fs::rename(&temp, path)?;
+            let renamed = fs::rename(&temp, path);
+            #[cfg(target_os = "windows")]
+            let renamed = if matches!(durability, Durability::Transient) {
+                // Windows can deny replacement while a diagnostic consumer reads
+                // the previous record. Only this background-worker publication
+                // retries; durable configuration writes retain their policy.
+                let mut renamed = renamed;
+                for _ in 0..10 {
+                    if !renamed
+                        .as_ref()
+                        .err()
+                        .is_some_and(|error| matches!(error.raw_os_error(), Some(5 | 32)))
+                    {
+                        break;
+                    }
+                    std::thread::sleep(std::time::Duration::from_millis(10));
+                    renamed = fs::rename(&temp, path);
+                }
+                renamed
+            } else {
+                renamed
+            };
+            renamed?;
             if let Some(t) = &mut timing {
                 t.stages.rename_completed_ns = Some(t.clock.now());
             }
@@ -153,6 +175,55 @@ impl Storage {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn diagnostic_waits_for_a_short_windows_reader_before_replacing_the_record() {
+        use std::os::windows::fs::OpenOptionsExt;
+        let dir = std::env::temp_dir().join(format!("pulse-short-reader-{}", std::process::id()));
+        let path = dir.join("latest.json");
+        let storage = Storage::default();
+        storage.write_diagnostic(&path, 1, "old").unwrap();
+        let reader = fs::OpenOptions::new()
+            .read(true)
+            .share_mode(1)
+            .open(&path)
+            .unwrap();
+        let release = std::thread::spawn(move || {
+            std::thread::sleep(std::time::Duration::from_millis(40));
+            drop(reader);
+        });
+        let result = storage.write_diagnostic(&path, 2, "new");
+        release.join().unwrap();
+        let actual = fs::read_to_string(&path).unwrap();
+        fs::remove_dir_all(dir).unwrap();
+        assert!(result.is_ok(), "{result:?}");
+        assert_eq!(actual, "new");
+    }
+
+    #[cfg(target_os = "windows")]
+    #[test]
+    fn diagnostic_keeps_a_persistently_locked_windows_record_and_cleans_its_temp() {
+        use std::os::windows::fs::OpenOptionsExt;
+        let dir = std::env::temp_dir().join(format!("pulse-held-reader-{}", std::process::id()));
+        let path = dir.join("latest.json");
+        let storage = Storage::default();
+        storage.write_diagnostic(&path, 1, "old").unwrap();
+        let reader = fs::OpenOptions::new()
+            .read(true)
+            .share_mode(1)
+            .open(&path)
+            .unwrap();
+        let started = std::time::Instant::now();
+        assert!(storage.write_diagnostic(&path, 2, "new").is_err());
+        assert!(started.elapsed() < std::time::Duration::from_secs(2));
+        assert_eq!(fs::read_to_string(&path).unwrap(), "old");
+        assert_eq!(fs::read_dir(&dir).unwrap().count(), 1);
+        drop(reader);
+        storage.write_diagnostic(&path, 2, "new").unwrap();
+        assert_eq!(fs::read_to_string(&path).unwrap(), "new");
+        fs::remove_dir_all(dir).unwrap();
+    }
 
     #[test]
     fn diagnostic_publication_and_configuration_saves_use_distinct_flush_policies() {

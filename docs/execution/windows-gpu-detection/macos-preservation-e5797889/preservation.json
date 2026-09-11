@@ -1,0 +1,37 @@
+{
+  "source_commit": "e5797889fa2b297d2eb4d9441cf8fc665e69c423",
+  "source_archive_sha256": "c8cd8652b128764fedbb5ffceae6c16ef8a27900baf7152148ea31e85571fe55",
+  "steps": {
+    "tests": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-model",
+        "-p",
+        "system-pulse-collectors"
+      ],
+      "exit_code": 0,
+      "sha256": "a18106a8bf140f7e78ae281f8cca6014013e337c24aaa8aad604abf791196e70"
+    },
+    "clippy": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-model",
+        "-p",
+        "system-pulse-collectors",
+        "--all-targets"
+      ],
+      "exit_code": 0,
+      "sha256": "e6ed7d5876dc8f627665ba2d228f3f556aff86c2e63736b2bd450a90eb5a5b47"
+    }
+  }
+}

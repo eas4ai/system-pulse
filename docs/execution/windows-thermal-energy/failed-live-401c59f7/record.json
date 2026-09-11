@@ -1,0 +1,19 @@
+{
+  "status": "FAIL",
+  "run_id": "401c59f78bef4e7892c16b0e9b18811c",
+  "source_commit": "1c7aa036c21ba0f7123e4d76f41529dc7f77e855",
+  "binary_sha256": "2aeed95b95b73f9fa3d42c853dd42d845a57d915d36217a33793e0148953a4ad",
+  "artifacts_sha256": {
+    "failure.json": "cb588fd52097e45660449539524b1115fb94c2fc540fd40747c9bd78b11071c1",
+    "request.json": "3a75f9d5e511d58f781cd09226c7f0087b9d0546360af77224a0fce0942b92ae",
+    "inventory.json": "e53a9f80d7fe74f066e098eb824a572fefafefdc6686946b05a603f8991b1f8e",
+    "latest.json": "6fca2b0adff6c6a2a0f292ab0959868cdd4bcac20e581c5ad120dbba8448a439",
+    "stages.json": "db40327bc33cb4139beb3b788f6ef6c644b9d3744bcfc46d3cd4134e03d767cc",
+    "energy-ui.json": "161c481f54d154e362ac1836558f3d04d9c804ec018004e12495fff2ea29700d",
+    "energy.png": "bd6d022d271bab8979f83f5ac3f9903d4f8ebb7e874607c179622e8c10913f47",
+    "off.png": "3991e77df51aba801a6dfb57c1d5cf59ce66a8afb80eaec5b365b9bb5feddba0",
+    "thermal.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "thermal.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "finding": "Live dashboard reached pending then failed with Read CPU temperature helper: The pipe has been ended. (0x8007006D). Denial gate timed out. Energy screenshot displays package watts and history. Actual user UAC response not established."
+}

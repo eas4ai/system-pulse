@@ -119,6 +119,14 @@ pub(crate) fn channels(data: &Data) -> Vec<Channel> {
 }
 
 pub(crate) fn monitor_channels(data: &Data, id: &str) -> Vec<Channel> {
+    ordered_monitor_channels(data, id)
+}
+
+pub(crate) fn gpu_channels(data: &Data, id: &str) -> Vec<Channel> {
+    ordered_monitor_channels(data, id)
+}
+
+fn ordered_monitor_channels(data: &Data, id: &str) -> Vec<Channel> {
     let mut rows: Vec<_> = channels(data)
         .into_iter()
         .filter(|channel| channel.monitor == id && channel.visible(data))
@@ -162,6 +170,31 @@ pub(crate) fn by_quantity(data: &Data, quantity: Quantity, unit: PhysicalUnit) -
         .collect()
 }
 
+/// Hide unavailable sensors while retaining their reasons in collector diagnostics.
+pub(crate) fn environmental_channels(
+    data: &Data,
+    quantity: Quantity,
+    unit: PhysicalUnit,
+) -> Vec<Channel> {
+    channels(data)
+        .into_iter()
+        .filter(|channel| {
+            channel.quantity == quantity
+                && channel.unit == unit
+                && sensor_visible(data, &channel.monitor, &channel.sensor)
+                && channel
+                    .latest(data)
+                    .is_some_and(|sample| sample.status != ReadingStatus::Unavailable)
+                && data.snapshot.as_ref().is_some_and(|snapshot| {
+                    snapshot
+                        .sensors
+                        .iter()
+                        .any(|sensor| sensor.id == channel.sensor)
+                })
+        })
+        .collect()
+}
+
 pub(crate) fn highest_current(data: &Data, channels: &[Channel]) -> Option<Channel> {
     channels
         .iter()
@@ -177,7 +210,7 @@ pub(crate) fn devices(data: &Data, screen: Screen) -> Vec<DeviceChoice> {
         } else {
             (Quantity::Temperature, PhysicalUnit::Celsius)
         };
-        by_quantity(data, quantity, unit)
+        environmental_channels(data, quantity, unit)
             .into_iter()
             .map(|channel| DeviceChoice {
                 id: channel.sensor,
@@ -255,6 +288,16 @@ pub(crate) fn selected_device(data: &Data, screen: Screen) -> Option<String> {
 
 pub(crate) fn selected_channel(data: &Data, screen: Screen) -> Option<Channel> {
     let id = selected_device(data, screen)?;
+    if matches!(screen, Screen::Energy | Screen::Thermals) {
+        let (quantity, unit) = if screen == Screen::Energy {
+            (Quantity::Power, PhysicalUnit::Watts)
+        } else {
+            (Quantity::Temperature, PhysicalUnit::Celsius)
+        };
+        return environmental_channels(data, quantity, unit)
+            .into_iter()
+            .find(|channel| channel.sensor == id);
+    }
     channels(data)
         .into_iter()
         .find(|channel| channel.sensor == id && channel.visible(data))

@@ -22,7 +22,30 @@ Choose a named device above GPU, Disks or Network. Energy and Thermals select an
 
 Charts show physical units and the actual captured time span. Gaps represent missing or delayed data. Percentage and capacity meters use their known scale; frequency, temperature, power and throughput meters follow the observed chart range. Hover Summary's compact meters for their sensor names and scale notes. The five subsystem cards show history graphs; Disks plots read/write I/O and retains used/total space above the graph. Network plots receive and transmit throughput. Disk capacity describes a filesystem; its read/write history describes the backing block device. Energy is a named sensor reading, not an inferred system total.
 
-Unavailable sensor rows stay hidden until they recover. Failed, stale and warming-up readings retain explicit labels.
+The GPU screen retains detected adapters even when no sensor readings are available. All monitoring screens hide unavailable sensor rows until they recover, including GPU and Summary. Sensor rows you hide remain hidden. Failed, stale and warming-up readings retain explicit labels.
+
+On Windows, GPU discovery covers present Intel, AMD and NVIDIA adapters even when vendor telemetry cannot initialize. Utilization describes the busiest measured engine. Dedicated GPU memory includes memory reserved for an integrated GPU; shared GPU memory is system RAM currently used by the adapter, shown separately without a VRAM capacity ratio. Driver support determines which readings are available. Temperature, power and clocks require a supported source.
+
+On Windows, Energy exposes supported native EMI power channels in watts. CPU
+package and component readings have separate scopes; do not add them to infer a
+system total. A counter that has never demonstrated support stays unavailable.
+Battery discharge, storage temperature and GPU telemetry require their own
+sources and are not implied by CPU package readings.
+
+For supported Intel processors with one physical CPU package, open Thermals and
+choose **Enable CPU temperatures…**. Windows requests authorization for a
+restricted temperature helper. The dashboard retains its original privileges.
+The official PawnIO driver must be installed; the System Pulse Windows installer
+offers it as an optional component. Missing driver, denied authorization and
+unsupported hardware are reported with a reason instead of a zero temperature.
+
+**Disable CPU temperatures** stops the session; the screen updates on the next
+sampling tick. Access is requested again after quitting and restarting System
+Pulse. Closing only the dashboard keeps tray monitoring active, including an
+enabled temperature session. Use **Disable CPU temperatures** or the tray's
+**Quit** command to end it. System Pulse uninstall leaves the shared PawnIO driver
+installed because other applications may use it. The installer also preserves an
+existing PawnIO installation; update that driver separately if it is incompatible.
 
 Summary's five subsystem graphs share one row on wide windows. Smaller windows use full-width rows of three and two cards, with no empty trailing column.
 
@@ -32,11 +55,17 @@ Network initially follows the Linux main-table default route (IPv4 before IPv6),
 
 Process counters marked **No access** could not be read because the OS denied access; hover for the original error.
 
-The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. The table expands with the window; search stays compact. macOS omits Threads. Process CPU uses one core as 100% and can exceed it.
+The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. The table expands with the window; search stays compact. The table omits Threads. Process CPU uses one core as 100% and can exceed it.
 
 End task and Force quit require confirmation and report visible errors. When an action needs administrative permission, the operating system asks you to authenticate. Enter your password only in that system dialog. System Pulse never receives or saves it, and its dashboard keeps running as your normal user. Cancelling authentication leaves the process unchanged. Linux and macOS verify the selected process identity after authentication and use kernel identity checks when signaling. macOS versions without the required native support report an error. Administrative permission does not override OS protection of protected processes.
 
 Linux authenticated actions require `/usr/bin/pkexec` (polkit) and a running desktop authentication agent, normally supplied by KDE or GNOME. Ordinary actions on your own processes work without it. System Pulse does not use a terminal password prompt.
+
+On Windows, **End task** requests graceful closure of the selected application's windows. The application may ask to save work or refuse to close. A windowless or otherwise unsupported target reports that graceful close is unavailable; **Force quit** remains a separately confirmed action. Force quit can lose unsaved work and affects only the selected process, not its children. The confirmation retains the selected PID and complete native creation identity even if the table order or selection changes.
+
+Windows first tries the action with your existing permissions. If identity and safety checks pass but the action needs more permissions, an administrator account can approve a UAC consent prompt for one short-lived helper. This release supports elevation from administrator accounts only. A process whose safety cannot be verified is refused without requesting elevation. The dashboard keeps running with its original privileges, and another action cannot be submitted while authorization is pending. Cancelling UAC starts no helper action. The helper verifies the process identity again after approval; a process that exited or changed identity is refused. System Pulse does not enable debug privileges or bypass protected-process restrictions.
+
+Windows reports a closure request, pending termination and observed exit separately. If the helper times out or cannot confirm its result, check the process list before trying again: an uncertain result does not establish that the process was untouched. The Windows installer and application are digitally signed; signed packages record their verified signer in `build.json`. Normal launch does not request elevation. The [Windows action commitment](commitments/windows-uac-process-actions.md) tracks the required native approval, cancellation and packaged-helper verification.
 
 **Settings** contains dark/light themes, bundled interface and numeric fonts, sampling intervals and named presets. Geometric screen headings use the bundled Michroma font. Save current workspace creates a named preset; Use recalls it. Rename, overwrite and delete retain confirmation and cancellation behavior. Built-in presets keep their saved sensor preferences and open Summary; fixed tabs remain reachable. The legacy quick preset file imports into the library as Imported preset when that library is first created.
 

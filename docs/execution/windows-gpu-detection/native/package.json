@@ -1,0 +1,6 @@
+{
+  "target": "x86_64-pc-windows-msvc",
+  "archive": "system-pulse-0.3.0-windows-x86_64-251cb72fabc0.zip",
+  "sha256": "a710105bc7f511377ce4738c881719d2a36ec5b33accc2935790fd44706dc2ec",
+  "source_commit": "251cb72fabc02ca17282af08af5864d8058dcf06"
+}

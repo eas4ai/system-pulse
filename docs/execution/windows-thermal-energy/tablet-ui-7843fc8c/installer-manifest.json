@@ -1,0 +1,24 @@
+{
+  "source_commit": "7843fc8c12f00a32afe45cdc0cf3aed4e2115d4f",
+  "installer": "system-pulse-0.3.0-windows-x86_64-7843fc8c12f0-setup.exe",
+  "installer_sha256": "64d66c39590bdaf1f5ede0b7218915432cbb384392ce2500854e22695137ec45",
+  "installer_signature": {
+    "subject": "CN=Lewis McAllister, O=Lewis McAllister, L=Kannapolis, S=nc, C=US",
+    "status": "Valid",
+    "thumbprint": "823C04B512BE4A339C12D0891C65145DCED9ECE3"
+  },
+  "binary_sha256": "9949d8ea0a7cd2f80c6d4c915ad1300c719ceb831b906ff8ca7a3f538e80d952",
+  "application_signature": {
+    "subject": "CN=Lewis McAllister, O=Lewis McAllister, L=Kannapolis, S=nc, C=US",
+    "status": "Valid",
+    "thumbprint": "823C04B512BE4A339C12D0891C65145DCED9ECE3"
+  },
+  "pawnio_sha256": "1f519a22e47187f70a1379a48ca604981c4fcf694f4e65b734aaa74a9fba3032",
+  "pawnio_signature": {
+    "subject": "E=admin@namazso.eu, CN=namazso.eu, O=namazso, L=Debrecen, C=HU",
+    "status": "Valid",
+    "thumbprint": "F380DCC9F706E2756A5047B832FFE719E1BC35F5"
+  },
+  "archive": "system-pulse-0.3.0-windows-x86_64-7843fc8c12f0.zip",
+  "archive_sha256": "262a47f7191091731389a0253828b02759aee9b37edd67e4d58e945604b4cf89"
+}

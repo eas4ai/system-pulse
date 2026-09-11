@@ -1,0 +1,126 @@
+﻿{
+    "selected_screen":  "GPU",
+    "pid":  4152,
+    "controls":  [
+                     {
+                         "name":  "System monitor screens",
+                         "offscreen":  false,
+                         "role":  "ControlType.Tab"
+                     },
+                     {
+                         "name":  "Summary",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "CPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "GPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Disks",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Network",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Energy",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Thermals",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Processes",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Settings",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "GPU device: Intel(R) Iris(R) Xe Graphics",
+                         "offscreen":  false,
+                         "role":  "ControlType.Button"
+                     },
+                     {
+                         "name":  "GPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "Level: 2.2%",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "2.2 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. GPU utilization: 2.2 %. Scale: 0.0–100.0 %. 10.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "Dedicated GPU memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.Group"
+                     },
+                     {
+                         "name":  "Level: 0.0%",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "0.0 / 128.0 MiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "Shared GPU memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.Group"
+                     },
+                     {
+                         "name":  "969.3 MiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. Shared GPU memory: 969.3 MiB. Scale: 0.0–1019.9 MiB. 10.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "Live system data · 227 readable processes · 1 s update",
+                         "offscreen":  false,
+                         "role":  "ControlType.StatusBar"
+                     }
+                 ]
+}

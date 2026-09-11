@@ -1,0 +1,71 @@
+    Checking sysinfo v0.37.2 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f/vendor/sysinfo)
+    Checking system-pulse-model v0.3.0 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f/crates/model)
+   Compiling gpui-component v0.6.1 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f/crates/ui)
+    Checking gpui-base v0.6.1 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f/crates/base)
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/cpu.rs:32:42
+   |
+32 |             IOServiceGetMatchingServices(kIOMasterPortDefault, Some(matching), &mut iterator);
+   |                                          ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/cpu.rs:16:73
+   |
+16 |         IOServiceGetMatchingServices, IOServiceMatching, io_iterator_t, kIOMasterPortDefault,
+   |                                                                         ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+   --> vendor/sysinfo/src/unix/apple/macos/system.rs:177:37
+    |
+177 |         IOServiceGetMatchingService(kIOMasterPortDefault, Some(matching.as_opaque().into()))
+    |                                     ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+   --> vendor/sysinfo/src/unix/apple/macos/system.rs:164:9
+    |
+164 |         kIOMasterPortDefault,
+    |         ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:13:26
+   |
+13 |     io_registry_entry_t, kIOMasterPortDefault, kIOServicePlane,
+   |                          ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:20:47
+   |
+20 |     let matching = unsafe { IOBSDNameMatching(kIOMasterPortDefault, 0, bsd_name.as_ptr().cast()) }?;
+   |                                               ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:26:38
+   |
+26 |         IOServiceGetMatchingServices(kIOMasterPortDefault, Some(matching), &mut service_iterator)
+   |                                      ^^^^^^^^^^^^^^^^^^^^
+
+warning: unnecessary `unsafe` block
+  --> vendor/sysinfo/src/unix/apple/macos/utils.rs:31:9
+   |
+31 |         unsafe { IOObjectRelease(self.0.get() as _) };
+   |         ^^^^^^ unnecessary `unsafe` block
+   |
+   = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary `unsafe` block
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:38:25
+   |
+38 |         IOReleaser::new(unsafe { IOIteratorNext(service_iterator.inner()) })
+   |                         ^^^^^^ unnecessary `unsafe` block
+
+warning: `sysinfo` (lib) generated 9 warnings
+    Checking system-pulse-collectors v0.3.0 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f/crates/collectors)
+    Checking gpui-pre-macos v0.3.2 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f/vendor/gpui_macos)
+    Checking gpui-pre-platform v0.3.2
+    Checking gpui-kit v0.6.1
+    Checking system-pulse v0.3.0 (/Users/shawnmcallister/system-pulse-windows-gpu-251cb72f)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 11.80s
+warning: the following packages contain code that will be rejected by a future version of Rust: block v0.1.6
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 5`

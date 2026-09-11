@@ -1,0 +1,73 @@
+[
+  {
+    "file": "crates/base/src/dock/dock_area.rs",
+    "retained_tests": [
+      "refresh_repeatedly_restores_expanded_preferences_and_keeps_hidden_identity",
+      "separate_reconcile_keeps_explicit_slot_sizes_absolute"
+    ]
+  },
+  {
+    "file": "crates/base/src/dock/geometry_tests.rs",
+    "retained_tests": [
+      "ancestor_allocation_includes_fixed_nested_siblings_on_both_axes",
+      "collapse_releases_height_without_overwriting_expanded_preference",
+      "explicit_expansion_reseeds_from_retained_preferences",
+      "extent_constructor_enforces_positive_minimum_and_preferred_floor",
+      "hidden_panel_has_no_slot_but_collapsed_panel_retains_header",
+      "horizontal_sibling_does_not_force_collapsed_body_to_request_height",
+      "nested_collapsed_rows_limit_the_whole_column",
+      "saved_sizes_never_compress_panels_below_readable_minimum",
+      "stale_saved_split_height_cannot_expand_a_collapsed_panel"
+    ]
+  },
+  {
+    "file": "crates/base/src/dock/policy.rs",
+    "retained_tests": [
+      "separate_policy_accepts_vertical_singletons_and_empty_workspace",
+      "separate_policy_rejects_multigroup_without_changing_input",
+      "separate_policy_rejects_nested_and_side_dock_incompatibilities",
+      "separate_policy_rejects_tiles_and_bad_geometry"
+    ]
+  },
+  {
+    "file": "crates/base/src/dock/separate_panels_tests.rs",
+    "retained_tests": [
+      "separate_checked_move_rejects_wrong_node_kind_even_in_default_mode",
+      "separate_cross_region_edge_move_preserves_panel_lifecycle",
+      "separate_default_preserves_tabs_and_policy_change_is_transactional",
+      "separate_edge_moves_and_reinsertion_keep_every_panel_in_its_own_region",
+      "separate_failed_insert_does_not_register_a_panel_or_replace_a_live_handle",
+      "separate_install_and_load_reject_before_live_state_changes",
+      "separate_invalid_new_dock_size_leaves_workspace_unchanged",
+      "separate_merge_rejection_preserves_both_regions_and_source_handle",
+      "separate_nonfinite_dock_resize_preserves_live_state",
+      "separate_policy_rejects_existing_nonfinite_dock_size"
+    ]
+  },
+  {
+    "file": "crates/base/src/dock/tab_group.rs",
+    "retained_tests": [
+      "separate_groups_reject_center_and_header_drops_without_disabling_edges",
+      "separate_groups_still_emit_all_four_edge_moves",
+      "separate_policy_clears_merge_preview_and_preserves_edge_previews"
+    ]
+  },
+  {
+    "file": "crates/base/src/resizable/constraints_tests.rs",
+    "retained_tests": [
+      "container_growth_preserves_fixed_width_and_caches_flexible_width",
+      "divider_after_hidden_slot_resizes_previous_visible_panel",
+      "hiding_active_drag_source_does_not_report_a_completed_resize",
+      "refreshing_hidden_source_cancels_drag_even_when_group_is_omitted",
+      "restoring_hidden_drag_source_does_not_resume_the_canceled_drag",
+      "saved_widths_do_not_proportionally_scale_fixed_panes",
+      "shrinking_before_collapsed_slot_redirects_space_to_expanded_sibling"
+    ]
+  },
+  {
+    "file": "crates/ui/src/dock/panel.rs",
+    "retained_tests": [
+      "panel_handle_forwards_geometry_through_the_base_trait"
+    ]
+  }
+]

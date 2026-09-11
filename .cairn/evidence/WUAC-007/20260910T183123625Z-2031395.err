@@ -1,0 +1,21 @@
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/gpui_kit_upgrade_verify.py", line 111, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/gpui_kit_upgrade_verify.py", line 106, in main
+    validate_native(args.evidence)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/gpui_kit_upgrade_verify.py", line 76, in validate_native
+    validate_preservation(preserved, mac["binary_sha256"])
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/performance_verify.py", line 32, in validate_preservation
+    require(record.get("status") == "PASS", "native preservation did not pass")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/performance_compare.py", line 13, in require
+    raise InvalidMeasurement(message)
+performance_compare.InvalidMeasurement: native preservation did not pass

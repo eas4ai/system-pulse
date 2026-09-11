@@ -1,0 +1,67 @@
+{
+  "status": "PASS",
+  "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+  "steps": {
+    "format": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "seconds": 2.071,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/automated-3e6923e3/format.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "workspace-tests": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "seconds": 8.844,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/automated-3e6923e3/workspace-tests.log",
+      "sha256": "41d2a59ef9f5ea6d4ba6b208a4c72af04d7365310bb7a3918057cbba9a07ec18",
+      "test_count": 1714
+    },
+    "workspace-clippy": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets"
+      ],
+      "seconds": 6.887,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/automated-3e6923e3/workspace-clippy.log",
+      "sha256": "61ba78ae1c62b7209ae295f56b995cc8afe6e25cc495adcc865892f3126956c2"
+    },
+    "python-tests": {
+      "exit_code": 0,
+      "timed_out": false,
+      "command": [
+        "/home/linuxbrew/.linuxbrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "scripts/system-pulse",
+        "-p",
+        "test_*.py"
+      ],
+      "seconds": 44.658,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/automated-3e6923e3/python-tests.log",
+      "sha256": "6afe4501d8115680fe4a4c89bee580f7608efbdde3abcf8788ecb58b10c76887",
+      "test_count": 553
+    }
+  }
+}

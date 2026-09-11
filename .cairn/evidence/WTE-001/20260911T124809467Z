@@ -1,0 +1,21 @@
+requirement: WTE-001
+requirement_digest: sha256:227cb5bdfd0ccec590c7ae809d2abb4093f8cc457ee6f79196ea80fd95484a6f
+sequence: 2
+history_digest: sha256:36359a1882cd780a939f6c6c64de093af127faee6d967f395c31d39e9db4665a
+mechanism: windows-thermal-energy
+commit: b90594e5
+inputs_digest: sha256:4ec48b1d10d42ac88c17be7859d0749d097ab389615d0fdd3b2fc513b30eacdb
+mechanism_digest: sha256:85a0faf96f90364188865b0467b3b6661bdbcacfe696459eb76ce7451b2fa1bb
+inputs_detail: .cairn/evidence/WTE-001/20260911T124809248Z-3095003.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/windows_thermal_energy_verify.py
+cwd: .
+exit: 2
+output_digest: sha256:d5ee86db4982cb33db63c079d4f2d6a4a8621c7000a524068faa7b3393369d66
+output: .cairn/evidence/WTE-001/20260911T124809248Z-3095003.out
+stderr_output: .cairn/evidence/WTE-001/20260911T124809248Z-3095003.err
+stderr_digest: sha256:d5ee86db4982cb33db63c079d4f2d6a4a8621c7000a524068faa7b3393369d66
+signal: none
+execution_error: null
+result: fail
+source: exit
+recorded: 2026-09-11T12:48:09.467Z

@@ -1,0 +1,12 @@
+
+running 1 test
+test storage::tests::diagnostic_waits_for_a_short_windows_reader_before_replacing_the_record ... FAILED
+
+failures:
+
+failures:
+    storage::tests::diagnostic_waits_for_a_short_windows_reader_before_replacing_the_record
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 134 filtered out; finished in 0.04s
+
+TEST-EXIT-101

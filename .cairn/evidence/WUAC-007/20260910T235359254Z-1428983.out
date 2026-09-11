@@ -1,0 +1,7 @@
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+{"gpui-base": "0.6.1", "gpui-component": "0.6.1", "gpui-component-macros": "0.6.1", "gpui-kit": "0.6.1", "gpui-kit-assets": "0.6.1"}
+PASS WUAC-007

@@ -1,0 +1,6 @@
+................
+----------------------------------------------------------------------
+Ran 16 tests in 0.047s
+
+OK
+PASS WUAC-002 WUAC-003 WUAC-004 WUAC-005 WUAC-006: administrator consent/cancellation, native actions, released helper handles and platform preservation

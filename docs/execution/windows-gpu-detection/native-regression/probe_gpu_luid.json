@@ -1,0 +1,10 @@
+[
+    {
+        "luid_high":  0,
+        "close_status":  0,
+        "luid_low":  56855,
+        "interface":  "\\\\?\\PCI#VEN_8086\u0026DEV_46AA\u0026SUBSYS_0B341028\u0026REV_0C#3\u002611583659\u00260\u002610#{1ca05180-a699-450a-9a0c-de4fbe3ddd89}",
+        "pnp":  "PCI\\VEN_8086\u0026DEV_46AA\u0026SUBSYS_0B341028\u0026REV_0C\\3\u002611583659\u00260\u002610",
+        "open_status":  0
+    }
+]

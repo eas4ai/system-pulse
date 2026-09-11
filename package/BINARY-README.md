@@ -1,4 +1,4 @@
-# System Pulse CI binary
+# System Pulse native package
 
 This archive contains a native release executable, dependency notices, build
 metadata and the matching source. `build.json` identifies its operating system,
@@ -11,12 +11,16 @@ CPU architecture, source commit, compiler and linked runtime libraries.
   XCB and xkbcommon libraries. `ldd ./system-pulse` reports missing runtime libraries.
   To install for your user, run `python3 install.py`; Python 3.11 or newer is needed
   only by the installer. Its default prefix is `~/.local`.
-- **macOS arm64:** extract the `.tar.gz` and run `./system-pulse` on Apple Silicon.
-  This is an unsigned executable built on macOS 15, without a notarized `.app`
-  installer. The archive does not support Intel Macs.
+- **macOS arm64:** extract the signed `.zip`, drag `System Pulse.app` into
+  Applications, and open it. The app is Developer ID signed, notarized by Apple,
+  and stapled. For a raw `.tar.gz` archive, extract it and run `./system-pulse`.
+  These packages support Apple Silicon; they do not support Intel Macs.
 - **Windows x86_64:** extract the `.zip` and run `system-pulse.exe`. Keep the
   extracted directory intact. The build uses the Microsoft C++ runtime;
-  `build.json` lists the imported DLLs. The executable is unsigned.
+  `build.json` lists the imported DLLs and, for signed packages, the verified signer.
+  The optional signed setup installs System Pulse and can install the official
+  PawnIO prerequisite for CPU temperatures. It preserves existing shared PawnIO
+  installations, including during System Pulse uninstall.
 
 Closing the dashboard retains the CPU tray icon. Activate the icon to reopen
 the dashboard, or use its **Quit** menu item to exit. The ten tabs include
@@ -24,11 +28,27 @@ Summary, CPU, Memory, GPU, Disks, Network, Energy, Thermals, Processes and Setti
 Use Settings for theme, fonts, sampling interval and presets; choices save
 automatically. `SYSTEM_PULSE_STATE_DIR` selects an isolated state directory.
 
-CPU, memory, disk, network and process support depends on the host. Missing
-sensors remain explicit. Intel Windows GPU readings, Windows process thread
-counts and Windows process-control actions are not implemented. CI compilation
+CPU, memory, disk, network and process support depends on the host. Unavailable
+sensors are hidden until readings recover; failed, stale and warming-up readings
+retain their status. Windows discovers Intel, AMD and NVIDIA GPUs independently
+of optional vendor telemetry. Available Windows readings include busiest-engine
+utilization, dedicated GPU memory and separately labeled shared system memory.
+Temperature, power and clocks appear when a supported source is available.
+The Processes table omits Threads on all platforms. CI compilation
 does not establish hardware sensor accuracy; native observations are retained
 under `docs/execution/` in the included source.
+
+On Windows, **End task** requests graceful closure; an application can ask to save
+work or refuse. Windowless targets report graceful close unavailable. **Force
+quit** is separately confirmed and warns about unsaved work. An action first
+uses your current permissions; after identity and safety checks pass, an action
+that needs more permissions can request one elevated helper through Windows UAC.
+The helper uses this same extracted executable, including
+when its directory contains spaces or non-ASCII characters. Normal dashboard
+launch stays at the caller's privilege level. The signed Windows package records
+its verified signer in `build.json`. Enter any administrator
+credentials only into Windows. Cancellation starts no helper action; an unknown
+or pending outcome asks you to check the process list before trying again.
 
 ## Source and notices
 
@@ -45,4 +65,16 @@ notices. Fonts and UI assets are embedded in the executable.
 
 `package-files.json` records file checksums. The outer archive's SHA-256 is in
 the accompanying `SHA256SUMS`. GitHub Actions artifacts expire; these CI archives
-are build outputs, not a published or signed release.
+are build outputs, not a published release. Signing is a separate packaging step;
+signed Windows and macOS packages record signing details and the final binary
+hash in `build.json`.
+
+## Windows CPU temperature and power
+
+Energy shows supported native EMI channels in watts with separate package and
+component scopes. Thermals can read a supported Intel CPU package through a
+restricted helper and the official PawnIO driver. Choose **Enable CPU temperatures…**
+and respond to Windows authorization. Missing access or unsupported sensors show
+an explicit reason. Choose **Disable CPU temperatures** or Quit to stop the helper;
+closing the dashboard alone keeps tray monitoring active. Driver and module source
+and licenses are retained under vendor/ in source.tar.gz and notices/.

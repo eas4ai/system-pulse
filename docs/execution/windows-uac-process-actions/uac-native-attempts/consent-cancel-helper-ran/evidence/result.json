@@ -1,0 +1,70 @@
+{
+    "binary_path":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-cefb7fa415b14cc0a6febc53d7b7d4c9\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "dashboard_cleaned":  true,
+    "finished_utc":  "2026-09-10T23:18:28.0702145Z",
+    "started_utc":  "2026-09-10T23:18:01.8797330Z",
+    "cases":  [
+
+              ],
+    "source_commit":  "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "signing_status":  "NotSigned",
+    "dashboard":  {
+                      "account":  "XPSTABLET\\shawn",
+                      "creation_ticks":  134335558840396365,
+                      "pid":  12596,
+                      "elevated_before":  false,
+                      "elevation_type":  3
+                  },
+    "helper_entry_checks":  [
+                                {
+                                    "exit_code":  29,
+                                    "name":  "unelevated-helper",
+                                    "state_created":  false,
+                                    "pid":  6604,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  29,
+                                    "name":  "extra-helper-argument",
+                                    "state_created":  false,
+                                    "pid":  9032,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  13,
+                                    "name":  "legacy-helper-mode",
+                                    "state_created":  false,
+                                    "pid":  132,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                }
+                            ],
+    "unrelated_control":  {
+                              "creation_ticks":  134335558906744195,
+                              "pid":  7972
+                          },
+    "os_version":  "Microsoft Windows NT 10.0.26200.0",
+    "owned_target_cleanup":  [
+                                 {
+                                     "exited":  true,
+                                     "pid":  7972
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  6604
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  9032
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  132
+                                 }
+                             ],
+    "error":  "Unexpected action result for consent-cancel: owned-fixture.exe (PID 13948) has exited.",
+    "status":  "FAIL",
+    "binary_sha256":  "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b"
+}

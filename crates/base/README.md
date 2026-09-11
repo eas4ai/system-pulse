@@ -5,3 +5,5 @@ System Pulse uses this local `gpui-base` library for dock layout, scrolling, foc
 The source originated in [GPUI Component](https://github.com/longbridge/gpui-component). Local application fixes include dock preservation and exact transition completion. Its Apache-2.0 license is retained in [LICENSE-APACHE](LICENSE-APACHE).
 
 From the System Pulse repository root, run `cargo test --locked -p gpui-base` to verify this library. `cargo test --locked --workspace` includes it in the application workspace checks.
+
+The current upstream baseline is GPUI Kit 0.6.1, with System Pulse patches retained.

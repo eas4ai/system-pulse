@@ -1,0 +1,32 @@
+{
+  "checks": [
+    "observer-refused",
+    "access-denied-and-pinned-crash",
+    "suspend-and-resume-observed-heartbeat",
+    "job-cleans-suspended-process",
+    "unrelated-control-unchanged"
+  ],
+  "owned": [
+    {
+      "exited": true,
+      "pid": 2364
+    },
+    {
+      "exited": true,
+      "pid": 6320
+    },
+    {
+      "exited": true,
+      "pid": 5832
+    }
+  ],
+  "observer_debug_privilege_removed": true,
+  "status": "PASS",
+  "suspended_threads": 6,
+  "harness_sha256": {
+    "windows_process_fault.cs": "4ae176c96d4e95354868b75ac52dc31aeeb318d38732c5d9eb6c186a3034eebf",
+    "windows_process_fault_selftest.ps1": "ca41aa48ef4ff095a2e7b9cf04b6488ea1a644eac2649d30cf29d2d7ae74bd00",
+    "windows_process_fixture.cs": "8a56511be041a7667fe8220d7ebf8fe247898427415f2a3ffa368de7ba35097f"
+  },
+  "scope": "Development verification on newly created disposable processes: deny new termination handles, terminate through a retained handle, observe heartbeat suspension/resumption, clean a suspended process through job closure, and leave the unrelated control unchanged. No actual UAC interaction or application-helper failure is claimed."
+}

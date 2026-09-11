@@ -1,0 +1,10 @@
+{
+    "details":  {
+
+                },
+    "stage":  "deny-ready",
+    "instruction":  "Pending frame captured. Deny the current Windows UAC request.",
+    "requested_utc":  "2026-09-11T15:11:48.5486882Z",
+    "deadline_utc":  "2026-09-11T15:14:48.5486882Z",
+    "run_id":  "401c59f78bef4e7892c16b0e9b18811c"
+}

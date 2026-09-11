@@ -1,0 +1,42 @@
+{
+    "collected_creation_ticks":  134335953276567491,
+    "pid":  6432,
+    "creation_ticks":  134335953276567491,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 6432)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n6432\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 6432\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 232 readable processes · 1 s update",
+    "signal":  "kill",
+    "pending_observations":  [
+                                 {
+                                     "observed_utc":  "2026-09-11T10:15:46.3378286Z",
+                                     "sequence":  15,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:15:47.3720774Z",
+                                     "sequence":  16,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:15:48.2644348Z",
+                                     "sequence":  17,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 }
+                             ],
+    "name":  "consent-denied",
+    "status":  "Windows denied the requested process action.",
+    "mode":  "windowless",
+    "settled_utc":  "2026-09-11T10:15:48.5019576Z",
+    "dashboard_handles_before":  664,
+    "sequence_before":  11,
+    "ordinary_force_access_error":  5,
+    "submitted_utc":  "2026-09-11T10:15:45.6465682Z"
+}

@@ -7,11 +7,24 @@ pub enum ProcessSignal {
     Kill,
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ProcessActionOutcome {
+    SignalSent,
+    ExitObserved,
+    CloseRequested,
+    TerminationPending,
+}
+
 mod authentication;
 pub use authentication::{helper_entry, send_signal_with_authentication};
 
 #[cfg(target_os = "macos")]
 mod macos;
+
+#[cfg(target_os = "windows")]
+mod windows;
+#[cfg(any(target_os = "windows", test))]
+mod windows_protocol;
 
 #[derive(Debug, PartialEq, Eq)]
 enum ActionError {
@@ -78,7 +91,11 @@ fn send(identity: &ProcessIdentity, signal: ProcessSignal) -> Result<(), ActionE
     return linux::send(identity, signal);
     #[cfg(target_os = "macos")]
     return macos::send(identity, signal);
-    #[cfg(not(any(target_os = "linux", target_os = "macos")))]
+    #[cfg(target_os = "windows")]
+    return windows::send(identity, signal)
+        .map(|_| ())
+        .map_err(ActionError::from);
+    #[cfg(not(any(target_os = "linux", target_os = "macos", target_os = "windows")))]
     {
         let _ = signal;
         Err("Identity-safe process actions are not supported on this platform yet".into())

@@ -1,0 +1,18 @@
+................
+----------------------------------------------------------------------
+Ran 16 tests in 0.051s
+
+OK
+Traceback (most recent call last):
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_uac_verify.py", line 420, in <module>
+    main()
+    ~~~~^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_uac_verify.py", line 416, in main
+    verify_all(args.evidence, args.build_log, args.package_dir, args.preservation, args.resource_review)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/windows_process_uac_verify.py", line 371, in verify_all
+    require(not missing, "Native UAC observations remain pending: " + ", ".join(missing))
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/shawn/workspace2/task-manager/scripts/system-pulse/performance_compare.py", line 13, in require
+    raise InvalidMeasurement(message)
+performance_compare.InvalidMeasurement: Native UAC observations remain pending: helper-timeout

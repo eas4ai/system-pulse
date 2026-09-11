@@ -1,0 +1,306 @@
+{
+  "sources_sha256": {
+    "scripts/system-pulse/windows_process_handles.cs": "e146817bf3d5266677e0ea601f1af8016185023fcc7af7bf01b99102d2bcfc21",
+    "scripts/system-pulse/windows_process_handles_selftest.ps1": "7d7dd7e1a728b8e89a7f8628be422746c555d52de31ab6d33de91fda3482ce42",
+    "scripts/system-pulse/windows_process_fault.cs": "6eedf82d85b6bce6c5e1f3c0f2c87900d0a7ec5eaa72db2927ee88c323e3de58",
+    "scripts/system-pulse/windows_process_fixture.cs": "8a56511be041a7667fe8220d7ebf8fe247898427415f2a3ffa368de7ba35097f"
+  },
+  "result": {
+    "samples": [
+      {
+        "after": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2524848Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2220678Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "access": 4096,
+        "open": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2363131Z",
+          "scanned_handles": 722,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 2,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                4096,
+                2097151
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "after": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2524848Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "access": 1048576,
+        "open": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2524848Z",
+          "scanned_handles": 714,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 2,
+              "termination_count": 1,
+              "wait_count": 2,
+              "granted_access": [
+                1048576,
+                2097151
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "after": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "access": 1052672,
+        "open": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 714,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 2,
+              "termination_count": 1,
+              "wait_count": 2,
+              "granted_access": [
+                1052672,
+                2097151
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "after": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 713,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 1,
+              "termination_count": 1,
+              "wait_count": 1,
+              "granted_access": [
+                2097151
+              ]
+            }
+          ]
+        },
+        "access": 1052673,
+        "open": {
+          "dashboard_pid": 8504,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T10:28:58.2685244Z",
+          "scanned_handles": 714,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 4996,
+              "count": 2,
+              "termination_count": 2,
+              "wait_count": 2,
+              "granted_access": [
+                1052673,
+                2097151
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "checks": [
+      "sync-query-and-termination-handles-observed-open-and-closed",
+      "owned-foreign-process-snapshot-released"
+    ],
+    "target_cleaned": true,
+    "foreign_snapshot": {
+      "dashboard_pid": 4996,
+      "dashboard_alive": true,
+      "captured_utc": "2026-09-11T10:28:58.2685244Z",
+      "scanned_handles": 176,
+      "unclassified_handles": 0,
+      "nonduplicable_handles": 52,
+      "closed_during_capture": 0,
+      "snapshot_released": true,
+      "process_handles": [
+        {
+          "pid": 8504,
+          "count": 0,
+          "termination_count": 0,
+          "wait_count": 0,
+          "granted_access": []
+        }
+      ]
+    },
+    "observer_debug_privilege_removed": true,
+    "status": "PASS"
+  }
+}

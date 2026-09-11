@@ -707,6 +707,51 @@ fn selected_gpu_survives_reordering_restore_and_disconnect_without_switching(
 }
 
 #[gpui_kit::test]
+fn detected_gpu_hides_unavailable_sensors_without_hiding_the_device(cx: &mut TestAppContext) {
+    use crate::workspace::Command;
+    let (view, cx) = populated(cx);
+    let mut snapshot = fixture::snapshot(6);
+    for reading in &mut snapshot.readings {
+        if reading.sensor_id.starts_with(fixture::GPU_A) {
+            reading.value = None;
+            reading.total = None;
+            reading.availability = system_pulse_collectors::Availability::Unavailable;
+            reading.reason = Some("Optional vendor API unavailable".into());
+        }
+    }
+    accept(&view, snapshot, cx);
+    command(
+        &view,
+        Command::ScreenDevice(Screen::Gpu, fixture::GPU_A.into()),
+        cx,
+    );
+    command(&view, Command::Screen(Screen::Gpu), cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(crate::screen_data::devices(&data, Screen::Gpu).len(), 2);
+        let rows = crate::screen_data::gpu_channels(&data, fixture::GPU_A);
+        assert!(rows.is_empty());
+    });
+    assert!(
+        cx.debug_bounds("history:gpu:pci:0000:01:00.0/usage")
+            .is_none()
+    );
+    assert!(
+        cx.debug_bounds("screen-stat:gpu:pci:0000:01:00.0/power")
+            .is_none()
+    );
+    command(
+        &view,
+        Command::SensorVisible(fixture::GPU_A.into(), format!("{}/power", fixture::GPU_A)),
+        cx,
+    );
+    assert!(
+        cx.debug_bounds("screen-stat:gpu:pci:0000:01:00.0/power")
+            .is_none()
+    );
+}
+
+#[gpui_kit::test]
 fn hidden_sensors_stay_hidden_after_new_snapshots_and_tab_switches(cx: &mut TestAppContext) {
     use crate::workspace::Command;
     let (view, cx) = populated(cx);
@@ -939,5 +984,56 @@ fn process_search_stays_compact_when_the_window_grows(cx: &mut TestAppContext) {
         let search = cx.debug_bounds("process-search").unwrap();
         assert_eq!(search.size.width, px(280.), "search width at {width}");
         assert!(search.left() >= px(0.) && search.right() <= px(width));
+    }
+}
+
+#[gpui_kit::test]
+fn environmental_screens_hide_unavailable_sensors(cx: &mut TestAppContext) {
+    use crate::workspace::Command;
+    let (view, cx) = populated(cx);
+    let mut snapshot = fixture::snapshot(6);
+    let ids: Vec<_> = snapshot
+        .sensors
+        .iter()
+        .filter(|sensor| {
+            matches!(
+                sensor.kind,
+                system_pulse_collectors::SensorKind::Power
+                    | system_pulse_collectors::SensorKind::Temperature
+            )
+        })
+        .map(|sensor| sensor.id.clone())
+        .collect();
+    for reading in &mut snapshot.readings {
+        if ids.contains(&reading.sensor_id) {
+            reading.value = None;
+            reading.total = None;
+            reading.availability = system_pulse_collectors::Availability::Unavailable;
+            reading.reason = Some("Sensor access has not been enabled".into());
+        }
+    }
+    accept(&view, snapshot, cx);
+    for (screen, id, stat, reason) in [
+        (
+            Screen::Thermals,
+            "cpu:host/temperature",
+            "screen-stat:cpu:host/temperature",
+            "sensor-availability:cpu:host/temperature",
+        ),
+        (
+            Screen::Energy,
+            "cpu:host/power",
+            "screen-stat:cpu:host/power",
+            "sensor-availability:cpu:host/power",
+        ),
+    ] {
+        command(&view, Command::ScreenDevice(screen, id.into()), cx);
+        command(&view, Command::Screen(screen), cx);
+        assert!(cx.debug_bounds(stat).is_none());
+        assert!(cx.debug_bounds(reason).is_none());
+        cx.read(|cx| {
+            let data = view.read(cx).shared.borrow();
+            assert!(crate::screen_data::selected_channel(&data, screen).is_none());
+        });
     }
 }

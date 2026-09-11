@@ -1,12 +1,12 @@
 [package]
 name = "system-pulse"
-version = "0.3.0"
+version = "1.0.0"
 edition.workspace = true
 license = "GPL-3.0-or-later"
 publish = false
 
 [dependencies]
-gpui-kit = "=0.6.0"
+gpui-kit = "=0.6.1"
 gpui-tray = { git = "https://github.com/eas4ai/gpui-kit-tray", rev = "5e0f637069e6d5ba8bdee6872f1ed935348642a0" }
 serde.workspace = true
 serde_json.workspace = true
@@ -16,7 +16,7 @@ system-pulse-model = { path = "crates/model" }
 
 [dev-dependencies]
 gpui = { workspace = true, features = ["test-support"] }
-gpui-kit = { version = "=0.6.0", features = ["test-support"] }
+gpui-kit = { version = "=0.6.1", features = ["test-support"] }
 
 [lints]
 workspace = true
@@ -51,10 +51,10 @@ publish = false
 edition = "2024"
 
 [workspace.dependencies]
-gpui-component = { path = "crates/ui", version = "=0.6.0" }
-gpui-base = { path = "crates/base", version = "=0.6.0" }
-gpui-component-macros = "=0.6.0"
-gpui-kit-assets = "=0.6.0"
+gpui-component = { path = "crates/ui", version = "=0.6.1" }
+gpui-base = { path = "crates/base", version = "=0.6.1" }
+gpui-component-macros = "=0.6.1"
+gpui-kit-assets = "=0.6.1"
 
 gpui = { package = "gpui-pre", version = "=0.3.2" }
 gpui_platform = { package = "gpui-pre-platform", version = "=0.3.2", features = ["font-kit", "x11", "wayland", "runtime_shaders"] }

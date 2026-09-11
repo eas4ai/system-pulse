@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "source_commit": "3e6923e3976398458af61588cb73c1a94d08ea59",
+  "steps": {
+    "workspace-tests": {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--workspace"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/macos-native-3e6923e3/workspace-tests.log",
+      "sha256": "c7b8d985c36f5b2839f766e4aebfe1a3571bd373b544d0aa5000f06b836d0c86"
+    },
+    "workspace-clippy": {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--workspace",
+        "--all-targets"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/macos-native-3e6923e3/workspace-clippy.log",
+      "sha256": "2a16d204b9d08874c81dba77fdf983d56fab97a5cf850dbf93377fcb13c6f6a4"
+    },
+    "release": {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--release",
+        "-p",
+        "system-pulse"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/macos-native-3e6923e3/release.log",
+      "sha256": "2596c3eff6478d7463913f19b6897bfc3c8b8c046bbb14be460a04d6b0e27ba9"
+    },
+    "dispatcher": {
+      "command": [
+        "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_dispatcher_lifetime-e350c14c5c432881",
+        "--nocapture"
+      ],
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/macos-native-3e6923e3/dispatcher.log",
+      "sha256": "eed017f48cde5349f55d71af3cb003941caa781228ea70dadf574f0d9c674a73"
+    },
+    "lifetime": {
+      "command": [
+        "python3",
+        "-"
+      ],
+      "cases": [
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "success"
+        ],
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "error"
+        ],
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "unwind"
+        ],
+        [
+          "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/debug/deps/macos_application_lifetime-a1a53bb32794d5bb",
+          "background"
+        ]
+      ],
+      "environment": {
+        "OBJC_DEBUG_MISSING_POOLS": "YES"
+      },
+      "execution_note": "Uninstrumented Python launcher set OBJC_DEBUG_MISSING_POOLS only in each native child environment. Each case returned zero and the combined log had no missing-pool diagnostics. Initial attempt instrumented the Python launcher as well and is retained separately.",
+      "exit_code": 0,
+      "timed_out": false,
+      "log": "/home/shawn/.cache/system-pulse-windows-actions/macos-native-3e6923e3/lifetime-isolated.log",
+      "sha256": "06e41369fb3f2b4f5cf8dfaa60d92b4ff114f530ee83a228b5fafc841fbd5ced"
+    }
+  },
+  "binary": "/Users/shawnmcallister/system-pulse-tray-20260907T203500Z/target/release/system-pulse",
+  "binary_sha256": "9782e379d4b25b39db531ba9e8326ec3c8d0b5ac39a51c138fe60d1d38cbfae0"
+}

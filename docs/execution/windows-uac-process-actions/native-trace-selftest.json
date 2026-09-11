@@ -1,0 +1,170 @@
+{
+  "observer_debug_privilege_removed": true,
+  "status": "PASS",
+  "owned": [
+    {
+      "creation_ticks": 134335504870228335,
+      "pid": 3336,
+      "exit_code": 29
+    },
+    {
+      "creation_ticks": 134335504870825081,
+      "pid": 14284,
+      "exit_code": 29
+    },
+    {
+      "creation_ticks": 134335504871223705,
+      "pid": 984,
+      "exit_code": 29
+    },
+    {
+      "creation_ticks": 134335504871609456,
+      "pid": 8076,
+      "exit_code": 29
+    },
+    {
+      "creation_ticks": 134335504872007443,
+      "pid": 11944,
+      "exit_code": 29
+    },
+    {
+      "creation_ticks": 134335504872399163,
+      "pid": 16328,
+      "exit_code": 29
+    }
+  ],
+  "events": [
+    {
+      "kind": "stop",
+      "pid": 3336,
+      "parent_pid": 0,
+      "session_id": 0,
+      "name": "system-pulse.e",
+      "event_ticks": 134335504879587053,
+      "observed_utc": "2026-09-10T21:48:07.9587053Z",
+      "exit_code": 29
+    },
+    {
+      "kind": "start",
+      "pid": 3336,
+      "parent_pid": 10548,
+      "session_id": 0,
+      "name": "system-pulse.exe",
+      "event_ticks": 134335504879523184,
+      "observed_utc": "2026-09-10T21:48:07.9587053Z",
+      "creation_ticks": 134335504870228335,
+      "live_observation_error": "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+    },
+    {
+      "kind": "start",
+      "pid": 14284,
+      "parent_pid": 10548,
+      "session_id": 0,
+      "name": "system-pulse.exe",
+      "event_ticks": 134335504879587054,
+      "observed_utc": "2026-09-10T21:48:07.9587053Z",
+      "creation_ticks": 134335504870825081,
+      "live_observation_error": "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+    },
+    {
+      "kind": "stop",
+      "pid": 14284,
+      "parent_pid": 0,
+      "session_id": 0,
+      "name": "system-pulse.e",
+      "event_ticks": 134335504889650983,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "exit_code": 29
+    },
+    {
+      "kind": "stop",
+      "pid": 984,
+      "parent_pid": 0,
+      "session_id": 0,
+      "name": "system-pulse.e",
+      "event_ticks": 134335504889650985,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "exit_code": 29
+    },
+    {
+      "kind": "stop",
+      "pid": 8076,
+      "parent_pid": 0,
+      "session_id": 0,
+      "name": "system-pulse.e",
+      "event_ticks": 134335504889650987,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "exit_code": 29
+    },
+    {
+      "kind": "start",
+      "pid": 984,
+      "parent_pid": 10548,
+      "session_id": 0,
+      "name": "system-pulse.exe",
+      "event_ticks": 134335504889650984,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "creation_ticks": 134335504871223705,
+      "live_observation_error": "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+    },
+    {
+      "kind": "stop",
+      "pid": 11944,
+      "parent_pid": 0,
+      "session_id": 0,
+      "name": "system-pulse.e",
+      "event_ticks": 134335504889650989,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "exit_code": 29
+    },
+    {
+      "kind": "stop",
+      "pid": 16328,
+      "parent_pid": 0,
+      "session_id": 0,
+      "name": "system-pulse.e",
+      "event_ticks": 134335504889650991,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "exit_code": 29
+    },
+    {
+      "kind": "start",
+      "pid": 8076,
+      "parent_pid": 10548,
+      "session_id": 0,
+      "name": "system-pulse.exe",
+      "event_ticks": 134335504889650986,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "creation_ticks": 134335504871609456,
+      "live_observation_error": "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+    },
+    {
+      "kind": "start",
+      "pid": 11944,
+      "parent_pid": 10548,
+      "session_id": 0,
+      "name": "system-pulse.exe",
+      "event_ticks": 134335504889650988,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "creation_ticks": 134335504872007443,
+      "live_observation_error": "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+    },
+    {
+      "kind": "start",
+      "pid": 16328,
+      "parent_pid": 10548,
+      "session_id": 0,
+      "name": "system-pulse.exe",
+      "event_ticks": 134335504889650990,
+      "observed_utc": "2026-09-10T21:48:08.9650983Z",
+      "creation_ticks": 134335504872399163,
+      "live_observation_error": "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+    }
+  ],
+  "harness_sha256": {
+    "windows_process_trace.cs": "132f0656c33e736de34f4ec7c5eadee2cc9ee090e7a5d663b6570e94c89a8db2",
+    "windows_process_trace_selftest.ps1": "0ca50641a825d4202bc7175c610a102b8a5155390377afe00f091c06fce2829c",
+    "windows_process_fault.cs": "4ae176c96d4e95354868b75ac52dc31aeeb318d38732c5d9eb6c186a3034eebf"
+  },
+  "scope": "Development verification: native C# compilation and six malformed-helper lifecycle observations with observer debug privilege removed; no UAC interaction or requirement acceptance."
+}

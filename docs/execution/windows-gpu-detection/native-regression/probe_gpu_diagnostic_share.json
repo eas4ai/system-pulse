@@ -1,0 +1,22 @@
+[
+    {
+        "error":  5,
+        "share":  "ReadWrite",
+        "rename":  false
+    },
+    {
+        "error":  5,
+        "share":  "closed",
+        "rename":  true
+    },
+    {
+        "error":  5,
+        "share":  "ReadWrite, Delete",
+        "rename":  false
+    },
+    {
+        "error":  5,
+        "share":  "closed",
+        "rename":  true
+    }
+]

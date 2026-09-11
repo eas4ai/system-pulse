@@ -1,0 +1,25 @@
+{
+    "dashboard_pid":  8920,
+    "dashboard_alive":  true,
+    "captured_utc":  "2026-09-11T10:14:08.4334940Z",
+    "scanned_handles":  800,
+    "unclassified_handles":  0,
+    "nonduplicable_handles":  221,
+    "closed_during_capture":  0,
+    "snapshot_released":  true,
+    "process_handles":  [
+                            {
+                                "pid":  15116,
+                                "count":  1,
+                                "termination_count":  0
+                            },
+                            {
+                                "pid":  7416,
+                                "count":  0,
+                                "termination_count":  0
+                            }
+                        ],
+    "dashboard_creation_ticks":  134335952111375989,
+    "case":  "consent-delayed",
+    "passed":  true
+}
