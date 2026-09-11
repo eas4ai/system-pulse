@@ -11,7 +11,9 @@ use nvml_wrapper::{
 use std::collections::BTreeMap;
 type Value = Result<u64, String>;
 type Windows = BTreeMap<String, (u64, u64)>;
+pub(crate) type PciAddress = (u32, u32, u32, u32);
 struct DeviceSample {
+    pci_address: Option<PciAddress>,
     uuid: Result<String, String>,
     name: Result<String, String>,
     values: BTreeMap<String, Value>,
@@ -113,6 +115,7 @@ impl NvmlBackend for RuntimeNvml {
                 Err(e) => {
                     lost |= e.contains("GpuLost") || e.contains("DriverNotLoaded");
                     result.push(DeviceSample {
+                        pci_address: None,
                         uuid: Err(e.clone()),
                         name: Err(e.clone()),
                         values: BTreeMap::new(),
@@ -244,6 +247,13 @@ impl NvmlSession for Nvml {
             ));
         }
         Ok(DeviceSample {
+            #[cfg(target_os = "windows")]
+            pci_address: device
+                .pci_info()
+                .ok()
+                .and_then(|info| parse_pci_address(&info.bus_id)),
+            #[cfg(not(target_os = "windows"))]
+            pci_address: None,
             uuid,
             name,
             values,
@@ -275,16 +285,33 @@ impl NvidiaCollector {
             backend: Box::new(RuntimeNvml::new()),
         }
     }
+    #[cfg(not(target_os = "windows"))]
     pub(crate) fn collect_at_origin(&mut self, s: &mut Snapshot, origin: std::time::Instant) {
         let clock = CaptureClock { base: 0, origin };
         let ns = clock.now();
-        self.collect_clock(s, ns, &clock);
+        self.collect_clock(s, ns, &clock, None);
+    }
+    #[cfg(any(test, target_os = "windows"))]
+    pub(crate) fn collect_windows_at_origin(
+        &mut self,
+        s: &mut Snapshot,
+        origin: std::time::Instant,
+        identities: &BTreeMap<PciAddress, String>,
+    ) {
+        let clock = CaptureClock { base: 0, origin };
+        self.collect_clock(s, clock.now(), &clock, Some(identities));
     }
     #[cfg(test)]
     fn collect(&mut self, s: &mut Snapshot, ns: u64) {
-        self.collect_clock(s, ns, &CaptureClock::new(ns));
+        self.collect_clock(s, ns, &CaptureClock::new(ns), None);
     }
-    fn collect_clock(&mut self, s: &mut Snapshot, ns: u64, clock: &CaptureClock) {
+    fn collect_clock(
+        &mut self,
+        s: &mut Snapshot,
+        ns: u64,
+        clock: &CaptureClock,
+        identities: Option<&BTreeMap<PciAddress, String>>,
+    ) {
         let devices = match self.backend.devices(clock) {
             Ok(v) => v,
             Err(e) => {
@@ -297,6 +324,14 @@ impl NvidiaCollector {
             availability: Availability::Available,
             reason: format!("NVML discovered {} devices", devices.len()),
         });
+        let mut pci_counts = BTreeMap::new();
+        if identities.is_some() {
+            for device in &devices {
+                if let Some(pci) = device.pci_address {
+                    *pci_counts.entry(pci).or_insert(0usize) += 1;
+                }
+            }
+        }
         for device in devices {
             let uuid = match device.uuid {
                 Ok(v) if !v.is_empty() => v,
@@ -309,7 +344,25 @@ impl NvidiaCollector {
                     continue;
                 }
             };
-            let id = format!("nvidia:{uuid}");
+            let id = if let Some(identities) = identities {
+                match device
+                    .pci_address
+                    .filter(|pci| pci_counts.get(pci) == Some(&1))
+                    .and_then(|pci| identities.get(&pci))
+                {
+                    Some(id) => id.clone(),
+                    None => {
+                        diagnostic(
+                            s,
+                            "nvml",
+                            format!("No unambiguous Windows PnP identity for NVML device {uuid}"),
+                        );
+                        continue;
+                    }
+                }
+            } else {
+                format!("nvidia:{uuid}")
+            };
             let name = match device.name {
                 Ok(v) => v,
                 Err(e) => {
@@ -456,6 +509,23 @@ impl NvidiaCollector {
         }
     }
 }
+#[cfg(any(test, target_os = "windows"))]
+fn parse_pci_address(value: &str) -> Option<PciAddress> {
+    let (address, function) = value.split_once('.')?;
+    let mut parts = address.split(':');
+    let number = |text: &str| {
+        if text.is_empty() || text.len() > 8 || !text.bytes().all(|b| b.is_ascii_hexdigit()) {
+            return None;
+        }
+        u32::from_str_radix(text, 16).ok()
+    };
+    let domain = number(parts.next()?)?;
+    let bus = number(parts.next()?)?;
+    let device = number(parts.next()?)?;
+    let function = number(function)?;
+    (parts.next().is_none() && bus < 256 && device < 32 && function < 8)
+        .then_some((domain, bus, device, function))
+}
 fn nvml_reading(id: &str, source: &str, value: Value, factor: f64, ns: u64) -> Reading {
     match value {
         Ok(v) => {
@@ -472,6 +542,67 @@ fn nvml_reading(id: &str, source: &str, value: Value, factor: f64, ns: u64) -> R
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn windows_pci_mapping_is_exact_and_never_falls_back_to_a_name_or_index() {
+        let pci = (0, 4, 0, 0);
+        assert_eq!(parse_pci_address("00000000:04:00.0"), Some(pci));
+        for bad in [
+            "",
+            "04:00.0",
+            "0000:100:00.0",
+            "0000:04:20.0",
+            "0000:04:00.8",
+            "0000:04:00.0;run",
+            "0000:04:00:00.0",
+        ] {
+            assert!(parse_pci_address(bad).is_none(), "{bad}");
+        }
+        let mut mapped = device("GPU-exact");
+        mapped.pci_address = Some(pci);
+        let mut other_domain = device("GPU-other-domain");
+        other_domain.pci_address = Some((1, 4, 0, 0));
+        let mut c = collector(vec![Ok(vec![mapped, other_domain, device("GPU-no-pci")])]);
+        let mut s = Snapshot::default();
+        c.collect_windows_at_origin(
+            &mut s,
+            std::time::Instant::now(),
+            &BTreeMap::from([(pci, "windows-gpu:PNP-ID".into())]),
+        );
+        assert_eq!(s.monitors.len(), 1);
+        assert_eq!(s.monitors[0].id, "windows-gpu:PNP-ID");
+        assert!(
+            s.sensors
+                .iter()
+                .all(|sensor| sensor.monitor_id == "windows-gpu:PNP-ID")
+        );
+        assert!(
+            s.readings
+                .iter()
+                .any(|r| r.sensor_id == "windows-gpu:PNP-ID/usage" && r.value == Some(0.0))
+        );
+    }
+    #[test]
+    fn ambiguous_nvml_pci_samples_do_not_overwrite_each_other() {
+        let pci = (0, 4, 0, 0);
+        let mut a = device("GPU-a");
+        a.pci_address = Some(pci);
+        let mut b = device("GPU-b");
+        b.pci_address = Some(pci);
+        let mut c = collector(vec![Ok(vec![a, b])]);
+        let mut s = Snapshot::default();
+        c.collect_windows_at_origin(
+            &mut s,
+            std::time::Instant::now(),
+            &BTreeMap::from([(pci, "windows-gpu:PNP-ID".into())]),
+        );
+        assert!(s.monitors.is_empty());
+        assert!(s.sensors.is_empty());
+        assert!(
+            s.diagnostics
+                .iter()
+                .any(|d| d.reason.contains("No unambiguous"))
+        );
+    }
     struct Fake {
         frames: std::collections::VecDeque<Result<Vec<DeviceSample>, String>>,
     }
@@ -482,6 +613,7 @@ mod tests {
     }
     fn device(uuid: &str) -> DeviceSample {
         DeviceSample {
+            pci_address: None,
             uuid: Ok(uuid.into()),
             name: Ok("GPU".into()),
             values: [

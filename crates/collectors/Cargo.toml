@@ -21,6 +21,10 @@ libc = "0.2"
 
 [target.'cfg(windows)'.dependencies]
 windows = { workspace = true, features = [
+    "Wdk_Graphics_Direct3D",
+    "Win32_Devices_DeviceAndDriverInstallation",
+    "Win32_Devices_Display",
+    "Win32_Devices_Properties",
     "Win32_Foundation",
     "Win32_Security",
     "Win32_Storage_FileSystem",

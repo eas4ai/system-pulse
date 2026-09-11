@@ -328,7 +328,7 @@ fn gpu(state: &Data, width: f32, cx: &App) -> AnyElement {
             cx,
         );
     };
-    let rows = data::monitor_channels(state, &id);
+    let rows = data::gpu_channels(state, &id);
     if rows.is_empty() {
         return empty(
             "GPU unavailable",

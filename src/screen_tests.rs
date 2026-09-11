@@ -707,6 +707,55 @@ fn selected_gpu_survives_reordering_restore_and_disconnect_without_switching(
 }
 
 #[gpui_kit::test]
+fn detected_gpu_keeps_unavailable_readings_visible_without_fabricating_values(
+    cx: &mut TestAppContext,
+) {
+    use crate::workspace::Command;
+    let (view, cx) = populated(cx);
+    let mut snapshot = fixture::snapshot(6);
+    for reading in &mut snapshot.readings {
+        if reading.sensor_id.starts_with(fixture::GPU_A) {
+            reading.value = None;
+            reading.total = None;
+            reading.availability = system_pulse_collectors::Availability::Unavailable;
+            reading.reason = Some("Optional vendor API unavailable".into());
+        }
+    }
+    accept(&view, snapshot, cx);
+    command(
+        &view,
+        Command::ScreenDevice(Screen::Gpu, fixture::GPU_A.into()),
+        cx,
+    );
+    command(&view, Command::Screen(Screen::Gpu), cx);
+    cx.read(|cx| {
+        let data = view.read(cx).shared.borrow();
+        assert_eq!(crate::screen_data::devices(&data, Screen::Gpu).len(), 2);
+        let rows = crate::screen_data::gpu_channels(&data, fixture::GPU_A);
+        assert_eq!(rows.len(), 4);
+        assert!(rows.iter().all(|row| row.value(&data) == "Unavailable"));
+        assert!(rows.iter().all(|row| row.measured(&data).is_none()));
+    });
+    assert!(
+        cx.debug_bounds("history:gpu:pci:0000:01:00.0/usage")
+            .is_some()
+    );
+    assert!(
+        cx.debug_bounds("screen-stat:gpu:pci:0000:01:00.0/power")
+            .is_some()
+    );
+    command(
+        &view,
+        Command::SensorVisible(fixture::GPU_A.into(), format!("{}/power", fixture::GPU_A)),
+        cx,
+    );
+    assert!(
+        cx.debug_bounds("screen-stat:gpu:pci:0000:01:00.0/power")
+            .is_none()
+    );
+}
+
+#[gpui_kit::test]
 fn hidden_sensors_stay_hidden_after_new_snapshots_and_tab_switches(cx: &mut TestAppContext) {
     use crate::workspace::Command;
     let (view, cx) = populated(cx);

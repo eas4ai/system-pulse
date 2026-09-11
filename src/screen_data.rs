@@ -119,9 +119,24 @@ pub(crate) fn channels(data: &Data) -> Vec<Channel> {
 }
 
 pub(crate) fn monitor_channels(data: &Data, id: &str) -> Vec<Channel> {
+    ordered_monitor_channels(data, id, false)
+}
+
+pub(crate) fn gpu_channels(data: &Data, id: &str) -> Vec<Channel> {
+    ordered_monitor_channels(data, id, true)
+}
+
+fn ordered_monitor_channels(data: &Data, id: &str, include_unavailable: bool) -> Vec<Channel> {
     let mut rows: Vec<_> = channels(data)
         .into_iter()
-        .filter(|channel| channel.monitor == id && channel.visible(data))
+        .filter(|channel| {
+            channel.monitor == id
+                && if include_unavailable {
+                    sensor_visible(data, id, &channel.sensor) && channel.latest(data).is_some()
+                } else {
+                    channel.visible(data)
+                }
+        })
         .collect();
     rows.sort_by_key(|channel| {
         let order = data

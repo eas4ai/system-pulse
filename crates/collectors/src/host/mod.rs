@@ -37,6 +37,8 @@ pub struct HostCollector {
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     temperatures: temperature::TemperatureInventory,
     nvidia: crate::nvidia::NvidiaCollector,
+    #[cfg(target_os = "windows")]
+    windows_gpu: crate::windows_gpu::WindowsGpuCollector,
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     apple: crate::apple::AppleCollector,
     #[cfg(target_os = "linux")]
@@ -64,6 +66,8 @@ impl HostCollector {
             #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
             temperatures: temperature::TemperatureInventory::default(),
             nvidia: crate::nvidia::NvidiaCollector::new(),
+            #[cfg(target_os = "windows")]
+            windows_gpu: crate::windows_gpu::WindowsGpuCollector::new(),
             #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
             apple: crate::apple::AppleCollector::default(),
             #[cfg(target_os = "linux")]
@@ -101,7 +105,19 @@ impl HostCollector {
         #[cfg(not(target_os = "linux"))]
         self.collect_portable(&mut s);
         if self.root == Path::new("/") {
+            #[cfg(not(target_os = "windows"))]
             self.nvidia.collect_at_origin(&mut s, self.origin);
+            #[cfg(target_os = "windows")]
+            {
+                self.windows_gpu.collect(&mut s, self.origin);
+                let mut vendor = Snapshot::default();
+                self.nvidia.collect_windows_at_origin(
+                    &mut vendor,
+                    self.origin,
+                    &self.windows_gpu.nvidia_identities(),
+                );
+                crate::windows_gpu::merge_vendor(&mut s, vendor);
+            }
         }
         #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
         self.apple.collect(&mut s, self.origin);
