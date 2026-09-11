@@ -9,7 +9,7 @@ import re
 from performance_compare import require
 from performance_verify import check_harness, same_production
 from release_ci_verify import archive_files, verify_archive
-from windows_process_actions_collect import HARNESS_FILES, ORDINARY_CASES, build_identity
+from windows_process_actions_collect import HARNESS_FILES, ORDINARY_CASES, build_identity, packaged_binary_hash
 
 
 def validate_ordinary_actions(record):
@@ -18,7 +18,7 @@ def validate_ordinary_actions(record):
     require(dashboard.get("elevated_before") is False and dashboard.get("elevation_type") in (1, 3)
             and dashboard.get("pid", 0) > 0 and dashboard.get("creation_ticks", 0) > 0,
             "missing unelevated dashboard identity")
-    require(record.get("signing_status") == "NotSigned", "packaged signing status differs from documentation")
+    require(record.get("signing_status") in ("NotSigned", "Valid"), "packaged signature is invalid")
     path = record.get("binary_path", "")
     require(" " in path and any(ord(char) > 127 for char in path),
             "spaces and non-ASCII executable path were not exercised")
@@ -87,15 +87,18 @@ def main():
     args = parser.parse_args()
     record = json.loads((args.evidence / "result.json").read_text(encoding="utf-8-sig"))
     revision, binary_hash = build_identity(args.build_log.read_text(errors="replace"))
-    require(record.get("source_commit") == revision and record.get("binary_sha256") == binary_hash
+    require(record.get("source_commit") == revision
             and record.get("build_log_sha256") == hashlib.sha256(args.build_log.read_bytes()).hexdigest(),
             "native action receipt is not bound to the passing build")
     same_production(revision)
     package = verify_archive(args.package_dir, "x86_64-pc-windows-msvc", revision)
     require(record.get("package") == package, "native action receipt names a different package")
-    binary = archive_files(args.package_dir / package["archive"])["system-pulse.exe"]
-    require(hashlib.sha256(binary).hexdigest() == binary_hash,
+    files = archive_files(args.package_dir / package["archive"])
+    signed_hash = packaged_binary_hash(files, binary_hash)
+    require(record.get("binary_sha256") == signed_hash,
             "packaged executable differs from the observed native action binary")
+    if signed_hash != binary_hash:
+        require(record.get("signing_status") == "Valid", "signed candidate did not verify on the native host")
     check_harness(record.get("harness_sha256", {}), HARNESS_FILES)
     validate_ordinary_actions(record)
     hashes = record.get("artifacts_sha256", {})

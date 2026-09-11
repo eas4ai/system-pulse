@@ -38,6 +38,15 @@ def example_record():
 
 
 class OrdinaryActionReceiptTests(unittest.TestCase):
+    def test_accepts_valid_signing_but_rejects_broken_signatures(self):
+        record = example_record()
+        record["signing_status"] = "Valid"
+        validate_ordinary_actions(record)
+        for status in ("HashMismatch", "NotTrusted", "UnknownError"):
+            record["signing_status"] = status
+            with self.assertRaises(InvalidMeasurement):
+                validate_ordinary_actions(record)
+
     def test_complete_ordinary_receipt(self):
         validate_ordinary_actions(example_record())
 

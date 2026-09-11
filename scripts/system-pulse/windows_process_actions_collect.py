@@ -51,6 +51,19 @@ def build_identity(contents):
     return revisions[0], hashes[0].lower()
 
 
+def packaged_binary_hash(files, native_hash):
+    actual = hashlib.sha256(files["system-pulse.exe"]).hexdigest()
+    if actual != native_hash:
+        build = json.loads(files.get("build.json", b"{}"))
+        signing = build.get("authenticode", {})
+        require(build.get("unsigned_binary_sha256") == native_hash
+                and build.get("binary_sha256") == actual
+                and signing.get("status") == "Valid"
+                and re.fullmatch(r"[a-fA-F0-9]{40}", signing.get("thumbprint", "")),
+                "signed package lacks its native build and signature provenance")
+    return actual
+
+
 def deploy_package(host, task, archive, package):
     require(re.fullmatch(r"SystemPulse-[A-Za-z]+-[a-f0-9]{32}", task) is not None, "invalid native run name")
     parent = json.loads(remote(host,
@@ -84,8 +97,9 @@ def main():
     same_production(revision)
     package = verify_archive(args.package_dir, "x86_64-pc-windows-msvc", revision)
     archive = args.package_dir / package["archive"]
-    require(hashlib.sha256(archive_files(archive)["system-pulse.exe"]).hexdigest() == binary_hash,
-            "packaged executable differs from the passing native build")
+    native_hash = binary_hash
+    files = archive_files(archive)
+    binary_hash = packaged_binary_hash(files, native_hash)
     inputs = [*PRODUCTION, *("scripts/system-pulse/" + name for name in HARNESS_FILES)]
     subprocess.run(["git", "diff", "--exit-code", "HEAD", "--", *inputs],
                    cwd=ROOT, check=True)
@@ -99,6 +113,15 @@ def main():
     task = "SystemPulse-Actions-" + uuid.uuid4().hex
     cache = Path(tempfile.mkdtemp(prefix="system-pulse-windows-actions-"))
     parent, binary_path = deploy_package(args.host, task, archive, package)
+    if binary_hash != native_hash:
+        escaped = binary_path.replace("'", "''")
+        observed = json.loads(remote(args.host, "$s=Get-AuthenticodeSignature '" + escaped +
+            "';@{status=$s.Status.ToString();thumbprint=$s.SignerCertificate.Thumbprint}|ConvertTo-Json -Compress"))
+        signing = json.loads(files["build.json"])["authenticode"]
+        require(observed.get("status") == "Valid"
+                and observed.get("thumbprint", "").lower() == signing["thumbprint"].lower(),
+                "transferred signed application did not verify against its recorded signer")
+
     config = dict(output=parent + "\\evidence", binary=binary_path,
                   fixture=parent + "\\owned-fixture.exe", source_commit=revision,
                   binary_sha256=binary_hash, cases=ORDINARY_CASES)
