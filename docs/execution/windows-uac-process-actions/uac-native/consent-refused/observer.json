@@ -1,0 +1,192 @@
+﻿{
+    "operator_action":  "Approve",
+    "resources":  {
+                      "dashboard_pid":  4100,
+                      "dashboard_alive":  true,
+                      "captured_utc":  "2026-09-11T10:10:14.2513465Z",
+                      "scanned_handles":  796,
+                      "unclassified_handles":  0,
+                      "nonduplicable_handles":  221,
+                      "closed_during_capture":  0,
+                      "snapshot_released":  true,
+                      "process_handles":  [
+                                              {
+                                                  "pid":  7068,
+                                                  "count":  1,
+                                                  "termination_count":  0
+                                              },
+                                              {
+                                                  "pid":  13020,
+                                                  "count":  0,
+                                                  "termination_count":  0
+                                              }
+                                          ],
+                      "dashboard_creation_ticks":  134335949918242577,
+                      "case":  "consent-refused",
+                      "passed":  true
+                  },
+    "target_exited_before_cleanup":  false,
+    "ui_task_exit":  0,
+    "started_utc":  "2026-09-11T10:09:47.1403156Z",
+    "observer_debug_privilege_removed":  true,
+    "events":  [
+                   {
+                       "kind":  "start",
+                       "pid":  4100,
+                       "parent_pid":  11812,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335949922933350,
+                       "observed_utc":  "2026-09-11T10:09:52.2974072Z",
+                       "creation_ticks":  134335949918242577,
+                       "image":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+                       "elevated":  false,
+                       "elevation_type":  3,
+                       "command_line":  "\"C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe\"",
+                       "argv":  [
+                                    "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe"
+                                ]
+                   },
+                   {
+                       "kind":  "start",
+                       "pid":  16656,
+                       "parent_pid":  11812,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335950003321442,
+                       "observed_utc":  "2026-09-11T10:10:00.3321442Z",
+                       "creation_ticks":  134335949995997208,
+                       "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  16656,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "system-pulse.e",
+                       "event_ticks":  134335950003321443,
+                       "observed_utc":  "2026-09-11T10:10:00.3321442Z",
+                       "exit_code":  29
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  6468,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "system-pulse.e",
+                       "event_ticks":  134335950013353885,
+                       "observed_utc":  "2026-09-11T10:10:01.3353884Z",
+                       "exit_code":  29
+                   },
+                   {
+                       "kind":  "start",
+                       "pid":  6468,
+                       "parent_pid":  11812,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335950013353884,
+                       "observed_utc":  "2026-09-11T10:10:01.3353884Z",
+                       "creation_ticks":  134335950000215960,
+                       "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+                   },
+                   {
+                       "kind":  "start",
+                       "pid":  9716,
+                       "parent_pid":  11812,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335950013353886,
+                       "observed_utc":  "2026-09-11T10:10:01.3353884Z",
+                       "creation_ticks":  134335950003653910,
+                       "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  9716,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "system-pulse.e",
+                       "event_ticks":  134335950023386657,
+                       "observed_utc":  "2026-09-11T10:10:02.3386657Z",
+                       "exit_code":  13
+                   },
+                   {
+                       "kind":  "start",
+                       "pid":  5640,
+                       "parent_pid":  7148,
+                       "session_id":  1,
+                       "name":  "consent.exe",
+                       "event_ticks":  134335950073532005,
+                       "observed_utc":  "2026-09-11T10:10:07.3532005Z"
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  5640,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "consent.exe",
+                       "event_ticks":  134335950103992471,
+                       "observed_utc":  "2026-09-11T10:10:10.3992471Z",
+                       "exit_code":  0
+                   },
+                   {
+                       "kind":  "start",
+                       "pid":  13020,
+                       "parent_pid":  4100,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335950103992472,
+                       "observed_utc":  "2026-09-11T10:10:10.3992471Z",
+                       "creation_ticks":  134335950095096884,
+                       "image":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+                       "elevated":  true,
+                       "elevation_type":  2,
+                       "command_line":  "\"C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe\" --system-pulse-windows-process-action 7068 134335949881402997 terminate 4100 134335949918242577",
+                       "argv":  [
+                                    "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+                                    "--system-pulse-windows-process-action",
+                                    "7068",
+                                    "134335949881402997",
+                                    "terminate",
+                                    "4100",
+                                    "134335949918242577"
+                                ]
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  13020,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "system-pulse.e",
+                       "event_ticks":  134335950124090833,
+                       "observed_utc":  "2026-09-11T10:10:12.4090833Z",
+                       "exit_code":  28
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  4100,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "system-pulse.e",
+                       "event_ticks":  134335950154185801,
+                       "observed_utc":  "2026-09-11T10:10:15.4185801Z",
+                       "exit_code":  4294967295
+                   }
+               ],
+    "target":  {
+                   "image":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-47a89553c8a54dd0bc594cf81f13c2c2\\owned-fixture.exe",
+                   "administrator_termination_dacl":  true,
+                   "administrator_termination_access_error":  0,
+                   "creation_ticks":  134335949881402997,
+                   "pid":  7068,
+                   "elevated":  true
+               },
+    "target_cleaned":  true,
+    "finished_utc":  "2026-09-11T10:10:23.6187015Z",
+    "status":  "COLLECTED",
+    "observer":  {
+                     "creation_ticks":  134335949860945881,
+                     "pid":  1284,
+                     "elevated":  true
+                 }
+}

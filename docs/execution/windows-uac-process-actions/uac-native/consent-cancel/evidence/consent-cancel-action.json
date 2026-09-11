@@ -1,13 +1,13 @@
 {
-    "collected_creation_ticks":  134335564476417525,
-    "pid":  9772,
-    "creation_ticks":  134335564476417525,
+    "collected_creation_ticks":  134335948212770452,
+    "pid":  9520,
+    "creation_ticks":  134335948212770452,
     "duplicate_activation":  "delivered",
-    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 9772)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n9772\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 9772\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 226 readable processes · 1 s update",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 9520)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n9520\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 9520\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 229 readable processes · 1 s update",
     "signal":  "kill",
     "pending_observations":  [
                                  {
-                                     "observed_utc":  "2026-09-10T23:27:48.0788272Z",
+                                     "observed_utc":  "2026-09-11T10:07:19.9951117Z",
                                      "sequence":  15,
                                      "actions_disabled":  [
                                                               true,
@@ -15,7 +15,7 @@
                                                           ]
                                  },
                                  {
-                                     "observed_utc":  "2026-09-10T23:27:49.0222924Z",
+                                     "observed_utc":  "2026-09-11T10:07:20.8933169Z",
                                      "sequence":  16,
                                      "actions_disabled":  [
                                                               true,
@@ -23,7 +23,7 @@
                                                           ]
                                  },
                                  {
-                                     "observed_utc":  "2026-09-10T23:27:49.7869617Z",
+                                     "observed_utc":  "2026-09-11T10:07:22.0486767Z",
                                      "sequence":  17,
                                      "actions_disabled":  [
                                                               true,
@@ -34,9 +34,9 @@
     "name":  "consent-cancel",
     "status":  "Windows authorization was cancelled. No helper action was started.",
     "mode":  "windowless",
-    "settled_utc":  "2026-09-10T23:27:50.0358538Z",
-    "dashboard_handles_before":  664,
+    "settled_utc":  "2026-09-11T10:07:22.3114431Z",
+    "dashboard_handles_before":  666,
     "sequence_before":  11,
     "ordinary_force_access_error":  5,
-    "submitted_utc":  "2026-09-10T23:27:47.3667489Z"
+    "submitted_utc":  "2026-09-11T10:07:19.2159939Z"
 }

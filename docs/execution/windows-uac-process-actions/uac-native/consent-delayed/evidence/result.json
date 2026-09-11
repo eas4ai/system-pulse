@@ -1,0 +1,240 @@
+{
+    "binary_path":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-a2e718ef657546b2a987aaf7204718f5\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "dashboard_cleaned":  true,
+    "finished_utc":  "2026-09-11T10:14:08.8893143Z",
+    "started_utc":  "2026-09-11T10:13:29.1231008Z",
+    "cases":  [
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:49.7446382Z",
+                                                       "sequence":  18,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:50.7030951Z",
+                                                       "sequence":  19,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:51.7432456Z",
+                                                       "sequence":  20,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:52.5272609Z",
+                                                       "sequence":  21,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:53.3729086Z",
+                                                       "sequence":  22,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:54.2801745Z",
+                                                       "sequence":  22,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:55.0974070Z",
+                                                       "sequence":  23,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:55.8928782Z",
+                                                       "sequence":  24,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:56.7873605Z",
+                                                       "sequence":  25,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:57.7630711Z",
+                                                       "sequence":  26,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:58.5902157Z",
+                                                       "sequence":  27,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:13:59.5805028Z",
+                                                       "sequence":  28,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:14:00.5845466Z",
+                                                       "sequence":  29,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:14:01.4470790Z",
+                                                       "sequence":  30,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:14:02.4692431Z",
+                                                       "sequence":  30,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:14:03.3493431Z",
+                                                       "sequence":  31,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:14:04.1971389Z",
+                                                       "sequence":  32,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-11T10:14:05.0865913Z",
+                                                       "sequence":  33,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   }
+                                               ],
+                      "pid":  15116,
+                      "creation_ticks":  134335952075066663,
+                      "status":  "The application did not close. It may need a response or have declined the request. Check its window before choosing Force quit.",
+                      "mode":  "delayed",
+                      "exited":  false,
+                      "dashboard_handles_after":  801,
+                      "settled_utc":  "2026-09-11T10:14:05.3288301Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335952075066663,
+                      "submitted_utc":  "2026-09-11T10:13:46.1267857Z",
+                      "pending_screen_changes":  [
+                                                     "Summary",
+                                                     "Processes"
+                                                 ],
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 15116)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n15116\nowned-fixture.exe\n0.0 %\n28.8 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 15116\n0.0 %\n28.8 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 227 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  11,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  35,
+                      "name":  "consent-delayed",
+                      "signal":  "terminate",
+                      "dashboard_handles_before":  667
+                  }
+              ],
+    "source_commit":  "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "resources_acknowledged":  true,
+    "dashboard":  {
+                      "account":  "XPSTABLET\\shawn",
+                      "creation_ticks":  134335952111375989,
+                      "pid":  8920,
+                      "elevated_before":  false,
+                      "elevation_type":  3
+                  },
+    "helper_entry_checks":  [
+                                {
+                                    "exit_code":  29,
+                                    "name":  "unelevated-helper",
+                                    "state_created":  false,
+                                    "pid":  11712,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  29,
+                                    "name":  "extra-helper-argument",
+                                    "state_created":  false,
+                                    "pid":  9420,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  13,
+                                    "name":  "legacy-helper-mode",
+                                    "state_created":  false,
+                                    "pid":  6332,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                }
+                            ],
+    "unrelated_control":  {
+                              "creation_ticks":  134335952176848317,
+                              "pid":  4116
+                          },
+    "os_version":  "Microsoft Windows NT 10.0.26200.0",
+    "owned_target_cleanup":  [
+                                 {
+                                     "exited":  true,
+                                     "pid":  4116
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  11712
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  9420
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  6332
+                                 }
+                             ],
+    "signing_status":  "NotSigned",
+    "status":  "PASS",
+    "binary_sha256":  "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b"
+}

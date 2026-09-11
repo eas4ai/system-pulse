@@ -29,7 +29,7 @@ try {
     $null=$child.Handle
     $guard=[PulseOwnedProcessFault]::new($child)
     $ids=[uint32[]]@($child.Id)
-    foreach($access in @(0x100000,0x101000,0x101001)) {
+    foreach($access in @(0x1000,0x100000,0x101000,0x101001)) {
         $before=[PulseProcessHandles]::Capture([IntPtr](-1),$ids)
         $probe=[PulseOwnedHandleProbe]::OpenProcess($access,$false,$child.Id)
         if($probe -eq [IntPtr]::Zero){throw 'Could not open an owned positive-control handle'}
@@ -37,10 +37,13 @@ try {
         if($open.process_handles[0].count -ne $before.process_handles[0].count+1){throw 'Native snapshot missed the deliberately retained process handle'}
         $terminationDelta=$(if(($access -band 1) -ne 0){1}else{0})
         if($open.process_handles[0].termination_count -ne $before.process_handles[0].termination_count+$terminationDelta){throw 'Native snapshot misclassified termination rights'}
+        $waitDelta=$(if(($access -band 0x100000) -ne 0){1}else{0})
+        if($open.process_handles[0].wait_count -ne $before.process_handles[0].wait_count+$waitDelta){throw 'Native snapshot confused query and wait handles'}
         if(![PulseOwnedHandleProbe]::CloseHandle($probe)){throw 'Positive-control handle did not close'}
         $probe=[IntPtr]::Zero
         $after=[PulseProcessHandles]::Capture([IntPtr](-1),$ids)
         if($after.process_handles[0].count -ne $before.process_handles[0].count){throw 'Native snapshot did not observe the closed process handle'}
+        if($after.process_handles[0].wait_count -ne $before.process_handles[0].wait_count){throw 'Native snapshot retained a closed wait handle'}
         $result.samples+=@{access=$access;before=$before;open=$open;after=$after}
     }
     $result.checks+='sync-query-and-termination-handles-observed-open-and-closed'

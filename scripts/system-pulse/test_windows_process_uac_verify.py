@@ -4,12 +4,15 @@ from datetime import datetime, timezone
 import json
 from pathlib import Path
 import tempfile
+import hashlib
+import subprocess
 from unittest.mock import patch
 
 from performance_compare import InvalidMeasurement
 from test_windows_process_actions_verify import example_record
 from windows_process_uac_verify import (validate_run, validate_handle_selftest, validate_resource_review,
-    RESOURCE_REVIEW_CHECKS, REQUIRED_RUNS, ROOT, verify_all)
+    RESOURCE_REVIEW_CHECKS, REQUIRED_RUNS, ROOT, verify_all, validate_uac_harness,
+    HARNESS_FILES, ZERO_HELPER_HANDLES_REVISION)
 
 
 def observed_run(name="consent-force"):
@@ -77,6 +80,38 @@ def observed_run(name="consent-force"):
 
 
 class NativeUacReceiptTests(unittest.TestCase):
+    def test_timeout_allows_only_one_collector_query_handle(self):
+        ui, observer = observed_run("helper-timeout")
+        row = observer["resources"]["process_handles"][1]
+        row.update(count=1, wait_count=0, granted_access=[0x1000])
+        validate_run(ui, observer, "helper-timeout")
+        for fields in [dict(count=2, granted_access=[0x1000, 0x1000]),
+                       dict(wait_count=1), dict(granted_access=[0x101000]),
+                       dict(granted_access=[0x1001]), dict(granted_access=[]),
+                       dict(termination_count=1)]:
+            invalid = copy.deepcopy(observer)
+            invalid["resources"]["process_handles"][1].update(fields)
+            with self.subTest(fields=fields), self.assertRaises(InvalidMeasurement):
+                validate_run(ui, invalid, "helper-timeout")
+        ui, observer = observed_run("consent-force")
+        observer["resources"]["process_handles"][1].update(count=1, wait_count=0, granted_access=[0x1000])
+        with self.assertRaises(InvalidMeasurement):
+            validate_run(ui, observer, "consent-force")
+
+    def test_harness_compatibility_is_pinned_and_excludes_the_old_timeout(self):
+        current = {name: hashlib.sha256((ROOT / "scripts/system-pulse" / name).read_bytes()).hexdigest()
+                   for name in HARNESS_FILES}
+        historical = {name: hashlib.sha256(subprocess.check_output([
+            "git", "show", f"{ZERO_HELPER_HANDLES_REVISION}:scripts/system-pulse/{name}"
+        ], cwd=ROOT)).hexdigest() for name in HARNESS_FILES}
+        validate_uac_harness(current, "helper-timeout")
+        validate_uac_harness(historical, "consent-force")
+        with self.assertRaises(InvalidMeasurement):
+            validate_uac_harness(historical, "helper-timeout")
+        historical[next(iter(historical))] = "0" * 64
+        with self.assertRaises(InvalidMeasurement):
+            validate_uac_harness(historical, "consent-force")
+
     def test_full_gate_requires_every_case_and_rejects_mislabeled_receipts(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)

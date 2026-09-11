@@ -90,10 +90,12 @@ public static class PulseProcessHandles
         if (ownedPids == null || ownedPids.Length == 0 || ownedPids.Length > 16)
             throw new ArgumentException("Expected bounded owned process identities");
         var counts = new Dictionary<uint, int[]>();
+        var accessMasks = new Dictionary<uint, List<uint>>();
         foreach (uint pid in ownedPids)
         {
             if (pid == 0 || counts.ContainsKey(pid)) throw new ArgumentException("Invalid owned PID list");
-            counts.Add(pid, new int[2]);
+            counts.Add(pid, new int[3]);
+            accessMasks.Add(pid, new List<uint>());
         }
         uint dashboardPid = GetProcessId(dashboard);
         if (dashboardPid == 0) throw new Win32Exception();
@@ -123,6 +125,8 @@ public static class PulseProcessHandles
                     throw new InvalidOperationException("Owned process handle access rights could not be classified");
                 count[0]++;
                 if ((entry.GrantedAccess & 1) != 0) count[1]++; // PROCESS_TERMINATE
+                if ((entry.GrantedAccess & 0x100000) != 0) count[2]++; // SYNCHRONIZE
+                accessMasks[processId].Add(entry.GrantedAccess);
             }
         }
         finally
@@ -139,7 +143,8 @@ public static class PulseProcessHandles
         var rows = new List<Dictionary<string, object>>();
         foreach (uint pid in ownedPids)
             rows.Add(new Dictionary<string, object> {
-                { "pid", pid }, { "count", counts[pid][0] }, { "termination_count", counts[pid][1] }
+                { "pid", pid }, { "count", counts[pid][0] }, { "termination_count", counts[pid][1] },
+                { "wait_count", counts[pid][2] }, { "granted_access", accessMasks[pid] }
             });
         return new Dictionary<string, object> {
             { "dashboard_pid", dashboardPid }, { "dashboard_alive", true },

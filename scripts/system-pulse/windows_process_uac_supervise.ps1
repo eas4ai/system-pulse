@@ -50,10 +50,22 @@ function Observe-ReleasedHandles($case) {
         if($live.live_observation_error -or $live.image -ine $config.ui.binary -or $live.elevated){throw 'Resource snapshot target is not the limited packaged dashboard'}
         $pids=@([uint32]$target.Id)+@($starts|ForEach-Object {[uint32]$_.pid})
         $snapshot=[PulseProcessHandles]::Capture($handle,[uint32[]]$pids)
+        # Retain the native masks even when the assertions below fail.
+        $record.resources=$snapshot
+        Save-Supervision
         $targetHandles=@($snapshot.process_handles|Where-Object {$_.pid -eq $target.Id})
         $helperHandles=@($snapshot.process_handles|Where-Object {$_.pid -ne $target.Id})
         if($targetHandles.Count -ne 1 -or $targetHandles[0].termination_count -ne 0){throw 'Dashboard retained an owned termination handle'}
-        if(@($helperHandles|Where-Object {$_.count -ne 0}).Count){throw 'Dashboard retained an elevated helper process handle'}
+        foreach($row in $helperHandles) {
+            if($row.count -eq 0){continue}
+            # sysinfo retains one query-only handle while a process stays alive.
+            # The action's WaitForSingleObject handle necessarily has SYNCHRONIZE.
+            if($case.name -ne 'helper-timeout' -or !$helper -or $helper.HasExited -or
+               $row.count -ne 1 -or $row.wait_count -ne 0 -or $row.termination_count -ne 0 -or
+               @($row.granted_access).Count -ne 1 -or $row.granted_access[0] -notin @(0x1000,0x410,0x1410)) {
+                throw 'Dashboard retained an elevated helper action handle'
+            }
+        }
         $snapshot['dashboard_creation_ticks']=$ui.dashboard.creation_ticks
         $snapshot['case']=$case.name
         $snapshot['passed']=$true

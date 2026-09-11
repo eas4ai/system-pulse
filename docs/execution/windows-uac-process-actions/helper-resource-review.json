@@ -7,7 +7,9 @@
     "crates/collectors/src/process_control/windows_protocol.rs": "b4d8933e5e6b167c6d7bd34ab539dc3d510bff73d243009276cab4abc6340415",
     "crates/collectors/src/process_control.rs": "f58535bf0327c0ba4154e2ee6d7f82483f6cb0a2693f1fed1399b8453db36760",
     "src/main.rs": "556836102afc3a7a2103880e688c9fe57bc930ccba9de981aecec54d821457da",
-    "crates/collectors/src/process_control/authentication.rs": "55d13534e18fb6179165cde275b4859ee097f282ad4ecaa0df0e2bcfb6b1cf9a"
+    "crates/collectors/src/process_control/authentication.rs": "55d13534e18fb6179165cde275b4859ee097f282ad4ecaa0df0e2bcfb6b1cf9a",
+    "vendor/sysinfo/src/windows/process.rs": "c41dede7c926b9f915daa4e65fa5af715f36dbdda0ed73f7fb763987aca60960",
+    "vendor/sysinfo/src/windows/utils.rs": "1481bcba4bcc9fd90fccef645c50c496c836dec2b8c390eacce2ca4b4fe875ea"
   },
   "checks": {
     "helper_handle": "authenticate_in_apartment adopts the successful ShellExecuteExW process handle into OwnedHandle before waiting. Result decoding, GetExitCodeProcess failure, timeout and wait failure all leave that scope and close it. Invalid launch handles are never adopted. No helper handle is stored in dashboard state.",
@@ -16,7 +18,8 @@
     "restart_manager": "RestartSession owns the successful RmStartSession ID. close stores the action result, calls finish even for refused or failed actions, then returns the result. finish consumes the ID and reports RmEndSession failure. Drop provides a best-effort unwind fallback. Registration includes only one full process identity, no files or services; shutdown flags remain zero.",
     "com_apartment": "A dedicated thread calls CoInitializeEx. Only successful initialization constructs Apartment; its Drop calls CoUninitialize on every ordinary return, error and unwind after initialization. The helper handle is declared later and closes before the apartment. Failure to initialize does not call CoUninitialize.",
     "entry_isolation": "main calls the helper dispatcher before with_application, asset initialization or tray startup, then exits with its returned code. The Windows parser requires exactly six bounded fields and two action tokens. The helper checks elevation, verifies its caller and performs one send; it never invokes authenticate or initializes persistence or collectors.",
-    "no_debug_privilege": "The production Windows backend only reads token elevation with TOKEN_QUERY. It has no token adjustment or debug privilege operation. Protection checks reject critical processes, protected processes and the application executable. Ordinary validation failures map away from permission-denied authentication; the helper action is not retried."
+    "no_debug_privilege": "The production Windows backend only reads token elevation with TOKEN_QUERY. It has no token adjustment or debug privilege operation. Protection checks reject critical processes, protected processes and the application executable. Ordinary validation failures map away from permission-denied authentication; the helper action is not retried.",
+    "collector_handles": "sysinfo get_process_handler retains one HandleWrapper per live ProcessInner with QUERY_INFORMATION plus VM_READ, falling back to QUERY_LIMITED_INFORMATION. Neither request contains SYNCHRONIZE or PROCESS_TERMINATE. The timeout helper remains a legitimate monitored process; one such query-only handle is not the action wait handle. HandleWrapper Drop closes it when the process entry is removed."
   },
   "limits": "Source ownership review only. Live dashboard handle receipts and final commitment review remain separate and pending."
 }

@@ -52,3 +52,12 @@ and elevated process actions, safe identity, responsive UI, native verification
 and preservation of local framework patches. Version 0.3.0 was published from
 passing Linux/macOS/Windows CI. The prior release commitment retains its pending
 Cairn bookkeeping; this activation does not fabricate its completion.
+
+## Next: Windows GPU detection parity
+
+On 2026-09-11 the developer requested Windows GPU detection coverage matching
+Linux, and supplied Cores and LibreHardwareMonitor references. The next named
+[commitment](../commitments/windows-gpu-detection.md) covers Intel, AMD and NVIDIA
+discovery. Finish the running UAC acceptance first, then activate this requested
+work. The available Windows host has a healthy Intel Iris Xe adapter which the
+current application does not discover.

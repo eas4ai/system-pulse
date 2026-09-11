@@ -1,0 +1,290 @@
+{
+    "collected_creation_ticks":  134335950870825203,
+    "pid":  10276,
+    "creation_ticks":  134335950870825203,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 10276)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n10276\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 10276\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 227 readable processes · 1 s update",
+    "signal":  "kill",
+    "pending_observations":  [
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:45.9165334Z",
+                                     "sequence":  15,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:46.7922957Z",
+                                     "sequence":  16,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:47.7118072Z",
+                                     "sequence":  17,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:48.6239560Z",
+                                     "sequence":  18,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:49.6794123Z",
+                                     "sequence":  19,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:50.4638755Z",
+                                     "sequence":  20,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:51.3902422Z",
+                                     "sequence":  20,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:52.1902182Z",
+                                     "sequence":  21,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:53.1632934Z",
+                                     "sequence":  22,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:53.9136649Z",
+                                     "sequence":  23,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:54.7451664Z",
+                                     "sequence":  24,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:55.8448221Z",
+                                     "sequence":  25,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:56.6130003Z",
+                                     "sequence":  26,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:57.4587916Z",
+                                     "sequence":  26,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:58.3526554Z",
+                                     "sequence":  27,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:59.0526628Z",
+                                     "sequence":  28,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:11:59.8648161Z",
+                                     "sequence":  29,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:00.7076746Z",
+                                     "sequence":  30,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:01.4883192Z",
+                                     "sequence":  30,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:02.5587075Z",
+                                     "sequence":  31,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:03.5068954Z",
+                                     "sequence":  32,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:04.4772555Z",
+                                     "sequence":  33,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:05.1934588Z",
+                                     "sequence":  34,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:06.0353465Z",
+                                     "sequence":  35,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:07.1290735Z",
+                                     "sequence":  36,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:07.9128215Z",
+                                     "sequence":  37,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:08.8676468Z",
+                                     "sequence":  38,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:09.9223509Z",
+                                     "sequence":  39,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:10.6534920Z",
+                                     "sequence":  40,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:11.6064137Z",
+                                     "sequence":  40,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:12.7071942Z",
+                                     "sequence":  41,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:13.4651954Z",
+                                     "sequence":  42,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:14.3891701Z",
+                                     "sequence":  43,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-11T10:12:15.3588695Z",
+                                     "sequence":  44,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 }
+                             ],
+    "name":  "consent-stale",
+    "status":  "The selected process has already exited.",
+    "mode":  "windowless",
+    "settled_utc":  "2026-09-11T10:12:15.5990682Z",
+    "dashboard_handles_before":  665,
+    "sequence_before":  11,
+    "ordinary_force_access_error":  5,
+    "submitted_utc":  "2026-09-11T10:11:45.2469913Z"
+}

@@ -1,0 +1,116 @@
+{
+    "binary_path":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-afefa0c71b724a6ca0cc801a62f84c9a\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+    "dashboard_cleaned":  true,
+    "finished_utc":  "2026-09-10T23:27:52.1474462Z",
+    "started_utc":  "2026-09-10T23:27:30.0968660Z",
+    "cases":  [
+                  {
+                      "unrelated_control_messages":  "ready\n",
+                      "pending_observations":  [
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:27:48.0788272Z",
+                                                       "sequence":  15,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:27:49.0222924Z",
+                                                       "sequence":  16,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   },
+                                                   {
+                                                       "observed_utc":  "2026-09-10T23:27:49.7869617Z",
+                                                       "sequence":  17,
+                                                       "actions_disabled":  [
+                                                                                true,
+                                                                                true
+                                                                            ]
+                                                   }
+                                               ],
+                      "ordinary_force_access_error":  5,
+                      "pid":  9772,
+                      "creation_ticks":  134335564476417525,
+                      "status":  "Windows authorization was cancelled. No helper action was started.",
+                      "mode":  "windowless",
+                      "exited":  false,
+                      "dashboard_handles_after":  777,
+                      "settled_utc":  "2026-09-10T23:27:50.0358538Z",
+                      "dashboard_elevated_after":  false,
+                      "collected_creation_ticks":  134335564476417525,
+                      "submitted_utc":  "2026-09-10T23:27:47.3667489Z",
+                      "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 9772)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n9772\nowned-fixture.exe\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 9772\n0.0 %\n14.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 226 readable processes · 1 s update",
+                      "duplicate_activation":  "delivered",
+                      "sequence_before":  11,
+                      "unrelated_control_alive":  true,
+                      "sequence_after":  19,
+                      "name":  "consent-cancel",
+                      "signal":  "kill",
+                      "dashboard_handles_before":  664
+                  }
+              ],
+    "source_commit":  "3e6923e3976398458af61588cb73c1a94d08ea59",
+    "signing_status":  "NotSigned",
+    "dashboard":  {
+                      "account":  "XPSTABLET\\shawn",
+                      "creation_ticks":  134335564522799839,
+                      "pid":  3540,
+                      "elevated_before":  false,
+                      "elevation_type":  3
+                  },
+    "helper_entry_checks":  [
+                                {
+                                    "exit_code":  29,
+                                    "name":  "unelevated-helper",
+                                    "state_created":  false,
+                                    "pid":  2464,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  29,
+                                    "name":  "extra-helper-argument",
+                                    "state_created":  false,
+                                    "pid":  6820,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                },
+                                {
+                                    "exit_code":  13,
+                                    "name":  "legacy-helper-mode",
+                                    "state_created":  false,
+                                    "pid":  17328,
+                                    "target_alive":  true,
+                                    "diagnostics_created":  false
+                                }
+                            ],
+    "unrelated_control":  {
+                              "creation_ticks":  134335564589468331,
+                              "pid":  2116
+                          },
+    "os_version":  "Microsoft Windows NT 10.0.26200.0",
+    "owned_target_cleanup":  [
+                                 {
+                                     "exited":  true,
+                                     "pid":  2116
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  2464
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  6820
+                                 },
+                                 {
+                                     "exited":  true,
+                                     "pid":  17328
+                                 }
+                             ],
+    "status":  "PASS",
+    "binary_sha256":  "2801d68ba0f71f9f7ac8611ee3bdc0fcf7234c27345985425fcb5ca81405885b"
+}

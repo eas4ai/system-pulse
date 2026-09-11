@@ -1,5 +1,7 @@
 # Observe released UAC helper handles through Windows process snapshots
 
+Superseded by: distinguish-action-wait-handles-from-collector-query-handles
+
 Level: Judged
 Decided by: Codex
 Rests on: WUAC-004 WUAC-006

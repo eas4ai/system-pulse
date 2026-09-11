@@ -106,3 +106,12 @@ seconds of actual consent-process lifetime. Current-harness native cases and the
 resource ownership review remain pending. Ripwire named three tests included in
 the passing suite; quality-delta also reported reference-tree findings and verifier
 length growth, so no quality-delta pass is claimed.
+
+On 2026-09-11 all nine ordinary and non-timeout UAC observations passed from the
+packaged executable. The timeout run reported uncertainty correctly and cleaned
+its owned targets, but the resource assertion counted sysinfo's normal query-only
+handle to the still-live helper. The corrected native counter distinguishes
+SYNCHRONIZE handles from exact collector query masks; four positive controls pass.
+A pinned compatibility check retains the stronger zero-helper-handle proof in
+the nine earlier receipts. The corrected real timeout run remains pending.
+Windows GPU detection parity is the developer-named next commitment.

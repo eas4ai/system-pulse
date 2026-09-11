@@ -1,0 +1,25 @@
+{
+    "dashboard_pid":  928,
+    "dashboard_alive":  true,
+    "captured_utc":  "2026-09-11T10:17:24.4344568Z",
+    "scanned_handles":  800,
+    "unclassified_handles":  0,
+    "nonduplicable_handles":  221,
+    "closed_during_capture":  0,
+    "snapshot_released":  true,
+    "process_handles":  [
+                            {
+                                "pid":  8276,
+                                "count":  1,
+                                "termination_count":  0
+                            },
+                            {
+                                "pid":  10036,
+                                "count":  0,
+                                "termination_count":  0
+                            }
+                        ],
+    "dashboard_creation_ticks":  134335954120758585,
+    "case":  "helper-crash",
+    "passed":  true
+}

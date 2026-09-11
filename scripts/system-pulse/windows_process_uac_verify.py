@@ -11,7 +11,7 @@ import subprocess
 import sys
 
 from performance_compare import require
-from performance_verify import ROOT, check_harness, same_production
+from performance_verify import ROOT, same_production
 from release_ci_verify import archive_files, verify_archive
 from windows_process_actions_collect import build_identity
 from windows_process_actions_verify import validate_ordinary_actions
@@ -31,10 +31,15 @@ RESOURCE_REVIEW_SOURCES = (
     "crates/collectors/src/process_control.rs",
     "crates/collectors/src/process_control/authentication.rs",
     "src/main.rs",
+    "vendor/sysinfo/src/windows/process.rs",
+    "vendor/sysinfo/src/windows/utils.rs",
 )
+# Reviewed predecessor: its non-timeout receipts prove zero helper handles,
+# which is stronger than distinguishing a still-live helper's collector handle.
+ZERO_HELPER_HANDLES_REVISION = "80f1cd41007aec80ccaa84dd3e3ec520732b8983"
 RESOURCE_REVIEW_CHECKS = (
     "helper_handle", "caller_target_handles", "token_handles", "restart_manager",
-    "com_apartment", "entry_isolation", "no_debug_privilege",
+    "com_apartment", "entry_isolation", "no_debug_privilege", "collector_handles",
 )
 HANDLE_SELFTEST_SOURCES = tuple("scripts/system-pulse/" + name for name in (
     "windows_process_handles.cs", "windows_process_handles_selftest.ps1",
@@ -51,8 +56,8 @@ def validate_handle_selftest(proof, source_hashes):
             and not result.get("error") and not result.get("cleanup_error"),
             "native handle positive controls or cleanup failed")
     samples = result.get("samples", [])
-    require(len(samples) == 3 and {s.get("access") for s in samples} == {0x100000, 0x101000, 0x101001},
-            "native handle controls omitted synchronization, query or termination rights")
+    require(len(samples) == 4 and {s.get("access") for s in samples} == {0x1000, 0x100000, 0x101000, 0x101001},
+            "native handle controls omitted query-only, synchronization or termination rights")
     for sample in samples:
         snapshots = [sample[key] for key in ("before", "open", "after")]
         require(all(s.get("snapshot_released") is True and s.get("dashboard_alive") is True
@@ -63,7 +68,9 @@ def validate_handle_selftest(proof, source_hashes):
         require(before["pid"] == opened["pid"] == after["pid"]
                 and opened["count"] == before["count"] + 1 and after["count"] == before["count"]
                 and opened["termination_count"] == before["termination_count"] + (sample["access"] & 1)
-                and after["termination_count"] == before["termination_count"],
+                and after["termination_count"] == before["termination_count"]
+                and opened["wait_count"] == before["wait_count"] + bool(sample["access"] & 0x100000)
+                and after["wait_count"] == before["wait_count"],
                 "native counter did not detect the deliberately retained and released handle")
     foreign = result.get("foreign_snapshot", {})
     require(foreign.get("snapshot_released") is True and foreign.get("dashboard_alive") is True
@@ -291,12 +298,32 @@ def validate_resources(ui, observer, case_name):
         require(type(row.get("count")) is int and row["count"] >= 0
                 and type(row.get("termination_count")) is int and 0 <= row["termination_count"] <= row["count"],
                 "invalid native process handle count")
-        require(row["count"] == 0 if row["pid"] in helpers else row["termination_count"] == 0,
-                "dashboard retained a helper or owned termination handle")
+        if row["pid"] in helpers and row["count"]:
+            # Only a still-live timeout helper may have sysinfo's one query-only
+            # handle. No action wait handle (SYNCHRONIZE) can satisfy this mask.
+            require(case_name == "helper-timeout" and observer.get("helper_exited_before_cleanup") is False
+                    and row["count"] == 1 and row.get("wait_count") == 0
+                    and row["termination_count"] == 0
+                    and row.get("granted_access") in ([0x1000], [0x410], [0x1410]),
+                    "dashboard retained an elevated helper action handle")
+        else:
+            require(row["termination_count"] == 0, "dashboard retained an owned termination handle")
     settled = datetime.fromisoformat(ui["cases"][0]["settled_utc"].replace("Z", "+00:00"))
     captured = datetime.fromisoformat(resources["captured_utc"].replace("Z", "+00:00"))
     require(0 <= (captured - settled).total_seconds() <= 20,
             "resource observation was not taken after the settled action")
+
+
+def validate_uac_harness(hashes, case_name):
+    current = {name: hashlib.sha256((ROOT / "scripts/system-pulse" / name).read_bytes()).hexdigest()
+               for name in HARNESS_FILES}
+    if hashes == current:
+        return
+    require(case_name != "helper-timeout", "timeout needs the current native handle classification")
+    historical = {name: hashlib.sha256(subprocess.check_output([
+        "git", "show", f"{ZERO_HELPER_HANDLES_REVISION}:scripts/system-pulse/{name}"
+    ], cwd=ROOT)).hexdigest() for name in HARNESS_FILES}
+    require(hashes == historical, "unreviewed native UAC harness revision")
 
 
 def verify_receipt(directory, build_log, package_dir):
@@ -310,7 +337,7 @@ def verify_receipt(directory, build_log, package_dir):
     require(receipt.get("package") == package
             and hashlib.sha256(archive_files(package_dir / package["archive"])["system-pulse.exe"]).hexdigest() == binary_hash,
             "UAC observation did not use the shipped binary")
-    check_harness(receipt.get("harness_sha256", {}), HARNESS_FILES)
+    validate_uac_harness(receipt.get("harness_sha256", {}), receipt.get("case"))
     artifacts = receipt.get("artifacts_sha256", {})
     require({"observer.json", "evidence/result.json", "evidence/app.stderr"} <= set(artifacts),
             "UAC native artifacts are missing")
