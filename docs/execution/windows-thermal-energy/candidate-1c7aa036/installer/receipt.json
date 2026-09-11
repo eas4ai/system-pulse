@@ -1,0 +1,18 @@
+{
+  "source_commit": "1c7aa036c21ba0f7123e4d76f41529dc7f77e855",
+  "signed_binary_sha256": "2aeed95b95b73f9fa3d42c853dd42d845a57d915d36217a33793e0148953a4ad",
+  "harness_sha256": {
+    "windows_installer_verify.ps1": "38a9d64851a7fecdf5953fe93da2849280a6c6197c53b5385a0d979ecc6b28ca"
+  },
+  "artifacts_sha256": {
+    "existing/existing-driver-install.log": "8bce6f3f97f2ed86aa0392419f99a93a508a85e63373be6a4d8de465e666299b",
+    "existing/install.log": "ad0dd48468116f7c57e60cf84ef2d78f9713b94779ec96b693f54ed8eafdd7f2",
+    "existing/result.json": "bba3001087b7f03581a793f759eaa73ff21e1fe02b8292cf57656165ff48005d",
+    "existing/uninstall.log": "8440a558a20c720340622ae29a263bd9b9b86400119d00924ab74a2525dfd2cf",
+    "fresh/existing-driver-install.log": "e4b3d6c0cd5ee081a6ca1fcd7c434ae16d38176bae9b04c437497610bb66f970",
+    "fresh/install.log": "926cd243a0a2fd21129f4c636cd9651c19f1e99371a8af742dae908a65d9c479",
+    "fresh/result.json": "b3d73e153b84b9a535e50d37c42351b970e9d103aeed20a750e41ac9018aa521",
+    "fresh/uninstall.log": "3b515390e6414128641e2f6bcff811f1a594dad9f5560cf92c9a1fab5dd4c6ef",
+    "manifest.json": "58aee663774e906b693bbfccb6f788817ed5c4d470c47689d64444b48f496065"
+  }
+}

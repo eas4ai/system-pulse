@@ -1,0 +1,18 @@
+{
+    "collected_creation_ticks":  134336114333233624,
+    "pid":  11340,
+    "creation_ticks":  134336114333233624,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 11340)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n11340\nowned-fixture.exe\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 11340\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 231 readable processes · 1 s update",
+    "signal":  "terminate",
+    "pending_observations":  [
+
+                             ],
+    "name":  "graceful-cooperative",
+    "status":  "owned-fixture.exe (PID 11340) has exited.",
+    "mode":  "cooperative",
+    "settled_utc":  "2026-09-11T14:43:59.4706440Z",
+    "dashboard_handles_before":  680,
+    "sequence_before":  20,
+    "submitted_utc":  "2026-09-11T14:43:59.1183111Z"
+}

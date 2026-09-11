@@ -1,0 +1,18 @@
+{
+    "collected_creation_ticks":  134336114666773016,
+    "pid":  8420,
+    "creation_ticks":  134336114666773016,
+    "duplicate_activation":  "delivered",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 8420)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n8420\nowned-fixture.exe\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 8420\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 234 readable processes · 1 s update",
+    "signal":  "kill",
+    "pending_observations":  [
+
+                             ],
+    "name":  "stale-before-confirm",
+    "status":  "The selected process has already exited.",
+    "mode":  "windowless",
+    "settled_utc":  "2026-09-11T14:44:32.7589988Z",
+    "dashboard_handles_before":  686,
+    "sequence_before":  54,
+    "submitted_utc":  "2026-09-11T14:44:32.3274178Z"
+}

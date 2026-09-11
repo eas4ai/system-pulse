@@ -1,0 +1,48 @@
+﻿2026-09-11 07:46:21.530   Log opened. (Time zone: UTC-07:00)
+2026-09-11 07:46:21.530   Setup version: Inno Setup version 6.4.3
+2026-09-11 07:46:21.530   Original Uninstall EXE: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\unins000.exe
+2026-09-11 07:46:21.530   Uninstall DAT: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\unins000.dat
+2026-09-11 07:46:21.530   Uninstall command line: /SECONDPHASE="C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\unins000.exe" /FIRSTPHASEWND=$60268 /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /LOG="\\host.lan\Data\workspace2\.system-pulse-test-tmp\winboat-thermal-lifecycle-local\uninstall.log" 
+2026-09-11 07:46:21.530   Windows version: 10.0.26200
+2026-09-11 07:46:21.530   Windows architecture: x64 (64-bit)
+2026-09-11 07:46:21.530   Machine types supported by system: x86 x64
+2026-09-11 07:46:21.530   User privileges: Administrative
+2026-09-11 07:46:21.530   Administrative install mode: Yes
+2026-09-11 07:46:21.530   Install mode root key: HKEY_LOCAL_MACHINE
+2026-09-11 07:46:21.530   Created protected temporary directory: C:\Users\shawn\AppData\Local\Temp\is-HJHJM.tmp
+2026-09-11 07:46:21.539   Starting the uninstallation process.
+2026-09-11 07:46:21.540   Deleting registry key: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{82C76189-3134-4B89-A742-5CBAA4388645}_is1
+2026-09-11 07:46:21.637   Deleting file: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\System Pulse\System Pulse.lnk
+2026-09-11 07:46:21.639   Deleting directory: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\System Pulse
+2026-09-11 07:46:21.639   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\sources.json
+2026-09-11 07:46:21.639   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-IntelMSR-NOTICE.md
+2026-09-11 07:46:21.639   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-IntelMSR-COPYING
+2026-09-11 07:46:21.639   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-driver-README.md
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-driver-NOTICE.md
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-driver-COPYING
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Michroma-SOURCE.md
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Michroma-OFL.txt
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\LICENSE-APACHE
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Inter-JetBrainsMono-OFL.txt
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Intel-UAPI-NOTICE
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\IBM-Plex-LICENSE.txt
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Apple-NOTICE.md
+2026-09-11 07:46:21.641   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\system-pulse.exe
+2026-09-11 07:46:21.643   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\SOURCE.txt
+2026-09-11 07:46:21.643   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\source.tar.gz
+2026-09-11 07:46:21.645   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\README.md
+2026-09-11 07:46:21.645   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\package-files.json
+2026-09-11 07:46:21.645   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\LICENSES.html
+2026-09-11 07:46:21.645   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\dependency-licenses.json
+2026-09-11 07:46:21.645   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\COPYING
+2026-09-11 07:46:21.645   Deleting file: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\build.json
+2026-09-11 07:46:21.645   Deleting registry key: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{82C76189-3134-4B89-A742-5CBAA4388645}_is1
+2026-09-11 07:46:21.650   Deleting directory: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices
+2026-09-11 07:46:21.650   Deleting directory: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420
+2026-09-11 07:46:21.650   Failed to delete directory (145). Will retry later.
+2026-09-11 07:46:21.650   Deleting Uninstall data files.
+2026-09-11 07:46:22.169   Deleting directory: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420
+2026-09-11 07:46:22.169   Uninstallation process succeeded.
+2026-09-11 07:46:22.169   Removed all? Yes
+2026-09-11 07:46:22.169   Need to restart Windows? No
+2026-09-11 07:46:22.171   Log closed.

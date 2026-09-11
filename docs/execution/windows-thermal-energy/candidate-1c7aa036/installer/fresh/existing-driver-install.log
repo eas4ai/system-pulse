@@ -1,0 +1,200 @@
+﻿2026-09-11 07:46:19.937   Log opened. (Time zone: UTC-07:00)
+2026-09-11 07:46:19.939   Setup version: Inno Setup version 6.4.3
+2026-09-11 07:46:19.939   Original Setup EXE: C:\Users\shawn\AppData\Local\SystemPulseBuildTools\system-pulse-thermal-setup.exe
+2026-09-11 07:46:19.939   Setup command line: /SL5="$8026E,33406180,867840,C:\Users\shawn\AppData\Local\SystemPulseBuildTools\system-pulse-thermal-setup.exe" /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /DIR="C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420" /TASKS="cputemperature" /LOG="\\host.lan\Data\workspace2\.system-pulse-test-tmp\winboat-thermal-lifecycle-local\existing-driver-install.log" 
+2026-09-11 07:46:19.939   Windows version: 10.0.26200
+2026-09-11 07:46:19.939   Windows architecture: x64 (64-bit)
+2026-09-11 07:46:19.939   Machine types supported by system: x86 x64
+2026-09-11 07:46:19.939   User privileges: Administrative
+2026-09-11 07:46:19.939   Administrative install mode: Yes
+2026-09-11 07:46:19.939   Install mode root key: HKEY_LOCAL_MACHINE
+2026-09-11 07:46:19.939   64-bit install mode: Yes
+2026-09-11 07:46:19.939   Created protected temporary directory: C:\Users\shawn\AppData\Local\Temp\is-F8BI9.tmp
+2026-09-11 07:46:19.988   Keeping the existing shared PawnIO installation.
+2026-09-11 07:46:19.988   Found 1 files to register with RestartManager.
+2026-09-11 07:46:19.988   Calling RestartManager's RmGetList.
+2026-09-11 07:46:19.994   RmGetList finished successfully.
+2026-09-11 07:46:19.994   RestartManager found no applications using one of our files.
+2026-09-11 07:46:19.998   Starting the installation process.
+2026-09-11 07:46:19.998   Directory for uninstall files: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420
+2026-09-11 07:46:20.004   Will append to existing uninstall log: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\unins000.dat
+2026-09-11 07:46:20.004   -- File entry --
+2026-09-11 07:46:20.004   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\unins000.exe
+2026-09-11 07:46:20.004   Non-default bitness: 32-bit
+2026-09-11 07:46:20.006   Time stamp of our file: 2026-09-11 07:46:19.803
+2026-09-11 07:46:20.006   Dest file exists.
+2026-09-11 07:46:20.006   Time stamp of existing file: 2026-09-11 07:46:14.553
+2026-09-11 07:46:20.006   Version of our file: 51.1052.0.0
+2026-09-11 07:46:20.008   Version of existing file: 51.1052.0.0
+2026-09-11 07:46:20.008   Installing the file.
+2026-09-11 07:46:20.012   Leaving temporary file in place for now.
+2026-09-11 07:46:20.012   -- File entry --
+2026-09-11 07:46:20.012   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\build.json
+2026-09-11 07:46:20.012   Time stamp of our file: 2026-09-11 07:34:00.000
+2026-09-11 07:46:20.012   Dest file exists.
+2026-09-11 07:46:20.012   Time stamp of existing file: 2026-09-11 07:34:00.000
+2026-09-11 07:46:20.012   Installing the file.
+2026-09-11 07:46:20.012   Successfully installed the file.
+2026-09-11 07:46:20.012   -- File entry --
+2026-09-11 07:46:20.012   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\COPYING
+2026-09-11 07:46:20.012   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.012   Dest file exists.
+2026-09-11 07:46:20.012   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.012   Installing the file.
+2026-09-11 07:46:20.014   Successfully installed the file.
+2026-09-11 07:46:20.014   -- File entry --
+2026-09-11 07:46:20.014   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\dependency-licenses.json
+2026-09-11 07:46:20.014   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.014   Dest file exists.
+2026-09-11 07:46:20.014   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.014   Installing the file.
+2026-09-11 07:46:20.020   Successfully installed the file.
+2026-09-11 07:46:20.020   -- File entry --
+2026-09-11 07:46:20.022   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\LICENSES.html
+2026-09-11 07:46:20.022   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.022   Dest file exists.
+2026-09-11 07:46:20.022   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.022   Installing the file.
+2026-09-11 07:46:20.028   Successfully installed the file.
+2026-09-11 07:46:20.028   -- File entry --
+2026-09-11 07:46:20.028   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\package-files.json
+2026-09-11 07:46:20.028   Time stamp of our file: 2026-09-11 07:34:00.000
+2026-09-11 07:46:20.028   Dest file exists.
+2026-09-11 07:46:20.028   Time stamp of existing file: 2026-09-11 07:34:00.000
+2026-09-11 07:46:20.028   Installing the file.
+2026-09-11 07:46:20.028   Successfully installed the file.
+2026-09-11 07:46:20.028   -- File entry --
+2026-09-11 07:46:20.030   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\README.md
+2026-09-11 07:46:20.030   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.030   Dest file exists.
+2026-09-11 07:46:20.030   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.030   Installing the file.
+2026-09-11 07:46:20.030   Successfully installed the file.
+2026-09-11 07:46:20.030   -- File entry --
+2026-09-11 07:46:20.030   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\source.tar.gz
+2026-09-11 07:46:20.030   Time stamp of our file: 2026-09-11 07:32:00.000
+2026-09-11 07:46:20.030   Dest file exists.
+2026-09-11 07:46:20.030   Time stamp of existing file: 2026-09-11 07:32:00.000
+2026-09-11 07:46:20.030   Installing the file.
+2026-09-11 07:46:20.568   Successfully installed the file.
+2026-09-11 07:46:20.568   -- File entry --
+2026-09-11 07:46:20.568   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\SOURCE.txt
+2026-09-11 07:46:20.568   Time stamp of our file: 2026-09-11 07:32:00.000
+2026-09-11 07:46:20.568   Dest file exists.
+2026-09-11 07:46:20.568   Time stamp of existing file: 2026-09-11 07:32:00.000
+2026-09-11 07:46:20.568   Installing the file.
+2026-09-11 07:46:20.568   Successfully installed the file.
+2026-09-11 07:46:20.568   -- File entry --
+2026-09-11 07:46:20.568   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\system-pulse.exe
+2026-09-11 07:46:20.568   Time stamp of our file: 2026-09-11 07:34:00.000
+2026-09-11 07:46:20.568   Dest file exists.
+2026-09-11 07:46:20.568   Time stamp of existing file: 2026-09-11 07:34:00.000
+2026-09-11 07:46:20.568   Installing the file.
+2026-09-11 07:46:20.927   Successfully installed the file.
+2026-09-11 07:46:20.927   -- File entry --
+2026-09-11 07:46:20.929   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Apple-NOTICE.md
+2026-09-11 07:46:20.929   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.929   Dest file exists.
+2026-09-11 07:46:20.929   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.929   Installing the file.
+2026-09-11 07:46:20.929   Successfully installed the file.
+2026-09-11 07:46:20.929   -- File entry --
+2026-09-11 07:46:20.929   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\IBM-Plex-LICENSE.txt
+2026-09-11 07:46:20.929   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.929   Dest file exists.
+2026-09-11 07:46:20.929   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.929   Installing the file.
+2026-09-11 07:46:20.929   Successfully installed the file.
+2026-09-11 07:46:20.929   -- File entry --
+2026-09-11 07:46:20.929   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Intel-UAPI-NOTICE
+2026-09-11 07:46:20.929   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.929   Dest file exists.
+2026-09-11 07:46:20.929   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.929   Installing the file.
+2026-09-11 07:46:20.931   Successfully installed the file.
+2026-09-11 07:46:20.931   -- File entry --
+2026-09-11 07:46:20.931   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Inter-JetBrainsMono-OFL.txt
+2026-09-11 07:46:20.931   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.931   Dest file exists.
+2026-09-11 07:46:20.931   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.931   Installing the file.
+2026-09-11 07:46:20.931   Successfully installed the file.
+2026-09-11 07:46:20.931   -- File entry --
+2026-09-11 07:46:20.931   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\LICENSE-APACHE
+2026-09-11 07:46:20.931   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.931   Dest file exists.
+2026-09-11 07:46:20.931   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.931   Installing the file.
+2026-09-11 07:46:20.931   Successfully installed the file.
+2026-09-11 07:46:20.931   -- File entry --
+2026-09-11 07:46:20.931   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Michroma-OFL.txt
+2026-09-11 07:46:20.931   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.931   Dest file exists.
+2026-09-11 07:46:20.931   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.931   Installing the file.
+2026-09-11 07:46:20.933   Successfully installed the file.
+2026-09-11 07:46:20.933   -- File entry --
+2026-09-11 07:46:20.933   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\Michroma-SOURCE.md
+2026-09-11 07:46:20.933   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.933   Dest file exists.
+2026-09-11 07:46:20.933   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.933   Installing the file.
+2026-09-11 07:46:20.933   Successfully installed the file.
+2026-09-11 07:46:20.933   -- File entry --
+2026-09-11 07:46:20.933   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-driver-COPYING
+2026-09-11 07:46:20.933   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.933   Dest file exists.
+2026-09-11 07:46:20.933   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.933   Installing the file.
+2026-09-11 07:46:20.933   Successfully installed the file.
+2026-09-11 07:46:20.933   -- File entry --
+2026-09-11 07:46:20.933   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-driver-NOTICE.md
+2026-09-11 07:46:20.933   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.933   Dest file exists.
+2026-09-11 07:46:20.933   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.933   Installing the file.
+2026-09-11 07:46:20.935   Successfully installed the file.
+2026-09-11 07:46:20.935   -- File entry --
+2026-09-11 07:46:20.935   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-driver-README.md
+2026-09-11 07:46:20.935   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.935   Dest file exists.
+2026-09-11 07:46:20.935   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.935   Installing the file.
+2026-09-11 07:46:20.935   Successfully installed the file.
+2026-09-11 07:46:20.935   -- File entry --
+2026-09-11 07:46:20.935   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-IntelMSR-COPYING
+2026-09-11 07:46:20.935   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.935   Dest file exists.
+2026-09-11 07:46:20.935   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.935   Installing the file.
+2026-09-11 07:46:20.937   Successfully installed the file.
+2026-09-11 07:46:20.937   -- File entry --
+2026-09-11 07:46:20.937   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\PawnIO-IntelMSR-NOTICE.md
+2026-09-11 07:46:20.937   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.937   Dest file exists.
+2026-09-11 07:46:20.937   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.937   Installing the file.
+2026-09-11 07:46:20.937   Successfully installed the file.
+2026-09-11 07:46:20.937   -- File entry --
+2026-09-11 07:46:20.937   Dest filename: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\notices\sources.json
+2026-09-11 07:46:20.937   Time stamp of our file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.937   Dest file exists.
+2026-09-11 07:46:20.937   Time stamp of existing file: 2026-09-11 07:31:58.000
+2026-09-11 07:46:20.937   Installing the file.
+2026-09-11 07:46:20.937   Successfully installed the file.
+2026-09-11 07:46:20.937   -- Icon entry --
+2026-09-11 07:46:20.937   Dest filename: C:\ProgramData\Microsoft\Windows\Start Menu\Programs\System Pulse\System Pulse.lnk
+2026-09-11 07:46:20.937   Creating the icon.
+2026-09-11 07:46:21.207   Successfully created the icon.
+2026-09-11 07:46:21.207   Saving uninstall information.
+2026-09-11 07:46:21.207   Renaming uninstaller.
+2026-09-11 07:46:21.207   Writing uninstaller messages: C:\Program Files\SystemPulse-InstallerCheck-fa30a40e0d8f40e4b710c2bc7096d420\unins000.msg
+2026-09-11 07:46:21.207   Deleting uninstall key left over from previous administrative 64-bit install.
+2026-09-11 07:46:21.207   Creating new uninstall key: HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Uninstall\{82C76189-3134-4B89-A742-5CBAA4388645}_is1
+2026-09-11 07:46:21.207   Writing uninstall key values.
+2026-09-11 07:46:21.209   Detected previous non administrative install? No
+2026-09-11 07:46:21.209   Detected previous administrative 32-bit install? No
+2026-09-11 07:46:21.215   Installation process succeeded.
+2026-09-11 07:46:21.215   Need to restart Windows? No
+2026-09-11 07:46:21.217   Deinitializing Setup.
+2026-09-11 07:46:21.221   Log closed.
