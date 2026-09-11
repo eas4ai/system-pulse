@@ -10,6 +10,8 @@ pub mod process_control;
 mod service;
 #[cfg(any(test, target_os = "windows"))]
 mod windows_gpu;
+#[cfg(any(test, target_os = "windows"))]
+mod windows_energy;
 pub use service::{DEFAULT_INTERVAL, SUPPORTED_INTERVALS, SamplingService};
 
 #[cfg(any(test, all(target_os = "macos", target_arch = "aarch64")))]

@@ -39,6 +39,8 @@ pub struct HostCollector {
     nvidia: crate::nvidia::NvidiaCollector,
     #[cfg(target_os = "windows")]
     windows_gpu: crate::windows_gpu::WindowsGpuCollector,
+    #[cfg(target_os = "windows")]
+    windows_energy: crate::windows_energy::WindowsEnergyCollector,
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     apple: crate::apple::AppleCollector,
     #[cfg(target_os = "linux")]
@@ -68,6 +70,8 @@ impl HostCollector {
             nvidia: crate::nvidia::NvidiaCollector::new(),
             #[cfg(target_os = "windows")]
             windows_gpu: crate::windows_gpu::WindowsGpuCollector::new(),
+            #[cfg(target_os = "windows")]
+            windows_energy: crate::windows_energy::WindowsEnergyCollector::new(),
             #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
             apple: crate::apple::AppleCollector::default(),
             #[cfg(target_os = "linux")]
@@ -110,6 +114,7 @@ impl HostCollector {
             #[cfg(target_os = "windows")]
             {
                 self.windows_gpu.collect(&mut s, self.origin);
+                self.windows_energy.collect(&mut s, self.origin);
                 let mut vendor = Snapshot::default();
                 self.nvidia.collect_windows_at_origin(
                     &mut vendor,
