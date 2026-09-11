@@ -1,0 +1,10 @@
+{
+  "source_commit": "1717121f4c42dddc5b661854bf94a7f13620b9db",
+  "scope": "Initial native helper, application and release verification; final package source checks pending",
+  "thermal_tests": 23,
+  "full_tests": 276,
+  "exit_code": 0,
+  "log": "windows-initial-build.log",
+  "sha256": "4e2596e354aca121b676c842bdc0e48588374647e0e2c746e11f588be77674ed",
+  "clippy_warnings": "Five Rust 1.98 chunks_exact_to_as_chunks suggestions, retained in the log"
+}
