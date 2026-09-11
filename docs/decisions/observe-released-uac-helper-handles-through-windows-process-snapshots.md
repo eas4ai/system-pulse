@@ -11,4 +11,4 @@ After each administrator UAC case settles, keep the disposable dashboard alive a
 
 ## Realized by
 
-(none yet: recorded, not built)
+- 589a62a9 Verify released UAC helper handles in the live dashboard
