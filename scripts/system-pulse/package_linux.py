@@ -12,6 +12,7 @@ import shutil
 import subprocess
 import tarfile
 import time
+import tomllib
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT
@@ -132,7 +133,8 @@ def main():
         )
     output.mkdir(parents=True, exist_ok=False)
     commit = capture(["git", "rev-parse", "HEAD"])
-    name = f"system-pulse-0.3.0-linux-x86_64-{commit[:12]}"
+    version = tomllib.loads((ROOT / "Cargo.toml").read_text())["package"]["version"]
+    name = f"system-pulse-{version}-linux-x86_64-{commit[:12]}"
     package = output / name
     package.mkdir()
     print("Building the release executable", flush=True)

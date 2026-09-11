@@ -518,69 +518,6 @@ mod tests {
     }
 
     #[test]
-    fn native_real_driver_limited_parent() {
-        let Some(directory) = std::env::var_os("SYSTEM_PULSE_TEST_EXTERNAL_HELPER") else {
-            return;
-        };
-        assert!(
-            !identity::elevated().unwrap(),
-            "cross-token parent must be Limited"
-        );
-        let directory = std::path::PathBuf::from(directory);
-        let _executable = LockedExecutable::current().unwrap();
-        let request = Request {
-            pid: std::process::id(),
-            created: identity::creation_time(unsafe { GetCurrentProcess() }).unwrap(),
-            nonce: format!("{:032x}", counter().unwrap()),
-        };
-        let server = create_pipe(&request).unwrap();
-        std::fs::write(
-            directory.join("request.txt"),
-            format!("{}\n{}\n{}\n", request.pid, request.created, request.nonce),
-        )
-        .unwrap();
-        let deadline = Instant::now() + Duration::from_secs(60);
-        let child_pid = loop {
-            if let Ok(pid) = std::fs::read_to_string(directory.join("child-pid.txt"))
-                && let Ok(pid) = pid.trim().parse::<u32>()
-            {
-                break pid;
-            }
-            assert!(
-                Instant::now() < deadline,
-                "external elevated child did not start"
-            );
-            std::thread::sleep(POLL);
-        };
-        use windows::Win32::System::Threading::{
-            OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION, PROCESS_SYNCHRONIZE,
-        };
-        let child = own(unsafe {
-            OpenProcess(
-                PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_SYNCHRONIZE,
-                false,
-                child_pid,
-            )
-        }
-        .unwrap());
-        let _identity =
-            Caller::open(child_pid, identity::creation_time(raw(&child)).unwrap()).unwrap();
-        eprintln!("real helper Limited parent elevated=false, retained child={child_pid}");
-        let result = read_test_temperature(&server, child_pid);
-        drop(server);
-        let deadline = Instant::now() + Duration::from_secs(10);
-        while alive(raw(&child)) && Instant::now() < deadline {
-            std::thread::sleep(POLL);
-        }
-        assert!(!alive(raw(&child)), "external helper survived pipe closure");
-        eprintln!("cross-token real helper observation={result:?}");
-        assert!(
-            result.is_ok(),
-            "cross-token helper did not deliver a temperature"
-        );
-    }
-
-    #[test]
     fn native_local_pipe_has_exact_messages_and_does_not_wait_for_empty_reads() {
         let request = Request {
             pid: std::process::id(),

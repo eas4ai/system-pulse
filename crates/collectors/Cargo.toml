@@ -1,6 +1,6 @@
 [package]
 name = "system-pulse-collectors"
-version = "0.3.0"
+version = "1.0.0"
 edition.workspace = true
 publish.workspace = true
 license = "GPL-3.0-or-later"

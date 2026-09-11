@@ -145,3 +145,13 @@ that handle-acquisition path. Preserve the failed diagnostic log as investigatio
 evidence, remove that experimental function, and retain the working real-driver
 regression. The signed application replay must establish the real cross-token
 launch. This correction changes test code only.
+
+### 1.0.0 release preparation
+
+The unsuccessful `native_real_driver_limited_parent` experiment has been removed.
+The working `native_real_driver_helper_session`, its child entry and shared
+`read_test_temperature` remain. The removed OpenProcess imports were local to the
+experimental function. Formatting and all 609 Python verification/packaging tests
+passed during release preparation. Final native Windows compilation and tests
+will run against the committed 1.0.0 source. This closes the source-cleanup item;
+it does not claim completion of the signed interactive thermal lifecycle or Cairn.

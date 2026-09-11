@@ -79,7 +79,7 @@ regression and release packaging. The application and installer were signed usin
 the existing Winboat command. Fresh-driver installation in Winboat and installation
 with the existing tablet driver both passed install, reinstall and removal checks;
 the shared driver remained installed. Winboat was then stopped to release its RAM.
-The retained records under `native/installer/` identify the exact candidate and
+The retained records under `candidate-1c7aa036/installer/` identify the exact candidate and
 signatures. These successful installer checks do not prove temperature collection.
 
 Linux and macOS application/model/collector tests and all-targets Clippy passed.
