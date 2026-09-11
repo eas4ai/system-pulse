@@ -1,9 +1,9 @@
 {
-    "collected_creation_ticks":  134335507891177835,
-    "pid":  5340,
-    "creation_ticks":  134335507891177835,
+    "collected_creation_ticks":  134335601924408085,
+    "pid":  3808,
+    "creation_ticks":  134335601924408085,
     "duplicate_activation":  "delivered",
-    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 5340)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n5340\nowned-fixture.exe\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 5340\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 230 readable processes · 1 s update",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nForce quit owned-fixture.exe (PID 3808)? Unsaved work may be lost.\nCancel process action\nConfirm force quit\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n3808\nowned-fixture.exe\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 3808\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 235 readable processes · 1 s update",
     "signal":  "kill",
     "pending_observations":  [
 
@@ -11,8 +11,8 @@
     "name":  "stale-before-confirm",
     "status":  "The selected process has already exited.",
     "mode":  "windowless",
-    "settled_utc":  "2026-09-10T21:53:14.9327115Z",
-    "dashboard_handles_before":  667,
+    "settled_utc":  "2026-09-11T00:29:58.1932086Z",
+    "dashboard_handles_before":  665,
     "sequence_before":  51,
-    "submitted_utc":  "2026-09-10T21:53:14.6583237Z"
+    "submitted_utc":  "2026-09-11T00:29:57.9582155Z"
 }

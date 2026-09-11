@@ -74,25 +74,9 @@ function Control($name,$role) {
     if($items.Count -ne 1){throw "Expected one $role '$name', found $($items.Count)"}
     $items[0]
 }
-function Control-Pattern($name,$role,$kind) {
-    $deadline=(Get-Date).AddSeconds(2)
-    do {
-        $control=Control $name $role
-        $pattern=$null
-        try {
-            if($control.TryGetCurrentPattern($kind,[ref]$pattern)){return $pattern}
-        } catch [System.Windows.Automation.ElementNotAvailableException] {
-            # The provider can replace a node between lookup and pattern access.
-        }
-        Start-Sleep -Milliseconds 100
-    }while((Get-Date) -lt $deadline)
-    throw "Native $role '$name' did not expose $kind before the deadline"
-}
 function Invoke-Button($name) {
-    # Retry only read-only pattern acquisition. Never resubmit an action whose
-    # Invoke/SetValue call may already have been delivered to the application.
-    $invoke=Control-Pattern $name 'ControlType.Button' ([System.Windows.Automation.InvokePattern]::Pattern)
-    ([System.Windows.Automation.InvokePattern]$invoke).Invoke()
+    $button=Control $name 'ControlType.Button'
+    ([System.Windows.Automation.InvokePattern]$button.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)).Invoke()
 }
 function Read-SharedText($path) {
     # Allow atomic snapshot replacement while observing an older complete file.
@@ -125,8 +109,8 @@ function Capture($name) {
     } finally {$graphics.Dispose();$bitmap.Dispose()}
 }
 function Prepare-Action($target,$signal) {
-    $search=Control-Pattern 'Search name, PID, or user…' 'ControlType.Edit' ([System.Windows.Automation.ValuePattern]::Pattern)
-    ([System.Windows.Automation.ValuePattern]$search).SetValue([string]$target.Id)
+    $search=Control 'Search name, PID, or user…' 'ControlType.Edit'
+    ([System.Windows.Automation.ValuePattern]$search.GetCurrentPattern([System.Windows.Automation.ValuePattern]::Pattern)).SetValue([string]$target.Id)
     Start-Sleep -Seconds 2
     $rows=@(Descendants | Where-Object {$_.Current.ControlType.ProgrammaticName -eq 'ControlType.DataItem' -and $_.Current.Name -eq ''})
     $selected=@(foreach($row in $rows) {
@@ -175,8 +159,8 @@ try {
     if($script:app.HasExited -or $script:app.MainWindowHandle -eq 0){throw 'No live action dashboard'}
     $script:root=[System.Windows.Automation.AutomationElement]::FromHandle($script:app.MainWindowHandle)
     Start-Sleep -Seconds 3
-    $tab=Control-Pattern 'Processes' 'ControlType.TabItem' ([System.Windows.Automation.SelectionItemPattern]::Pattern)
-    ([System.Windows.Automation.SelectionItemPattern]$tab).Select()
+    $tab=Control 'Processes' 'ControlType.TabItem'
+    ([System.Windows.Automation.SelectionItemPattern]$tab.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern)).Select()
     Start-Sleep -Seconds 2
     $result.dashboard=@{pid=$script:app.Id;creation_ticks=[PulseActionObservation]::Creation($script:app.Handle);elevated_before=[PulseActionObservation]::Elevated($script:app.Handle);elevation_type=[PulseActionObservation]::ElevationType($script:app.Handle);account=[Security.Principal.WindowsIdentity]::GetCurrent().Name}
     Save-Record 'result.json' $result
@@ -235,7 +219,7 @@ try {
         $observation=@{name=$case.name;pid=$target.Id;creation_ticks=$ticks;signal=$case.signal;mode=$case.mode;collected_creation_ticks=$row[0].identity.start_time_ticks;sequence_before=$frame.snapshot.sequence}
         if($config.uac_observation -and $case.target_pid -and $case.signal -eq 'kill') {
             $observation.ordinary_force_access_error=[PulseActionObservation]::ForceAccessError($target.Id)
-            if($observation.ordinary_force_access_error -ne 5){throw ('Owned force fixture expected access denied; native error: '+$observation.ordinary_force_access_error)}
+            if($observation.ordinary_force_access_error -ne 5){throw 'Elevated force fixture does not require authorization'}
         }
         $observation.confirmation=Prepare-Action $target $case.signal
         $observation.dashboard_handles_before=[PulseActionObservation]::HandleCount($script:app.Handle)
@@ -250,8 +234,8 @@ try {
             $observation.status='confirmation cancelled'
         } else {
             Save-Record 'current-case.json' @{name=$case.name;phase='confirming';pid=$target.Id;expected_operator_action=$case.operator_action}
-            $confirmName=$(if($case.signal -eq 'kill'){'Confirm force quit'}else{'Confirm end task'})
-            $invoke=[System.Windows.Automation.InvokePattern](Control-Pattern $confirmName 'ControlType.Button' ([System.Windows.Automation.InvokePattern]::Pattern))
+            $confirm=Control $(if($case.signal -eq 'kill'){'Confirm force quit'}else{'Confirm end task'}) 'ControlType.Button'
+            $invoke=[System.Windows.Automation.InvokePattern]$confirm.GetCurrentPattern([System.Windows.Automation.InvokePattern]::Pattern)
             $observation.submitted_utc=(Get-Date).ToUniversalTime().ToString('o')
             $invoke.Invoke()
             # Exercise an actual duplicate activation of the same native control.
@@ -269,7 +253,8 @@ try {
                     if($case.verify_responsive -and $pending.Count -eq 0) {
                         $selected=@()
                         foreach($name in @('Summary','Processes')) {
-                            $selection=[System.Windows.Automation.SelectionItemPattern](Control-Pattern $name 'ControlType.TabItem' ([System.Windows.Automation.SelectionItemPattern]::Pattern))
+                            $tab=Control $name 'ControlType.TabItem'
+                            $selection=[System.Windows.Automation.SelectionItemPattern]$tab.GetCurrentPattern([System.Windows.Automation.SelectionItemPattern]::Pattern)
                             $selection.Select();Start-Sleep -Milliseconds 200
                             if(!$selection.Current.IsSelected){throw 'Dashboard did not respond during the pending action'}
                             $selected+=,$name
@@ -310,17 +295,6 @@ try {
         $result.cases+=,$observation
         Save-Record 'result.json' $result
         Save-Record 'current-case.json' @{name=$case.name;phase='complete';pid=$target.Id}
-        if($config.observe_resources) {
-            # Keep the dashboard alive until the independent native observer has
-            # inspected its released helper handle. Never extend the action wait.
-            $ackPath=Join-Path $script:output ($case.name+'-resources.json')
-            $ackDeadline=(Get-Date).AddSeconds(15)
-            do {Start-Sleep -Milliseconds 100}while(!(Test-Path -LiteralPath $ackPath) -and (Get-Date) -lt $ackDeadline)
-            if(!(Test-Path -LiteralPath $ackPath)){throw 'Native resource observation was not acknowledged'}
-            $ack=Read-SharedText $ackPath|ConvertFrom-Json
-            if($ack.case -ne $case.name -or $ack.dashboard_creation_ticks -ne $result.dashboard.creation_ticks -or $ack.passed -ne $true){throw 'Resource acknowledgment does not match this dashboard and case'}
-            $result.resources_acknowledged=$true
-        }
         if($case.target_pid){$target.Dispose()}
     }
     if((Read-SharedText (Join-Path $script:output 'app.stderr')).Trim()) {
@@ -329,7 +303,6 @@ try {
     $result.status='PASS'
 } catch {
     $result.error=$_.Exception.Message
-    $result.error_stack=$_.ScriptStackTrace
     if($script:root -and $outputCreated) {
         try {
             Save-Record 'failure-tree.json' @(Descendants | ForEach-Object {@{name=$_.Current.Name;role=$_.Current.ControlType.ProgrammaticName;id=$_.Current.AutomationId;enabled=$_.Current.IsEnabled}})

@@ -2,11 +2,14 @@ import copy
 import unittest
 from datetime import datetime, timezone
 import json
+from pathlib import Path
+import tempfile
+from unittest.mock import patch
 
 from performance_compare import InvalidMeasurement
 from test_windows_process_actions_verify import example_record
 from windows_process_uac_verify import (validate_run, validate_handle_selftest, validate_resource_review,
-    RESOURCE_REVIEW_CHECKS, ROOT)
+    RESOURCE_REVIEW_CHECKS, REQUIRED_RUNS, ROOT, verify_all)
 
 
 def observed_run(name="consent-force"):
@@ -74,6 +77,21 @@ def observed_run(name="consent-force"):
 
 
 class NativeUacReceiptTests(unittest.TestCase):
+    def test_full_gate_requires_every_case_and_rejects_mislabeled_receipts(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            with patch("windows_process_uac_verify.verify_receipt") as verify:
+                with self.assertRaisesRegex(InvalidMeasurement, "remain pending"):
+                    verify_all(root, root / "build.log", root, root, root / "review.json")
+                verify.assert_not_called()
+                for name in REQUIRED_RUNS:
+                    (root / name).mkdir()
+                    (root / name / "receipt.json").write_text("{}")
+                verify.return_value = "consent-force"
+                with self.assertRaisesRegex(InvalidMeasurement, "different case"):
+                    verify_all(root, root / "build.log", root, root, root / "review.json")
+                verify.assert_called_once()
+
     def test_delayed_consent_requires_progress_inside_the_actual_prompt(self):
         for change in (
             lambda u, o: o["events"][9].update(event_ticks=o["events"][8]["event_ticks"] + 1),

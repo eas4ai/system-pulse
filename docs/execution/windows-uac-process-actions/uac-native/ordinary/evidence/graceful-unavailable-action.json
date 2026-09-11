@@ -1,9 +1,9 @@
 {
-    "collected_creation_ticks":  134335507745085394,
-    "pid":  16308,
-    "creation_ticks":  134335507745085394,
+    "collected_creation_ticks":  134335601775507948,
+    "pid":  8492,
+    "creation_ticks":  134335601775507948,
     "duplicate_activation":  "delivered",
-    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 16308)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n16308\nowned-fixture.exe\n0.0 %\n14.2 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 16308\n0.0 %\n14.2 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 224 readable processes · 1 s update",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 8492)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n8492\nowned-fixture.exe\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 8492\n0.0 %\n14.1 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 237 readable processes · 1 s update",
     "signal":  "terminate",
     "pending_observations":  [
 
@@ -11,8 +11,8 @@
     "name":  "graceful-unavailable",
     "status":  "Graceful close is unavailable for this process. You can separately confirm Force quit if termination is intended.",
     "mode":  "windowless",
-    "settled_utc":  "2026-09-10T21:53:00.1963916Z",
-    "dashboard_handles_before":  666,
-    "sequence_before":  36,
-    "submitted_utc":  "2026-09-10T21:52:59.9561979Z"
+    "settled_utc":  "2026-09-11T00:29:43.4207689Z",
+    "dashboard_handles_before":  667,
+    "sequence_before":  37,
+    "submitted_utc":  "2026-09-11T00:29:43.0068197Z"
 }

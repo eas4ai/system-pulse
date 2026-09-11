@@ -1,108 +1,105 @@
 ﻿{
     "operator_action":  null,
     "ui_task_exit":  0,
-    "started_utc":  "2026-09-10T21:52:15.8207284Z",
+    "started_utc":  "2026-09-11T00:28:59.5979550Z",
     "observer_debug_privilege_removed":  true,
     "events":  [
                    {
                        "kind":  "start",
-                       "pid":  17004,
-                       "parent_pid":  2644,
+                       "pid":  7108,
+                       "parent_pid":  14212,
                        "session_id":  1,
                        "name":  "system-pulse.exe",
-                       "event_ticks":  134335507410694605,
-                       "observed_utc":  "2026-09-10T21:52:21.0752132Z",
-                       "creation_ticks":  134335507402713083,
-                       "image":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-a8e0a5517b154d36a52fe21c69a259a5\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
+                       "event_ticks":  134335601437774175,
+                       "observed_utc":  "2026-09-11T00:29:03.7831159Z",
+                       "creation_ticks":  134335601427788054,
+                       "image":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
                        "elevated":  false,
                        "elevation_type":  3,
-                       "command_line":  "\"C:\\Users\\shawn\\workspace\\SystemPulse-UAC-a8e0a5517b154d36a52fe21c69a259a5\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe\"",
+                       "command_line":  "\"C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe\"",
                        "argv":  [
-                                    "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-a8e0a5517b154d36a52fe21c69a259a5\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe"
+                                    "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-4308cb6f02fb4acaaf68180fa9630f9b\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe"
                                 ]
                    },
                    {
-                       "kind":  "start",
-                       "pid":  7912,
-                       "parent_pid":  2644,
-                       "session_id":  1,
-                       "name":  "system-pulse.exe",
-                       "event_ticks":  134335507501235510,
-                       "observed_utc":  "2026-09-10T21:52:30.1235510Z",
-                       "creation_ticks":  134335507489320929,
-                       "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
-                   },
-                   {
                        "kind":  "stop",
-                       "pid":  7912,
+                       "pid":  16376,
                        "parent_pid":  0,
                        "session_id":  0,
                        "name":  "system-pulse.e",
-                       "event_ticks":  134335507501235511,
-                       "observed_utc":  "2026-09-10T21:52:30.1235510Z",
-                       "exit_code":  29
-                   },
-                   {
-                       "kind":  "stop",
-                       "pid":  4100,
-                       "parent_pid":  0,
-                       "session_id":  0,
-                       "name":  "system-pulse.e",
-                       "event_ticks":  134335507501235513,
-                       "observed_utc":  "2026-09-10T21:52:30.1235510Z",
+                       "event_ticks":  134335601518384656,
+                       "observed_utc":  "2026-09-11T00:29:11.8384655Z",
                        "exit_code":  29
                    },
                    {
                        "kind":  "start",
-                       "pid":  4100,
-                       "parent_pid":  2644,
+                       "pid":  16376,
+                       "parent_pid":  14212,
                        "session_id":  1,
                        "name":  "system-pulse.exe",
-                       "event_ticks":  134335507501235512,
-                       "observed_utc":  "2026-09-10T21:52:30.1235510Z",
-                       "creation_ticks":  134335507493720084,
+                       "event_ticks":  134335601518384655,
+                       "observed_utc":  "2026-09-11T00:29:11.8384655Z",
+                       "creation_ticks":  134335601513550078,
                        "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
                    },
                    {
-                       "kind":  "start",
-                       "pid":  7764,
-                       "parent_pid":  2644,
-                       "session_id":  1,
-                       "name":  "system-pulse.exe",
-                       "event_ticks":  134335507501235514,
-                       "observed_utc":  "2026-09-10T21:52:30.1235510Z",
-                       "creation_ticks":  134335507497694551,
-                       "image":  "C:\\Users\\shawn\\workspace\\SystemPulse-UAC-a8e0a5517b154d36a52fe21c69a259a5\\Packaged app ü\\system-pulse-0.3.0-windows-x86_64-3e6923e39763\\system-pulse.exe",
-                       "elevated":  false,
-                       "elevation_type":  3,
-                       "live_observation_error":  "System.Management.ManagementException: Not found \r\n   at System.Management.ManagementException.ThrowWithExtendedInfo(ManagementStatus errorCode)\r\n   at System.Management.ManagementObject.Get()\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
-                   },
-                   {
                        "kind":  "stop",
-                       "pid":  7764,
+                       "pid":  11508,
                        "parent_pid":  0,
                        "session_id":  0,
                        "name":  "system-pulse.e",
-                       "event_ticks":  134335507511262353,
-                       "observed_utc":  "2026-09-10T21:52:31.1262353Z",
+                       "event_ticks":  134335601528485371,
+                       "observed_utc":  "2026-09-11T00:29:12.9119583Z",
+                       "exit_code":  29
+                   },
+                   {
+                       "kind":  "start",
+                       "pid":  11508,
+                       "parent_pid":  14212,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335601528479685,
+                       "observed_utc":  "2026-09-11T00:29:12.8485371Z",
+                       "creation_ticks":  134335601517718824,
+                       "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+                   },
+                   {
+                       "kind":  "stop",
+                       "pid":  7040,
+                       "parent_pid":  0,
+                       "session_id":  0,
+                       "name":  "system-pulse.e",
+                       "event_ticks":  134335601528485373,
+                       "observed_utc":  "2026-09-11T00:29:12.9119583Z",
                        "exit_code":  13
                    },
                    {
+                       "kind":  "start",
+                       "pid":  7040,
+                       "parent_pid":  14212,
+                       "session_id":  1,
+                       "name":  "system-pulse.exe",
+                       "event_ticks":  134335601528485372,
+                       "observed_utc":  "2026-09-11T00:29:12.9119583Z",
+                       "creation_ticks":  134335601521493021,
+                       "live_observation_error":  "System.ComponentModel.Win32Exception (0x80004005): A device attached to the system is not functioning\r\n   at PulseProcessTrace.ObserveLiveProcess(UInt32 pid, Dictionary`2 row)"
+                   },
+                   {
                        "kind":  "stop",
-                       "pid":  17004,
+                       "pid":  7108,
                        "parent_pid":  0,
                        "session_id":  0,
                        "name":  "system-pulse.e",
-                       "event_ticks":  134335508114881350,
-                       "observed_utc":  "2026-09-10T21:53:31.4881350Z",
+                       "event_ticks":  134335602153599389,
+                       "observed_utc":  "2026-09-11T00:30:15.3599389Z",
                        "exit_code":  4294967295
                    }
                ],
-    "finished_utc":  "2026-09-10T21:53:38.4158617Z",
+    "finished_utc":  "2026-09-11T00:30:23.0004647Z",
     "status":  "COLLECTED",
     "observer":  {
-                     "creation_ticks":  134335507341993748,
-                     "pid":  5596,
+                     "creation_ticks":  134335601384741920,
+                     "pid":  14748,
                      "elevated":  true
                  }
 }

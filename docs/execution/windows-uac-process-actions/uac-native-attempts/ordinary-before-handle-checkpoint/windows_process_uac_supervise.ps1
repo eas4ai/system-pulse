@@ -6,7 +6,6 @@ $ProgressPreference='SilentlyContinue'
 $config=Get-Content -Raw -Encoding UTF8 -LiteralPath $Configuration|ConvertFrom-Json
 Add-Type -Path $config.trace_source -ReferencedAssemblies System.Management
 Add-Type -Path $config.fault_source
-Add-Type -Path $config.handles_source
 [PulseOwnedProcessFault]::RemoveObserverDebugPrivilege()
 $record=@{status='FAIL';started_utc=(Get-Date).ToUniversalTime().ToString('o');events=@()}
 $record.observer_debug_privilege_removed=$true
@@ -32,39 +31,6 @@ function Read-UiRecord($name) {
     throw "Incomplete UI observation: $name"
 }
 
-function Observe-ReleasedHandles($case) {
-    $active=Read-UiRecord 'current-case.json'
-    if(!$active -or $active.phase -ne 'complete' -or $active.name -ne $case.name){return}
-    $ui=Read-UiRecord 'result.json'
-    if(!$ui -or @($ui.cases).Count -ne 1 -or $ui.cases[0].name -ne $case.name){throw 'Missing settled UI resource checkpoint'}
-    $known=@($ui.dashboard.pid)+@($ui.helper_entry_checks|ForEach-Object {$_.pid})
-    $starts=@($record.events|Where-Object {$_.kind -eq 'start' -and $_.name -ieq 'system-pulse.exe' -and $_.pid -notin $known})
-    $expected=$(if($case.name -eq 'consent-cancel'){0}else{1})
-    if($starts.Count -lt $expected){return} # The bounded UI checkpoint also bounds trace delivery.
-    if($starts.Count -ne $expected){throw 'Unexpected helper count at the resource checkpoint'}
-    $dashboard=[Diagnostics.Process]::GetProcessById($ui.dashboard.pid)
-    try {
-        $handle=$dashboard.Handle
-        if($dashboard.HasExited -or [PulseProcessTrace]::Creation($handle) -ne [long]$ui.dashboard.creation_ticks){throw 'Dashboard identity changed before resource observation'}
-        $live=[PulseProcessTrace]::Describe($dashboard.Id)
-        if($live.live_observation_error -or $live.image -ine $config.ui.binary -or $live.elevated){throw 'Resource snapshot target is not the limited packaged dashboard'}
-        $pids=@([uint32]$target.Id)+@($starts|ForEach-Object {[uint32]$_.pid})
-        $snapshot=[PulseProcessHandles]::Capture($handle,[uint32[]]$pids)
-        $targetHandles=@($snapshot.process_handles|Where-Object {$_.pid -eq $target.Id})
-        $helperHandles=@($snapshot.process_handles|Where-Object {$_.pid -ne $target.Id})
-        if($targetHandles.Count -ne 1 -or $targetHandles[0].termination_count -ne 0){throw 'Dashboard retained an owned termination handle'}
-        if(@($helperHandles|Where-Object {$_.count -ne 0}).Count){throw 'Dashboard retained an elevated helper process handle'}
-        $snapshot['dashboard_creation_ticks']=$ui.dashboard.creation_ticks
-        $snapshot['case']=$case.name
-        $snapshot['passed']=$true
-        $record.resources=$snapshot
-        $ack=Join-Path $config.ui.output ($case.name+'-resources.json')
-        [IO.File]::WriteAllText(($ack+'.tmp'),($snapshot|ConvertTo-Json -Depth 20))
-        [IO.File]::Move(($ack+'.tmp'),$ack)
-        Save-Supervision
-    } finally {$dashboard.Dispose()}
-}
-
 try {
     $self=[Diagnostics.Process]::GetCurrentProcess()
     try {
@@ -86,10 +52,6 @@ try {
         $record.target=@{pid=$target.Id;creation_ticks=[PulseProcessTrace]::Creation($target.Handle);elevated=[PulseProcessTrace]::Elevated($target.Handle);image=$config.ui.fixture}
         if(!$record.target.elevated){throw 'Disposable target did not start elevated'}
         $targetFault=[PulseOwnedProcessFault]::new($target)
-        $targetFault.RequireAdministratorForTermination()
-        $record.target.administrator_termination_access_error=$targetFault.NewTerminationAccessError()
-        if($record.target.administrator_termination_access_error -ne 0){throw 'Administrator cannot access the owned termination fixture'}
-        $record.target.administrator_termination_dacl=$true
         if($case.fault -eq 'deny-termination') {
             $targetFault.DenyNewTerminationHandles()
             $denied=$targetFault.NewTerminationAccessError()
@@ -109,7 +71,6 @@ try {
     do {
         Start-Sleep -Milliseconds 200
         $record.events=@($trace.Snapshot())
-        if(!$config.ordinary_baseline -and !$record.resources){Observe-ReleasedHandles $case}
         if($case.fault -in @('helper-crash','helper-timeout') -and !$record.fault_applied) {
             $ui=Read-UiRecord 'result.json'
             if($ui -and $ui.dashboard) {
@@ -152,12 +113,9 @@ try {
         $info=Get-ScheduledTaskInfo -TaskName $config.ui_task
         $state=(Get-ScheduledTask -TaskName $config.ui_task).State
         if($info.LastRunTime.ToUniversalTime() -ge [DateTime]::Parse($record.started_utc).ToUniversalTime().AddSeconds(-1)){$uiStarted=$true}
-        # These two scheduler queries are not atomic. A previously read running
-        # result (SCHED_S_TASK_RUNNING) must not become a terminal failure merely
-        # because the subsequent state query observes completion.
-        if($uiStarted -and $state -ne 'Running' -and $info.LastTaskResult -ne 0x41301){break}
+        if($uiStarted -and $state -ne 'Running'){break}
     }while((Get-Date) -lt $deadline)
-    if(!$uiStarted -or $state -eq 'Running' -or $info.LastTaskResult -eq 0x41301){throw 'Native UAC observation exceeded its deadline'}
+    if(!$uiStarted -or $state -eq 'Running'){throw 'Native UAC observation exceeded its deadline'}
     $record.ui_task_exit=$info.LastTaskResult
     $ui=Read-UiRecord 'result.json'
     if(!$ui -or $ui.status -ne 'PASS' -or $info.LastTaskResult -ne 0){throw 'Native UI action failed; inspect UI result'}

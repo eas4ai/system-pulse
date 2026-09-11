@@ -16,9 +16,12 @@ verifier requires all ten current-harness cases, matching packaged binary identi
 platform preservation and a source-bound resource ownership review. Delayed consent
 must also demonstrate sampling progress during the actual prompt lifetime.
 
-Current-harness native cases and final review remain pending. The developer has
-returned to the Windows desktop. Begin with ordinary actions, which require no
-UAC response, then announce each interactive case before running it. The agreed
+The current-harness ordinary run passed independent verification with all seven
+action cases, zero consent processes and zero elevated helpers. Its receipt is
+`uac-native/ordinary/receipt.json`. The source ownership review passed and is
+recorded in `helper-resource-review.json`; live resource checks remain pending.
+The developer has left for food. Hold interactive cases until the developer returns,
+and announce each case before running it. The agreed
 scope is administrator consent; standard-user credential entry is excluded.
 
 All work remains local. No push, hosted CI or release was performed for this work.

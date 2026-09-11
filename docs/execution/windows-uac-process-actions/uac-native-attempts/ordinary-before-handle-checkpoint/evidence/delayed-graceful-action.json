@@ -1,17 +1,33 @@
 {
-    "collected_creation_ticks":  134335602000859324,
-    "pid":  12204,
-    "creation_ticks":  134335602000859324,
+    "collected_creation_ticks":  134335507967293878,
+    "pid":  9948,
+    "creation_ticks":  134335507967293878,
     "duplicate_activation":  "delivered",
     "pending_screen_changes":  [
                                    "Summary",
                                    "Processes"
                                ],
-    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 12204)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n12204\nowned-fixture.exe\n0.0 %\n28.8 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 12204\n0.0 %\n28.8 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 237 readable processes · 1 s update",
+    "confirmation":  "System monitor screens\nSummary\nCPU\nMemory\nGPU\nDisks\nNetwork\nEnergy\nThermals\nProcesses\nSettings\nProcesses\nSearch name, PID, or user…\nEnd task…\nForce quit…\nEnd owned-fixture.exe (PID 9948)? Request graceful closure. The application may ask to save work or decline.\nCancel process action\nConfirm end task\n\n1 readable process rows; arrows navigate and scroll columns; Tab leaves table\n\nSort by PID\nSort by PID\nSort by Name\nSort by Name\nSort by CPU (one core)\nSort by CPU (one core)\nSort by Memory\nSort by Memory\nSort by Read I/O\nSort by Read I/O\nSort by Write I/O\nSort by Write I/O\nSort by Threads\nSort by Threads\nSort by User\nSort by User\n\n\n9948\nowned-fixture.exe\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nDetails for owned-fixture.exe, PID 9948\n0.0 %\n28.5 MiB\n0.0 B/s\n0.0 B/s\nUnavailable · count · sysinfo does not expose this process\u0027s thread set\nshawn\nLive system data · 230 readable processes · 1 s update",
     "signal":  "terminate",
     "pending_observations":  [
                                  {
-                                     "observed_utc":  "2026-09-11T00:30:07.4941523Z",
+                                     "observed_utc":  "2026-09-10T21:53:23.7558727Z",
+                                     "sequence":  62,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-10T21:53:24.5514024Z",
+                                     "sequence":  63,
+                                     "actions_disabled":  [
+                                                              true,
+                                                              true
+                                                          ]
+                                 },
+                                 {
+                                     "observed_utc":  "2026-09-10T21:53:25.6538012Z",
                                      "sequence":  64,
                                      "actions_disabled":  [
                                                               true,
@@ -19,7 +35,7 @@
                                                           ]
                                  },
                                  {
-                                     "observed_utc":  "2026-09-11T00:30:08.3563287Z",
+                                     "observed_utc":  "2026-09-10T21:53:26.4379696Z",
                                      "sequence":  65,
                                      "actions_disabled":  [
                                                               true,
@@ -27,7 +43,7 @@
                                                           ]
                                  },
                                  {
-                                     "observed_utc":  "2026-09-11T00:30:09.3121459Z",
+                                     "observed_utc":  "2026-09-10T21:53:27.1786731Z",
                                      "sequence":  66,
                                      "actions_disabled":  [
                                                               true,
@@ -35,15 +51,7 @@
                                                           ]
                                  },
                                  {
-                                     "observed_utc":  "2026-09-11T00:30:10.1388556Z",
-                                     "sequence":  66,
-                                     "actions_disabled":  [
-                                                              true,
-                                                              true
-                                                          ]
-                                 },
-                                 {
-                                     "observed_utc":  "2026-09-11T00:30:11.2541589Z",
+                                     "observed_utc":  "2026-09-10T21:53:28.0134226Z",
                                      "sequence":  67,
                                      "actions_disabled":  [
                                                               true,
@@ -51,7 +59,7 @@
                                                           ]
                                  },
                                  {
-                                     "observed_utc":  "2026-09-11T00:30:12.3372327Z",
+                                     "observed_utc":  "2026-09-10T21:53:28.8259242Z",
                                      "sequence":  68,
                                      "actions_disabled":  [
                                                               true,
@@ -62,8 +70,8 @@
     "name":  "delayed-graceful",
     "status":  "The application did not close. It may need a response or have declined the request. Check its window before choosing Force quit.",
     "mode":  "delayed",
-    "settled_utc":  "2026-09-11T00:30:12.5775854Z",
+    "settled_utc":  "2026-09-10T21:53:29.0650399Z",
     "dashboard_handles_before":  663,
-    "sequence_before":  59,
-    "submitted_utc":  "2026-09-11T00:30:05.8365191Z"
+    "sequence_before":  58,
+    "submitted_utc":  "2026-09-10T21:53:22.2498301Z"
 }

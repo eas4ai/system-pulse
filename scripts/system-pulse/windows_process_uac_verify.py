@@ -29,6 +29,7 @@ RESOURCE_REVIEW_SOURCES = (
     "crates/collectors/src/process_control/windows.rs",
     "crates/collectors/src/process_control/windows_protocol.rs",
     "crates/collectors/src/process_control.rs",
+    "crates/collectors/src/process_control/authentication.rs",
     "src/main.rs",
 )
 RESOURCE_REVIEW_CHECKS = (
