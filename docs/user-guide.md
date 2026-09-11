@@ -22,7 +22,9 @@ Choose a named device above GPU, Disks or Network. Energy and Thermals select an
 
 Charts show physical units and the actual captured time span. Gaps represent missing or delayed data. Percentage and capacity meters use their known scale; frequency, temperature, power and throughput meters follow the observed chart range. Hover Summary's compact meters for their sensor names and scale notes. The five subsystem cards show history graphs; Disks plots read/write I/O and retains used/total space above the graph. Network plots receive and transmit throughput. Disk capacity describes a filesystem; its read/write history describes the backing block device. Energy is a named sensor reading, not an inferred system total.
 
-Unavailable sensor rows stay hidden until they recover. Failed, stale and warming-up readings retain explicit labels.
+The GPU screen retains detected adapters and shows unsupported readings as **Unavailable**. Sensor rows you hide remain hidden. Other screens hide unavailable sensor rows until they recover. Failed, stale and warming-up readings retain explicit labels.
+
+On Windows, GPU discovery covers present Intel, AMD and NVIDIA adapters even when vendor telemetry cannot initialize. Utilization describes the busiest measured engine. Dedicated GPU memory includes memory reserved for an integrated GPU; shared GPU memory is system RAM currently used by the adapter, shown separately without a VRAM capacity ratio. Driver support determines which readings are available. Temperature, power and clocks require a supported source.
 
 Summary's five subsystem graphs share one row on wide windows. Smaller windows use full-width rows of three and two cards, with no empty trailing column.
 

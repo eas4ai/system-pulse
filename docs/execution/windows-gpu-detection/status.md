@@ -16,14 +16,11 @@ Editing checks executed so far:
 - Windows MSVC collector/tests cross-check passed after correcting the SDK query pointer mutability.
 - GPU UI regression passed, including explicit unavailable readings and user-hidden sensors.
 - Application/model/collector tests: 298 passed across 13 suites.
-- Windows collector Clippy passed with three warnings, subsequently addressed; recheck pending. Native Windows compilation/execution is still required.
+- Windows collector Clippy recheck passed with no issues after addressing three warnings.
+- Native Windows tests/build are running against d5ac44902e64b1d675470ff97d17115f32948579. Log: `/home/shawn/workspace2/.system-pulse-test-tmp/system-pulse-windows-2else4ia/build.log`.
 
-Resume through `cairn wake` and reconcile the existing build-decision action.
-The implementation decision has not yet been marked realized. The acceptance
-mechanism is declared, but `scripts/system-pulse/windows_gpu_verify.py` remains
-to be implemented. Its baseline failure is honest pending evidence, not a pass.
-Demonstrate that the verifier rejects a missing adapter/invalid reading and
-accepts the corrected case before recording acceptance.
+Resume through `cairn wake` and reconcile the existing implementation action.
+The implementation and decision are committed. The acceptance verifier now checks inventory, exact scheduler/memory operands, independent counters matched by adapter LUID, native GPU labels, a normal launch without diagnostics and process-table/quit preservation. Eight safe violating/corrected-case tests passed; native PowerShell parsing passed. Acceptance still requires the actual packaged capture and visual review.
 
 Next: finish UI and collector checks, inspect native buffer/identity/cleanup
 boundaries, commit the candidate, build on the existing Windows host, collect
@@ -36,3 +33,5 @@ from the completed UAC package at source 3e6923e3. No native process is currentl
 waiting for UAC approval. Do not start hosted CI or publish.
 
 No Windows GPU acceptance or AMD/NVIDIA hardware telemetry accuracy is claimed.
+
+Desktop capture scripts `windows_gpu_collect.py` and `windows_gpu.ps1` are drafted. Python parsing and native PowerShell parsing passed; the actual packaged run has not happened. Whole-workspace Clippy passed with no issues. Independent Windows GPU Adapter Memory counters are readable and return distinct LUIDs; correlate the hardware adapter instead of summing all instances.

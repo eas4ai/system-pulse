@@ -25,8 +25,11 @@ Use Settings for theme, fonts, sampling interval and presets; choices save
 automatically. `SYSTEM_PULSE_STATE_DIR` selects an isolated state directory.
 
 CPU, memory, disk, network and process support depends on the host. Missing
-sensors remain explicit. Intel Windows GPU readings and Windows process thread
-counts are not implemented. CI compilation
+sensors remain explicit. Windows discovers Intel, AMD and NVIDIA GPUs independently
+of optional vendor telemetry. Available Windows readings include busiest-engine
+utilization, dedicated GPU memory and separately labeled shared system memory.
+Unsupported temperature, power and clocks remain unavailable; Windows process
+thread counts are not implemented. CI compilation
 does not establish hardware sensor accuracy; native observations are retained
 under `docs/execution/` in the included source.
 
