@@ -79,3 +79,20 @@ observer's QPC/frequency. Keep those clocks separate. Demonstrate rejection of
 both mutations, future timestamps and mismatched QPC frequencies, then retain a
 passing corrected example. No code correction or new check is claimed in this
 finding entry yet.
+
+Correction verification: the new mutation tests ran before the correction and
+reported 20 rejected-expectation failures across stale/future EMI windows in all
+six stages, stale/future/mismatched-frequency helper QPC windows, the frame before
+helper exit, and a fresh EMI result paired with a 98-second-old baseline. After
+the correction, all 21 verifier tests pass, including the corrected complete
+lifecycle fixture; Ruff also passes. These are local mechanism tests, not native
+acceptance evidence.
+
+The validator now uses `capture_finished_ns`, which HostCollector records after
+collection, as the EMI upper bound. Current observations must be at most three
+seconds old, each source read at most one second, and the baseline interval at
+most six seconds (the supported five-second sampling interval plus margin).
+Helper queries must finish no later than the observer QPC and within three
+seconds, with matching frequencies; collector receipt freshness remains a
+separate check. The successful frame before helper exit receives these same
+checks and the snapshot clock-anchor/ordering validation.

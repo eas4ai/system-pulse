@@ -203,6 +203,67 @@ def independent_fixture():
 
 
 class ReadingTests(unittest.TestCase):
+    def test_all_stages_reject_stale_or_future_emi_windows(self):
+        for index in range(6):
+            for end in (100_000_000_000, 500_000_000):
+                data = stages()
+                frame = data[index]["frames"][0]
+                frame["snapshot"]["capture_finished_ns"] = end
+                # Preserve a fresh thermal receipt so the EMI boundary is tested.
+                reading = frame["snapshot"]["readings"][0]
+                if reading["observations"]:
+                    reading["observations"][0]["captured_ns"] = end
+                with (
+                    self.subTest(stage=index, end=end),
+                    self.assertRaises(InvalidMeasurement),
+                ):
+                    validate_stages(data)
+
+    def test_helper_qpc_must_be_current_and_match_observer_frequency(self):
+        for target in ("enabled", "before_exit"):
+            for mutation in ("stale", "future", "frequency"):
+                data = stages()
+                frame = (
+                    data[3]["frames"][0]
+                    if target == "enabled"
+                    else data[-1]["before_exit"]
+                )
+                raw = frame["snapshot"]["readings"][0]["observations"][0]["integers"]
+                if mutation == "stale":
+                    frame["qpc"] = 100_000_000_000
+                    raw.update(query_before_qpc=1, query_after_qpc=2)
+                elif mutation == "future":
+                    raw.update(
+                        query_before_qpc=frame["qpc"] + 1,
+                        query_after_qpc=frame["qpc"] + 2,
+                    )
+                else:
+                    frame["frequency"] = 1
+                with (
+                    self.subTest(target=target, mutation=mutation),
+                    self.assertRaises(InvalidMeasurement),
+                ):
+                    validate_stages(data)
+
+    def test_before_exit_also_rejects_stale_emi(self):
+        data = stages()
+        frame = data[-1]["before_exit"]
+        frame["snapshot"]["capture_finished_ns"] = 100_000_000_000
+        frame["snapshot"]["readings"][0]["observations"][0]["captured_ns"] = (
+            100_000_000_000
+        )
+        with self.assertRaises(InvalidMeasurement):
+            validate_stages(data)
+
+    def test_fresh_current_emi_cannot_reuse_a_98_second_baseline(self):
+        data = stages()
+        frame = data[0]["frames"][0]
+        frame["snapshot"]["capture_finished_ns"] = 100_000_000_000
+        current = frame["snapshot"]["readings"][1]["observations"][1]
+        current.update(captured_ns=100_000_000_000, read_started_ns=99_999_999_900)
+        with self.assertRaises(InvalidMeasurement):
+            validate_stages(data)
+
     def test_helper_exit_needs_a_fresh_success_after_disable(self):
         data = stages()
         data[-1]["before_exit"]["snapshot"]["sequence"] = 1
@@ -259,7 +320,9 @@ class ReadingTests(unittest.TestCase):
                         validate_platforms(root, bad)
 
     def test_valid_temperature_recomputes_target_minus_delta(self):
-        self.assertEqual(validate_thermal(*thermal(), 1_100_000_000), 35.0)
+        self.assertEqual(
+            validate_thermal(*thermal(), 1_100_000_000, 11_000_000, 10_000_000), 35.0
+        )
 
     def test_temperature_rejects_wrong_unit_scope_invalid_bits_and_stale_operands(self):
         for change in (
@@ -276,10 +339,10 @@ class ReadingTests(unittest.TestCase):
             s, r = thermal()
             change(s, r)
             with self.assertRaises(InvalidMeasurement):
-                validate_thermal(s, r, 3_100_000_000)
+                validate_thermal(s, r, 3_100_000_000, 11_000_000, 10_000_000)
 
     def test_emi_uses_integer_deltas_not_accumulated_energy_as_watts(self):
-        self.assertAlmostEqual(validate_power(*power()), 3.6)
+        self.assertAlmostEqual(validate_power(*power(), 2_000_000_000), 3.6)
 
     def test_emi_rejects_wrong_value_time_scope_baseline_and_fabricated_zero(self):
         for change in (
@@ -297,7 +360,7 @@ class ReadingTests(unittest.TestCase):
             s, r = power()
             change(s, r)
             with self.assertRaises(InvalidMeasurement):
-                validate_power(s, r)
+                validate_power(s, r, 2_000_000_000)
 
     def test_unsupported_requires_absent_value_and_reason(self):
         s, r = power()
@@ -307,13 +370,13 @@ class ReadingTests(unittest.TestCase):
             reason="EMI counter has not established nonzero energy support",
             observations=[],
         )
-        self.assertIsNone(validate_power(s, r))
+        self.assertIsNone(validate_power(s, r, 2_000_000_000))
         r["value"] = 0
         with self.assertRaises(InvalidMeasurement):
-            validate_power(s, r)
+            validate_power(s, r, 2_000_000_000)
         r.update(value=None, reason="")
         with self.assertRaises(InvalidMeasurement):
-            validate_power(s, r)
+            validate_power(s, r, 2_000_000_000)
 
     def test_missing_stages_cannot_establish_acceptance(self):
         with self.assertRaises(InvalidMeasurement):

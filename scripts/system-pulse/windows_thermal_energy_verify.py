@@ -58,7 +58,11 @@ def temperature(target, status):
     return result
 
 
-def validate_thermal(sensor, reading, snapshot_ns):
+def validate_thermal(sensor, reading, snapshot_ns, observer_qpc, observer_frequency):
+    integer(snapshot_ns, "snapshot finish")
+    integer(observer_qpc, "observer QPC")
+    integer(observer_frequency, "observer QPC frequency")
+    require(observer_frequency > 0, "observer QPC frequency is zero")
     require(
         sensor["id"] == reading["sensor_id"] == THERMAL_ID
         and sensor["monitor_id"] == "cpu:host",
@@ -93,6 +97,12 @@ def validate_thermal(sensor, reading, snapshot_ns):
         <= v["query_after_qpc"] - v["query_before_qpc"]
         <= v["query_qpc_frequency"],
         "invalid temperature query window",
+    )
+    # These are the same machine-wide QPC clock, unlike collector-relative ns.
+    require(
+        v["query_qpc_frequency"] == observer_frequency
+        and 0 <= observer_qpc - v["query_after_qpc"] <= 3 * observer_frequency,
+        "helper query is stale, in the future or uses a different QPC frequency",
     )
     captured = integer(observation["captured_ns"], "receipt time")
     require(
@@ -138,7 +148,8 @@ def power_identity(sensor):
     return instance, channel
 
 
-def validate_power(sensor, reading):
+def validate_power(sensor, reading, snapshot_ns):
+    integer(snapshot_ns, "snapshot finish")
     require(
         sensor["id"] == reading["sensor_id"]
         and sensor["monitor_id"] == "cpu:host"
@@ -173,6 +184,25 @@ def validate_power(sensor, reading):
         < b["read_started_ns"]
         <= b["captured_ns"],
         "invalid EMI read windows",
+    )
+    # HostCollector writes capture_finished_ns after all backend reads. Bound
+    # against that end, never the snapshot's earlier capture_started_ns.
+    require(
+        0 <= snapshot_ns - b["captured_ns"] <= 3_000_000_000,
+        "EMI current observation is stale or in the future",
+    )
+    require(
+        all(
+            o["captured_ns"] - o["read_started_ns"] <= 1_000_000_000
+            for o in observations
+        ),
+        "EMI source query exceeded one second",
+    )
+    # The app supports a maximum five-second sampling interval; permit one
+    # additional second of query margin, but never reuse a long-dead baseline.
+    require(
+        b["captured_ns"] - a["captured_ns"] <= 6_000_000_000,
+        "EMI power interval uses a stale baseline",
     )
     expected = energy * 0.036 / ticks
     require(
@@ -234,11 +264,15 @@ def validate_stages(stages):
                 if sensor["kind"] in ("Power", "Temperature"):
                     available(readings[sid])
                 if sid.startswith("cpu:host/emi:"):
-                    validate_power(sensor, readings[sid])
+                    validate_power(
+                        sensor, readings[sid], snapshot["capture_finished_ns"]
+                    )
             value = validate_thermal(
                 sensors[THERMAL_ID],
                 readings[THERMAL_ID],
                 snapshot["capture_finished_ns"],
+                frame["qpc"],
+                frame["frequency"],
             )
             reading = readings[THERMAL_ID]
             name = stage["name"]
@@ -317,7 +351,23 @@ def validate_stages(stages):
             sensor = next(
                 s for s in before["snapshot"]["sensors"] if s["id"] == THERMAL_ID
             )
-            validate_thermal(sensor, thermal, before["snapshot"]["capture_finished_ns"])
+            validate_thermal(
+                sensor,
+                thermal,
+                before["snapshot"]["capture_finished_ns"],
+                before["qpc"],
+                before["frequency"],
+            )
+            before_readings = {
+                r["sensor_id"]: r for r in before["snapshot"]["readings"]
+            }
+            for before_sensor in before["snapshot"]["sensors"]:
+                if before_sensor["id"].startswith("cpu:host/emi:"):
+                    validate_power(
+                        before_sensor,
+                        before_readings[before_sensor["id"]],
+                        before["snapshot"]["capture_finished_ns"],
+                    )
         if stage["name"] == "disabled":
             require(
                 stage["helper"]["pid"] != pid and stage["helper"]["exited"] is True,
@@ -755,7 +805,12 @@ def validate_evidence(evidence):
     )
     finished = 0
     for stage in stages:
-        for frame in stage["frames"]:
+        chronological_frames = (
+            [stage["before_exit"], *stage["frames"]]
+            if stage["name"] == "helper-exit"
+            else stage["frames"]
+        )
+        for frame in chronological_frames:
             validate_capture_time(frame)
             require(
                 frame["snapshot"]["capture_finished_ns"] > finished,
