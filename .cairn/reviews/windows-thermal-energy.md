@@ -60,3 +60,22 @@ hash and source revision before signing. Demonstrate failure after removing sour
 and rebuilding the manifest, so the test does not merely detect an old hash.
 The unsafe-path test must keep required entries so it reaches path validation.
 These findings remain open until their corrections and checks complete.
+
+## Mechanism review: stale sensor operands accepted
+
+Reviewed mechanism candidate: `50bc40fe`.
+
+The independent mechanism review demonstrated two accepted violations. A fresh
+snapshot could contain EMI read/capture windows 98 seconds old. The power
+validator checked ordering and arithmetic, but never compared those windows with
+the snapshot's collector clock. It also accepted helper QPC timestamps 1..2
+against observer QPC 100000000000 at 10000000 ticks/second when the collector
+receipt timestamp was fresh. The captured observer QPC and frequency were unused.
+
+Correct the mechanism before using it as acceptance evidence. All lifecycle
+frames, including the successful frame before forced helper exit, must bind EMI
+windows to collector-relative snapshot time and helper query windows to the
+observer's QPC/frequency. Keep those clocks separate. Demonstrate rejection of
+both mutations, future timestamps and mismatched QPC frequencies, then retain a
+passing corrected example. No code correction or new check is claimed in this
+finding entry yet.
