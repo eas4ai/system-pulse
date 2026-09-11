@@ -3,7 +3,7 @@
 > Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
-Current: windows-gpu-detection
+Current: windows-thermal-energy
 
 ## Real system readings
 
@@ -61,3 +61,7 @@ Linux, and supplied Cores and LibreHardwareMonitor references. The next named
 discovery. The UAC commitment completed on 2026-09-11 with all seven requirements passing
 and a clean final review; this requested work is now active. The available Windows host has a healthy Intel Iris Xe adapter which the
 current application does not discover.
+
+## Windows thermal and energy collection
+
+On 2026-09-11 the developer confirmed [Windows thermal and energy collection](../commitments/windows-thermal-energy.md) after Windows GPU detection completed with passing evidence and a clean review. Investigate actual native sources, implement supported readings and verify the packaged screens. Any sensor driver installation requires a separate concrete decision.
