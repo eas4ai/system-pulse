@@ -11,4 +11,4 @@ Enumerate present Windows display-class devices through SetupAPI and key monitor
 
 ## Realized by
 
-(none yet: recorded, not built)
+- df8174ee0cadc0903f151d1f7297cfeaa0768019 Discover Windows GPUs independently of vendor telemetry
