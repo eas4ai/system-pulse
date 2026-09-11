@@ -1,6 +1,6 @@
 # Windows thermal and energy execution
 
-Current: driver/access decision approved; collector/helper and installer work in progress. Native candidate acceptance remains pending.
+Current: signed installer lifecycle checks passed; the first live temperature-helper capture failed. Diagnose the connected-helper exit before repeating native acceptance.
 
 ## Native observations
 
@@ -71,3 +71,27 @@ user's SystemPulseBuildTools directory after hash and signature verification.
 Independent thermal specification review found that a synchronous driver call
 could outlive the dashboard. A helper watchdog fix and stalled-read demonstration
 are required before native acceptance. See the current commitment review.
+
+## Signed candidate and live failure
+
+The native Windows candidate at `1c7aa036` completed its tests, Clippy, live WDDM
+regression and release packaging. The application and installer were signed using
+the existing Winboat command. Fresh-driver installation in Winboat and installation
+with the existing tablet driver both passed install, reinstall and removal checks;
+the shared driver remained installed. Winboat was then stopped to release its RAM.
+The retained records under `native/installer/` identify the exact candidate and
+signatures. These successful installer checks do not prove temperature collection.
+
+Linux and macOS application/model/collector tests and all-targets Clippy passed.
+The signed Windows ordinary process-action capture also passed. The Python script
+suite ran `python3 -B -m unittest discover -s scripts/system-pulse` and passed
+607 tests in 40.904 seconds. These local results do not replace Cairn receipts.
+
+Interactive capture `401c59f78bef4e7892c16b0e9b18811c` failed: the temperature
+helper connected, but the dashboard then reported Windows error 109, pipe ended.
+The denial-state gate timed out. No UAC response is inferred from that failure.
+Energy's retained screenshot displays package watts and a live chart. The user
+reported an Energy problem; the exact symptom remains to be clarified.
+The failed run's application and scheduled task were confirmed absent afterward.
+Raw artifacts are retained in `failed-live-401c59f7/`. Helper root-cause diagnosis
+and successful native temperature acceptance remain outstanding.

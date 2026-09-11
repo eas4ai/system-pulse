@@ -77,7 +77,7 @@ Review without code changes, record limits, finish only when Cairn reports Done.
 
 Native Windows thermal tests passed 23 cases at 1717121f, including actual pipe,
 caller identity and stalled-operation watchdog termination. The Windows full app
-checks and release build are still running. Linux preservation passed 326 tests
+checks and release build subsequently passed at `1c7aa036`. Linux preservation passed 326 tests
 and Clippy at 8f640311. Mac preservation passed 282 tests and Clippy at the same
 source; nine existing sysinfo warnings and the block future-compatibility notice
 remain. These checkpoints do not replace final packaged sensor/UI acceptance.
@@ -86,3 +86,9 @@ The developer identified ~/Documents/certs/clipper on the MacBook as a signing
 example. Its filenames include developerID_application.cer and
 setup-audeeoz-notarization.command. No password content was read. Mac signing
 has not been performed or claimed by these preservation checks.
+
+The signed installer lifecycle and ordinary process-action checks passed. The
+first live thermal capture failed with a connected pipe ending before a usable
+temperature was observed; see the retained failure and current review. The one
+implementation todo remains in progress until that defect is diagnosed and fixed
+with native verification. No final acceptance or completion is claimed.
