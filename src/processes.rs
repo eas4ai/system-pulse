@@ -2,10 +2,7 @@
 use crate::live::ProcessView;
 
 // Canonical collector columns keep their meaning when presentation hides one.
-#[cfg(target_os = "macos")]
 pub(crate) const VISIBLE_PROCESS_COLUMNS: &[usize] = &[0, 1, 2, 3, 4, 5, 7];
-#[cfg(not(target_os = "macos"))]
-pub(crate) const VISIBLE_PROCESS_COLUMNS: &[usize] = &[0, 1, 2, 3, 4, 5, 6, 7];
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub(crate) struct ProcessSort {
@@ -228,15 +225,11 @@ mod tests {
 
     #[test]
     fn platform_columns_keep_user_sort_and_reject_hidden_choices() {
-        let expected: &[usize] = if cfg!(target_os = "macos") {
-            &[0, 1, 2, 3, 4, 5, 7]
-        } else {
-            &[0, 1, 2, 3, 4, 5, 6, 7]
-        };
+        let expected: &[usize] = &[0, 1, 2, 3, 4, 5, 7];
         assert_eq!(VISIBLE_PROCESS_COLUMNS, expected);
         let mut sort = ProcessSort::default();
         sort.select(6);
-        assert_eq!(sort.column, if cfg!(target_os = "macos") { 2 } else { 6 });
+        assert_eq!(sort.column, 2);
         sort.select(7);
         assert_eq!(sort.column, 7);
         assert!(!sort.descending);

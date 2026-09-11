@@ -55,7 +55,7 @@ Network initially follows the Linux main-table default route (IPv4 before IPv6),
 
 Process counters marked **No access** could not be read because the OS denied access; hover for the original error.
 
-The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. The table expands with the window; search stays compact. macOS omits Threads. Process CPU uses one core as 100% and can exceed it.
+The process table searches name, PID and user and sorts each column using physical values. Select a row to inspect its current details. Up/Down/Home/End navigate rows, Left/Right scroll columns and Tab leaves the table. Hover a clipped cell for its full value or failure reason. The table expands with the window; search stays compact. The table omits Threads. Process CPU uses one core as 100% and can exceed it.
 
 End task and Force quit require confirmation and report visible errors. When an action needs administrative permission, the operating system asks you to authenticate. Enter your password only in that system dialog. System Pulse never receives or saves it, and its dashboard keeps running as your normal user. Cancelling authentication leaves the process unchanged. Linux and macOS verify the selected process identity after authentication and use kernel identity checks when signaling. macOS versions without the required native support report an error. Administrative permission does not override OS protection of protected processes.
 

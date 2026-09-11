@@ -16,6 +16,9 @@ fn mini_level(
     screen: Screen,
     cx: &App,
 ) -> AnyElement {
+    if channel.is_none() {
+        return div().into_any_element();
+    }
     let color = accent(screen, cx);
     div()
         .id(SharedString::from(format!("summary-meter:{label}")))
@@ -433,13 +436,16 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
     let power = data::selected_channel(state, Screen::Energy);
     let gpu =
         data::selected_device(state, Screen::Gpu).and_then(|id| data::find(state, &id, "usage"));
-    let tiles = [
+    let tiles: Vec<_> = [
         ("Disks", Screen::Disks, disk),
         ("Network", Screen::Network, network),
         ("Energy", Screen::Energy, power),
         ("GPU", Screen::Gpu, gpu),
         ("Thermals", Screen::Thermals, temperature),
-    ];
+    ]
+    .into_iter()
+    .filter(|(_, _, channel)| channel.is_some())
+    .collect();
     // Keep each of five cards at least 320px wide. Below that, use balanced
     // rows of three and two; grid tracks fill each row without rounded widths
     // causing an extra flex wrap on scaled displays.

@@ -243,6 +243,14 @@ impl ScreenView {
             .find(|choice| Some(&choice.id) == selected.as_ref())
             .map(|choice| choice.label.clone())
             .unwrap_or_else(|| {
+                if matches!(screen, Screen::Energy | Screen::Thermals) {
+                    return if choices.is_empty() {
+                        "No available sensors"
+                    } else {
+                        "Choose a sensor"
+                    }
+                    .into();
+                }
                 selected
                     .clone()
                     .map(|id| format!("Unavailable · {id}"))

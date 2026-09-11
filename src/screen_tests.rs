@@ -707,9 +707,7 @@ fn selected_gpu_survives_reordering_restore_and_disconnect_without_switching(
 }
 
 #[gpui_kit::test]
-fn detected_gpu_keeps_unavailable_readings_visible_without_fabricating_values(
-    cx: &mut TestAppContext,
-) {
+fn detected_gpu_hides_unavailable_sensors_without_hiding_the_device(cx: &mut TestAppContext) {
     use crate::workspace::Command;
     let (view, cx) = populated(cx);
     let mut snapshot = fixture::snapshot(6);
@@ -732,17 +730,15 @@ fn detected_gpu_keeps_unavailable_readings_visible_without_fabricating_values(
         let data = view.read(cx).shared.borrow();
         assert_eq!(crate::screen_data::devices(&data, Screen::Gpu).len(), 2);
         let rows = crate::screen_data::gpu_channels(&data, fixture::GPU_A);
-        assert_eq!(rows.len(), 4);
-        assert!(rows.iter().all(|row| row.value(&data) == "Unavailable"));
-        assert!(rows.iter().all(|row| row.measured(&data).is_none()));
+        assert!(rows.is_empty());
     });
     assert!(
         cx.debug_bounds("history:gpu:pci:0000:01:00.0/usage")
-            .is_some()
+            .is_none()
     );
     assert!(
         cx.debug_bounds("screen-stat:gpu:pci:0000:01:00.0/power")
-            .is_some()
+            .is_none()
     );
     command(
         &view,

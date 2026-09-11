@@ -103,3 +103,15 @@ width so the bottom values do not wrap. The source uses a 245 px minimum
 (previously 205 px), with single-line values and adjusted neighboring widths.
 Seven energy collector tests, 23 screen tests, and app/collector all-targets
 Clippy passed after these edits. Updated signed tablet verification remains due.
+
+The developer clarified that hiding unavailable sensors applies throughout the
+application, including GPU. GPU now uses the same sensor visibility filter as
+other device screens. Summary omits sensor cards with no available primary
+channel; sensor pickers omit unavailable entries and do not expose their raw
+identifiers as the selected label. Device discovery remains visible independently
+of whether its sensors can currently be read.
+
+The developer also requested removal of Threads from Processes on every platform.
+All process-table presentations now use the existing seven-column projection;
+canonical collector fields and column identities remain stable. The full local
+application suite passed 134 tests after the global visibility and column edits.
