@@ -1,0 +1,17 @@
+command: rtk proxy python3 -B scripts/system-pulse/windows_thermal_energy_verify.py
+inputs:
+  - Cargo.toml
+  - Cargo.lock
+  - .cargo/
+  - crates/
+  - src/
+  - tests/
+  - vendor/
+  - package/
+  - assets/
+  - README.md
+  - docs/user-guide.md
+  - scripts/system-pulse/
+  - docs/execution/windows-thermal-energy/
+requirements:
+  - WTE-001
