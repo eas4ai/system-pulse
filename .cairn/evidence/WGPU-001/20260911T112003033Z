@@ -1,0 +1,21 @@
+requirement: WGPU-001
+requirement_digest: sha256:54a1fa6b94d661fd1d06a50f3408f9aa4e1de19bf8013c046d627c140d341361
+sequence: 3
+history_digest: sha256:b486f7ff8f33efa8ea10deb7fabbfaab7b812aeb00b9bb2346c0196941a30902
+mechanism: windows-gpu-detection
+commit: e9c9447b
+inputs_digest: sha256:85697ad60a9606b155e6bf067fe59b41a0993e73bab5c0fb8023bdf4eb37f4b8
+mechanism_digest: sha256:7a0b25fdc4c1591d44846dc34a166b213328f6cab0c2080a186a142b421fa9c0
+inputs_detail: .cairn/evidence/WGPU-001/20260911T112002674Z-2137726.inputs.json
+command: rtk proxy python3 -B scripts/system-pulse/windows_gpu_verify.py
+cwd: .
+exit: 1
+output_digest: sha256:6aa8a511baaa6200551681eee5448bfce53803e4d3358055fbd31d842afdbeba
+output: .cairn/evidence/WGPU-001/20260911T112002674Z-2137726.out
+stderr_output: .cairn/evidence/WGPU-001/20260911T112002674Z-2137726.err
+stderr_digest: sha256:6aa8a511baaa6200551681eee5448bfce53803e4d3358055fbd31d842afdbeba
+signal: none
+execution_error: null
+result: fail
+source: exit
+recorded: 2026-09-11T11:20:03.033Z
