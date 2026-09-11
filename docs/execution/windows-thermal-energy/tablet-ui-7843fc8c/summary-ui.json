@@ -1,0 +1,311 @@
+﻿{
+    "selected_screen":  "Summary",
+    "pid":  4152,
+    "controls":  [
+                     {
+                         "name":  "System monitor screens",
+                         "offscreen":  false,
+                         "role":  "ControlType.Tab"
+                     },
+                     {
+                         "name":  "Summary",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "CPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Memory",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "GPU",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Disks",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Network",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Energy",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Thermals",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Processes",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Settings",
+                         "offscreen":  false,
+                         "role":  "ControlType.TabItem"
+                     },
+                     {
+                         "name":  "Summary",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "",
+                         "offscreen":  false,
+                         "role":  "ControlType.Pane"
+                     },
+                     {
+                         "name":  "Level: 12.2%",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "Level: 100.0%",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "Level: 40.8%",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "12.2 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. Overall utilization: 12.2 %. Scale: 0.0–100.0 %. 7.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "227 total",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "4152",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "system-pulse.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "12.4 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "8996",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "explorer.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "9.3 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "1932",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "WavesSvc64.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "6.1 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "7176",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "ipf_helper.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "1.6 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "14444",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "OneDrive.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "1.6 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "3300",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "WindowsTerminal.exe",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "1.5 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "0",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "[System Process]",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "4",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "System",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "0.0 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "8.8 / 15.7 GiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "Level: 56.1%",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "History chart. RAM used: 8.8 / 15.7 GiB. Scale: 0.0–15.7 GiB. 7.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "6.9 GiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "0.0 / 2.9 GiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "105.9 / 475.7 GiB",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. read: 0.0 B/s; write: 67.1 KiB/s. Scale: 0.0–5675.0 KiB/s. 7.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "read · 0.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "write · 67.1 KiB/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "1.4 KiB/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. rx: 1.4 KiB/s; tx: 383.0 B/s. Scale: 0.0–28909.1 B/s. 7.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "rx · 1.4 KiB/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "tx · 383.0 B/s",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "7.1 W",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. CPU cores power: 7.1 W. Scale: 0.0–8.6 W. 7.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "40.8 %",
+                         "offscreen":  false,
+                         "role":  "ControlType.Text"
+                     },
+                     {
+                         "name":  "History chart. GPU utilization: 40.8 %. Scale: 0.0–100.0 %. 7.9 s history. ",
+                         "offscreen":  false,
+                         "role":  "ControlType.Image"
+                     },
+                     {
+                         "name":  "Live system data · 227 readable processes · 1 s update",
+                         "offscreen":  false,
+                         "role":  "ControlType.StatusBar"
+                     }
+                 ]
+}
