@@ -3,7 +3,7 @@
 > Current UI direction (2026-09-07): [reference-based tabbed screens](../superpowers/specs/2026-09-07-tabbed-screens-design.md). The earlier dock layout below is historical.
 Status: Agreed 2026-09-04. Not normative.
 
-Current: windows-uac-process-actions
+Current: windows-gpu-detection
 
 ## Real system readings
 
@@ -58,6 +58,6 @@ Cairn bookkeeping; this activation does not fabricate its completion.
 On 2026-09-11 the developer requested Windows GPU detection coverage matching
 Linux, and supplied Cores and LibreHardwareMonitor references. The next named
 [commitment](../commitments/windows-gpu-detection.md) covers Intel, AMD and NVIDIA
-discovery. Finish the running UAC acceptance first, then activate this requested
-work. The available Windows host has a healthy Intel Iris Xe adapter which the
+discovery. The UAC commitment completed on 2026-09-11 with all seven requirements passing
+and a clean final review; this requested work is now active. The available Windows host has a healthy Intel Iris Xe adapter which the
 current application does not discover.
