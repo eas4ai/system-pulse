@@ -992,7 +992,7 @@ fn process_search_stays_compact_when_the_window_grows(cx: &mut TestAppContext) {
 }
 
 #[gpui_kit::test]
-fn environmental_screens_keep_reported_unavailable_sensors_and_reasons(cx: &mut TestAppContext) {
+fn environmental_screens_hide_unavailable_sensors(cx: &mut TestAppContext) {
     use crate::workspace::Command;
     let (view, cx) = populated(cx);
     let mut snapshot = fixture::snapshot(6);
@@ -1033,13 +1033,11 @@ fn environmental_screens_keep_reported_unavailable_sensors_and_reasons(cx: &mut 
     ] {
         command(&view, Command::ScreenDevice(screen, id.into()), cx);
         command(&view, Command::Screen(screen), cx);
-        assert!(cx.debug_bounds(stat).is_some());
-        assert!(cx.debug_bounds(reason).is_some());
+        assert!(cx.debug_bounds(stat).is_none());
+        assert!(cx.debug_bounds(reason).is_none());
         cx.read(|cx| {
             let data = view.read(cx).shared.borrow();
-            let channel = crate::screen_data::selected_channel(&data, screen).unwrap();
-            assert_eq!(channel.value(&data), "Unavailable");
-            assert!(channel.measured(&data).is_none());
+            assert!(crate::screen_data::selected_channel(&data, screen).is_none());
         });
     }
 }

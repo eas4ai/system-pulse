@@ -185,6 +185,7 @@ fn windows_energy_first_nonzero_observation_warms_and_generic_scope_is_explicit(
     assert!(
         domain("RAPL_Package0_PP1")
             .unwrap()
+            .1
             .contains("Integrated GPU")
     );
 }

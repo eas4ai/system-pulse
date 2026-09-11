@@ -177,7 +177,7 @@ pub(crate) fn by_quantity(data: &Data, quantity: Quantity, unit: PhysicalUnit) -
         .collect()
 }
 
-/// Keep currently reported unavailable sensors visible so their access reason is actionable.
+/// Hide unavailable sensors while retaining their reasons in collector diagnostics.
 pub(crate) fn environmental_channels(
     data: &Data,
     quantity: Quantity,
@@ -189,7 +189,9 @@ pub(crate) fn environmental_channels(
             channel.quantity == quantity
                 && channel.unit == unit
                 && sensor_visible(data, &channel.monitor, &channel.sensor)
-                && channel.latest(data).is_some()
+                && channel
+                    .latest(data)
+                    .is_some_and(|sample| sample.status != ReadingStatus::Unavailable)
                 && data.snapshot.as_ref().is_some_and(|snapshot| {
                     snapshot
                         .sensors

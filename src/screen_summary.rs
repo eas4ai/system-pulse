@@ -65,6 +65,7 @@ fn mini_level(
                 .font_family(cx.theme().mono_font_family.clone())
                 .text_color(color)
                 .text_center()
+                .whitespace_nowrap()
                 .child(
                     channel
                         .map(|channel| channel.value(state))
@@ -194,9 +195,11 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
     );
     let gpu =
         data::selected_device(state, Screen::Gpu).and_then(|id| data::find(state, &id, "usage"));
+    let meter_width = 245.;
     let levels = section(cx)
         .gap_2()
-        .w(px(205.))
+        .w(px(meter_width))
+        .min_w(px(meter_width))
         .flex_none()
         .child(div().flex().gap_2().children([
             mini_level("CPU", cpu.as_ref(), state, Screen::Cpu, cx),
@@ -205,9 +208,9 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
             mini_level("GPU", gpu.as_ref(), state, Screen::Gpu, cx),
         ]));
     let top_width = if width >= 1100. {
-        (width - 229.) * 0.52
+        (width - meter_width - 24.) * 0.52
     } else {
-        width - 217.
+        width - meter_width - 12.
     };
     let cpu_color = accent(Screen::Cpu, cx);
     let overview = section(cx)
@@ -245,7 +248,7 @@ pub(crate) fn render(state: &Data, width: f32, cx: &App) -> AnyElement {
                 )),
         );
     let process_width = if width >= 1100. {
-        width - 229. - top_width
+        width - meter_width - 24. - top_width
     } else {
         width
     };

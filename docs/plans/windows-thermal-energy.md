@@ -92,3 +92,14 @@ first live thermal capture failed with a connected pipe ending before a usable
 temperature was observed; see the retained failure and current review. The one
 implementation todo remains in progress until that defect is diagnosed and fixed
 with native verification. No final acceptance or completion is claimed.
+
+## Developer tablet feedback
+
+The developer confirmed Energy and CPU temperatures after explicitly enabling
+the helper. Requested UI changes: readable power channel names instead of raw
+RAPL identifiers; omit unavailable Energy/Thermals sensor entries, including
+bottom cards; widen the Summary meter group modestly and enforce a minimum
+width so the bottom values do not wrap. The source uses a 245 px minimum
+(previously 205 px), with single-line values and adjusted neighboring widths.
+Seven energy collector tests, 23 screen tests, and app/collector all-targets
+Clippy passed after these edits. Updated signed tablet verification remains due.

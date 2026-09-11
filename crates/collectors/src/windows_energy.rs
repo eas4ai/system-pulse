@@ -222,16 +222,19 @@ fn validate_inventory(devices: Vec<Device>) -> Result<Vec<Device>> {
     }
     Ok(devices)
 }
-fn domain(channel: &str) -> Option<&'static str> {
+fn domain(channel: &str) -> Option<(&'static str, &'static str)> {
     let (package, domain) = channel.strip_prefix("RAPL_Package")?.split_once('_')?;
     if package.is_empty() || !package.bytes().all(|v| v.is_ascii_digit()) {
         return None;
     }
     match domain {
-        "PKG" => Some("CPU package energy domain"),
-        "DRAM" => Some("DRAM energy domain"),
-        "PP0" => Some("CPU cores energy domain"),
-        "PP1" => Some("Integrated GPU energy domain under CPU package"),
+        "PKG" => Some(("CPU package power", "CPU package energy domain")),
+        "DRAM" => Some(("Memory power", "DRAM energy domain")),
+        "PP0" => Some(("CPU cores power", "CPU cores energy domain")),
+        "PP1" => Some((
+            "Integrated GPU power",
+            "Integrated GPU energy domain under CPU package",
+        )),
         _ => None,
     }
 }
@@ -262,7 +265,7 @@ fn publish(snapshot: &mut Snapshot, device: &Device, state: &mut State, result: 
         return;
     };
     for (index, channel) in metadata.channels.iter().enumerate() {
-        let Some(scope) = domain(channel) else {
+        let Some((label, scope)) = domain(channel) else {
             snapshot.diagnostics.push(BackendDiagnostic {
                 backend: "windows-energy".into(),
                 availability: Availability::Unavailable,
@@ -339,7 +342,7 @@ fn publish(snapshot: &mut Snapshot, device: &Device, state: &mut State, result: 
             snapshot,
             "cpu:host",
             &suffix,
-            &format!("{channel} power"),
+            label,
             SensorKind::Power,
             Unit::Watts,
             "Windows Energy Meter Interface",
