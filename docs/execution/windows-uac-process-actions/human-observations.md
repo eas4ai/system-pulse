@@ -31,4 +31,4 @@ The developer also approved the first helper-timeout attempt. The UI reported
 uncertainty and owned-process cleanup passed, but its resource assertion rejected
 a still-live helper handle. That failed attempt is retained separately. The
 corrected counter distinguishes action wait handles from sysinfo query-only
-handles; the actual timeout rerun remains pending.
+handles. The corrected timeout rerun completed and passed independent verification. Native records show actual elevation and the expected bounded uncertain outcome; no separate human confirmation of this rerun was received when this record was written.

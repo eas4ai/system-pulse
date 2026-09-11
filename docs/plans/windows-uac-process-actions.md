@@ -6,7 +6,7 @@ All work stays local unless the developer separately authorizes a push or CI.
 - [x] Activate the approved commitment, declare mechanisms and scope, and record the framework upgrade design after inspecting upstream and local patches.
 - [x] Upgrade GPUI Kit and reconcile companion/native patches; verify the locked graph, local checks and Linux/macOS/Windows native preservation (Cairn WUAC-007 passed).
 - [x] Declare and implement Windows native process identity and graceful/forceful controls with boundary tests; verify committed native tests and ordinary packaged actions.
-- [ ] In progress: implement one-action UAC helper launch/result handling and responsive confirmation/error UI; verify ordinary, cancellation, denial and stale-target paths. Implementation, ordinary packaged cases and fresh Mac preservation pass; real UAC evidence remains pending.
+- [ ] In progress: implement one-action UAC helper launch/result handling and responsive confirmation/error UI; verify ordinary, cancellation, denial and stale-target paths. Implementation and all ten native observations pass; committed full acceptance is in progress.
 - [ ] Collect native Windows administrator approval/cancellation and packaged-layout evidence; run Linux/macOS preservation checks and update support documentation.
 - [ ] Record final adversarial review, resolve findings separately, and finish Cairn evidence. No hosted CI or publication is included without separate authorization.
 
@@ -113,5 +113,5 @@ its owned targets, but the resource assertion counted sysinfo's normal query-onl
 handle to the still-live helper. The corrected native counter distinguishes
 SYNCHRONIZE handles from exact collector query masks; four positive controls pass.
 A pinned compatibility check retains the stronger zero-helper-handle proof in
-the nine earlier receipts. The corrected real timeout run remains pending.
+the nine earlier receipts. The corrected real timeout run passed independent verification. Its live dashboard retained only one QUERY_LIMITED_INFORMATION handle (0x1000) to the suspended helper, with zero synchronization or termination handles. Full committed acceptance remains pending.
 Windows GPU detection parity is the developer-named next commitment.
