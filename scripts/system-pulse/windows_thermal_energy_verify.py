@@ -310,18 +310,22 @@ def validate_stages(stages):
                 )
         if stage["name"] != "pending":
             ui = stage["ui"]
+            validate_sensor_ui(ui)
             require(
                 ui["selected_screen"] == "Thermals" and ui["pid"] == pid,
                 "wrong native Thermals page",
             )
             visible = " ".join(c["name"] for c in ui["controls"] if not c["offscreen"])
-            require(
-                "CPU package temperature" in visible,
-                "CPU package temperature is absent from UI",
-            )
+            if stage["name"] in ("off", "disabled"):
+                validate_disabled_thermal_ui(ui)
+            else:
+                require(
+                    "CPU package temperature" in visible,
+                    "CPU package temperature is absent from UI",
+                )
             if stage["name"] == "enabled":
                 require("°C" in visible, "Celsius unit absent from UI")
-            else:
+            elif stage["name"] not in ("off", "disabled"):
                 require(
                     reading["reason"] in visible,
                     "availability explanation absent from native Thermals UI",
@@ -662,6 +666,36 @@ def visible(ui):
     return " ".join(c["name"] for c in ui["controls"] if not c["offscreen"])
 
 
+def validate_sensor_ui(ui):
+    text = visible(ui)
+    require(
+        not re.search(r"\bUnavailable\b", text, re.IGNORECASE),
+        "unavailable sensor card is visible on " + ui["selected_screen"],
+    )
+    require("RAPL_Package" not in text, "raw EMI identifier leaked into sensor UI")
+
+
+def validate_energy_ui(ui):
+    validate_sensor_ui(ui)
+    require(
+        ui["selected_screen"] == "Energy"
+        and ui["pid"] > 0
+        and "CPU package power" in visible(ui)
+        and re.search(r"\bW\b", visible(ui)),
+        "native Energy readable package label or watts absent",
+    )
+
+
+def validate_disabled_thermal_ui(ui):
+    validate_sensor_ui(ui)
+    require(
+        ui["selected_screen"] == "Thermals"
+        and "Enable CPU temperatures" in visible(ui)
+        and "CPU package temperature" not in visible(ui),
+        "disabled thermal sensor card is visible or enable control is missing",
+    )
+
+
 def validate_normal(record, inventory):
     require(
         record["elevated"] is False and record["diagnostics_enabled"] is False,
@@ -677,6 +711,7 @@ def validate_normal(record, inventory):
         )
     for key in ("gpu", "normal_gpu"):
         ui = record[key]
+        validate_sensor_ui(ui)
         text = visible(ui)
         require(
             ui["selected_screen"] == "GPU" and ui["pid"] > 0,
@@ -689,7 +724,6 @@ def validate_normal(record, inventory):
                     "GPU utilization",
                     "Dedicated GPU memory",
                     "Shared GPU memory",
-                    "Unavailable",
                 )
             )
             and any(device["Name"] in text for device in inventory),
@@ -920,18 +954,8 @@ def validate_evidence(evidence):
     preservation = load(evidence / "preservation.json")
     validate_normal(preservation, inventory["gpu"])
     for ui in (load(evidence / "energy-ui.json"), preservation["normal_energy"]):
-        require(
-            ui["selected_screen"] == "Energy"
-            and "RAPL_Package" in visible(ui)
-            and re.search(r"\bW\b", visible(ui)),
-            "native Energy domains or watts absent",
-        )
-    require(
-        preservation["normal_thermals"]["selected_screen"] == "Thermals"
-        and "CPU package temperature" in visible(preservation["normal_thermals"])
-        and "off" in visible(preservation["normal_thermals"]).lower(),
-        "normal launch retained privileged thermal access",
-    )
+        validate_energy_ui(ui)
+    validate_disabled_thermal_ui(preservation["normal_thermals"])
     review = load(evidence / "visual-review.json")
     require(
         review["source_commit"] == revision

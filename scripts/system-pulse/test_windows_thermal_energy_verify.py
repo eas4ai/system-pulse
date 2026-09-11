@@ -18,6 +18,8 @@ from windows_thermal_energy_verify import (
     verify_hashes,
     validate_platforms,
     validate_installer,
+    validate_sensor_ui,
+    validate_energy_ui,
 )
 from windows_thermal_energy_collect import signed_build_identity
 
@@ -133,7 +135,11 @@ def stages():
                     pid=42,
                     controls=[
                         dict(
-                            name="CPU package temperature 35 °C " + str(reason),
+                            name=(
+                                "Enable CPU temperatures…"
+                                if state == "Unavailable"
+                                else "CPU package temperature 35 °C " + str(reason)
+                            ),
                             offscreen=False,
                         )
                     ],
@@ -602,7 +608,6 @@ class ReadingTests(unittest.TestCase):
                     "GPU utilization",
                     "Dedicated GPU memory",
                     "Shared GPU memory",
-                    "Unavailable",
                 )
             ],
         )
@@ -621,11 +626,69 @@ class ReadingTests(unittest.TestCase):
             lambda r: r.update(normal_rows=[]),
             lambda r: r["quit"].update(exit_code=1),
             lambda r: r["normal_gpu"].update(controls=[]),
+            lambda r: r["normal_gpu"]["controls"].append(
+                dict(name="GPU temperature Unavailable", offscreen=False)
+            ),
         ):
             bad = copy.deepcopy(record)
             change(bad)
             with self.assertRaises(InvalidMeasurement):
                 validate_normal(bad, [dict(Name="Intel Iris")])
+
+    def test_readable_power_labels_and_hidden_unavailable_cards(self):
+        labels = [
+            "CPU package power",
+            "Memory power",
+            "CPU cores power",
+            "Integrated GPU power",
+        ]
+        ui = dict(
+            selected_screen="Energy",
+            pid=42,
+            controls=[dict(name=label + " 12 W", offscreen=False) for label in labels],
+        )
+        validate_energy_ui(ui)
+        for i, domain in enumerate(("PKG", "DRAM", "PP0", "PP1")):
+            bad = copy.deepcopy(ui)
+            bad["controls"][i]["name"] = "RAPL_Package0_" + domain + " 12 W"
+            with self.subTest(domain=domain), self.assertRaises(InvalidMeasurement):
+                validate_energy_ui(bad)
+        for screen in ("Energy", "Thermals", "GPU", "CPU", "Memory", "Summary"):
+            bad = copy.deepcopy(ui)
+            bad["selected_screen"] = screen
+            bad["controls"].append(
+                dict(name="Unused sensor Unavailable", offscreen=False)
+            )
+            with self.subTest(screen=screen), self.assertRaises(InvalidMeasurement):
+                validate_sensor_ui(bad)
+            bad["controls"][-1]["offscreen"] = True
+            validate_sensor_ui(bad)
+        for labels in (["CPU package power"], ["12 W"]):
+            bad = dict(
+                ui, controls=[dict(name=name, offscreen=False) for name in labels]
+            )
+            with self.assertRaises(InvalidMeasurement):
+                validate_energy_ui(bad)
+
+    def test_off_sensor_card_must_be_hidden_but_diagnostics_keep_reason(self):
+        good = stages()
+        validate_stages(good)
+        for index in (0, 4):
+            bad = copy.deepcopy(good)
+            bad[index]["ui"]["controls"].append(
+                dict(
+                    name="CPU package temperature Unavailable CPU temperature access is off",
+                    offscreen=False,
+                )
+            )
+            with self.subTest(stage=index), self.assertRaises(InvalidMeasurement):
+                validate_stages(bad)
+            bad[index]["ui"]["controls"][-1]["name"] = "CPU package temperature"
+            with self.assertRaises(InvalidMeasurement):
+                validate_stages(bad)
+            bad[index]["ui"]["controls"] = []
+            with self.assertRaises(InvalidMeasurement):
+                validate_stages(bad)
 
 
 if __name__ == "__main__":
