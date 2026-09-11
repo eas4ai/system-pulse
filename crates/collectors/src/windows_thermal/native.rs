@@ -5,6 +5,7 @@ use super::{
     identity::{self, Caller, LockedExecutable, alive, own, raw},
     protocol::{Frame, Request, Result},
     session::{Control, Latest, MAX_AGE},
+    watchdog::{Watchdog, terminate_helper},
 };
 use std::{
     os::windows::{ffi::OsStrExt, io::OwnedHandle},
@@ -313,7 +314,7 @@ pub(super) fn helper(request: Request) -> Result<()> {
     if !identity::elevated()? {
         return Err("Temperature helper requires elevation".into());
     }
-    let caller = Caller::open(request.pid, request.created)?;
+    let caller = Arc::new(Caller::open(request.pid, request.created)?);
     let name = pipe_name(&request);
     // Client never receives arbitrary operations, and does not request create-instance access.
     let pipe = own(unsafe {
@@ -336,9 +337,18 @@ pub(super) fn helper(request: Request) -> Result<()> {
     }
     unsafe { SetNamedPipeHandleState(raw(&pipe), Some(&PIPE_NOWAIT), None, None) }
         .map_err(|e| format!("Set nonblocking temperature pipe: {e}"))?;
+    let watched_caller = caller.clone();
+    // The watchdog stays runnable even if a fixed driver call never returns. It owns
+    // the verified caller object and terminates only its own elevated helper process.
+    let watchdog = Watchdog::start(
+        move || alive(raw(&watched_caller.handle)),
+        terminate_helper,
+        Duration::from_secs(5),
+        MAX_SESSION,
+    )?;
     let frequency = frequency()?;
     let started = Instant::now();
-    let driver = Driver::open();
+    let driver = watchdog.operation(Driver::open);
     let mut sequence = 0u64;
     loop {
         if !alive(raw(&caller.handle)) || started.elapsed() > MAX_SESSION {
@@ -346,10 +356,10 @@ pub(super) fn helper(request: Request) -> Result<()> {
         }
         sequence += 1;
         let before = counter()?;
-        let result = match &driver {
+        let result = watchdog.operation(|| match &driver {
             Ok(driver) => driver.sample(),
             Err(code) => Err(*code),
-        };
+        });
         let after = counter()?;
         let (target, status, error) = match result {
             Ok((target, status)) => (target, status, 0),

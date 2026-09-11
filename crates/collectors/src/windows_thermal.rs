@@ -11,6 +11,8 @@ mod protocol;
 #[cfg(any(test, target_os = "windows"))]
 mod session;
 #[cfg(any(test, target_os = "windows"))]
+mod watchdog;
+#[cfg(any(test, target_os = "windows"))]
 pub(crate) use session::Control;
 
 /// Dispatch before any UI initialization. The iterator includes the executable argument.
