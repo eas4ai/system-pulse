@@ -9,6 +9,7 @@ use windows::{
             Properties::{DEVPROP_TYPE_UINT64, DEVPROPTYPE},
         },
         Foundation::{ERROR_NO_MORE_ITEMS, HWND, LUID, NTSTATUS},
+        System::Registry::{REG_DWORD, REG_SZ, REG_VALUE_TYPE},
     },
     core::PCWSTR,
 };
@@ -81,7 +82,7 @@ impl Backend for Native {
                 continue;
             }
             // Metadata is optional: a driver lacking a name/LUID/address still has a device.
-            let name = registry(&devices, &device, SPDRP_DEVICEDESC)
+            let name = registry(&devices, &device, SPDRP_DEVICEDESC, REG_SZ)
                 .and_then(|bytes| {
                     if bytes.len() % 2 != 0 {
                         return Err(Failure::failed("Odd-length display name"));
@@ -164,21 +165,26 @@ fn registry(
     set: &DeviceSet,
     device: &SP_DEVINFO_DATA,
     property: SETUP_DI_REGISTRY_PROPERTY,
+    expected_type: REG_VALUE_TYPE,
 ) -> Result<Vec<u8>> {
     let mut buffer = vec![0u8; 4096];
     let mut needed = 0;
+    let mut kind = 0;
     // SAFETY: the byte buffer capacity and output pointers are valid; no casted alignment assumptions.
     unsafe {
         SetupDiGetDeviceRegistryPropertyW(
             set.0,
             device,
             property,
-            None,
+            Some(&mut kind),
             Some(&mut buffer),
             Some(&mut needed),
         )
     }
     .map_err(|e| win_error("Read display adapter property", e))?;
+    if kind != expected_type.0 {
+        return Err(Failure::failed("Invalid display adapter property type"));
+    }
     if needed == 0 || needed as usize > buffer.len() {
         return Err(Failure::failed("Invalid display adapter property length"));
     }
@@ -190,7 +196,7 @@ fn registry_u32(
     device: &SP_DEVINFO_DATA,
     property: SETUP_DI_REGISTRY_PROPERTY,
 ) -> Result<u32> {
-    let bytes = registry(set, device, property)?;
+    let bytes = registry(set, device, property, REG_DWORD)?;
     let value: [u8; 4] = bytes
         .try_into()
         .map_err(|_| Failure::failed("Invalid GPU PCI property size"))?;
