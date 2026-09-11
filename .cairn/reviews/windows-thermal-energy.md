@@ -112,3 +112,15 @@ Read-only source inspection shows existing native pipe tests exercise one proces
 and one token, and do not execute the real driver-backed helper lifecycle.
 Investigate the connected-helper exit before changing production code. This is an
 open finding; prior test passes do not establish successful native temperatures.
+
+### Root cause reproduced without interactive elevation
+
+The test-only real-helper reproduction at `a5070611` failed on the tablet with
+`driver.rs:145`: `copy_from_slice: source slice length (15) does not match
+destination slice length (14)`. The fixed `ioctl_read_msr` command plus its NUL
+occupies 15 bytes, but the request encoder selected 14 bytes. The helper panics
+before producing its first hardware reading and closes the pipe. The native
+red log and exact command are retained beside the live failure artifacts.
+This explains the pipe-ended symptom without attributing a UAC response to the
+user. Correct the fixed request encoding, then repeat actual-helper native tests
+and package acceptance.

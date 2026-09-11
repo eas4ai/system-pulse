@@ -1,0 +1,40 @@
+#< CLIXML
+   Compiling system-pulse-collectors v0.3.0 (C:\Users\shawn\workspace\system-pulse-d5ac44902e64-199a62ed\crates\collectors)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.09s
+     Running unittests src\lib.rs (C:\Users\shawn\workspace\system-pulse-build-target\debug\deps\system_pulse_collectors-59f10c3c625ddb49.exe)
+
+running 1 test
+real helper parent elevated=Ok(true), child=2880
+real helper exit=test windows_thermal::native::tests::native_real_driver_helper_session ... FAILED
+
+failures:
+
+failures:
+    windows_thermal::native::tests::native_real_driver_helper_session
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 105 filtered out; finished in 0.06s
+
+exit code: 101, stdout=
+running 1 test
+test windows_thermal::native::tests::native_real_driver_helper_child ... FAILED
+
+failures:
+
+failures:
+    windows_thermal::native::tests::native_real_driver_helper_child
+
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 105 filtered out; finished in 0.03s
+
+, stderr=real helper child elevated=Ok(true)
+
+thread 'windows_thermal::native::tests::native_real_driver_helper_child' (14548) panicked at crates\collectors\src\windows_thermal\driver.rs:145:21:
+copy_from_slice: source slice length (15) does not match destination slice length (14)
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+real helper observation=Err("test connect: The pipe is being closed. (0x800700E8)")
+
+thread 'windows_thermal::native::tests::native_real_driver_helper_session' (7740) panicked at crates\collectors\src\windows_thermal\native.rs:513:9:
+real driver helper did not deliver a temperature
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+error: test failed, to rerun pass `-p system-pulse-collectors --lib`
+<Objs Version="1.1.0.1" xmlns="http://schemas.microsoft.com/powershell/2004/04"><Obj S="progress" RefId="0"><TN RefId="0"><T>System.Management.Automation.PSCustomObject</T><T>System.Object</T></TN><MS><I64 N="SourceId">1</I64><PR N="Record"><AV>Preparing modules for first use.</AV><AI>0</AI><Nil /><PI>-1</PI><PC>-1</PC><T>Completed</T><SR>-1</SR><SD> </SD></PR></MS></Obj></Objs>
