@@ -142,7 +142,8 @@ impl Driver {
             return Err(5);
         }
         let mut input = [0u8; 40];
-        input[..14].copy_from_slice(b"ioctl_read_msr\0");
+        let command = b"ioctl_read_msr\0";
+        input[..command.len()].copy_from_slice(command);
         input[32..].copy_from_slice(&register.to_le_bytes());
         let mut output = [0u8; 8];
         let mut returned = 0;

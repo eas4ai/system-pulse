@@ -417,7 +417,8 @@ mod tests {
         eprintln!("real helper child elevated={:?}", identity::elevated());
         let result = helper(request);
         eprintln!("real helper returned: {result:?}");
-        result.unwrap();
+        // Parent intentionally closes the pipe after its first verified frame.
+        // The parent's assertion determines whether the real helper delivered data.
     }
 
     #[test]
@@ -454,46 +455,7 @@ mod tests {
             identity::elevated(),
             child.id()
         );
-        let result = (|| -> Result<f64> {
-            let deadline = Instant::now() + Duration::from_secs(10);
-            let mut connected = false;
-            while Instant::now() < deadline {
-                if !connected {
-                    match unsafe { ConnectNamedPipe(raw(&server), None) } {
-                        Ok(()) => connected = true,
-                        Err(e) if code(&e) == ERROR_PIPE_CONNECTED.0 => connected = true,
-                        Err(e) if code(&e) == ERROR_PIPE_LISTENING.0 => {}
-                        Err(e) => return Err(format!("test connect: {e}")),
-                    }
-                    if connected {
-                        let mut pid = 0;
-                        unsafe { GetNamedPipeClientProcessId(raw(&server), &mut pid) }
-                            .map_err(|e| format!("test client identity: {e}"))?;
-                        if pid != child.id() {
-                            return Err("test pipe client differs from retained child".into());
-                        }
-                        eprintln!("real helper connected and PID authenticated");
-                    }
-                }
-                if connected {
-                    let mut bytes = [0u8; 64];
-                    let mut count = 0;
-                    match unsafe {
-                        ReadFile(raw(&server), Some(&mut bytes), Some(&mut count), None)
-                    } {
-                        Ok(()) if count != 0 => {
-                            eprintln!("real helper frame bytes={count}, raw={bytes:02x?}");
-                            return Frame::decode(&bytes[..count as usize], 0)?.temperature();
-                        }
-                        Ok(()) => {}
-                        Err(e) if code(&e) == ERROR_NO_DATA.0 => {}
-                        Err(e) => return Err(format!("test read: {e}")),
-                    }
-                }
-                std::thread::sleep(POLL);
-            }
-            Err("real helper test timed out".into())
-        })();
+        let result = read_test_temperature(&server, child.id());
         drop(server);
         let deadline = Instant::now() + Duration::from_secs(10);
         while child.try_wait().unwrap().is_none() && Instant::now() < deadline {
@@ -513,6 +475,108 @@ mod tests {
         assert!(
             result.is_ok(),
             "real driver helper did not deliver a temperature"
+        );
+    }
+
+    fn read_test_temperature(server: &OwnedHandle, expected_pid: u32) -> Result<f64> {
+        let deadline = Instant::now() + Duration::from_secs(10);
+        let mut connected = false;
+        while Instant::now() < deadline {
+            if !connected {
+                match unsafe { ConnectNamedPipe(raw(server), None) } {
+                    Ok(()) => connected = true,
+                    Err(e) if code(&e) == ERROR_PIPE_CONNECTED.0 => connected = true,
+                    Err(e) if code(&e) == ERROR_PIPE_LISTENING.0 => {}
+                    Err(e) => return Err(format!("test connect: {e}")),
+                }
+                if connected {
+                    let mut pid = 0;
+                    unsafe { GetNamedPipeClientProcessId(raw(server), &mut pid) }
+                        .map_err(|e| format!("test client identity: {e}"))?;
+                    if pid != expected_pid {
+                        return Err("test pipe client differs from retained child".into());
+                    }
+                    eprintln!("real helper connected and PID authenticated");
+                }
+            }
+            if connected {
+                let mut bytes = [0u8; 64];
+                let mut count = 0;
+                match unsafe { ReadFile(raw(server), Some(&mut bytes), Some(&mut count), None) } {
+                    Ok(()) if count != 0 => {
+                        eprintln!("real helper frame bytes={count}, raw={bytes:02x?}");
+                        return Frame::decode(&bytes[..count as usize], 0)?.temperature();
+                    }
+                    Ok(()) => {}
+                    Err(e) if code(&e) == ERROR_NO_DATA.0 => {}
+                    Err(e) => return Err(format!("test read: {e}")),
+                }
+            }
+            std::thread::sleep(POLL);
+        }
+        Err("real helper test timed out".into())
+    }
+
+    #[test]
+    fn native_real_driver_limited_parent() {
+        let Some(directory) = std::env::var_os("SYSTEM_PULSE_TEST_EXTERNAL_HELPER") else {
+            return;
+        };
+        assert!(
+            !identity::elevated().unwrap(),
+            "cross-token parent must be Limited"
+        );
+        let directory = std::path::PathBuf::from(directory);
+        let _executable = LockedExecutable::current().unwrap();
+        let request = Request {
+            pid: std::process::id(),
+            created: identity::creation_time(unsafe { GetCurrentProcess() }).unwrap(),
+            nonce: format!("{:032x}", counter().unwrap()),
+        };
+        let server = create_pipe(&request).unwrap();
+        std::fs::write(
+            directory.join("request.txt"),
+            format!("{}\n{}\n{}\n", request.pid, request.created, request.nonce),
+        )
+        .unwrap();
+        let deadline = Instant::now() + Duration::from_secs(60);
+        let child_pid = loop {
+            if let Ok(pid) = std::fs::read_to_string(directory.join("child-pid.txt"))
+                && let Ok(pid) = pid.trim().parse::<u32>()
+            {
+                break pid;
+            }
+            assert!(
+                Instant::now() < deadline,
+                "external elevated child did not start"
+            );
+            std::thread::sleep(POLL);
+        };
+        use windows::Win32::System::Threading::{
+            OpenProcess, PROCESS_QUERY_LIMITED_INFORMATION, PROCESS_SYNCHRONIZE,
+        };
+        let child = own(unsafe {
+            OpenProcess(
+                PROCESS_QUERY_LIMITED_INFORMATION | PROCESS_SYNCHRONIZE,
+                false,
+                child_pid,
+            )
+        }
+        .unwrap());
+        let _identity =
+            Caller::open(child_pid, identity::creation_time(raw(&child)).unwrap()).unwrap();
+        eprintln!("real helper Limited parent elevated=false, retained child={child_pid}");
+        let result = read_test_temperature(&server, child_pid);
+        drop(server);
+        let deadline = Instant::now() + Duration::from_secs(10);
+        while alive(raw(&child)) && Instant::now() < deadline {
+            std::thread::sleep(POLL);
+        }
+        assert!(!alive(raw(&child)), "external helper survived pipe closure");
+        eprintln!("cross-token real helper observation={result:?}");
+        assert!(
+            result.is_ok(),
+            "cross-token helper did not deliver a temperature"
         );
     }
 
