@@ -3,6 +3,7 @@
 import copy
 import unittest
 import hashlib
+import json
 from pathlib import Path
 import tempfile
 from unittest.mock import patch
@@ -16,6 +17,7 @@ from windows_thermal_energy_verify import (
     validate_normal,
     verify_hashes,
     validate_platforms,
+    validate_installer,
 )
 from windows_thermal_energy_collect import signed_build_identity
 
@@ -463,6 +465,117 @@ class ReadingTests(unittest.TestCase):
             bad[key] = value
             with self.assertRaises(InvalidMeasurement):
                 signed_build_identity(bad, "a" * 40, "b" * 64, "c" * 64)
+
+    def test_installer_receipts_bind_both_lifecycles_and_shared_driver(self):
+        signature = dict(status="Valid", subject="Publisher", thumbprint="D" * 40)
+        manifest = dict(
+            source_commit="a" * 40,
+            binary_sha256="b" * 64,
+            installer_sha256="c" * 64,
+            application_signature=signature,
+            installer_signature=signature,
+            pawnio_signature=signature,
+            pawnio_sha256="1f519a22e47187f70a1379a48ca604981c4fcf694f4e65b734aaa74a9fba3032",
+        )
+        driver = dict(
+            version="2.2.0.0",
+            start_mode="Manual",
+            state="Running",
+            location="PawnIO",
+            driver_path="PawnIO.sys",
+        )
+        result = dict(
+            status="PASS",
+            installer_sha256="c" * 64,
+            binary_sha256="b" * 64,
+            install_exit=0,
+            existing_driver_install_exit=0,
+            uninstall_exit=0,
+            owned_directory_removed=True,
+            shared_driver_before=driver,
+            shared_driver_after=driver,
+            fresh_driver_installed=False,
+            installer_signer="Publisher",
+            application_signer="Publisher",
+            uninstaller_signer="Publisher",
+        )
+        good = {
+            "manifest.json": manifest,
+            "existing/result.json": result,
+            "fresh/result.json": dict(
+                result, shared_driver_before=None, fresh_driver_installed=True
+            ),
+        }
+        mutations = [
+            lambda d: d["fresh/result.json"].update(status="FAIL"),
+            lambda d: d["fresh/result.json"].update(install_exit=1),
+            lambda d: d["existing/result.json"].update(existing_driver_install_exit=1),
+            lambda d: d["existing/result.json"].update(uninstall_exit=1),
+            lambda d: d["existing/result.json"].update(owned_directory_removed=False),
+            lambda d: d["existing/result.json"].update(shared_driver_after=None),
+            lambda d: d["existing/result.json"].update(
+                shared_driver_after=dict(driver, location="Different installation")
+            ),
+            lambda d: d["existing/result.json"]["shared_driver_after"].update(
+                state="Stopped"
+            ),
+            lambda d: d["fresh/result.json"].update(shared_driver_before=driver),
+            lambda d: d["fresh/result.json"].update(fresh_driver_installed=False),
+            lambda d: d["existing/result.json"].update(installer_sha256="d" * 64),
+            lambda d: d["manifest.json"].update(binary_sha256="d" * 64),
+            lambda d: d["manifest.json"].update(pawnio_sha256="d" * 64),
+            lambda d: d["manifest.json"]["installer_signature"].update(
+                status="NotSigned"
+            ),
+        ]
+        with (
+            tempfile.TemporaryDirectory() as temporary,
+            patch("performance_verify.same_production"),
+        ):
+            root = Path(temporary)
+
+            def write(data):
+                hashes = {}
+                for name, value in data.items():
+                    path = root / name
+                    path.parent.mkdir(parents=True, exist_ok=True)
+                    path.write_text(json.dumps(value))
+                    hashes[name] = hashlib.sha256(path.read_bytes()).hexdigest()
+                harness = Path(__file__).with_name("windows_installer_verify.ps1")
+                receipt = dict(
+                    source_commit="a" * 40,
+                    signed_binary_sha256="b" * 64,
+                    harness_sha256={
+                        harness.name: hashlib.sha256(harness.read_bytes()).hexdigest()
+                    },
+                    artifacts_sha256=hashes,
+                )
+                (root / "receipt.json").write_text(json.dumps(receipt))
+
+            write(good)
+            validate_installer(root, "b" * 64)
+            for mutate in mutations:
+                with self.subTest(mutate=mutate):
+                    bad = copy.deepcopy(good)
+                    mutate(bad)
+                    write(bad)
+                    with self.assertRaises(InvalidMeasurement):
+                        validate_installer(root, "b" * 64)
+            write(good)
+            (root / "manifest.json").write_text("{}")
+            with self.assertRaises(InvalidMeasurement):
+                validate_installer(root, "b" * 64)
+            write(good)
+            receipt_path = root / "receipt.json"
+            receipt = json.loads(receipt_path.read_text())
+            receipt["harness_sha256"]["windows_installer_verify.ps1"] = "0" * 64
+            receipt_path.write_text(json.dumps(receipt))
+            with self.assertRaises(InvalidMeasurement):
+                validate_installer(root, "b" * 64)
+            write(good)
+            (root / "receipt.json").unlink()
+            with self.assertRaises(InvalidMeasurement):
+                validate_installer(root, "b" * 64)
 
     def test_artifact_hashes_reject_missing_tampered_and_unsafe_paths(self):
         with tempfile.TemporaryDirectory() as temporary:

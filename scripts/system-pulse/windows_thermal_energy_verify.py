@@ -705,6 +705,81 @@ def validate_normal(record, inventory):
     )
 
 
+def validate_installer(root, binary_hash):
+    from performance_verify import same_production, check_harness
+
+    receipt = load(artifact(root, "receipt.json"))
+    same_production(receipt["source_commit"])
+    require(
+        receipt["signed_binary_sha256"] == binary_hash,
+        "installer lifecycle used a different application",
+    )
+    check_harness(receipt["harness_sha256"], ("windows_installer_verify.ps1",))
+    hashes = receipt["artifacts_sha256"]
+    require(
+        {"manifest.json", "fresh/result.json", "existing/result.json"} <= hashes.keys(),
+        "installer lifecycle artifacts are incomplete",
+    )
+    verify_hashes(root, hashes)
+    manifest = load(root / "manifest.json")
+    require(
+        manifest["source_commit"] == receipt["source_commit"]
+        and manifest["binary_sha256"] == binary_hash
+        and re.fullmatch(r"[a-f0-9]{64}", manifest["installer_sha256"]),
+        "installer manifest identity differs from lifecycle receipt",
+    )
+    require(
+        manifest["pawnio_sha256"]
+        == "1f519a22e47187f70a1379a48ca604981c4fcf694f4e65b734aaa74a9fba3032",
+        "installer prerequisite differs from pinned official PawnIO",
+    )
+    for name in ("application_signature", "installer_signature", "pawnio_signature"):
+        signature = manifest[name]
+        require(
+            signature["status"] == "Valid"
+            and signature["subject"]
+            and re.fullmatch(r"[A-Fa-f0-9]{40}", signature["thumbprint"]),
+            "installer component signature is invalid",
+        )
+    for name, fresh in (("fresh", True), ("existing", False)):
+        result = load(root / name / "result.json")
+        require(
+            result["status"] == "PASS"
+            and all(
+                type(result[key]) is int and result[key] == 0
+                for key in (
+                    "install_exit",
+                    "existing_driver_install_exit",
+                    "uninstall_exit",
+                )
+            )
+            and result["owned_directory_removed"] is True,
+            "installer lifecycle failed or left application files",
+        )
+        require(
+            result["binary_sha256"] == binary_hash
+            and result["installer_sha256"] == manifest["installer_sha256"]
+            and result["installer_signer"] == manifest["installer_signature"]["subject"]
+            and result["application_signer"]
+            == manifest["application_signature"]["subject"]
+            and result["uninstaller_signer"]
+            == manifest["application_signature"]["subject"],
+            "installed component identity differs from signed manifest",
+        )
+        before, after = result["shared_driver_before"], result["shared_driver_after"]
+        require(
+            result["fresh_driver_installed"] is fresh
+            and isinstance(after, dict)
+            and (before is None if fresh else before == after)
+            and after.get("version") == "2.2.0.0"
+            and after.get("start_mode") == "Manual"
+            and after.get("state") == "Running"
+            and after.get("driver_path")
+            and after.get("location"),
+            "installer removed or changed the shared PawnIO driver",
+        )
+
+
 def validate_evidence(evidence):
     from performance_verify import ROOT, same_production, check_harness
     from release_ci_verify import archive_files, verify_archive
@@ -796,6 +871,7 @@ def validate_evidence(evidence):
         and result["signature"] == build["authenticode"],
         "native signature or executable differs from package",
     )
+    validate_installer(evidence / "installer", signed)
     stages = load(evidence / "stages.json")
     validate_stages(stages)
     inventory = load(evidence / "inventory.json")
