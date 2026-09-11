@@ -1,0 +1,16 @@
+[
+  {
+    "repository": "PawnIO",
+    "revision": "5cdf470831fdfff3f7f1d06363ca6b230f3bf35a",
+    "url": "https://codeload.github.com/namazso/PawnIO/tar.gz/5cdf470831fdfff3f7f1d06363ca6b230f3bf35a",
+    "file": "PawnIO-source.tar.gz",
+    "sha256": "ee35ca93c4743a7e2f33760e1586de10bb13d2f6f7c57c3b86df4f0f163ea644"
+  },
+  {
+    "repository": "PawnPP",
+    "revision": "e64e4c37b2d8ba0d8ee57205faf8183aee12c438",
+    "url": "https://codeload.github.com/namazso/PawnPP/tar.gz/e64e4c37b2d8ba0d8ee57205faf8183aee12c438",
+    "file": "PawnPP-source.tar.gz",
+    "sha256": "a7a4c76ea1ca5a4291e805ef8490fc2cdd93ba69bc1e5f25ec50eb5a8f892962"
+  }
+]

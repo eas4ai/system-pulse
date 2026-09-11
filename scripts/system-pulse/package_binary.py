@@ -66,7 +66,10 @@ def copy_notices(package):
                          ("crates/collectors/src/intel/UAPI-NOTICE", "Intel-UAPI-NOTICE"),
                          ("crates/collectors/src/apple/NOTICE.md", "Apple-NOTICE.md"),
                          ("vendor/pawnio-intel-msr/COPYING", "PawnIO-IntelMSR-COPYING"),
-                         ("vendor/pawnio-intel-msr/README.md", "PawnIO-IntelMSR-NOTICE.md")):
+                         ("vendor/pawnio-intel-msr/README.md", "PawnIO-IntelMSR-NOTICE.md"),
+                         ("vendor/pawnio-driver/PawnIO-COPYING", "PawnIO-driver-COPYING"),
+                         ("vendor/pawnio-driver/README.md", "PawnIO-driver-NOTICE.md"),
+                         ("vendor/pawnio-driver/PawnIO-README.md", "PawnIO-driver-README.md")):
         shutil.copyfile(ROOT / source, notices / name)
 
 

@@ -10,6 +10,7 @@ import shutil
 import subprocess
 
 from package_binary import make_archive
+from release_ci_verify import REQUIRED
 
 PAWNIO_SHA256 = "1f519a22e47187f70a1379a48ca604981c4fcf694f4e65b734aaa74a9fba3032"
 
@@ -20,7 +21,10 @@ def digest(path):
 
 def validate_package(package):
     manifest = json.loads((package / "package-files.json").read_text(encoding="utf-8"))
-    if not isinstance(manifest, dict) or not {"build.json", "system-pulse.exe"} <= manifest.keys():
+    required = REQUIRED | {"system-pulse.exe", "notices/PawnIO-IntelMSR-COPYING",
+        "notices/PawnIO-IntelMSR-NOTICE.md", "notices/PawnIO-driver-COPYING",
+        "notices/PawnIO-driver-NOTICE.md", "notices/PawnIO-driver-README.md"}
+    if not isinstance(manifest, dict) or not required <= manifest.keys():
         raise ValueError("Package manifest lacks native build provenance")
     for name, expected in manifest.items():
         parts = PurePosixPath(name)
@@ -41,6 +45,10 @@ def validate_package(package):
         raise ValueError("Package version is invalid")
     if build.get("binary_sha256") != digest(package / "system-pulse.exe"):
         raise ValueError("Native binary does not match build provenance")
+    if build.get("source_archive_sha256") != digest(package / "source.tar.gz"):
+        raise ValueError("Source archive differs from build provenance")
+    if build["source_commit"] not in (package / "SOURCE.txt").read_text(encoding="utf-8"):
+        raise ValueError("Source access record lacks the build revision")
     return build
 
 
