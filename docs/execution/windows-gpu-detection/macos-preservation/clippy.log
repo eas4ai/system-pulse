@@ -1,0 +1,88 @@
+    Checking futures-channel v0.3.32
+    Checking rayon v1.12.0
+    Checking serde_urlencoded v0.7.1
+    Checking flume v0.12.0
+    Checking futures-util v0.3.32
+    Checking url v2.5.8
+    Checking sysinfo v0.37.2 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256/vendor/sysinfo)
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/cpu.rs:32:42
+   |
+32 |             IOServiceGetMatchingServices(kIOMasterPortDefault, Some(matching), &mut iterator);
+   |                                          ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(deprecated)]` on by default
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/cpu.rs:16:73
+   |
+16 |         IOServiceGetMatchingServices, IOServiceMatching, io_iterator_t, kIOMasterPortDefault,
+   |                                                                         ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+   --> vendor/sysinfo/src/unix/apple/macos/system.rs:177:37
+    |
+177 |         IOServiceGetMatchingService(kIOMasterPortDefault, Some(matching.as_opaque().into()))
+    |                                     ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+   --> vendor/sysinfo/src/unix/apple/macos/system.rs:164:9
+    |
+164 |         kIOMasterPortDefault,
+    |         ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:13:26
+   |
+13 |     io_registry_entry_t, kIOMasterPortDefault, kIOServicePlane,
+   |                          ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:20:47
+   |
+20 |     let matching = unsafe { IOBSDNameMatching(kIOMasterPortDefault, 0, bsd_name.as_ptr().cast()) }?;
+   |                                               ^^^^^^^^^^^^^^^^^^^^
+
+warning: use of deprecated static `objc2_io_kit::kIOMasterPortDefault`
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:26:38
+   |
+26 |         IOServiceGetMatchingServices(kIOMasterPortDefault, Some(matching), &mut service_iterator)
+   |                                      ^^^^^^^^^^^^^^^^^^^^
+
+    Checking system-pulse-model v0.3.0 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256/crates/model)
+warning: unnecessary `unsafe` block
+  --> vendor/sysinfo/src/unix/apple/macos/utils.rs:31:9
+   |
+31 |         unsafe { IOObjectRelease(self.0.get() as _) };
+   |         ^^^^^^ unnecessary `unsafe` block
+   |
+   = note: `#[warn(unused_unsafe)]` (part of `#[warn(unused)]`) on by default
+
+warning: unnecessary `unsafe` block
+  --> vendor/sysinfo/src/unix/apple/macos/disk.rs:38:25
+   |
+38 |         IOReleaser::new(unsafe { IOIteratorNext(service_iterator.inner()) })
+   |                         ^^^^^^ unnecessary `unsafe` block
+
+warning: `sysinfo` (lib) generated 9 warnings
+   Compiling gpui-component v0.6.1 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256/crates/ui)
+    Checking system-pulse-collectors v0.3.0 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256/crates/collectors)
+    Checking image v0.25.10
+    Checking gpui-pre-sum-tree v0.3.2
+    Checking futures-executor v0.3.32
+    Checking futures v0.3.32
+    Checking gpui-pre-scheduler v0.3.2
+    Checking postage v0.5.0
+    Checking gpui-pre-http-client v0.3.2
+    Checking gpui-pre v0.3.2
+    Checking gpui-pre-apple v0.3.2
+    Checking gpui-base v0.6.1 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256/crates/base)
+    Checking gpui-kit-assets v0.6.1
+    Checking gpui-tray v0.1.0 (https://github.com/eas4ai/gpui-kit-tray?rev=5e0f637069e6d5ba8bdee6872f1ed935348642a0#5e0f6370)
+    Checking gpui-pre-macos v0.3.2 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256/vendor/gpui_macos)
+    Checking gpui-pre-platform v0.3.2
+    Checking gpui-kit v0.6.1
+    Checking system-pulse v0.3.0 (/Users/shawnmcallister/system-pulse-windows-gpu-58891256)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 19.27s
+warning: the following packages contain code that will be rejected by a future version of Rust: block v0.1.6
+note: to see what the problems were, use the option `--future-incompat-report`, or run `cargo report future-incompatibilities --id 5`
