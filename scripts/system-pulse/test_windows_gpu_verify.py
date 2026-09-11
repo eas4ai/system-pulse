@@ -58,12 +58,13 @@ class ReadingTests(unittest.TestCase):
         ui = dict(selected_screen="GPU", pid=42, sequence=9, controls=[
             dict(name=name, offscreen=False) for name in
             ("Intel Iris", "GPU utilization", "Dedicated GPU memory", "Shared GPU memory", "Unavailable")])
-        record = dict(diagnostics_enabled=False, diagnostic_rows=[dict(pid=1, name="init")],
+        record = dict(diagnostics_enabled=False, diagnostic_rows=[dict(pid=0, name="[System Process]"), dict(pid=1, name="init")],
                       normal_rows=[dict(pid=42, name="system-pulse.exe")], normal_gpu=ui,
                       quit=dict(pid=42, menu_owner=42, exit_code=0))
         validate_preservation(record, [dict(Name="Intel Iris")])
         for change in (lambda r: r.update(diagnostics_enabled=True),
                        lambda r: r.update(normal_rows=[]),
+                       lambda r: r["normal_rows"][0].update(pid=-1),
                        lambda r: r["quit"].update(menu_owner=1),
                        lambda r: r["quit"].update(exit_code=1)):
             bad = copy.deepcopy(record)

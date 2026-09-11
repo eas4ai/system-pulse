@@ -155,7 +155,8 @@ def validate_preservation(record, inventory):
     require(record["diagnostics_enabled"] is False, "normal launch enabled diagnostics")
     for key in ("diagnostic_rows", "normal_rows"):
         rows = record[key]
-        require(rows and all(row["pid"] > 0 and row["name"] for row in rows),
+        require(rows and any(row["pid"] > 0 for row in rows)
+                and all(row["pid"] >= 0 and row["name"] for row in rows),
                 "native process table lost its rows")
     validate_ui(record["normal_gpu"], inventory)
     quit_result = record["quit"]

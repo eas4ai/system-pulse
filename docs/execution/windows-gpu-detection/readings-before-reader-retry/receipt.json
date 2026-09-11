@@ -1,0 +1,39 @@
+{
+  "cleanup": true,
+  "elevated": false,
+  "binary_sha256": "0e862f45feff0a23487b51b8f8302350443781620a584fb3c88ad0b6bc54ec0f",
+  "source_commit": "e5797889fa2b297d2eb4d9441cf8fc665e69c423",
+  "quit": {
+    "pid": 7112,
+    "menu_owner": 7112,
+    "exit_code": 0
+  },
+  "status": "PASS",
+  "run_id": "782e2cb1127a4637bd4dae7398a95543",
+  "harness_sha256": {
+    "windows_gpu_collect.py": "dff35fc56566f7e4f3babf342ea26405f49985b685396b623d42205da61f2554",
+    "windows_gpu.ps1": "daf0b4aaad64a0444d5179df184bb0ff2aeea9edf4ce4e4391610e3eb2754ed5",
+    "windows_runtime.ps1": "d63437ec48a087569bcd03e38e1349f390126f4c6f9c63118514dd05b409f040",
+    "windows_runtime_collect.py": "47e6c2c0b24a5040672c2e79d7ac4ff42032be253c0e5030ec4769b589d4ed87",
+    "windows_process_actions_collect.py": "d5b987720bf18fbee3235cecb54369a08af8f9b81de0b427bcf4aa19ad630afc"
+  },
+  "artifacts_sha256": {
+    "frames.json": "8cb0a087f53822a6bfc0320c72e34762c088077d19889fc4b0d7bc3da19053bf",
+    "gpu-menu.png": "61cf2c835ea781173bb57930a1f2826c721d5177394b8c58231b23ba3bf2a03e",
+    "gpu-ui.json": "1b5e05d5f2ffc3872d28ff676cab6e61609236e57fe4faa94933c3757015dbe4",
+    "gpu.png": "802265f850cc51cd241cb85feb10511f5d784a1b1a2a73f772f72b3844826cab",
+    "gpu.stderr": "3f44e6d100fcba78f32758a4e91db9ef949ca16b083ffa701d38bde477987d76",
+    "gpu.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "independent-readings.json": "e3a461b08e0be1bef197a9425cc29edc752de430221879cd24e30115552a81f4",
+    "inventory.json": "ba5eaa301ac530c5c98f3048ee4d67f6593456375b1e94543ecbda88c4ff818c",
+    "latest.json": "33d8234e2e2babcc4e37aa779f6d613a31cadadb1baadf6ccff25aa6f87f7e8c",
+    "normal-gpu.png": "626a02a3e2e92fbf27abc8b11e3ab251bf92575a8ad13ed399e6755c9b447859",
+    "normal-menu.png": "61cf2c835ea781173bb57930a1f2826c721d5177394b8c58231b23ba3bf2a03e",
+    "normal.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "normal.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "package.json": "645b5a6b3fad7a3a03d91e665b7168958f62adaa7ef7e9c0d86e8ee7f04bb6cb",
+    "preservation.json": "c10d81c9a50d0954efb284008bbbaa4a9340ffed6464021c096e36c18c7a3a6d",
+    "result.json": "1905764757348e77b570ebde0f47d61efc7fa3e4eb3872cd0f2928ace9ffa921",
+    "windows-build.log": "3cbdb7def14055eba293f98ecda6963d26496b7ccc8c1d69d657ca597feabd76"
+  }
+}
