@@ -124,3 +124,24 @@ red log and exact command are retained beside the live failure artifacts.
 This explains the pipe-ended symptom without attributing a UAC response to the
 user. Correct the fixed request encoding, then repeat actual-helper native tests
 and package acceptance.
+
+### Request encoding correction review
+
+Correction `8dfe7c33` derives the destination slice length from the fixed command
+bytes. Independent review confirmed that the request remains 40 bytes and the
+only permitted registers remain `0x1A2` and `0x1B1`. The native opt-in actual-helper
+regression returned an authenticated 64-byte frame and 41 C after the correction.
+Its ordinary non-opt-in suite result is not evidence of real driver execution.
+The attempted Limited-parent diagnostic failed in its test-only OpenProcess call;
+production retains the ShellExecuteEx process handle instead. No cross-token
+success is claimed from that diagnostic. Signed interactive replay remains due.
+
+### Remove the unsuccessful experimental cross-token test
+
+Read-only follow-up review found that `native_real_driver_limited_parent` in
+`8dfe7c33` should not remain in the final source. Its opt-in execution fails in
+OpenProcess before testing the thermal protocol, and production does not use
+that handle-acquisition path. Preserve the failed diagnostic log as investigation
+evidence, remove that experimental function, and retain the working real-driver
+regression. The signed application replay must establish the real cross-token
+launch. This correction changes test code only.
