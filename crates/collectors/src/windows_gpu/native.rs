@@ -3,11 +3,7 @@ use super::*;
 use windows::{
     Wdk::Graphics::Direct3D::*,
     Win32::{
-        Devices::{
-            DeviceAndDriverInstallation::*,
-            Display::DEVPKEY_Device_AdapterLuid,
-            Properties::{DEVPROP_TYPE_UINT64, DEVPROPTYPE},
-        },
+        Devices::{DeviceAndDriverInstallation::*, Display::GUID_DISPLAY_DEVICE_ARRIVAL},
         Foundation::{ERROR_NO_MORE_ITEMS, HWND, LUID, NTSTATUS},
         System::Registry::{REG_DWORD, REG_SZ, REG_VALUE_TYPE},
     },
@@ -112,12 +108,13 @@ impl Backend for Native {
                     (bus <= 255 && device < 32 && function < 8)
                         .then_some((0, bus, device, function))
                 });
+            let luid = adapter_luid(&instance_id).ok();
             adapters.push(Adapter {
                 instance_id,
                 name,
                 vendor,
                 pci,
-                luid: adapter_luid(&devices, &device).ok(),
+                luid,
             });
         }
         Err(Failure::failed(
@@ -202,26 +199,61 @@ fn registry_u32(
         .map_err(|_| Failure::failed("Invalid GPU PCI property size"))?;
     Ok(u32::from_le_bytes(value))
 }
-fn adapter_luid(set: &DeviceSet, device: &SP_DEVINFO_DATA) -> Result<u64> {
-    let mut buffer = [0u8; 8];
-    let mut kind = DEVPROPTYPE::default();
-    let mut needed = 0;
-    unsafe {
-        SetupDiGetDevicePropertyW(
-            set.0,
-            device,
-            &DEVPKEY_Device_AdapterLuid,
-            &mut kind,
-            Some(&mut buffer),
-            Some(&mut needed),
-            0,
+fn adapter_luid(instance_id: &str) -> Result<u64> {
+    let device: Vec<u16> = instance_id.encode_utf16().chain(Some(0)).collect();
+    let mut size = 0;
+    // Filter by the exact PnP ID. Never derive an interface path from its spelling.
+    let result = unsafe {
+        CM_Get_Device_Interface_List_SizeW(
+            &mut size,
+            &GUID_DISPLAY_DEVICE_ARRIVAL,
+            PCWSTR(device.as_ptr()),
+            CM_GET_DEVICE_INTERFACE_LIST_PRESENT,
         )
+    };
+    if result != CR_SUCCESS || size == 0 || size > 65536 {
+        return Err(Failure::failed(format!(
+            "Read GPU interface list size: CONFIGRET {} / {size}",
+            result.0
+        )));
     }
-    .map_err(|e| win_error("Read adapter LUID", e))?;
-    if kind != DEVPROP_TYPE_UINT64 || needed != 8 {
-        return Err(Failure::failed("Invalid display adapter LUID property"));
+    let mut interfaces = vec![0u16; size as usize];
+    let result = unsafe {
+        CM_Get_Device_Interface_ListW(
+            &GUID_DISPLAY_DEVICE_ARRIVAL,
+            PCWSTR(device.as_ptr()),
+            &mut interfaces,
+            CM_GET_DEVICE_INTERFACE_LIST_PRESENT,
+        )
+    };
+    if result != CR_SUCCESS {
+        return Err(Failure::failed(format!(
+            "Read GPU interface list: CONFIGRET {}",
+            result.0
+        )));
     }
-    Ok(u64::from_le_bytes(buffer))
+    let mut found = None;
+    let mut remaining = interfaces.as_slice();
+    for _ in 0..MAX_ADAPTERS {
+        let end = remaining
+            .iter()
+            .position(|&c| c == 0)
+            .ok_or_else(|| Failure::failed("Unterminated GPU interface list"))?;
+        if end == 0 {
+            return found.ok_or_else(|| Failure::unavailable("No present GPU display interface"));
+        }
+        let handle = GraphicsAdapter::from_device_name(&remaining[..=end])?;
+        let luid = (u64::from(handle.luid.HighPart as u32) << 32) | u64::from(handle.luid.LowPart);
+        handle.finish()?;
+        if found.is_some_and(|previous| previous != luid) {
+            return Err(Failure::failed(
+                "One PnP adapter resolved to conflicting GPU LUIDs",
+            ));
+        }
+        found = Some(luid);
+        remaining = &remaining[end + 1..];
+    }
+    Err(Failure::failed("GPU interface count exceeded its bound"))
 }
 
 struct GraphicsAdapter {
@@ -229,6 +261,21 @@ struct GraphicsAdapter {
     luid: LUID,
 }
 impl GraphicsAdapter {
+    fn from_device_name(name: &[u16]) -> Result<Self> {
+        let mut request = D3DKMT_OPENADAPTERFROMDEVICENAME {
+            pDeviceName: PCWSTR(name.as_ptr()),
+            ..Default::default()
+        };
+        // SAFETY: name includes its terminator and remains live during the call.
+        status("Open GPU display interface", unsafe {
+            D3DKMTOpenAdapterFromDeviceName(&mut request)
+        })?;
+        Ok(Self {
+            handle: Some(request.hAdapter),
+            luid: request.AdapterLuid,
+        })
+    }
+
     fn open(value: u64) -> Result<Self> {
         let luid = LUID {
             LowPart: value as u32,
@@ -377,6 +424,33 @@ impl Drop for GraphicsAdapter {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    #[ignore = "requires a native Windows host with a healthy WDDM GPU"]
+    fn present_wddm_adapter_provides_current_scheduler_and_memory_readings() {
+        let mut collector = WindowsGpuCollector::new();
+        let origin = Instant::now();
+        collector.collect(&mut Snapshot::default(), origin);
+        std::thread::sleep(std::time::Duration::from_millis(250));
+        let mut snapshot = Snapshot::default();
+        collector.collect(&mut snapshot, origin);
+        assert!(
+            !snapshot.monitors.is_empty(),
+            "no physical adapter on this test host"
+        );
+        for monitor in &snapshot.monitors {
+            for suffix in ["usage", "vram", "shared-used"] {
+                let sensor = format!("{}/{suffix}", monitor.id);
+                let reading = snapshot
+                    .readings
+                    .iter()
+                    .find(|r| r.sensor_id == sensor)
+                    .unwrap();
+                assert_eq!(reading.availability, Availability::Available, "{reading:?}");
+                assert!(!reading.observations.is_empty());
+            }
+        }
+    }
+
     #[test]
     fn windows_pci_ids_and_strings_are_validated() {
         assert_eq!(vendor_id(r"PCI\VEN_8086&DEV_9A49\instance"), Some(0x8086));

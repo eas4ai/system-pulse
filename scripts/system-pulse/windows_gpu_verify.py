@@ -122,6 +122,8 @@ def validate_independent(frames, samples):
     for monitor in [m for m in frames[-1]["monitors"] if m["kind"] == "Gpu"]:
         readings = {r["sensor_id"]: r for r in frames[-1]["readings"]}
         usage = readings[monitor["id"] + "/usage"]
+        require(usage["availability"] == "Available" and usage["observations"],
+                "GPU utilization has no current adapter observation")
         luid = usage["observations"][-1]["integers"]["adapter_luid"]
         for suffix in ("usage", "vram", "shared-used"):
             reference = independent.get((luid, suffix), [])
@@ -140,6 +142,8 @@ def validate_ui(record, inventory):
     require(record["selected_screen"] == "GPU" and record["pid"] > 0 and record["sequence"] > 0,
             "GPU page was not observed")
     names = [c["name"] for c in record["controls"] if not c["offscreen"]]
+    require(not any("Access is denied" in name or (name.startswith("Save ") and ".json:" in name)
+                    for name in names), "native capture exposed a storage error")
     require(any("GPU utilization" in name for name in names), "GPU utilization is absent from native UI")
     require(any("Dedicated GPU memory" in name for name in names), "dedicated memory label is absent")
     require(any("Shared GPU memory" in name for name in names), "shared memory label is absent")

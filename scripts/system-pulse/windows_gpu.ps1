@@ -24,7 +24,11 @@ try {
                 @{path=$_.Path;instance=$_.InstanceName;status=[uint32]$_.Status;value=$_.CookedValue}
             })}
         })
-        $frame=Get-Content -Raw (Join-Path $OutputDirectory 'latest.json') | ConvertFrom-Json
+        # Close the reader before PowerShell parses the large diagnostic frame.
+        # A streaming pipeline keeps its Windows file handle open during parsing
+        # and can block the application's atomic replacement of latest.json.
+        $json=[IO.File]::ReadAllText((Join-Path $OutputDirectory 'latest.json'))
+        $frame=$json | ConvertFrom-Json
         if($frame.application_pid -ne $script:app.Id) {throw 'Diagnostic frame belongs to another process'}
         if($frame.snapshot.sequence -le $last) {throw 'GPU sampling did not advance'}
         $last=$frame.snapshot.sequence

@@ -86,6 +86,10 @@ class ReadingTests(unittest.TestCase):
             counter["instance"] = counter["instance"].replace("00000009", "00000008")
         with self.assertRaises(InvalidMeasurement):
             validate_independent([frame] * 3, [wrong] * 8)
+        missing = copy.deepcopy(frame)
+        missing["readings"][0]["observations"] = []
+        with self.assertRaises(InvalidMeasurement):
+            validate_independent([missing] * 3, [sample] * 8)
         wrong = copy.deepcopy(sample)
         wrong["counters"][0]["value"] = 1
         with self.assertRaises(InvalidMeasurement):
@@ -96,6 +100,10 @@ class ReadingTests(unittest.TestCase):
             dict(name=name, offscreen=False) for name in
             ("Intel Iris", "GPU utilization", "Dedicated GPU memory", "Shared GPU memory", "Unavailable")])
         validate_ui(record, [dict(Name="Intel Iris")])
+        error = copy.deepcopy(record)
+        error["controls"].append(dict(name="Save latest.json: Access is denied. (os error 5)", offscreen=False))
+        with self.assertRaises(InvalidMeasurement):
+            validate_ui(error, [dict(Name="Intel Iris")])
         record["controls"] = [c for c in record["controls"] if c["name"] != "Shared GPU memory"]
         with self.assertRaises(InvalidMeasurement):
             validate_ui(record, [dict(Name="Intel Iris")])
