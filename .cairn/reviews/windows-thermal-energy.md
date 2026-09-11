@@ -46,3 +46,17 @@ production identity code, exits that caller, and requires helper exit 81.
 That native test and the Windows `TerminateProcess` branches of the stalled-child
 test still require execution on the tablet. This finding is not marked closed
 and this document is still not a final commitment review.
+
+## Installer review findings before correction
+
+Reviewed installer candidate: 3100aa1b. The read-only review found that the
+optional PawnIO setup redistributes a driver whose corresponding source/notices
+were not yet retained. The module source is separate. Retain the exact PawnIO
+2.2.0 tree and pinned PawnPP submodule with their licenses before packaging.
+
+The input validator accepted only an executable and build.json as a complete
+package. Require source, license and notice files, and validate the source archive
+hash and source revision before signing. Demonstrate failure after removing source
+and rebuilding the manifest, so the test does not merely detect an old hash.
+The unsafe-path test must keep required entries so it reaches path validation.
+These findings remain open until their corrections and checks complete.
