@@ -1,0 +1,6 @@
+{
+  "status": "Valid",
+  "sha256": "12ABDDA16F717F3F4D6F509277CB61459C5AE09D5D09C7E7F59746F6F858460F",
+  "proof": "Signing transport only; previous GPU application build, not the thermal candidate",
+  "signer": "CN=Lewis McAllister, O=Lewis McAllister, L=Kannapolis, S=nc, C=US"
+}

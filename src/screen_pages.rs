@@ -455,7 +455,7 @@ fn environmental(screen: Screen, state: &Data, width: f32, cx: &App) -> AnyEleme
     } else {
         (Quantity::Temperature, PhysicalUnit::Celsius)
     };
-    let rows = data::by_quantity(state, quantity, unit);
+    let rows = data::environmental_channels(state, quantity, unit);
     let selected = data::selected_channel(state, screen);
     if rows.is_empty() {
         return empty(
@@ -559,6 +559,21 @@ fn environmental(screen: Screen, state: &Data, width: f32, cx: &App) -> AnyEleme
                                 .child(channel.device.clone()),
                         )
                         .child(stat(channel, state, cx))
+                        .when_some(
+                            channel
+                                .latest(state)
+                                .and_then(|sample| sample.reason.clone()),
+                            |view, reason| {
+                                let id = format!("sensor-availability:{}", channel.sensor);
+                                view.child(
+                                    div()
+                                        .debug_selector(move || id.clone())
+                                        .text_sm()
+                                        .text_color(palette(cx).muted)
+                                        .child(reason),
+                                )
+                            },
+                        )
                         .child(chart(channel, state, color, 95., cx))
                 })),
         )

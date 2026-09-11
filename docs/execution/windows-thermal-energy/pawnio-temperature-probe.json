@@ -1,0 +1,77 @@
+{
+    "observed_utc":  "2026-09-11T13:08:52.3796857Z",
+    "elevated":  true,
+    "open_error":  0,
+    "load_error":  0,
+    "samples":  [
+                    {
+                        "core":  {
+                                     "register":  412,
+                                     "ok":  true,
+                                     "error":  0,
+                                     "returned":  8,
+                                     "value":  2284071554
+                                 },
+                        "target":  {
+                                       "register":  418,
+                                       "ok":  true,
+                                       "error":  0,
+                                       "returned":  8,
+                                       "value":  2321809408
+                                   },
+                        "package":  {
+                                        "register":  433,
+                                        "ok":  true,
+                                        "error":  0,
+                                        "returned":  8,
+                                        "value":  2284063362
+                                    }
+                    },
+                    {
+                        "core":  {
+                                     "register":  412,
+                                     "ok":  true,
+                                     "error":  0,
+                                     "returned":  8,
+                                     "value":  2286234242
+                                 },
+                        "target":  {
+                                       "register":  418,
+                                       "ok":  true,
+                                       "error":  0,
+                                       "returned":  8,
+                                       "value":  2321809408
+                                   },
+                        "package":  {
+                                        "register":  433,
+                                        "ok":  true,
+                                        "error":  0,
+                                        "returned":  8,
+                                        "value":  2285963906
+                                    }
+                    },
+                    {
+                        "core":  {
+                                     "register":  412,
+                                     "ok":  true,
+                                     "error":  0,
+                                     "returned":  8,
+                                     "value":  2286234242
+                                 },
+                        "target":  {
+                                       "register":  418,
+                                       "ok":  true,
+                                       "error":  0,
+                                       "returned":  8,
+                                       "value":  2321809408
+                                   },
+                        "package":  {
+                                        "register":  433,
+                                        "ok":  true,
+                                        "error":  0,
+                                        "returned":  8,
+                                        "value":  2285963906
+                                    }
+                    }
+                ]
+}

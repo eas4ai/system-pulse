@@ -1,6 +1,6 @@
 # Windows thermal and energy execution
 
-Current: native capability investigation complete; CPU-temperature driver/access decision pending. No production implementation or acceptance pass yet.
+Current: driver/access decision approved; collector/helper and installer work in progress. Native candidate acceptance remains pending.
 
 ## Native observations
 
@@ -48,3 +48,26 @@ namazso.eu, version 2.2.0.0. The retained installer-review record says executed
 false. Use the official signed edition; do not disable Windows security settings.
 
 Graph transport was unavailable; focused reference/source inspection used Tilth.
+
+## Approved implementation and signing progress
+
+The developer approved the official driver and restricted helper. The subsequent
+pawnio-install.json records successful installation of the verified 2.2.0 setup
+and a running demand-start driver. The earlier review-only and no-driver records
+above describe the investigation before that approval.
+
+The fixed-register probe returned valid Intel package temperature operands.
+The same probe under an interactive Limited token failed with access denied (5),
+confirming why the unelevated dashboard needs a separate authorized helper.
+These are source capability observations, not acceptance of the production helper.
+
+Winboat was started through its existing Docker Compose file. The guest API
+responded, and the existing sign.cmd signed a copy of the previous GPU application
+build. Authenticode and signtool verification both passed. The retained signing
+probe identifies that older-build limitation; it does not prove the thermal
+candidate or installer. The pinned Inno Setup 6.4.3 compiler was installed in the
+user's SystemPulseBuildTools directory after hash and signature verification.
+
+Independent thermal specification review found that a synchronous driver call
+could outlive the dashboard. A helper watchdog fix and stalled-read demonstration
+are required before native acceptance. See the current commitment review.

@@ -177,6 +177,29 @@ pub(crate) fn by_quantity(data: &Data, quantity: Quantity, unit: PhysicalUnit) -
         .collect()
 }
 
+/// Keep currently reported unavailable sensors visible so their access reason is actionable.
+pub(crate) fn environmental_channels(
+    data: &Data,
+    quantity: Quantity,
+    unit: PhysicalUnit,
+) -> Vec<Channel> {
+    channels(data)
+        .into_iter()
+        .filter(|channel| {
+            channel.quantity == quantity
+                && channel.unit == unit
+                && sensor_visible(data, &channel.monitor, &channel.sensor)
+                && channel.latest(data).is_some()
+                && data.snapshot.as_ref().is_some_and(|snapshot| {
+                    snapshot
+                        .sensors
+                        .iter()
+                        .any(|sensor| sensor.id == channel.sensor)
+                })
+        })
+        .collect()
+}
+
 pub(crate) fn highest_current(data: &Data, channels: &[Channel]) -> Option<Channel> {
     channels
         .iter()
@@ -192,7 +215,7 @@ pub(crate) fn devices(data: &Data, screen: Screen) -> Vec<DeviceChoice> {
         } else {
             (Quantity::Temperature, PhysicalUnit::Celsius)
         };
-        by_quantity(data, quantity, unit)
+        environmental_channels(data, quantity, unit)
             .into_iter()
             .map(|channel| DeviceChoice {
                 id: channel.sensor,
@@ -270,6 +293,16 @@ pub(crate) fn selected_device(data: &Data, screen: Screen) -> Option<String> {
 
 pub(crate) fn selected_channel(data: &Data, screen: Screen) -> Option<Channel> {
     let id = selected_device(data, screen)?;
+    if matches!(screen, Screen::Energy | Screen::Thermals) {
+        let (quantity, unit) = if screen == Screen::Energy {
+            (Quantity::Power, PhysicalUnit::Watts)
+        } else {
+            (Quantity::Temperature, PhysicalUnit::Celsius)
+        };
+        return environmental_channels(data, quantity, unit)
+            .into_iter()
+            .find(|channel| channel.sensor == id);
+    }
     channels(data)
         .into_iter()
         .find(|channel| channel.sensor == id && channel.visible(data))

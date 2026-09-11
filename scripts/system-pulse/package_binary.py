@@ -64,7 +64,9 @@ def copy_notices(package):
             shutil.copyfile(source, notices / source.name)
     for source, name in (("LICENSE-APACHE", "LICENSE-APACHE"),
                          ("crates/collectors/src/intel/UAPI-NOTICE", "Intel-UAPI-NOTICE"),
-                         ("crates/collectors/src/apple/NOTICE.md", "Apple-NOTICE.md")):
+                         ("crates/collectors/src/apple/NOTICE.md", "Apple-NOTICE.md"),
+                         ("vendor/pawnio-intel-msr/COPYING", "PawnIO-IntelMSR-COPYING"),
+                         ("vendor/pawnio-intel-msr/README.md", "PawnIO-IntelMSR-NOTICE.md")):
         shutil.copyfile(ROOT / source, notices / name)
 
 

@@ -1,6 +1,11 @@
 mod application;
 
 fn main() {
+    #[cfg(target_os = "windows")]
+    if let Some(code) = system_pulse_collectors::windows_thermal::helper_entry(std::env::args_os())
+    {
+        std::process::exit(code);
+    }
     if let Some(code) =
         system_pulse_collectors::process_control::helper_entry(std::env::args_os().skip(1))
     {

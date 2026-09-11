@@ -990,3 +990,56 @@ fn process_search_stays_compact_when_the_window_grows(cx: &mut TestAppContext) {
         assert!(search.left() >= px(0.) && search.right() <= px(width));
     }
 }
+
+#[gpui_kit::test]
+fn environmental_screens_keep_reported_unavailable_sensors_and_reasons(cx: &mut TestAppContext) {
+    use crate::workspace::Command;
+    let (view, cx) = populated(cx);
+    let mut snapshot = fixture::snapshot(6);
+    let ids: Vec<_> = snapshot
+        .sensors
+        .iter()
+        .filter(|sensor| {
+            matches!(
+                sensor.kind,
+                system_pulse_collectors::SensorKind::Power
+                    | system_pulse_collectors::SensorKind::Temperature
+            )
+        })
+        .map(|sensor| sensor.id.clone())
+        .collect();
+    for reading in &mut snapshot.readings {
+        if ids.contains(&reading.sensor_id) {
+            reading.value = None;
+            reading.total = None;
+            reading.availability = system_pulse_collectors::Availability::Unavailable;
+            reading.reason = Some("Sensor access has not been enabled".into());
+        }
+    }
+    accept(&view, snapshot, cx);
+    for (screen, id, stat, reason) in [
+        (
+            Screen::Thermals,
+            "cpu:host/temperature",
+            "screen-stat:cpu:host/temperature",
+            "sensor-availability:cpu:host/temperature",
+        ),
+        (
+            Screen::Energy,
+            "cpu:host/power",
+            "screen-stat:cpu:host/power",
+            "sensor-availability:cpu:host/power",
+        ),
+    ] {
+        command(&view, Command::ScreenDevice(screen, id.into()), cx);
+        command(&view, Command::Screen(screen), cx);
+        assert!(cx.debug_bounds(stat).is_some());
+        assert!(cx.debug_bounds(reason).is_some());
+        cx.read(|cx| {
+            let data = view.read(cx).shared.borrow();
+            let channel = crate::screen_data::selected_channel(&data, screen).unwrap();
+            assert_eq!(channel.value(&data), "Unavailable");
+            assert!(channel.measured(&data).is_none());
+        });
+    }
+}
