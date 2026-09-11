@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory=$true)][string]$Installer,
     [Parameter(Mandatory=$true)][string]$ExpectedInstallerSha256,
     [Parameter(Mandatory=$true)][string]$ExpectedBinarySha256,
-    [Parameter(Mandatory=$true)][string]$OutputDirectory
+    [Parameter(Mandatory=$true)][string]$OutputDirectory,
+    [switch]$FreshDriver
 )
 $ErrorActionPreference='Stop'
 $principal=New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
@@ -29,8 +30,15 @@ function Run-Setup($tasks,$name) {
     return $process.ExitCode
 }
 $before=PawnState
-if($null -eq $before){throw 'This shared-driver preservation case requires the already approved PawnIO installation'}
-$first=Run-Setup '' 'install'
+if($FreshDriver -and $null -ne $before){throw 'Fresh-driver case must not replace an existing PawnIO installation'}
+if(!$FreshDriver -and $null -eq $before){throw 'Shared-driver preservation case requires an existing PawnIO installation'}
+$firstTasks=''
+if($FreshDriver){$firstTasks='cputemperature'}
+$first=Run-Setup $firstTasks 'install'
+$expectedDriver=PawnState
+if($null -eq $expectedDriver){throw 'The selected CPU temperature prerequisite is not installed'}
+if($FreshDriver -and $expectedDriver.version -ne '2.2.0.0'){throw 'Fresh prerequisite version differs from the bundled driver'}
+if(!$FreshDriver -and (ConvertTo-Json -Compress $before) -ne (ConvertTo-Json -Compress $expectedDriver)){throw 'Installation changed the existing driver'}
 $binary=Join-Path $installPath 'system-pulse.exe'
 if((Get-FileHash $binary -Algorithm SHA256).Hash -ne $ExpectedBinarySha256){throw 'Installed application differs from signed package'}
 $binarySignature=Get-AuthenticodeSignature $binary
@@ -41,7 +49,7 @@ if($uninstallSignature.Status -ne 'Valid'){throw 'Uninstaller signature invalid'
 if(!(Test-Path (Join-Path $installPath 'source.tar.gz'))){throw 'Installed source archive missing'}
 $second=Run-Setup 'cputemperature' 'existing-driver-install'
 $afterInstall=PawnState
-if((ConvertTo-Json -Compress $before) -ne (ConvertTo-Json -Compress $afterInstall)){throw 'Installer changed existing shared PawnIO state'}
+if((ConvertTo-Json -Compress $expectedDriver) -ne (ConvertTo-Json -Compress $afterInstall)){throw 'Installer changed existing shared PawnIO state'}
 $uninstall=Start-Process -FilePath $uninstaller -ArgumentList @('/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART',('/LOG="'+(Join-Path $OutputDirectory 'uninstall.log')+'"')) -PassThru
 if(!$uninstall.WaitForExit(180000)){throw 'Uninstaller did not exit within three minutes'}
 if($uninstall.ExitCode -ne 0){throw "Uninstaller exited $($uninstall.ExitCode)"}
@@ -50,10 +58,10 @@ foreach($attempt in 1..20){if(!(Test-Path $installPath)){break};Start-Sleep -Mil
 if(Test-Path $installPath){throw 'Owned installation directory remains after uninstall'}
 if(Test-Path $applicationKey){throw 'Application uninstall registration remains'}
 $afterUninstall=PawnState
-if((ConvertTo-Json -Compress $before) -ne (ConvertTo-Json -Compress $afterUninstall)){throw 'Uninstall changed shared PawnIO state'}
+if((ConvertTo-Json -Compress $expectedDriver) -ne (ConvertTo-Json -Compress $afterUninstall)){throw 'Uninstall changed shared PawnIO state'}
 @{status='PASS';installer_sha256=$ExpectedInstallerSha256;binary_sha256=$ExpectedBinarySha256;
   installer_signer=$signature.SignerCertificate.Subject;application_signer=$binarySignature.SignerCertificate.Subject;
   uninstaller_signer=$uninstallSignature.SignerCertificate.Subject;install_exit=$first;existing_driver_install_exit=$second;
   uninstall_exit=$uninstall.ExitCode;owned_directory_removed=$true;shared_driver_before=$before;
-  shared_driver_after=$afterUninstall;scope='Install, reinstall with existing PawnIO, and uninstall; fresh driver prerequisite branch is separate'} |
+  shared_driver_after=$afterUninstall;fresh_driver_installed=[bool]$FreshDriver;scope='Install, reinstall with existing PawnIO, and uninstall; shared driver retained'} |
   ConvertTo-Json -Depth 6 | Set-Content -Encoding UTF8 (Join-Path $OutputDirectory 'result.json')
