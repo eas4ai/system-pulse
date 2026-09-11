@@ -4,12 +4,31 @@
     "tests": {
       "exit_code": 0,
       "log": "linux-tests.log",
-      "sha256": "e54d36db0c6104bf747f8b9ca4ce1a1e7e8f66c287fd7cd7cb52067de4a6c15d"
+      "sha256": "e54d36db0c6104bf747f8b9ca4ce1a1e7e8f66c287fd7cd7cb52067de4a6c15d",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "-p",
+        "system-pulse-collectors",
+        "-p",
+        "system-pulse-model"
+      ]
     },
     "clippy": {
       "exit_code": 0,
       "log": "linux-clippy.log",
-      "sha256": "951ea28dd0220bb782a3150400a70a14dd0ebbf53c73ffe14fe38cb6196cd390"
+      "sha256": "951ea28dd0220bb782a3150400a70a14dd0ebbf53c73ffe14fe38cb6196cd390",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "-p",
+        "system-pulse",
+        "--all-targets"
+      ]
     }
   }
 }
