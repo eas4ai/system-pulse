@@ -31,7 +31,7 @@ CASES = {
                           expected_status="already exited", operator_action="Wait for the observer's target-exited cue, then approve",
                           fault="target-exit-during-consent"),
     "consent-delayed": dict(mode="delayed", signal="terminate", expected_exit=False,
-                            expected_status="application did not close", operator_action="Approve",
+                            expected_status="application did not close", operator_action="Wait at least 10 seconds at the prompt, then approve",
                             verify_responsive=True),
     "consent-denied": dict(mode="windowless", signal="kill", expected_exit=False,
                            expected_status="Windows denied the requested process action", operator_action="Approve",
@@ -45,7 +45,8 @@ CASES = {
 }
 HARNESS_FILES = (
     "windows_process_uac_collect.py", "windows_process_uac_supervise.ps1",
-    "windows_process_trace.cs", "windows_process_fault.cs", "windows_process_actions.ps1", "windows_process_fixture.cs",
+    "windows_process_trace.cs", "windows_process_fault.cs", "windows_process_handles.cs",
+    "windows_process_actions.ps1", "windows_process_fixture.cs",
     "windows_process_actions_collect.py", "windows_runtime_collect.py",
 )
 
@@ -81,14 +82,16 @@ def main():
         ui_task=task + "-UI", ui_configuration=parent + "\\ui.json",
         trace_source=parent + "\\windows_process_trace.cs",
         fault_source=parent + "\\windows_process_fault.cs",
+        handles_source=parent + "\\windows_process_handles.cs",
         target_log=parent + "\\elevated-target.log", observer_result=parent + "\\observer.json",
         ordinary_baseline=args.case == "ordinary",
         ui=dict(output=parent + "\\evidence", binary=binary, fixture=parent + "\\owned-fixture.exe",
                 source_commit=revision, binary_sha256=binary_hash, uac_observation=True,
+                observe_resources=args.case != "ordinary",
                 cases=ORDINARY_CASES if args.case == "ordinary" else [dict(name=args.case, **CASES[args.case])]),
     )
     (cache / "supervisor.json").write_text(json.dumps(config, indent=2), encoding="utf-8-sig")
-    sources = ["windows_process_uac_supervise.ps1", "windows_process_trace.cs", "windows_process_fault.cs",
+    sources = ["windows_process_uac_supervise.ps1", "windows_process_trace.cs", "windows_process_fault.cs", "windows_process_handles.cs",
                "windows_process_actions.ps1", "windows_process_fixture.cs"]
     for name in sources:
         (cache / name).write_text((ROOT / "scripts/system-pulse" / name).read_text(), encoding="utf-8-sig")

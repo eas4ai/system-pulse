@@ -1,0 +1,199 @@
+{
+  "sources_sha256": {
+    "scripts/system-pulse/windows_process_handles.cs": "b37a928e111e6929a23ce9ce6d4c30b06dc9808bb60d37ee6ca04cd2413bdb11",
+    "scripts/system-pulse/windows_process_handles_selftest.ps1": "80afa90c8939919757b5c27b2784e360068d3956232a8c0266fefe3b444df737",
+    "scripts/system-pulse/windows_process_fault.cs": "6eedf82d85b6bce6c5e1f3c0f2c87900d0a7ec5eaa72db2927ee88c323e3de58",
+    "scripts/system-pulse/windows_process_fixture.cs": "8a56511be041a7667fe8220d7ebf8fe247898427415f2a3ffa368de7ba35097f"
+  },
+  "source_comparison": "Native source matches after decoding UTF-8 BOM and line endings.",
+  "result": {
+    "samples": [
+      {
+        "after": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8188464Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 1,
+              "termination_count": 1
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.7981812Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 1,
+              "termination_count": 1
+            }
+          ]
+        },
+        "access": 1048576,
+        "open": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8026943Z",
+          "scanned_handles": 722,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 2,
+              "termination_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "after": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8275995Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 1,
+              "termination_count": 1
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8225268Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 1,
+              "termination_count": 1
+            }
+          ]
+        },
+        "access": 1052672,
+        "open": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8225268Z",
+          "scanned_handles": 722,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 2,
+              "termination_count": 1
+            }
+          ]
+        }
+      },
+      {
+        "after": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8275995Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 1,
+              "termination_count": 1
+            }
+          ]
+        },
+        "before": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8275995Z",
+          "scanned_handles": 721,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 1,
+              "termination_count": 1
+            }
+          ]
+        },
+        "access": 1052673,
+        "open": {
+          "dashboard_pid": 5940,
+          "dashboard_alive": true,
+          "captured_utc": "2026-09-11T00:16:14.8275995Z",
+          "scanned_handles": 722,
+          "unclassified_handles": 0,
+          "nonduplicable_handles": 164,
+          "closed_during_capture": 0,
+          "snapshot_released": true,
+          "process_handles": [
+            {
+              "pid": 15296,
+              "count": 2,
+              "termination_count": 2
+            }
+          ]
+        }
+      }
+    ],
+    "checks": [
+      "sync-query-and-termination-handles-observed-open-and-closed",
+      "owned-foreign-process-snapshot-released"
+    ],
+    "target_cleaned": true,
+    "foreign_snapshot": {
+      "dashboard_pid": 15296,
+      "dashboard_alive": true,
+      "captured_utc": "2026-09-11T00:16:14.8327075Z",
+      "scanned_handles": 177,
+      "unclassified_handles": 0,
+      "nonduplicable_handles": 52,
+      "closed_during_capture": 0,
+      "snapshot_released": true,
+      "process_handles": [
+        {
+          "pid": 5940,
+          "count": 0,
+          "termination_count": 0
+        }
+      ]
+    },
+    "observer_debug_privilege_removed": true,
+    "status": "PASS"
+  }
+}

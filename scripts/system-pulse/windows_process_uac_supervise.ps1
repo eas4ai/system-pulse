@@ -6,6 +6,7 @@ $ProgressPreference='SilentlyContinue'
 $config=Get-Content -Raw -Encoding UTF8 -LiteralPath $Configuration|ConvertFrom-Json
 Add-Type -Path $config.trace_source -ReferencedAssemblies System.Management
 Add-Type -Path $config.fault_source
+Add-Type -Path $config.handles_source
 [PulseOwnedProcessFault]::RemoveObserverDebugPrivilege()
 $record=@{status='FAIL';started_utc=(Get-Date).ToUniversalTime().ToString('o');events=@()}
 $record.observer_debug_privilege_removed=$true
@@ -29,6 +30,39 @@ function Read-UiRecord($name) {
         catch [System.ArgumentException] {Start-Sleep -Milliseconds 50}
     }
     throw "Incomplete UI observation: $name"
+}
+
+function Observe-ReleasedHandles($case) {
+    $active=Read-UiRecord 'current-case.json'
+    if(!$active -or $active.phase -ne 'complete' -or $active.name -ne $case.name){return}
+    $ui=Read-UiRecord 'result.json'
+    if(!$ui -or @($ui.cases).Count -ne 1 -or $ui.cases[0].name -ne $case.name){throw 'Missing settled UI resource checkpoint'}
+    $known=@($ui.dashboard.pid)+@($ui.helper_entry_checks|ForEach-Object {$_.pid})
+    $starts=@($record.events|Where-Object {$_.kind -eq 'start' -and $_.name -ieq 'system-pulse.exe' -and $_.pid -notin $known})
+    $expected=$(if($case.name -eq 'consent-cancel'){0}else{1})
+    if($starts.Count -lt $expected){return} # The bounded UI checkpoint also bounds trace delivery.
+    if($starts.Count -ne $expected){throw 'Unexpected helper count at the resource checkpoint'}
+    $dashboard=[Diagnostics.Process]::GetProcessById($ui.dashboard.pid)
+    try {
+        $handle=$dashboard.Handle
+        if($dashboard.HasExited -or [PulseProcessTrace]::Creation($handle) -ne [long]$ui.dashboard.creation_ticks){throw 'Dashboard identity changed before resource observation'}
+        $live=[PulseProcessTrace]::Describe($dashboard.Id)
+        if($live.live_observation_error -or $live.image -ine $config.ui.binary -or $live.elevated){throw 'Resource snapshot target is not the limited packaged dashboard'}
+        $pids=@([uint32]$target.Id)+@($starts|ForEach-Object {[uint32]$_.pid})
+        $snapshot=[PulseProcessHandles]::Capture($handle,[uint32[]]$pids)
+        $targetHandles=@($snapshot.process_handles|Where-Object {$_.pid -eq $target.Id})
+        $helperHandles=@($snapshot.process_handles|Where-Object {$_.pid -ne $target.Id})
+        if($targetHandles.Count -ne 1 -or $targetHandles[0].termination_count -ne 0){throw 'Dashboard retained an owned termination handle'}
+        if(@($helperHandles|Where-Object {$_.count -ne 0}).Count){throw 'Dashboard retained an elevated helper process handle'}
+        $snapshot['dashboard_creation_ticks']=$ui.dashboard.creation_ticks
+        $snapshot['case']=$case.name
+        $snapshot['passed']=$true
+        $record.resources=$snapshot
+        $ack=Join-Path $config.ui.output ($case.name+'-resources.json')
+        [IO.File]::WriteAllText(($ack+'.tmp'),($snapshot|ConvertTo-Json -Depth 20))
+        [IO.File]::Move(($ack+'.tmp'),$ack)
+        Save-Supervision
+    } finally {$dashboard.Dispose()}
 }
 
 try {
@@ -75,6 +109,7 @@ try {
     do {
         Start-Sleep -Milliseconds 200
         $record.events=@($trace.Snapshot())
+        if(!$config.ordinary_baseline -and !$record.resources){Observe-ReleasedHandles $case}
         if($case.fault -in @('helper-crash','helper-timeout') -and !$record.fault_applied) {
             $ui=Read-UiRecord 'result.json'
             if($ui -and $ui.dashboard) {

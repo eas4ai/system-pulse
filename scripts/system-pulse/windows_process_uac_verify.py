@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -15,6 +16,8 @@ from release_ci_verify import archive_files, verify_archive
 from windows_process_actions_collect import build_identity
 from windows_process_actions_verify import validate_ordinary_actions
 from windows_process_uac_collect import CASES, HARNESS_FILES
+from gpui_kit_upgrade_verify import validate_native as validate_platform_preservation
+from windows_process_identity_verify import validate_native_identity
 
 
 REQUIRED_RUNS = (
@@ -22,6 +25,49 @@ REQUIRED_RUNS = (
     "consent-cancel", "consent-stale", "consent-delayed", "consent-denied",
     "helper-crash", "helper-timeout",
 )
+RESOURCE_REVIEW_SOURCES = (
+    "crates/collectors/src/process_control/windows.rs",
+    "crates/collectors/src/process_control/windows_protocol.rs",
+    "crates/collectors/src/process_control.rs",
+    "src/main.rs",
+)
+RESOURCE_REVIEW_CHECKS = (
+    "helper_handle", "caller_target_handles", "token_handles", "restart_manager",
+    "com_apartment", "entry_isolation", "no_debug_privilege",
+)
+HANDLE_SELFTEST_SOURCES = tuple("scripts/system-pulse/" + name for name in (
+    "windows_process_handles.cs", "windows_process_handles_selftest.ps1",
+    "windows_process_fault.cs", "windows_process_fixture.cs",
+))
+
+
+def validate_handle_selftest(proof, source_hashes):
+    require(proof.get("sources_sha256") == source_hashes,
+            "native handle positive controls used different source")
+    result = proof.get("result", {})
+    require(result.get("status") == "PASS" and result.get("target_cleaned") is True
+            and result.get("observer_debug_privilege_removed") is True
+            and not result.get("error") and not result.get("cleanup_error"),
+            "native handle positive controls or cleanup failed")
+    samples = result.get("samples", [])
+    require(len(samples) == 3 and {s.get("access") for s in samples} == {0x100000, 0x101000, 0x101001},
+            "native handle controls omitted synchronization, query or termination rights")
+    for sample in samples:
+        snapshots = [sample[key] for key in ("before", "open", "after")]
+        require(all(s.get("snapshot_released") is True and s.get("dashboard_alive") is True
+                    and s.get("unclassified_handles") == 0 and s.get("scanned_handles", 0) > 0
+                    and len(s.get("process_handles", [])) == 1 for s in snapshots),
+                "native handle positive control snapshot was incomplete")
+        before, opened, after = [s["process_handles"][0] for s in snapshots]
+        require(before["pid"] == opened["pid"] == after["pid"]
+                and opened["count"] == before["count"] + 1 and after["count"] == before["count"]
+                and opened["termination_count"] == before["termination_count"] + (sample["access"] & 1)
+                and after["termination_count"] == before["termination_count"],
+                "native counter did not detect the deliberately retained and released handle")
+    foreign = result.get("foreign_snapshot", {})
+    require(foreign.get("snapshot_released") is True and foreign.get("dashboard_alive") is True
+            and foreign.get("scanned_handles", 0) > 0 and foreign.get("unclassified_handles") == 0,
+            "native counter did not verify a foreign owned process snapshot")
 
 
 def native_identity(value, description):
@@ -29,6 +75,25 @@ def native_identity(value, description):
             and type(value.get("creation_ticks")) is int and value["creation_ticks"] > 0,
             "missing full native " + description + " identity")
     return value["pid"], value["creation_ticks"]
+
+
+def validate_consent_interval(ui, observer, case_name, consent, events):
+    stop = next(row for row in events if row.get("kind") == "stop" and row.get("pid") == consent["pid"])
+    # Native event TIME_CREATED uses UTC FILETIME units, not Unix seconds.
+    begin, end = consent["event_ticks"], stop["event_ticks"]
+    def filetime(utc):
+        value = datetime.fromisoformat(utc.replace("Z", "+00:00"))
+        require(value.utcoffset() is not None, "consent observation has no timezone")
+        return int(value.timestamp() * 10_000_000) + 116444736000000000
+    if case_name == "consent-stale":
+        require(begin <= filetime(observer["fault_applied"]["utc"]) < end,
+                "owned target did not exit while the consent prompt was pending")
+    else:
+        require(end - begin >= 80_000_000, "delayed approval did not wait at the actual consent prompt")
+        pending = [row for row in ui["cases"][0].get("pending_observations", [])
+                   if begin <= filetime(row["observed_utc"]) < end]
+        require(len(pending) >= 2 and pending[-1]["sequence"] > pending[0]["sequence"],
+                "dashboard sampling did not advance during actual consent")
 
 
 def validate_trace(ui, observer, case_name):
@@ -72,6 +137,8 @@ def validate_trace(ui, observer, case_name):
         # including for the independently observed session-1 dashboard. Use the
         # start's native session; a nonzero conflicting stop remains invalid.
         require(stops[0].get("session_id") in (0, start.get("session_id")), "process trace session changed")
+    if case_name in ("consent-delayed", "consent-stale"):
+        validate_consent_interval(ui, observer, case_name, consent_starts[0], events)
     for probe in probes:
         stop = next(row for row in events if row.get("kind") == "stop" and row.get("pid") == probe["pid"])
         require(probe.get("exit_code") == stop.get("exit_code") == probe_codes[probe["name"]]
@@ -194,6 +261,41 @@ def validate_run(ui, observer, case_name):
                     and fault.get("elevated_access_error") == 5,
                     "owned target did not independently deny elevated termination")
     validate_trace(ui, observer, case_name)
+    if case_name != "ordinary":
+        validate_resources(ui, observer, case_name)
+
+
+def validate_resources(ui, observer, case_name):
+    """Require a live-dashboard observation of the actual helper handle closing."""
+    resources = observer.get("resources", {})
+    dashboard = native_identity(ui.get("dashboard"), "resource dashboard")
+    require(ui.get("resources_acknowledged") is True and resources.get("passed") is True
+            and resources.get("case") == case_name and resources.get("dashboard_alive") is True
+            and resources.get("snapshot_released") is True,
+            "missing live dashboard resource acknowledgment or snapshot cleanup")
+    require((resources.get("dashboard_pid"), resources.get("dashboard_creation_ticks")) == dashboard,
+            "resource observation belongs to another dashboard")
+    require(type(resources.get("scanned_handles")) is int and 0 < resources["scanned_handles"] <= 100000
+            and type(resources.get("unclassified_handles")) is int and resources["unclassified_handles"] == 0,
+            "native handle snapshot was empty or incompletely classified")
+    known = {dashboard[0], *(row["pid"] for row in ui["helper_entry_checks"])}
+    helpers = {event["pid"] for event in observer["events"]
+               if event["kind"] == "start" and event["name"].lower() == "system-pulse.exe"
+               and event["pid"] not in known}
+    target = native_identity(observer.get("target"), "resource target")[0]
+    rows = resources.get("process_handles", [])
+    require(len(rows) == len(helpers) + 1 and {row.get("pid") for row in rows} == helpers | {target},
+            "resource snapshot omitted or substituted the selected target or helper")
+    for row in rows:
+        require(type(row.get("count")) is int and row["count"] >= 0
+                and type(row.get("termination_count")) is int and 0 <= row["termination_count"] <= row["count"],
+                "invalid native process handle count")
+        require(row["count"] == 0 if row["pid"] in helpers else row["termination_count"] == 0,
+                "dashboard retained a helper or owned termination handle")
+    settled = datetime.fromisoformat(ui["cases"][0]["settled_utc"].replace("Z", "+00:00"))
+    captured = datetime.fromisoformat(resources["captured_utc"].replace("Z", "+00:00"))
+    require(0 <= (captured - settled).total_seconds() <= 20,
+            "resource observation was not taken after the settled action")
 
 
 def verify_receipt(directory, build_log, package_dir):
@@ -225,12 +327,55 @@ def verify_receipt(directory, build_log, package_dir):
     return receipt["case"]
 
 
+def validate_resource_review(review, source_hashes):
+    require(review.get("status") == "PASS" and review.get("findings") == [],
+            "helper resource review has unresolved findings")
+    require(review.get("sources_sha256") == source_hashes,
+            "helper resource review does not cover the current source")
+    checks = review.get("checks", {})
+    require(set(checks) == set(RESOURCE_REVIEW_CHECKS)
+            and all(isinstance(value, str) and len(value.strip()) >= 20 for value in checks.values()),
+            "helper resource review omitted an ownership or isolation boundary")
+
+
+def verify_all(evidence, build_log, package_dir, preservation, review_path):
+    missing = [name for name in REQUIRED_RUNS if not (evidence / name / "receipt.json").is_file()]
+    require(not missing, "Native UAC observations remain pending: " + ", ".join(missing))
+    require(package_dir is not None, "set SYSTEM_PULSE_WINDOWS_PACKAGE_DIR or pass --package-dir")
+    for name in REQUIRED_RUNS:
+        require(verify_receipt(evidence / name, build_log, package_dir) == name,
+                "native run directory contains a different case: " + name)
+    revision, binary_hash = build_identity(build_log.read_text(errors="replace"))
+    validate_native_identity(build_log.read_text(errors="replace"), revision, binary_hash)
+    validate_platform_preservation(preservation)
+    preserved_windows = json.loads((preservation / "windows-runtime/result.json").read_text(encoding="utf-8-sig"))
+    require(preserved_windows.get("source_commit") == revision
+            and preserved_windows.get("binary_sha256") == binary_hash,
+            "Windows preservation used a different native binary")
+    proof_path = ROOT / "docs/execution/windows-uac-process-actions/native-handle-selftest.json"
+    validate_handle_selftest(json.loads(proof_path.read_text()), {
+        name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in HANDLE_SELFTEST_SOURCES
+    })
+    review = json.loads(review_path.read_text())
+    same_production(review.get("source_commit", ""))
+    source_hashes = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                     for name in RESOURCE_REVIEW_SOURCES}
+    validate_resource_review(review, source_hashes)
+    print("PASS WUAC-002 WUAC-003 WUAC-004 WUAC-005 WUAC-006: "
+          "administrator consent/cancellation, native actions, released helper handles and platform preservation")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evidence", type=Path,
                         default=ROOT / "docs/execution/windows-uac-process-actions/uac-native")
-    parser.add_argument("--build-log", type=Path)
-    parser.add_argument("--package-dir", type=Path)
+    preservation = ROOT / "docs/execution/windows-uac-process-actions/process-actions-preservation"
+    parser.add_argument("--build-log", type=Path, default=preservation / "windows-build.log")
+    package = os.environ.get("SYSTEM_PULSE_WINDOWS_PACKAGE_DIR")
+    parser.add_argument("--package-dir", type=Path, default=Path(package) if package else None)
+    parser.add_argument("--preservation", type=Path, default=preservation)
+    parser.add_argument("--resource-review", type=Path,
+                        default=ROOT / "docs/execution/windows-uac-process-actions/helper-resource-review.json")
     parser.add_argument("--single", action="store_true", help="Verify one observation without accepting requirements")
     args = parser.parse_args()
     if args.single:
@@ -240,12 +385,7 @@ def main():
         return
     subprocess.run([sys.executable, "-B", "-m", "unittest", "discover", "-s", "scripts/system-pulse",
                     "-p", "test_windows_process_uac_verify.py"], cwd=ROOT, check=True)
-    missing = [name for name in REQUIRED_RUNS if not (args.evidence / name / "receipt.json").is_file()]
-    require(not missing, "Native UAC observations remain pending: " + ", ".join(missing))
-    # No acceptance is issued until all case collectors and the human observation
-    # record are implemented and independently verified. This guard must stay
-    # closed while fault-injection and complete acceptance checks are pending.
-    require(False, "Full UAC acceptance remains pending failure, resource and preservation verification")
+    verify_all(args.evidence, args.build_log, args.package_dir, args.preservation, args.resource_review)
 
 
 if __name__ == "__main__":

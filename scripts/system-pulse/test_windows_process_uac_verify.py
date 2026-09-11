@@ -1,16 +1,19 @@
 import copy
 import unittest
+from datetime import datetime, timezone
+import json
 
 from performance_compare import InvalidMeasurement
 from test_windows_process_actions_verify import example_record
-from windows_process_uac_verify import validate_run
+from windows_process_uac_verify import (validate_run, validate_handle_selftest, validate_resource_review,
+    RESOURCE_REVIEW_CHECKS, ROOT)
 
 
 def observed_run(name="consent-force"):
     ui = example_record()
     ui["dashboard"]["creation_ticks"] = 134335279700000000
     expected = dict(ui["cases"][4])
-    expected.update(name=name, ordinary_force_access_error=5)
+    expected.update(name=name, ordinary_force_access_error=5, settled_utc="2026-09-10T21:02:00Z")
     ui["cases"] = [expected]
     if name == "consent-cancel":
         expected.update(exited=False, status="Windows authorization was cancelled. No helper action was started.")
@@ -38,6 +41,12 @@ def observed_run(name="consent-force"):
     for probe in ui["helper_entry_checks"]:
         lifecycle(probe["pid"], "system-pulse.exe", probe["exit_code"])
     lifecycle(300, "consent.exe", 0)
+    if name == "consent-delayed":
+        events[-1]["event_ticks"] = events[-2]["event_ticks"] + 100_000_000
+        for index, row in enumerate(expected["pending_observations"]):
+            ticks = events[-2]["event_ticks"] + (index + 1) * 20_000_000
+            row["observed_utc"] = datetime.fromtimestamp(
+                (ticks - 116444736000000000) / 10_000_000, timezone.utc).isoformat()
     if name != "consent-cancel":
         code = {"consent-delayed": 28, "consent-denied": 23, "helper-crash": 0xC0000001,
                 "helper-timeout": 1}.get(name, 20)
@@ -53,11 +62,76 @@ def observed_run(name="consent-force"):
         observer.update(helper_cleaned=True, helper_exited_before_cleanup=name == "helper-crash",
                         fault_applied=dict(kind=name, pid=400, creation_ticks=134335279800000000,
                                            image=ui["binary_path"], argv=events[-2]["argv"],
-                                           suspended_threads=3, utc="2026-09-10T21:00:01Z"))
+                                             suspended_threads=3, utc="2026-09-10T21:00:01Z"))
+    ui["resources_acknowledged"] = True
+    observer["resources"] = dict(
+        passed=True, case=name, dashboard_alive=True, snapshot_released=True,
+        dashboard_pid=ui["dashboard"]["pid"], dashboard_creation_ticks=ui["dashboard"]["creation_ticks"],
+        captured_utc="2026-09-10T21:02:01Z", scanned_handles=700, unclassified_handles=0,
+        process_handles=[dict(pid=expected["pid"], count=1, termination_count=0)]
+        + ([] if name == "consent-cancel" else [dict(pid=400, count=0, termination_count=0)]))
     return ui, observer
 
 
 class NativeUacReceiptTests(unittest.TestCase):
+    def test_delayed_consent_requires_progress_inside_the_actual_prompt(self):
+        for change in (
+            lambda u, o: o["events"][9].update(event_ticks=o["events"][8]["event_ticks"] + 1),
+            lambda u, o: u["cases"][0]["pending_observations"][0].update(observed_utc="2020-01-01T00:00:00Z"),
+        ):
+            ui, observer = observed_run("consent-delayed")
+            change(ui, observer)
+            with self.assertRaises(InvalidMeasurement):
+                validate_run(ui, observer, "consent-delayed")
+
+    def test_handle_positive_controls_reject_missed_leaks_and_incomplete_cleanup(self):
+        proof = json.loads((ROOT / "docs/execution/windows-uac-process-actions/native-handle-selftest.json").read_text())
+        hashes = proof["sources_sha256"]
+        validate_handle_selftest(proof, hashes)
+        for change in (
+            lambda p: p.update(sources_sha256={}),
+            lambda p: p["result"].update(target_cleaned=False),
+            lambda p: p["result"]["samples"].pop(),
+            lambda p: p["result"]["samples"][0]["open"]["process_handles"][0].update(count=1),
+            lambda p: p["result"]["samples"][2]["after"]["process_handles"][0].update(termination_count=2),
+            lambda p: p["result"]["foreign_snapshot"].update(snapshot_released=False),
+        ):
+            invalid = copy.deepcopy(proof)
+            change(invalid)
+            with self.assertRaises(InvalidMeasurement):
+                validate_handle_selftest(invalid, hashes)
+
+    def test_resource_review_requires_current_sources_and_every_boundary(self):
+        review = dict(status="PASS", findings=[], sources_sha256={"file": "hash"},
+                      checks={name: "Inspected the boundary and its cleanup paths." for name in RESOURCE_REVIEW_CHECKS})
+        validate_resource_review(review, {"file": "hash"})
+        for change in (lambda r: r.update(findings=["leak"]),
+                       lambda r: r.update(sources_sha256={}),
+                       lambda r: r["checks"].pop("token_handles")):
+            invalid = copy.deepcopy(review)
+            change(invalid)
+            with self.assertRaises(InvalidMeasurement):
+                validate_resource_review(invalid, {"file": "hash"})
+
+    def test_resource_observation_rejects_leaks_missing_handles_and_dead_dashboard(self):
+        changes = [
+            lambda u, o: u.update(resources_acknowledged=False),
+            lambda u, o: o["resources"].update(dashboard_alive=False),
+            lambda u, o: o["resources"].update(snapshot_released=False),
+            lambda u, o: o["resources"].update(dashboard_creation_ticks=1),
+            lambda u, o: o["resources"].update(unclassified_handles=1),
+            lambda u, o: o["resources"].update(scanned_handles=0),
+            lambda u, o: o["resources"]["process_handles"].pop(),
+            lambda u, o: o["resources"]["process_handles"][1].update(count=1),
+            lambda u, o: o["resources"]["process_handles"][0].update(termination_count=1),
+            lambda u, o: o["resources"].update(captured_utc="2026-09-10T21:01:59Z"),
+        ]
+        for index, mutate in enumerate(changes):
+            ui, observer = observed_run()
+            mutate(ui, observer)
+            with self.subTest(index=index), self.assertRaises(InvalidMeasurement):
+                validate_run(ui, observer, "consent-force")
+
     def test_ordinary_actions_have_no_consent_or_elevated_helper(self):
         ui = example_record()
         observer = observed_run()[1]

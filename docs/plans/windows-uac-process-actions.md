@@ -96,3 +96,13 @@ the task's completed state. Both polling loops now wait for a terminal result as
 well as a non-running state, under their existing deadlines. The attempt remains
 failed evidence and will be rerun; its successful application result alone does
 not replace a complete receipt.
+
+The live-dashboard handle checkpoint and full receipt aggregation are implemented.
+A native Windows positive-control run detected opened and closed synchronization,
+query and termination handles, released its snapshots and cleaned its owned child;
+its source-bound record is `native-handle-selftest.json`. The Python suite passed
+566 tests. Delayed approval now requires sampling progress during at least eight
+seconds of actual consent-process lifetime. Current-harness native cases and the
+resource ownership review remain pending. Ripwire named three tests included in
+the passing suite; quality-delta also reported reference-tree findings and verifier
+length growth, so no quality-delta pass is claimed.
