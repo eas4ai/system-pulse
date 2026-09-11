@@ -51,3 +51,11 @@ Final accessibility candidate: e5797889fa2b297d2eb4d9441cf8fc665e69c423. All 22 
 The e5797889 capture passes inventory, raw arithmetic, independent counters and the added native GPU capacity label. Visual review rejected another diagnostic Save/access-denied banner: closing readers sooner reduced contention but did not eliminate Windows rename failures. The preservation verifier also incorrectly rejected the valid Windows PID 0 System Process row; it now accepts named nonnegative PIDs while still requiring real positive-PID rows.
 
 A real Windows storage regression held the old record open for 40 ms and failed before the fix. The diagnostic background worker now retries only Windows replacement errors 5/32, with at most ten 10 ms waits; durable configuration writes retain their existing policy. All ten native Windows storage tests passed afterward, including persistent-lock failure, old-record preservation, temporary-file cleanup and retry after release. Production source and a final clean packaged capture remain to be committed/verified.
+
+Current reader-retry candidate: 251cb72fabc02ca17282af08af5864d8058dcf06. Windows full tests and the hardware GPU regression passed; native Clippy completed with one Rust 1.98 iterator-style suggestion (chunks_exact_to_as_chunks). Mac tests/Clippy and all 577 verifier-tool tests passed for this source. Windows build/package uses `/home/shawn/workspace2/.system-pulse-test-tmp/build_windows_gpu_reader_retry.py`, with output under `windows-gpu-final-251cb72f/`. The next action remains native packaged recapture and visual review; no acceptance is claimed yet.
+
+## Final native capture at 251cb72f
+
+The retained native/ capture passes inventory, raw scheduler/memory arithmetic, independent Windows counter comparisons, accessible labels, process-table preservation and unelevated clean exit checks. Both actual screenshots were inspected and are readable with no save-error banner. The visual review is bound to their hashes and the packaged binary. Latest macOS preservation and 577 Python verifier tests also passed. Cairn acceptance and final review remain in progress.
+
+The complete local WGPU verifier passed, including eight falsifier tests and the Linux application/model/collector suite. This is preflight verification; committed Cairn evidence follows.

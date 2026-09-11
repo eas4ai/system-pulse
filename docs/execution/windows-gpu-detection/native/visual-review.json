@@ -1,0 +1,17 @@
+{
+  "source_commit": "251cb72fabc02ca17282af08af5864d8058dcf06",
+  "binary_sha256": "684f874f9ea2ffddb80fb764b81024f6f63164087967b0c88ea92ef40ac79d12",
+  "screenshots": {
+    "gpu.png": {
+      "sha256": "3d4225fa1e39bb11fdc3f5dd3e2a9ba768c330dcbae9a54f5d9fb2411d753956",
+      "readable": true,
+      "findings": []
+    },
+    "normal-gpu.png": {
+      "sha256": "6ef71b7ce49e01f6b07eabf972927c0389df9769ba43fc5427c173322f94abd1",
+      "readable": true,
+      "findings": []
+    }
+  },
+  "observations": "Inspected both screenshots directly: Iris Xe identity, utilization chart, dedicated and shared memory labels and values are legible; unsupported temperature and power say Unavailable. No diagnostic save error banner in either launch. Additional sensors are below the scroll fold."
+}
