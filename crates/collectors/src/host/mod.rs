@@ -41,6 +41,8 @@ pub struct HostCollector {
     windows_gpu: crate::windows_gpu::WindowsGpuCollector,
     #[cfg(target_os = "windows")]
     windows_energy: crate::windows_energy::WindowsEnergyCollector,
+    #[cfg(target_os = "windows")]
+    windows_thermal: crate::windows_thermal::WindowsThermalCollector,
     #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
     apple: crate::apple::AppleCollector,
     #[cfg(target_os = "linux")]
@@ -72,6 +74,8 @@ impl HostCollector {
             windows_gpu: crate::windows_gpu::WindowsGpuCollector::new(),
             #[cfg(target_os = "windows")]
             windows_energy: crate::windows_energy::WindowsEnergyCollector::new(),
+            #[cfg(target_os = "windows")]
+            windows_thermal: crate::windows_thermal::WindowsThermalCollector::new(),
             #[cfg(all(target_os = "macos", target_arch = "aarch64"))]
             apple: crate::apple::AppleCollector::default(),
             #[cfg(target_os = "linux")]
@@ -115,6 +119,7 @@ impl HostCollector {
             {
                 self.windows_gpu.collect(&mut s, self.origin);
                 self.windows_energy.collect(&mut s, self.origin);
+                self.windows_thermal.collect(&mut s, self.origin);
                 let mut vendor = Snapshot::default();
                 self.nvidia.collect_windows_at_origin(
                     &mut vendor,
@@ -133,6 +138,21 @@ impl HostCollector {
     pub(crate) fn now(&self) -> u64 {
         self.fixed_ns
             .unwrap_or_else(|| self.origin.elapsed().as_nanos().min(u64::MAX as u128) as u64)
+    }
+    #[cfg(target_os = "windows")]
+    pub(crate) fn set_temperature_control(
+        &mut self,
+        control: std::sync::Arc<crate::windows_thermal::Control>,
+    ) {
+        self.windows_thermal.control = control;
+    }
+    #[cfg(target_os = "windows")]
+    pub fn enable_cpu_temperatures(&self) -> Result<(), String> {
+        self.windows_thermal.control.enable()
+    }
+    #[cfg(target_os = "windows")]
+    pub fn disable_cpu_temperatures(&self) {
+        self.windows_thermal.control.disable();
     }
     #[cfg(target_os = "linux")]
     pub(crate) fn path(&self, path: &str) -> PathBuf {
