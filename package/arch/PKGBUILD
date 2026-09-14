@@ -1,0 +1,72 @@
+# Maintainer: Shawn <https://github.com/eas4ai>
+pkgname=system-pulse
+pkgver=1.0.0
+pkgrel=1
+pkgdesc='Native desktop system monitor with live CPU, memory, GPU, disk, network and process readings'
+arch=('x86_64')
+url='https://github.com/eas4ai/system-pulse'
+license=('GPL-3.0-or-later')
+depends=(
+  'dbus'                # system tray host
+  'gcc-libs'
+  'glibc'
+  'libxcb'              # libxcb.so, libxcb-xkb.so
+  'libxkbcommon'        # libxkbcommon.so
+  'libxkbcommon-x11'    # libxkbcommon-x11.so
+  'vulkan-driver'       # GPUI renders through Vulkan; any ICD satisfies this
+  'vulkan-icd-loader'   # libvulkan.so, loaded at runtime
+)
+optdepends=(
+  'nvidia-utils: NVIDIA GPU readings through NVML'
+  'polkit: authenticated End task and Force quit on processes you do not own'
+)
+makedepends=(
+  'rust'
+  # Only consulted when RUSTFLAGS is unset. makepkg sets RUSTFLAGS via
+  # /etc/makepkg.conf.d/rust.conf, and the env var takes precedence over the
+  # target rustflags in .cargo/config.toml, so lld normally goes unused. Kept
+  # so a plain `makepkg` on a host without that drop-in still links.
+  'lld'
+)
+options=('!lto')  # workspace already sets its own codegen options
+# The desktop entry ships beside this PKGBUILD rather than coming from the
+# release tarball, so the package builds against any tag, including ones cut
+# before the entry existed. makepkg resolves local sources relative to this
+# directory; a path like ../file is not accepted.
+source=("${pkgname}-${pkgver}.tar.gz::${url}/archive/refs/tags/v${pkgver}.tar.gz"
+        'org.systempulse.SystemPulse.desktop')
+sha256sums=('17b304eb81f23b7b18ddad47f8cfa8d39b64f61e330bcee3a0e5c6a010a50b7a'
+            '4ad95a3fd93f2026de2d4e7df12fa2d998aaf2118db8b3ce7c8e238fa5cc46d9')
+
+prepare() {
+  cd "${pkgname}-${pkgver}"
+  # Vendored patches and one pinned git dependency resolve here so build() can
+  # run without network access.
+  cargo fetch --locked --target "$(rustc -vV | sed -n 's/^host: //p')"
+}
+
+build() {
+  cd "${pkgname}-${pkgver}"
+  export CARGO_TARGET_DIR=target
+  cargo build --release --frozen --offline -p system-pulse
+}
+
+check() {
+  cd "${pkgname}-${pkgver}"
+  cargo test --release --frozen --offline -p system-pulse-model -p system-pulse-collectors
+}
+
+package() {
+  cd "${pkgname}-${pkgver}"
+
+  install -Dm755 target/release/system-pulse \
+    "${pkgdir}/usr/bin/system-pulse"
+  install -Dm644 "${srcdir}/org.systempulse.SystemPulse.desktop" \
+    "${pkgdir}/usr/share/applications/org.systempulse.SystemPulse.desktop"
+  install -Dm644 package/icon.svg \
+    "${pkgdir}/usr/share/icons/hicolor/scalable/apps/org.systempulse.SystemPulse.svg"
+  install -Dm644 COPYING \
+    "${pkgdir}/usr/share/licenses/${pkgname}/COPYING"
+  install -Dm644 LICENSE-APACHE \
+    "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE-APACHE"
+}
