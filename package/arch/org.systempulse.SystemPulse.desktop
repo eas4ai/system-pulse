@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=System Pulse
+Comment=Live system readings and process controls
+Exec=system-pulse
+Icon=org.systempulse.SystemPulse
+Terminal=false
+Categories=System;Monitor;
+StartupWMClass=org.systempulse.SystemPulse
