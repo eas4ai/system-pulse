@@ -45,10 +45,19 @@ impl Control {
         let Some(generation) = self.begin()? else {
             return Ok(());
         };
+        // Reject unsupported CPUs or a missing device before asking Windows to elevate.
+        // Access denied is preserved by preflight as a request to continue through UAC.
+        let backend = match driver::Driver::preflight() {
+            Ok(backend) => backend,
+            Err(reason) => {
+                self.finish(generation, reason.clone());
+                return Err(reason);
+            }
+        };
         let control = self.clone();
         match std::thread::Builder::new()
             .name("pulse-cpu-temperature".into())
-            .spawn(move || native::supervise(control, generation))
+            .spawn(move || native::supervise(control, generation, backend))
         {
             Ok(_) => Ok(()), // Detach: a UAC prompt must never block service/UI drop.
             Err(e) => {
@@ -94,9 +103,14 @@ impl WindowsThermalCollector {
                 Err(reason) => missing(ID, Availability::Failed, reason),
                 Ok(value) => {
                     let mut reading = measured(ID, value, None);
+                    let (operand_a, operand_b) = match frame.backend {
+                        protocol::Backend::Intel => {
+                            ("ia32_temperature_target", "ia32_package_therm_status")
+                        }
+                        protocol::Backend::AmdZen3 => ("amd_thm_tcon_cur_tmp", "amd_reserved"),
+                    };
                     reading.observations.push(RawObservation {
-                        source: "PawnIO 2.2 / signed IntelMSR 0.2.11 / fixed CPU package DTS"
-                            .into(),
+                        source: format!("{} / signed module 0.2.11", frame.backend.source()),
                         captured_ns: received
                             .saturating_duration_since(origin)
                             .as_nanos()
@@ -104,8 +118,8 @@ impl WindowsThermalCollector {
                         read_started_ns: None,
                         integers: [
                             ("helper_sequence", frame.sequence),
-                            ("ia32_temperature_target", frame.target),
-                            ("ia32_package_therm_status", frame.status),
+                            (operand_a, frame.target),
+                            (operand_b, frame.status),
                             ("query_before_qpc", frame.before),
                             ("query_after_qpc", frame.after),
                             ("query_qpc_frequency", frame.frequency),
@@ -126,8 +140,8 @@ impl WindowsThermalCollector {
             "CPU package temperature",
             SensorKind::Temperature,
             Unit::Celsius,
-            "PawnIO / Intel package digital thermal sensor",
-            "One physical Intel CPU package; not individual cores or ACPI thermal zones",
+            "PawnIO / fixed Intel DTS or AMD Zen 3 package Tctl/Tdie",
+            "One approved physical CPU package; not individual cores or ACPI thermal zones",
             reading,
         );
     }
@@ -145,7 +159,7 @@ mod tests {
     use crate::{Availability, SensorKind, Snapshot, Unit};
     use std::time::{Duration, Instant};
     #[test]
-    fn off_and_pending_are_present_without_an_invented_zero() {
+    fn off_and_pending_are_present_without_an_invented_zero() -> protocol::Result<()> {
         let collector = WindowsThermalCollector::new();
         let origin = Instant::now();
         let mut s = Snapshot::default();
@@ -154,22 +168,27 @@ mod tests {
         assert_eq!(s.sensors[0].id, "cpu:host/windows-package-temperature");
         assert_eq!(s.readings[0].availability, Availability::Unavailable);
         assert_eq!(s.readings[0].value, None);
-        collector.control.begin().unwrap();
+        collector.control.begin()?;
         let mut s = Snapshot::default();
         collector.collect(&mut s, origin);
         assert_eq!(s.readings[0].availability, Availability::WarmingUp);
         assert_eq!(s.readings[0].value, None);
+        Ok(())
     }
     #[test]
-    fn measured_package_uses_receipt_origin_and_retains_separate_qpc() {
+    fn measured_package_uses_receipt_origin_and_retains_separate_qpc() -> protocol::Result<()> {
         let collector = WindowsThermalCollector::new();
         let origin = Instant::now() - Duration::from_millis(10);
         let received = Instant::now();
-        let generation = collector.control.begin().unwrap().unwrap();
+        let generation = collector
+            .control
+            .begin()?
+            .ok_or("launch was already active")?;
         collector.control.publish(
             generation,
             session::Latest::Sample(
                 protocol::Frame {
+                    backend: protocol::Backend::Intel,
                     sequence: 1,
                     target: 100 << 16,
                     status: (1 << 31) | (65 << 16),
@@ -199,6 +218,50 @@ mod tests {
         let mut s = Snapshot::default();
         collector.collect(&mut s, origin);
         assert!(s.readings[0].value.is_none());
+        Ok(())
+    }
+
+    #[test]
+    fn zen3_package_records_smn_source_without_intel_operands() -> protocol::Result<()> {
+        let collector = WindowsThermalCollector::new();
+        let now = Instant::now();
+        let generation = collector
+            .control
+            .begin()?
+            .ok_or("launch was already active")?;
+        collector.control.publish(
+            generation,
+            session::Latest::Sample(
+                protocol::Frame {
+                    backend: protocol::Backend::AmdZen3,
+                    sequence: 1,
+                    target: 401 << 21,
+                    status: 0,
+                    before: 100,
+                    after: 110,
+                    frequency: 10_000_000,
+                    error: 0,
+                },
+                now,
+            ),
+        );
+        let mut snapshot = Snapshot::default();
+        collector.collect(&mut snapshot, now);
+        let reading = &snapshot.readings[0];
+        assert_eq!(reading.value, Some(50.125));
+        assert_eq!(snapshot.sensors[0].unit, Unit::Celsius);
+        let observation = &reading.observations[0];
+        assert!(observation.source.contains("AMD Zen 3 package Tctl/Tdie"));
+        assert_eq!(observation.integers["amd_thm_tcon_cur_tmp"], 401 << 21);
+        assert!(!observation.integers.contains_key("ia32_temperature_target"));
+        collector
+            .control
+            .finish(generation, protocol::error_reason(3).into());
+        let mut failed = Snapshot::default();
+        collector.collect(&mut failed, now);
+        assert_eq!(failed.readings[0].availability, Availability::Failed);
+        assert_eq!(failed.readings[0].value, None);
+        Ok(())
     }
     #[test]
     fn helper_mode_is_exact_and_rejects_malformed_requests() {

@@ -19,8 +19,10 @@ CPU architecture, source commit, compiler and linked runtime libraries.
   extracted directory intact. The build uses the Microsoft C++ runtime;
   `build.json` lists the imported DLLs and, for signed packages, the verified signer.
   The optional signed setup installs System Pulse and can install the official
-  PawnIO prerequisite for CPU temperatures. It preserves existing shared PawnIO
-  installations, including during System Pulse uninstall.
+  PawnIO prerequisite for CPU temperatures. Temperature reads are supported on
+  one-package Intel Alder Lake family 6 model `0x9a` and AMD Zen 3 family `0x19`
+  model `0x21` processors. It preserves existing shared PawnIO installations,
+  including during System Pulse uninstall.
 
 Closing the dashboard retains the CPU tray icon. Activate the icon to reopen
 the dashboard, or use its **Quit** menu item to exit. The ten tabs include
@@ -72,9 +74,15 @@ hash in `build.json`.
 ## Windows CPU temperature and power
 
 Energy shows supported native EMI channels in watts with separate package and
-component scopes. Thermals can read a supported Intel CPU package through a
-restricted helper and the official PawnIO driver. Choose **Enable CPU temperatures…**
-and respond to Windows authorization. Missing access or unsupported sensors show
-an explicit reason. Choose **Disable CPU temperatures** or Quit to stop the helper;
-closing the dashboard alone keeps tray monitoring active. Driver and module source
-and licenses are retained under vendor/ in source.tar.gz and notices/.
+component scopes. Thermals can read a supported Intel or AMD Zen 3 CPU package
+through a restricted helper and the official PawnIO driver. This collector
+supports Intel Alder Lake family 6 model `0x9a` and AMD family `0x19` model `0x21`,
+with exactly one physical package; it does not report per-core or ACPI-zone
+temperatures. Choose **Enable CPU temperatures…** and respond to Windows
+authorization. Missing access or unsupported sensors show an explicit reason.
+Choose **Disable CPU temperatures** or Quit to stop the helper; closing the
+dashboard alone keeps tray monitoring active. Driver and module source and
+licenses are retained under vendor/ in source.tar.gz and notices/. The Windows
+notices also contain `PawnIO-AMDFamily17-COPYING` (LGPL-2.1-or-later),
+`PawnIO-AMDFamily17-NOTICE.md` and
+`PawnIO-AMDFamily17-source-upstream.tar.gz` for the signed AMD module.

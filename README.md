@@ -14,8 +14,8 @@ On Windows, **End task** requests graceful closure and permits an application to
 
 - **GPU:** discovers Intel, AMD and NVIDIA adapters, including integrated graphics and multiple GPUs. Supported readings include utilization, dedicated GPU memory and shared system memory.
 - **Energy:** shows supported power readings in watts with clear labels such as CPU package power, CPU cores power, Memory power and Integrated GPU power. Each reading keeps its own scope.
-- **Thermals:** reads CPU package temperature on supported Intel systems with one physical CPU package. Choose **Enable CPU temperatures…** and approve the Windows authorization prompt. The dashboard keeps its normal privileges; **Disable CPU temperatures** stops the helper.
-- **Optional PawnIO setup:** the signed Windows installer can install the official PawnIO driver required for CPU temperatures. Existing shared PawnIO installations are preserved, including when System Pulse is removed.
+- **Thermals:** reads package temperature on supported Intel Alder Lake family 6 model `0x9a` and AMD Zen 3 family `0x19` model `0x21` CPUs with one physical package. Choose **Enable CPU temperatures…** and approve the Windows authorization prompt. The dashboard keeps its normal privileges; **Disable CPU temperatures** stops the helper.
+- **Optional PawnIO setup:** the signed Windows installer can install the official PawnIO driver required for CPU temperatures. The collector uses the signed IntelMSR or `AMDFamily17` module for fixed package-temperature reads. Existing shared PawnIO installations are preserved, including when System Pulse is removed.
 
 Unavailable sensors are hidden across the monitoring screens, including GPU and Summary, and return when readings recover. Failed, stale and warming-up readings retain their status. See the [user guide](docs/user-guide.md) for controls and hardware requirements.
 
@@ -69,7 +69,7 @@ Start with the [product specification](docs/feature-spec-dockable-system-monitor
 
 ## Licenses
 
-System Pulse is GPL-3.0-or-later; see [COPYING](COPYING) and the application crate manifests. The bundled GPUI framework retains its [Apache license](LICENSE-APACHE). Third-party code, fonts and native adapters retain their own notices and licenses. The package includes dependency notices and corresponding source.
+System Pulse is GPL-3.0-or-later; see [COPYING](COPYING) and the application crate manifests. The bundled GPUI framework retains its [Apache license](LICENSE-APACHE). Third-party code, fonts and native adapters retain their own notices and licenses. Windows packages include the AMD module's LGPL-2.1-or-later text and pinned upstream source archive alongside its provenance notice.
 
 ## Attribution
 

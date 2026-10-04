@@ -1,6 +1,8 @@
 """Build a portable release archive for the current supported native target."""
 
 import argparse
+import hashlib
+import io
 import json
 import os
 from pathlib import Path
@@ -12,13 +14,33 @@ import time
 import tomllib
 import zipfile
 
-from package_linux import ROOT, capture, digest, require_committed_source, run, write_licenses, write_source_archive
+from package_linux import (
+    ROOT,
+    capture,
+    digest,
+    require_committed_source,
+    run,
+    write_licenses,
+    write_source_archive,
+)
 
 TARGETS = {
     "x86_64-unknown-linux-gnu": ("linux-x86_64", "system-pulse"),
     "aarch64-apple-darwin": ("macos-arm64", "system-pulse"),
     "x86_64-pc-windows-msvc": ("windows-x86_64", "system-pulse.exe"),
 }
+WINDOWS_AMD_NOTICE_FILES = {
+    "notices/PawnIO-AMDFamily17-COPYING",
+    "notices/PawnIO-AMDFamily17-NOTICE.md",
+    "notices/PawnIO-AMDFamily17-source-upstream.tar.gz",
+}
+WINDOWS_AMD_MODULE_SHA256 = "dae74615761b78bdf064dfb3e136252ddcc6fc727d88f14738d0e5800d427a91"
+WINDOWS_AMD_SOURCE_SHA256 = "f2199b1bac7daa1cc114c8dd28627771de74641797292e76dab974920c788932"
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
 
 
 def check_binary_header(header, target):
@@ -56,7 +78,46 @@ def runtime_libraries(binary, target):
     return capture([str(candidates[-1]), "/DEPENDENTS", str(binary)]).splitlines()
 
 
-def copy_notices(package):
+def validate_windows_amd_notice_content(notice, copying, upstream_source):
+    """Require the shipped AMD notice to identify its pinned source and module."""
+    require(
+        copying == (ROOT / "vendor/pawnio-intel-msr/COPYING").read_bytes(),
+        "The AMD PawnIO license notice differs from the pinned LGPL text",
+    )
+    require(
+        hashlib.sha256(upstream_source).hexdigest() == WINDOWS_AMD_SOURCE_SHA256,
+        "The AMD PawnIO upstream source archive differs from its pinned release",
+    )
+    lowered_notice = notice.lower()
+    require(
+        WINDOWS_AMD_MODULE_SHA256.encode() in lowered_notice
+        and WINDOWS_AMD_SOURCE_SHA256.encode() in lowered_notice,
+        "The AMD PawnIO notice does not identify its pinned module and source",
+    )
+def validate_windows_amd_source_archive(source_archive):
+    """Check the committed release archive contains the pinned signed module."""
+    try:
+        with tarfile.open(fileobj=io.BytesIO(source_archive), mode="r:gz") as bundle:
+            modules = [
+                member
+                for member in bundle
+                if member.name == "system-pulse-source/vendor/pawnio-amd-smn/AMDFamily17.bin"
+            ]
+            require(
+                len(modules) == 1 and modules[0].isfile() and modules[0].size <= 1_000_000,
+                "The source archive lacks one bounded AMD PawnIO module",
+            )
+            content = bundle.extractfile(modules[0])
+            require(
+                content is not None
+                and hashlib.sha256(content.read()).hexdigest() == WINDOWS_AMD_MODULE_SHA256,
+                "The AMD PawnIO module in the source archive differs from its signed pin",
+            )
+    except (OSError, tarfile.TarError) as error:
+        raise ValueError("The Windows source archive is invalid") from error
+
+
+def copy_notices(package, windows=False):
     notices = package / "notices"
     notices.mkdir()
     for source in (ROOT / "assets/fonts").iterdir():
@@ -71,6 +132,27 @@ def copy_notices(package):
                          ("vendor/pawnio-driver/README.md", "PawnIO-driver-NOTICE.md"),
                          ("vendor/pawnio-driver/PawnIO-README.md", "PawnIO-driver-README.md")):
         shutil.copyfile(ROOT / source, notices / name)
+    if windows:
+        amd_module = ROOT / "vendor/pawnio-amd-smn/AMDFamily17.bin"
+        amd_license = ROOT / "vendor/pawnio-intel-msr/COPYING"
+        amd_notice = ROOT / "vendor/pawnio-amd-smn/README.md"
+        amd_source = ROOT / "vendor/pawnio-intel-msr/source-upstream.tar.gz"
+        require(
+            digest(amd_module) == WINDOWS_AMD_MODULE_SHA256,
+            "The bundled AMD PawnIO module differs from its official signed release",
+        )
+        validate_windows_amd_notice_content(
+            amd_notice.read_bytes(),
+            amd_license.read_bytes(),
+            amd_source.read_bytes(),
+        )
+        for source, name in (
+            ("vendor/pawnio-intel-msr/COPYING", "PawnIO-AMDFamily17-COPYING"),
+            ("vendor/pawnio-amd-smn/README.md", "PawnIO-AMDFamily17-NOTICE.md"),
+            ("vendor/pawnio-intel-msr/source-upstream.tar.gz",
+             "PawnIO-AMDFamily17-source-upstream.tar.gz"),
+        ):
+            shutil.copyfile(ROOT / source, notices / name)
 
 
 def make_archive(package, output, windows):
@@ -131,7 +213,7 @@ def main():
     if host.endswith("linux-gnu"):
         for name in ("install.py", "icon.svg"):
             shutil.copyfile(ROOT / "package" / name, package / name)
-    copy_notices(package)
+    copy_notices(package, host.endswith("windows-msvc"))
     write_source_archive(package / "source.tar.gz", commit, output / "source.log")
     (package / "SOURCE.txt").write_text(
         f"System Pulse source commit: {commit}\nhttps://github.com/eas4ai/system-pulse/tree/{commit}\n"

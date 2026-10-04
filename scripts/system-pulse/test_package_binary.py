@@ -13,7 +13,16 @@ import unittest
 from unittest.mock import patch
 import zipfile
 
-from package_binary import TARGETS, check_binary_header, make_archive, main
+from package_binary import (
+    TARGETS,
+    WINDOWS_AMD_NOTICE_FILES,
+    WINDOWS_AMD_MODULE_SHA256,
+    check_binary_header,
+    copy_notices,
+    make_archive,
+    main,
+    validate_windows_amd_source_archive,
+)
 from package_linux import ROOT, write_source_archive
 from release_ci_verify import REQUIRED, archive_files, verify_archive, verify_source
 
@@ -31,6 +40,18 @@ def header(target):
         struct.pack_into("<I", data, 60, 128)
         data[128:134] = b"PE\0\0\x64\x86"
     return bytes(data)
+
+
+def amd_source_archive(module_override=None):
+    output = io.BytesIO()
+    module = module_override or (ROOT / "vendor/pawnio-amd-smn/AMDFamily17.bin").read_bytes()
+    with tarfile.open(fileobj=output, mode="w:gz") as bundle:
+        entry = tarfile.TarInfo(
+            "system-pulse-source/vendor/pawnio-amd-smn/AMDFamily17.bin"
+        )
+        entry.size = len(module)
+        bundle.addfile(entry, io.BytesIO(module))
+    return output.getvalue()
 
 
 class BinaryArchiveTests(unittest.TestCase):
@@ -99,10 +120,26 @@ class BinaryArchiveTests(unittest.TestCase):
         (package / "SOURCE.txt").write_text("revision")
         (package / "dependency-licenses.json").write_text(json.dumps({
             "packages": [{"license": "MIT"}], "notices": [{"text": "MIT notice"}]}))
+        if target == "x86_64-pc-windows-msvc":
+            for name, source in (
+                ("notices/PawnIO-IntelMSR-COPYING", "vendor/pawnio-intel-msr/COPYING"),
+                ("notices/PawnIO-AMDFamily17-COPYING", "vendor/pawnio-intel-msr/COPYING"),
+                ("notices/PawnIO-AMDFamily17-NOTICE.md", "vendor/pawnio-amd-smn/README.md"),
+                (
+                    "notices/PawnIO-AMDFamily17-source-upstream.tar.gz",
+                    "vendor/pawnio-intel-msr/source-upstream.tar.gz",
+                ),
+            ):
+                path = package / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes((ROOT / source).read_bytes())
+            (package / "source.tar.gz").write_bytes(amd_source_archive())
         (package / "build.json").write_text(json.dumps({
             "source_commit": "revision", "target": target, "platform": label,
             "binary_sha256": hashlib.sha256(header(target)).hexdigest(),
-            "source_archive_sha256": hashlib.sha256(b"notice").hexdigest(),
+            "source_archive_sha256": hashlib.sha256(
+                (package / "source.tar.gz").read_bytes()
+            ).hexdigest(),
             "runtime_libraries": ["system"], "dependency_count": 1, "github_run_id": "123"}))
         files = {p.relative_to(package).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
                  for p in package.rglob("*") if p.is_file()}
@@ -117,7 +154,9 @@ class BinaryArchiveTests(unittest.TestCase):
                 archive = make_archive(package, output, "windows" in target)
                 with patch("release_ci_verify.verify_source") as source:
                     verify_archive(output, target, "revision", "123")
-                    source.assert_called_once_with(b"notice", "revision")
+                    source.assert_called_once_with(
+                        (package / "source.tar.gz").read_bytes(), "revision"
+                    )
                     with self.assertRaisesRegex(ValueError, "another hosted run"):
                         verify_archive(output, target, "revision", "124")
                     with self.assertRaisesRegex(ValueError, "source revision"):
@@ -130,6 +169,77 @@ class BinaryArchiveTests(unittest.TestCase):
                 (output / "SHA256SUMS").write_text("wrong")
                 with self.assertRaisesRegex(ValueError, "checksum"):
                     verify_archive(output, target, "revision")
+
+    def test_windows_archive_requires_amd_license_notice_and_source_archive(self):
+        target = "x86_64-pc-windows-msvc"
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            package = self.package(output, target)
+            archive = make_archive(package, output, True)
+            with patch("release_ci_verify.verify_source"):
+                verify_archive(output, target, "revision", "123")
+                (package / "notices/PawnIO-AMDFamily17-source-upstream.tar.gz").unlink()
+                files = {
+                    p.relative_to(package).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                    for p in package.rglob("*")
+                    if p.is_file() and p.name != "package-files.json"
+                }
+                (package / "package-files.json").write_text(json.dumps(files))
+                archive.unlink()
+                make_archive(package, output, True)
+                with self.assertRaisesRegex(ValueError, "required files"):
+                    verify_archive(output, target, "revision", "123")
+
+    def test_windows_archive_checks_pinned_module_and_notice_sources(self):
+        target = "x86_64-pc-windows-msvc"
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary)
+            package = self.package(output, target)
+            source_archive = package / "source.tar.gz"
+            valid_source = source_archive.read_bytes()
+            self.assertEqual(
+                hashlib.sha256(
+                    (ROOT / "vendor/pawnio-amd-smn/AMDFamily17.bin").read_bytes()
+                ).hexdigest(),
+                WINDOWS_AMD_MODULE_SHA256,
+            )
+            validate_windows_amd_source_archive(valid_source)
+            bad_source = amd_source_archive(b"tampered")
+            source_archive.write_bytes(bad_source)
+            files = {
+                p.relative_to(package).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+                for p in package.rglob("*")
+                if p.is_file() and p.name != "package-files.json"
+            }
+            (package / "package-files.json").write_text(json.dumps(files))
+            archive = make_archive(package, output, True)
+            with patch("release_ci_verify.verify_source"):
+                with self.assertRaisesRegex(ValueError, "signed pin"):
+                    verify_archive(output, target, "revision", "123")
+
+    def test_windows_notices_bundle_the_pinned_amd_license_and_complete_source(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            windows_package = Path(temporary) / "windows"
+            windows_package.mkdir()
+            copy_notices(windows_package, windows=True)
+            for name, source in (
+                ("PawnIO-AMDFamily17-COPYING", "vendor/pawnio-intel-msr/COPYING"),
+                ("PawnIO-AMDFamily17-NOTICE.md", "vendor/pawnio-amd-smn/README.md"),
+                (
+                    "PawnIO-AMDFamily17-source-upstream.tar.gz",
+                    "vendor/pawnio-intel-msr/source-upstream.tar.gz",
+                ),
+            ):
+                self.assertEqual(
+                    (windows_package / "notices" / name).read_bytes(),
+                    (ROOT / source).read_bytes(),
+                )
+            linux_package = Path(temporary) / "linux"
+            linux_package.mkdir()
+            copy_notices(linux_package)
+            self.assertFalse(
+                any((linux_package / name).exists() for name in WINDOWS_AMD_NOTICE_FILES)
+            )
 
     def test_rejects_path_traversal_and_links_without_extraction(self):
         with tempfile.TemporaryDirectory() as temporary:

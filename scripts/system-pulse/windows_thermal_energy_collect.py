@@ -41,6 +41,10 @@ HARNESSES = (
     "performance_compare.py",
     "performance_macos.py",
 )
+PROBE_SOURCES = {
+    "emi-probe.ps1": "docs/execution/windows-thermal-energy/emi-probe.ps1",
+    "pawnio-temperature-probe.ps1": "docs/execution/windows-thermal-energy/pawnio-temperature-probe.ps1",
+}
 
 
 def digest(path):
@@ -88,7 +92,12 @@ def main():
     build = json.loads(files["build.json"])
     binary_hash = hashlib.sha256(files["system-pulse.exe"]).hexdigest()
     signed_build_identity(build, revision, unsigned_hash, binary_hash)
-    inputs = [*PRODUCTION, *("scripts/system-pulse/" + name for name in HARNESSES)]
+    probe_paths = list(PROBE_SOURCES.values())
+    inputs = [
+        *PRODUCTION,
+        *("scripts/system-pulse/" + name for name in HARNESSES),
+        *probe_paths,
+    ]
     subprocess.run(
         ["git", "diff", "--exit-code", "HEAD", "--", *inputs], cwd=ROOT, check=True
     )
@@ -98,6 +107,26 @@ def main():
             cwd=ROOT,
             check=True,
             stdout=subprocess.DEVNULL,
+        )
+    probe_hashes = {
+        name: digest(ROOT / path) for name, path in PROBE_SOURCES.items()
+    }
+    for name, path in PROBE_SOURCES.items():
+        subprocess.run(
+            ["git", "ls-files", "--error-unmatch", path],
+            cwd=ROOT,
+            check=True,
+            stdout=subprocess.DEVNULL,
+        )
+        committed = subprocess.run(
+            ["git", "show", f"{revision}:{path}"],
+            cwd=ROOT,
+            check=True,
+            stdout=subprocess.PIPE,
+        ).stdout
+        require(
+            hashlib.sha256(committed).hexdigest() == probe_hashes[name],
+            "independent probe source differs from the signed build revision",
         )
     hashes = {name: digest(ROOT / "scripts/system-pulse" / name) for name in HARNESSES}
     run_id = uuid.uuid4().hex
@@ -227,6 +256,21 @@ Start-ScheduledTask -TaskName '__TASK__'
             },
             "harness changed during native observation",
         )
+        require(
+            probe_hashes
+            == {
+                name: digest(ROOT / path)
+                for name, path in PROBE_SOURCES.items()
+            },
+            "independent probe source changed during native observation",
+        )
+        independent = json.loads(
+            (evidence / "independent.json").read_text(encoding="utf-8-sig")
+        )
+        require(
+            independent.get("probe_sha256") == probe_hashes,
+            "independent evidence does not identify the reviewed probe sources",
+        )
         (evidence / "windows-build.log").write_bytes(args.build_log.read_bytes())
         (evidence / "build.json").write_bytes(files["build.json"])
         (evidence / "package.json").write_text(json.dumps(package, indent=2) + "\n")
@@ -235,6 +279,7 @@ Start-ScheduledTask -TaskName '__TASK__'
         shutil.copy2(archive, packaged / archive.name)
         shutil.copy2(args.package_dir / "SHA256SUMS", packaged / "SHA256SUMS")
         record["harness_sha256"] = hashes
+        record["probe_sources_sha256"] = probe_hashes
         record["artifacts_sha256"] = {
             p.relative_to(evidence).as_posix(): digest(p)
             for p in sorted(evidence.rglob("*"))

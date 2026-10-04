@@ -9,7 +9,12 @@ import re
 import shutil
 import subprocess
 
-from package_binary import make_archive
+from package_binary import (
+    WINDOWS_AMD_NOTICE_FILES,
+    make_archive,
+    validate_windows_amd_notice_content,
+    validate_windows_amd_source_archive,
+)
 from release_ci_verify import REQUIRED
 
 PAWNIO_SHA256 = "1f519a22e47187f70a1379a48ca604981c4fcf694f4e65b734aaa74a9fba3032"
@@ -23,7 +28,7 @@ def validate_package(package):
     manifest = json.loads((package / "package-files.json").read_text(encoding="utf-8"))
     required = REQUIRED | {"system-pulse.exe", "notices/PawnIO-IntelMSR-COPYING",
         "notices/PawnIO-IntelMSR-NOTICE.md", "notices/PawnIO-driver-COPYING",
-        "notices/PawnIO-driver-NOTICE.md", "notices/PawnIO-driver-README.md"}
+        "notices/PawnIO-driver-NOTICE.md", "notices/PawnIO-driver-README.md"} | WINDOWS_AMD_NOTICE_FILES
     if not isinstance(manifest, dict) or not required <= manifest.keys():
         raise ValueError("Package manifest lacks native build provenance")
     for name, expected in manifest.items():
@@ -33,6 +38,15 @@ def validate_package(package):
         path = package / name
         if path.is_symlink() or not path.is_file() or digest(path) != expected:
             raise ValueError("Package file is missing or changed: " + name)
+    amd_copying = (package / "notices/PawnIO-AMDFamily17-COPYING").read_bytes()
+    if amd_copying != (package / "notices/PawnIO-IntelMSR-COPYING").read_bytes():
+        raise ValueError("AMD PawnIO license differs from the shared LGPL notice")
+    validate_windows_amd_notice_content(
+        (package / "notices/PawnIO-AMDFamily17-NOTICE.md").read_bytes(),
+        amd_copying,
+        (package / "notices/PawnIO-AMDFamily17-source-upstream.tar.gz").read_bytes(),
+    )
+    validate_windows_amd_source_archive((package / "source.tar.gz").read_bytes())
     files = {p.relative_to(package).as_posix() for p in package.rglob("*") if p.is_file()}
     if files != set(manifest) | {"package-files.json"}:
         raise ValueError("Package contains unrecorded files")

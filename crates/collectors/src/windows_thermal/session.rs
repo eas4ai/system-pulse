@@ -96,6 +96,7 @@ mod tests {
     use std::sync::Arc;
     fn frame() -> Frame {
         Frame {
+            backend: super::super::protocol::Backend::Intel,
             sequence: 1,
             target: 100 << 16,
             status: (1 << 31) | (65 << 16),
@@ -106,36 +107,38 @@ mod tests {
         }
     }
     #[test]
-    fn duplicate_enable_and_disabled_pending_launch_are_bounded() {
+    fn duplicate_enable_and_disabled_pending_launch_are_bounded() -> Result<()> {
         let c = Control::default();
-        let g = c.begin().unwrap().unwrap();
+        let g = c.begin()?.ok_or("first launch was unexpectedly inactive")?;
         assert!(c.enabled());
-        assert_eq!(c.begin().unwrap(), None);
+        assert_eq!(c.begin()?, None);
         c.disable();
         assert!(!c.enabled());
         assert!(!c.current(g));
         assert!(c.begin().is_err());
         c.finish(g, "cancelled".into());
         assert!(matches!(c.latest(Instant::now()), Latest::Off));
-        assert!(c.begin().unwrap().is_some());
+        assert!(c.begin()?.is_some());
+        Ok(())
     }
     #[test]
-    fn cancelled_generation_cannot_publish_or_clobber_retry() {
+    fn cancelled_generation_cannot_publish_or_clobber_retry() -> Result<()> {
         let c = Control::default();
-        let g = c.begin().unwrap().unwrap();
+        let g = c.begin()?.ok_or("first launch was unexpectedly inactive")?;
         c.disable();
         c.publish(g, Latest::Sample(frame(), Instant::now()));
         assert!(matches!(c.latest(Instant::now()), Latest::Off));
         c.finish(g, "old failure".into());
-        let new = c.begin().unwrap().unwrap();
+        let new = c.begin()?.ok_or("retry launch was unexpectedly inactive")?;
         c.publish(g, Latest::Failed("late failure".into()));
         assert!(c.current(new));
         assert!(matches!(c.latest(Instant::now()), Latest::Pending));
+        Ok(())
     }
     #[test]
-    fn samples_expire_and_failures_clear_values() {
+    fn samples_expire_and_failures_clear_values() -> Result<()> {
         let c = Control::default();
-        let g = c.begin().unwrap().unwrap();
+        let g = c.begin()?.ok_or("launch was unexpectedly inactive")?;
         let now = Instant::now();
         c.publish(g, Latest::Sample(frame(), now));
         assert!(matches!(c.latest(now), Latest::Sample(_, _)));
@@ -145,16 +148,17 @@ mod tests {
         ));
         c.finish(g, "helper exited".into());
         assert!(matches!(c.latest(now), Latest::Failed(_)));
-        assert!(c.begin().unwrap().is_some());
+        assert!(c.begin()?.is_some());
+        Ok(())
     }
     #[test]
-    fn blocked_authorization_does_not_block_reads_or_disable() {
+    fn blocked_authorization_does_not_block_reads_or_disable() -> Result<()> {
         let c = Arc::new(Control::default());
-        let g = c.begin().unwrap().unwrap();
+        let g = c.begin()?.ok_or("launch was unexpectedly inactive")?;
         let (tx, rx) = std::sync::mpsc::channel();
         let worker = c.clone();
         let join = std::thread::spawn(move || {
-            rx.recv().unwrap();
+            let _ = rx.recv();
             worker.finish(g, "denied".into());
         });
         let start = Instant::now();
@@ -163,7 +167,8 @@ mod tests {
         }
         c.disable();
         assert!(start.elapsed() < Duration::from_secs(1));
-        tx.send(()).unwrap();
-        join.join().unwrap();
+        tx.send(()).map_err(|error| error.to_string())?;
+        join.join().map_err(|_| "authorization worker panicked")?;
+        Ok(())
     }
 }
