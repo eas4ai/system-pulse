@@ -12,6 +12,33 @@ from datetime import datetime
 from performance_compare import require, InvalidMeasurement
 
 THERMAL_ID = "cpu:host/windows-package-temperature"
+THERMAL_SENSOR_SOURCE = "PawnIO / fixed Intel DTS or AMD Zen 3 package Tctl/Tdie"
+THERMAL_SCOPE = "One approved physical CPU package; not individual cores or ACPI thermal zones"
+THERMAL_BACKENDS = {
+    "PawnIO / Intel package digital thermal sensor / signed module 0.2.11": (
+        "ia32_temperature_target",
+        "ia32_package_therm_status",
+        "intel",
+    ),
+    "PawnIO / AMD Zen 3 package Tctl/Tdie / signed module 0.2.11": (
+        "amd_thm_tcon_cur_tmp",
+        "amd_reserved",
+        "amd_zen3",
+    ),
+}
+THERMAL_SOURCE_BY_BACKEND = {
+    metadata[2]: source for source, metadata in THERMAL_BACKENDS.items()
+}
+THERMAL_MODULE_SHA256 = {
+    "intel": "d6ed85d65ab17a22f813ef98207d6d537155ee2ded5976a21cb48413c9b92e5f",
+    "amd_zen3": "dae74615761b78bdf064dfb3e136252ddcc6fc727d88f14738d0e5800d427a91",
+}
+THERMAL_TIMING_KEYS = {
+    "query_before_qpc",
+    "query_after_qpc",
+    "query_qpc_frequency",
+    "helper_sequence",
+}
 DOMAINS = {
     "PKG": "CPU package energy domain",
     "DRAM": "DRAM energy domain",
@@ -58,6 +85,16 @@ def temperature(target, status):
     return result
 
 
+def amd_temperature(raw, reserved):
+    raw = integer(raw, "AMD THM_TCON_CUR_TMP")
+    reserved = integer(reserved, "AMD reserved SMN operand")
+    require(raw <= 2**32 - 1 and reserved == 0, "invalid AMD SMN register operands")
+    correction = bool(raw & (1 << 19)) or raw & (3 << 16) == 3 << 16
+    result = ((raw >> 21) * 0.125) - (49.0 if correction else 0.0)
+    require(-40.0 <= result <= 125.0, "AMD package temperature is outside supported range")
+    return result
+
+
 def validate_thermal(sensor, reading, snapshot_ns, observer_qpc, observer_frequency):
     integer(snapshot_ns, "snapshot finish")
     integer(observer_qpc, "observer QPC")
@@ -71,9 +108,8 @@ def validate_thermal(sensor, reading, snapshot_ns, observer_qpc, observer_freque
     require(
         sensor["kind"] == "Temperature"
         and sensor["unit"] == "Celsius"
-        and "PawnIO" in sensor["source"]
-        and sensor["scope"]
-        == "One physical Intel CPU package; not individual cores or ACPI thermal zones",
+        and sensor["source"] == THERMAL_SENSOR_SOURCE
+        and sensor["scope"] == THERMAL_SCOPE,
         "wrong temperature source, unit or scope",
     )
     if not available(reading):
@@ -83,12 +119,14 @@ def validate_thermal(sensor, reading, snapshot_ns, observer_qpc, observer_freque
     )
     observation = reading["observations"][0]
     v = observation["integers"]
-    for key in (
-        "query_before_qpc",
-        "query_after_qpc",
-        "query_qpc_frequency",
-        "helper_sequence",
-    ):
+    backend = THERMAL_BACKENDS.get(observation.get("source"))
+    require(backend is not None, "unknown or wrong temperature backend source")
+    first_operand, second_operand, backend_name = backend
+    require(
+        set(v) == THERMAL_TIMING_KEYS | {first_operand, second_operand},
+        "temperature backend source and raw operands do not match",
+    )
+    for key in THERMAL_TIMING_KEYS:
         integer(v[key], key)
     require(
         v["query_qpc_frequency"] > 0
@@ -110,8 +148,11 @@ def validate_thermal(sensor, reading, snapshot_ns, observer_qpc, observer_freque
         and observation["read_started_ns"] is None,
         "temperature is stale or QPC was mislabeled as collector time",
     )
-    expected = temperature(v["ia32_temperature_target"], v["ia32_package_therm_status"])
-    require(reading["value"] == expected, "temperature differs from raw MSR operands")
+    if backend_name == "intel":
+        expected = temperature(v[first_operand], v[second_operand])
+    else:
+        expected = amd_temperature(v[first_operand], v[second_operand])
+    require(reading["value"] == expected, "temperature differs from raw register operands")
     return expected
 
 
@@ -221,6 +262,7 @@ def validate_stages(stages):
     previous = 0
     pid = None
     stable = None
+    thermal_backend = None
     last_helper_sequence = 0
     for stage in stages:
         require(
@@ -275,6 +317,14 @@ def validate_stages(stages):
                 frame["frequency"],
             )
             reading = readings[THERMAL_ID]
+            if value is not None:
+                current_backend = reading["observations"][0]["source"]
+                if thermal_backend is None:
+                    thermal_backend = current_backend
+                require(
+                    current_backend == thermal_backend,
+                    "temperature backend changed during native lifecycle",
+                )
             name = stage["name"]
             expected = {
                 "off": "Unavailable",
@@ -361,6 +411,10 @@ def validate_stages(stages):
                 before["snapshot"]["capture_finished_ns"],
                 before["qpc"],
                 before["frequency"],
+            )
+            require(
+                thermal["observations"][0]["source"] == thermal_backend,
+                "temperature backend changed before helper exit",
             )
             before_readings = {
                 r["sensor_id"]: r for r in before["snapshot"]["readings"]
@@ -454,28 +508,138 @@ def validate_independent(stages, independent, run_id):
         "independent probes are not contemporaneous with enabled app frames",
     )
     thermal = independent["thermal"]
+    package_count = integer(thermal["package_count"], "thermal physical package count")
     require(
         thermal["elevated"] is True
         and thermal["open_error"] == 0
         and thermal["load_error"] == 0
+        and package_count == 1
         and start <= utc(thermal["observed_utc"]) <= end,
-        "independent thermal source failed or is historical",
+        "independent thermal source failed, spans packages or is historical",
+    )
+    backend_name = thermal["backend"]
+    require(
+        isinstance(backend_name, str)
+        and backend_name in THERMAL_MODULE_SHA256
+        and thermal["source"] == THERMAL_SOURCE_BY_BACKEND[backend_name]
+        and thermal["module_sha256"] == THERMAL_MODULE_SHA256[backend_name],
+        "independent thermal backend, source or signed module identity is wrong",
+    )
+    expected_family, expected_model = {
+        "intel": (0x6, 0x9A),
+        "amd_zen3": (0x19, 0x21),
+    }[backend_name]
+    require(
+        integer(thermal["processor_family"], "independent CPU family")
+        == expected_family
+        and integer(thermal["processor_model"], "independent CPU model")
+        == expected_model,
+        "independent PawnIO backend does not match a supported CPU model",
+    )
+    app_backends = set()
+    for frame in enabled:
+        app_reading = next(
+            r for r in frame["snapshot"]["readings"] if r["sensor_id"] == THERMAL_ID
+        )
+        require(
+            app_reading["availability"] == "Available"
+            and len(app_reading["observations"]) == 1,
+            "enabled app frame lacks one measured temperature observation",
+        )
+        app_source = app_reading["observations"][0].get("source")
+        app_backend = THERMAL_BACKENDS.get(app_source)
+        require(app_backend is not None, "enabled app frame has an unknown backend")
+        app_backends.add(app_backend[2])
+    require(
+        app_backends == {backend_name},
+        "independent probe backend differs from the packaged collector",
     )
     temperatures = []
     require(len(thermal["samples"]) >= 3, "too few independent temperatures")
+    sample_time = None
+    previous_sample_qpc = None
     for sample in thermal["samples"]:
-        for key, register in (("target", 0x1A2), ("package", 0x1B1)):
-            raw = sample[key]
-            require(
-                raw["register"] == register
-                and raw["ok"] is True
-                and raw["error"] == 0
-                and raw["returned"] == 8,
-                "wrong independent thermal register or failed read",
-            )
-        temperatures.append(
-            temperature(sample["target"]["value"], sample["package"]["value"])
+        current_sample_time = utc(sample["observed_utc"])
+        require(
+            start <= current_sample_time <= end
+            and (sample_time is None or current_sample_time > sample_time),
+            "independent thermal sample is stale, future-dated or nonadvancing",
         )
+        sample_time = current_sample_time
+        query_before = integer(sample["query_before_qpc"], "independent query start QPC")
+        query_after = integer(sample["query_after_qpc"], "independent query finish QPC")
+        query_frequency = integer(
+            sample["query_qpc_frequency"], "independent QPC frequency"
+        )
+        require(
+            query_frequency > 0
+            and query_after > query_before
+            and query_after - query_before <= query_frequency
+            and (previous_sample_qpc is None or query_before >= previous_sample_qpc),
+            "invalid independent thermal QPC window",
+        )
+        previous_sample_qpc = query_after
+        preceding_frames = [
+            frame for frame in enabled if utc(frame["observed_utc"]) <= current_sample_time
+        ]
+        following_frames = [
+            frame for frame in enabled if utc(frame["observed_utc"]) >= current_sample_time
+        ]
+        require(
+            preceding_frames and following_frames,
+            "independent thermal sample is not bracketed by app frames",
+        )
+        previous_frame = max(preceding_frames, key=lambda frame: utc(frame["observed_utc"]))
+        next_frame = min(following_frames, key=lambda frame: utc(frame["observed_utc"]))
+        require(
+            integer(previous_frame["frequency"], "app QPC frequency") == query_frequency
+            and integer(next_frame["frequency"], "app QPC frequency") == query_frequency
+            and 0 <= query_before - integer(previous_frame["qpc"], "app QPC")
+            <= 3 * query_frequency
+            and 0 <= integer(next_frame["qpc"], "app QPC") - query_after
+            <= 3 * query_frequency,
+            "independent thermal probe uses a stale or different QPC clock",
+        )
+        if backend_name == "intel":
+            require(
+                {"target", "package"} <= set(sample)
+                and not {"amd_thm_tcon_cur_tmp", "amd_reserved"} & set(sample),
+                "Intel independent sample mixes backend operands",
+            )
+            for key, register in (("target", 0x1A2), ("package", 0x1B1)):
+                raw = sample[key]
+                require(
+                    integer(raw["register"], "Intel MSR register") == register
+                    and raw["ok"] is True
+                    and integer(raw["error"], "Intel MSR error") == 0
+                    and integer(raw["returned"], "Intel MSR result length") == 8,
+                    "wrong independent Intel thermal register or failed read",
+                )
+            temperatures.append(
+                temperature(sample["target"]["value"], sample["package"]["value"])
+            )
+        else:
+            require(
+                set(sample)
+                == {
+                    "amd_thm_tcon_cur_tmp",
+                    "amd_reserved",
+                    "observed_utc",
+                    "query_before_qpc",
+                    "query_after_qpc",
+                    "query_qpc_frequency",
+                },
+                "AMD independent sample mixes backend operands",
+            )
+            raw = sample["amd_thm_tcon_cur_tmp"]
+            require(
+                integer(raw["offset"], "AMD SMN offset") == 0x59800
+                and raw["ok"] is True
+                and integer(raw["error"], "AMD SMN error") == 0
+                and integer(raw["returned"], "AMD SMN result length") == 8,
+                "wrong independent AMD SMN register or failed read",
+            )
+            temperatures.append(amd_temperature(raw["value"], sample["amd_reserved"]))
     observed = [
         next(
             r["value"]
@@ -566,6 +730,97 @@ def validate_independent(stages, independent, run_id):
     require(
         supported > 0, "unsupported-only EMI output cannot establish real collection"
     )
+
+
+def validate_cpu_identity(cpu_inventory, thermal):
+    require(
+        isinstance(cpu_inventory, list) and len(cpu_inventory) == 1,
+        "Windows thermal acceptance requires one physical CPU package",
+    )
+    cpu = cpu_inventory[0]
+    manufacturer = cpu.get("Manufacturer")
+    processor_id = cpu.get("ProcessorId")
+    require(
+        isinstance(manufacturer, str)
+        and isinstance(processor_id, str)
+        and re.fullmatch(r"[0-9a-fA-F]{16}", processor_id.strip()) is not None,
+        "Windows CPU vendor or CPUID signature is unavailable",
+    )
+    backend = thermal["backend"]
+    if backend == "intel":
+        valid_vendor = manufacturer.strip().casefold() in {"intel", "genuineintel"}
+        expected_family, expected_model = 0x6, 0x9A
+    elif backend == "amd_zen3":
+        valid_vendor = manufacturer.strip().casefold() in {
+            "amd",
+            "authenticamd",
+            "advanced micro devices, inc.",
+        }
+        expected_family, expected_model = 0x19, 0x21
+    else:
+        raise InvalidMeasurement("unsupported Windows CPU thermal backend")
+    # ProcessorId contains the CPUID leaf 1 EAX and EDX words; match one exact signature.
+    signatures = []
+    for offset in (0, 8):
+        eax = int(processor_id.strip()[offset : offset + 8], 16)
+        base_family = (eax >> 8) & 0xF
+        family = (
+            base_family + ((eax >> 20) & 0xFF)
+            if base_family == 0xF
+            else base_family
+        )
+        base_model = (eax >> 4) & 0xF
+        model = (
+            (((eax >> 16) & 0xF) << 4) | base_model
+            if base_family in (0x6, 0xF)
+            else base_model
+        )
+        signatures.append((family, model))
+    matching = [
+        signature
+        for signature in signatures
+        if signature == (expected_family, expected_model)
+    ]
+    require(
+        valid_vendor
+        and len(matching) == 1
+        and integer(thermal["processor_family"], "reported CPU family")
+        == expected_family
+        and integer(thermal["processor_model"], "reported CPU model")
+        == expected_model,
+        "independent PawnIO backend differs from the supported Windows CPU model",
+    )
+
+
+def validate_probe_sources(receipt_hashes, independent_hashes, revision, sources):
+    from performance_verify import ROOT
+
+    names = set(sources)
+    require(
+        isinstance(receipt_hashes, dict)
+        and set(receipt_hashes) == names
+        and isinstance(independent_hashes, dict)
+        and set(independent_hashes) == names
+        and receipt_hashes == independent_hashes,
+        "native receipt and independent probes disagree on probe sources",
+    )
+    for name, relative_path in sources.items():
+        path = ROOT / relative_path
+        require(path.is_file(), "missing independent probe source: " + name)
+        expected = receipt_hashes[name]
+        current_hash = hashlib.sha256(path.read_bytes()).hexdigest()
+        committed = subprocess.run(
+            ["git", "show", f"{revision}:{relative_path}"],
+            cwd=ROOT,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+        )
+        require(
+            current_hash == expected
+            and committed.returncode == 0
+            and hashlib.sha256(committed.stdout).hexdigest() == expected,
+            "independent probe source differs from the measured signed revision: " + name,
+        )
 
 
 def load(path):
@@ -817,7 +1072,11 @@ def validate_installer(root, binary_hash):
 def validate_evidence(evidence):
     from performance_verify import ROOT, same_production, check_harness
     from release_ci_verify import archive_files, verify_archive
-    from windows_thermal_energy_collect import HARNESSES, signed_build_identity
+    from windows_thermal_energy_collect import (
+        HARNESSES,
+        PROBE_SOURCES,
+        signed_build_identity,
+    )
     from windows_process_actions_collect import (
         HARNESS_FILES,
         ORDINARY_CASES,
@@ -910,8 +1169,8 @@ def validate_evidence(evidence):
     validate_stages(stages)
     inventory = load(evidence / "inventory.json")
     require(
-        len(inventory["cpu"]) == 1 and "Intel" in inventory["cpu"][0]["Manufacturer"],
-        "tablet physical package scope differs",
+        len(inventory["cpu"]) == 1,
+        "Windows thermal acceptance requires one physical CPU package",
     )
     finished = 0
     for stage in stages:
@@ -938,19 +1197,13 @@ def validate_evidence(evidence):
                 validate_memory(reading, sid.endswith("/shared-used"))
     independent = load(evidence / "independent.json")
     validate_independent(stages, independent, record["run_id"])
-    probes = independent["probe_sha256"]
-    require(
-        set(probes) == {"emi-probe.ps1", "pawnio-temperature-probe.ps1"},
-        "independent probe provenance missing",
+    validate_cpu_identity(inventory["cpu"], independent["thermal"])
+    validate_probe_sources(
+        record.get("probe_sources_sha256"),
+        independent.get("probe_sha256"),
+        record["source_commit"],
+        PROBE_SOURCES,
     )
-    for name, digest in probes.items():
-        require(
-            hashlib.sha256(
-                (ROOT / "docs/execution/windows-thermal-energy" / name).read_bytes()
-            ).hexdigest()
-            == digest,
-            "independent probe source changed",
-        )
     preservation = load(evidence / "preservation.json")
     validate_normal(preservation, inventory["gpu"])
     for ui in (load(evidence / "energy-ui.json"), preservation["normal_energy"]):

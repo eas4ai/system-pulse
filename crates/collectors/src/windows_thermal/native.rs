@@ -1,9 +1,9 @@
 //! One-way bounded pipe. Only this supervisor launches an elevated helper.
 use super::{
     HELPER_FLAG,
-    driver::Driver,
+    driver::{Driver, current_backend},
     identity::{self, Caller, LockedExecutable, alive, own, raw},
-    protocol::{Frame, Request, Result},
+    protocol::{Backend, Frame, Request, Result},
     session::{Control, Latest, MAX_AGE},
     watchdog::{Watchdog, terminate_helper},
 };
@@ -15,8 +15,8 @@ use std::{
 use windows::{
     Win32::{
         Foundation::{
-            BOOL, ERROR_CANCELLED, ERROR_NO_DATA, ERROR_PIPE_CONNECTED, ERROR_PIPE_LISTENING,
-            GetLastError, HLOCAL, LocalFree,
+            BOOL, ERROR_BROKEN_PIPE, ERROR_CANCELLED, ERROR_NO_DATA, ERROR_PIPE_CONNECTED,
+            ERROR_PIPE_LISTENING, GetLastError, HLOCAL, LocalFree,
         },
         Security::{
             Authorization::{
@@ -67,6 +67,59 @@ fn pipe_name(request: &Request) -> Vec<u16> {
 }
 fn code(error: &windows::core::Error) -> u32 {
     error.code().0 as u32 & 0xffff
+}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum PipeConnection {
+    Listening,
+    Connected,
+    ClientClosed,
+}
+fn connect_helper(pipe: &OwnedHandle, expected_pid: u32) -> Result<PipeConnection> {
+    let connection = match unsafe { ConnectNamedPipe(raw(pipe), None) } {
+        // The first nonblocking call may only begin listening. Confirm connection
+        // on the next poll, when Windows reports ERROR_PIPE_CONNECTED or NO_DATA.
+        Ok(()) => PipeConnection::Listening,
+        Err(error) if code(&error) == ERROR_PIPE_CONNECTED.0 => PipeConnection::Connected,
+        Err(error) if code(&error) == ERROR_PIPE_LISTENING.0 => PipeConnection::Listening,
+        // The client may have sent its terminal frame and exited before this poll.
+        Err(error) if code(&error) == ERROR_NO_DATA.0 => PipeConnection::ClientClosed,
+        Err(error) => return Err(format!("Connect temperature helper: {error}")),
+    };
+    if connection != PipeConnection::Listening {
+        let mut client = 0;
+        unsafe { GetNamedPipeClientProcessId(raw(pipe), &mut client) }
+            .map_err(|error| format!("Verify temperature helper pipe client: {error}"))?;
+        if client != expected_pid {
+            return Err("Temperature pipe client is not the launched helper".into());
+        }
+    }
+    Ok(connection)
+}
+fn read_helper_frame(
+    pipe: &OwnedHandle,
+    previous_sequence: u64,
+    client_closed: bool,
+) -> Result<Option<Frame>> {
+    let mut bytes = [0u8; 64];
+    let mut count = 0;
+    match unsafe { ReadFile(raw(pipe), Some(&mut bytes), Some(&mut count), None) } {
+        Ok(()) if count != 0 => Ok(Some(Frame::decode(
+            &bytes[..count as usize],
+            previous_sequence,
+        )?)),
+        Ok(()) if client_closed => {
+            Err("CPU temperature helper disconnected without a terminal frame".into())
+        }
+        Ok(()) => Ok(None),
+        Err(error)
+            if client_closed
+                && matches!(code(&error), value if value == ERROR_NO_DATA.0 || value == ERROR_BROKEN_PIPE.0) =>
+        {
+            Err("CPU temperature helper disconnected without a terminal frame".into())
+        }
+        Err(error) if code(&error) == ERROR_NO_DATA.0 => Ok(None),
+        Err(error) => Err(format!("Read CPU temperature helper: {error}")),
+    }
 }
 struct Local(HLOCAL);
 impl Drop for Local {
@@ -152,8 +205,8 @@ fn create_pipe(request: &Request) -> Result<OwnedHandle> {
     }
     Ok(own(pipe))
 }
-pub(super) fn supervise(control: Arc<Control>, generation: u64) {
-    let result = supervise_inner(&control, generation);
+pub(super) fn supervise(control: Arc<Control>, generation: u64, expected_backend: Backend) {
+    let result = supervise_inner(&control, generation, expected_backend);
     control.finish(
         generation,
         result
@@ -161,7 +214,7 @@ pub(super) fn supervise(control: Arc<Control>, generation: u64) {
             .unwrap_or_else(|| "CPU temperature session ended; enable to start again".into()),
     );
 }
-fn supervise_inner(control: &Control, generation: u64) -> Result<()> {
+fn supervise_inner(control: &Control, generation: u64, expected_backend: Backend) -> Result<()> {
     // SAFETY: dedicated fresh supervisor thread owns this STA through all shell operations.
     unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE) }
         .ok()
@@ -201,6 +254,7 @@ fn supervise_inner(control: &Control, generation: u64) -> Result<()> {
     let frequency = frequency()?;
     let mut previous_after = 0;
     let mut connected = false;
+    let mut client_closed = false;
     let mut sequence = 0;
     let mut received = None;
     loop {
@@ -210,43 +264,31 @@ fn supervise_inner(control: &Control, generation: u64) -> Result<()> {
         if started.elapsed() > MAX_SESSION {
             return Err("CPU temperature session reached 24 hours; enable to renew".into());
         }
+        // Snapshot liveness before polling the pipe so a just-exited helper still gets
+        // one authenticated terminal-frame read before its generic exit reason wins.
+        let helper_alive = alive(raw(&helper));
         if !connected {
-            // NOWAIT never blocks: the first successful/connected result authenticates once.
-            match unsafe { ConnectNamedPipe(raw(&pipe), None) } {
-                Ok(()) => connected = true,
-                Err(e) if code(&e) == ERROR_PIPE_CONNECTED.0 => connected = true,
-                Err(e) if code(&e) == ERROR_PIPE_LISTENING.0 => {}
-                Err(e) => return Err(format!("Connect temperature helper: {e}")),
-            }
-            if connected {
-                let mut client = 0;
-                unsafe { GetNamedPipeClientProcessId(raw(&pipe), &mut client) }
-                    .map_err(|e| format!("Verify temperature helper pipe client: {e}"))?;
-                if client != pid {
-                    return Err("Temperature pipe client is not the launched helper".into());
+            // NOWAIT never blocks; only connected or closed-client states are authenticated.
+            match connect_helper(&pipe, pid)? {
+                PipeConnection::Listening => {}
+                PipeConnection::Connected => connected = true,
+                PipeConnection::ClientClosed => {
+                    connected = true;
+                    client_closed = true;
                 }
             }
         }
-        if connected {
-            let mut bytes = [0u8; 64];
-            let mut count = 0;
-            match unsafe { ReadFile(raw(&pipe), Some(&mut bytes), Some(&mut count), None) } {
-                Ok(()) if count != 0 => {
-                    let frame = Frame::decode(&bytes[..count as usize], sequence)?;
-                    frame.validate_clock(counter()?, frequency, previous_after)?;
-                    frame.temperature()?;
-                    previous_after = frame.after;
-                    sequence = frame.sequence;
-                    let now = Instant::now();
-                    received = Some(now);
-                    control.publish(generation, Latest::Sample(frame, now));
-                }
-                Ok(()) => {}
-                Err(e) if code(&e) == ERROR_NO_DATA.0 => {}
-                Err(e) => return Err(format!("Read CPU temperature helper: {e}")),
-            }
+        if connected && let Some(frame) = read_helper_frame(&pipe, sequence, client_closed)? {
+            frame.validate_backend(expected_backend)?;
+            frame.validate_clock(counter()?, frequency, previous_after)?;
+            frame.temperature()?;
+            previous_after = frame.after;
+            sequence = frame.sequence;
+            let now = Instant::now();
+            received = Some(now);
+            control.publish(generation, Latest::Sample(frame, now));
         }
-        if !alive(raw(&helper)) {
+        if !helper_alive {
             return Err("CPU temperature helper exited; enable to retry".into());
         }
         if received.is_some_and(|last: Instant| last.elapsed() > MAX_AGE) {
@@ -310,6 +352,10 @@ fn frequency() -> Result<u64> {
         .filter(|f| *f > 0)
         .ok_or("Invalid temperature query frequency".into())
 }
+#[cfg(test)]
+#[path = "native_test_helpers.rs"]
+mod test_helpers;
+
 pub(super) fn helper(request: Request) -> Result<()> {
     if !identity::elevated()? {
         return Err("Temperature helper requires elevation".into());
@@ -348,7 +394,13 @@ pub(super) fn helper(request: Request) -> Result<()> {
     )?;
     let frequency = frequency()?;
     let started = Instant::now();
+    let detected_backend = current_backend().ok_or_else(|| {
+        "CPU temperature supports only Intel Alder Lake model 0x9a with package DTS or AMD Zen 3 family 0x19 model 0x21".to_string()
+    })?;
     let driver = watchdog.operation(Driver::open);
+    let backend = driver
+        .as_ref()
+        .map_or(detected_backend, |driver| driver.backend());
     let mut sequence = 0u64;
     loop {
         if !alive(raw(&caller.handle)) || started.elapsed() > MAX_SESSION {
@@ -366,6 +418,7 @@ pub(super) fn helper(request: Request) -> Result<()> {
             Err(code) => (0, 0, code),
         };
         let mut frame = Frame {
+            backend,
             sequence,
             target,
             status,
@@ -400,181 +453,5 @@ pub(super) fn helper(request: Request) -> Result<()> {
 }
 
 #[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn native_real_driver_helper_child() {
-        let Ok(pid) = std::env::var("SYSTEM_PULSE_TEST_REAL_HELPER_PID") else {
-            return;
-        };
-        let request = Request::parse(&[
-            pid.into(),
-            std::env::var_os("SYSTEM_PULSE_TEST_REAL_HELPER_CREATED").unwrap(),
-            std::env::var_os("SYSTEM_PULSE_TEST_REAL_HELPER_NONCE").unwrap(),
-        ])
-        .unwrap();
-        eprintln!("real helper child elevated={:?}", identity::elevated());
-        let result = helper(request);
-        eprintln!("real helper returned: {result:?}");
-        // Parent intentionally closes the pipe after its first verified frame.
-        // The parent's assertion determines whether the real helper delivered data.
-    }
-
-    #[test]
-    fn native_real_driver_helper_session() {
-        // Explicit opt-in: ordinary tests must not require or open the real driver.
-        if std::env::var("SYSTEM_PULSE_TEST_REAL_HELPER").as_deref() != Ok("1") {
-            return;
-        }
-        let executable = LockedExecutable::current().unwrap();
-        let request = Request {
-            pid: std::process::id(),
-            created: identity::creation_time(unsafe { GetCurrentProcess() }).unwrap(),
-            nonce: format!("{:032x}", counter().unwrap()),
-        };
-        let server = create_pipe(&request).unwrap();
-        let mut child = std::process::Command::new(&executable.path)
-            .args([
-                "--exact",
-                "windows_thermal::native::tests::native_real_driver_helper_child",
-                "--nocapture",
-            ])
-            .env("SYSTEM_PULSE_TEST_REAL_HELPER_PID", request.pid.to_string())
-            .env(
-                "SYSTEM_PULSE_TEST_REAL_HELPER_CREATED",
-                request.created.to_string(),
-            )
-            .env("SYSTEM_PULSE_TEST_REAL_HELPER_NONCE", &request.nonce)
-            .stdout(std::process::Stdio::piped())
-            .stderr(std::process::Stdio::piped())
-            .spawn()
-            .unwrap();
-        eprintln!(
-            "real helper parent elevated={:?}, child={}",
-            identity::elevated(),
-            child.id()
-        );
-        let result = read_test_temperature(&server, child.id());
-        drop(server);
-        let deadline = Instant::now() + Duration::from_secs(10);
-        while child.try_wait().unwrap().is_none() && Instant::now() < deadline {
-            std::thread::sleep(POLL);
-        }
-        if child.try_wait().unwrap().is_none() {
-            child.kill().unwrap();
-        }
-        let output = child.wait_with_output().unwrap();
-        eprintln!(
-            "real helper exit={}, stdout={}, stderr={}",
-            output.status,
-            String::from_utf8_lossy(&output.stdout),
-            String::from_utf8_lossy(&output.stderr)
-        );
-        eprintln!("real helper observation={result:?}");
-        assert!(
-            result.is_ok(),
-            "real driver helper did not deliver a temperature"
-        );
-    }
-
-    fn read_test_temperature(server: &OwnedHandle, expected_pid: u32) -> Result<f64> {
-        let deadline = Instant::now() + Duration::from_secs(10);
-        let mut connected = false;
-        while Instant::now() < deadline {
-            if !connected {
-                match unsafe { ConnectNamedPipe(raw(server), None) } {
-                    Ok(()) => connected = true,
-                    Err(e) if code(&e) == ERROR_PIPE_CONNECTED.0 => connected = true,
-                    Err(e) if code(&e) == ERROR_PIPE_LISTENING.0 => {}
-                    Err(e) => return Err(format!("test connect: {e}")),
-                }
-                if connected {
-                    let mut pid = 0;
-                    unsafe { GetNamedPipeClientProcessId(raw(server), &mut pid) }
-                        .map_err(|e| format!("test client identity: {e}"))?;
-                    if pid != expected_pid {
-                        return Err("test pipe client differs from retained child".into());
-                    }
-                    eprintln!("real helper connected and PID authenticated");
-                }
-            }
-            if connected {
-                let mut bytes = [0u8; 64];
-                let mut count = 0;
-                match unsafe { ReadFile(raw(server), Some(&mut bytes), Some(&mut count), None) } {
-                    Ok(()) if count != 0 => {
-                        eprintln!("real helper frame bytes={count}, raw={bytes:02x?}");
-                        return Frame::decode(&bytes[..count as usize], 0)?.temperature();
-                    }
-                    Ok(()) => {}
-                    Err(e) if code(&e) == ERROR_NO_DATA.0 => {}
-                    Err(e) => return Err(format!("test read: {e}")),
-                }
-            }
-            std::thread::sleep(POLL);
-        }
-        Err("real helper test timed out".into())
-    }
-
-    #[test]
-    fn native_local_pipe_has_exact_messages_and_does_not_wait_for_empty_reads() {
-        let request = Request {
-            pid: std::process::id(),
-            created: identity::creation_time(unsafe { GetCurrentProcess() }).unwrap(),
-            nonce: format!("{:032x}", counter().unwrap()),
-        };
-        let server = create_pipe(&request).unwrap();
-        assert!(
-            create_pipe(&request).is_err(),
-            "first instance must be exclusive"
-        );
-        let name = pipe_name(&request);
-        let client = own(unsafe {
-            CreateFileW(
-                PCWSTR(name.as_ptr()),
-                (FILE_WRITE_DATA | FILE_WRITE_ATTRIBUTES).0,
-                FILE_SHARE_NONE,
-                None,
-                OPEN_EXISTING,
-                FILE_FLAGS_AND_ATTRIBUTES(0),
-                None,
-            )
-        }
-        .unwrap());
-        match unsafe { ConnectNamedPipe(raw(&server), None) } {
-            Ok(()) => {}
-            Err(e) => assert_eq!(code(&e), ERROR_PIPE_CONNECTED.0),
-        }
-        let mut pid = 0;
-        unsafe { GetNamedPipeClientProcessId(raw(&server), &mut pid) }.unwrap();
-        assert_eq!(pid, std::process::id());
-        unsafe { GetNamedPipeServerProcessId(raw(&client), &mut pid) }.unwrap();
-        assert_eq!(pid, std::process::id());
-        unsafe { SetNamedPipeHandleState(raw(&client), Some(&PIPE_NOWAIT), None, None) }.unwrap();
-        let mut output = [0u8; 64];
-        let mut count = 0;
-        let start = Instant::now();
-        let empty = unsafe { ReadFile(raw(&server), Some(&mut output), Some(&mut count), None) };
-        assert!(start.elapsed() < Duration::from_secs(1));
-        assert!(empty.is_err_and(|e| code(&e) == ERROR_NO_DATA.0));
-        let bytes = [42u8; 64];
-        unsafe { WriteFile(raw(&client), Some(&bytes), Some(&mut count), None) }.unwrap();
-        assert_eq!(count, 64);
-        unsafe { ReadFile(raw(&server), Some(&mut output), Some(&mut count), None) }.unwrap();
-        assert_eq!(count, 64);
-        assert_eq!(output, bytes);
-        drop(server);
-        assert!(unsafe { WriteFile(raw(&client), Some(&bytes), Some(&mut count), None) }.is_err());
-    }
-
-    #[test]
-    fn native_caller_pins_full_creation_time_and_executable_identity() {
-        let created = identity::creation_time(unsafe { GetCurrentProcess() }).unwrap();
-        let caller = Caller::open(std::process::id(), created).unwrap();
-        assert!(alive(raw(&caller.handle)));
-        assert!(Caller::open(std::process::id(), created + 1).is_err());
-        let executable = LockedExecutable::current().unwrap();
-        assert!(executable.matches(&LockedExecutable::open(&executable.path).unwrap()));
-    }
-}
+#[path = "native_terminal_tests.rs"]
+mod tests;

@@ -32,12 +32,17 @@ system total. A counter that has never demonstrated support stays unavailable.
 Battery discharge, storage temperature and GPU telemetry require their own
 sources and are not implied by CPU package readings.
 
-For supported Intel processors with one physical CPU package, open Thermals and
-choose **Enable CPU temperatures…**. Windows requests authorization for a
-restricted temperature helper. The dashboard retains its original privileges.
-The official PawnIO driver must be installed; the System Pulse Windows installer
-offers it as an optional component. Missing driver, denied authorization and
-unsupported hardware are reported with a reason instead of a zero temperature.
+For Intel Alder Lake family 6 model `0x9a` and AMD Zen 3 family `0x19` model
+`0x21` processors with one physical CPU package, open Thermals and choose
+**Enable CPU temperatures…**. Windows requests authorization for a restricted
+temperature helper. The dashboard retains its original privileges. The official
+PawnIO driver must be installed; the System Pulse Windows installer offers it as
+an optional component. The collector reads Intel package DTS registers or the
+fixed AMD `THM_TCON_CUR_TMP` package value through the signed `AMDFamily17`
+module. Missing driver, denied authorization and unsupported hardware are
+reported with a reason instead of a zero temperature. Other processor families,
+multiple physical packages, per-core temperatures and ACPI thermal zones are not
+supported by this collector.
 
 **Disable CPU temperatures** stops the session; the screen updates on the next
 sampling tick. Access is requested again after quitting and restarting System
@@ -46,6 +51,8 @@ enabled temperature session. Use **Disable CPU temperatures** or the tray's
 **Quit** command to end it. System Pulse uninstall leaves the shared PawnIO driver
 installed because other applications may use it. The installer also preserves an
 existing PawnIO installation; update that driver separately if it is incompatible.
+The Windows package includes the AMD module's LGPL-2.1-or-later license text and
+the complete pinned upstream source archive in `notices/`.
 
 Summary's five subsystem graphs share one row on wide windows. Smaller windows use full-width rows of three and two cards, with no empty trailing column.
 

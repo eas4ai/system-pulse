@@ -121,7 +121,16 @@ try {
     Invoke-Thermal 'Enable CPU temperatures…'
     $first=Wait-Reading 'Available' '' $GateTimeout
     $frames=@($first)
-    Request-Action 'independent' 'Run the fresh independent EMI and PawnIO probes now. Write independent.json in this evidence directory with this run_id and UTC bounds. Existing historical probe output is not accepted.' @{output_directory=$OutputDirectory}
+    $firstReading=Package-Reading $first
+    $firstObservation=@($firstReading.observations)
+    if($firstObservation.Count -ne 1) {throw 'Enabled frame lacks one backend-tagged thermal observation'}
+    $source=$firstObservation[0].source
+    if($source -eq 'PawnIO / Intel package digital thermal sensor / signed module 0.2.11') {
+        $backend='intel';$moduleHash='d6ed85d65ab17a22f813ef98207d6d537155ee2ded5976a21cb48413c9b92e5f';$operands='MSR 0x1A2 and 0x1B1'
+    } elseif($source -eq 'PawnIO / AMD Zen 3 package Tctl/Tdie / signed module 0.2.11') {
+        $backend='amd_zen3';$moduleHash='dae74615761b78bdf064dfb3e136252ddcc6fc727d88f14738d0e5800d427a91';$operands='SMN 0x59800 and amd_reserved=0'
+    } else {throw 'Enabled frame identifies an unsupported thermal backend'}
+    Request-Action 'independent' "Run fresh independent EMI and PawnIO probes for $backend. Write independent.json here with this run_id, UTC start/finish bounds, fresh thermal/EMI samples, and probe_sha256 for emi-probe.ps1 and pawnio-temperature-probe.ps1. Keep the fixed operands, signed-module SHA-256, one-package scope, sample UTC and QPC brackets; do not reuse historical output." @{run_id=$RunId;output_directory=$OutputDirectory;backend=$backend;source=$source;module_sha256=$moduleHash;thermal_operands=$operands;physical_package_count=1}
     $deadline=[DateTime]::UtcNow.AddSeconds($GateTimeout)
     do {
         Start-Sleep -Seconds 1

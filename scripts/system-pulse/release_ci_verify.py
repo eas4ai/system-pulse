@@ -12,7 +12,13 @@ import tarfile
 import tempfile
 import zipfile
 
-from package_binary import TARGETS, check_binary_header
+from package_binary import (
+    TARGETS,
+    WINDOWS_AMD_NOTICE_FILES,
+    check_binary_header,
+    validate_windows_amd_notice_content,
+    validate_windows_amd_source_archive,
+)
 from package_linux import ROOT, capture, digest
 
 REPOSITORY = "eas4ai/system-pulse"
@@ -96,7 +102,22 @@ def verify_archive(directory, target, revision, run_id=None):
     require((directory / "SHA256SUMS").read_text().strip() == f"{digest(archive)}  {archive.name}",
             "Release archive checksum mismatch")
     files = archive_files(archive)
-    require(REQUIRED | {executable, "package-files.json"} <= files.keys(), "Archive lacks required files")
+    required = REQUIRED | {executable, "package-files.json"}
+    if target == "x86_64-pc-windows-msvc":
+        required |= WINDOWS_AMD_NOTICE_FILES
+    require(required <= files.keys(), "Archive lacks required files")
+    if target == "x86_64-pc-windows-msvc":
+        require(
+            files["notices/PawnIO-AMDFamily17-COPYING"]
+            == files["notices/PawnIO-IntelMSR-COPYING"],
+            "AMD PawnIO license differs from the shared LGPL notice",
+        )
+        validate_windows_amd_notice_content(
+            files["notices/PawnIO-AMDFamily17-NOTICE.md"],
+            files["notices/PawnIO-AMDFamily17-COPYING"],
+            files["notices/PawnIO-AMDFamily17-source-upstream.tar.gz"],
+        )
+        validate_windows_amd_source_archive(files["source.tar.gz"])
     manifest = json.loads(files["package-files.json"])
     actual = {name: hashlib.sha256(data).hexdigest() for name, data in files.items() if name != "package-files.json"}
     require(manifest == actual, "Archive member checksums or file inventory differ")
